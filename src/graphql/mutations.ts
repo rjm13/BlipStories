@@ -28,6 +28,7 @@ export const createUser = /* GraphQL */ `
           description
           detailedDescription
           nsfw
+          ratingAvg
           createdAt
           updatedAt
           tagStoriesId
@@ -46,6 +47,28 @@ export const createUser = /* GraphQL */ `
           authorID
           createdAt
           updatedAt
+          owner
+        }
+        nextToken
+      }
+      Pinned {
+        items {
+          id
+          title
+          imageUri
+          audioUri
+          genre
+          userID
+          author
+          narrator
+          time
+          description
+          detailedDescription
+          nsfw
+          ratingAvg
+          createdAt
+          updatedAt
+          tagStoriesId
           owner
         }
         nextToken
@@ -82,6 +105,7 @@ export const updateUser = /* GraphQL */ `
           description
           detailedDescription
           nsfw
+          ratingAvg
           createdAt
           updatedAt
           tagStoriesId
@@ -100,6 +124,28 @@ export const updateUser = /* GraphQL */ `
           authorID
           createdAt
           updatedAt
+          owner
+        }
+        nextToken
+      }
+      Pinned {
+        items {
+          id
+          title
+          imageUri
+          audioUri
+          genre
+          userID
+          author
+          narrator
+          time
+          description
+          detailedDescription
+          nsfw
+          ratingAvg
+          createdAt
+          updatedAt
+          tagStoriesId
           owner
         }
         nextToken
@@ -136,6 +182,7 @@ export const deleteUser = /* GraphQL */ `
           description
           detailedDescription
           nsfw
+          ratingAvg
           createdAt
           updatedAt
           tagStoriesId
@@ -154,6 +201,28 @@ export const deleteUser = /* GraphQL */ `
           authorID
           createdAt
           updatedAt
+          owner
+        }
+        nextToken
+      }
+      Pinned {
+        items {
+          id
+          title
+          imageUri
+          audioUri
+          genre
+          userID
+          author
+          narrator
+          time
+          description
+          detailedDescription
+          nsfw
+          ratingAvg
+          createdAt
+          updatedAt
+          tagStoriesId
           owner
         }
         nextToken
@@ -190,6 +259,9 @@ export const createFollowingConn = /* GraphQL */ `
         followers {
           nextToken
         }
+        Pinned {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -209,6 +281,9 @@ export const createFollowingConn = /* GraphQL */ `
         birthdate
         isPublisher
         followers {
+          nextToken
+        }
+        Pinned {
           nextToken
         }
         createdAt
@@ -247,6 +322,9 @@ export const updateFollowingConn = /* GraphQL */ `
         followers {
           nextToken
         }
+        Pinned {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -266,6 +344,9 @@ export const updateFollowingConn = /* GraphQL */ `
         birthdate
         isPublisher
         followers {
+          nextToken
+        }
+        Pinned {
           nextToken
         }
         createdAt
@@ -304,6 +385,9 @@ export const deleteFollowingConn = /* GraphQL */ `
         followers {
           nextToken
         }
+        Pinned {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -325,8 +409,281 @@ export const deleteFollowingConn = /* GraphQL */ `
         followers {
           nextToken
         }
+        Pinned {
+          nextToken
+        }
         createdAt
         updatedAt
+        owner
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const createPinnedStory = /* GraphQL */ `
+  mutation CreatePinnedStory(
+    $input: CreatePinnedStoryInput!
+    $condition: ModelPinnedStoryConditionInput
+  ) {
+    createPinnedStory(input: $input, condition: $condition) {
+      id
+      userID
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      storyID
+      story {
+        id
+        title
+        imageUri
+        audioUri
+        genre
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        author
+        narrator
+        time
+        description
+        detailedDescription
+        nsfw
+        comments {
+          nextToken
+        }
+        tags {
+          nextToken
+        }
+        ratingAvg
+        rated {
+          id
+          storyID
+          userID
+          rating
+          createdAt
+          updatedAt
+          ratingStoryId
+          ratingUserId
+          owner
+        }
+        createdAt
+        updatedAt
+        tagStoriesId
+        owner
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const updatePinnedStory = /* GraphQL */ `
+  mutation UpdatePinnedStory(
+    $input: UpdatePinnedStoryInput!
+    $condition: ModelPinnedStoryConditionInput
+  ) {
+    updatePinnedStory(input: $input, condition: $condition) {
+      id
+      userID
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      storyID
+      story {
+        id
+        title
+        imageUri
+        audioUri
+        genre
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        author
+        narrator
+        time
+        description
+        detailedDescription
+        nsfw
+        comments {
+          nextToken
+        }
+        tags {
+          nextToken
+        }
+        ratingAvg
+        rated {
+          id
+          storyID
+          userID
+          rating
+          createdAt
+          updatedAt
+          ratingStoryId
+          ratingUserId
+          owner
+        }
+        createdAt
+        updatedAt
+        tagStoriesId
+        owner
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const deletePinnedStory = /* GraphQL */ `
+  mutation DeletePinnedStory(
+    $input: DeletePinnedStoryInput!
+    $condition: ModelPinnedStoryConditionInput
+  ) {
+    deletePinnedStory(input: $input, condition: $condition) {
+      id
+      userID
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      storyID
+      story {
+        id
+        title
+        imageUri
+        audioUri
+        genre
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        author
+        narrator
+        time
+        description
+        detailedDescription
+        nsfw
+        comments {
+          nextToken
+        }
+        tags {
+          nextToken
+        }
+        ratingAvg
+        rated {
+          id
+          storyID
+          userID
+          rating
+          createdAt
+          updatedAt
+          ratingStoryId
+          ratingUserId
+          owner
+        }
+        createdAt
+        updatedAt
+        tagStoriesId
         owner
       }
       createdAt
@@ -363,6 +720,9 @@ export const createStory = /* GraphQL */ `
         followers {
           nextToken
         }
+        Pinned {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -397,6 +757,52 @@ export const createStory = /* GraphQL */ `
           owner
         }
         nextToken
+      }
+      ratingAvg
+      rated {
+        id
+        storyID
+        story {
+          id
+          title
+          imageUri
+          audioUri
+          genre
+          userID
+          author
+          narrator
+          time
+          description
+          detailedDescription
+          nsfw
+          ratingAvg
+          createdAt
+          updatedAt
+          tagStoriesId
+          owner
+        }
+        userID
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        rating
+        createdAt
+        updatedAt
+        ratingStoryId
+        ratingUserId
+        owner
       }
       createdAt
       updatedAt
@@ -433,6 +839,9 @@ export const updateStory = /* GraphQL */ `
         followers {
           nextToken
         }
+        Pinned {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -467,6 +876,52 @@ export const updateStory = /* GraphQL */ `
           owner
         }
         nextToken
+      }
+      ratingAvg
+      rated {
+        id
+        storyID
+        story {
+          id
+          title
+          imageUri
+          audioUri
+          genre
+          userID
+          author
+          narrator
+          time
+          description
+          detailedDescription
+          nsfw
+          ratingAvg
+          createdAt
+          updatedAt
+          tagStoriesId
+          owner
+        }
+        userID
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        rating
+        createdAt
+        updatedAt
+        ratingStoryId
+        ratingUserId
+        owner
       }
       createdAt
       updatedAt
@@ -503,6 +958,9 @@ export const deleteStory = /* GraphQL */ `
         followers {
           nextToken
         }
+        Pinned {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -537,6 +995,52 @@ export const deleteStory = /* GraphQL */ `
           owner
         }
         nextToken
+      }
+      ratingAvg
+      rated {
+        id
+        storyID
+        story {
+          id
+          title
+          imageUri
+          audioUri
+          genre
+          userID
+          author
+          narrator
+          time
+          description
+          detailedDescription
+          nsfw
+          ratingAvg
+          createdAt
+          updatedAt
+          tagStoriesId
+          owner
+        }
+        userID
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        rating
+        createdAt
+        updatedAt
+        ratingStoryId
+        ratingUserId
+        owner
       }
       createdAt
       updatedAt
@@ -586,6 +1090,18 @@ export const createComment = /* GraphQL */ `
         }
         tags {
           nextToken
+        }
+        ratingAvg
+        rated {
+          id
+          storyID
+          userID
+          rating
+          createdAt
+          updatedAt
+          ratingStoryId
+          ratingUserId
+          owner
         }
         createdAt
         updatedAt
@@ -643,6 +1159,18 @@ export const updateComment = /* GraphQL */ `
         tags {
           nextToken
         }
+        ratingAvg
+        rated {
+          id
+          storyID
+          userID
+          rating
+          createdAt
+          updatedAt
+          ratingStoryId
+          ratingUserId
+          owner
+        }
         createdAt
         updatedAt
         tagStoriesId
@@ -699,6 +1227,18 @@ export const deleteComment = /* GraphQL */ `
         tags {
           nextToken
         }
+        ratingAvg
+        rated {
+          id
+          storyID
+          userID
+          rating
+          createdAt
+          updatedAt
+          ratingStoryId
+          ratingUserId
+          owner
+        }
         createdAt
         updatedAt
         tagStoriesId
@@ -735,6 +1275,7 @@ export const createTag = /* GraphQL */ `
           description
           detailedDescription
           nsfw
+          ratingAvg
           createdAt
           updatedAt
           tagStoriesId
@@ -771,6 +1312,7 @@ export const updateTag = /* GraphQL */ `
           description
           detailedDescription
           nsfw
+          ratingAvg
           createdAt
           updatedAt
           tagStoriesId
@@ -807,6 +1349,7 @@ export const deleteTag = /* GraphQL */ `
           description
           detailedDescription
           nsfw
+          ratingAvg
           createdAt
           updatedAt
           tagStoriesId
@@ -817,6 +1360,285 @@ export const deleteTag = /* GraphQL */ `
       createdAt
       updatedAt
       storyTagsId
+      owner
+    }
+  }
+`;
+export const createRating = /* GraphQL */ `
+  mutation CreateRating(
+    $input: CreateRatingInput!
+    $condition: ModelRatingConditionInput
+  ) {
+    createRating(input: $input, condition: $condition) {
+      id
+      storyID
+      story {
+        id
+        title
+        imageUri
+        audioUri
+        genre
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        author
+        narrator
+        time
+        description
+        detailedDescription
+        nsfw
+        comments {
+          nextToken
+        }
+        tags {
+          nextToken
+        }
+        ratingAvg
+        rated {
+          id
+          storyID
+          userID
+          rating
+          createdAt
+          updatedAt
+          ratingStoryId
+          ratingUserId
+          owner
+        }
+        createdAt
+        updatedAt
+        tagStoriesId
+        owner
+      }
+      userID
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      rating
+      createdAt
+      updatedAt
+      ratingStoryId
+      ratingUserId
+      owner
+    }
+  }
+`;
+export const updateRating = /* GraphQL */ `
+  mutation UpdateRating(
+    $input: UpdateRatingInput!
+    $condition: ModelRatingConditionInput
+  ) {
+    updateRating(input: $input, condition: $condition) {
+      id
+      storyID
+      story {
+        id
+        title
+        imageUri
+        audioUri
+        genre
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        author
+        narrator
+        time
+        description
+        detailedDescription
+        nsfw
+        comments {
+          nextToken
+        }
+        tags {
+          nextToken
+        }
+        ratingAvg
+        rated {
+          id
+          storyID
+          userID
+          rating
+          createdAt
+          updatedAt
+          ratingStoryId
+          ratingUserId
+          owner
+        }
+        createdAt
+        updatedAt
+        tagStoriesId
+        owner
+      }
+      userID
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      rating
+      createdAt
+      updatedAt
+      ratingStoryId
+      ratingUserId
+      owner
+    }
+  }
+`;
+export const deleteRating = /* GraphQL */ `
+  mutation DeleteRating(
+    $input: DeleteRatingInput!
+    $condition: ModelRatingConditionInput
+  ) {
+    deleteRating(input: $input, condition: $condition) {
+      id
+      storyID
+      story {
+        id
+        title
+        imageUri
+        audioUri
+        genre
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        author
+        narrator
+        time
+        description
+        detailedDescription
+        nsfw
+        comments {
+          nextToken
+        }
+        tags {
+          nextToken
+        }
+        ratingAvg
+        rated {
+          id
+          storyID
+          userID
+          rating
+          createdAt
+          updatedAt
+          ratingStoryId
+          ratingUserId
+          owner
+        }
+        createdAt
+        updatedAt
+        tagStoriesId
+        owner
+      }
+      userID
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      rating
+      createdAt
+      updatedAt
+      ratingStoryId
+      ratingUserId
       owner
     }
   }

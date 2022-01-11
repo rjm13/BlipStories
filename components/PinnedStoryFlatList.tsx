@@ -27,7 +27,7 @@ import { ItemParamList } from '../types';
 
 
 
-const Item = ({title, genre, description, imageUri, audioUri, writer, narrator, time, id}) => {
+const Item = ({title, genre, description, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
     
 
     const Colors = {
@@ -199,7 +199,7 @@ const onPlay = () => {
                             color='#ffffffa5'
                         />
                        <Text style={styles.userId}>
-                            {writer}
+                            {author}
                         </Text>  
                         <FontAwesome5 
                             name='book-reader'
@@ -343,146 +343,65 @@ const onPlay = () => {
 
 const AudioStoryList = ({genre, search, all} : any) => {
 
-    
+    //state for the array of pinned stories for that user
+    const [pinnedStories, setPinnedStories] = useState([])
 
-    const fetchStorys = async () => {
-        if (all === 'all') {
+    //update trigger for fetching the pinned stories
+    const [didUpdate, setDidUpdate] = useState(false);
+
+    //on render, get the user and then list the following connections for that user
+    useEffect(() => {
+
+        const fetchStories = async () => {
+
+            let Pinned = []
+
+            const userInfo = await Auth.currentAuthenticatedUser();
+
+            if (!userInfo) {return;}
+
+            console.log(userInfo)
+
             try {
-                const response = await API.graphql(
-                    graphqlOperation(
-                        listStorys, {
-                            
-                        } 
-                    )
-                )
-                setStorys(response.data.listStorys.items);
-            } catch (e) {
-                console.log(e);}
-        }
-        if (search) {
-            try {
-                const response = await API.graphql(
-                    graphqlOperation(
-                        listStorys, {
-                            filter: {
-                                title: {
-                                    contains: search
-                                }
+                // const userData = await API.graphql(graphqlOperation(
+                //     getUser, {id: userInfo.attributes.sub}
+                // ))
+
+                // if (userData) {setUser(userData.data.getUser);}
+
+                const pinnedData = await API.graphql(graphqlOperation(
+                    listPinnedStories, {
+                        filter: {
+                            userID: {
+                                eq: userInfo.attributes.sub
                             }
-                        } 
-                    )
-                )
-                setStorys(response.data.listStorys.items);
+                        }
+                }))
+
+                for (let i = 0; i < pinnedData.data.listPinnedStories.items.length; i++) {
+                    Pinned.push(pinnedData.data.listPinnedStories.items[i].story) 
+
+                setPinnedStories(Pinned);
+              } 
             } catch (e) {
-                console.log(e);}
+            console.log(e);
+          }
         }
-        if (genre) {
-            try {
-                const response = await API.graphql(
-                    graphqlOperation(
-                        listStorys, {
-                            filter: {
-                                genre: {
-                                    eq: genre
-                                }
-                            }
-                        } 
-                    )
-                )
-                setStorys(response.data.listStorys.items);
-            } catch (e) {
-                console.log(e);}
-        }
-        // else {
-        //     try {
-        //         const response = await API.graphql(
-        //             graphqlOperation(
-        //                 listStorys
-        //             )
-        //         )
-        //         setStorys(response.data.listStorys.items);
-        //     } catch (e) {
-        //         console.log(e);}
-        // }
-    }
+        fetchStories();
+      }, [didUpdate])
+
 
     const [isFetching, setIsFetching] = useState(false);
 
     const onRefresh = () => {
         setIsFetching(true);
-        fetchStorys();
+        setDidUpdate(!didUpdate)
         setTimeout(() => {
           setIsFetching(false);
         }, 2000);
       }
 
-    const [Storys, setStorys] = useState([]);
-
-    useEffect( () => {
-        const fetchStorys = async () => {
-            if (all === 'all') {
-                try {
-                    const response = await API.graphql(
-                        graphqlOperation(
-                            listStorys, {
-                                
-                            } 
-                        )
-                    )
-                    setStorys(response.data.listStorys.items);
-                } catch (e) {
-                    console.log(e);}
-            }
-            if (search) {
-                try {
-                    const response = await API.graphql(
-                        graphqlOperation(
-                            listStorys, {
-                                filter: {
-                                    title: {
-                                        contains: search
-                                    }
-                                }
-                            } 
-                        )
-                    )
-                    setStorys(response.data.listStorys.items);
-                } catch (e) {
-                    console.log(e);}
-            }
-            if (genre) {
-                try {
-                    const response = await API.graphql(
-                        graphqlOperation(
-                            listStorys, {
-                                filter: {
-                                    genre: {
-                                        eq: genre
-                                    }
-                                }
-                            } 
-                        )
-                    )
-                    setStorys(response.data.listStorys.items);
-                } catch (e) {
-                    console.log(e);}
-            }
-            // else {
-            //     try {
-            //         const response = await API.graphql(
-            //             graphqlOperation(
-            //                 listStorys
-            //             )
-            //         )
-            //         setStorys(response.data.listStorys.items);
-            //     } catch (e) {
-            //         console.log(e);}
-            // }
-        }
-        fetchStorys();
-    },[])
-
-    const renderItem = ({ item }) => (
+    const renderItem = ({ item } : any) => (
 
         <Item 
           title={item.title}
@@ -490,10 +409,11 @@ const AudioStoryList = ({genre, search, all} : any) => {
           genre={item.genre}
           audioUri={item.audioUri}
           description={item.description}
-          writer={item.writer}
+          author={item.author}
           narrator={item.narrator}
           time={item.time}
           id={item.id}
+          nsfw={item.nsfw}
           //liked={item.liked}
           //rating={item.rating}
         />
@@ -504,10 +424,10 @@ const AudioStoryList = ({genre, search, all} : any) => {
         <View style={styles.container}>
 
             <FlatList 
-                data={Storys}
+                data={pinnedStories}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
-                extraData={true}
+                keyExtractor={item => item}
+                extraData={pinnedStories}
                 refreshControl={
                     <RefreshControl
                      refreshing={isFetching}
@@ -517,16 +437,20 @@ const AudioStoryList = ({genre, search, all} : any) => {
                 showsVerticalScrollIndicator={false}    
                 ListFooterComponent={ () => {
                     return (
-                    <View style={{ height:  70, alignItems: 'center'}}>
-                        <Text style={{ color: 'white', margin: 20,}}>
-                            Load more
-                        </Text>
-                    </View>
-                );
-
-                }
-
-                }
+                        <View style={{ height:  70, alignItems: 'center'}}>
+                            <Text style={{ color: 'white', margin: 20,}}>
+                                
+                            </Text>
+                        </View>
+                );}}
+                ListEmptyComponent={ () => {
+                    return (
+                        <View style={{ height:  70, alignItems: 'center'}}>
+                            <Text style={{ color: 'white', margin: 20,}}>
+                                There is nothing here! Tap the pin icon to add a story to your playlist.
+                            </Text>
+                        </View>
+                );}}
             />
 
         </View>
