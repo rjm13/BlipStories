@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "blipstories",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/Users/rjm/BlipStories/amplify/backend/api/blipstories/schema.graphql",
+    "defaultAuthType": {
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authblipstoriesf0c34857"
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "API_KEY",
+        "expirationTime": 365,
+        "apiKeyExpirationDate": "2023-01-11T01:34:41.119Z",
+        "keyDescription": "blip"
+      }
+    ]
+  }
+}
