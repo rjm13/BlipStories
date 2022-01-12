@@ -23,7 +23,9 @@ export const createUser = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -60,7 +62,9 @@ export const createUser = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -100,7 +104,9 @@ export const updateUser = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -137,7 +143,9 @@ export const updateUser = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -177,7 +185,9 @@ export const deleteUser = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -214,7 +224,9 @@ export const deleteUser = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -478,7 +490,9 @@ export const createPinnedStory = /* GraphQL */ `
         }
         userID
         author
+        authorID
         narrator
+        narratorID
         time
         description
         detailedDescription
@@ -568,7 +582,9 @@ export const updatePinnedStory = /* GraphQL */ `
         }
         userID
         author
+        authorID
         narrator
+        narratorID
         time
         description
         detailedDescription
@@ -658,7 +674,9 @@ export const deletePinnedStory = /* GraphQL */ `
         }
         userID
         author
+        authorID
         narrator
+        narratorID
         time
         description
         detailedDescription
@@ -729,7 +747,9 @@ export const createStory = /* GraphQL */ `
       }
       userID
       author
+      authorID
       narrator
+      narratorID
       time
       description
       detailedDescription
@@ -770,7 +790,9 @@ export const createStory = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -848,7 +870,9 @@ export const updateStory = /* GraphQL */ `
       }
       userID
       author
+      authorID
       narrator
+      narratorID
       time
       description
       detailedDescription
@@ -889,7 +913,9 @@ export const updateStory = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -967,7 +993,9 @@ export const deleteStory = /* GraphQL */ `
       }
       userID
       author
+      authorID
       narrator
+      narratorID
       time
       description
       detailedDescription
@@ -1008,7 +1036,9 @@ export const deleteStory = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -1080,7 +1110,9 @@ export const createComment = /* GraphQL */ `
         }
         userID
         author
+        authorID
         narrator
+        narratorID
         time
         description
         detailedDescription
@@ -1148,7 +1180,9 @@ export const updateComment = /* GraphQL */ `
         }
         userID
         author
+        authorID
         narrator
+        narratorID
         time
         description
         detailedDescription
@@ -1216,7 +1250,9 @@ export const deleteComment = /* GraphQL */ `
         }
         userID
         author
+        authorID
         narrator
+        narratorID
         time
         description
         detailedDescription
@@ -1270,7 +1306,9 @@ export const createTag = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -1307,7 +1345,9 @@ export const updateTag = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -1344,7 +1384,9 @@ export const deleteTag = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -1395,7 +1437,9 @@ export const createRating = /* GraphQL */ `
         }
         userID
         author
+        authorID
         narrator
+        narratorID
         time
         description
         detailedDescription
@@ -1488,7 +1532,9 @@ export const updateRating = /* GraphQL */ `
         }
         userID
         author
+        authorID
         narrator
+        narratorID
         time
         description
         detailedDescription
@@ -1581,7 +1627,9 @@ export const deleteRating = /* GraphQL */ `
         }
         userID
         author
+        authorID
         narrator
+        narratorID
         time
         description
         detailedDescription

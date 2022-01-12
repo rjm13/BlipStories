@@ -20,7 +20,9 @@ export const getUser = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -57,7 +59,9 @@ export const getUser = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -273,7 +277,9 @@ export const getPinnedStory = /* GraphQL */ `
         }
         userID
         author
+        authorID
         narrator
+        narratorID
         time
         description
         detailedDescription
@@ -341,7 +347,9 @@ export const listPinnedStories = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -394,7 +402,9 @@ export const getStory = /* GraphQL */ `
       }
       userID
       author
+      authorID
       narrator
+      narratorID
       time
       description
       detailedDescription
@@ -435,7 +445,9 @@ export const getStory = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -506,7 +518,9 @@ export const listStories = /* GraphQL */ `
         }
         userID
         author
+        authorID
         narrator
+        narratorID
         time
         description
         detailedDescription
@@ -566,7 +580,9 @@ export const getComment = /* GraphQL */ `
         }
         userID
         author
+        authorID
         narrator
+        narratorID
         time
         description
         detailedDescription
@@ -621,7 +637,9 @@ export const listComments = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -657,7 +675,9 @@ export const getTag = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription
@@ -727,7 +747,9 @@ export const getRating = /* GraphQL */ `
         }
         userID
         author
+        authorID
         narrator
+        narratorID
         time
         description
         detailedDescription
@@ -807,7 +829,9 @@ export const listRatings = /* GraphQL */ `
           genre
           userID
           author
+          authorID
           narrator
+          narratorID
           time
           description
           detailedDescription

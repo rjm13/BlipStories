@@ -5,7 +5,7 @@
 type User @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}]) {
   id: ID! 
   name: String
-  email: String!
+  email: String
   imageUri: String
   bio: String
   following: [ID]
@@ -47,8 +47,11 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   genre: String
   user: User @hasOne (fields: ["userID"])
   userID: ID @index(name: "byUser", sortKeyFields: ["id"])
+  #author: User @hasOne(fields: ["id"])
   author: String
+  authorID: ID @index(name: "byAuthor", sortKeyFields: ["id"])
   narrator: String
+  narratorID: ID
   time: Int 
   description: String
   detailedDescription: [String]

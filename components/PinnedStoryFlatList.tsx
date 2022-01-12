@@ -1,5 +1,16 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { View, Modal, StyleSheet, Text, FlatList, Dimensions, RefreshControl, TouchableWithoutFeedback, TouchableOpacity, Image } from 'react-native';
+import { 
+    View, 
+    StyleSheet, 
+    Text, 
+    FlatList, 
+    Dimensions, 
+    RefreshControl, 
+    TouchableWithoutFeedback, 
+    TouchableOpacity, 
+    Image 
+} from 'react-native';
+
 import {useNavigation} from '@react-navigation/native'
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -184,15 +195,7 @@ const AudioStoryList = ({genre, search, all} : any) => {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
                             <View style={{alignItems: 'center', width: '100%',flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <View style={{ marginVertical: 10, alignSelf: 'flex-start', flexDirection: 'row',  }}>
-                                    <View style={{alignItems: 'center', marginRight: 25,}}>
-                                        <FontAwesome
-                                            name={isLiked ? 'star' : 'star-o'}
-                                            size={22}
-                                            color={isLiked ? 'gold' : 'white'}
-                                            onPress={onLikePress}
-                                        />
-                                    </View>
-                                    
+    
                                     <View style={{alignItems: 'center', marginRight: 25,}}>
                                         <AntDesign
                                             name={isQ ? 'pushpin' : 'pushpino'}
@@ -220,8 +223,25 @@ const AudioStoryList = ({genre, search, all} : any) => {
                                         />
                                     </View>
                                 </View>
+
+                                <View>
+                                    <View style={{justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row'}}>
+                                        <FontAwesome
+                                            name={isLiked ? 'star' : 'star-o'}
+                                            size={22}
+                                            color={isLiked ? 'gold' : 'white'}
+                                            style={{paddingHorizontal: 10}}
+                                            onPress={onLikePress}
+                                        />
+                                        <Text style={{textAlign: 'center', fontSize: 20, color: '#e0e0e0'}}>
+                                            69%
+                                        </Text>
+                                    </View>
+                                </View>
+                        
                             </View>  
                         </View>
+
                         <TouchableWithoutFeedback onPress={() => navigation.navigate('AudioPlayer', {storyID: id})}>
                             <Image 
                                 source={{uri: imageUri}}
@@ -280,7 +300,7 @@ const AudioStoryList = ({genre, search, all} : any) => {
             console.log(e);
           }
         }
-        fetchStories();
+           fetchStories(); 
       }, [didUpdate])
 
 
@@ -313,40 +333,39 @@ const AudioStoryList = ({genre, search, all} : any) => {
       );
 
     return (
+            <View style={styles.container}>
 
-        <View style={styles.container}>
+                <FlatList 
+                    data={pinnedStories}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                    extraData={pinnedStories}
+                    refreshControl={
+                        <RefreshControl
+                        refreshing={isFetching}
+                        onRefresh={onRefresh}
+                        />
+                    }
+                    showsVerticalScrollIndicator={false}    
+                    ListFooterComponent={ () => {
+                        return (
+                            <View style={{ height:  70, alignItems: 'center'}}>
+                                <Text style={{ color: 'white', margin: 20,}}>
+                                    
+                                </Text>
+                            </View>
+                    );}}
+                    ListEmptyComponent={ () => {
+                        return (
+                            <View style={{ height:  70, alignItems: 'center'}}>
+                                <Text style={{ color: 'white', margin: 20,}}>
+                                    There is nothing here! Tap the pin icon to add a story to your playlist.
+                                </Text>
+                            </View>
+                    );}}
+                />
 
-            <FlatList 
-                data={pinnedStories}
-                renderItem={renderItem}
-                keyExtractor={item => item}
-                extraData={pinnedStories}
-                refreshControl={
-                    <RefreshControl
-                     refreshing={isFetching}
-                     onRefresh={onRefresh}
-                    />
-                  }
-                showsVerticalScrollIndicator={false}    
-                ListFooterComponent={ () => {
-                    return (
-                        <View style={{ height:  70, alignItems: 'center'}}>
-                            <Text style={{ color: 'white', margin: 20,}}>
-                                
-                            </Text>
-                        </View>
-                );}}
-                ListEmptyComponent={ () => {
-                    return (
-                        <View style={{ height:  70, alignItems: 'center'}}>
-                            <Text style={{ color: 'white', margin: 20,}}>
-                                There is nothing here! Tap the pin icon to add a story to your playlist.
-                            </Text>
-                        </View>
-                );}}
-            />
-
-        </View>
+            </View>
 
     );
 }
