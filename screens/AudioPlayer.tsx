@@ -28,8 +28,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as Animatable from 'react-native-animatable';
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
-import { getStory, listPinnedStories } from '../src/graphql/queries';
-import { createPinnedStory, deletePinnedStory } from '../src/graphql/mutations';
+import { getStory, listPinnedStories, listRatings } from '../src/graphql/queries';
+import { createPinnedStory, deletePinnedStory, createRating } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
 
@@ -317,18 +317,73 @@ const AudioPlayer  = ({navigation} : any) => {
     };
 
     //rating function
+    const [isRated, setIsRated] = useState(false);
+
     const [ratingNum, setRatingNum] = useState(0);
 
-    const OnStarPress = () => {
+    const SubmitRating = async () => {
         
+        let userInfo = await Auth.currentAuthenticatedUser();
+            
+        let Rate = await API.graphql(graphqlOperation(
+            createRating, {input: {
+                userID: userInfo.attributes.sub, 
+                storyID: storyID,
+                rating: ratingNum
+            }}
+        ))
+        console.log(Rate)
+
+        hideRatingModal();
     }
 
-    const SubmitRating = () => {
-        return (
+    const [AverageUserRating, setAverageUserRating] = useState(0);
 
-            hideRatingModal()
-        );
-    }
+    useEffect(() => {
+
+        let Average = []
+
+        const fetchRating = async () => {
+
+            let userInfo = await Auth.currentAuthenticatedUser();
+
+            let Rating = await API.graphql(graphqlOperation(
+                listRatings, {filter: {
+                    userID: {
+                        eq: userInfo.attributes.sub
+                    },
+                    storyID: {
+                        eq: storyID
+                    }
+                }}
+            ))
+            if (Rating.data.listRatings.items.length === 1) {
+                setRatingNum(Rating.data.listRatings.items[0].rating);
+                setIsRated(true);
+            } else {
+                setRatingNum(0);
+                setIsRated(false);
+            }
+
+            let RatingAvg = await API.graphql(graphqlOperation(
+                listRatings, {filter: {
+                    storyID: {
+                        eq: storyID
+                    }
+                }}
+            ))
+
+            if (RatingAvg.data.listRatings.items.length > 0) {
+                for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
+                    Average.push(RatingAvg.data.listRatings.items[i].rating) 
+                }
+                setAverageUserRating(
+                    Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
+                )
+            }
+        }
+        fetchRating();
+    }, [storyID])
 
     return (
         <Provider>
@@ -490,14 +545,14 @@ const AudioPlayer  = ({navigation} : any) => {
                                     <TouchableWithoutFeedback onPress={showRatingModal}>
                                         <View style={{justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center'}}>
                                             <FontAwesome 
-                                                name={isLiked ? 'star' : 'star-o'}
+                                                name={ratingNum > 0 ? 'star' : 'star-o'}
                                                 size={22}
-                                                color={isLiked ? 'gold' : 'white'}
+                                                color={ratingNum > 0 ? 'gold' : 'white'}
                                                 onPress={onLikePress}
                                                 style={{marginHorizontal: 6 }}
                                             />
                                             <Text style={{textAlign: 'center', color: '#e0e0e0', fontSize: 19}}>
-                                                69%
+                                                {AverageUserRating}%
                                             </Text>
                                         </View>
                                     </TouchableWithoutFeedback>
