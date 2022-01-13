@@ -345,9 +345,6 @@ const AudioPlayer  = ({navigation} : any) => {
             ))
         console.log(Rate)
         }
-          
-        
-
         hideRatingModal();
     }
 

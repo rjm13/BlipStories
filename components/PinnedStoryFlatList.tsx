@@ -21,7 +21,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import { AppContext } from '../AppContext';
 
 import dummyaudio from '../data/dummyaudio';
-import { listPinnedStories, listStories } from '../src/graphql/queries';
+import { listPinnedStories, listRatings } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
@@ -135,6 +135,59 @@ const AudioStoryList = ({genre, search, all} : any) => {
             setStoryID(id);
         }
 
+        //calculate the average user rating fora  story
+    const [AverageUserRating, setAverageUserRating] = useState(0);
+
+    //rating function
+    const [isRated, setIsRated] = useState(false);
+
+    useEffect(() => {
+
+        let Average = []
+
+        const fetchRating = async () => {
+
+            let userInfo = await Auth.currentAuthenticatedUser();
+
+            let Rating = await API.graphql(graphqlOperation(
+                listRatings, {filter: {
+                    userID: {
+                        eq: userInfo.attributes.sub
+                    },
+                    storyID: {
+                        eq: id
+                    }
+                }}
+            ))
+            if (Rating.data.listRatings.items.length === 1) {
+                //setRatingNum(Rating.data.listRatings.items[0].rating);
+                setIsRated(true);
+                //setRatingID(Rating.data.listRatings.items[0].id);
+            } else {
+                //setRatingNum(0);
+                setIsRated(false);
+            }
+
+            let RatingAvg = await API.graphql(graphqlOperation(
+                listRatings, {filter: {
+                    storyID: {
+                        eq: id
+                    }
+                }}
+            ))
+
+            if (RatingAvg.data.listRatings.items.length > 0) {
+                for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
+                    Average.push(RatingAvg.data.listRatings.items[i].rating) 
+                }
+                setAverageUserRating(
+                    Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
+                )
+            }
+        }
+        fetchRating();
+    }, [])
+
         return (
             <View>
                 <TouchableWithoutFeedback onPress={() => setIsVisible(!isVisible)}>
@@ -227,14 +280,13 @@ const AudioStoryList = ({genre, search, all} : any) => {
                                 <View>
                                     <View style={{justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row'}}>
                                         <FontAwesome
-                                            name={isLiked ? 'star' : 'star-o'}
+                                            name={isRated ? 'star' : 'star-o'}
                                             size={22}
-                                            color={isLiked ? 'gold' : 'white'}
+                                            color={isRated ? 'gold' : 'white'}
                                             style={{paddingHorizontal: 10}}
-                                            onPress={onLikePress}
                                         />
-                                        <Text style={{textAlign: 'center', fontSize: 20, color: '#e0e0e0'}}>
-                                            69%
+                                        <Text style={{textAlign: 'center', fontSize: 17, color: '#e0e0e0'}}>
+                                            {AverageUserRating}%
                                         </Text>
                                     </View>
                                 </View>
@@ -263,6 +315,9 @@ const AudioStoryList = ({genre, search, all} : any) => {
             </View>
         );
     }
+
+
+
     //state for the array of pinned stories for that user
     const [pinnedStories, setPinnedStories] = useState([])
 
