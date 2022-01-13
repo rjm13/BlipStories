@@ -17,6 +17,7 @@ import { useRoute } from '@react-navigation/native';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
+import { Modal, Portal, Provider } from 'react-native-paper';
 
 import Comments from '../components/Comments';
 
@@ -26,8 +27,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import * as Animatable from 'react-native-animatable';
 
-import {graphqlOperation, API, Storage} from 'aws-amplify';
-import { getStory } from '../src/graphql/queries';
+import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
+import { getStory, listPinnedStories } from '../src/graphql/queries';
+import { createPinnedStory, deletePinnedStory } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
 
@@ -113,17 +115,7 @@ const AudioPlayer  = ({navigation} : any) => {
             setIsLiked(false);
         }  
     };
-//queueing the story
-    const [isQ, setQd] = useState(false);
-    
-    const onQPress = () => {
-        if ( isQ === false ) {
-            setQd(true);
-        }
-        if ( isQ === true ) {
-            setQd(false);
-        }  
-    };
+
 
 //scrolling annimation
     const animation = useRef(new Animated.Value(0)).current;
@@ -222,234 +214,387 @@ const AudioPlayer  = ({navigation} : any) => {
         />
       );
 
+    //following functions
 
+    //const [didUpdate, setDidUpdate] = useState(false);
+
+    //add a story to the pinned playlist function
+    const PinStory = async () => {
+
+        let userInfo = await Auth.currentAuthenticatedUser();
+    
+        let createPin = await API.graphql(graphqlOperation(
+            createPinnedStory, {input: {userID: userInfo.attributes.sub, storyID: storyID}}
+        ))
+        console.log(createPin)
+    }
+
+
+    //unpin a story
+    const unPinStory = async () => {
+
+        let userInfo = await Auth.currentAuthenticatedUser();
+    
+        let getPin = await API.graphql(graphqlOperation(
+            listPinnedStories, {
+                filter: {
+                    userID: {
+                        eq: userInfo.attributes.sub
+                    },
+                    storyID: {
+                        eq: storyID
+                    }
+                }
+            }
+        ))
+        console.log(getPin)
+        
+        let connectionID = getPin.data.listPinnedStories.items[0].id
+        console.log(connectionID)
+
+        let deleteConnection = await API.graphql(graphqlOperation(
+            deletePinnedStory, {input: {"id": connectionID}}
+        ))
+        console.log(deleteConnection)
+
+        //setDidUpdate(!didUpdate)
+    }
+    //queueing the item
+    const [isQ, setQd] = useState(false);
+        
+    const onQPress = () => {
+        if ( isQ === false ) {
+            setQd(true);
+            PinStory()
+        }
+        if ( isQ === true ) {
+            setQd(false);
+            unPinStory();
+        }  
+    };
+
+    //on render, determine if the story in alraedy pinned or not
+    useEffect(() => {
+        const fetchPin = async () => {
+
+            const userInfo = await Auth.currentAuthenticatedUser();
+
+            try {
+
+                let getPin = await API.graphql(graphqlOperation(
+                    listPinnedStories, {
+                        filter: {
+                            userID: {
+                                eq: userInfo.attributes.sub
+                            },
+                            storyID: {
+                                eq: storyID
+                            }
+                        }
+                    }
+                ))
+
+                if (getPin.data.listPinnedStories.items.length === 1) {
+                    setQd(true);
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchPin();
+    }, [])
+
+    //Ratings Modal
+    const [visible, setVisible] = useState(false);
+    const showRatingModal = () => setVisible(true);
+    const hideRatingModal = () => setVisible(false);
+    const containerStyle = {
+        backgroundColor: '#363636', 
+        padding: 20,
+        margin: 20,
+        borderRadius: 15,
+    };
+
+    //rating function
+    const [ratingNum, setRatingNum] = useState(0);
+
+    const OnStarPress = () => {
+        
+    }
+
+    const SubmitRating = () => {
+        return (
+
+            hideRatingModal()
+        );
+    }
 
     return (
-        <View style={styles.container}>
-            <ImageBackground 
-                source={{uri: Story?.imageUri}}
-                style={{ width: Dimensions.get('window').width, height: 320,  position: 'absolute'  }}
-            >
-            </ImageBackground>
-
-            <Animated.View style={{ alignItems: 'center', backgroundColor: animatedColor, flexDirection: 'row', paddingTop: 40, paddingBottom: 20, width: Dimensions.get('window').width, justifyContent: 'space-between'}}>
-                
-                <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                    <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-                        <View style={ [styles.button, {backgroundColor: '#363636a5', flexDirection: 'row'}]}>
-                            <AntDesign 
-                                name='close'
-                                size={22}
-                                color='#fff'
-                            />
-                        </View>
-                    </TouchableWithoutFeedback>
-                    
-                    <Animated.Text style={{ fontSize: 18, color: '#fff', fontWeight: 'bold', opacity: animatedOpacity}}>
-                        {Story?.title}
-                    </Animated.Text>
-                </View>
-
-                <TouchableOpacity onPress={onPlay}>
-                    <Animated.View style={{marginHorizontal: 20, height: 30, width: 30, alignItems: 'center', justifyContent: 'center', backgroundColor: '#00ffff', borderRadius: 15, opacity: animatedOpacity}}>
-                        <FontAwesome5 
-                            name='play'
-                            size={16}
-                            color='#363636'
-                            style={{marginLeft: 2}}
-                        />
-                    </Animated.View>
-                </TouchableOpacity>
-                
-            </Animated.View>
-
-            <Animatable.View animation='bounceInUp' style={{}}>
-                <ScrollView 
-                    style={{}}
-                    onScroll={Animated.event(
-                        [{ nativeEvent: { contentOffset: { y: animation } } }],
-                        { useNativeDriver: false })}
-                    scrollEventThrottle={1}
-                >
-                    <View style={{ height: 220, backgroundColor: 'transparent'}}>
-                    </View>
-                    <LinearGradient 
-                        colors={['#202020', '#282828', '#000', '#000']}
-                        style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20,paddingVertical: 5, paddingHorizontal: 0}}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 1 }}
-                    >
-                        <View style={{  }}>
-                            <View style={{ margin: 20, alignItems: 'center'}}>
-                                <Text style={styles.name}>
-                                    {Story?.title}
+        <Provider>
+            <View style={styles.container}>
+                <Portal>
+                    <Modal visible={visible} onDismiss={hideRatingModal} contentContainerStyle={containerStyle}>
+                        <View style={{alignItems: 'center'}}>
+                            <View style={{}}>
+                                <Text style={{margin: 20, fontSize: 20, fontWeight: 'bold', color: '#fff'}}>
+                                    Leave a Rating
                                 </Text>
-
-                                <View style={{ width: '100%', flexDirection: 'row', marginVertical: 10, justifyContent: 'space-between'}}>
-                                    <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: '7755e914-9ae4-4dd0-a421-b517980b6808'})}>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                                            <FontAwesome5 
-                                                name='book-open'
-                                                color='#ffffffCC'
-                                                size={15}
-                                                style={{ marginRight: 10}}
-                                            />
-                                            <Text style={styles.username}>
-                                                {Story?.author}
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
-
-                                    <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: '7755e914-9ae4-4dd0-a421-b517980b6808'})}>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                                            <FontAwesome5 
-                                                name='book-reader'
-                                                color='#ffffffCC'
-                                                size={15}
-                                                style={{ marginRight: 10}}
-                                            />
-                                            <Text style={styles.username}>
-                                                {Story?.narrator}
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-
-                            <View style={{ marginTop: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
-                                <View style={{flexDirection: 'row'}}>
-                                    <View style={ styles.icon}>
-                                        <AntDesign 
-                                            name={isQ ? 'pushpin' : 'pushpino'}
-                                            size={22}
-                                            color={isQ ? 'cyan' : 'white'}
-                                            onPress={onQPress}
-                                            style={{ }}
-                                        />
-                                    </View>
-                                    <View style={ styles.icon}>
-                                        <FontAwesome 
-                                            name='commenting-o'
-                                            size={22}
-                                            color='white'
-                                            //onPress={}
-                                            style={{ }}
-                                        />
-                                    </View>
-                                    <View style={ styles.icon}>
-                                        <FontAwesome 
-                                            name='share'
-                                            size={22}
-                                            color='white'
-                                            //onPress={}
-                                            style={{ }}
-                                        />
-                                    </View>
-                                </View>
-
-                                <View style={{justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center'}}>
-                                    <FontAwesome 
-                                        name={isLiked ? 'star' : 'star-o'}
-                                        size={22}
-                                        color={isLiked ? 'gold' : 'white'}
-                                        onPress={onLikePress}
-                                        style={{marginHorizontal: 6 }}
-                                    />
-                                    <Text style={{textAlign: 'center', color: '#e0e0e0', fontSize: 19}}>
-                                        69%
-                                    </Text>
-                                </View>
+                                <Text style={{margin: 20, textAlign: 'center', fontSize: 20, color: '#fff'}}>
+                                    {ratingNum}/10
+                                </Text>
                             </View>
-
-                            <View style={{marginTop: 16, height: 80}}>
-                                {/* <Text style={[Colors, { fontSize: 16, textTransform: 'capitalize' }]}>
-                                    {Story?.genre}
-                                </Text> */}
-
-                                <FlatList
-                                    data={Tags}
-                                    extraData={Tags}
-                                    renderItem={renderTag}
-                                    horizontal={true}
-                                    style={{width:  Dimensions.get('window').width, backgroundColor: 'transparent', flexDirection: 'row', flexWrap: 'wrap', marginBottom: 20}}
-                                    keyExtractor={(item) => item.id}
-                                    initialNumToRender={6}
-                                    //scrollEnabled={false}
-                                    showsHorizontalScrollIndicator={false}
-                                    maxToRenderPerBatch={6}
-                                    showsVerticalScrollIndicator={false}
-                                    refreshControl={
-                                        <RefreshControl
-                                            refreshing={isFetching}
-                                            onRefresh={onRefresh}
-                                        />
-                                    }
-                                    ListHeaderComponent={() => {
-                                        return (
-                                            <View style={{marginHorizontal: 20, height: '100%', alignItems: 'center', justifyContent: 'center'}}>
-                                                <Text style={{textAlign: 'center', color: '#fff'}}>
-                                                    {Story?.genre}
-                                                </Text>
-                                            </View>
-                                        )
-                                    }}
-                                    ListEmptyComponent={() => {
-                                        return (
-                                            <View style={{margin: 40, alignItems: 'center', justifyContent: 'center'}}>
-                                                <Text style={{color: '#fff'}}>
-                                                    
-                                                </Text>
-                                            </View>
-                                        )
-                                    }}
-                                />
+                            <View style={{marginBottom: 20, flexDirection: 'row'}}>
+                                <FontAwesome onPress={() => setRatingNum(1)} style={{marginHorizontal: 4 }} name={ratingNum < 1 ? 'star-o' : 'star'} size={22} color={ratingNum < 1 ? 'white' : 'gold'}/>
+                                <FontAwesome onPress={() => setRatingNum(2)} style={{marginHorizontal: 4 }} name={ratingNum < 2 ? 'star-o' : 'star'} size={22} color={ratingNum < 2 ? 'white' : 'gold'}/>
+                                <FontAwesome onPress={() => setRatingNum(3)} style={{marginHorizontal: 4 }} name={ratingNum < 3 ? 'star-o' : 'star'} size={22} color={ratingNum < 3 ? 'white' : 'gold'}/>
+                                <FontAwesome onPress={() => setRatingNum(4)} style={{marginHorizontal: 4 }} name={ratingNum < 4 ? 'star-o' : 'star'} size={22} color={ratingNum < 4 ? 'white' : 'gold'}/>
+                                <FontAwesome onPress={() => setRatingNum(5)} style={{marginHorizontal: 4 }} name={ratingNum < 5 ? 'star-o' : 'star'} size={22} color={ratingNum < 5 ? 'white' : 'gold'}/>
+                                <FontAwesome onPress={() => setRatingNum(6)} style={{marginHorizontal: 4 }} name={ratingNum < 6 ? 'star-o' : 'star'} size={22} color={ratingNum < 6 ? 'white' : 'gold'}/>
+                                <FontAwesome onPress={() => setRatingNum(7)} style={{marginHorizontal: 4 }} name={ratingNum < 7 ? 'star-o' : 'star'} size={22} color={ratingNum < 7 ? 'white' : 'gold'}/>
+                                <FontAwesome onPress={() => setRatingNum(8)} style={{marginHorizontal: 4 }} name={ratingNum < 8 ? 'star-o' : 'star'} size={22} color={ratingNum < 8 ? 'white' : 'gold'}/>
+                                <FontAwesome onPress={() => setRatingNum(9)} style={{marginHorizontal: 4 }} name={ratingNum < 9 ? 'star-o' : 'star'} size={22} color={ratingNum < 9 ? 'white' : 'gold'}/>
+                                <FontAwesome onPress={() => setRatingNum(10)} style={{marginHorizontal: 4 }} name={ratingNum < 10 ? 'star-o' : 'star'} size={22} color={ratingNum < 10 ? 'white' : 'gold'}/>                                
                             </View>
+                            <TouchableOpacity onPress={SubmitRating}>
+                                <View style={{marginTop: 40, paddingVertical: 6, paddingHorizontal: 30, backgroundColor: '#00ffff', margin: 10, borderRadius: 30}}>
+                                        <Text style={{color: '#000000', fontSize: 18, fontWeight: 'bold', }}>
+                                            Submit
+                                        </Text>
+                                </View>
+                            </TouchableOpacity>
                             
+                        </View>
+                    </Modal>
+                </Portal>
+                <ImageBackground 
+                    source={{uri: Story?.imageUri}}
+                    style={{ width: Dimensions.get('window').width, height: 320,  position: 'absolute'  }}
+                >
+                </ImageBackground>
 
-                            <View>
-                                <TouchableOpacity onPress={onPlay}>
-                                    <View style={{paddingVertical: 6, paddingHorizontal: 30, backgroundColor: '#00ffff', margin: 10, borderRadius: 30}}>
-                                            <Text style={{color: '#000000', fontSize: 18, fontWeight: 'bold', }}>
-                                                Play
-                                            </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-
-                            <View>
-                                <Text style={{color: '#ffffff', fontSize: 18}}>
-                                    {millisToMinutesAndSeconds()}
-                                </Text>
-                            </View>
-
-                            <View style={{marginVertical: 20, marginHorizontal: 4, flex: 1 }}>
-                                <FlatList 
-                                    data={Story?.detailedDescription}
-                                    extraData={Story?.detailedDescription}
-                                    renderItem={renderDetailedDescription}
-                                    keyExtractor={(item, index) => item + index}
-                                    style={{}}
-                                    scrollEnabled={false}
+                <Animated.View style={{ alignItems: 'center', backgroundColor: animatedColor, flexDirection: 'row', paddingTop: 40, paddingBottom: 20, width: Dimensions.get('window').width, justifyContent: 'space-between'}}>
+                    
+                    <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+                        <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+                            <View style={ [styles.button, {backgroundColor: '#363636a5', flexDirection: 'row'}]}>
+                                <AntDesign 
+                                    name='close'
+                                    size={22}
+                                    color='#fff'
                                 />
-                            </View> 
+                            </View>
+                        </TouchableWithoutFeedback>
+                        
+                        <Animated.Text style={{ fontSize: 18, color: '#fff', fontWeight: 'bold', opacity: animatedOpacity}}>
+                            {Story?.title}
+                        </Animated.Text>
+                    </View>
 
-                            <View style={{width: '100%', marginTop: 20}}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10,}}>
-                                    <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>
-                                        Discussion
+                    <TouchableOpacity onPress={onPlay}>
+                        <Animated.View style={{marginHorizontal: 20, height: 30, width: 30, alignItems: 'center', justifyContent: 'center', backgroundColor: '#00ffff', borderRadius: 15, opacity: animatedOpacity}}>
+                            <FontAwesome5 
+                                name='play'
+                                size={16}
+                                color='#363636'
+                                style={{marginLeft: 2}}
+                            />
+                        </Animated.View>
+                    </TouchableOpacity>
+                    
+                </Animated.View>
+
+                <Animatable.View animation='bounceInUp' style={{}}>
+                    <ScrollView 
+                        style={{}}
+                        onScroll={Animated.event(
+                            [{ nativeEvent: { contentOffset: { y: animation } } }],
+                            { useNativeDriver: false })}
+                        scrollEventThrottle={1}
+                    >
+                        <View style={{ height: 220, backgroundColor: 'transparent'}}>
+                        </View>
+                        <LinearGradient 
+                            colors={['#202020', '#282828', '#000', '#000']}
+                            style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20,paddingVertical: 5, paddingHorizontal: 0}}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 1 }}
+                        >
+                            <View style={{  }}>
+                                <View style={{ margin: 20, alignItems: 'center'}}>
+                                    <Text style={styles.name}>
+                                        {Story?.title}
+                                    </Text>
+
+                                    <View style={{ width: '100%', flexDirection: 'row', marginVertical: 10, justifyContent: 'space-between'}}>
+                                        <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: '7755e914-9ae4-4dd0-a421-b517980b6808'})}>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+                                                <FontAwesome5 
+                                                    name='book-open'
+                                                    color='#ffffffCC'
+                                                    size={15}
+                                                    style={{ marginRight: 10}}
+                                                />
+                                                <Text style={styles.username}>
+                                                    {Story?.author}
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: '7755e914-9ae4-4dd0-a421-b517980b6808'})}>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+                                                <FontAwesome5 
+                                                    name='book-reader'
+                                                    color='#ffffffCC'
+                                                    size={15}
+                                                    style={{ marginRight: 10}}
+                                                />
+                                                <Text style={styles.username}>
+                                                    {Story?.narrator}
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                <View style={{ marginTop: 10, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
+                                    <View style={{flexDirection: 'row'}}>
+                                        <View style={ styles.icon}>
+                                            <AntDesign 
+                                                name={isQ ? 'pushpin' : 'pushpino'}
+                                                size={22}
+                                                color={isQ ? 'cyan' : 'white'}
+                                                onPress={onQPress}
+                                                style={{ }}
+                                            />
+                                        </View>
+                                        <View style={ styles.icon}>
+                                            <FontAwesome 
+                                                name='commenting-o'
+                                                size={22}
+                                                color='white'
+                                                //onPress={}
+                                                style={{ }}
+                                            />
+                                        </View>
+                                        <View style={ styles.icon}>
+                                            <FontAwesome 
+                                                name='share'
+                                                size={22}
+                                                color='white'
+                                                //onPress={}
+                                                style={{ }}
+                                            />
+                                        </View>
+                                    </View>
+
+                                    <TouchableWithoutFeedback onPress={showRatingModal}>
+                                        <View style={{justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center'}}>
+                                            <FontAwesome 
+                                                name={isLiked ? 'star' : 'star-o'}
+                                                size={22}
+                                                color={isLiked ? 'gold' : 'white'}
+                                                onPress={onLikePress}
+                                                style={{marginHorizontal: 6 }}
+                                            />
+                                            <Text style={{textAlign: 'center', color: '#e0e0e0', fontSize: 19}}>
+                                                69%
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                    
+                                </View>
+
+                                <View style={{marginTop: 16, height: 80}}>
+                                    {/* <Text style={[Colors, { fontSize: 16, textTransform: 'capitalize' }]}>
+                                        {Story?.genre}
+                                    </Text> */}
+
+                                    <FlatList
+                                        data={Tags}
+                                        extraData={Tags}
+                                        renderItem={renderTag}
+                                        horizontal={true}
+                                        style={{width:  Dimensions.get('window').width, backgroundColor: 'transparent', flexDirection: 'row', flexWrap: 'wrap', marginBottom: 20}}
+                                        keyExtractor={(item) => item.id}
+                                        initialNumToRender={6}
+                                        //scrollEnabled={false}
+                                        showsHorizontalScrollIndicator={false}
+                                        maxToRenderPerBatch={6}
+                                        showsVerticalScrollIndicator={false}
+                                        refreshControl={
+                                            <RefreshControl
+                                                refreshing={isFetching}
+                                                onRefresh={onRefresh}
+                                            />
+                                        }
+                                        ListHeaderComponent={() => {
+                                            return (
+                                                <View style={{marginHorizontal: 20, height: '100%', alignItems: 'center', justifyContent: 'center'}}>
+                                                    <Text style={{textAlign: 'center', color: '#fff'}}>
+                                                        {Story?.genre}
+                                                    </Text>
+                                                </View>
+                                            )
+                                        }}
+                                        ListEmptyComponent={() => {
+                                            return (
+                                                <View style={{margin: 40, alignItems: 'center', justifyContent: 'center'}}>
+                                                    <Text style={{color: '#fff'}}>
+                                                        
+                                                    </Text>
+                                                </View>
+                                            )
+                                        }}
+                                    />
+                                </View>
+                                
+
+                                <View>
+                                    <TouchableOpacity onPress={onPlay}>
+                                        <View style={{paddingVertical: 6, paddingHorizontal: 30, backgroundColor: '#00ffff', margin: 10, borderRadius: 30}}>
+                                                <Text style={{color: '#000000', fontSize: 18, fontWeight: 'bold', }}>
+                                                    Play
+                                                </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View>
+                                    <Text style={{color: '#ffffff', fontSize: 18}}>
+                                        {millisToMinutesAndSeconds()}
                                     </Text>
                                 </View>
-                                <View>
-                                    <Comments storyId={Story?.id} />
-                                </View>
-                            </View>
 
+                                <View style={{marginVertical: 20, marginHorizontal: 4, flex: 1 }}>
+                                    <FlatList 
+                                        data={Story?.detailedDescription}
+                                        extraData={Story?.detailedDescription}
+                                        renderItem={renderDetailedDescription}
+                                        keyExtractor={(item, index) => item + index}
+                                        style={{}}
+                                        scrollEnabled={false}
+                                    />
+                                </View> 
+
+                                <View style={{width: '100%', marginTop: 20}}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10,}}>
+                                        <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>
+                                            Discussion
+                                        </Text>
+                                    </View>
+                                    <View>
+                                        <Comments storyId={Story?.id} />
+                                    </View>
+                                </View>
+
+                            </View>
                         </View>
-                    </View>
-                </LinearGradient> 
-            </ScrollView>
-        </Animatable.View>
-        <StatusBar style='light' backgroundColor='#0000004D' />
-        </View>
+                    </LinearGradient> 
+                </ScrollView>
+            </Animatable.View>
+            <StatusBar style='light' backgroundColor='#0000004D' />
+            </View>
+        </Provider>
     );
 }
 

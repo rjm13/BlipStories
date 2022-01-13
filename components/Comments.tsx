@@ -19,7 +19,7 @@ import { createComment } from '../src/graphql/mutations';
 import { AppContext } from '../AppContext';
 
 
-const Item = ({id, content, createdAt, userName, userImageUri}: any) => {
+const Item = ({content, createdAt, userName, userImageUri}: any) => {
 
     return (
         <View style={{ marginVertical: 10, backgroundColor: '#132F35', borderRadius: 15}}>
@@ -114,7 +114,7 @@ const CommentsList = ({storyId}: any) => {
     const renderItem = ({ item } : any) => (
 
         <Item 
-            id={item.id}
+            //id={item.id}
             content={item.content}
             createdAt={item.createdAt}
             userName={item.user && item.user.name}
