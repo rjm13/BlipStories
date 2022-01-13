@@ -66,7 +66,7 @@ const AudioStoryHome = ({navigation} : any) => {
                                 fontSize: SelectedId ===  2 ? 22 : 17,
                                 fontWeight: SelectedId === 2 ? 'bold' : 'normal'
                             }}>
-                                Liked
+                                Favorites
                             </Text>
                         </TouchableWithoutFeedback>
 

@@ -294,10 +294,13 @@ const AudioStoryList = ({genre, search, all} : any) => {
                         }
                 }))
 
+                console.log(favedData)
+
                 for (let i = 0; i < favedData.data.listRatings.items.length; i++) {
                     Faved.push(favedData.data.listRatings.items[i].story) 
-              } 
-              setFavedStories(Faved);
+                    setFavedStories(Faved);
+                } 
+                
               console.log(Faved)
             } catch (e) {
             console.log(e);

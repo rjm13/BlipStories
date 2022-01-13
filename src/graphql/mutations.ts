@@ -77,6 +77,18 @@ export const createUser = /* GraphQL */ `
         }
         nextToken
       }
+      Rated {
+        items {
+          id
+          storyID
+          userID
+          rating
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -154,6 +166,18 @@ export const updateUser = /* GraphQL */ `
           createdAt
           updatedAt
           tagStoriesId
+          owner
+        }
+        nextToken
+      }
+      Rated {
+        items {
+          id
+          storyID
+          userID
+          rating
+          createdAt
+          updatedAt
           owner
         }
         nextToken
@@ -239,6 +263,18 @@ export const deleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      Rated {
+        items {
+          id
+          storyID
+          userID
+          rating
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -274,6 +310,9 @@ export const createFollowingConn = /* GraphQL */ `
         Pinned {
           nextToken
         }
+        Rated {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -296,6 +335,9 @@ export const createFollowingConn = /* GraphQL */ `
           nextToken
         }
         Pinned {
+          nextToken
+        }
+        Rated {
           nextToken
         }
         createdAt
@@ -337,6 +379,9 @@ export const updateFollowingConn = /* GraphQL */ `
         Pinned {
           nextToken
         }
+        Rated {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -359,6 +404,9 @@ export const updateFollowingConn = /* GraphQL */ `
           nextToken
         }
         Pinned {
+          nextToken
+        }
+        Rated {
           nextToken
         }
         createdAt
@@ -400,6 +448,9 @@ export const deleteFollowingConn = /* GraphQL */ `
         Pinned {
           nextToken
         }
+        Rated {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -422,6 +473,9 @@ export const deleteFollowingConn = /* GraphQL */ `
           nextToken
         }
         Pinned {
+          nextToken
+        }
+        Rated {
           nextToken
         }
         createdAt
@@ -462,6 +516,9 @@ export const createPinnedStory = /* GraphQL */ `
         Pinned {
           nextToken
         }
+        Rated {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -505,15 +562,7 @@ export const createPinnedStory = /* GraphQL */ `
         }
         ratingAvg
         rated {
-          id
-          storyID
-          userID
-          rating
-          createdAt
-          updatedAt
-          ratingStoryId
-          ratingUserId
-          owner
+          nextToken
         }
         createdAt
         updatedAt
@@ -554,6 +603,9 @@ export const updatePinnedStory = /* GraphQL */ `
         Pinned {
           nextToken
         }
+        Rated {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -597,15 +649,7 @@ export const updatePinnedStory = /* GraphQL */ `
         }
         ratingAvg
         rated {
-          id
-          storyID
-          userID
-          rating
-          createdAt
-          updatedAt
-          ratingStoryId
-          ratingUserId
-          owner
+          nextToken
         }
         createdAt
         updatedAt
@@ -646,6 +690,9 @@ export const deletePinnedStory = /* GraphQL */ `
         Pinned {
           nextToken
         }
+        Rated {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -689,15 +736,7 @@ export const deletePinnedStory = /* GraphQL */ `
         }
         ratingAvg
         rated {
-          id
-          storyID
-          userID
-          rating
-          createdAt
-          updatedAt
-          ratingStoryId
-          ratingUserId
-          owner
+          nextToken
         }
         createdAt
         updatedAt
@@ -741,6 +780,9 @@ export const createStory = /* GraphQL */ `
         Pinned {
           nextToken
         }
+        Rated {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -779,51 +821,16 @@ export const createStory = /* GraphQL */ `
       }
       ratingAvg
       rated {
-        id
-        storyID
-        story {
+        items {
           id
-          title
-          imageUri
-          audioUri
-          genre
+          storyID
           userID
-          author
-          authorID
-          narrator
-          narratorID
-          time
-          description
-          detailedDescription
-          nsfw
-          ratingAvg
-          createdAt
-          updatedAt
-          tagStoriesId
-          owner
-        }
-        userID
-        user {
-          id
-          name
-          email
-          imageUri
-          bio
-          following
-          numAuthored
-          pseudonym
-          birthdate
-          isPublisher
+          rating
           createdAt
           updatedAt
           owner
         }
-        rating
-        createdAt
-        updatedAt
-        ratingStoryId
-        ratingUserId
-        owner
+        nextToken
       }
       createdAt
       updatedAt
@@ -863,6 +870,9 @@ export const updateStory = /* GraphQL */ `
         Pinned {
           nextToken
         }
+        Rated {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -901,51 +911,16 @@ export const updateStory = /* GraphQL */ `
       }
       ratingAvg
       rated {
-        id
-        storyID
-        story {
+        items {
           id
-          title
-          imageUri
-          audioUri
-          genre
+          storyID
           userID
-          author
-          authorID
-          narrator
-          narratorID
-          time
-          description
-          detailedDescription
-          nsfw
-          ratingAvg
-          createdAt
-          updatedAt
-          tagStoriesId
-          owner
-        }
-        userID
-        user {
-          id
-          name
-          email
-          imageUri
-          bio
-          following
-          numAuthored
-          pseudonym
-          birthdate
-          isPublisher
+          rating
           createdAt
           updatedAt
           owner
         }
-        rating
-        createdAt
-        updatedAt
-        ratingStoryId
-        ratingUserId
-        owner
+        nextToken
       }
       createdAt
       updatedAt
@@ -985,6 +960,9 @@ export const deleteStory = /* GraphQL */ `
         Pinned {
           nextToken
         }
+        Rated {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -1023,51 +1001,16 @@ export const deleteStory = /* GraphQL */ `
       }
       ratingAvg
       rated {
-        id
-        storyID
-        story {
+        items {
           id
-          title
-          imageUri
-          audioUri
-          genre
+          storyID
           userID
-          author
-          authorID
-          narrator
-          narratorID
-          time
-          description
-          detailedDescription
-          nsfw
-          ratingAvg
-          createdAt
-          updatedAt
-          tagStoriesId
-          owner
-        }
-        userID
-        user {
-          id
-          name
-          email
-          imageUri
-          bio
-          following
-          numAuthored
-          pseudonym
-          birthdate
-          isPublisher
+          rating
           createdAt
           updatedAt
           owner
         }
-        rating
-        createdAt
-        updatedAt
-        ratingStoryId
-        ratingUserId
-        owner
+        nextToken
       }
       createdAt
       updatedAt
@@ -1122,15 +1065,7 @@ export const createComment = /* GraphQL */ `
         }
         ratingAvg
         rated {
-          id
-          storyID
-          userID
-          rating
-          createdAt
-          updatedAt
-          ratingStoryId
-          ratingUserId
-          owner
+          nextToken
         }
         createdAt
         updatedAt
@@ -1156,6 +1091,9 @@ export const createComment = /* GraphQL */ `
           nextToken
         }
         Pinned {
+          nextToken
+        }
+        Rated {
           nextToken
         }
         createdAt
@@ -1215,15 +1153,7 @@ export const updateComment = /* GraphQL */ `
         }
         ratingAvg
         rated {
-          id
-          storyID
-          userID
-          rating
-          createdAt
-          updatedAt
-          ratingStoryId
-          ratingUserId
-          owner
+          nextToken
         }
         createdAt
         updatedAt
@@ -1249,6 +1179,9 @@ export const updateComment = /* GraphQL */ `
           nextToken
         }
         Pinned {
+          nextToken
+        }
+        Rated {
           nextToken
         }
         createdAt
@@ -1308,15 +1241,7 @@ export const deleteComment = /* GraphQL */ `
         }
         ratingAvg
         rated {
-          id
-          storyID
-          userID
-          rating
-          createdAt
-          updatedAt
-          ratingStoryId
-          ratingUserId
-          owner
+          nextToken
         }
         createdAt
         updatedAt
@@ -1342,6 +1267,9 @@ export const deleteComment = /* GraphQL */ `
           nextToken
         }
         Pinned {
+          nextToken
+        }
+        Rated {
           nextToken
         }
         createdAt
@@ -1518,15 +1446,7 @@ export const createRating = /* GraphQL */ `
         }
         ratingAvg
         rated {
-          id
-          storyID
-          userID
-          rating
-          createdAt
-          updatedAt
-          ratingStoryId
-          ratingUserId
-          owner
+          nextToken
         }
         createdAt
         updatedAt
@@ -1554,6 +1474,9 @@ export const createRating = /* GraphQL */ `
         Pinned {
           nextToken
         }
+        Rated {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -1561,8 +1484,6 @@ export const createRating = /* GraphQL */ `
       rating
       createdAt
       updatedAt
-      ratingStoryId
-      ratingUserId
       owner
     }
   }
@@ -1613,15 +1534,7 @@ export const updateRating = /* GraphQL */ `
         }
         ratingAvg
         rated {
-          id
-          storyID
-          userID
-          rating
-          createdAt
-          updatedAt
-          ratingStoryId
-          ratingUserId
-          owner
+          nextToken
         }
         createdAt
         updatedAt
@@ -1649,6 +1562,9 @@ export const updateRating = /* GraphQL */ `
         Pinned {
           nextToken
         }
+        Rated {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -1656,8 +1572,6 @@ export const updateRating = /* GraphQL */ `
       rating
       createdAt
       updatedAt
-      ratingStoryId
-      ratingUserId
       owner
     }
   }
@@ -1708,15 +1622,7 @@ export const deleteRating = /* GraphQL */ `
         }
         ratingAvg
         rated {
-          id
-          storyID
-          userID
-          rating
-          createdAt
-          updatedAt
-          ratingStoryId
-          ratingUserId
-          owner
+          nextToken
         }
         createdAt
         updatedAt
@@ -1744,6 +1650,9 @@ export const deleteRating = /* GraphQL */ `
         Pinned {
           nextToken
         }
+        Rated {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -1751,8 +1660,6 @@ export const deleteRating = /* GraphQL */ `
       rating
       createdAt
       updatedAt
-      ratingStoryId
-      ratingUserId
       owner
     }
   }

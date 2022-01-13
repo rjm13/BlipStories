@@ -16,6 +16,7 @@ type User @model @auth(rules: [{ allow: owner, operations: [create, delete, upda
   isPublisher: Boolean
   followers: [FollowingConn] @hasMany(indexName: "byFollower", fields: "id")
   Pinned: [Story] @hasMany(indexName: "byUser", fields: "id")
+  Rated: [Rating] @hasMany (indexName: "byUser", fields: "id")
 }
 
 type FollowingConn 
@@ -83,8 +84,8 @@ type Tag @model @auth(rules: [{ allow: owner, operations: [create, delete, updat
   {
     id: ID!
     storyID: ID! @index(name: "byStory", sortKeyFields: ["userID"])
-    story: Story @hasOne (fields: ["userID"])
-    userID: ID!
-    user: User @hasOne (fields: ["storyID"])
+    story: Story @hasOne (fields: ["storyID"])
+    userID: ID! @index(name: "byUser", sortKeyFields: ["storyID"])
+    user: User @hasOne (fields: ["userID"])
     rating: Int
 }
