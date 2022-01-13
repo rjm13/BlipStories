@@ -759,10 +759,9 @@ export const createStory = /* GraphQL */ `
           id
           storyID
           content
+          userID
           createdAt
           updatedAt
-          storyCommentsId
-          commentStoryId
           owner
         }
         nextToken
@@ -882,10 +881,9 @@ export const updateStory = /* GraphQL */ `
           id
           storyID
           content
+          userID
           createdAt
           updatedAt
-          storyCommentsId
-          commentStoryId
           owner
         }
         nextToken
@@ -1005,10 +1003,9 @@ export const deleteStory = /* GraphQL */ `
           id
           storyID
           content
+          userID
           createdAt
           updatedAt
-          storyCommentsId
-          commentStoryId
           owner
         }
         nextToken
@@ -1141,10 +1138,33 @@ export const createComment = /* GraphQL */ `
         owner
       }
       content
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      userID
       createdAt
       updatedAt
-      storyCommentsId
-      commentStoryId
       owner
     }
   }
@@ -1211,10 +1231,33 @@ export const updateComment = /* GraphQL */ `
         owner
       }
       content
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      userID
       createdAt
       updatedAt
-      storyCommentsId
-      commentStoryId
       owner
     }
   }
@@ -1281,10 +1324,33 @@ export const deleteComment = /* GraphQL */ `
         owner
       }
       content
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      userID
       createdAt
       updatedAt
-      storyCommentsId
-      commentStoryId
       owner
     }
   }

@@ -414,10 +414,9 @@ export const getStory = /* GraphQL */ `
           id
           storyID
           content
+          userID
           createdAt
           updatedAt
-          storyCommentsId
-          commentStoryId
           owner
         }
         nextToken
@@ -611,10 +610,33 @@ export const getComment = /* GraphQL */ `
         owner
       }
       content
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      userID
       createdAt
       updatedAt
-      storyCommentsId
-      commentStoryId
       owner
     }
   }
@@ -651,10 +673,24 @@ export const listComments = /* GraphQL */ `
           owner
         }
         content
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
         createdAt
         updatedAt
-        storyCommentsId
-        commentStoryId
         owner
       }
       nextToken
