@@ -29,7 +29,7 @@ import * as Animatable from 'react-native-animatable';
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 import { getStory, listPinnedStories, listRatings } from '../src/graphql/queries';
-import { createPinnedStory, deletePinnedStory, createRating } from '../src/graphql/mutations';
+import { createPinnedStory, deletePinnedStory, createRating, updateRating } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
 
@@ -321,22 +321,38 @@ const AudioPlayer  = ({navigation} : any) => {
 
     const [ratingNum, setRatingNum] = useState(0);
 
+    const [ratingID, setRatingID] = useState();
+
     const SubmitRating = async () => {
-        
+
         let userInfo = await Auth.currentAuthenticatedUser();
-            
-        let Rate = await API.graphql(graphqlOperation(
-            createRating, {input: {
-                userID: userInfo.attributes.sub, 
-                storyID: storyID,
-                rating: ratingNum
-            }}
-        ))
+
+        if (isRated === true) {
+            let Rate = await API.graphql(graphqlOperation(
+                updateRating, {input: {
+                    id: ratingID,
+                    rating: ratingNum
+                }}
+            ))
+            console.log(Rate)
+        } else {
+            let Rate = await API.graphql(graphqlOperation(
+                createRating, {input: {
+                    userID: userInfo.attributes.sub, 
+                    storyID: storyID,
+                    rating: ratingNum
+                }}
+            ))
         console.log(Rate)
+        }
+          
+        
 
         hideRatingModal();
     }
 
+
+    //calculate the average user rating fora  story
     const [AverageUserRating, setAverageUserRating] = useState(0);
 
     useEffect(() => {
@@ -360,6 +376,7 @@ const AudioPlayer  = ({navigation} : any) => {
             if (Rating.data.listRatings.items.length === 1) {
                 setRatingNum(Rating.data.listRatings.items[0].rating);
                 setIsRated(true);
+                setRatingID(Rating.data.listRatings.items[0].id);
             } else {
                 setRatingNum(0);
                 setIsRated(false);

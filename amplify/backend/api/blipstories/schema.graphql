@@ -59,7 +59,7 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   comments: [Comment] @hasMany (indexName: "byStory", fields: ["id"])
   tags: [Tag] @hasMany
   ratingAvg: Float
-  rated: [Rating]
+  rated: [Rating] @hasMany(indexName: "byStory", fields: ["id"])
   }
 
 type Comment @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
@@ -82,9 +82,9 @@ type Tag @model @auth(rules: [{ allow: owner, operations: [create, delete, updat
   type Rating @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
   {
     id: ID!
-    storyID: ID!
-    story: Story @hasOne
+    storyID: ID! @index(name: "byStory", sortKeyFields: ["userID"])
+    story: Story @hasOne (fields: ["userID"])
     userID: ID!
-    user: User @hasOne
+    user: User @hasOne (fields: ["storyID"])
     rating: Int
 }

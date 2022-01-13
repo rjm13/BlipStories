@@ -15,6 +15,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import {LinearGradient} from 'expo-linear-gradient';
 
 import PinnedStoryFlatList from '../components/PinnedStoryFlatList';
+import FavedStoryFlatList from '../components/FavedStoryFlatList';
 
 import { listPinnedStories } from '../src/graphql/queries';
 import { deleteStory } from '../src/graphql/mutations';
@@ -96,6 +97,8 @@ const AudioStoryHome = ({navigation} : any) => {
             <View style={{ alignItems: 'center', marginTop: 20, height: '86%'}}>
                 {SelectedId === 1 ? (
                     <PinnedStoryFlatList genre={null} search={null} all={'all'}/>
+                ) : SelectedId === 2 ? (
+                    <FavedStoryFlatList genre={null} search={null} all={'all'}/>
                 ) : null}
             </View>
            
