@@ -8,7 +8,8 @@ import {
     RefreshControl, 
     TouchableWithoutFeedback, 
     TouchableOpacity, 
-    Image 
+    Image,
+    ActivityIndicator
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native'
@@ -159,7 +160,7 @@ const AudioStoryList = ({genre, search, all} : any) => {
                     }
                 }}
             ))
-            if (Rating.data.listRatings.items.length === 1) {
+            if (Rating?.data.listRatings.items.length === 1) {
                 //setRatingNum(Rating.data.listRatings.items[0].rating);
                 setIsRated(true);
                 //setRatingID(Rating.data.listRatings.items[0].id);
@@ -324,7 +325,11 @@ const AudioStoryList = ({genre, search, all} : any) => {
     //on render, get the user and then list the following connections for that user
     useEffect(() => {
 
+        
+
         const fetchStories = async () => {
+
+            setIsLoading(true);
 
             const Faved = []
 
@@ -354,11 +359,14 @@ const AudioStoryList = ({genre, search, all} : any) => {
                 } 
                 
               console.log(Faved)
+
+              setIsLoading(false)
             } catch (e) {
             console.log(e);
           }
         }
            fetchStories(); 
+           
       }, [didUpdate])
 
 
@@ -390,6 +398,8 @@ const AudioStoryList = ({genre, search, all} : any) => {
         />
       );
 
+      const [isLoading, setIsLoading] = useState(false)
+
     return (
             <View style={styles.container}>
 
@@ -416,9 +426,15 @@ const AudioStoryList = ({genre, search, all} : any) => {
                     ListEmptyComponent={ () => {
                         return (
                             <View style={{ height:  70, alignItems: 'center'}}>
+                                {isLoading === true ? (
+                                <View style={{margin: 30}}>
+                                    <ActivityIndicator size='small' color='cyan' />
+                                </View>
+                                ) : (
                                 <Text style={{ color: 'white', margin: 20,}}>
                                     There is nothing here! Tap the pin icon to add a story to your playlist.
                                 </Text>
+                                )}
                             </View>
                     );}}
                 />

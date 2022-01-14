@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext, useLayoutEffect} from "react";
-import { View, Text, ActivityIndicator, Dimensions } from "react-native";
+import { View, Text, ActivityIndicator, Dimensions, TouchableWithoutFeedback } from "react-native";
 import { AppContext } from '../../AppContext';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { getUser } from '../../src/graphql/queries';
@@ -12,13 +12,21 @@ const SCREEN_HEIGHT = Dimensions.get('window').height
 
 const Redirect = ({route, navigation} : any) => {
 
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [tryAgain, setTryAgain] = useState(false);
+
     const trigger = route.params
 
     const { userID } = useContext(AppContext);
     const { setUserID } = useContext(AppContext);
 
     useEffect(() => {
+
         const fetchUser = async () => {
+
+            setIsLoading(true);
+
             const userInfo = await Auth.currentAuthenticatedUser(
             { bypassCache: true }
           )
@@ -29,6 +37,7 @@ const Redirect = ({route, navigation} : any) => {
                 navigation.navigate('SignIn')
           }
           else {
+              
             const userData = await API.graphql(graphqlOperation(getUser,{ id: userInfo.attributes.sub}))
       
                 if (userData.data.getUser) {
@@ -49,10 +58,11 @@ const Redirect = ({route, navigation} : any) => {
                     //navigation.navigate('HomeDrawer')
                 }
           }
+          setIsLoading(false);
         }
         fetchUser();
         
-    }, [trigger])
+    }, [trigger, tryAgain])
 
     // const { userID } = useContext(AppContext);
 
@@ -78,7 +88,24 @@ const Redirect = ({route, navigation} : any) => {
 
     return (
         <View style={{alignContent: 'center', justifyContent: 'center', width: SCREEN_WIDTH, height: SCREEN_HEIGHT + 30, backgroundColor: '#363636'}}>
-            <ActivityIndicator size="large" color="cyan" />
+            {isLoading === true ? (
+                <ActivityIndicator size="large" color="cyan" />
+            ) : (
+                <View>
+                    <Text style={{color: '#fff'}}>
+                        Error logging in. Please check your internet connection.
+                    </Text>
+                    <TouchableWithoutFeedback onPress={() => setTryAgain(!tryAgain)}>
+                       <View style={{margin: 20, padding: 20}}>
+                            <Text style={{fontSize: 14, color: 'cyan'}}>
+                                Try Again
+                            </Text>
+                        </View> 
+                    </TouchableWithoutFeedback>
+                    
+                </View>
+            )}
+            
             <StatusBar style='light' backgroundColor="transparent"/>
         </View>
         

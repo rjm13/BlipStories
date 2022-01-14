@@ -8,7 +8,8 @@ import {
     RefreshControl, 
     TouchableWithoutFeedback, 
     TouchableOpacity, 
-    Image 
+    Image,
+    ActivityIndicator 
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native'
@@ -329,6 +330,8 @@ const AudioStoryList = ({genre, search, all} : any) => {
 
         const fetchStories = async () => {
 
+            setIsLoading(true);
+
             const Pinned = []
 
             const userInfo = await Auth.currentAuthenticatedUser();
@@ -350,6 +353,8 @@ const AudioStoryList = ({genre, search, all} : any) => {
                     Pinned.push(pinnedData.data.listPinnedStories.items[i].story) 
 
                 setPinnedStories(Pinned);
+                
+                setIsLoading(false);
               } 
             } catch (e) {
             console.log(e);
@@ -387,6 +392,8 @@ const AudioStoryList = ({genre, search, all} : any) => {
         />
       );
 
+      const [isLoading, setIsLoading] = useState(false);
+
     return (
             <View style={styles.container}>
 
@@ -413,9 +420,15 @@ const AudioStoryList = ({genre, search, all} : any) => {
                     ListEmptyComponent={ () => {
                         return (
                             <View style={{ height:  70, alignItems: 'center'}}>
+                                {isLoading === true ? (
+                                <View style={{margin: 30}}>
+                                    <ActivityIndicator size='small' color='cyan' />
+                                </View>
+                                ) : (
                                 <Text style={{ color: 'white', margin: 20,}}>
                                     There is nothing here! Tap the pin icon to add a story to your playlist.
                                 </Text>
+                                )}
                             </View>
                     );}}
                 />
