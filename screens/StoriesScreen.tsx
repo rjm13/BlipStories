@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { 
   StyleSheet, 
   Dimensions, 
@@ -20,6 +20,11 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 import genres  from '../data/dummygenre';
 import {useNavigation} from '@react-navigation/native';
+
+import { listPinnedStories, listRatings, listStories, listTags } from '../src/graphql/queries';
+import { deletePinnedStory } from '../src/graphql/mutations';
+import {graphqlOperation, API, Auth} from 'aws-amplify';
+import { setStatusBarBackgroundColor } from 'expo-status-bar';
 
 const AudioStoryHome = ({navigation} : any) => {
 
@@ -85,7 +90,7 @@ const AudioStoryHome = ({navigation} : any) => {
     />
   );
 
-  const tags = [
+  const [tags, setTags] = useState([
     {
       id: 1,
       tag: '#HarryPotter'
@@ -106,7 +111,23 @@ const AudioStoryHome = ({navigation} : any) => {
       id: 5,
       tag: "#Explorers"
     }
-  ]
+  ])
+
+  //list the most popular tags
+  useEffect(() => {
+
+    const fetchTags = async () => {
+
+      const result = await API.graphql(graphqlOperation(
+        listTags, {}
+      ))
+
+      if (result) {
+        setTags(result.data.listTags.items)
+      }
+    }
+    fetchTags();
+  }, [])
 
   const Tag = ({id, tag}: any) => {
     return (
@@ -114,7 +135,7 @@ const AudioStoryHome = ({navigation} : any) => {
         <TouchableOpacity onPress={() => navigation.navigate('BrowseAuthor')}>
             <View style={[styles.tagbox]}>
                 <Text style={styles.tagtext}>
-                    {tag}
+                    #{tag}
                 </Text>
             </View>
         </TouchableOpacity>
@@ -126,7 +147,7 @@ const AudioStoryHome = ({navigation} : any) => {
 
     <Tag 
         id={item.id}
-        tag={item.tag}
+        tag={item.tagName}
     />
   );
 
@@ -215,7 +236,7 @@ const AudioStoryHome = ({navigation} : any) => {
                                       scrollEnabled={false}
                                       maxToRenderPerBatch={6}
                                       showsVerticalScrollIndicator={false}
-                                      style={{flexDirection: 'row', flexWrap: 'wrap', width: Dimensions.get('window').width - 40, marginBottom: 20}}
+                                      style={{flexDirection: 'row', flexWrap: 'wrap', width: Dimensions.get('window').width - 20, marginBottom: 20}}
                                     />
 
 

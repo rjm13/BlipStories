@@ -58,7 +58,7 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   detailedDescription: [String]
   nsfw: Boolean
   comments: [Comment] @hasMany (indexName: "byStory", fields: ["id"])
-  tags: [Tag] @hasMany
+  tags: [Tag] @manyToMany (relationName: "StoryTag")
   ratingAvg: Float
   rated: [Rating] @hasMany(indexName: "byStory", fields: ["id"])
   }
@@ -77,7 +77,7 @@ type Tag @model @auth(rules: [{ allow: owner, operations: [create, delete, updat
   {
     id: ID!
     tagName: String!
-    stories: [Story] @hasMany
+    stories: [Story] @manyToMany(relationName: "StoryTag")
   }
 
   type Rating @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])

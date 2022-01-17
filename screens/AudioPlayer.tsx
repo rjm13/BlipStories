@@ -28,7 +28,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as Animatable from 'react-native-animatable';
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
-import { getStory, listPinnedStories, listRatings } from '../src/graphql/queries';
+import { getStory, listPinnedStories, listRatings, listStoryTags } from '../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory, createRating, updateRating } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
@@ -63,7 +63,8 @@ const AudioPlayer  = ({navigation} : any) => {
                 setStory(storyData.data.getStory);
                 //const response = await Storage.get(storyData.data.getStory.audioUri, {download: false, expiration: 604800});
                 //setAudioUri(response);
-                console.log(AudioUri);
+                //setTags(storyData.data.getStory.tags.items)
+                console.log(Story);
             }
         } catch (e) {
             console.log(e);
@@ -150,28 +151,41 @@ const AudioPlayer  = ({navigation} : any) => {
         }, 2000);
       }
 
-      const Tags = [
-        {
-          id: 1,
-          tag: '#HarryPotter'
-        },
-        {
-          id: 2,
-          tag: "#ShakespeareSpinOf"
-        },
-        {
-          id: 3,
-          tag: "#1920s"
-        },
-        {
-          id: 4,
-          tag: "#Martians"
-        },
-        {
-          id: 5,
-          tag: "#Explorers"
+      const [Tags, setTags] = useState([
+       
+      ])
+
+      useEffect(() => {
+
+        const fetchTags = async () => {
+
+        let storytag = storyID
+
+        let tags = []
+    
+          const result = await API.graphql(graphqlOperation(
+            listStoryTags, {
+                filter: {
+                    storyID: {
+                        eq: 
+                            storytag
+                        
+                    }
+                }}
+          ))
+
+          console.log("is is" + storyID)
+    
+          if (result) {
+              for (let i = 0; i < result.data.listStoryTags.items.length; i++) {
+                  tags.push(result.data.listStoryTags.items[i].tag)
+              }
+            setTags(tags)
+            console.log(tags)
+          }
         }
-      ]
+        fetchTags();
+      }, [storyID])
     
       const Tag = ({id, tag}: any) => {
         return (
@@ -179,7 +193,7 @@ const AudioPlayer  = ({navigation} : any) => {
             <TouchableOpacity onPress={() => navigation.navigate('BrowseAuthor')}>
                 <View style={[styles.tagbox]}>
                     <Text style={styles.tagtext}>
-                        {tag}
+                        #{tag}
                     </Text>
                 </View>
             </TouchableOpacity>
@@ -191,7 +205,7 @@ const AudioPlayer  = ({navigation} : any) => {
     
         <Tag 
             id={item.id}
-            tag={item.tag}
+            tag={item.tagName}
         />
       );
 
