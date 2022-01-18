@@ -54,8 +54,8 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   narrator: String
   narratorID: ID
   time: Int 
+  summary: String
   description: String
-  detailedDescription: [String]
   nsfw: Boolean
   comments: [Comment] @hasMany (indexName: "byStory", fields: ["id"])
   tags: [Tag] @manyToMany (relationName: "StoryTag")

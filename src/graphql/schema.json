@@ -1113,7 +1113,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "description",
+          "name" : "summary",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1124,17 +1124,13 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "detailedDescription",
+          "name" : "description",
           "description" : null,
           "args" : [ ],
           "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
@@ -2946,7 +2942,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "description",
+          "name" : "summary",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -2955,7 +2951,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "detailedDescription",
+          "name" : "description",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -5462,7 +5458,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "description",
+          "name" : "summary",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
@@ -5471,16 +5467,12 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "detailedDescription",
+          "name" : "description",
           "description" : null,
           "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
           },
           "defaultValue" : null
         }, {
@@ -5601,7 +5593,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "description",
+          "name" : "summary",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -5610,7 +5602,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "detailedDescription",
+          "name" : "description",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -5784,7 +5776,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "description",
+          "name" : "summary",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
@@ -5793,16 +5785,12 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "detailedDescription",
+          "name" : "description",
           "description" : null,
           "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
           },
           "defaultValue" : null
         }, {
@@ -7875,6 +7863,22 @@
         "onFragment" : false,
         "onField" : false
       }, {
+        "name" : "aws_api_key",
+        "description" : "Tells the service this field/object has access authorized by an API key.",
+        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
+        "args" : [ ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
+        "name" : "aws_iam",
+        "description" : "Tells the service this field/object has access authorized by sigv4 signing.",
+        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
+        "args" : [ ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
         "name" : "deprecated",
         "description" : null,
         "locations" : [ "FIELD_DEFINITION", "ENUM_VALUE" ],
@@ -7888,22 +7892,6 @@
           },
           "defaultValue" : "\"No longer supported\""
         } ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
-        "name" : "aws_api_key",
-        "description" : "Tells the service this field/object has access authorized by an API key.",
-        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
-        "args" : [ ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
-        "name" : "aws_iam",
-        "description" : "Tells the service this field/object has access authorized by sigv4 signing.",
-        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
-        "args" : [ ],
         "onOperation" : false,
         "onFragment" : false,
         "onField" : false

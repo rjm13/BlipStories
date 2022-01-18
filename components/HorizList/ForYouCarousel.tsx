@@ -23,7 +23,7 @@ import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutation
 
 const ForYouCarousel = () => {
 
-    const Item = ({title, genre, description, imageUri, audioUri, author, narrator, time, id} : any) => {
+    const Item = ({title, genre, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
 
     //set context globally for storyID
     //const {story} = props;
@@ -295,7 +295,7 @@ const ForYouCarousel = () => {
                                 <View style={styles.popupblock}>
                                     <View style={{ marginTop: 20, marginBottom: 10 }}> 
                                         <Text style={styles.paragraph}>
-                                            {description}
+                                            {summary}
                                         </Text>
                                     </View>
                         <View> 
@@ -389,7 +389,7 @@ const ForYouCarousel = () => {
           imageUri={item.imageUri}
           genre={item.genre}
           audioUri={item.audioUri}
-          description={item.description}
+          summary={item.summary}
           author={item.author}
           narrator={item.narrator}
           time={item.time}

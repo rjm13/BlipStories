@@ -649,14 +649,17 @@ const AudioPlayer  = ({navigation} : any) => {
                                 </View>
 
                                 <View style={{marginVertical: 20, marginHorizontal: 4, flex: 1 }}>
-                                    <FlatList 
+                                    <Text style={{color: '#fff', flexWrap: 'wrap', marginBottom: 10}}>
+                                        {Story?.description}
+                                    </Text>
+                                    {/* <FlatList 
                                         data={Story?.detailedDescription}
                                         extraData={Story?.detailedDescription}
                                         renderItem={renderDetailedDescription}
                                         keyExtractor={(item, index) => item + index}
                                         style={{}}
                                         scrollEnabled={false}
-                                    />
+                                    /> */}
                                 </View> 
 
                                 <View style={{width: '100%', marginTop: 20}}>

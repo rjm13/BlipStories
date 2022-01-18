@@ -24,8 +24,8 @@ export const getUser = /* GraphQL */ `
           narrator
           narratorID
           time
+          summary
           description
-          detailedDescription
           nsfw
           ratingAvg
           createdAt
@@ -62,8 +62,8 @@ export const getUser = /* GraphQL */ `
           narrator
           narratorID
           time
+          summary
           description
-          detailedDescription
           nsfw
           ratingAvg
           createdAt
@@ -303,8 +303,8 @@ export const getPinnedStory = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -364,8 +364,8 @@ export const listPinnedStories = /* GraphQL */ `
           narrator
           narratorID
           time
+          summary
           description
-          detailedDescription
           nsfw
           ratingAvg
           createdAt
@@ -421,8 +421,8 @@ export const getStory = /* GraphQL */ `
       narrator
       narratorID
       time
+      summary
       description
-      detailedDescription
       nsfw
       comments {
         items {
@@ -500,8 +500,8 @@ export const listStories = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -553,8 +553,8 @@ export const getComment = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -627,8 +627,8 @@ export const listComments = /* GraphQL */ `
           narrator
           narratorID
           time
+          summary
           description
-          detailedDescription
           nsfw
           ratingAvg
           createdAt
@@ -735,8 +735,8 @@ export const getRating = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -809,8 +809,8 @@ export const listRatings = /* GraphQL */ `
           narrator
           narratorID
           time
+          summary
           description
-          detailedDescription
           nsfw
           ratingAvg
           createdAt
@@ -875,8 +875,8 @@ export const getStoryTag = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -931,8 +931,8 @@ export const listStoryTags = /* GraphQL */ `
           narrator
           narratorID
           time
+          summary
           description
-          detailedDescription
           nsfw
           ratingAvg
           createdAt

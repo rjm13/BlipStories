@@ -27,7 +27,7 @@ import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 const SearchStoriesList = ({search} : any) => {
 
-    const Item = ({title, genre, description, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
+    const Item = ({title, genre, summary, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
         
         const Colors = {
             color: 
@@ -299,7 +299,7 @@ const SearchStoriesList = ({search} : any) => {
                             />
                         </TouchableWithoutFeedback>
                         <Text style={styles.paragraph}>
-                            {description}
+                            {summary}
                         </Text>
                     </View>
                 ) : false }  
@@ -364,7 +364,7 @@ const SearchStoriesList = ({search} : any) => {
           imageUri={item.imageUri}
           genre={item.genre}
           audioUri={item.audioUri}
-          description={item.description}
+          summary={item.summary}
           author={item.author}
           narrator={item.narrator}
           time={item.time}

@@ -34,7 +34,7 @@ import { ItemParamList } from '../types';
 
 
 
-const Item = ({title, genre, description, imageUri, audioUri, writer, narrator, time, id} : any) => {
+const Item = ({title, genre, summary, imageUri, audioUri, writer, narrator, time, id} : any) => {
     
 
     const Colors = {
@@ -334,7 +334,7 @@ const onPlay = () => {
                             />
                         </TouchableWithoutFeedback>
                         <Text style={styles.paragraph}>
-                            {description}
+                            {summary}
                         </Text>
                         
                     </View>
@@ -436,7 +436,7 @@ const AudioListByAuthor = ({genre}) => {
           imageUri={item.imageUri}
           genre={item.genre}
           audioUri={item.audioUri}
-          description={item.description}
+          summary={item.summary}
           writer={item.writer}
           narrator={item.narrator}
           time={item.time}

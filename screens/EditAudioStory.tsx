@@ -10,8 +10,9 @@ import {
     ActivityIndicator, 
     TouchableWithoutFeedback, 
     ScrollView, 
-    Dimensions}
-from 'react-native';
+    Dimensions,
+    FlatList,
+} from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -71,8 +72,8 @@ const EditAudio = ({navigation} : any) => {
     //text data input state holders. Will be sent to aws
     const [data, setData] = useState({
         title: '',
+        summary: '',
         description: '',
-        detailedDescription: [''],
         imageUri: '',
     });
 
@@ -190,6 +191,28 @@ const EditAudio = ({navigation} : any) => {
               setTermsAgree(true)
           }
       }
+
+//Tags flatlist, data, and functions
+
+    const clear = useRef()
+
+    const [TagsArray, setTagsArray] = useState([])
+
+    const [tagText, setTagText] = useState('')
+
+    const AddToTagArray = () => {
+
+        let Tags = []
+
+        if (tagText.includes('#') || tagText === '') {
+            return;
+        } else {
+            Tags.push(...TagsArray, {id: TagsArray.length + 1, name: tagText});
+            setTagsArray(Tags)
+            clear.current.clear()
+            
+        }
+    }
 
   return (
     <Provider>
@@ -318,8 +341,7 @@ const EditAudio = ({navigation} : any) => {
                 </Modal>
             </Portal>
 
-
-
+                         
                 <View style={{ marginTop: 50, marginHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
                 <AntDesign 
                         name='close'
@@ -365,17 +387,17 @@ const EditAudio = ({navigation} : any) => {
                     
                     <View style={styles.inputfield}>
                         <TextInput
-                            placeholder={Story?.description}
+                            placeholder={Story?.summary}
                                 placeholderTextColor='#ffffffa5'
                             style={[styles.textInput, { height: 80 }]}
                             maxLength={300}
                             multiline={true}
                             numberOfLines={10}
-                            onChangeText={val => setData({...data, description: val})}
+                            onChangeText={val => setData({...data, summary: val})}
                         />
                         <FontAwesome5 
                             name='check-circle'
-                            color={data.description !== '' ? 'cyan' : '#363636'}
+                            color={data.summary !== '' ? 'cyan' : '#363636'}
                             size={20}
                         />
                     </View>
@@ -392,7 +414,7 @@ const EditAudio = ({navigation} : any) => {
                     <View style={styles.inputfield}>
                         <TextInput
                             placeholder={Story?.description}
-                                placeholderTextColor='#ffffffa5'
+                            placeholderTextColor='#ffffffa5'
                             style={[styles.textInput, { height: 80 }]}
                             maxLength={300}
                             multiline={true}
@@ -502,9 +524,19 @@ const EditAudio = ({navigation} : any) => {
                         Tags
                     </Text>
 
-                    <Text style={{marginLeft: 20, marginBottom: 20, alignSelf: 'flex-start', color: '#fff'}}>
-                        #inputTagHere
-                    </Text>
+                    <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {TagsArray.map(({ index, name } : any) => (
+                            <View key={index} style={{marginTop: 10, marginRight: 10}}>
+                                <TouchableOpacity>
+                                    <View style={{}}>
+                                        <Text style={styles.tagtext}>
+                                            #{name}
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        ))}
+                        </ScrollView>
 
                     <View style={{ alignSelf: 'flex-start', flexDirection: 'row', marginBottom: 20, marginTop: 0, }}>
                         <TouchableOpacity>
@@ -516,12 +548,13 @@ const EditAudio = ({navigation} : any) => {
                                     maxLength={20}
                                     multiline={false}
                                     numberOfLines={1}
-                                    //onChangeText={val => setData({...data, writer: val})}
+                                    ref={clear}
+                                    onChangeText={val => setTagText(val)}
                                     //defaultValue={!!user ? user?.pseudonym : 'Annonymous'}
                                 />
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={AddToTagArray}>
                             <View style={{ marginHorizontal: 20, padding: 10}}>
                                 <FontAwesome5
                                     name='chevron-up'
@@ -644,6 +677,19 @@ uploadbutton: {
 timer: {
     color: '#ffffff',
     fontSize: 16,
+},
+tagbox: {
+    marginRight: 10   
+  },
+  tagtext: {
+    color: 'cyan',
+    fontSize: 14,
+    backgroundColor: '#1A4851a5',
+    borderColor: '#00ffffa5',
+    borderWidth: 0.5,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 20
 },
 });
 

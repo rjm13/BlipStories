@@ -85,7 +85,7 @@ const SearchScreen = ({navigation} : any) => {
       };
 
       //this is the rendered search result item
-      const Item = ({title, genre, description, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
+      const Item = ({title, genre, summary, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
         
         const Colors = {
             color: 
@@ -357,7 +357,7 @@ const SearchScreen = ({navigation} : any) => {
                             />
                         </TouchableWithoutFeedback>
                         <Text style={styles.paragraph}>
-                            {description}
+                            {summary}
                         </Text>
                     </View>
                 ) : false }  
@@ -386,7 +386,7 @@ const SearchScreen = ({navigation} : any) => {
                           {title: {
                               contains: newSearch
                           }},
-                          {description: {
+                          {summary: {
                             contains: newSearch
                             }}
                         ]
@@ -413,7 +413,7 @@ const SearchScreen = ({navigation} : any) => {
         imageUri={item.imageUri}
         genre={item.genre}
         audioUri={item.audioUri}
-        description={item.description}
+        summary={item.summary}
         author={item.author}
         narrator={item.narrator}
         time={item.time}

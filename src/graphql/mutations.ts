@@ -27,8 +27,8 @@ export const createUser = /* GraphQL */ `
           narrator
           narratorID
           time
+          summary
           description
-          detailedDescription
           nsfw
           ratingAvg
           createdAt
@@ -65,8 +65,8 @@ export const createUser = /* GraphQL */ `
           narrator
           narratorID
           time
+          summary
           description
-          detailedDescription
           nsfw
           ratingAvg
           createdAt
@@ -118,8 +118,8 @@ export const updateUser = /* GraphQL */ `
           narrator
           narratorID
           time
+          summary
           description
-          detailedDescription
           nsfw
           ratingAvg
           createdAt
@@ -156,8 +156,8 @@ export const updateUser = /* GraphQL */ `
           narrator
           narratorID
           time
+          summary
           description
-          detailedDescription
           nsfw
           ratingAvg
           createdAt
@@ -209,8 +209,8 @@ export const deleteUser = /* GraphQL */ `
           narrator
           narratorID
           time
+          summary
           description
-          detailedDescription
           nsfw
           ratingAvg
           createdAt
@@ -247,8 +247,8 @@ export const deleteUser = /* GraphQL */ `
           narrator
           narratorID
           time
+          summary
           description
-          detailedDescription
           nsfw
           ratingAvg
           createdAt
@@ -545,8 +545,8 @@ export const createPinnedStory = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -631,8 +631,8 @@ export const updatePinnedStory = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -717,8 +717,8 @@ export const deletePinnedStory = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -784,8 +784,8 @@ export const createStory = /* GraphQL */ `
       narrator
       narratorID
       time
+      summary
       description
-      detailedDescription
       nsfw
       comments {
         items {
@@ -873,8 +873,8 @@ export const updateStory = /* GraphQL */ `
       narrator
       narratorID
       time
+      summary
       description
-      detailedDescription
       nsfw
       comments {
         items {
@@ -962,8 +962,8 @@ export const deleteStory = /* GraphQL */ `
       narrator
       narratorID
       time
+      summary
       description
-      detailedDescription
       nsfw
       comments {
         items {
@@ -1042,8 +1042,8 @@ export const createComment = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -1129,8 +1129,8 @@ export const updateComment = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -1216,8 +1216,8 @@ export const deleteComment = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -1378,8 +1378,8 @@ export const createRating = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -1465,8 +1465,8 @@ export const updateRating = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -1552,8 +1552,8 @@ export const deleteRating = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -1640,8 +1640,8 @@ export const createStoryTag = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -1709,8 +1709,8 @@ export const updateStoryTag = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
@@ -1778,8 +1778,8 @@ export const deleteStoryTag = /* GraphQL */ `
         narrator
         narratorID
         time
+        summary
         description
-        detailedDescription
         nsfw
         comments {
           nextToken
