@@ -11,6 +11,7 @@ import RecordAudioScreen from '../screens/RecordAudioScreen';
 import AudioPlayer from '../screens/AudioPlayer';
 import UserScreen from '../screens/UserScreen';
 import UploadAudio from '../screens/UploadAudio';
+import EditAudioStory from '../screens/EditAudioStory';
 import SimpleAudioPlayer from '../screens/SimpleAudioPlayer';
 import Terms from '../screens/Terms';
 
@@ -97,6 +98,8 @@ function RootNavigator() {
       <Stack.Screen name="Terms" component={Terms} options={{ title: 'Oops!' }} />
       <Stack.Screen name="AudioPlayer" component={AudioPlayer} options={{ title: 'Oops!' }} />
       <Stack.Screen name="Redirect" component={RedirectScreen} />
+      <Stack.Screen name="EditAudioStory" component={EditAudioStory} />
+
       {/* <Stack.Screen name="Drawer" component={DrawerNavigator} options={{ title: 'Oops!' }} /> */}
 
     </Stack.Navigator>

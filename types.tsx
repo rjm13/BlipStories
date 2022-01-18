@@ -15,6 +15,7 @@ export type RootStackParamList = {
   Redirect: undefined;
   SimpleAudioPlayer: undefined;
   Terms: undefined;
+  EditAudioStory: undefined;
 };
 
 export type BottomTabParamList = {

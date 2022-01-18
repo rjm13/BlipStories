@@ -137,57 +137,57 @@ const AudioStoryList = ({genre, search, all} : any) => {
         }
 
         //calculate the average user rating fora  story
-    const [AverageUserRating, setAverageUserRating] = useState(0);
+        const [AverageUserRating, setAverageUserRating] = useState(0);
 
-    //rating function
-    const [isRated, setIsRated] = useState(false);
+        //rating function
+        const [isRated, setIsRated] = useState(false);
 
-    useEffect(() => {
+        useEffect(() => {
 
-        let Average = []
+            let Average = []
 
-        const fetchRating = async () => {
+            const fetchRating = async () => {
 
-            let userInfo = await Auth.currentAuthenticatedUser();
+                let userInfo = await Auth.currentAuthenticatedUser();
 
-            let Rating = await API.graphql(graphqlOperation(
-                listRatings, {filter: {
-                    userID: {
-                        eq: userInfo.attributes.sub
-                    },
-                    storyID: {
-                        eq: id
-                    }
-                }}
-            ))
-            if (Rating.data.listRatings.items.length === 1) {
-                //setRatingNum(Rating.data.listRatings.items[0].rating);
-                setIsRated(true);
-                //setRatingID(Rating.data.listRatings.items[0].id);
-            } else {
-                //setRatingNum(0);
-                setIsRated(false);
-            }
-
-            let RatingAvg = await API.graphql(graphqlOperation(
-                listRatings, {filter: {
-                    storyID: {
-                        eq: id
-                    }
-                }}
-            ))
-
-            if (RatingAvg.data.listRatings.items.length > 0) {
-                for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
-                    Average.push(RatingAvg.data.listRatings.items[i].rating) 
+                let Rating = await API.graphql(graphqlOperation(
+                    listRatings, {filter: {
+                        userID: {
+                            eq: userInfo.attributes.sub
+                        },
+                        storyID: {
+                            eq: id
+                        }
+                    }}
+                ))
+                if (Rating.data.listRatings.items.length === 1) {
+                    //setRatingNum(Rating.data.listRatings.items[0].rating);
+                    setIsRated(true);
+                    //setRatingID(Rating.data.listRatings.items[0].id);
+                } else {
+                    //setRatingNum(0);
+                    setIsRated(false);
                 }
-                setAverageUserRating(
-                    Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
-                )
+
+                let RatingAvg = await API.graphql(graphqlOperation(
+                    listRatings, {filter: {
+                        storyID: {
+                            eq: id
+                        }
+                    }}
+                ))
+
+                if (RatingAvg.data.listRatings.items.length > 0) {
+                    for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
+                        Average.push(RatingAvg.data.listRatings.items[i].rating) 
+                    }
+                    setAverageUserRating(
+                        Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
+                    )
+                }
             }
-        }
-        fetchRating();
-    }, [])
+            fetchRating();
+        }, [])
 
         return (
             <View>
