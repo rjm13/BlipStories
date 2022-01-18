@@ -214,75 +214,112 @@ const EditAudio = ({navigation} : any) => {
         }
     }
 
+    //confirm state
+    const [confirmUpdate, setConfirmUpdate] = useState(false)
+
+
   return (
     <Provider>
         <ScrollView>
             <View style={styles.container}>
 
             <Portal>
-                <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-                    <View style={{ padding: 20, backgroundColor: '#363636', borderRadius: 15,}}>
-                    
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
-                        <Text style={[styles.title, {textTransform: 'capitalize'}]}>
-                        {data.title}
-                        </Text>   
-                    </View>
+                <Modal visible={visible} onDismiss={() => {hideModal(); setConfirmUpdate(false)}} contentContainerStyle={containerStyle}>
+                    <ScrollView style={{ height: 600, paddingHorizontal: 10,  backgroundColor: '#363636', borderRadius: 15,}}>
+                        <View style={{marginVertical: 40}}>
 
-                    <View>
-                        <Text style={{ color: '#ffffffa5', borderBottomWidth: 1, borderColor: 'cyan', paddingBottom: 20,}}>
-                        {data.description}
-                        </Text>
-                    </View>
-
-                    <View>
-                        <Text style={{ color: '#ffffffa5', borderBottomWidth: 1, borderColor: 'cyan', paddingBottom: 20,}}>
-                        {data.detailedDescription}
-                        </Text>
-                    </View>
-
-                    <View>
-                        <Image 
-                            source={{ uri: localImageUri}}
-                            resizeMode='contain'
-                            style={{ 
-                                marginVertical: 10,
-                                height: 120,
-                                borderRadius: 15,
-                            }} 
-                            />
-                    </View>
-                    
-                        
-                        <View style={{ flexDirection: 'row'}}>
-                            <Text style={{
-                                fontSize: 16,
-                                paddingVertical: 20,
-                                color: 'white',
-                                margin: 20,
-                            }}>
-                                    Post annonymously
-                            </Text>  
+                    {data.title !== '' ? (
+                        <View style={{marginBottom: 20,}}>
+                            <Text style={styles.inputheadermodal}>
+                                Title
+                            </Text>
+                            <Text style={{marginHorizontal: 20, color: '#ffffff', fontWeight: 'bold', textTransform: 'capitalize'}}>
+                            {data.title}
+                            </Text>   
                         </View>
+                    ) : null}
+
+                    {data.summary !== '' ? (
+                        <View style={{marginBottom: 20}}>
+                            <Text style={styles.inputheadermodal}>
+                                Summary
+                            </Text>
+                            <Text style={{marginHorizontal: 20, color: '#ffffff'}}>
+                            {data.summary}
+                            </Text>   
+                        </View>
+                    ) : null}
+                    
+
+                    {data.description !== '' ? (
+                        <View style={{marginBottom: 20}}>
+                            <Text style={styles.inputheadermodal}>
+                                Description
+                            </Text>
+                            <Text style={{marginHorizontal: 20, color: '#ffffff'}}>
+                                {data.description}
+                            </Text>   
+                        </View>
+                    ) : null}
+
+                    {TagsArray.length > 0 ? (
+                    <View style={{marginBottom: 20}}>
+                        <Text style={styles.inputheadermodal}>
+                            Tags
+                        </Text>
+
+                        <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                            {TagsArray.map(({ index, name } : any) => (
+                                <View key={index} style={{marginTop: 10, marginRight: 10}}>
+                                    <TouchableOpacity>
+                                        <View style={{}}>
+                                            <Text style={styles.tagtext}>
+                                                #{name}
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            ))}
+                        </ScrollView>
+                    </View>
+                    ) : null}
+
+                    {localImageUri !== '' ? (
+                        <View style={{marginBottom: 20}}>
+                            <Text style={styles.inputheadermodal}>
+                                Cover Art
+                            </Text>
+                            <Image 
+                                source={{ uri: localImageUri}}
+                                resizeMode='contain'
+                                style={{ 
+                                    marginVertical: 10,
+                                    height: 120,
+                                    borderRadius: 15,
+                                }} 
+                                />
+                        </View>
+                    ) : null}
+                    
                     
                     
                         <View style={{ width: '100%', alignItems: 'center'}}>
                             {!isLoading && !isLoaded? (
                                 <TouchableOpacity
-                                        style={{ 
-                                            marginBottom: 20,
-                                        }}
-                                        onPress={UploadToS3}>
+                                        style={{marginBottom: 20,}}
+                                        onPress={() => setConfirmUpdate(true)}
+                                        onLongPress={() => {confirmUpdate === true ? UploadToS3 : null}}
+                                        >
                                         <View
                                             style={{ 
                                                 paddingHorizontal: 20,
                                                 paddingVertical: 10,
                                                 borderRadius: 20,
-                                                //width: 100,
+                                                backgroundColor: confirmUpdate === true ? 'gold' : 'transparent',
                                                 borderWidth: 1,
-                                                borderColor: 'cyan'
+                                                borderColor: confirmUpdate === true ? 'gold' : 'cyan'
                                                 }} >
-                                            <Text style={{ color: 'cyan', fontSize: 16, textAlign: 'center'}}>Upload Media</Text>
+                                            <Text style={{ color: confirmUpdate === true ? '#000' : 'cyan', fontSize: 16, textAlign: 'center'}}>{confirmUpdate === true ? 'Hold to Confirm' : 'Update Story'}</Text>
                                         </View>
                                     </TouchableOpacity>
                             ) : null }
@@ -336,20 +373,22 @@ const EditAudio = ({navigation} : any) => {
                             ) : null}
 
                         </View>
-                        
-                    </View>
+                        </View>
+                    </ScrollView>
                 </Modal>
             </Portal>
 
-                         
-                <View style={{ marginTop: 50, marginHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
-                <AntDesign 
-                        name='close'
-                        size={25}
-                        color='#fff'
-                        onPress={ () => navigation.goBack()}
-                    /> 
+            <TouchableWithoutFeedback onPress={ () => navigation.goBack()}>
+                <View style={{padding: 30, margin: -30 }}>
+                    <AntDesign 
+                            name='close'
+                            size={25}
+                            color='#fff'
+                            style={{marginTop: 50, marginLeft: 20}} 
+                        /> 
                 </View>
+            </TouchableWithoutFeedback>
+                
                 <View style={{ alignItems: 'center'}}> 
                     <Text style={[styles.title, {marginBottom: 50}]}>
                         Edit Story
@@ -361,8 +400,7 @@ const EditAudio = ({navigation} : any) => {
                     <View style={[styles.inputfield, {height: 60}]}>
                         
                         <TextInput
-                            placeholder={Story?.title}
-                            placeholderTextColor='#ffffffa5'
+                            defaultValue={Story?.title}
                             style={styles.textInputTitle}
                             maxLength={50}
                             multiline={true}
@@ -387,13 +425,12 @@ const EditAudio = ({navigation} : any) => {
                     
                     <View style={styles.inputfield}>
                         <TextInput
-                            placeholder={Story?.summary}
-                                placeholderTextColor='#ffffffa5'
                             style={[styles.textInput, { height: 80 }]}
                             maxLength={300}
                             multiline={true}
                             numberOfLines={10}
                             onChangeText={val => setData({...data, summary: val})}
+                            defaultValue={Story?.summary}
                         />
                         <FontAwesome5 
                             name='check-circle'
@@ -413,13 +450,14 @@ const EditAudio = ({navigation} : any) => {
                     
                     <View style={styles.inputfield}>
                         <TextInput
-                            placeholder={Story?.description}
+                            //placeholder={Story?.description}
                             placeholderTextColor='#ffffffa5'
                             style={[styles.textInput, { height: 80 }]}
                             maxLength={300}
                             multiline={true}
                             numberOfLines={10}
                             onChangeText={val => setData({...data, description: val})}
+                            defaultValue={Story?.description}
                         />
                         <FontAwesome5 
                             name='check-circle'
@@ -536,7 +574,7 @@ const EditAudio = ({navigation} : any) => {
                                 </TouchableOpacity>
                             </View>
                         ))}
-                        </ScrollView>
+                    </ScrollView>
 
                     <View style={{ alignSelf: 'flex-start', flexDirection: 'row', marginBottom: 20, marginTop: 0, }}>
                         <TouchableOpacity>
@@ -564,6 +602,11 @@ const EditAudio = ({navigation} : any) => {
                             </View>
                         </TouchableOpacity>
                     </View>
+
+                    <Image 
+                        source={{uri: Story?.imageUri}}
+                        style={{marginVertical: 20, borderRadius: 15, width: Dimensions.get('window').width - 40, height: 200}}
+                    />
 
                     <Text style={styles.inputheader}>
                         Cover Art
@@ -634,6 +677,14 @@ title: {
 inputheader: {
     color: '#fff',
     fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 20,
+    marginBottom: 10,
+    alignSelf: 'flex-start'
+},
+inputheadermodal: {
+    color: 'gray',
+    fontSize: 18,
     fontWeight: 'bold',
     marginLeft: 20,
     marginBottom: 10,
