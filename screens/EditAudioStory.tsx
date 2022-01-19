@@ -29,8 +29,8 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import uuid from 'react-native-uuid';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { createStory, updateStory } from '../src/graphql/mutations';
-import { getUser, getStory } from '../src/graphql/queries';
+import { createTag, updateStory, createStoryTag } from '../src/graphql/mutations';
+import { listTags, getStory, listStoryTags } from '../src/graphql/queries';
 
 import genres  from '../data/dummygenre';
 
@@ -103,6 +103,59 @@ const EditAudio = ({navigation} : any) => {
         setIsLoaded(true);
     }
 
+//Tags flatlist, data, and functions
+
+    const clear = useRef()
+
+    const [TagsArray, setTagsArray] = useState([])
+
+    const [currentTags, setCurrentTags] = useState([])
+
+    const [tagText, setTagText] = useState('')
+
+    //get the current tags for the story
+    useEffect(() => {
+
+        const fetchTags = async () => {
+
+            let storytag = storyID
+    
+            let tags = []
+        
+              const result = await API.graphql(graphqlOperation(
+                listStoryTags, {
+                    filter: {
+                        storyID: {
+                            eq: storytag
+                        }
+                    }}
+              ))
+        
+              if (result) {
+                  for (let i = 0; i < result.data.listStoryTags.items.length; i++) {
+                      tags.push(result.data.listStoryTags.items[i].tag)
+                  }
+                setCurrentTags(tags)
+              }
+            }
+            fetchTags();
+    }, [storyID])
+
+    //add a new tag to the array
+    const AddToTagArray = () => {
+
+        let Tags = []
+
+        if (tagText.includes('#') || tagText === '') {
+            return;
+        } else {
+            Tags.push(...TagsArray, {id: TagsArray.length + 1, name: tagText});
+            setTagsArray(Tags)
+            clear.current.clear()
+            
+        }
+    }
+
 //update attributes for story
     const [isPublishing, setIsPublishing] = useState(false);
 
@@ -121,13 +174,13 @@ const EditAudio = ({navigation} : any) => {
             id: storyID
         }
 
-        if (data.title !== '' || Story.title) {
+        if (newData === true) {
             Object.assign(UpdateObject, {title: data.title})
         }
-        if (data.summary !== '' || Story.summary) {
+        if (newSumData === true) {
             Object.assign(UpdateObject, {summary: data.summary})
         }
-        if (data.description !== '' || Story.description) {
+        if (newDescData === true) {
             Object.assign(UpdateObject, {description: data.description})
         }
 
@@ -144,6 +197,39 @@ const EditAudio = ({navigation} : any) => {
                 } catch (e) {
                         console.error(e);
         }
+
+        //for each tag, check and see if the tag alreadyt exists
+        if (TagsArray.length > 0) {
+            for (let i = 0; i < TagsArray.length; i++) {
+                let tagCheck = await API.graphql(graphqlOperation(
+                    listTags, {filter: {tagName: {eq: TagsArray[i].name}}}
+                ))
+        //if the tag exists, create a StoryTag with the tagID and storyID
+                if (tagCheck.data.listTags.items.length === 1) {
+                    let addTag = await API.graphql(graphqlOperation(
+                        createStoryTag, {input: {tagID: tagCheck.data.listTags.items[0].id, storyID: storyID, }}
+                    ))
+                    console.log('addTag')
+                    console.log(addTag)
+        //if the tag does not exist, create the tag and then the StoryTag with the tagID and storyID
+                } else if (tagCheck.data.listTags.items.length === 0) {
+                    let newTag = await API.graphql(graphqlOperation(
+                        createTag, {input: {tagName: TagsArray[i].name}}
+                    ))
+                    if (newTag) {
+                        let makeStoryTag = await API.graphql(graphqlOperation(
+                            createStoryTag, {input: {tagID: newTag.data.createTag.id, storyID: storyID}}
+                        ))
+                        console.log('makestorytag')
+                        console.log(makeStoryTag)
+                    }
+                }
+
+            }
+        }
+        
+        //if it does not exists, create the Tag and then create a StoryTag with the tagID and and storyID
+
         setIsPublishing(false);
         setIsPublished(true);
         
@@ -204,27 +290,7 @@ const EditAudio = ({navigation} : any) => {
           }
       }
 
-//Tags flatlist, data, and functions
 
-    const clear = useRef()
-
-    const [TagsArray, setTagsArray] = useState([])
-
-    const [tagText, setTagText] = useState('')
-
-    const AddToTagArray = () => {
-
-        let Tags = []
-
-        if (tagText.includes('#') || tagText === '') {
-            return;
-        } else {
-            Tags.push(...TagsArray, {id: TagsArray.length + 1, name: tagText});
-            setTagsArray(Tags)
-            clear.current.clear()
-            
-        }
-    }
 
     //confirm state
     const [confirmUpdate, setConfirmUpdate] = useState(false)
@@ -531,7 +597,21 @@ const EditAudio = ({navigation} : any) => {
                         Tags
                     </Text>
 
-                    <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                    <ScrollView style={{width: Dimensions.get('window').width - 20, marginLeft: 10, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {currentTags.map(({ index, tagName } : any) => (
+                            <View key={index} style={{marginTop: 10, marginRight: 10}}>
+                                <TouchableOpacity>
+                                    <View style={{}}>
+                                        <Text style={styles.currenttagtext}>
+                                            #{tagName}
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        ))}
+                    </ScrollView>
+
+                    <ScrollView style={{width: Dimensions.get('window').width - 20, marginLeft: 10, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                         {TagsArray.map(({ index, name } : any) => (
                             <View key={index} style={{marginTop: 10, marginRight: 10}}>
                                 <TouchableOpacity>
@@ -706,6 +786,16 @@ tagbox: {
     fontSize: 14,
     backgroundColor: '#1A4851a5',
     borderColor: '#00ffffa5',
+    borderWidth: 0.5,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 20
+},
+currenttagtext: {
+    color: 'gray',
+    fontSize: 14,
+    backgroundColor: '#363636',
+    borderColor: 'gray',
     borderWidth: 0.5,
     paddingHorizontal: 16,
     paddingVertical: 6,

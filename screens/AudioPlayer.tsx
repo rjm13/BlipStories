@@ -151,9 +151,7 @@ const AudioPlayer  = ({navigation} : any) => {
         }, 2000);
       }
 
-      const [Tags, setTags] = useState([
-       
-      ])
+      const [Tags, setTags] = useState([])
 
       useEffect(() => {
 
@@ -173,8 +171,6 @@ const AudioPlayer  = ({navigation} : any) => {
                     }
                 }}
           ))
-
-          console.log("is is" + storyID)
     
           if (result) {
               for (let i = 0; i < result.data.listStoryTags.items.length; i++) {
