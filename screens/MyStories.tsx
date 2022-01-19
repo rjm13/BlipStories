@@ -15,20 +15,52 @@ import { LinearGradient } from 'expo-linear-gradient';
 import {StatusBar} from 'expo-status-bar';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { Modal, Portal, Provider } from 'react-native-paper';
 
 import { API, graphqlOperation, Auth } from "aws-amplify";
 import { getUser, listStories } from '../src/graphql/queries';
+import { deleteStory } from '../src/graphql/mutations';
 
 import { useNavigation } from '@react-navigation/native';
 
 import { AppContext } from '../AppContext';
 
 
+
+
 const MyStories = ({navigation} : any) => {
+
+    const [deleteID, setDeleteID] = useState(null);
+
+    const DeleteStory = async () => {
+
+        if(confirm !== true) {
+            return;
+        } else {
+            try {
+                const storyData = await API.graphql(graphqlOperation(
+                    deleteStory, {id: deleteID}))
+                console.log(storyData)
+            } catch (e) {
+                console.log(e);
+            }
+            setDidUpdate(!didUpdate);
+            hideModal();
+            setDeleteID(null)
+        }
+
+        
+    }
+
 
     const Item = ({id, title, genre, author, narrator} : any) => {
 
+     
+
     //const navigation = useNavigation();
+
+    //arrow state
+    const [optionsVisible, setOptionsVisible] = useState(false)
 
     return (
         <View>
@@ -69,20 +101,42 @@ const MyStories = ({navigation} : any) => {
                     </View>
 
                     <View style={{alignSelf: 'center'}}>
-                        <TouchableOpacity onPress={() => navigation.navigate('EditAudioStory', {storyID: id})}>
+                        <TouchableWithoutFeedback onPress={() => setOptionsVisible(!optionsVisible)}>
                             <View style={{alignItems: 'center', borderRadius: 20, height: 40,
-                                width: 40, justifyContent: 'center',backgroundColor: '#ffffff33'
+                                width: 40, justifyContent: 'center',
+                                //backgroundColor: '#ffffff33'
                             }}>
                                 <FontAwesome5 
-                                    name='chevron-right'
+                                    name={optionsVisible === true ? 'chevron-down' : 'chevron-right'}
                                     color='#ffffff'
                                     size={20}
                                 />
                             </View>
-                        </TouchableOpacity>
+                        </TouchableWithoutFeedback>
                     </View>
                     
                 </View> 
+                
+                {optionsVisible === true ? (
+                    <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around'}}>
+                        <TouchableWithoutFeedback onPress={() => {showModal(); setDeleteID(id)}}>
+                            <View style={{alignItems: 'center', marginTop: 20, width: 80, paddingVertical: 6, borderRadius: 20, backgroundColor: 'gray'}}>
+                                <Text style={{color: '#000'}}>
+                                    Delete
+                                </Text> 
+                            </View>
+                        </TouchableWithoutFeedback>
+
+                        <TouchableWithoutFeedback onPress={() => navigation.navigate('EditAudioStory', {storyID: id})}>
+                            <View style={{alignItems: 'center', marginTop: 20, width: 80, paddingVertical: 6, borderRadius: 20, backgroundColor: '#00ffffa5'}}>
+                                <Text style={{color: '#000'}}>
+                                    Edit
+                                </Text> 
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
+                ) : null}
+                
             </View>
         </View>
         )
@@ -157,74 +211,117 @@ const MyStories = ({navigation} : any) => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    return (
-        <View>
-            
-            <LinearGradient
-                colors={['#363636a5', '#363636a5', 'black']}
-                //style={styles.container}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-            >
-                
-                <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 20, alignItems: 'center'}}>
-                    <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-                        <View style={{padding: 30, margin: -30}}>
-                            <FontAwesome5 
-                                name='chevron-left'
-                                color='#fff'
-                                size={20}
-                                
-                            />
-                        </View>
-                    </TouchableWithoutFeedback>
-                    
-                    
-                    <Text style={styles.header}>
-                        My Stories
-                    </Text>
-                </View>
+    //Modal
+    const [visible, setVisible] = useState(false);
+  
+    const showModal = () => setVisible(true);
 
-                <View style={{height: '86%'}}>
-                    <FlatList 
-                        data={Stories}
-                        renderItem={renderItem}
-                        keyExtractor={item => item.id}
-                        extraData={Stories}
-                        refreshControl={
-                            <RefreshControl
-                            refreshing={isFetching}
-                            onRefresh={onRefresh}
-                            />
-                        }
-                        showsVerticalScrollIndicator={false}    
-                        ListFooterComponent={ () => {
-                            return (
-                                <View style={{ height:  70, alignItems: 'center'}}>
-                                    <Text style={{ color: 'white', margin: 20,}}>
-                                        
+    const hideModal = () => setVisible(false);
+    const containerStyle = {
+        backgroundColor: '#363636', 
+        margin: 20,
+        borderRadius: 15
+    };
+
+    const [confirm, setConfirm] = useState(false);
+
+    return (
+        <Provider>
+            <Portal>
+                <Modal visible={visible} onDismiss={() => {hideModal(); setConfirm(false); setDeleteID(null)}} contentContainerStyle={containerStyle}>
+                    <View style={{paddingHorizontal: 20, paddingVertical: 40, alignItems: 'center' }}>
+                        <Text style={{fontSize: 14, marginBottom: 20, textAlign: 'center', color: '#fff'}}>
+                            Once confirmed, this action cannot be undone and your story cannot be recovered!
+                        </Text>
+                        <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: '#fff', }}>
+                            Are you sure you want to permenantly delete this story?
+                        </Text>
+                        <View style={{marginTop: 40}}>
+                            <TouchableOpacity onPress={() => setConfirm(true)} onLongPress={DeleteStory}>
+                                <View style={{
+                                    borderWidth: 1, alignItems: 'center', paddingHorizontal: 20, paddingVertical: 6, borderRadius: 20, 
+                                    borderColor: confirm === true ? '#ff0000' : 'gray', 
+                                    backgroundColor: confirm === true ? '#ff0000' : 'transparent',
+                                    }}>
+                                    <Text style={{fontWeight: 'bold', color: confirm === true ? '#ffffff' : 'gray'}}>
+                                        {confirm === true ? 'Hold to Delete' : 'Yes, Delete'}
                                     </Text>
                                 </View>
-                        );}}
-                        ListEmptyComponent={ () => {
-                            return (
-                                <View style={{ height:  70, alignItems: 'center'}}>
-                                    {isLoading === true ? (
-                                    <View style={{margin: 30}}>
-                                        <ActivityIndicator size='small' color='cyan' />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+
+                </Modal>
+            </Portal>
+            <View>
+                
+                <LinearGradient
+                    colors={['#363636a5', '#363636a5', 'black']}
+                    //style={styles.container}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                >
+                    
+                    <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 20, alignItems: 'center'}}>
+                        <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+                            <View style={{padding: 30, margin: -30}}>
+                                <FontAwesome5 
+                                    name='chevron-left'
+                                    color='#fff'
+                                    size={20}
+                                    
+                                />
+                            </View>
+                        </TouchableWithoutFeedback>
+                        
+                        
+                        <Text style={styles.header}>
+                            My Stories
+                        </Text>
+                    </View>
+
+                    <View style={{height: '86%'}}>
+                        <FlatList 
+                            data={Stories}
+                            renderItem={renderItem}
+                            keyExtractor={item => item.id}
+                            extraData={Stories}
+                            refreshControl={
+                                <RefreshControl
+                                refreshing={isFetching}
+                                onRefresh={onRefresh}
+                                />
+                            }
+                            showsVerticalScrollIndicator={false}    
+                            ListFooterComponent={ () => {
+                                return (
+                                    <View style={{ height:  70, alignItems: 'center'}}>
+                                        <Text style={{ color: 'white', margin: 20,}}>
+                                            
+                                        </Text>
                                     </View>
-                                    ) : (
-                                    <Text style={{ color: 'white', margin: 20,}}>
-                                        There is nothing here! Tap the pin icon to add a story to your playlist.
-                                    </Text>
-                                    )}
-                                </View>
-                        );}}
-                    />
-                </View>
-            </LinearGradient>
-            <StatusBar style="light" />
-        </View>
+                            );}}
+                            ListEmptyComponent={ () => {
+                                return (
+                                    <View style={{ height:  70, alignItems: 'center'}}>
+                                        {isLoading === true ? (
+                                        <View style={{margin: 30}}>
+                                            <ActivityIndicator size='small' color='cyan' />
+                                        </View>
+                                        ) : (
+                                        <Text style={{ color: 'white', margin: 20,}}>
+                                            There is nothing here! Tap the pin icon to add a story to your playlist.
+                                        </Text>
+                                        )}
+                                    </View>
+                            );}}
+                        />
+                    </View>
+                </LinearGradient>
+                <StatusBar style="light" />
+            </View>
+        </Provider>
     );
 }
 
