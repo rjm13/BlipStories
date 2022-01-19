@@ -25,65 +25,23 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 import SearchStoriesList from '../components/SearchStoriesList';
 
+import { useRoute } from '@react-navigation/native';
+
 import { AppContext } from '../AppContext';
 
-import { listPinnedStories, listRatings, listStories, listTags } from '../src/graphql/queries';
+import { listPinnedStories, listRatings, listStoryTags, listTags } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
-const SearchScreen = ({navigation} : any) => {
+const TagSearchScreen = ({navigation} : any) => {
 
-  //search function states
-    const [newSearch, setNewSearch] = useState();
+    const route = useRoute();
+    const {mainTag, tagName} = route.params
+
 
     //search function trigger that refreshes the search results
     const [didUpdate, setDidUpdate] = useState(false);
 
-    //focus the keyboard only on initial render
-    const focus = useRef(null)
-
-    useEffect(() => {
-      focus.current.focus()
-    }, [])
-
-  //this is the search bar
-    function SearchBar () {
-
-        const [searchQuery, setSearchQuery] = useState('');
-
-        const onChangeSearch = (query : any)  => setSearchQuery(query); 
-
-        return (
-          <View>
-            <Searchbar
-              placeholder={'Search Stories, Tags'}
-              placeholderTextColor='#000000a5'
-              autoComplete={true}
-              onChangeText={onChangeSearch}
-              onIconPress={() => {setNewSearch(searchQuery); setDidUpdate(!didUpdate); }}
-              onSubmitEditing={() => {setNewSearch(searchQuery); setDidUpdate(!didUpdate);}}
-              value={searchQuery}
-              ref={focus}
-              maxLength={20}
-              icon={() => {return(
-                <FontAwesome5 
-                  name='search'
-                  color='#000000a5'
-                  size={18}
-                />)}}
-              iconColor='#000000a5'
-              style={{
-                height: 35,
-                marginLeft: 40,
-                borderRadius: 8,
-                backgroundColor: '#e0e0e0',
-                width: Dimensions.get('window').width - 100 
-              }}
-              inputStyle={{fontSize: 16,}}
-            />
-          </View>
-        );
-      };
 
       //this is the rendered search result item
       const Item = ({title, genre, summary, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
@@ -371,97 +329,57 @@ const SearchScreen = ({navigation} : any) => {
     //primary data set of searched stories for the flatlist
     const [searchedStories, setSearchedStories] = useState([])
 
-    //array of tags that show from search results
-    const [TagsArray, setTagsArray] = useState([]);
-
-    useEffect(() => {
-
-        //let tags = []
-
-        const fetchTags = async () => {
-            const tagResults = await API.graphql(graphqlOperation(
-                listTags, {
-                    filter: {
-                        tagName: {
-                            contains: newSearch
-                        }
-                    }
-                }
-            ))
-            setTagsArray(tagResults.data.listTags.items)
-        }
-        fetchTags();
-    },[didUpdate])
-
     //on render, get the user and then list the following connections for that user
     useEffect(() => {
 
       const fetchStories = async () => {
 
-            //let tags = []
+            let stories = []
 
-          if (newSearch.length > 2 ) {
+            try {
+                const searchResults = await API.graphql(graphqlOperation(
+                    listStoryTags, {filter: {
+                            tagID: {
+                                eq: mainTag
+                            }
+                        }
+                    }))
 
-          try {
+                if (searchResults.data.listStoryTags.items.length > 0) {
+                    for(let i = 0; i < searchResults.data.listStoryTags.items.length; i++) {
+                        stories.push(searchResults.data.listStoryTags.items[i].story)
+                    }
+                }
+            
+                console.log(searchResults.data.listStoryTags.items)
 
-              const searchResults = await API.graphql(graphqlOperation(
-                  listStories, {
-                      filter: {
-                        or: [
-                          {title: {
-                              contains: newSearch
-                          }},
-                          {summary: {
-                            contains: newSearch
-                            }}
-                        ]
-                      }
-              }))
+                setSearchedStories(stories)
 
-            //   const tagResults = await API.graphql(graphqlOperation(
-            //       listTags, {
-            //           filter: {
-            //               contains: newSearch
-            //           }
-            //       }
-            //   ))
+                // setSearchedStories(searchResults.data.getTag.stories.items);
+                // console.log('render is')
+                // console.log(searchResults.data.getTag.stories.items)
 
-              setSearchedStories(searchResults.data.listStories.items);
-
-            //   if (tagResults.data.listTags.items > 0) {
-            //     //   for(let i = 0; i < tagResults.data.listTags.items.length; i++) {
-            //     //     tags.push(tagResults.data.listTags.items[i].tagName)
-            //     //   }
-            //     setTagsArray(tags);   
-            //   }
-
-            //setTagsArray(tagResults.data.listTags.items)
-              
-
-          } catch (e) {
-          console.log(e);
-        }
-      } else {
-        return;
-      }
+            } catch (e) {
+                console.log(e);
+            }
     }
-         fetchStories(); 
+    fetchStories(); 
     
     }, [didUpdate])
 
     const renderItem = ({ item } : any) => (
 
       <Item 
-        title={item.title}
-        imageUri={item.imageUri}
-        genre={item.genre}
-        audioUri={item.audioUri}
-        summary={item.summary}
-        author={item.author}
-        narrator={item.narrator}
-        time={item.time}
-        id={item.id}
-        nsfw={item.nsfw}
+        title={item?.title}
+        imageUri={item?.imageUri}
+        genre={item?.genre}
+        audioUri={item?.audioUri}
+        summary={item?.summary}
+        author={item?.author}
+        narrator={item?.narrator}
+        time={item?.time}
+        id={item?.id}
+        nsfw={item?.nsfw}
         //liked={item.liked}
         //rating={item.rating}
       />
@@ -475,7 +393,7 @@ const SearchScreen = ({navigation} : any) => {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         >
-          <View style={{marginTop: 40, marginBottom: 10, marginHorizontal: 20}}>
+          <View style={{marginTop: 60, marginBottom: 10, marginHorizontal: 30}}>
             <View style={{ flexDirection: 'row', alignItems: 'center'}}>
                 <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
                   <View style={{padding: 30, margin: -30}}>
@@ -487,7 +405,11 @@ const SearchScreen = ({navigation} : any) => {
                   </View>
                 </TouchableWithoutFeedback>
                 
-                <SearchBar />
+                <View style={{marginLeft: 40}}>
+                    <Text style={{color: 'cyan', fontSize: 22 }}>
+                        #{tagName}
+                    </Text>
+                </View>
                 
             </View>
             <View style={{ flexDirection: 'row'}}>
@@ -501,7 +423,7 @@ const SearchScreen = ({navigation} : any) => {
               <FlatList 
                 data={searchedStories}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
+                keyExtractor={(item, index) => item + index.toString()}
                 extraData={searchedStories}
                 // refreshControl={
                 //     <RefreshControl
@@ -523,34 +445,9 @@ const SearchScreen = ({navigation} : any) => {
                 ListHeaderComponent={ () => {
                     return (
                         <View style={{}}>
-                            {TagsArray.length > 0 ? (
-                                <View>
-                                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white', margin: 20,}}>
-                                        Tags
-                                    </Text>
-                                    <View>
-                                        <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                                            {TagsArray.map(({ index, tagName, id } : any) => (
-                                                <View key={index} style={{marginTop: 10, marginRight: 10}}>
-                                                    <TouchableOpacity onPress={() => navigation.navigate('TagSearchScreen', {mainTag: id, tagName: tagName})}>
-                                                        <View style={{}}>
-                                                            <Text style={styles.tagtext}>
-                                                                #{tagName}
-                                                            </Text>
-                                                        </View>
-                                                    </TouchableOpacity>
-                                                </View>
-                                            ))}
-                                        </ScrollView>
-                                    </View>
-                                </View>
-                            ) : null}
-                            {searchedStories.length > 0? (
-                                <Text style={{ width: Dimensions.get('window').width-40, fontSize: 18, fontWeight: 'bold', color: 'white', margin: 20,}}>
-                                    Stories
-                                </Text>
-                            ) : null}
-                            
+                            <Text style={{ width: Dimensions.get('window').width-40, fontSize: 18, fontWeight: 'bold', color: 'white', margin: 20,}}>
+                                Stories
+                            </Text>
                         </View>
                 );}}
                 ListEmptyComponent={ () => {
@@ -665,4 +562,4 @@ tagtext: {
 },
 });
 
-export default SearchScreen;
+export default TagSearchScreen;
