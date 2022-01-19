@@ -71,10 +71,10 @@ const EditAudio = ({navigation} : any) => {
 
     //text data input state holders. Will be sent to aws
     const [data, setData] = useState({
-        title: '',
-        summary: '',
-        description: '',
-        imageUri: '',
+        title: Story.title,
+        summary: Story.summary,
+        description: Story.description,
+        imageUri: Story.Uri,
     });
 
     const [localImageUri, setLocalImageUri] = useState('');
@@ -103,34 +103,51 @@ const EditAudio = ({navigation} : any) => {
         setIsLoaded(true);
     }
 
-//upload audio object to graphql database
+//update attributes for story
     const [isPublishing, setIsPublishing] = useState(false);
 
     const [isPublished, setIsPublished] = useState(false);
 
     const PublishStory = async () => {
 
-        console.log(pendingImageState);
+        if (confirmUpdate === false) {
+            return;
+        }
 
         setIsPublishing(true);
         setData({...data, imageUri: pendingImageState});
-        console.log(data);
+
+        let UpdateObject = {
+            id: storyID
+        }
+
+        if (data.title !== '' || Story.title) {
+            Object.assign(UpdateObject, {title: data.title})
+        }
+        if (data.summary !== '' || Story.summary) {
+            Object.assign(UpdateObject, {summary: data.summary})
+        }
+        if (data.description !== '' || Story.description) {
+            Object.assign(UpdateObject, {description: data.description})
+        }
+
 
         try {
             let result = await API.graphql(
-                    graphqlOperation(updateStory, { input: 
-                        {
-                            title: data.title,
-                            description: data.description,
-                            imageUri: pendingImageState,
-                        }
+                    graphqlOperation(updateStory, { input: UpdateObject
                     }))
+                if (result) {
+                    hideModal();
+                    navigation.navigate("MyStories")
+                }
                         console.log(result);
                 } catch (e) {
                         console.error(e);
         }
         setIsPublishing(false);
         setIsPublished(true);
+        
+        
     }
 
 
@@ -163,11 +180,6 @@ const EditAudio = ({navigation} : any) => {
         }
     };
   
-
-
-//Toggle Switch
-      const [isSwitchOn, setIsSwitchOn] = useState(false);
-      const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
   
 //Modal
       const [visible, setVisible] = useState(false);
@@ -217,6 +229,12 @@ const EditAudio = ({navigation} : any) => {
     //confirm state
     const [confirmUpdate, setConfirmUpdate] = useState(false)
 
+    //new data states
+    const [newData, setNewData] = useState(false);
+    const [newSumData, setNewSumData] = useState(false);
+    const [newDescData, setNewDescData] = useState(false);
+
+
 
   return (
     <Provider>
@@ -225,154 +243,105 @@ const EditAudio = ({navigation} : any) => {
 
             <Portal>
                 <Modal visible={visible} onDismiss={() => {hideModal(); setConfirmUpdate(false)}} contentContainerStyle={containerStyle}>
-                    <ScrollView style={{ height: 600, paddingHorizontal: 10,  backgroundColor: '#363636', borderRadius: 15,}}>
-                        <View style={{marginVertical: 40}}>
+                    <ScrollView style={{  height: 610, paddingHorizontal: 10,  backgroundColor: '#363636', borderRadius: 15}}>
+                        <View style={{height: 540, marginTop: 40, justifyContent: 'space-between'}}>
+                            <View>
+                                {data.title !== '' ? (
+                                    <View style={{marginBottom: 20,}}>
+                                        <Text style={styles.inputheadermodal}>
+                                            Title
+                                        </Text>
+                                        <Text style={{marginHorizontal: 20, color: '#ffffff', fontWeight: 'bold', textTransform: 'capitalize'}}>
+                                        {data.title}
+                                        </Text>   
+                                    </View>
+                                ) : null}
 
-                    {data.title !== '' ? (
-                        <View style={{marginBottom: 20,}}>
-                            <Text style={styles.inputheadermodal}>
-                                Title
-                            </Text>
-                            <Text style={{marginHorizontal: 20, color: '#ffffff', fontWeight: 'bold', textTransform: 'capitalize'}}>
-                            {data.title}
-                            </Text>   
-                        </View>
-                    ) : null}
+                                {data.summary !== '' ? (
+                                    <View style={{marginBottom: 20}}>
+                                        <Text style={styles.inputheadermodal}>
+                                            Summary
+                                        </Text>
+                                        <Text style={{marginHorizontal: 20, color: '#ffffff'}}>
+                                        {data.summary}
+                                        </Text>   
+                                    </View>
+                                ) : null}
 
-                    {data.summary !== '' ? (
-                        <View style={{marginBottom: 20}}>
-                            <Text style={styles.inputheadermodal}>
-                                Summary
-                            </Text>
-                            <Text style={{marginHorizontal: 20, color: '#ffffff'}}>
-                            {data.summary}
-                            </Text>   
-                        </View>
-                    ) : null}
-                    
+                                {data.description !== '' ? (
+                                    <View style={{marginBottom: 20}}>
+                                        <Text style={styles.inputheadermodal}>
+                                            Description
+                                        </Text>
+                                        <Text style={{marginHorizontal: 20, color: '#ffffff'}}>
+                                            {data.description}
+                                        </Text>   
+                                    </View>
+                                ) : null}
 
-                    {data.description !== '' ? (
-                        <View style={{marginBottom: 20}}>
-                            <Text style={styles.inputheadermodal}>
-                                Description
-                            </Text>
-                            <Text style={{marginHorizontal: 20, color: '#ffffff'}}>
-                                {data.description}
-                            </Text>   
-                        </View>
-                    ) : null}
+                                {TagsArray.length > 0 ? (
+                                <View style={{marginBottom: 20}}>
+                                    <Text style={styles.inputheadermodal}>
+                                        Tags
+                                    </Text>
 
-                    {TagsArray.length > 0 ? (
-                    <View style={{marginBottom: 20}}>
-                        <Text style={styles.inputheadermodal}>
-                            Tags
-                        </Text>
-
-                        <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                            {TagsArray.map(({ index, name } : any) => (
-                                <View key={index} style={{marginTop: 10, marginRight: 10}}>
-                                    <TouchableOpacity>
-                                        <View style={{}}>
-                                            <Text style={styles.tagtext}>
-                                                #{name}
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
+                                    <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                                        {TagsArray.map(({ index, name } : any) => (
+                                            <View key={index} style={{marginTop: 10, marginRight: 10}}>
+                                                <TouchableOpacity>
+                                                    <View style={{}}>
+                                                        <Text style={styles.tagtext}>
+                                                            #{name}
+                                                        </Text>
+                                                    </View>
+                                                </TouchableOpacity>
+                                            </View>
+                                        ))}
+                                    </ScrollView>
                                 </View>
-                            ))}
-                        </ScrollView>
-                    </View>
-                    ) : null}
+                                ) : null}
 
-                    {localImageUri !== '' ? (
-                        <View style={{marginBottom: 20}}>
-                            <Text style={styles.inputheadermodal}>
-                                Cover Art
-                            </Text>
-                            <Image 
-                                source={{ uri: localImageUri}}
-                                resizeMode='contain'
-                                style={{ 
-                                    marginVertical: 10,
-                                    height: 120,
-                                    borderRadius: 15,
-                                }} 
-                                />
-                        </View>
-                    ) : null}
-                    
-                    
-                    
-                        <View style={{ width: '100%', alignItems: 'center'}}>
-                            {!isLoading && !isLoaded? (
-                                <TouchableOpacity
-                                        style={{marginBottom: 20,}}
-                                        onPress={() => setConfirmUpdate(true)}
-                                        onLongPress={() => {confirmUpdate === true ? UploadToS3 : null}}
-                                        >
-                                        <View
+                                {localImageUri !== '' ? (
+                                    <View style={{marginBottom: 20}}>
+                                        <Text style={styles.inputheadermodal}>
+                                            Cover Art
+                                        </Text>
+                                        <Image 
+                                            source={{ uri: localImageUri}}
+                                            resizeMode='contain'
                                             style={{ 
-                                                paddingHorizontal: 20,
-                                                paddingVertical: 10,
-                                                borderRadius: 20,
-                                                backgroundColor: confirmUpdate === true ? 'gold' : 'transparent',
-                                                borderWidth: 1,
-                                                borderColor: confirmUpdate === true ? 'gold' : 'cyan'
-                                                }} >
-                                            <Text style={{ color: confirmUpdate === true ? '#000' : 'cyan', fontSize: 16, textAlign: 'center'}}>{confirmUpdate === true ? 'Hold to Confirm' : 'Update Story'}</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                            ) : null }
-
-                            {isLoading ? (<ActivityIndicator size="large" color="#ffffff"/>) : null }
-
-                            {isLoaded && !isPublishing && !isPublished && !isLoading ? (
-                                <TouchableOpacity
-                                    style={{ 
-                                        marginBottom: 20,
-                                    }}
-                                    onPress={PublishStory}>
-                                    <LinearGradient
-                                        colors={['cyan', 'cyan']}
-                                        style={{ 
-                                            paddingHorizontal: 20,
-                                            paddingVertical: 10,
-                                            borderRadius: 20,
-                                            width: 100,
-                                            }} >
-                                        <Text style={{ color: 'black', fontSize: 16, textAlign: 'center'}}>Publish</Text>
-                                    </LinearGradient>
-                                </TouchableOpacity>
-                            ) : null }
+                                                marginVertical: 10,
+                                                height: 120,
+                                                borderRadius: 15,
+                                            }} 
+                                            />
+                                    </View>
+                                ) : null}
+                            </View>
                             
-                            {isLoaded && isPublishing ? (<ActivityIndicator size="large" color="#ffffff"/>) : null}
-                            
-                            {isPublished ? (
-                                <TouchableOpacity
-                                style={{ 
-                                    marginBottom: 20,
-                                }}
-                                onPress={() => navigation.navigate('Root', { screen: 'HomeScreen'})}
-                                >
-                                <LinearGradient
-                                    colors={['cyan', 'cyan']}
-                                    style={{ 
-                                        paddingHorizontal: 20,
-                                        paddingVertical: 10,
-                                        borderRadius: 20,
-                                        width: 120,
-                                        alignItems: 'center'
-                                        }} >
-                                    <FontAwesome5 
-                                        name='check'
-                                        color='#363636'
-                                        size={20}
-                                    />
-                                </LinearGradient>
-                            </TouchableOpacity>
-                            ) : null}
-
-                        </View>
+                            <View style={{width: '100%', alignItems: 'center'}}>
+                                {isPublishing === false ? (
+                                    <TouchableOpacity
+                                            style={{marginBottom: 20}}
+                                            onPress={() => setConfirmUpdate(true)}
+                                            onLongPress={PublishStory}
+                                            >
+                                            <View
+                                                style={{ 
+                                                    paddingHorizontal: 20,
+                                                    paddingVertical: 10,
+                                                    borderRadius: 20,
+                                                    backgroundColor: confirmUpdate === true ? 'gold' : 'transparent',
+                                                    borderWidth: 1,
+                                                    borderColor: confirmUpdate === true ? 'gold' : 'cyan'
+                                                    }} >
+                                                <Text style={{ color: confirmUpdate === true ? '#000' : 'cyan', fontSize: 16, textAlign: 'center'}}>
+                                                    {confirmUpdate === true ? 'Hold to Confirm' : 'Update Story'}
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                ) : <ActivityIndicator size="large" color="#ffffff"/> }
+                            </View>
                         </View>
                     </ScrollView>
                 </Modal>
@@ -405,11 +374,11 @@ const EditAudio = ({navigation} : any) => {
                             maxLength={50}
                             multiline={true}
                             numberOfLines={2}
-                            onChangeText={val => setData({...data, title: val})}
+                            onChangeText={val => {setData({...data, title: val}); setNewData(true)}}
                         />
                         <FontAwesome5 
                             name='check-circle'
-                            color={data.title !== '' ? 'cyan' : '#363636'}
+                            color={newData === true ? 'cyan' : '#363636'}
                             size={20}
                         />
                     </View>
@@ -419,22 +388,22 @@ const EditAudio = ({navigation} : any) => {
                             Summary
                         </Text>
                         <Text style={{marginBottom: 10, fontSize: 12, alignSelf: 'flex-end', color: '#ffffffa5', marginLeft: 10,}}>
-                           (100 max characters)
+                           (150 max characters)
                         </Text>
                     </View>
                     
                     <View style={styles.inputfield}>
                         <TextInput
                             style={[styles.textInput, { height: 80 }]}
-                            maxLength={300}
+                            maxLength={150}
                             multiline={true}
                             numberOfLines={10}
-                            onChangeText={val => setData({...data, summary: val})}
+                            onChangeText={val => {setData({...data, summary: val}); setNewSumData(true)}}
                             defaultValue={Story?.summary}
                         />
                         <FontAwesome5 
                             name='check-circle'
-                            color={data.summary !== '' ? 'cyan' : '#363636'}
+                            color={newSumData === true ? 'cyan' : '#363636'}
                             size={20}
                         />
                     </View>
@@ -444,7 +413,7 @@ const EditAudio = ({navigation} : any) => {
                             Description
                         </Text>
                         <Text style={{marginBottom: 10, fontSize: 12, alignSelf: 'flex-end', color: '#ffffffa5', marginLeft: 10,}}>
-                           (1200 max characters)
+                           (400 max characters)
                         </Text>
                     </View>
                     
@@ -452,16 +421,16 @@ const EditAudio = ({navigation} : any) => {
                         <TextInput
                             //placeholder={Story?.description}
                             placeholderTextColor='#ffffffa5'
-                            style={[styles.textInput, { height: 80 }]}
-                            maxLength={300}
+                            style={[styles.textInput, { height: 200 }]}
+                            maxLength={400}
                             multiline={true}
-                            numberOfLines={10}
-                            onChangeText={val => setData({...data, description: val})}
+                            numberOfLines={40}
+                            onChangeText={val => {setData({...data, description: val}); setNewDescData(true)}}
                             defaultValue={Story?.description}
                         />
                         <FontAwesome5 
                             name='check-circle'
-                            color={data.description !== '' ? 'cyan' : '#363636'}
+                            color={newDescData === true ? 'cyan' : '#363636'}
                             size={20}
                         />
                     </View>
