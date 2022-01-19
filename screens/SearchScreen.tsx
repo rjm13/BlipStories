@@ -10,7 +10,8 @@ import {
     TouchableOpacity, 
     Image, 
     TextInput,
-    Keyboard
+    Keyboard,
+    ScrollView
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native'
@@ -26,7 +27,7 @@ import SearchStoriesList from '../components/SearchStoriesList';
 
 import { AppContext } from '../AppContext';
 
-import { listPinnedStories, listRatings, listStories } from '../src/graphql/queries';
+import { listPinnedStories, listRatings, listStories, listTags } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
@@ -55,7 +56,7 @@ const SearchScreen = ({navigation} : any) => {
         return (
           <View>
             <Searchbar
-              placeholder={'Search Stories'}
+              placeholder={'Search Stories, Tags'}
               placeholderTextColor='#000000a5'
               autoComplete={true}
               onChangeText={onChangeSearch}
@@ -370,10 +371,34 @@ const SearchScreen = ({navigation} : any) => {
     //primary data set of searched stories for the flatlist
     const [searchedStories, setSearchedStories] = useState([])
 
+    //array of tags that show from search results
+    const [TagsArray, setTagsArray] = useState([]);
+
+    useEffect(() => {
+
+        //let tags = []
+
+        const fetchTags = async () => {
+            const tagResults = await API.graphql(graphqlOperation(
+                listTags, {
+                    filter: {
+                        tagName: {
+                            contains: newSearch
+                        }
+                    }
+                }
+            ))
+            setTagsArray(tagResults.data.listTags.items)
+        }
+        fetchTags();
+    },[didUpdate])
+
     //on render, get the user and then list the following connections for that user
     useEffect(() => {
 
       const fetchStories = async () => {
+
+            //let tags = []
 
           if (newSearch.length > 2 ) {
 
@@ -393,7 +418,25 @@ const SearchScreen = ({navigation} : any) => {
                       }
               }))
 
+            //   const tagResults = await API.graphql(graphqlOperation(
+            //       listTags, {
+            //           filter: {
+            //               contains: newSearch
+            //           }
+            //       }
+            //   ))
+
               setSearchedStories(searchResults.data.listStories.items);
+
+            //   if (tagResults.data.listTags.items > 0) {
+            //     //   for(let i = 0; i < tagResults.data.listTags.items.length; i++) {
+            //     //     tags.push(tagResults.data.listTags.items[i].tagName)
+            //     //   }
+            //     setTagsArray(tags);   
+            //   }
+
+            //setTagsArray(tagResults.data.listTags.items)
+              
 
           } catch (e) {
           console.log(e);
@@ -479,9 +522,31 @@ const SearchScreen = ({navigation} : any) => {
                 );}}
                 ListHeaderComponent={ () => {
                     return (
-                        <View style={{ height:  20, alignItems: 'center'}}>
-                            <Text style={{ color: 'white', margin: 20,}}>
-                                
+                        <View style={{}}>
+                            {TagsArray.length > 0 ? (
+                                <View>
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white', margin: 20,}}>
+                                        Tags
+                                    </Text>
+                                    <View>
+                                        <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                                            {TagsArray.map(({ index, tagName } : any) => (
+                                                <View key={index} style={{marginTop: 10, marginRight: 10}}>
+                                                    <TouchableOpacity>
+                                                        <View style={{}}>
+                                                            <Text style={styles.tagtext}>
+                                                                #{tagName}
+                                                            </Text>
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                </View>
+                                            ))}
+                                        </ScrollView>
+                                    </View>
+                                </View>
+                            ) : null}
+                            <Text style={{ width: Dimensions.get('window').width-40, fontSize: 18, fontWeight: 'bold', color: 'white', margin: 20,}}>
+                                Stories
                             </Text>
                         </View>
                 );}}
@@ -584,7 +649,16 @@ category: {
     //fontStyle: 'italic',
     marginVertical: 3,
     textTransform: 'capitalize'
-
+},
+tagtext: {
+    color: 'cyan',
+    fontSize: 14,
+    backgroundColor: '#1A4851a5',
+    borderColor: '#00ffffa5',
+    borderWidth: 0.5,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 20
 },
 });
 

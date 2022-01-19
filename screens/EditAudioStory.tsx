@@ -227,13 +227,8 @@ const EditAudio = ({navigation} : any) => {
 
             }
         }
-        
-        //if it does not exists, create the Tag and then create a StoryTag with the tagID and and storyID
-
         setIsPublishing(false);
         setIsPublished(true);
-        
-        
     }
 
 
