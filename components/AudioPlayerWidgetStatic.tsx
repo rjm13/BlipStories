@@ -23,8 +23,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import * as Animatable from 'react-native-animatable';
-import {graphqlOperation, API, Storage} from 'aws-amplify';
-import { getStory } from '../src/graphql/queries';
+import {graphqlOperation, API, Storage, Auth} from 'aws-amplify';
+import { getStory, listPinnedStories, listRatings } from '../src/graphql/queries';
+import { createPinnedStory, deletePinnedStory } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
 import * as RootNavigation from '../navigation/RootNavigation';
@@ -217,29 +218,121 @@ const AudioPlayer  = () => {
         setStory(null);
     }
 
-//like state
-    const [isLiked, setIsLiked] = useState(false);
+//add a story to the pinned playlist function
+    const PinStory = async () => {
 
-    const onLikePress = () => {
-        if ( isLiked === false ) {
-            setIsLiked(true);
+        let userInfo = await Auth.currentAuthenticatedUser();
+    
+        let createPin = await API.graphql(graphqlOperation(
+            createPinnedStory, {input: {userID: userInfo.attributes.sub, storyID: storyID}}
+        ))
+        console.log(createPin)
+    }
+
+//on render, determine if the story in alraedy pinned or not
+    useEffect(() => {
+        const fetchPin = async () => {
+
+            const userInfo = await Auth.currentAuthenticatedUser();
+
+            try {
+                let getPin = await API.graphql(graphqlOperation(
+                    listPinnedStories, {
+                        filter: {
+                            userID: {
+                                eq: userInfo.attributes.sub
+                            },
+                            storyID: {
+                                eq: storyID
+                            }
+                        }
+                    }
+                ))
+
+                if (getPin.data.listPinnedStories.items.length === 1) {
+                    setQd(true);
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
-        if ( isLiked === true ) {
-            setIsLiked(false);
-        }  
-    };
+        fetchPin();
+    }, [storyID])
 
-//queueing the story
+//unpin a story
+    const unPinStory = async () => {
+
+        let userInfo = await Auth.currentAuthenticatedUser();
+
+        let getPin = await API.graphql(graphqlOperation(
+            listPinnedStories, {
+                filter: {
+                    userID: {
+                        eq: userInfo.attributes.sub
+                    },
+                    storyID: {
+                        eq: storyID
+                    }
+                }
+            }
+        ))
+        console.log(getPin)
+        
+        let connectionID = getPin.data.listPinnedStories.items[0].id
+        console.log(connectionID)
+
+        let deleteConnection = await API.graphql(graphqlOperation(
+            deletePinnedStory, {id: connectionID}
+        ))
+        console.log(deleteConnection)
+    }
+
+
+//queueing the item state when pressed
     const [isQ, setQd] = useState(false);
-
+        
     const onQPress = () => {
         if ( isQ === false ) {
             setQd(true);
+            PinStory()
         }
         if ( isQ === true ) {
             setQd(false);
+            unPinStory();
         }  
     };
+
+//calculate the average user rating for a story
+const [AverageUserRating, setAverageUserRating] = useState(0);
+
+useEffect(() => {
+
+    let Average = []
+
+    const fetchRating = async () => {
+
+        let RatingAvg = await API.graphql(graphqlOperation(
+            listRatings, {filter: {
+                storyID: {
+                    eq: storyID
+                }
+            }}
+        ))
+
+        if (RatingAvg.data.listRatings.items.length > 0) {
+            for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
+                Average.push(RatingAvg.data.listRatings.items[i].rating) 
+            }
+            setAverageUserRating(
+                Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
+            )
+        }
+    }
+    fetchRating();
+}, [storyID])
+
+
+
 
 //slider functions
     function SetPosition(value) {
@@ -488,7 +581,7 @@ const AudioPlayer  = () => {
                                                 {Story?.genre}
                                             </Text>
                                             <Text style={{fontSize: 18, color: 'gold', fontWeight: 'bold' }}>
-                                                69 %
+                                                {AverageUserRating}%
                                             </Text>
                                         </View>
                                     </View>
