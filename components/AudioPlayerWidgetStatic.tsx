@@ -1,52 +1,62 @@
 import React, {useState, useEffect, useRef, useContext} from 'react';
-import {Text, View, StyleSheet, Dimensions, ImageBackground, Animated, TouchableOpacity, PanResponder, Image, ScrollView } from 'react-native';
+import {
+    Text, 
+    View, 
+    StyleSheet, 
+    Dimensions, 
+    ImageBackground, 
+    Animated, 
+    TouchableOpacity, 
+    TouchableWithoutFeedback,
+    PanResponder, 
+    Image, 
+    ScrollView 
+} from 'react-native';
+
 import { Audio } from 'expo-av';
 import Slider from '@react-native-community/slider';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import * as Animatable from 'react-native-animatable';
-import { useRoute } from '@react-navigation/native';
 import {graphqlOperation, API, Storage} from 'aws-amplify';
 import { getStory } from '../src/graphql/queries';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import { AppContext } from '../AppContext';
+import * as RootNavigation from '../navigation/RootNavigation';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-function useInterval(callback, delay) {
-    const savedCallback = useRef();
-    
-    // Remember the latest callback.
-    useEffect(() => {
-        savedCallback.current = callback;
-    }, [callback]);
-    
-    // Set up the interval.
-    useEffect(() => {
-        let id = setInterval(() => {
-        savedCallback.current();
-        }, delay);
-        return () => clearInterval(id);
-    }, [delay]);
+
+//custom hook for setting the time on the slider
+    function useInterval(callback, delay) {
+        const savedCallback = useRef();
+        
+        // Remember the latest callback.
+        useEffect(() => {
+            savedCallback.current = callback;
+        }, [callback]);
+        
+        // Set up the interval.
+        useEffect(() => {
+            let id = setInterval(() => {
+            savedCallback.current();
+            }, delay);
+            return () => clearInterval(id);
+        }, [delay]);
     }
+
 
 const AudioPlayer  = () => {
 
 //get context for storyID
-const { storyID } = useContext(AppContext);
-const { setStoryID } = useContext(AppContext);
-
-
-
-
+    const { storyID } = useContext(AppContext);
+    const { setStoryID } = useContext(AppContext);
 
 //minimize the player with animations
     const [isExpanded, setIsExpanded] = useState(true);
@@ -149,37 +159,32 @@ const { setStoryID } = useContext(AppContext);
         extrapolate: 'clamp',
     });
 
-//recieve story ID as props
-
-// const route = useRoute();
-// const {storyID} = route.params;
-
 //use storyID to retrieve Story from AWS
-const [Story, setStory] = useState(null);
-const [AudioUri, setAudioUri] = useState('');
+    const [Story, setStory] = useState(null);
+    const [AudioUri, setAudioUri] = useState('');
 
-useEffect(() => {
+//fetch the story attributes and audioUri from the s3 bucket
+    useEffect(() => {
 
-    const fetchStory = async () => {
-      
-      try {
-        const storyData = await API.graphql(graphqlOperation(
-          getStory, {id: storyID}))
-          if (storyData) {
-            setStory(storyData.data.getStory);
-            const response = await Storage.get(storyData.data.getStory.audioUri, {download: false, expiration: 604800});
-            setAudioUri(response);
-            console.log(AudioUri);
-            setPosition(0);
-          }
-      } catch (e) {
-        console.log(e);
-      }
-    }
+        const fetchStory = async () => {
+        
+            try {
+                const storyData = await API.graphql(graphqlOperation(getStory, {id: storyID}))
 
-    fetchStory();
+                if (storyData) {
+                    setStory(storyData.data.getStory);
+                    const response = await Storage.get(storyData.data.getStory.audioUri, {download: false, expiration: 604800});
+                    setAudioUri(response);
+                    setPosition(0);
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        }
 
-  }, [storyID])
+        fetchStory();
+
+    }, [storyID])
 
 //background colors for the genre indicator
     const Colors = {
@@ -199,18 +204,18 @@ useEffect(() => {
         }
 
 //audio player
-const [sound, setSound] = useState();
+    const [sound, setSound] = useState();
 
-const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
 
-const [position, setPosition] = useState(0); //position in milliseconds
+    const [position, setPosition] = useState(0); //position in milliseconds
 
-const [slideLength, setSlideLength] = useState(0); //slide length
+    const [slideLength, setSlideLength] = useState(0); //slide length
 
-const onClose = () => {
-    setStoryID(null);
-    setStory(null);
-}
+    const onClose = () => {
+        setStoryID(null);
+        setStory(null);
+    }
 
 //like state
     const [isLiked, setIsLiked] = useState(false);
@@ -297,7 +302,6 @@ const onClose = () => {
         }
       }, 1000);
     
-
     useEffect(() => {
         return sound
         ? () => {
@@ -313,108 +317,100 @@ const onClose = () => {
 
     return (
 
-    <View>
-        <Animated.View
-            style={{
-            height: animatedImageHeight,
-            width: animatedImageWidth,
-            //marginLeft: animatedImageMarginLeft,
-            position: 'absolute',
-            bottom: 460,
-            }}>
-            <ImageBackground
+        <View>
+            <Animated.View
                 style={{
-                    flex: 1,
-                    width: null,
-                    height: null,
-                    backgroundColor: '#363636'
-                }}
-                source={{uri: Story?.imageUri}}
-            >
-            { isExpanded === false ? (
-                <Animated.View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'space-between', marginHorizontal: 20}}>
-                    <TouchableOpacity onPress={onClose}>
-                        <Animated.View style={ [styles.button, {left: -20}]}>
-                            <AntDesign 
-                                name='close'
-                                size={22}
-                                color='#fff'
-                                style={{
-                                    
-                                }}
-                            />
-                        </Animated.View>
-                    </TouchableOpacity>
-                    
-                    <View style={{ }}>
-                        <Animated.View style={ [styles.button, {right: -20}]}>
-                            <FontAwesome 
-                                name={isLiked ? 'star' : 'star-o'}
-                                size={22}
-                                color={isLiked ? 'gold' : 'white'}
-                                onPress={onLikePress}
-                                style={{ }}
-                            />
-                        </Animated.View>
-                        <Animated.View style={ [styles.button, {right: -20}]}>
-                            <AntDesign 
-                                name={isQ ? 'pushpin' : 'pushpino'}
-                                size={22}
-                                color={isQ ? 'cyan' : 'white'}
-                                onPress={onQPress}
-                                style={{ }}
-                            />
-                        </Animated.View>
-                        <Animated.View style={ [styles.button, {right: -20}]}>
-                            <FontAwesome 
-                                name='commenting-o'
-                                size={22}
-                                color='white'
-                                //onPress={}
-                                style={{ }}
-                            />
-                        </Animated.View>
-                        <Animated.View style={ [styles.button, {right: -20}]}>
-                            <FontAwesome 
-                                name='share'
-                                size={22}
-                                color='white'
-                                //onPress={}
-                                style={{ }}
-                            />
-                        </Animated.View>
-                    </View>  
-                </Animated.View>
-            ) : null } 
-            </ImageBackground>
-        </Animated.View>
-
-        <Animated.View
-          style={[
-            animatedHeight,
-            {
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              bottom: animatedBottom,
-              //zIndex: 10,
-              height: animatedBoxHeight,
-              borderTopRightRadius: 15,
-              borderTopLeftRadius: 15,
-            },
-          ]}>
-                <LinearGradient 
-                    colors={[isExpanded ? '#171c2b' : '#3b4b80', isExpanded ? '#171c2b' : '#000', isExpanded ? '#171c2bD9' : '#000']}
-                    style={{ borderTopRightRadius: 15, borderTopLeftRadius: 15, flex: 1}}
-                    start={{ x: 0, y: 1 }}
-                    end={{ x: 0, y: 0 }}
+                height: animatedImageHeight,
+                width: animatedImageWidth,
+                position: 'absolute',
+                bottom: 460,
+                }}>
+                <ImageBackground
+                    style={{
+                        flex: 1,
+                        width: null,
+                        height: null,
+                        backgroundColor: '#363636'
+                    }}
+                    source={{uri: Story?.imageUri}}
                 >
+                { isExpanded === false ? (
+                    <Animated.View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'space-between', marginHorizontal: 20}}>
+                        <View>
+                           <TouchableOpacity onPress={onClose}>
+                                <Animated.View style={ [styles.button, {left: -20}]}>
+                                    <AntDesign 
+                                        name='close'
+                                        size={22}
+                                        color='#fff'
+                                    />
+                                </Animated.View>
+                            </TouchableOpacity>
 
-                    
+                            <TouchableOpacity onPress={onChangeHandler}>
+                                <Animated.View style={ [styles.button, {left: -20}]}>
+                                    <FontAwesome5 
+                                        name='chevron-down'
+                                        size={22}
+                                        color='#fff'
+                                    />
+                                </Animated.View>
+                            </TouchableOpacity> 
+                        </View>
+                        
+                        
+                        <View>
+                            
+                            <Animated.View style={ [styles.button, {right: -20}]}>
+                                <AntDesign 
+                                    name={isQ ? 'pushpin' : 'pushpino'}
+                                    size={22}
+                                    color={isQ ? 'cyan' : 'white'}
+                                    onPress={onQPress}
+                                    style={{ }}
+                                />
+                            </Animated.View>
+                            
+                            <Animated.View style={ [styles.button, {right: -20}]}>
+                                <FontAwesome 
+                                    name='share'
+                                    size={22}
+                                    color='white'
+                                    //onPress={}
+                                    style={{ }}
+                                />
+                            </Animated.View>
+                        </View>  
+                    </Animated.View>
+                ) : null } 
+                </ImageBackground>
+            </Animated.View>
+
+            <Animated.View
+                style={[
+                    animatedHeight, {
+                        position: 'absolute',
+                        left: 0,
+                        right: 0,
+                        bottom: animatedBottom,
+                        //zIndex: 10,
+                        height: animatedBoxHeight,
+                        borderTopRightRadius: 15,
+                        borderTopLeftRadius: 15,
+                    },
+                ]}>
+                    <LinearGradient 
+                        colors={[isExpanded ? '#171c2b' : '#3b4b80', isExpanded ? '#171c2b' : '#000', isExpanded ? '#171c2bD9' : '#000']}
+                        style={{ borderTopRightRadius: 15, borderTopLeftRadius: 15, flex: 1}}
+                        start={{ x: 0, y: 1 }}
+                        end={{ x: 0, y: 0 }}
+                    >
                         <Animated.View style={{ height: animatedHeaderHeightSmall, flexDirection: 'row', alignItems: 'center', }}>
                             { isExpanded === true ? (
                                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
-                                    <TouchableWithoutFeedback onPress={onChangeHandler}>
+                                    <TouchableWithoutFeedback 
+                                        onPress={onChangeHandler}
+                                    >
                                         <Animated.Text
                                             style={{
                                                 opacity: animatedSongTitleOpacity,
@@ -425,127 +421,127 @@ const onClose = () => {
                                             {Story?.title}
                                         </Animated.Text>
                                     </TouchableWithoutFeedback>
-                                        <Animated.View
-                                            style={{
-                                                opacity: animatedSongTitleOpacity,
-                                        }}>
+                                        <Animated.View style={{opacity: animatedSongTitleOpacity,}}>
                                             <FontAwesome5 
-                                                    name={isPlaying === true ? 'pause' : 'play'}
-                                                    color='#ffffffCC'
-                                                    size={20}
-                                                    style={{ paddingHorizontal: 40,}}
-                                                    onPress={PlayPause}
+                                                name={isPlaying === true ? 'pause' : 'play'}
+                                                color='#ffffffCC'
+                                                size={20}
+                                                style={{ paddingHorizontal: 40,}}
+                                                onPress={PlayPause}
                                             />
                                         </Animated.View>
                                     </View> 
                             ) : null } 
                         </Animated.View>
-                    
-{/* Expanded View elements */}
-            <Animated.View
-                style={{
-                    height: animatedHeaderHeightMinimized,
-                    opacity: animatedSongDetailsOpacity,
-            }}>
-                { isExpanded === false ? (
-                    <View style={{ justifyContent: 'space-between', height: '60%'}}>
-                        <View>
-                            <TouchableWithoutFeedback onPress={onChangeHandler}>
-                                <View style={{ alignItems: 'center',  marginHorizontal: 40, marginVertical: 20, }}>
-                                    <Text style={{ fontWeight: 'bold', fontSize: 22, color: '#fff' }}>
-                                        {Story?.title}
-                                    </Text>
+                        
+    {/* Expanded View elements */}
+                <Animated.View
+                    style={{
+                        height: animatedHeaderHeightMinimized,
+                        opacity: animatedSongDetailsOpacity,
+                    }}>
+                    { isExpanded === false ? (
+                        <View style={{ justifyContent: 'space-between', height: '60%'}}>
+                            <View>
+                                <TouchableWithoutFeedback 
+                                    onPress={
+                                        () => {RootNavigation.navigate('AudioPlayer', { storyID: storyID });
+                                        onChangeHandler();}
+                                    }>
+                                    <View style={{ alignItems: 'center',  marginHorizontal: 40, marginVertical: 20, }}>
+                                        <Text style={{ fontWeight: 'bold', fontSize: 22, color: '#fff' }}>
+                                            {Story?.title}
+                                        </Text>
 
-                                    <View style={{ width: '100%', flexDirection: 'row', marginTop: 10,justifyContent: 'space-between'}}>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                                            <FontAwesome5 
-                                                name='book-open'
-                                                color='#ffffffCC'
-                                                size={15}
-                                                style={{ marginRight: 10}}
-                                            />
-                                            <Text style={styles.username}>
-                                                {Story?.writer}
-                                            </Text>
+                                        <View style={{ width: '100%', flexDirection: 'row', marginTop: 10,justifyContent: 'space-between'}}>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+                                                <FontAwesome5 
+                                                    name='book-open'
+                                                    color='#ffffffCC'
+                                                    size={15}
+                                                    style={{ marginRight: 10}}
+                                                />
+                                                <Text style={styles.username}>
+                                                    {Story?.author}
+                                                </Text>
+                                            </View>
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+                                                <FontAwesome5 
+                                                    name='book-reader'
+                                                    color='#ffffffCC'
+                                                    size={15}
+                                                    style={{ marginRight: 10}}
+                                                />
+                                                <Text style={styles.username}>
+                                                    {Story?.narrator}
+                                                </Text>
+                                            </View>
                                         </View>
+                                    </View>  
+                                </TouchableWithoutFeedback>
 
-                                        <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                                            <FontAwesome5 
-                                                name='book-reader'
-                                                color='#ffffffCC'
-                                                size={15}
-                                                style={{ marginRight: 10}}
-                                            />
-                                            <Text style={styles.username}>
-                                                {Story?.narrator}
+                                <View style={{ alignItems: 'center', marginHorizontal: 20}}>
+                                    <View style={{marginTop: 10,}}>
+                                        <View style={[{flexDirection: 'row', justifyContent: 'space-between', width: 300}]}>
+                                            <Text style={[Colors, { fontSize: 16, textTransform: 'capitalize' }]}>
+                                                {Story?.genre}
+                                            </Text>
+                                            <Text style={{fontSize: 18, color: 'gold', fontWeight: 'bold' }}>
+                                                69 %
                                             </Text>
                                         </View>
                                     </View>
-                                </View>  
-                            </TouchableWithoutFeedback>
-
-                            <View style={{ alignItems: 'center', marginHorizontal: 20}}>
-                                <View style={{marginTop: 10,}}>
-                                    <View style={[{flexDirection: 'row', justifyContent: 'space-between', width: 300}]}>
-                                        <Text style={[Colors, { fontSize: 16, textTransform: 'capitalize' }]}>
-                                            {Story?.genre}
-                                        </Text>
-                                        <Text style={{fontSize: 18, color: 'gold', fontWeight: 'bold' }}>
-                                            69 %
+                                    <View style={{ height: 100, marginTop: 30 }}>
+                                        <Text style={styles.highlight}>
+                                            {Story?.summary}
                                         </Text>
                                     </View>
                                 </View>
-                                <ScrollView style={{ height: 140, marginTop: 10 }}>
-                                    <Text style={styles.highlight}>
-                                        {Story?.description}
+                            </View>
+                            
+                            <View>
+                                <View style={{alignSelf: 'center' }}>
+                                    <FontAwesome5 
+                                        name={isPlaying === true ? 'pause' : 'play'}
+                                        color='#ffffffCC'
+                                        size={50}
+                                        onPress={PlayPause}
+                                    />
+                                </View>
+
+                                <View style={{ marginTop: 20, width: '90%', alignSelf: 'center', flexDirection: 'row', justifyContent: 'space-between',}}>
+                                    <Text style={{ fontSize: 18, marginBottom: 5, textAlign: 'center', color: 'white'}}>
+                                        {millisToMinutesAndSeconds()}
                                     </Text>
-                                </ScrollView>
-                                
+                                    <Text style={{ fontSize: 18, marginBottom: 5, textAlign: 'center', color: 'white'}}>
+                                        {convertToTime()}
+                                    </Text>
+                                </View>
+
+                                <View style={{ alignItems: 'center'}}>
+                                    <Slider
+                                        style={{width: 320, height: 10}}
+                                        minimumTrackTintColor="cyan"
+                                        maximumTrackTintColor="#ffffffa5"
+                                        thumbTintColor='#fff'
+                                        //tapToSeek={true}
+                                        value={position}
+                                        step={1000}
+
+                                        minimumValue={0}
+                                        maximumValue={slideLength} //function set to the length of the audio file
+                                        onValueChange={SetPosition} //function: when slider changes, slider value = SetPosition
+                                        onSlidingComplete={StoryPosition}
+                                    />
+                                </View>
                             </View>
                         </View>
-                        
-                        <View>
-                            <View style={{alignSelf: 'center' }}>
-                                <FontAwesome5 
-                                    name={isPlaying === true ? 'pause' : 'play'}
-                                    color='#ffffffCC'
-                                    size={50}
-                                    onPress={PlayPause}
-                                />
-                            </View>
-
-                            <View style={{ marginTop: 20, width: '90%', alignSelf: 'center', flexDirection: 'row', justifyContent: 'space-between',}}>
-                                <Text style={{ fontSize: 18, marginBottom: 5, textAlign: 'center', color: 'white'}}>
-                                    {millisToMinutesAndSeconds()}
-                                </Text>
-                                <Text style={{ fontSize: 18, marginBottom: 5, textAlign: 'center', color: 'white'}}>
-                                    {convertToTime()}
-                                </Text>
-                            </View>
-
-                            <View style={{ alignItems: 'center'}}>
-                                <Slider
-                                    style={{width: 320, height: 10}}
-                                    minimumTrackTintColor="cyan"
-                                    maximumTrackTintColor="#ffffffa5"
-                                    thumbTintColor='#fff'
-                                    //tapToSeek={true}
-                                    value={position}
-                                    step={1000}
-
-                                    minimumValue={0}
-                                    maximumValue={slideLength} //function set to the length of the audio file
-                                    onValueChange={SetPosition} //function: when slider changes, slider value = SetPosition
-                                    onSlidingComplete={StoryPosition}
-                                />
-                            </View>
-                        </View>
-                    </View>
-                ) : null } 
-            </Animated.View>
-          </LinearGradient>
+                    ) : null } 
+                </Animated.View>
+            </LinearGradient>
         </Animated.View>
-      </View>
+    </View>
     );
 }
 

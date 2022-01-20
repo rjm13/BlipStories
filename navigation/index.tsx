@@ -48,6 +48,7 @@ export default function Navigation(
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+      ref={navigationRef}
       >
       <RootNavigator />
     </NavigationContainer>

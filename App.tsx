@@ -7,6 +7,7 @@ import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 //import Navigation from '/Users/rjm/ShortStories/navigation';
 import Navigation from './navigation'
+import { navigationRef } from './navigation/RootNavigation';
 
 import Amplify from '@aws-amplify/core';
 import config from './src/aws-exports';
