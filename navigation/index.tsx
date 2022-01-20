@@ -20,6 +20,7 @@ import SignInScreen from '../screens/auth/SignIn';
 import ForgotPasswordScreen from '../screens/auth/ForgotPassword';
 import ForgotPasswordConScreen from '../screens/auth/ForgotPasswordCon';
 import ConfirmEmailScreen from '../screens/auth/ConfirmEmail';
+import TagSearchScreen from '../screens/TagSearchScreen';
 
 import ModalNavigator from '../navigation/ModalNavigator';
 import AudioPlayerWidgetStatic from '../components/AudioPlayerWidgetStatic';
@@ -99,6 +100,8 @@ function RootNavigator() {
       <Stack.Screen name="AudioPlayer" component={AudioPlayer} options={{ title: 'Oops!' }} />
       <Stack.Screen name="Redirect" component={RedirectScreen} />
       <Stack.Screen name="EditAudioStory" component={EditAudioStory} />
+      <Stack.Screen name="TagSearchScreen" component={TagSearchScreen} options={{ headerShown: false }}
+      />
 
       {/* <Stack.Screen name="Drawer" component={DrawerNavigator} options={{ title: 'Oops!' }} /> */}
 

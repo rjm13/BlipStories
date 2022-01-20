@@ -16,6 +16,7 @@ export type RootStackParamList = {
   SimpleAudioPlayer: undefined;
   Terms: undefined;
   EditAudioStory: undefined;
+  TagSearchScreen: undefined;
 };
 
 export type BottomTabParamList = {
@@ -47,7 +48,6 @@ export type TabTwoParamList = {
   BrowseNarrator: undefined;
   GenreHome: undefined;
   SearchScreen: undefined;
-  TagSearchScreen: undefined;
 };
 
 export type TabThreeParamList = {

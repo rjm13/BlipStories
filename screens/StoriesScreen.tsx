@@ -9,78 +9,44 @@ import {
   Image,
   FlatList,
   ScrollView } 
-  from 'react-native';
-
-import EditScreenInfo from '../components/EditScreenInfo';
+from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Feather from 'react-native-vector-icons/Feather';
-import Ionicon from 'react-native-vector-icons/Ionicons';
 import {LinearGradient} from 'expo-linear-gradient';
 
 import genres  from '../data/dummygenre';
-import {useNavigation} from '@react-navigation/native';
 
-import { listPinnedStories, listRatings, listStories, listTags } from '../src/graphql/queries';
-import { deletePinnedStory } from '../src/graphql/mutations';
+import { listTags } from '../src/graphql/queries';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
-import { setStatusBarBackgroundColor } from 'expo-status-bar';
+
 
 const AudioStoryHome = ({navigation} : any) => {
 
   const Item = ({genre, icon, iconcolor, boxcolor, source} : any) => {
 
-    const navigation = useNavigation();
-
     return (
-        <TouchableWithoutFeedback onPress = {() => navigation.navigate('GenreHome', {genre: genre})}>
+      <TouchableWithoutFeedback onPress = {() => navigation.navigate('GenreHome', {genre: genre})}>
         <View style={[styles.genrebox, {flexDirection: 'row', }]}>
-            
             <Image
-                source={{ uri: source}}
-                style={{
-                    width: '40%',
-                    height: '100%',
-                    borderRadius: 15,
-                    position: 'absolute',
-                    backgroundColor: 'blue',
-                    left: 192
-                }}
-                //imageStyle={{ borderRadius: 15, resizeMode: 'contain',}}
+              source={{ uri: source}}
+              style={{width: '40%', height: '100%', borderRadius: 15, position: 'absolute', backgroundColor: 'gray', left: 192}}
             />
-                <LinearGradient 
+              <LinearGradient 
                 colors={[boxcolor, boxcolor, boxcolor, boxcolor + '99']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
-                style={[styles.genrebox]}>
-                        {/* <View style={{ 
-                            borderBottomLeftRadius: 15, 
-                            borderTopLeftRadius: 15,
-                            backgroundColor: '#000000a5',
-                            padding: 5,
-                            height: 60,
-                            width: 80,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}>
-                            <FontAwesome5 
-                                name={icon}
-                                color={iconcolor}
-                                size={25}
-                            />
-                        </View> */}
-                
-                    <Text style={styles.genre}>
-                    {genre}
-                    </Text>
-                </LinearGradient>
-        </View>
+                style={[styles.genrebox]}
+              >
+                <Text style={styles.genre}>
+                  {genre}
+                </Text>
+              </LinearGradient>
+          </View>
         </TouchableWithoutFeedback>
     );
   }
     
   const renderItem = ({ item } : any) => (
-
     <Item 
         genre={item.genre}
         icon={item.icon}
@@ -90,49 +56,25 @@ const AudioStoryHome = ({navigation} : any) => {
     />
   );
 
-  const [tags, setTags] = useState([
-    {
-      id: 1,
-      tag: '#HarryPotter'
-    },
-    {
-      id: 2,
-      tag: "#ShakespeareSpinOf"
-    },
-    {
-      id: 3,
-      tag: "#1920s"
-    },
-    {
-      id: 4,
-      tag: "#Martians"
-    },
-    {
-      id: 5,
-      tag: "#Explorers"
-    }
-  ])
+  const [tags, setTags] = useState([])
 
-  //list the most popular tags
+//list the most popular tags
   useEffect(() => {
 
     const fetchTags = async () => {
+      
+      const result = await API.graphql(graphqlOperation(listTags, {limit: 8}))
 
-      const result = await API.graphql(graphqlOperation(
-        listTags, {}
-      ))
-
-      if (result) {
-        setTags(result.data.listTags.items)
-      }
+      if (result) {setTags(result.data.listTags.items)}
     }
     fetchTags();
   }, [])
 
+//tag item
   const Tag = ({id, tag}: any) => {
     return (
       <View style={{marginTop: 14}}>
-        <TouchableOpacity onPress={() => navigation.navigate('BrowseAuthor')}>
+        <TouchableOpacity onPress={() => navigation.navigate('TagSearchScreen', {mainTag: id, tagName: tag})}>
             <View style={[styles.tagbox]}>
                 <Text style={styles.tagtext}>
                     #{tag}
@@ -143,15 +85,15 @@ const AudioStoryHome = ({navigation} : any) => {
     )
   }
 
+  //render the tag item for flatlist
   const renderTag = ({ item } : any) => (
-
     <Tag 
         id={item.id}
         tag={item.tagName}
     />
   );
 
-
+//return the primary function
     return (
         <View >
           <LinearGradient
@@ -232,51 +174,11 @@ const AudioStoryHome = ({navigation} : any) => {
                                     <FlatList 
                                       data={tags}
                                       renderItem={renderTag}
-                                      keyExtractor={item => item.id}
+                                      keyExtractor={(item) => item.id}
                                       scrollEnabled={false}
-                                      maxToRenderPerBatch={6}
                                       showsVerticalScrollIndicator={false}
                                       style={{flexDirection: 'row', flexWrap: 'wrap', width: Dimensions.get('window').width - 20, marginBottom: 20}}
                                     />
-
-
-
-                                    {/* <View style={{ flexDirection: 'row',  marginBottom: 10, marginTop: 10}}>
-
-                                        <TouchableOpacity onPress={() => navigation.navigate('BrowseAuthor')}>
-                                            <View style={[styles.tagbox]}>
-                                                <Text style={styles.tagtext}>
-                                                    Browse
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
-
-                                        <TouchableOpacity onPress={() => navigation.navigate('BrowseNarrator')}>
-                                            <View style={[styles.tagbox]}>
-                                                <Text style={styles.tagtext}>
-                                                Featured
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View style={{ flexDirection: 'row', marginBottom: 20}}>
-
-                                        <TouchableOpacity onPress={() => navigation.navigate('BrowseAuthor')}>
-                                            <View style={[styles.tagbox]}>
-                                                <Text style={styles.tagtext}>
-                                                    Browse
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
-
-                                        <TouchableOpacity onPress={() => navigation.navigate('BrowseNarrator')}>
-                                            <View style={[styles.tagbox]}>
-                                                <Text style={styles.tagtext}>
-                                                Featured
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    </View> */}
                                   </View>
                                 </View>
 
@@ -299,7 +201,7 @@ const AudioStoryHome = ({navigation} : any) => {
                 />
               </View>
             </View>
-            </ScrollView>
+          </ScrollView>
         </LinearGradient>
       </View>
     );

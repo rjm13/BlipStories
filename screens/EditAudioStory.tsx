@@ -11,13 +11,11 @@ import {
     TouchableWithoutFeedback, 
     ScrollView, 
     Dimensions,
-    FlatList,
 } from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import {LinearGradient} from 'expo-linear-gradient';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import { Audio } from 'expo-av';
@@ -25,51 +23,42 @@ import { Audio } from 'expo-av';
 import { useRoute } from '@react-navigation/native';
 
 import { Modal, Portal, Provider } from 'react-native-paper';
-import ModalDropdown from 'react-native-modal-dropdown';
 import uuid from 'react-native-uuid';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { createTag, updateStory, createStoryTag } from '../src/graphql/mutations';
 import { listTags, getStory, listStoryTags } from '../src/graphql/queries';
 
-import genres  from '../data/dummygenre';
-
 
 const EditAudio = ({navigation} : any) => {  
     
-    //recieve story ID as props
-
+//recieve story ID as props
     const route = useRoute();
     const {storyID} = route.params;
 
-    //set the current user
+//set the current story
     const [Story, setStory] = useState({})
 
-    //get the user
+//get the story
     useEffect(() => {
-
         const fetchStory = async () => {
         
         try {
-            const storyData = await API.graphql(graphqlOperation(
-            getStory, {id: storyID}))
-            if (storyData) {
-                setStory(storyData.data.getStory);
-                
-                console.log(Story);
-            }
+            const storyData = await API.graphql(graphqlOperation(getStory, {id: storyID}))
+
+            if (storyData) {setStory(storyData.data.getStory);}
+
         } catch (e) {
             console.log(e);
         }}
 
         fetchStory();
-
     }, [storyID])
 
-//audio object
+//image uri from s3 bucket
     const [pendingImageState, setPendingImageState] = useState('');
 
-    //text data input state holders. Will be sent to aws
+//text data input state holders. Will be sent to aws
     const [data, setData] = useState({
         title: Story.title,
         summary: Story.summary,
@@ -77,7 +66,8 @@ const EditAudio = ({navigation} : any) => {
         imageUri: Story.Uri,
     });
 
-    const [localImageUri, setLocalImageUri] = useState('');
+//placeholder for the local image uri
+const [localImageUri, setLocalImageUri] = useState('');
 
 //upload audio and image to s3
     const [isLoading, setIsLoading] = useState(false);
@@ -113,7 +103,7 @@ const EditAudio = ({navigation} : any) => {
 
     const [tagText, setTagText] = useState('')
 
-    //get the current tags for the story
+//get the current tags for the story
     useEffect(() => {
 
         const fetchTags = async () => {
@@ -141,7 +131,7 @@ const EditAudio = ({navigation} : any) => {
             fetchTags();
     }, [storyID])
 
-    //add a new tag to the array
+//add a new tag to the array
     const AddToTagArray = () => {
 
         let Tags = []
@@ -150,9 +140,8 @@ const EditAudio = ({navigation} : any) => {
             return;
         } else {
             Tags.push(...TagsArray, {id: TagsArray.length + 1, name: tagText});
-            setTagsArray(Tags)
-            clear.current.clear()
-            
+            setTagsArray(Tags);
+            clear.current.clear();
         }
     }
 
@@ -209,7 +198,6 @@ const EditAudio = ({navigation} : any) => {
                     let addTag = await API.graphql(graphqlOperation(
                         createStoryTag, {input: {tagID: tagCheck.data.listTags.items[0].id, storyID: storyID, }}
                     ))
-                    console.log('addTag')
                     console.log(addTag)
         //if the tag does not exist, create the tag and then the StoryTag with the tagID and storyID
                 } else if (tagCheck.data.listTags.items.length === 0) {
@@ -220,7 +208,6 @@ const EditAudio = ({navigation} : any) => {
                         let makeStoryTag = await API.graphql(graphqlOperation(
                             createStoryTag, {input: {tagID: newTag.data.createTag.id, storyID: storyID}}
                         ))
-                        console.log('makestorytag')
                         console.log(makeStoryTag)
                     }
                 }
@@ -228,7 +215,6 @@ const EditAudio = ({navigation} : any) => {
             }
         }
         setIsPublishing(false);
-        setIsPublished(true);
     }
 
 
@@ -285,12 +271,10 @@ const EditAudio = ({navigation} : any) => {
           }
       }
 
-
-
-    //confirm state
+    //user confirms state to update attributes
     const [confirmUpdate, setConfirmUpdate] = useState(false)
 
-    //new data states
+    //new data states to check if new data has ben entered or changed
     const [newData, setNewData] = useState(false);
     const [newSumData, setNewSumData] = useState(false);
     const [newDescData, setNewDescData] = useState(false);
@@ -496,98 +480,6 @@ const EditAudio = ({navigation} : any) => {
                         />
                     </View>
 
-                    {/* <Text style={styles.inputheader}>
-                        Genre *
-                    </Text>
-                    <View style={{ 
-                            width: '90%', 
-                            marginBottom: 20, 
-                            backgroundColor: '#363636a5',
-                            marginHorizontal: 20,
-                            paddingVertical: 20,
-                            paddingHorizontal: 20,
-                            borderRadius: 10,
-                            justifyContent: 'space-between',
-                            flexDirection: 'row',
-                            }}>
-                        <ModalDropdown 
-                        options={Genre}
-                        defaultValue='Select Genre...'
-                        defaultTextStyle={{ color: '#ffffffa5'}}
-                        onSelect={(val) => ConvertToString(val)}
-                        style={{ 
-                        }}
-                        textStyle={{ color: 'cyan', fontSize: 14, textTransform: 'capitalize',}}
-                        dropdownStyle={{ 
-                            backgroundColor: '#363636', 
-                            width: '80%', 
-                            borderWidth: 0,
-                            borderRadius: 15,
-                            height: 280,
-                            marginTop: 10
-                        }}
-                        dropdownTextStyle={{ 
-                            backgroundColor: 'transparent',
-                            color: '#fff',
-                            fontSize: 14,
-                            paddingHorizontal: 20,
-                            paddingVertical: 15,
-                            textTransform: 'capitalize',
-                            
-                        }}
-                        dropdownTextHighlightStyle={{
-                            color: 'cyan'
-                        }}
-                        />
-                        <FontAwesome5 
-                            name='check-circle'
-                            color={data.genre !== '' ? 'cyan' : '#363636'}
-                            size={20}
-                        /> */}
-
-                    {/* </View> */}
-
-                    {/* <Text style={styles.inputheader}>
-                        Author *
-                    </Text>
-                    <View style={[styles.inputfield, {height: 60}]}>
-                        <TextInput
-                            //placeholder={Story?.title}
-                            placeholderTextColor='#ffffffa5'
-                            style={styles.textInputTitle}
-                            maxLength={50}
-                            multiline={true}
-                            numberOfLines={2}
-                            onChangeText={val => setData({...data, writer: val})}
-                            //defaultValue={!!user ? user?.pseudonym : 'Annonymous'}
-                        />
-                        <FontAwesome5 
-                            name='check-circle'
-                            color={data.writer !== '' ? 'cyan' : '#363636'}
-                            size={20}
-                        />
-                    </View> */}
-
-                    {/* <Text style={styles.inputheader}>
-                        Narrator *
-                    </Text>
-                    <View style={[styles.inputfield, {height: 60}]}>
-                        <TextInput
-                            placeholder='....'
-                                placeholderTextColor='#ffffffa5'
-                            style={styles.textInputTitle}
-                            maxLength={50}
-                            multiline={true}
-                            numberOfLines={2}
-                            onChangeText={val => setData({...data, narrator: val})}
-                        />
-                        <FontAwesome5 
-                            name='check-circle'
-                            color={data.narrator !== '' ? 'cyan' : '#363636'}
-                            size={20}
-                        />
-                    </View> */}
-
                     <Text style={styles.inputheader}>
                         Tags
                     </Text>
@@ -632,7 +524,6 @@ const EditAudio = ({navigation} : any) => {
                                     numberOfLines={1}
                                     ref={clear}
                                     onChangeText={val => setTagText(val)}
-                                    //defaultValue={!!user ? user?.pseudonym : 'Annonymous'}
                                 />
                             </View>
                         </TouchableOpacity>
@@ -649,7 +540,7 @@ const EditAudio = ({navigation} : any) => {
 
                     <Image 
                         source={{uri: Story?.imageUri}}
-                        style={{marginVertical: 20, borderRadius: 15, width: Dimensions.get('window').width - 40, height: 200}}
+                        style={{backgroundColor: 'gray', marginVertical: 20, borderRadius: 15, width: Dimensions.get('window').width - 40, height: 200}}
                     />
 
                     <Text style={styles.inputheader}>

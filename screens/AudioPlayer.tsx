@@ -36,44 +36,40 @@ import { AppContext } from '../AppContext';
 
 const AudioPlayer  = ({navigation} : any) => {
 
-    //recieve story ID as props
-
+//recieve story ID as props
     const route = useRoute();
     const {storyID} = route.params;
 
-    //use storyID to retrieve Story from AWS
+//use storyID to retrieve Story from AWS
     const [Story, setStory] = useState();
     const [AudioUri, setAudioUri] = useState('');
 
-    //send context to audio player
+//send context to audio player
     const { setStoryID } = useContext(AppContext);
 
+//set global state context to the storyID to play the story
     const onPlay = () => {
         setStoryID(storyID);
     }
 
+//get the story attributes using the storyID
     useEffect(() => {
-
         const fetchStory = async () => {
-        
-        try {
-            const storyData = await API.graphql(graphqlOperation(
-            getStory, {id: storyID}))
-            if (storyData) {
-                setStory(storyData.data.getStory);
-                //const response = await Storage.get(storyData.data.getStory.audioUri, {download: false, expiration: 604800});
-                //setAudioUri(response);
-                //setTags(storyData.data.getStory.tags.items)
-                console.log(Story);
-            }
-        } catch (e) {
-            console.log(e);
-        }}
+            try {
+                const storyData = await API.graphql(graphqlOperation(getStory, {id: storyID}))
 
+                if (storyData) {setStory(storyData.data.getStory);
+                    //const response = await Storage.get(storyData.data.getStory.audioUri, {download: false, expiration: 604800});
+                    //setAudioUri(response);
+                }
+            } catch (e) {
+                console.log(e);
+            }}
         fetchStory();
-
     }, [storyID])
 
+
+//set the colors for the different genres
     const Colors = {
         borderColor: 
             Story?.genre === 'adventure' ? '#27d995' :
@@ -104,8 +100,7 @@ const AudioPlayer  = ({navigation} : any) => {
             '#ffffffa5',
         }
 
-
-//like state
+//rating state (if rated or not)
     const [isLiked, setIsLiked] = useState(false);
     
     const onLikePress = () => {
@@ -116,7 +111,6 @@ const AudioPlayer  = ({navigation} : any) => {
             setIsLiked(false);
         }  
     };
-
 
 //scrolling annimation
     const animation = useRef(new Animated.Value(0)).current;
@@ -169,7 +163,9 @@ const AudioPlayer  = ({navigation} : any) => {
                             storytag
                         
                     }
-                }}
+                },
+                limit: 12
+            }
           ))
     
           if (result) {
@@ -186,13 +182,13 @@ const AudioPlayer  = ({navigation} : any) => {
       const Tag = ({id, tag}: any) => {
         return (
           <View style={{marginTop: 14}}>
-            <TouchableOpacity onPress={() => navigation.navigate('BrowseAuthor')}>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate('TagSearchScreen', {mainTag: id, tagName: tag})}>
                 <View style={[styles.tagbox]}>
                     <Text style={styles.tagtext}>
                         #{tag}
                     </Text>
                 </View>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
           </View>
         )
       }
@@ -205,30 +201,7 @@ const AudioPlayer  = ({navigation} : any) => {
         />
       );
 
-    //detailed description item
-    const DetailItem = ({id, item, index} : any) => { 
-        return (                             
-            <View style={{ }}>
-                <Text style={{color: '#fff', flexWrap: 'wrap', marginBottom: 10}}>
-                    {item}
-                </Text>
-            </View>
-        )
-    }
-
-    const renderDetailedDescription = ({ item } : any) => (
-    
-        <DetailItem 
-            id={item.id}
-            item={item}
-        />
-      );
-
-    //following functions
-
-    //const [didUpdate, setDidUpdate] = useState(false);
-
-    //add a story to the pinned playlist function
+//add a story to the pinned playlist function
     const PinStory = async () => {
 
         let userInfo = await Auth.currentAuthenticatedUser();
@@ -239,8 +212,7 @@ const AudioPlayer  = ({navigation} : any) => {
         console.log(createPin)
     }
 
-
-    //unpin a story
+//unpin a story
     const unPinStory = async () => {
 
         let userInfo = await Auth.currentAuthenticatedUser();
@@ -263,13 +235,12 @@ const AudioPlayer  = ({navigation} : any) => {
         console.log(connectionID)
 
         let deleteConnection = await API.graphql(graphqlOperation(
-            deletePinnedStory, {input: {"id": connectionID}}
+            deletePinnedStory, {id: connectionID}
         ))
         console.log(deleteConnection)
-
-        //setDidUpdate(!didUpdate)
     }
-    //queueing the item
+
+//queueing the item state when pressed
     const [isQ, setQd] = useState(false);
         
     const onQPress = () => {
@@ -283,14 +254,13 @@ const AudioPlayer  = ({navigation} : any) => {
         }  
     };
 
-    //on render, determine if the story in alraedy pinned or not
+//on render, determine if the story in alraedy pinned or not
     useEffect(() => {
         const fetchPin = async () => {
 
             const userInfo = await Auth.currentAuthenticatedUser();
 
             try {
-
                 let getPin = await API.graphql(graphqlOperation(
                     listPinnedStories, {
                         filter: {
@@ -307,7 +277,6 @@ const AudioPlayer  = ({navigation} : any) => {
                 if (getPin.data.listPinnedStories.items.length === 1) {
                     setQd(true);
                 }
-
             } catch (error) {
                 console.log(error)
             }
@@ -315,7 +284,7 @@ const AudioPlayer  = ({navigation} : any) => {
         fetchPin();
     }, [])
 
-    //Ratings Modal
+//Ratings Modal
     const [visible, setVisible] = useState(false);
     const showRatingModal = () => setVisible(true);
     const hideRatingModal = () => setVisible(false);
@@ -326,13 +295,18 @@ const AudioPlayer  = ({navigation} : any) => {
         borderRadius: 15,
     };
 
-    //rating function
+//rating functions
+
+    //check if the story is rated or not
     const [isRated, setIsRated] = useState(false);
 
+    //the rating average
     const [ratingNum, setRatingNum] = useState(0);
 
+    //the rating id for the AWS
     const [ratingID, setRatingID] = useState();
 
+    //submitting a new rating to AWS
     const SubmitRating = async () => {
 
         let userInfo = await Auth.currentAuthenticatedUser();
@@ -358,8 +332,7 @@ const AudioPlayer  = ({navigation} : any) => {
         hideRatingModal();
     }
 
-
-    //calculate the average user rating fora  story
+//calculate the average user rating for a story
     const [AverageUserRating, setAverageUserRating] = useState(0);
 
     useEffect(() => {
@@ -413,6 +386,7 @@ const AudioPlayer  = ({navigation} : any) => {
         <Provider>
             <View style={styles.container}>
                 <Portal>
+{/* Rate the story modal */}
                     <Modal visible={visible} onDismiss={hideRatingModal} contentContainerStyle={containerStyle}>
                         <View style={{alignItems: 'center'}}>
                             <View style={{}}>
@@ -584,9 +558,6 @@ const AudioPlayer  = ({navigation} : any) => {
                                 </View>
 
                                 <View style={{marginTop: 16, height: 80}}>
-                                    {/* <Text style={[Colors, { fontSize: 16, textTransform: 'capitalize' }]}>
-                                        {Story?.genre}
-                                    </Text> */}
 
                                     <FlatList
                                         data={Tags}
@@ -595,10 +566,9 @@ const AudioPlayer  = ({navigation} : any) => {
                                         horizontal={true}
                                         style={{width:  Dimensions.get('window').width, backgroundColor: 'transparent', flexDirection: 'row', flexWrap: 'wrap', marginBottom: 20}}
                                         keyExtractor={(item) => item.id}
-                                        initialNumToRender={6}
-                                        //scrollEnabled={false}
+                                        initialNumToRender={8}
                                         showsHorizontalScrollIndicator={false}
-                                        maxToRenderPerBatch={6}
+                                        maxToRenderPerBatch={8}
                                         showsVerticalScrollIndicator={false}
                                         refreshControl={
                                             <RefreshControl
@@ -609,7 +579,7 @@ const AudioPlayer  = ({navigation} : any) => {
                                         ListHeaderComponent={() => {
                                             return (
                                                 <View style={{marginHorizontal: 20, height: '100%', alignItems: 'center', justifyContent: 'center'}}>
-                                                    <Text style={{textAlign: 'center', color: '#fff'}}>
+                                                    <Text style={{textTransform: 'capitalize', textAlign: 'center', color: '#fff'}}>
                                                         {Story?.genre}
                                                     </Text>
                                                 </View>
@@ -618,16 +588,13 @@ const AudioPlayer  = ({navigation} : any) => {
                                         ListEmptyComponent={() => {
                                             return (
                                                 <View style={{margin: 40, alignItems: 'center', justifyContent: 'center'}}>
-                                                    <Text style={{color: '#fff'}}>
-                                                        
-                                                    </Text>
+                                                    
                                                 </View>
                                             )
                                         }}
                                     />
                                 </View>
                                 
-
                                 <View>
                                     <TouchableOpacity onPress={onPlay}>
                                         <View style={{paddingVertical: 6, paddingHorizontal: 30, backgroundColor: '#00ffff', margin: 10, borderRadius: 30}}>
@@ -648,14 +615,6 @@ const AudioPlayer  = ({navigation} : any) => {
                                     <Text style={{color: '#fff', flexWrap: 'wrap', marginBottom: 10}}>
                                         {Story?.description}
                                     </Text>
-                                    {/* <FlatList 
-                                        data={Story?.detailedDescription}
-                                        extraData={Story?.detailedDescription}
-                                        renderItem={renderDetailedDescription}
-                                        keyExtractor={(item, index) => item + index}
-                                        style={{}}
-                                        scrollEnabled={false}
-                                    /> */}
                                 </View> 
 
                                 <View style={{width: '100%', marginTop: 20}}>
@@ -682,9 +641,6 @@ const AudioPlayer  = ({navigation} : any) => {
 
 const styles = StyleSheet.create ({
     container: {
-        //justifyContent: 'space-between',
-        //alignContent: 'space-between',
-        //height: Dimensions.get('window').height
     },
     name: {
         color: '#fff',
@@ -705,9 +661,6 @@ const styles = StyleSheet.create ({
         color: '#ffffffCC',
         fontSize: 14,
         marginBottom: 20,
-        //paddingHorizontal: 12,
-        //borderRadius: 15,
-        //backgroundColor: '#rgba(69,69,69,0.2)',
     },
     button: {
         alignItems: 'center',

@@ -364,7 +364,7 @@ const ForYouCarousel = () => {
             try {
                 const response = await API.graphql(
                     graphqlOperation(
-                        listStories
+                        listStories, {limit: 8}
                     )
                 )
                 setStorys(response.data.listStories.items);

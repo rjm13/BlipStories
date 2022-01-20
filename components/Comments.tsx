@@ -153,7 +153,7 @@ const CommentsList = ({storyId}: any) => {
                 <View style={{ flexDirection: 'row', }}>
                     <Image 
                             source={ user?.imageUri ? { uri: user?.imageUri} : require('../assets/images/blankprofile.png')}
-                            style={{ width: 40, height: 40, borderRadius: 25, backgroundColor: 'yellow'}}
+                            style={{ width: 40, height: 40, borderRadius: 25, backgroundColor: 'gray'}}
                         />
                     <TextInput 
                         placeholder='Leave a comment'
