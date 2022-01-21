@@ -24,11 +24,12 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import * as Animatable from 'react-native-animatable';
 import {graphqlOperation, API, Storage, Auth} from 'aws-amplify';
-import { getStory, listPinnedStories, listRatings } from '../src/graphql/queries';
-import { createPinnedStory, deletePinnedStory } from '../src/graphql/mutations';
+import { getStory, listPinnedStories, listRatings, listFinishedStories } from '../src/graphql/queries';
+import { createPinnedStory, deletePinnedStory, createFinishedStory } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
 import * as RootNavigation from '../navigation/RootNavigation';
+import { useCardAnimation } from '@react-navigation/stack';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -204,7 +205,7 @@ const AudioPlayer  = () => {
             Story?.genre === 'mystery' ? '#ff6f00' :
             Story?.genre === 'science fiction' ? '#c97f8b' :
             Story?.genre === 'after dark' ? '#7081ff' : 
-            '#ffffffa5',
+            '#ffffff',
         }
 
 //audio player
@@ -305,14 +306,52 @@ const AudioPlayer  = () => {
         }  
     };
 
+//rating state (if rated or not)
+    const [isLiked, setIsLiked] = useState(false);
+    
+    const onLikePress = () => {
+        if ( isLiked === false ) {
+            setIsLiked(true);
+        }
+        if ( isLiked === true ) {
+            setIsLiked(false);
+        }  
+    };
+
 //calculate the average user rating for a story
-const [AverageUserRating, setAverageUserRating] = useState(0);
+    const [AverageUserRating, setAverageUserRating] = useState(0);
+
+//the rating average
+    const [ratingNum, setRatingNum] = useState(0);
+
+//check if the story is rated or not
+    const [isRated, setIsRated] = useState(false);
 
 useEffect(() => {
 
     let Average = []
 
     const fetchRating = async () => {
+
+        let userInfo = await Auth.currentAuthenticatedUser();
+
+            let Rating = await API.graphql(graphqlOperation(
+                listRatings, {filter: {
+                    userID: {
+                        eq: userInfo.attributes.sub
+                    },
+                    storyID: {
+                        eq: storyID
+                    }
+                }}
+            ))
+            if (Rating.data.listRatings.items.length === 1) {
+                setRatingNum(Rating.data.listRatings.items[0].rating);
+                setIsRated(true);
+            } else {
+                setRatingNum(0);
+                setIsRated(false);
+            }
 
         let RatingAvg = await API.graphql(graphqlOperation(
             listRatings, {filter: {
@@ -334,7 +373,44 @@ useEffect(() => {
     fetchRating();
 }, [storyID])
 
+//add the story to the history list when finished by creating a new history item
+const AddToHistory = async () => {
+    //check if the story is already in the history
+    let userInfo = await Auth.currentAuthenticatedUser();
 
+    let storyCheck = await API.graphql(graphqlOperation(
+        listFinishedStories, {filter: {
+            userID: {
+                eq: userInfo.attributes.sub
+                },
+            storyID: {
+                eq: storyID
+            }
+            }
+        }
+    ));
+
+    //if item is not in history then...
+    if (storyCheck.data.listFinishedStories.items.length === 0) {
+        //create the history object
+        let FinishedStory = await API.graphql(graphqlOperation(
+                createFinishedStory, {input: {userID: userInfo.attributes.sub, storyID: storyID}}
+            ))
+        console.log(FinishedStory)
+
+        //unpin the story, if pinned
+        unPinStory();
+
+        //navigate to the story page and open the ratings modal, if not already rated
+            RootNavigation.navigate('AudioPlayer', { storyID: storyID });
+            onClose();
+    } else {
+        RootNavigation.navigate('AudioPlayer', { storyID: storyID });
+        onClose();
+    }
+    
+   
+}
 
 
 //slider functions
@@ -396,6 +472,11 @@ useEffect(() => {
     useInterval(() => {
         if (isPlaying === true && position < slideLength) {
         setPosition(position + 1000);
+        }
+        if (isPlaying === true && position >= slideLength) {
+            setPosition(0);
+            setIsPlaying(false);
+            AddToHistory();
         }
       }, 1000);
     
@@ -584,9 +665,18 @@ useEffect(() => {
                                             <Text style={[Colors, { fontSize: 16, textTransform: 'capitalize' }]}>
                                                 {Story?.genre}
                                             </Text>
-                                            <Text style={{fontSize: 18, color: 'gold', fontWeight: 'bold' }}>
-                                                {AverageUserRating}%
-                                            </Text>
+                                            <View style={{justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center'}}>
+                                                <FontAwesome 
+                                                    name={ratingNum > 0 ? 'star' : 'star-o'}
+                                                    size={20}
+                                                    color={ratingNum > 0 ? 'gold' : 'white'}
+                                                    onPress={onLikePress}
+                                                    style={{marginHorizontal: 6 }}
+                                                />
+                                                <Text style={{textAlign: 'center', color: '#e0e0e0', fontSize: 19}}>
+                                                    {AverageUserRating}%
+                                                </Text>
+                                        </View>
                                         </View>
                                     </View>
                                     <View style={{ height: 100, marginTop: 30 }}>

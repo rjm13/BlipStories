@@ -28,7 +28,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as Animatable from 'react-native-animatable';
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
-import { getStory, listPinnedStories, listRatings, listStoryTags } from '../src/graphql/queries';
+import { getStory, listPinnedStories, listRatings, listStoryTags, listFinishedStories } from '../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory, createRating, updateRating } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
@@ -386,9 +386,64 @@ const AudioPlayer  = ({navigation} : any) => {
                     Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
                 )
             }
+
+            let storyCheck = await API.graphql(graphqlOperation(
+                listFinishedStories, {filter: {
+                    userID: {
+                        eq: userInfo.attributes.sub
+                        },
+                    storyID: {
+                        eq: storyID
+                    }
+                    }
+                }
+            ));
+
+            if (storyCheck.data.listFinishedStories.items.length === 1) {
+                setIsFinished(true);
+            }
+
+            if (Rating.data.listRatings.items.length === 0 && storyCheck.data.listFinishedStories.items.length === 1 ) {
+                showRatingModal();
+            }
         }
         fetchRating();
     }, [storyID])
+
+//if item is finished state
+    const [isFinished, setIsFinished] = useState(false);
+
+
+//on render, open rating modal if story is finished and unrated
+    // useEffect(() => {
+
+    //     const fetchStatus = async () => {
+    //         let userInfo = await Auth.currentAuthenticatedUser();
+
+    //         let storyCheck = await API.graphql(graphqlOperation(
+    //             listFinishedStories, {filter: {
+    //                 userID: {
+    //                     eq: userInfo.attributes.sub
+    //                     },
+    //                 storyID: {
+    //                     eq: storyID
+    //                 }
+    //                 }
+    //             }
+    //         ));
+
+    //         if (storyCheck.data.listFinishedStories.items.length === 1) {
+    //             setIsFinished(true);
+    //         }
+
+    //         if (isRated === false && storyCheck.data.listFinishedStories.items.length === 1 ) {
+    //             showRatingModal();
+    //         }
+    //     }
+
+    //     fetchStatus();
+    
+    // }, [storyID])
 
     return (
         <Provider>
@@ -551,9 +606,9 @@ const AudioPlayer  = ({navigation} : any) => {
                                     <TouchableWithoutFeedback onPress={showRatingModal}>
                                         <View style={{justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center'}}>
                                             <FontAwesome 
-                                                name={ratingNum > 0 ? 'star' : 'star-o'}
+                                                name={isRated === true ? 'star' : 'star-o'}
                                                 size={22}
-                                                color={ratingNum > 0 ? 'gold' : 'white'}
+                                                color={isRated === true || isFinished === true ? 'gold' : 'white'}
                                                 onPress={onLikePress}
                                                 style={{marginHorizontal: 6 }}
                                             />

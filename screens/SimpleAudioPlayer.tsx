@@ -44,6 +44,8 @@ const SimpleAudioPlayer = ({navigation} : any) => {
     const { setIsRootScreen } = useContext(AppContext);
     const { isRootScreen } = useContext(AppContext);
 
+    const { setStoryID } = useContext(AppContext);
+
     useEffect(() => {
         setIsRootScreen(true);
     },[])
@@ -196,7 +198,7 @@ const convertToTime = () => {
                     name='close'
                     size={25}
                     color='#fff'
-                    onPress={ () => {navigation.goBack(); setIsRootScreen(false)}}
+                    onPress={ () => navigation.goBack()}
                 /> 
             </View>
 

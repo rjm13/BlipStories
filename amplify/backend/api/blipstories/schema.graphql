@@ -17,6 +17,7 @@ type User @model @auth(rules: [{ allow: owner, operations: [create, delete, upda
   followers: [FollowingConn] @hasMany(indexName: "byFollower", fields: "id")
   Pinned: [Story] @hasMany(indexName: "byUser", fields: "id")
   Rated: [Rating] @hasMany (indexName: "byUser", fields: "id")
+  Finished: [Story] @hasMany (indexName: "byUser", fields: "id")
 }
 
 type FollowingConn 
@@ -30,6 +31,16 @@ type FollowingConn
 }
 
 type PinnedStory
+  @model @auth( rules: [{ allow: owner, operations: [create, delete, update, read]}])
+{
+  id: ID!
+  userID: ID @index(name: "byUser", sortKeyFields: ["storyID"])
+  user: User @hasOne (fields: ["userID"])
+  storyID: ID
+  story: Story @hasOne (fields: ["storyID"])
+}
+
+type FinishedStory
   @model @auth( rules: [{ allow: owner, operations: [create, delete, update, read]}])
 {
   id: ID!
@@ -53,7 +64,7 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   authorID: ID @index(name: "byAuthor", sortKeyFields: ["id"])
   narrator: String
   narratorID: ID
-  time: Int 
+  time: Int
   summary: String
   description: String
   nsfw: Boolean

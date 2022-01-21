@@ -84,6 +84,29 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
+      Finished {
+        items {
+          id
+          title
+          imageUri
+          audioUri
+          genre
+          userID
+          author
+          authorID
+          narrator
+          narratorID
+          time
+          summary
+          description
+          nsfw
+          ratingAvg
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -118,6 +141,9 @@ export const listUsers = /* GraphQL */ `
           nextToken
         }
         Rated {
+          nextToken
+        }
+        Finished {
           nextToken
         }
         createdAt
@@ -157,6 +183,9 @@ export const getFollowingConn = /* GraphQL */ `
         Rated {
           nextToken
         }
+        Finished {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -182,6 +211,9 @@ export const getFollowingConn = /* GraphQL */ `
           nextToken
         }
         Rated {
+          nextToken
+        }
+        Finished {
           nextToken
         }
         createdAt
@@ -269,6 +301,9 @@ export const getPinnedStory = /* GraphQL */ `
           nextToken
         }
         Rated {
+          nextToken
+        }
+        Finished {
           nextToken
         }
         createdAt
@@ -380,6 +415,146 @@ export const listPinnedStories = /* GraphQL */ `
     }
   }
 `;
+export const getFinishedStory = /* GraphQL */ `
+  query GetFinishedStory($id: ID!) {
+    getFinishedStory(id: $id) {
+      id
+      userID
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      storyID
+      story {
+        id
+        title
+        imageUri
+        audioUri
+        genre
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        author
+        authorID
+        narrator
+        narratorID
+        time
+        summary
+        description
+        nsfw
+        comments {
+          nextToken
+        }
+        tags {
+          nextToken
+        }
+        ratingAvg
+        rated {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listFinishedStories = /* GraphQL */ `
+  query ListFinishedStories(
+    $filter: ModelFinishedStoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listFinishedStories(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userID
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        storyID
+        story {
+          id
+          title
+          imageUri
+          audioUri
+          genre
+          userID
+          author
+          authorID
+          narrator
+          narratorID
+          time
+          summary
+          description
+          nsfw
+          ratingAvg
+          createdAt
+          updatedAt
+          owner
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
 export const getStory = /* GraphQL */ `
   query GetStory($id: ID!) {
     getStory(id: $id) {
@@ -409,6 +584,9 @@ export const getStory = /* GraphQL */ `
           nextToken
         }
         Rated {
+          nextToken
+        }
+        Finished {
           nextToken
         }
         createdAt
@@ -594,6 +772,9 @@ export const getComment = /* GraphQL */ `
         Rated {
           nextToken
         }
+        Finished {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -774,6 +955,9 @@ export const getRating = /* GraphQL */ `
           nextToken
         }
         Rated {
+          nextToken
+        }
+        Finished {
           nextToken
         }
         createdAt

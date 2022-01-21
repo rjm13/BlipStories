@@ -84,6 +84,29 @@ export const onCreateUser = /* GraphQL */ `
         }
         nextToken
       }
+      Finished {
+        items {
+          id
+          title
+          imageUri
+          audioUri
+          genre
+          userID
+          author
+          authorID
+          narrator
+          narratorID
+          time
+          summary
+          description
+          nsfw
+          ratingAvg
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -166,6 +189,29 @@ export const onUpdateUser = /* GraphQL */ `
           storyID
           userID
           rating
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      Finished {
+        items {
+          id
+          title
+          imageUri
+          audioUri
+          genre
+          userID
+          author
+          authorID
+          narrator
+          narratorID
+          time
+          summary
+          description
+          nsfw
+          ratingAvg
           createdAt
           updatedAt
           owner
@@ -260,6 +306,29 @@ export const onDeleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      Finished {
+        items {
+          id
+          title
+          imageUri
+          audioUri
+          genre
+          userID
+          author
+          authorID
+          narrator
+          narratorID
+          time
+          summary
+          description
+          nsfw
+          ratingAvg
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -295,6 +364,9 @@ export const onCreateFollowingConn = /* GraphQL */ `
         Rated {
           nextToken
         }
+        Finished {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -320,6 +392,9 @@ export const onCreateFollowingConn = /* GraphQL */ `
           nextToken
         }
         Rated {
+          nextToken
+        }
+        Finished {
           nextToken
         }
         createdAt
@@ -361,6 +436,9 @@ export const onUpdateFollowingConn = /* GraphQL */ `
         Rated {
           nextToken
         }
+        Finished {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -386,6 +464,9 @@ export const onUpdateFollowingConn = /* GraphQL */ `
           nextToken
         }
         Rated {
+          nextToken
+        }
+        Finished {
           nextToken
         }
         createdAt
@@ -427,6 +508,9 @@ export const onDeleteFollowingConn = /* GraphQL */ `
         Rated {
           nextToken
         }
+        Finished {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -452,6 +536,9 @@ export const onDeleteFollowingConn = /* GraphQL */ `
           nextToken
         }
         Rated {
+          nextToken
+        }
+        Finished {
           nextToken
         }
         createdAt
@@ -490,6 +577,9 @@ export const onCreatePinnedStory = /* GraphQL */ `
           nextToken
         }
         Rated {
+          nextToken
+        }
+        Finished {
           nextToken
         }
         createdAt
@@ -575,6 +665,9 @@ export const onUpdatePinnedStory = /* GraphQL */ `
         Rated {
           nextToken
         }
+        Finished {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -656,6 +749,267 @@ export const onDeletePinnedStory = /* GraphQL */ `
           nextToken
         }
         Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      storyID
+      story {
+        id
+        title
+        imageUri
+        audioUri
+        genre
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        author
+        authorID
+        narrator
+        narratorID
+        time
+        summary
+        description
+        nsfw
+        comments {
+          nextToken
+        }
+        tags {
+          nextToken
+        }
+        ratingAvg
+        rated {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateFinishedStory = /* GraphQL */ `
+  subscription OnCreateFinishedStory($owner: String) {
+    onCreateFinishedStory(owner: $owner) {
+      id
+      userID
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      storyID
+      story {
+        id
+        title
+        imageUri
+        audioUri
+        genre
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        author
+        authorID
+        narrator
+        narratorID
+        time
+        summary
+        description
+        nsfw
+        comments {
+          nextToken
+        }
+        tags {
+          nextToken
+        }
+        ratingAvg
+        rated {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateFinishedStory = /* GraphQL */ `
+  subscription OnUpdateFinishedStory($owner: String) {
+    onUpdateFinishedStory(owner: $owner) {
+      id
+      userID
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      storyID
+      story {
+        id
+        title
+        imageUri
+        audioUri
+        genre
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        author
+        authorID
+        narrator
+        narratorID
+        time
+        summary
+        description
+        nsfw
+        comments {
+          nextToken
+        }
+        tags {
+          nextToken
+        }
+        ratingAvg
+        rated {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteFinishedStory = /* GraphQL */ `
+  subscription OnDeleteFinishedStory($owner: String) {
+    onDeleteFinishedStory(owner: $owner) {
+      id
+      userID
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
           nextToken
         }
         createdAt
@@ -744,6 +1098,9 @@ export const onCreateStory = /* GraphQL */ `
         Rated {
           nextToken
         }
+        Finished {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -830,6 +1187,9 @@ export const onUpdateStory = /* GraphQL */ `
         Rated {
           nextToken
         }
+        Finished {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -914,6 +1274,9 @@ export const onDeleteStory = /* GraphQL */ `
           nextToken
         }
         Rated {
+          nextToken
+        }
+        Finished {
           nextToken
         }
         createdAt
@@ -1044,6 +1407,9 @@ export const onCreateComment = /* GraphQL */ `
         Rated {
           nextToken
         }
+        Finished {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -1128,6 +1494,9 @@ export const onUpdateComment = /* GraphQL */ `
         Rated {
           nextToken
         }
+        Finished {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -1210,6 +1579,9 @@ export const onDeleteComment = /* GraphQL */ `
           nextToken
         }
         Rated {
+          nextToken
+        }
+        Finished {
           nextToken
         }
         createdAt
@@ -1362,6 +1734,9 @@ export const onCreateRating = /* GraphQL */ `
         Rated {
           nextToken
         }
+        Finished {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -1446,6 +1821,9 @@ export const onUpdateRating = /* GraphQL */ `
         Rated {
           nextToken
         }
+        Finished {
+          nextToken
+        }
         createdAt
         updatedAt
         owner
@@ -1528,6 +1906,9 @@ export const onDeleteRating = /* GraphQL */ `
           nextToken
         }
         Rated {
+          nextToken
+        }
+        Finished {
           nextToken
         }
         createdAt

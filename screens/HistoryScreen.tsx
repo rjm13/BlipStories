@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import AudioStoryFlatList from '../components/AudioStoryFlatList';
+import HistoryFlatList from '../components/HistoryFlatList';
 
 const Narrations = ({navigation} : any) => {
 
@@ -48,8 +48,8 @@ const Narrations = ({navigation} : any) => {
                 
                 
             </View>
-            <View style={{ height: '82%'}}>
-                <AudioStoryFlatList />
+            <View style={{ height: '89%'}}>
+                <HistoryFlatList />
             </View>
             </LinearGradient>
         </View>
