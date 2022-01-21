@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {View, Text, StyleSheet, ScrollView, Dimensions, TouchableWithoutFeedback, FlatList, RefreshControl} from 'react-native';
 import { Audio } from 'expo-av';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -15,6 +15,8 @@ import { useRoute } from '@react-navigation/native';
 
 import { API, graphqlOperation, Auth } from "aws-amplify";
 import { getUser } from '../src/graphql/queries';
+
+import { AppContext } from '../AppContext';
 
 const useInterval = (callback, delay) => {
     const savedCallback = useRef();
@@ -37,6 +39,14 @@ const useInterval = (callback, delay) => {
     }
 
 const SimpleAudioPlayer = ({navigation} : any) => {
+
+ //set the position of the audio player if the screen is full page
+    const { setIsRootScreen } = useContext(AppContext);
+    const { isRootScreen } = useContext(AppContext);
+
+    useEffect(() => {
+        setIsRootScreen(true);
+    },[])
 
     const [SavedAudio, setSavedAudio] = useState()
 
@@ -186,7 +196,7 @@ const convertToTime = () => {
                     name='close'
                     size={25}
                     color='#fff'
-                    onPress={ () => navigation.goBack()}
+                    onPress={ () => {navigation.goBack(); setIsRootScreen(false)}}
                 /> 
             </View>
 
@@ -207,7 +217,7 @@ const convertToTime = () => {
 
             </View>
 
-                <View style={{ alignItems: 'center', marginTop: 30}}>
+                <View style={{ alignItems: 'center', marginTop: 0}}>
                     <Slider
                         style={{width: 300, height: 10}}
                         minimumTrackTintColor="cyan"
@@ -223,7 +233,7 @@ const convertToTime = () => {
                         onSlidingComplete={StoryPosition}
                     />
                 
-                <View style={{ marginTop: 20, width: '90%', alignSelf: 'center', flexDirection: 'row', justifyContent: 'space-between',}}>
+                <View style={{ marginVertical: 20, width: '90%', alignSelf: 'center', flexDirection: 'row', justifyContent: 'space-between',}}>
                     <Text style={{ fontSize: 18, marginBottom: 5, textAlign: 'center', color: 'white'}}>
                         {millisToMinutesAndSeconds()}
                     </Text>
