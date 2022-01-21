@@ -5,22 +5,23 @@ import React, {useState, useEffect, useRef, useContext} from 'react';
 import { ColorSchemeName, Appearance } from 'react-native';
 import { AppContext } from '../AppContext';
 
-import RedirectScreen from '../screens/auth/RedirectScreen';
-
-import RecordAudioScreen from '../screens/RecordAudioScreen';
-import AudioPlayer from '../screens/AudioPlayer';
-import UserScreen from '../screens/UserScreen';
-import UploadAudio from '../screens/UploadAudio';
-import EditAudioStory from '../screens/EditAudioStory';
+//set storyID to null or move to home stack
 import SimpleAudioPlayer from '../screens/SimpleAudioPlayer';
-import Terms from '../screens/Terms';
+
+
+//show over top
+import UserScreen from '../screens/UserScreen';
+import AudioPlayer from '../screens/AudioPlayer';
+import TagSearchScreen from '../screens/TagSearchScreen';
+
+import RedirectScreen from '../screens/auth/RedirectScreen';
 
 import SignUpScreen from '../screens/auth/SignUp';
 import SignInScreen from '../screens/auth/SignIn';
 import ForgotPasswordScreen from '../screens/auth/ForgotPassword';
 import ForgotPasswordConScreen from '../screens/auth/ForgotPasswordCon';
 import ConfirmEmailScreen from '../screens/auth/ConfirmEmail';
-import TagSearchScreen from '../screens/TagSearchScreen';
+
 
 import ModalNavigator from '../navigation/ModalNavigator';
 import AudioPlayerWidgetStatic from '../components/AudioPlayerWidgetStatic';
@@ -88,8 +89,6 @@ function RootNavigator() {
     //cardStyle: {opacity: 1, backgroundColor: 'transparent'} , cardOverlayEnabled: false,
     }} initialRouteName="Redirect">
       <Stack.Screen name="Root" component={BottomTabNavigator} />
-      <Stack.Screen name="RecordAudio" component={RecordAudioScreen} options={{ title: 'Oops!' }} />
-      <Stack.Screen name="UploadAudio" component={UploadAudio} options={{ title: 'Oops!' }} />
       <Stack.Screen name="UserScreen" component={UserScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="SignIn" component={SignInScreen} options={{ title: 'Oops!' }} />
@@ -97,10 +96,8 @@ function RootNavigator() {
       <Stack.Screen name="ForgotPasswordCon" component={ForgotPasswordConScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="ConfirmEmail" component={ConfirmEmailScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="SimpleAudioPlayer" component={SimpleAudioPlayer} options={{ title: 'Oops!' }} />
-      <Stack.Screen name="Terms" component={Terms} options={{ title: 'Oops!' }} />
       <Stack.Screen name="AudioPlayer" component={AudioPlayer} options={{ title: 'Oops!' }} />
       <Stack.Screen name="Redirect" component={RedirectScreen} />
-      <Stack.Screen name="EditAudioStory" component={EditAudioStory} />
       <Stack.Screen name="TagSearchScreen" component={TagSearchScreen} options={{ headerShown: false }}
       />
 

@@ -1,6 +1,5 @@
 export type RootStackParamList = {
   Root: undefined;
-  RecordAudio: undefined;
   AudioPlayer: undefined;
   AudioPlayerTest: undefined;
   UserScreen: undefined;
@@ -9,13 +8,10 @@ export type RootStackParamList = {
   ForgotPassword: undefined;
   ForgotPasswordCon: undefined;
   ConfirmEmail: undefined;
-  UploadAudio: undefined;
   ModalNavigator: undefined;
   Drawer: undefined;
   Redirect: undefined;
   SimpleAudioPlayer: undefined;
-  Terms: undefined;
-  EditAudioStory: undefined;
   TagSearchScreen: undefined;
 };
 
@@ -40,6 +36,10 @@ export type TabOneParamList = {
   Publisher: undefined;
   Recordings: undefined;
   MyStories: undefined;
+  Terms: undefined;
+  EditAudioStory: undefined;
+  UploadAudio: undefined;
+  RecordAudio: undefined;
 };
 
 export type TabTwoParamList = {

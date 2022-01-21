@@ -20,6 +20,10 @@ import PublisherSetupScreen from '../screens/PublisherSetup';
 import PublisherScreen from '../screens/Publisher';
 import Recordings from '../screens/Recordings';
 import MyStories from '../screens/MyStories';
+import Terms from '../screens/Terms';
+import UploadAudio from '../screens/UploadAudio';
+import RecordAudioScreen from '../screens/RecordAudioScreen';
+import EditAudioStory from '../screens/EditAudioStory';
 
 import StoriesScreen from '../screens/StoriesScreen';
 import PlaylistScreen from '../screens/Playlistscreen';
@@ -161,6 +165,27 @@ function HomeNavigator() {
         component={Following}
         options={{ headerShown: false }}
       />
+      <HomeStack.Screen 
+        name="Terms" 
+        component={Terms} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="EditAudioStory" 
+        component={EditAudioStory} 
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen 
+        name="UploadAudio" 
+        component={UploadAudio} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="RecordAudio" 
+        component={RecordAudioScreen} 
+        options={{ headerShown: false }} 
+      />
+
     </HomeStack.Navigator>
   );
 }
