@@ -311,6 +311,17 @@ const AudioPlayer  = ({navigation} : any) => {
         borderRadius: 15,
     };
 
+//Flag Modal
+    const [visibleFlag, setVisibleFlag] = useState(false);
+    const showFlagModal = () => setVisibleFlag(true);
+    const hideFlagModal = () => setVisibleFlag(false);
+    const containerStyleFlag = {
+        backgroundColor: '#363636', 
+        padding: 20,
+        margin: 20,
+        borderRadius: 15,
+    };
+
 //rating functions
 
     //check if the story is rated or not
@@ -421,37 +432,17 @@ const AudioPlayer  = ({navigation} : any) => {
 //if item is finished state
     const [isFinished, setIsFinished] = useState(false);
 
+//report states
+    const [offensiveContent, setOffensiveContent] = useState(false);
+    const [poorQuality, setPoorQuality] = useState(false);
+    const [poorNarrator, setPoorNarrator] = useState(false);
+    const [noPlay, setNoPlay] = useState(false);
+    const [other, setOther] = useState(false);
 
-//on render, open rating modal if story is finished and unrated
-    // useEffect(() => {
-
-    //     const fetchStatus = async () => {
-    //         let userInfo = await Auth.currentAuthenticatedUser();
-
-    //         let storyCheck = await API.graphql(graphqlOperation(
-    //             listFinishedStories, {filter: {
-    //                 userID: {
-    //                     eq: userInfo.attributes.sub
-    //                     },
-    //                 storyID: {
-    //                     eq: storyID
-    //                 }
-    //                 }
-    //             }
-    //         ));
-
-    //         if (storyCheck.data.listFinishedStories.items.length === 1) {
-    //             setIsFinished(true);
-    //         }
-
-    //         if (isRated === false && storyCheck.data.listFinishedStories.items.length === 1 ) {
-    //             showRatingModal();
-    //         }
-    //     }
-
-    //     fetchStatus();
-    
-    // }, [storyID])
+//report the story
+    const ReportStory = () => {
+        hideFlagModal();
+    }
 
     return (
         <Provider>
@@ -484,6 +475,97 @@ const AudioPlayer  = ({navigation} : any) => {
                                 <View style={{marginTop: 40, paddingVertical: 6, paddingHorizontal: 30, backgroundColor: '#00ffff', margin: 10, borderRadius: 30}}>
                                         <Text style={{color: '#000000', fontSize: 18, fontWeight: 'bold', }}>
                                             Submit
+                                        </Text>
+                                </View>
+                            </TouchableOpacity>
+                            
+                        </View>
+                    </Modal>
+{/* flag this story modal */}
+                    <Modal visible={visibleFlag} onDismiss={hideFlagModal} contentContainerStyle={containerStyleFlag}>
+                        <View style={{alignItems: 'center'}}>
+                            <View style={{}}>
+                                <Text style={{margin: 20, fontSize: 20, fontWeight: 'bold', color: '#fff'}}>
+                                    Report this Story
+                                </Text>
+
+                                <TouchableWithoutFeedback onPress={() => setOffensiveContent(!offensiveContent)}>
+                                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                        <FontAwesome 
+                                            name={offensiveContent === true ? 'check-square-o' : 'square-o'}
+                                            color={offensiveContent === true ? 'cyan' : 'gray'}
+                                            size={20}
+                                            style={{paddingHorizontal: 10}}
+                                        />
+                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 20, color: '#fff'}}>
+                                            Offensive Content
+                                        </Text> 
+                                    </View>
+                                </TouchableWithoutFeedback>
+
+                                <TouchableWithoutFeedback onPress={() => setPoorQuality(!poorQuality)}>
+                                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                        <FontAwesome 
+                                            name={poorQuality === true ? 'check-square-o' : 'square-o'}
+                                            color={poorQuality === true ? 'cyan' : 'gray'}
+                                            size={20}
+                                            style={{paddingHorizontal: 10}}
+                                        />
+                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 20, color: '#fff'}}>
+                                            Poor Audio Quality
+                                        </Text> 
+                                    </View>
+                                </TouchableWithoutFeedback>
+
+                                <TouchableWithoutFeedback onPress={() => setPoorNarrator(!poorNarrator)}>
+                                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                        <FontAwesome 
+                                            name={poorNarrator === true ? 'check-square-o' : 'square-o'}
+                                            color={poorNarrator === true ? 'cyan' : 'gray'}
+                                            size={20}
+                                            style={{paddingHorizontal: 10}}
+                                        />
+                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 20, color: '#fff'}}>
+                                            Poor Narration
+                                        </Text> 
+                                    </View>
+                                </TouchableWithoutFeedback>
+
+                                <TouchableWithoutFeedback onPress={() => setNoPlay(!noPlay)}>
+                                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                        <FontAwesome 
+                                            name={noPlay === true ? 'check-square-o' : 'square-o'}
+                                            color={noPlay === true ? 'cyan' : 'gray'}
+                                            size={20}
+                                            style={{paddingHorizontal: 10}}
+                                        />
+                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 20, color: '#fff'}}>
+                                            Could Not Play
+                                        </Text> 
+                                    </View>
+                                </TouchableWithoutFeedback>
+
+                                <TouchableWithoutFeedback onPress={() => setOther(!other)}>
+                                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                        <FontAwesome 
+                                            name={other === true ? 'check-square-o' : 'square-o'}
+                                            color={other === true ? 'cyan' : 'gray'}
+                                            size={20}
+                                            style={{paddingHorizontal: 10}}
+                                        />
+                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 20, color: '#fff'}}>
+                                            Other
+                                        </Text> 
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                
+                                
+                            </View>
+
+                            <TouchableOpacity onPress={ReportStory}>
+                                <View style={{marginTop: 40, paddingVertical: 6, paddingHorizontal: 30, backgroundColor: '#00ffff', margin: 10, borderRadius: 30}}>
+                                        <Text style={{color: '#000000', fontSize: 18, fontWeight: 'bold', }}>
+                                            Report
                                         </Text>
                                 </View>
                             </TouchableOpacity>
@@ -536,6 +618,7 @@ const AudioPlayer  = ({navigation} : any) => {
                             [{ nativeEvent: { contentOffset: { y: animation } } }],
                             { useNativeDriver: false })}
                         scrollEventThrottle={1}
+                        showsVerticalScrollIndicator={false}
                     >
                         <View style={{ height: 220, backgroundColor: 'transparent'}}>
                         </View>
@@ -690,10 +773,16 @@ const AudioPlayer  = ({navigation} : any) => {
                                 </View> 
 
                                 <View style={{width: '100%', marginTop: 20}} >
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10,}}>
+                                    <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10,}}>
                                         <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>
                                             Discussion
                                         </Text>
+                                        <FontAwesome 
+                                            name='flag'
+                                            size={20}
+                                            color='gray'
+                                            onPress={showFlagModal}
+                                        />
                                     </View>
                                     <View onLayout={e => setViewPosition(e.nativeEvent.layout.y)}>
                                         <Comments storyId={Story?.id} />
