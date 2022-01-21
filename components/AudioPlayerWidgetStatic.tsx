@@ -365,7 +365,8 @@ useEffect(() => {
         console.log('Loading Sound');
         console.log(Story);
         const { sound } = await Audio.Sound.createAsync(
-            {uri: AudioUri},
+            //{uri: AudioUri},
+            require('../assets/zelda.mp3'),
             {shouldPlay: true}
         );
         
