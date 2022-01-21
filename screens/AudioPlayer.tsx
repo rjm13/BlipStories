@@ -36,6 +36,14 @@ import { AppContext } from '../AppContext';
 
 const AudioPlayer  = ({navigation} : any) => {
 
+//ref to scroll to comment section
+    const scrollRef = useRef();
+    const [viewPosition, setViewPosition] = useState(0);
+
+    const scrollToView = () => {
+        scrollRef.current?.scrollTo({y: viewPosition + 220, animated: true});
+      }
+
 //recieve story ID as props
     const route = useRoute();
     const {storyID} = route.params;
@@ -523,6 +531,7 @@ const AudioPlayer  = ({navigation} : any) => {
                 <Animatable.View animation='bounceInUp' style={{}}>
                     <ScrollView 
                         style={{}}
+                        ref={scrollRef}
                         onScroll={Animated.event(
                             [{ nativeEvent: { contentOffset: { y: animation } } }],
                             { useNativeDriver: false })}
@@ -588,7 +597,7 @@ const AudioPlayer  = ({navigation} : any) => {
                                                 name='commenting-o'
                                                 size={22}
                                                 color='white'
-                                                //onPress={}
+                                                onPress={scrollToView}
                                                 style={{ }}
                                             />
                                         </View>
@@ -680,13 +689,13 @@ const AudioPlayer  = ({navigation} : any) => {
                                     </Text>
                                 </View> 
 
-                                <View style={{width: '100%', marginTop: 20}}>
+                                <View style={{width: '100%', marginTop: 20}} >
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10,}}>
                                         <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>
                                             Discussion
                                         </Text>
                                     </View>
-                                    <View>
+                                    <View onLayout={e => setViewPosition(e.nativeEvent.layout.y)}>
                                         <Comments storyId={Story?.id} />
                                     </View>
                                 </View>
