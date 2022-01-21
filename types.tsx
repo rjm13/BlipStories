@@ -51,6 +51,7 @@ export type TabTwoParamList = {
   GenreHome: undefined;
   SearchScreen: undefined;
   TagSearchStack: undefined;
+  UserScreenStack: undefined;
 };
 
 export type TabThreeParamList = {

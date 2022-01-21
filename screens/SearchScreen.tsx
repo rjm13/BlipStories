@@ -532,7 +532,7 @@ const SearchScreen = ({navigation} : any) => {
                                         <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                                             {TagsArray.map(({ index, tagName, id } : any) => (
                                                 <View key={index} style={{marginTop: 10, marginRight: 10}}>
-                                                    <TouchableOpacity onPress={() => navigation.navigate('TagSearchScreen', {mainTag: id, tagName: tagName})}>
+                                                    <TouchableOpacity onPress={() => navigation.navigate('TagSearchStack', {mainTag: id, tagName: tagName})}>
                                                         <View style={{}}>
                                                             <Text style={styles.tagtext}>
                                                                 #{tagName}

@@ -205,7 +205,7 @@ const FollowingScreen = ({navigation} : any) => {
         return (
             <View style={styles.tile}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <TouchableWithoutFeedback onPress={() => navigation.navigate('UserScreen', {userID: id})}>
+                    <TouchableWithoutFeedback onPress={() => navigation.navigate('UserScreenStack', {userID: id})}>
                         <View style={{ flexDirection: 'row'}}>
                             <Image 
                                 source={ imageUri ? { uri: imageUri} : require('../assets/images/blankprofile.png')}
