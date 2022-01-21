@@ -32,6 +32,7 @@ import BrowseAuthor from '../screens/BrowseAuthor';
 import BrowseNarrator from '../screens/BrowseNarrator';
 import GenreHome from '../screens/GenreHome';
 import SearchScreen from '../screens/SearchScreen';
+import TagSearchStack from '../screens/TagSearchScreen';
 
 
 
@@ -218,6 +219,11 @@ function StoriesNavigator() {
       <StoriesStack.Screen
         name="SearchScreen"
         component={SearchScreen}
+        options={{ headerShown: false }}
+      />
+      <StoriesStack.Screen
+        name="TagSearchStack"
+        component={TagSearchStack}
         options={{ headerShown: false }}
       />
     </StoriesStack.Navigator>

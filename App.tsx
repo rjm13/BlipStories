@@ -31,6 +31,8 @@ export default function App() {
 
   const [userID, setUserID] = useState<string|null>(null);
 
+  const [isRootScreen, setIsRootScreen] = useState<boolean|null>(null);
+
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -99,6 +101,8 @@ export default function App() {
           // setUserID: (id: string) => setUserID(id),
           userID,
           setUserID: (user: {}) => setUserID(user),
+          isRootScreen,
+          setIsRootScreen: (val: boolean) => setIsRootScreen(val)
 
         }}>
           <Navigation 

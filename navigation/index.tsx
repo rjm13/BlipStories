@@ -98,8 +98,7 @@ function RootNavigator() {
       <Stack.Screen name="SimpleAudioPlayer" component={SimpleAudioPlayer} options={{ title: 'Oops!' }} />
       <Stack.Screen name="AudioPlayer" component={AudioPlayer} options={{ title: 'Oops!' }} />
       <Stack.Screen name="Redirect" component={RedirectScreen} />
-      <Stack.Screen name="TagSearchScreen" component={TagSearchScreen} options={{ headerShown: false }}
-      />
+      <Stack.Screen name="TagSearchScreen" component={TagSearchScreen} options={{ headerShown: false }}/>
 
       {/* <Stack.Screen name="Drawer" component={DrawerNavigator} options={{ title: 'Oops!' }} /> */}
 

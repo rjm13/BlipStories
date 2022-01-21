@@ -4,6 +4,9 @@ const context = {
     storyID: null,
     setStoryID: (id: string | null) => {},
 
+    isRootScreen: null,
+    setIsRootScreen: (val: boolean | null) => {},
+
     userID: null,
     setUserID: (id: string | null) => {}
 }

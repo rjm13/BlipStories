@@ -44,6 +44,14 @@ const AudioPlayer  = ({navigation} : any) => {
     const [Story, setStory] = useState();
     const [AudioUri, setAudioUri] = useState('');
 
+//set the position of the audio player if the screen is full page
+    const { setIsRootScreen } = useContext(AppContext);
+    const { isRootScreen } = useContext(AppContext);
+
+    useEffect(() => {
+        setIsRootScreen(true)
+    },[])
+
 //send context to audio player
     const { setStoryID } = useContext(AppContext);
 
@@ -429,7 +437,7 @@ const AudioPlayer  = ({navigation} : any) => {
                 <Animated.View style={{ alignItems: 'center', backgroundColor: animatedColor, flexDirection: 'row', paddingTop: 40, paddingBottom: 20, width: Dimensions.get('window').width, justifyContent: 'space-between'}}>
                     
                     <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                        <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+                        <TouchableWithoutFeedback onPress={() => {navigation.goBack(); setIsRootScreen(false)}}>
                             <View style={ [styles.button, {backgroundColor: '#363636a5', flexDirection: 'row'}]}>
                                 <AntDesign 
                                     name='close'

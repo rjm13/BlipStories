@@ -55,6 +55,9 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const AudioPlayer  = () => {
 
+//get the global page state for the audio player
+    const { isRootScreen } = useContext(AppContext);
+
 //get context for storyID
     const { storyID } = useContext(AppContext);
     const { setStoryID } = useContext(AppContext);
@@ -143,7 +146,7 @@ const AudioPlayer  = () => {
       });
 
     const animatedBottom = animation.y.interpolate({
-        inputRange: [0, SCREEN_HEIGHT - 90],
+        inputRange: [0, SCREEN_HEIGHT - (isRootScreen === true ? 60 : 90)],
         outputRange: [-610, 690],
         extrapolate: 'clamp',
       });

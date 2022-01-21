@@ -74,7 +74,7 @@ const AudioStoryHome = ({navigation} : any) => {
   const Tag = ({id, tag}: any) => {
     return (
       <View style={{marginTop: 14}}>
-        <TouchableOpacity onPress={() => navigation.navigate('TagSearchScreen', {mainTag: id, tagName: tag})}>
+        <TouchableOpacity onPress={() => navigation.navigate('TagSearchStack', {mainTag: id, tagName: tag})}>
             <View style={[styles.tagbox]}>
                 <Text style={styles.tagtext}>
                     #{tag}

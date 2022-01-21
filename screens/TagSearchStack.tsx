@@ -35,13 +35,6 @@ import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 const TagSearchScreen = ({navigation} : any) => {
 
-//set the position of the audio player if the screen is full page
-    // const { setIsRootScreen } = useContext(AppContext);
-    // const { isRootScreen } = useContext(AppContext);
-
-    // useEffect(() => {
-    //     setIsRootScreen(true)
-    // },[])
 
     const route = useRoute();
     const {mainTag, tagName} = route.params
