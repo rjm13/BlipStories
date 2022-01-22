@@ -17,7 +17,6 @@ export const onCreateUser = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -28,6 +27,7 @@ export const onCreateUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -55,7 +55,6 @@ export const onCreateUser = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -66,6 +65,7 @@ export const onCreateUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -90,7 +90,6 @@ export const onCreateUser = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -101,6 +100,7 @@ export const onCreateUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -128,7 +128,6 @@ export const onUpdateUser = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -139,6 +138,7 @@ export const onUpdateUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -166,7 +166,6 @@ export const onUpdateUser = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -177,6 +176,7 @@ export const onUpdateUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -201,7 +201,6 @@ export const onUpdateUser = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -212,6 +211,7 @@ export const onUpdateUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -239,7 +239,6 @@ export const onDeleteUser = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -250,6 +249,7 @@ export const onDeleteUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -277,7 +277,6 @@ export const onDeleteUser = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -288,6 +287,7 @@ export const onDeleteUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -312,7 +312,6 @@ export const onDeleteUser = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -323,6 +322,7 @@ export const onDeleteUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -592,7 +592,6 @@ export const onCreatePinnedStory = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -626,6 +625,18 @@ export const onCreatePinnedStory = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -678,7 +689,6 @@ export const onUpdatePinnedStory = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -712,6 +722,18 @@ export const onUpdatePinnedStory = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -764,7 +786,6 @@ export const onDeletePinnedStory = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -798,6 +819,18 @@ export const onDeletePinnedStory = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -850,7 +883,6 @@ export const onCreateFinishedStory = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -884,6 +916,18 @@ export const onCreateFinishedStory = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -936,7 +980,6 @@ export const onUpdateFinishedStory = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -970,6 +1013,18 @@ export const onUpdateFinishedStory = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -1022,7 +1077,6 @@ export const onDeleteFinishedStory = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -1056,6 +1110,18 @@ export const onDeleteFinishedStory = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -1074,7 +1140,6 @@ export const onCreateStory = /* GraphQL */ `
       title
       imageUri
       audioUri
-      genre
       user {
         id
         name
@@ -1149,6 +1214,18 @@ export const onCreateStory = /* GraphQL */ `
           owner
         }
         nextToken
+      }
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
       }
       createdAt
       updatedAt
@@ -1163,7 +1240,6 @@ export const onUpdateStory = /* GraphQL */ `
       title
       imageUri
       audioUri
-      genre
       user {
         id
         name
@@ -1238,6 +1314,18 @@ export const onUpdateStory = /* GraphQL */ `
           owner
         }
         nextToken
+      }
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
       }
       createdAt
       updatedAt
@@ -1252,7 +1340,6 @@ export const onDeleteStory = /* GraphQL */ `
       title
       imageUri
       audioUri
-      genre
       user {
         id
         name
@@ -1328,6 +1415,63 @@ export const onDeleteStory = /* GraphQL */ `
         }
         nextToken
       }
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateGenre = /* GraphQL */ `
+  subscription OnCreateGenre($owner: String) {
+    onCreateGenre(owner: $owner) {
+      id
+      genre
+      icon
+      PrimaryColor
+      SecondaryColor
+      imageUri
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateGenre = /* GraphQL */ `
+  subscription OnUpdateGenre($owner: String) {
+    onUpdateGenre(owner: $owner) {
+      id
+      genre
+      icon
+      PrimaryColor
+      SecondaryColor
+      imageUri
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteGenre = /* GraphQL */ `
+  subscription OnDeleteGenre($owner: String) {
+    onDeleteGenre(owner: $owner) {
+      id
+      genre
+      icon
+      PrimaryColor
+      SecondaryColor
+      imageUri
       createdAt
       updatedAt
       owner
@@ -1344,7 +1488,6 @@ export const onCreateComment = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -1378,6 +1521,18 @@ export const onCreateComment = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -1431,7 +1586,6 @@ export const onUpdateComment = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -1465,6 +1619,18 @@ export const onUpdateComment = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -1518,7 +1684,6 @@ export const onDeleteComment = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -1552,6 +1717,18 @@ export const onDeleteComment = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -1671,7 +1848,6 @@ export const onCreateRating = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -1705,6 +1881,18 @@ export const onCreateRating = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -1758,7 +1946,6 @@ export const onUpdateRating = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -1792,6 +1979,18 @@ export const onUpdateRating = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -1845,7 +2044,6 @@ export const onDeleteRating = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -1879,6 +2077,18 @@ export const onDeleteRating = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -1933,7 +2143,6 @@ export const onCreateStoryTag = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -1967,6 +2176,18 @@ export const onCreateStoryTag = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -1999,7 +2220,6 @@ export const onUpdateStoryTag = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -2033,6 +2253,18 @@ export const onUpdateStoryTag = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -2065,7 +2297,6 @@ export const onDeleteStoryTag = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -2099,6 +2330,18 @@ export const onDeleteStoryTag = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt

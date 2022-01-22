@@ -14,25 +14,42 @@ from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {LinearGradient} from 'expo-linear-gradient';
 
-import genres  from '../data/dummygenre';
+//import genres  from '../data/dummygenre';
 
-import { listTags } from '../src/graphql/queries';
+import { listTags, listGenres } from '../src/graphql/queries';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 
 const AudioStoryHome = ({navigation} : any) => {
 
-  const Item = ({genre, icon, iconcolor, boxcolor, source} : any) => {
+//genre array state
+  const[genres, setGenres] = useState([]);
+    
+//fetch the genres
+  useEffect(() => {
+
+    const fetchGenres = async () => {
+        
+      const result = await API.graphql(graphqlOperation(listGenres))
+
+      if (result) {setGenres(result.data.listGenres.items)}
+    }
+
+    fetchGenres();
+
+  }, [])
+
+  const Item = ({genre, icon, PrimaryColor, imageUri} : any) => {
 
     return (
       <TouchableWithoutFeedback onPress = {() => navigation.navigate('GenreHome', {genre: genre})}>
         <View style={[styles.genrebox, {flexDirection: 'row', }]}>
             <Image
-              source={{ uri: source}}
+              source={{ uri: imageUri}}
               style={{width: '40%', height: '100%', borderRadius: 15, position: 'absolute', backgroundColor: 'gray', left: 192}}
             />
               <LinearGradient 
-                colors={[boxcolor, boxcolor, boxcolor, boxcolor + '99']}
+                colors={[PrimaryColor, PrimaryColor, PrimaryColor, PrimaryColor + '99']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={[styles.genrebox]}
@@ -50,9 +67,8 @@ const AudioStoryHome = ({navigation} : any) => {
     <Item 
         genre={item.genre}
         icon={item.icon}
-        iconcolor={item.iconcolor}
-        boxcolor={item.boxcolor}
-        source={item.source}
+        PrimaryColor={item.PrimaryColor}
+        imageUri={item.imageUri}
     />
   );
 

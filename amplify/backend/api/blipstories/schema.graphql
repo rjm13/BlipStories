@@ -56,7 +56,7 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   title: String!
   imageUri: String
   audioUri: String!
-  genre: String
+  #genre: String
   user: User @hasOne (fields: ["userID"])
   userID: ID @index(name: "byUser", sortKeyFields: ["id"])
   #author: User @hasOne(fields: ["id"])
@@ -72,7 +72,20 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   tags: [Tag] @manyToMany (relationName: "StoryTag")
   ratingAvg: Float
   rated: [Rating] @hasMany(indexName: "byStory", fields: ["id"])
+  genreID: ID
+  genre: Genre @hasOne (fields: ["genreID"])
   }
+
+type Genre @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
+  {
+    id: ID!
+    genre: String!
+    icon: String
+    PrimaryColor: String
+    SecondaryColor: String
+    imageUri: String
+
+}
 
 type Comment @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
   {

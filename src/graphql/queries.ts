@@ -17,7 +17,6 @@ export const getUser = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -28,6 +27,7 @@ export const getUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -55,7 +55,6 @@ export const getUser = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -66,6 +65,7 @@ export const getUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -90,7 +90,6 @@ export const getUser = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -101,6 +100,7 @@ export const getUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -316,7 +316,6 @@ export const getPinnedStory = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -350,6 +349,18 @@ export const getPinnedStory = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -392,7 +403,6 @@ export const listPinnedStories = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -403,6 +413,7 @@ export const listPinnedStories = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -456,7 +467,6 @@ export const getFinishedStory = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -490,6 +500,18 @@ export const getFinishedStory = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -532,7 +554,6 @@ export const listFinishedStories = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -543,6 +564,7 @@ export const listFinishedStories = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -562,7 +584,6 @@ export const getStory = /* GraphQL */ `
       title
       imageUri
       audioUri
-      genre
       user {
         id
         name
@@ -638,6 +659,18 @@ export const getStory = /* GraphQL */ `
         }
         nextToken
       }
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -656,7 +689,6 @@ export const listStories = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -691,6 +723,55 @@ export const listStories = /* GraphQL */ `
         rated {
           nextToken
         }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getGenre = /* GraphQL */ `
+  query GetGenre($id: ID!) {
+    getGenre(id: $id) {
+      id
+      genre
+      icon
+      PrimaryColor
+      SecondaryColor
+      imageUri
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listGenres = /* GraphQL */ `
+  query ListGenres(
+    $filter: ModelGenreFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listGenres(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
         createdAt
         updatedAt
         owner
@@ -709,7 +790,6 @@ export const getComment = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -743,6 +823,18 @@ export const getComment = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -801,7 +893,6 @@ export const listComments = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -812,6 +903,7 @@ export const listComments = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -894,7 +986,6 @@ export const getRating = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -928,6 +1019,18 @@ export const getRating = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -986,7 +1089,6 @@ export const listRatings = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -997,6 +1099,7 @@ export const listRatings = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner
@@ -1037,7 +1140,6 @@ export const getStoryTag = /* GraphQL */ `
         title
         imageUri
         audioUri
-        genre
         user {
           id
           name
@@ -1071,6 +1173,18 @@ export const getStoryTag = /* GraphQL */ `
         ratingAvg
         rated {
           nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
         }
         createdAt
         updatedAt
@@ -1108,7 +1222,6 @@ export const listStoryTags = /* GraphQL */ `
           title
           imageUri
           audioUri
-          genre
           userID
           author
           authorID
@@ -1119,6 +1232,7 @@ export const listStoryTags = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genreID
           createdAt
           updatedAt
           owner

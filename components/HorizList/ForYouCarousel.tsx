@@ -15,15 +15,16 @@ import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 import { AppContext } from '../../AppContext';
 
-import data from '../../data/dummyaudio';
+import genres from '../../data/dummygenre';
+
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 
 
 
 
-const ForYouCarousel = () => {
+const ForYouCarousel = ({navigation} : any) => {
 
-    const Item = ({title, genre, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
+    const Item = ({primary, title, genreName, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
 
     //set context globally for storyID
     //const {story} = props;
@@ -81,54 +82,8 @@ const ForYouCarousel = () => {
             let minutes = Math.floor(time / 60000);
             let seconds = Math.floor((time % 60000) / 1000);
             return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
-        } 
+        }  
 
-        const Colors = {
-            color: 
-                genre === 'adventure' ? '#27d995' :
-                genre === 'comedy' ? '#ff9ce6' :
-                genre === 'crime' ? '#cac715' : 
-                genre === 'fan fiction' ? '#c92ad1' :
-                genre === 'fantasy' ? '#15ca54' :
-                genre === 'horror' ? '#1579ca' :
-                genre === 'life' ? '#15b8ca' :
-                genre === 'love' ? '#f05161' :
-                genre === 'mystery' ? '#ff6f00' :
-                genre === 'science fiction' ? '#c97f8b' :
-                genre === 'after dark' ? '#7081ff' : 
-                '#ffffffa5',
-            borderColor: 
-                genre === 'adventure' ? '#27d995' :
-                genre === 'comedy' ? '#ff9ce6' :
-                genre === 'crime' ? '#cac715' : 
-                genre === 'fan fiction' ? '#c92ad1' :
-                genre === 'fantasy' ? '#15ca54' :
-                genre === 'horror' ? '#1579ca' :
-                genre === 'life' ? '#15b8ca' :
-                genre === 'love' ? '#f05161' :
-                genre === 'mystery' ? '#ff6f00' :
-                genre === 'science fiction' ? '#c97f8b' :
-                genre === 'after dark' ? '#7081ff' : 
-                '#ffffffa5',
-        }
-        const BackgroundColors = {
-        backgroundColor: 
-                genre === 'adventure' ? '#27d995' :
-                genre === 'comedy' ? '#ff9ce6' :
-                genre === 'crime' ? '#cac715' : 
-                genre === 'fan fiction' ? '#c92ad1' :
-                genre === 'fantasy' ? '#15ca54' :
-                genre === 'horror' ? '#1579ca' :
-                genre === 'life' ? '#15b8ca' :
-                genre === 'love' ? '#f05161' :
-                genre === 'mystery' ? '#ff6f00' :
-                genre === 'science fiction' ? '#c97f8b' :
-                genre === 'after dark' ? '#7081ff' : 
-                '#ffffffa5',
-        }
-
-
-        const navigation = useNavigation();
 
         const [isVisible, setIsVisible] = useState(false);
         
@@ -209,16 +164,7 @@ const ForYouCarousel = () => {
                 > */}
                 <View style={{ position: 'absolute', alignSelf: 'center', top: 80, backgroundColor: 'transparent'}}>
                     <FontAwesome5 
-                        name={
-                            genre === 'crime' ? 'shoe-prints' : 
-                            genre === 'fantasy' ? 'hat-wizard' :
-                            genre === 'suspense' ? 'user-secret' :
-                            genre === 'comedy' ? 'poo' :
-                            genre === 'science fiction' ? 'user-astronaut' :
-                            genre === 'life & adventure' ? 'leaf' :
-                            genre === 'fan fiction' ? 'quidditch' :
-                            genre === 'after dark' ? 'moon' : 
-                            'dumpster-fire'}
+                        name={icon}
                         color='#ffffff'
                         size={50}
                     />
@@ -227,7 +173,7 @@ const ForYouCarousel = () => {
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('AudioPlayer', {storyID: id})}>
                 <ImageBackground
                     source={{uri: imageUri}}
-                    style={[Colors, BackgroundColors, { width: '100%', height: 280, justifyContent: 'flex-end', borderRadius: 15}]}
+                    style={{backgroundColor: '#ffffffa5', width: '100%', height: 280, justifyContent: 'flex-end', borderRadius: 15}}
                     imageStyle={{
                         borderRadius: 15,
                         
@@ -253,8 +199,8 @@ const ForYouCarousel = () => {
                                             <Text style={styles.title}>
                                                 {title}
                                             </Text> 
-                                            <Text style={[styles.category, Colors]}>
-                                                {genre}
+                                            <Text style={[styles.category]}>
+                                                {genreName}
                                             </Text>
                                         </View>
                                         
@@ -368,6 +314,7 @@ const ForYouCarousel = () => {
                     )
                 )
                 setStorys(response.data.listStories.items);
+                //console.log(response.data.listStories.items)
             } catch (e) {
                 console.log(e);
             }
@@ -383,11 +330,25 @@ const ForYouCarousel = () => {
         }, 2000);
       }
 
-    const renderItem = ({ item }: any) => (
+    const renderItem = ({ item }: any) => {
+
+        let icon = ''
+        let genreName = ''
+        let primary = ''
+
+        if (item.genre) {
+            icon = item.genre.icon
+            genreName = item.genre.genre
+            primary = item.genre.PrimaryColor
+        }
+        
+        return (
         <Item 
           title={item.title}
           imageUri={item.imageUri}
-          genre={item.genre}
+          genreName={genreName}
+          icon={icon}
+          primary={primary}
           audioUri={item.audioUri}
           summary={item.summary}
           author={item.author}
@@ -397,7 +358,7 @@ const ForYouCarousel = () => {
           //liked={item.liked}
           //rating={item.rating}
         />
-      );
+      );}
 
     return (
         <SafeAreaView style={{}}>
@@ -474,7 +435,7 @@ const styles = StyleSheet.create({
     },
     category: {
         fontSize: 14,
-        color: 'cyan',
+        color: '#ffffffa5',
         textTransform: 'capitalize'
         //fontStyle: 'italic',
         //marginVertical: 3,
