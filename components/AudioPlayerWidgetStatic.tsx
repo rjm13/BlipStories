@@ -514,13 +514,16 @@ const AddToHistory = async () => {
                 >
                 { isExpanded === false ? (
                     <Animated.View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'space-between', marginHorizontal: 20}}>
-                        <View style={{ position: 'absolute', left: Dimensions.get('window').width/2 - 40, top: 80, backgroundColor: 'transparent'}}>
-                            <FontAwesome5 
-                                name={Story?.genre?.icon}
-                                color='#ffffffa5'
-                                size={50}
-                            />
-                        </View>
+                        {Story.imageUri ? (null) : (
+                            <View style={{ position: 'absolute', left: Dimensions.get('window').width/2 - 40, top: 80, backgroundColor: 'transparent'}}>
+                                <FontAwesome5 
+                                    name={Story?.genre?.icon}
+                                    color='#ffffffa5'
+                                    size={50}
+                                />
+                            </View>
+                        )}
+                        
                         <View>
                            <TouchableOpacity onPress={onClose}>
                                 <Animated.View style={ [styles.button, {left: -20}]}>

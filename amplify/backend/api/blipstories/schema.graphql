@@ -84,6 +84,7 @@ type Genre @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
     PrimaryColor: String
     SecondaryColor: String
     imageUri: String
+    type: String!
 
 }
 

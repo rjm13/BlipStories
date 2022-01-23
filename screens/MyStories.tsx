@@ -53,7 +53,7 @@ const MyStories = ({navigation} : any) => {
     }
 
 
-    const Item = ({id, title, genre, author, narrator} : any) => {
+    const Item = ({id, title, genreName, author, narrator} : any) => {
 
      
 
@@ -74,7 +74,7 @@ const MyStories = ({navigation} : any) => {
                                 </Text> 
                                 <View style={{flexDirection: 'row'}}>
                                     <Text style={[styles.category]}>
-                                        {genre}
+                                        {genreName}
                                     </Text>
                                 </View>
                             </View>
@@ -142,23 +142,33 @@ const MyStories = ({navigation} : any) => {
         )
     }
 
-    const renderItem = ({ item } : any) => (
+    const renderItem = ({ item }: any) => {
 
+        let icon = ''
+        let genreName = ''
+        let primary = ''
+
+        if (item.genre) {
+            icon = item.genre.icon
+            genreName = item.genre.genre
+            primary = item.genre.PrimaryColor
+        }
+        
+        return (
         <Item 
           title={item.title}
           imageUri={item.imageUri}
-          genre={item.genre}
+          genreName={genreName}
+          icon={icon}
+          primary={primary}
           audioUri={item.audioUri}
-          description={item.description}
+          summary={item.summary}
           author={item.author}
           narrator={item.narrator}
           time={item.time}
           id={item.id}
-          nsfw={item.nsfw}
-          //liked={item.liked}
-          //rating={item.rating}
         />
-    );
+      );}
 
     
     //update trigger for fetching the stories

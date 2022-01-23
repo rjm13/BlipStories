@@ -578,13 +578,16 @@ const AudioPlayer  = ({navigation} : any) => {
                     source={{uri: Story?.imageUri}}
                     style={{  backgroundColor: '#363636', width: Dimensions.get('window').width, height: 330,  position: 'absolute'  }}
                 >
-                     <View style={{ alignSelf: 'center', marginTop: 140}}>
+                    {Story.imageUri ? (null) : (
+                        <View style={{ alignSelf: 'center', marginTop: 140}}>
                             <FontAwesome5 
                                 name={Story?.genre?.icon}
                                 color='#ffffffa5'
                                 size={50}
                             />
                         </View>
+                    )}
+                     
                 </ImageBackground>
 
                 <Animated.View style={{ alignItems: 'center', backgroundColor: animatedColor, flexDirection: 'row', paddingTop: 40, paddingBottom: 20, width: Dimensions.get('window').width, justifyContent: 'space-between'}}>

@@ -16,6 +16,8 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 //import genres  from '../data/dummygenre';
 
+import {useNavigation} from '@react-navigation/native'
+
 import { listTags, listGenres } from '../src/graphql/queries';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
@@ -28,21 +30,28 @@ const AudioStoryHome = ({navigation} : any) => {
 //fetch the genres
   useEffect(() => {
 
+    let genrearray = []
+
     const fetchGenres = async () => {
         
       const result = await API.graphql(graphqlOperation(listGenres))
 
-      if (result) {setGenres(result.data.listGenres.items)}
+      if (result) {
+        genrearray = result.data.listGenres.items
+        setGenres(genrearray.sort((a, b) => a.genre.localeCompare(b.genre)))
+      }
     }
 
     fetchGenres();
 
   }, [])
 
-  const Item = ({genre, icon, PrimaryColor, imageUri} : any) => {
+  const Item = ({genre, icon, id, PrimaryColor, imageUri} : any) => {
+
+    //const navigation = useNavigation()
 
     return (
-      <TouchableWithoutFeedback onPress = {() => navigation.navigate('GenreHome', {genre: genre})}>
+      <TouchableWithoutFeedback onPress = {() => navigation.navigate('GenreHome', {genreRoute: id})}>
         <View style={[styles.genrebox, {flexDirection: 'row', }]}>
             <Image
               source={{ uri: imageUri}}
@@ -65,6 +74,7 @@ const AudioStoryHome = ({navigation} : any) => {
     
   const renderItem = ({ item } : any) => (
     <Item 
+        id={item.id}
         genre={item.genre}
         icon={item.icon}
         PrimaryColor={item.PrimaryColor}
