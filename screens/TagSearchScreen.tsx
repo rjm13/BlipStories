@@ -289,7 +289,7 @@ const TagSearchScreen = ({navigation} : any) => {
                             <Image 
                                 source={{uri: imageUri}}
                                 style={{
-                                    height: 200,
+                                    height: imageUri ? 200 : 0,
                                     borderRadius: 15,
                                     marginVertical: 15,
                                     marginHorizontal: -10
