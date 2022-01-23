@@ -22,10 +22,11 @@ import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutation
 
 
 
-const ForYouCarousel = ({navigation} : any) => {
+const ForYouCarousel = () => {
 
     const Item = ({primary, title, genreName, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
 
+        const navigation = useNavigation();
     //set context globally for storyID
     //const {story} = props;
 

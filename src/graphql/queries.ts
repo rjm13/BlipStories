@@ -413,6 +413,12 @@ export const listPinnedStories = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          genre {
+            id
+            genre
+            icon
+            PrimaryColor
+          }
           genreID
           createdAt
           updatedAt
@@ -565,6 +571,12 @@ export const listFinishedStories = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          genre {
+            id
+            genre
+            icon
+            PrimaryColor
+          }
           createdAt
           updatedAt
           owner
@@ -1100,6 +1112,12 @@ export const listRatings = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          genre {
+            id
+            genre
+            icon
+            PrimaryColor
+          }
           createdAt
           updatedAt
           owner
@@ -1233,6 +1251,12 @@ export const listStoryTags = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          genre {
+            id
+            genre
+            icon
+            PrimaryColor
+          }
           createdAt
           updatedAt
           owner

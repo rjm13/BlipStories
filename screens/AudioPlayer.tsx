@@ -735,7 +735,7 @@ const AudioPlayer  = ({navigation} : any) => {
                                             return (
                                                 <View style={{marginHorizontal: 20, height: '100%', alignItems: 'center', justifyContent: 'center'}}>
                                                     <Text style={{textTransform: 'capitalize', textAlign: 'center', color: '#fff'}}>
-                                                        {Story?.genre}
+                                                        {Story?.genre?.genre}
                                                     </Text>
                                                 </View>
                                             )

@@ -27,36 +27,8 @@ import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 const HistoryList = ({navigation} : any) => {
 
-    const Item = ({title, genre, summary, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
-        
-        const Colors = {
-            color: 
-                genre === 'adventure' ? '#27d995' :
-                genre === 'comedy' ? '#ff9ce6' :
-                genre === 'crime' ? '#cac715' : 
-                genre === 'fan fiction' ? '#c92ad1' :
-                genre === 'fantasy' ? '#15ca54' :
-                genre === 'horror' ? '#1579ca' :
-                genre === 'life' ? '#15b8ca' :
-                genre === 'love' ? '#f05161' :
-                genre === 'mystery' ? '#ff6f00' :
-                genre === 'science fiction' ? '#c97f8b' :
-                genre === 'after dark' ? '#7081ff' : 
-                '#ffffffa5',
-            borderColor: 
-                genre === 'adventure' ? '#27d995' :
-                genre === 'comedy' ? '#ff9ce6' :
-                genre === 'crime' ? '#cac715' : 
-                genre === 'fan fiction' ? '#c92ad1' :
-                genre === 'fantasy' ? '#15ca54' :
-                genre === 'horror' ? '#1579ca' :
-                genre === 'life' ? '#15b8ca' :
-                genre === 'love' ? '#f05161' :
-                genre === 'mystery' ? '#ff6f00' :
-                genre === 'science fiction' ? '#c97f8b' :
-                genre === 'after dark' ? '#7081ff' : 
-                '#ffffffa5',
-        }
+    const Item = ({title, genreName, icon, primary, summary, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
+    
 
     //expanding list component
         const [isVisible, setIsVisible] = useState(false);
@@ -189,8 +161,8 @@ const HistoryList = ({navigation} : any) => {
                                     {title}
                                 </Text> 
                                 <View style={{flexDirection: 'row'}}>
-                                    <Text style={[styles.category, Colors]}>
-                                        {genre}
+                                    <Text style={[styles.category]}>
+                                        {genreName}
                                     </Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>
@@ -364,23 +336,33 @@ const HistoryList = ({navigation} : any) => {
         }, 2000);
       }
 
-    const renderItem = ({ item } : any) => (
+      const renderItem = ({ item }: any) => {
 
+        let icon = ''
+        let genreName = ''
+        let primary = ''
+
+        if (item.genre) {
+            icon = item.genre.icon
+            genreName = item.genre.genre
+            primary = item.genre.PrimaryColor
+        }
+        
+        return (
         <Item 
           title={item.title}
           imageUri={item.imageUri}
-          genre={item.genre}
+          genreName={genreName}
+          icon={icon}
+          primary={primary}
           audioUri={item.audioUri}
           summary={item.summary}
           author={item.author}
           narrator={item.narrator}
           time={item.time}
           id={item.id}
-          nsfw={item.nsfw}
-          //liked={item.liked}
-          //rating={item.rating}
         />
-      );
+      );}
 
       const [isLoading, setIsLoading] = useState(false);
 
@@ -487,7 +469,7 @@ const styles = StyleSheet.create({
     },
     category: {
         fontSize: 14,
-        color: 'cyan',
+        color: 'gray',
         //fontStyle: 'italic',
         marginVertical: 3,
         textTransform: 'capitalize'

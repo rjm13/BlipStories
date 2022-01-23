@@ -29,7 +29,7 @@ import { useRoute } from '@react-navigation/native';
 
 import { AppContext } from '../AppContext';
 
-import { listPinnedStories, listRatings, listStoryTags, listTags } from '../src/graphql/queries';
+import { listPinnedStories, listRatings, listStoryTags, listTags, listStories } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
@@ -52,37 +52,9 @@ const TagSearchScreen = ({navigation} : any) => {
 
 
       //this is the rendered search result item
-      const Item = ({title, genre, summary, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
+      const Item = ({title, genreName, icon, primary, summary, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
         
-        const Colors = {
-            color: 
-                genre === 'adventure' ? '#27d995' :
-                genre === 'comedy' ? '#ff9ce6' :
-                genre === 'crime' ? '#cac715' : 
-                genre === 'fan fiction' ? '#c92ad1' :
-                genre === 'fantasy' ? '#15ca54' :
-                genre === 'horror' ? '#1579ca' :
-                genre === 'life' ? '#15b8ca' :
-                genre === 'love' ? '#f05161' :
-                genre === 'mystery' ? '#ff6f00' :
-                genre === 'science fiction' ? '#c97f8b' :
-                genre === 'after dark' ? '#7081ff' : 
-                '#ffffffa5',
-            borderColor: 
-                genre === 'adventure' ? '#27d995' :
-                genre === 'comedy' ? '#ff9ce6' :
-                genre === 'crime' ? '#cac715' : 
-                genre === 'fan fiction' ? '#c92ad1' :
-                genre === 'fantasy' ? '#15ca54' :
-                genre === 'horror' ? '#1579ca' :
-                genre === 'life' ? '#15b8ca' :
-                genre === 'love' ? '#f05161' :
-                genre === 'mystery' ? '#ff6f00' :
-                genre === 'science fiction' ? '#c97f8b' :
-                genre === 'after dark' ? '#7081ff' : 
-                '#ffffffa5',
-        }
-
+        
         const navigation = useNavigation();
 
     //expanding list component
@@ -216,8 +188,8 @@ const TagSearchScreen = ({navigation} : any) => {
                                     {title}
                                 </Text> 
                                 <View style={{flexDirection: 'row'}}>
-                                    <Text style={[styles.category, Colors]}>
-                                        {genre}
+                                    <Text style={styles.category}>
+                                        {genreName}
                                     </Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>
@@ -345,6 +317,7 @@ const TagSearchScreen = ({navigation} : any) => {
             let stories = []
 
             try {
+
                 const searchResults = await API.graphql(graphqlOperation(
                     listStoryTags, {filter: {
                             tagID: {
@@ -363,9 +336,6 @@ const TagSearchScreen = ({navigation} : any) => {
 
                 setSearchedStories(stories)
 
-                // setSearchedStories(searchResults.data.getTag.stories.items);
-                // console.log('render is')
-                // console.log(searchResults.data.getTag.stories.items)
 
             } catch (e) {
                 console.log(e);
@@ -375,23 +345,34 @@ const TagSearchScreen = ({navigation} : any) => {
     
     }, [didUpdate])
 
-    const renderItem = ({ item } : any) => (
+    const renderItem = ({ item } : any) => {
+        
+        let icon = ''
+        let genreName = ''
+        let primary = ''
+
+        if (item.genre) {
+            icon = item.genre.icon
+            genreName = item.genre.genre
+            primary = item.genre.PrimaryColor
+        }
+
+        return (
 
       <Item 
-        title={item?.title}
-        imageUri={item?.imageUri}
-        genre={item?.genre}
-        audioUri={item?.audioUri}
-        summary={item?.summary}
-        author={item?.author}
-        narrator={item?.narrator}
-        time={item?.time}
-        id={item?.id}
-        nsfw={item?.nsfw}
-        //liked={item.liked}
-        //rating={item.rating}
+            title={item.title}
+            imageUri={item.imageUri}
+            genreName={genreName}
+            icon={icon}
+            primary={primary}
+            audioUri={item.audioUri}
+            summary={item.summary}
+            author={item.author}
+            narrator={item.narrator}
+            time={item.time}
+            id={item.id}
       />
-    );
+    );}
 
 
     return (
@@ -431,7 +412,7 @@ const TagSearchScreen = ({navigation} : any) => {
               <FlatList 
                 data={searchedStories}
                 renderItem={renderItem}
-                keyExtractor={(item, index) => item + index.toString()}
+                keyExtractor={(item) => item}
                 extraData={searchedStories}
                 // refreshControl={
                 //     <RefreshControl
@@ -553,7 +534,7 @@ time: {
 },
 category: {
     fontSize: 14,
-    color: 'cyan',
+    color: 'gray',
     //fontStyle: 'italic',
     marginVertical: 3,
     textTransform: 'capitalize'

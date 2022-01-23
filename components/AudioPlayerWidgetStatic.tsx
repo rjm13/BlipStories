@@ -663,7 +663,7 @@ const AddToHistory = async () => {
                                     <View style={{marginTop: 10,}}>
                                         <View style={[{flexDirection: 'row', justifyContent: 'space-between', width: 300}]}>
                                             <Text style={[Colors, { fontSize: 16, textTransform: 'capitalize' }]}>
-                                                {Story?.genre}
+                                                {Story?.genre?.genre}
                                             </Text>
                                             <View style={{justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center'}}>
                                                 <FontAwesome 
