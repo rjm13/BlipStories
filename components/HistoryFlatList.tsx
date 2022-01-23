@@ -20,7 +20,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { AppContext } from '../AppContext';
 
-import { listPinnedStories, listRatings, listFinishedStories } from '../src/graphql/queries';
+import { listFinishedStories } from '../src/customGraphql/customQueries';
+import { listPinnedStories, listRatings } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 

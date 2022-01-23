@@ -22,7 +22,9 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import { AppContext } from '../AppContext';
 
 import dummyaudio from '../data/dummyaudio';
-import { listPinnedStories, listRatings } from '../src/graphql/queries';
+
+import { listPinnedStories } from '../src/customGraphql/customQueries';
+import { listRatings } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 

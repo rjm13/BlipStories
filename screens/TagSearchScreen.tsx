@@ -29,7 +29,8 @@ import { useRoute } from '@react-navigation/native';
 
 import { AppContext } from '../AppContext';
 
-import { listPinnedStories, listRatings, listStoryTags, listTags, listStories } from '../src/graphql/queries';
+import { listStoryTags } from '../src/customGraphql/customQueries';
+import { listPinnedStories, listRatings, listTags, listStories } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
