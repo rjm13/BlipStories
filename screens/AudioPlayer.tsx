@@ -578,7 +578,7 @@ const AudioPlayer  = ({navigation} : any) => {
                     source={{uri: Story?.imageUri}}
                     style={{  backgroundColor: '#363636', width: Dimensions.get('window').width, height: 330,  position: 'absolute'  }}
                 >
-                    {Story.imageUri ? (null) : (
+                    {Story?.imageUri ? (null) : (
                         <View style={{ alignSelf: 'center', marginTop: 140}}>
                             <FontAwesome5 
                                 name={Story?.genre?.icon}

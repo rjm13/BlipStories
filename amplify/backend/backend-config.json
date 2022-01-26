@@ -52,5 +52,12 @@
         }
       }
     }
+  },
+  "function": {
+    "lambdaRatingAvg": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
   }
 }
