@@ -52,6 +52,7 @@ export type TabTwoParamList = {
   SearchScreen: undefined;
   TagSearchStack: undefined;
   UserScreenStack: undefined;
+  BrowseGenre: undefined;
 };
 
 export type TabThreeParamList = {

@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
 import { 
     View, 
-    Modal, 
     StyleSheet, 
     Text, 
     FlatList, 
@@ -9,15 +8,12 @@ import {
     RefreshControl, 
     TouchableWithoutFeedback, 
     TouchableOpacity, 
-    Image, 
-    Animated, 
-    PanResponder 
+    Image,
+    ActivityIndicator, 
+    ScrollView
 } from 'react-native';
 
-import {useRoute} from '@react-navigation/native'
-
-import {LinearGradient} from 'expo-linear-gradient';
-import { RadioButton } from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native'
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -26,305 +22,426 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import { AppContext } from '../AppContext';
 
-import { listStories, getGenre } from '../src/graphql/queries';
+import dummyaudio from '../data/dummyaudio';
+import { listRatings } from '../src/customGraphql/customQueries';
+import { listPinnedStories, listStories } from '../src/graphql/queries';
+import { deletePinnedStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
+import { ItemParamList } from '../types';
 
-const AudioListByGenre = ({navigation} : any) => {
 
-//route params from the GenreHome to specifiy the genre
-    const route = useRoute();
-    const {genreRoute} = route.params
+const AudioStoryList = ({genreID} : any) => {
 
-    //global context for the story that is playing
-    const { setStoryID } = useContext(AppContext);
+    const flatListRef = useRef();
 
-    //update list state
+    const ScrollToThisThing = ({letter, id}: any) => {
+        flatListRef.current?.scrollTo({x: id * id, animated: true});
+      }
+
+
+    const alphabet = [{id: 1, letter: 'a'},{id: 2,letter: 'b'},{id: 3,letter: 'c'},{id: 4,letter: 'd'},{id: 5,letter: 'e'},{id: 6,letter: 'f'},{id: 7,letter: 'g'},{id: 8,letter: 'h'},{id: 9,letter: 'i'},{id: 10,letter: 'j'},{id: 11,letter: 'k'},{id: 12,letter: 'l'},{id: 13,letter: 'm'},{id: 14,letter: 'n'},{id: 15,letter: 'o'},{id: 16,letter: 'p'},{id: 17,letter: 'q'},{id: 18,letter: 'r'},{id: 19,letter: 's'},{id: 20,letter: 't'},{id: 21,letter: 'u'},{id: 22,letter: 'v'},{id: 23,letter: 'w'},{id: 24,letter: 'x'},{id: 25,letter: 'y'},{id: 26,letter: 'z'},]
+
+    const Item = ({title, genreName, icon, primary, summary, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
+        
+        
+        const navigation = useNavigation();
+
+    //expanding list component
+        const [isVisible, setIsVisible] = useState(false);
+    //liking the item
+        const [isLiked, setIsLiked] = useState(false);
+        
+        const onLikePress = () => {
+            if ( isLiked === false ) {
+                setIsLiked(true);
+            }
+            if ( isLiked === true ) {
+                setIsLiked(false);
+            }  
+        };
+
+    //queueing the item
+
+        //unpin a story
+        const unPinStory = async () => {
+
+            let userInfo = await Auth.currentAuthenticatedUser();
+        
+            let getPin = await API.graphql(graphqlOperation(
+                listPinnedStories, {
+                    filter: {
+                        userID: {
+                            eq: userInfo.attributes.sub
+                        },
+                        storyID: {
+                            eq: id
+                        }
+                    }
+                }
+            ))
+            console.log(getPin)
+            
+            let connectionID = getPin.data.listPinnedStories.items[0].id
+            console.log(connectionID)
+
+            let deleteConnection = await API.graphql(graphqlOperation(
+                deletePinnedStory, {input: {"id": connectionID}}
+            ))
+            console.log(deleteConnection)
+
+            setDidUpdate(!didUpdate)
+        }
+
+        const [isQ, setQd] = useState(true);
+        
+        const onQPress = () => {
+            if ( isQ === false ) {
+                setQd(true);
+            }
+            if ( isQ === true ) {
+                setQd(false);
+                unPinStory();
+            }  
+        };
+
+
+
+
+        //play the audio story
+        const { setStoryID } = useContext(AppContext);
+
+        const onPlay = () => {
+            setStoryID(id);
+        }
+
+    //calculate the average user rating fora  story
+    const [AverageUserRating, setAverageUserRating] = useState(0);
+
+    //rating function
+    const [isRated, setIsRated] = useState(false);
+
+    useEffect(() => {
+
+        let Average = []
+
+        const fetchRating = async () => {
+
+            let userInfo = await Auth.currentAuthenticatedUser();
+
+            let Rating = await API.graphql(graphqlOperation(
+                listRatings, {filter: {
+                    userID: {
+                        eq: userInfo.attributes.sub
+                    },
+                    storyID: {
+                        eq: id
+                    }
+                }}
+            ))
+            if (Rating?.data.listRatings.items.length === 1) {
+                //setRatingNum(Rating.data.listRatings.items[0].rating);
+                setIsRated(true);
+                //setRatingID(Rating.data.listRatings.items[0].id);
+            } else {
+                //setRatingNum(0);
+                setIsRated(false);
+            }
+
+            let RatingAvg = await API.graphql(graphqlOperation(
+                listRatings, {filter: {
+                    storyID: {
+                        eq: id
+                    }
+                }}
+            ))
+
+            if (RatingAvg.data.listRatings.items.length > 0) {
+                for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
+                    Average.push(RatingAvg.data.listRatings.items[i].rating) 
+                }
+                setAverageUserRating(
+                    Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
+                )
+            }
+        }
+        fetchRating();
+    }, [])
+
+        return (
+            <View>
+                <TouchableWithoutFeedback onPress={() => setIsVisible(!isVisible)}>
+                    <View style={styles.tile}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <View style={{ width: '78%'}}>
+                                <Text style={styles.name}>
+                                    {title}
+                                </Text> 
+                                <View style={{flexDirection: 'row'}}>
+                                    <Text style={[styles.category]}>
+                                        {genreName}
+                                    </Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>
+                                    <FontAwesome5 
+                                        name='book-open'
+                                        size={12}
+                                        color='#ffffffa5'
+                                    />
+                                    <Text style={styles.userId}>
+                                        {author}
+                                    </Text>  
+                                    <FontAwesome5 
+                                        name='book-reader'
+                                        size={12}
+                                        color='#ffffffa5'
+                                    />
+                                    <Text style={styles.userId}>
+                                        {narrator}
+                                    </Text> 
+                                </View>
+                            </View>
+                            <TouchableOpacity onPress={onPlay}>
+                                <View style={{ 
+                                    flexDirection: 'row', 
+                                    alignItems: 'center', 
+                                    borderRadius: 30,
+                                    paddingVertical: 2,
+                                    paddingHorizontal: 8,
+                                    backgroundColor: '#ffffff33',
+                                    borderColor: '#ffffffCC',
+                                }}>
+                                    <FontAwesome5 
+                                        name='play'
+                                        color='#ffffff'
+                                        size={10}
+                                    />
+                                    <Text style={styles.time}>
+                                        12:53
+                                    </Text> 
+                                </View>
+                            </TouchableOpacity>
+                        </View> 
+                
+                { isVisible ? (
+                    <View style={styles.popupblock}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
+                            <View style={{alignItems: 'center', width: '100%',flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <View style={{ marginVertical: 10, alignSelf: 'flex-start', flexDirection: 'row',  }}>
+    
+                                    <View style={{alignItems: 'center', marginRight: 25,}}>
+                                        <AntDesign
+                                            name={isQ ? 'pushpin' : 'pushpino'}
+                                            size={22}
+                                            color={isQ ? 'cyan' : 'white'}
+                                            onPress={onQPress}
+                                        />
+                                    </View>
+
+                                    <View style={{alignItems: 'center', marginRight: 25,}}>
+                                        <FontAwesome
+                                            name='commenting-o'
+                                            size={22}
+                                            color='white'
+                                            onPress={onLikePress}
+                                        />
+                                    </View>
+
+                                    <View style={{alignItems: 'center'}}>
+                                        <FontAwesome
+                                            name='share'
+                                            size={22}
+                                            color='white'
+                                            onPress={onLikePress}
+                                        />
+                                    </View>
+                                </View>
+
+                                <View>
+                                    <View style={{justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row'}}>
+                                        <FontAwesome
+                                            name={isRated === true ? 'star' : 'star-o'}
+                                            size={22}
+                                            color={isRated === true ? 'gold' : 'white'}
+                                            style={{paddingHorizontal: 10}}
+                                        />
+                                        <Text style={{textAlign: 'center', fontSize: 17, color: '#e0e0e0'}}>
+                                            {AverageUserRating}%
+                                        </Text>
+                                    </View>
+                                </View>
+                        
+                            </View>  
+                        </View>
+
+                        <TouchableWithoutFeedback onPress={() => navigation.navigate('AudioPlayer', {storyID: id})}>
+                            <Image 
+                                source={{uri: imageUri}}
+                                style={{
+                                    height: imageUri ? 200 : 0,
+                                    borderRadius: 15,
+                                    marginVertical: 15,
+                                    marginHorizontal: -10
+                                }}
+                            />
+                        </TouchableWithoutFeedback>
+                        <Text style={styles.paragraph}>
+                            {summary}
+                        </Text>
+                    </View>
+                ) : false }  
+                    </View>
+                </TouchableWithoutFeedback>
+            </View>
+        );
+    }
+    //state for the array of pinned stories for that user
+    const [genreStories, setGenreStories] = useState([])
+
+    //update trigger for fetching the pinned stories
     const [didUpdate, setDidUpdate] = useState(false);
 
-//refresh controls for the flatlists
+    //the selected letter for the filter to the stories in the genre. Begins with...
+    const [selectedLetter, setSelectedLetter] = useState('a')
+
+    //on render, get the user and then list the following connections for that user
+    useEffect(() => {
+
+        const fetchStories = async () => {
+
+            setIsLoading(true);
+
+            try {
+
+                const genreData = await API.graphql(graphqlOperation(
+                    listStories, {
+                        filter: {
+                            genreID: {
+                                eq: genreID
+                            },
+                            title: {
+                                beginsWith: selectedLetter.toUpperCase()
+                            },
+                        }
+                }))
+                setGenreStories(genreData.data.listStories.items)
+
+              setIsLoading(false)
+            } catch (e) {
+            console.log(e);
+          }
+        }
+           fetchStories(); 
+           
+      }, [selectedLetter, didUpdate])
+
+
     const [isFetching, setIsFetching] = useState(false);
 
     const onRefresh = () => {
         setIsFetching(true);
-        setDidUpdate(!didUpdate);
+        setDidUpdate(!didUpdate)
         setTimeout(() => {
           setIsFetching(false);
         }, 2000);
       }
 
-//fetch the stories for a specific genre for promoted carousel      
-    const [carouselStories, setCarouselStories] = useState([]);
+      const renderItem = ({ item }: any) => {
 
-    useEffect(() => {
-        const fetchStorys = async () => {
-                
-            if (genreRoute) {
-                try {
-                    const response = await API.graphql(
-                        graphqlOperation(
-                            listStories, {
-                                limit: 5,
-                                filter: {
-                                    genre: {
-                                        genreID: {
-                                        eq: genreRoute 
-                                        }
-                                        
-                                    }
-                                }
-                            } 
-                        )
-                    )
-                    setCarouselStories(response.data.listStories.items);
-                } catch (e) {
-                    console.log(e);}
-            }
+        let icon = ''
+        let genreName = ''
+        let primary = ''
+
+        if (item.genre) {
+            icon = item.genre.icon
+            genreName = item.genre.genre
+            primary = item.genre.PrimaryColor
         }
+        
+        return (
+        <Item 
+          title={item.title}
+          imageUri={item.imageUri}
+          genreName={genreName}
+          icon={icon}
+          primary={primary}
+          audioUri={item.audioUri}
+          summary={item.summary}
+          author={item.author}
+          narrator={item.narrator}
+          time={item.time}
+          id={item.id}
+        />
+      );}
 
-        fetchStorys();
-
-    },[didUpdate])
-
-    const [Color, setColor] = useState('#363636')
-
-      const animation = useRef(new Animated.Value(0)).current;
-
-      const [isScrollEnabled, setIsScrollEnabled] = useState(true);
-
-      const [scrollOffset, setScrollOffset] = useState(0);
-
-
-    // const animatedHeight = {
-    //     transform: animation.getTranslateTransform(),
-    // };
-
-    const animatedOpacity = animation.interpolate({
-        inputRange: [0, 100],
-        outputRange: [1, 0],
-        extrapolate: 'clamp',
-        });
-
-    const animatedAppearOpacity = animation.interpolate({
-        inputRange: [0, 300],
-        outputRange: [0, 1],
-        extrapolate: 'clamp',
-        });
-
-    const animatedHeaderHeight = animation.interpolate({
-        inputRange: [0, 300],
-        outputRange: [300, 80],
-        extrapolate: 'clamp',
-        });
-
-    const animatedColor = animation.interpolate({
-        inputRange: [0, 300],
-        outputRange: ['#000000', Color],
-        extrapolate: 'clamp',
-        });
-
-    // const BackgroundColors = {
-    //     backgroundColor: 
-    //         genre === 'crime' ? '#cac715' : 
-    //         genre === 'fantasy' ? '#15ca54' :
-    //         genre === 'suspense' ? '#1579ca' :
-    //         genre === 'comedy' ? '#ff9ce6' :
-    //         genre === 'science fiction' ? '#c97f8b' :
-    //         genre === 'life & adventure' ? '#15b8ca' :
-    //         genre === 'fan fiction' ? '#a05ebf' :
-    //         genre === 'after dark' ? '#5b6ade' : 
-    //         'cyan'
-    // }
-
-
-
+      const [isLoading, setIsLoading] = useState(false);
 
     return (
+            <View style={styles.container}>
+                <View>
+                    <ScrollView style={{paddingHorizontal: 20}} horizontal={true} ref={flatListRef} showsHorizontalScrollIndicator={false}>        
+                        {alphabet.map(({ id, letter } : any) => (
+                                <View key={id} style={{}}>
+                                    <TouchableWithoutFeedback onPress={() => {ScrollToThisThing({letter, id}); setSelectedLetter(letter);}}>
+                                        <View style={{ paddingHorizontal: 10, marginBottom: 20}}>
+                                            <Text style={{
+                                                color: selectedLetter === letter ? 'cyan' : '#fff',
+                                                fontWeight: selectedLetter === letter ? 'bold' : 'normal',
+                                                fontSize: selectedLetter === letter ? 20 : 17,
+                                                textTransform: 'capitalize',
+                                            }}>
+                                                {letter}
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                </View>
+                        ))}
+                        <View style={{width: 40}}>
 
-        <View style={[styles.container]}>
-
-
-            <Animated.FlatList 
-                data={Storys}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-                extraData={true}
-                //stickyHeaderIndices={[0]}
-                //onScroll={event => {setScrollOffset(event.nativeEvent.contentOffset.y);}}
-                onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset: { y: animation } } }],
-                    { useNativeDriver: false }
-                  )}
-                scrollEventThrottle={1}
-                //style={{marginTop: 300}}
-                refreshControl={
-                    <RefreshControl
-                     refreshing={isFetching}
-                     onRefresh={onRefresh}
-                    />
-                  }
-                showsVerticalScrollIndicator={false}    
-                ListFooterComponent={ () => {
-                    return (
-                    <View style={{ height:  70, alignItems: 'center'}}>
-                        <Text style={{ color: 'white', margin: 20,}}>
-                            
-                        </Text>
+                        </View>
+                    </ScrollView>
                     </View>
-                    );}
-                }
-                ListHeaderComponent={ () => {
 
-                    
 
-                    return (
-                        <View style={{ height: 300}}>
-                        </View>
-                    )
-                }}
-            />
-
-            <Animated.View 
-                style={[ {backgroundColor: animatedColor, height: animatedHeaderHeight, width: Dimensions.get('window').width, position: 'absolute'}]}
-            >
-                <Modal
-                animationType="slide"
-                transparent={true}
-                //presentationStyle='overFullScreen'
-                visible={sortModalVisible}
-                onRequestClose={() => {
-                setSortModalVisible(!sortModalVisible);
-                }}
-            >
-                    <View 
-                        style={{    
-                            flex: 1,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            marginTop: 20}}>
-                                <View 
-                                    style={{
-                                        margin: 40,
-                                        backgroundColor: "#363636",
-                                        borderRadius: 20,
-                                        padding: 35,
-                                        alignItems: "center",
-                                        shadowColor: "#fff",
-                                        shadowOffset: {
-                                            width: 0,
-                                            height: 2
-                                            },
-                                        shadowOpacity: 0.25,
-                                        shadowRadius: 4,
-                                        elevation: 5,
-                                        width: Dimensions.get('window').width/1.5
-                                        }}>
-                        <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold', width: '100%'}}>Sort by</Text>
-                        <View style={{ marginTop: 20}}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                                <RadioButton
-                                    value="first"
-                                    status={ checked === 'first' ? 'checked' : 'unchecked' }
-                                    onPress={() => setChecked('first')}
-                                /> 
-                                <Text style={{marginHorizontal: 20, color: '#fff'}}>
-                                    A - Z
-                                </Text>
-                            </View>
-
-                            <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                                <RadioButton
-                                    value="second"
-                                    status={ checked === 'second' ? 'checked' : 'unchecked' }
-                                    onPress={() => setChecked('second')}
-                                /> 
-                                <Text style={{marginHorizontal: 20, color: '#fff'}}>
-                                    Z - A
-                                </Text>
-                            </View>
-
-                            <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                                <RadioButton
-                                    value="third"
-                                    status={ checked === 'third' ? 'checked' : 'unchecked' }
-                                    onPress={() => setChecked('third')}
-                                /> 
-                                <Text style={{marginHorizontal: 20, color: '#fff'}}>
-                                    Newest
-                                </Text>
-                            </View>
-
-                            <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                                <RadioButton
-                                    value="fourth"
-                                    status={ checked === 'fourth' ? 'checked' : 'unchecked' }
-                                    onPress={() => setChecked('fourth')}
-                                /> 
-                                <Text style={{marginHorizontal: 20, color: '#fff'}}>
-                                    Oldest
-                                </Text>
-                            </View>
-                            
-                            <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                                <RadioButton
-                                    value="fifth"
-                                    status={ checked === 'fifth' ? 'checked' : 'unchecked' }
-                                    onPress={() => setChecked('fifth')}
-                                /> 
-                                <Text style={{marginHorizontal: 20, color: '#fff'}}>
-                                    Highest Rating
-                                </Text>
-                            </View>
-                            
-                        </View>
-
-                        <View style={{marginTop: 50}}>
-                            <TouchableOpacity onPress={() => {setSortModalVisible(!sortModalVisible);}}>
-                                <Text style={{color: '#ffffffa5'}}>
-                                    Close
-                                </Text>
-                            </TouchableOpacity>
-                            
-                        </View>
-                    </View>
-                    
-                    </View>
-                </Modal>
-                <LinearGradient
-                    colors={[Color, Color, 'transparent']}
-                    style={{height: '100%'}}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                >
-                    <View style={{ marginTop: 40, flexDirection: 'row', marginHorizontal: 20, justifyContent: 'space-between'}}>
-                        <View style={{ flexDirection: 'row'}}>
-                            <FontAwesome5 
-                                name='chevron-left'
-                                color='#000'
-                                size={22}
-                                onPress={() => navigation.goBack()}
-                            />
-                            <Animated.Text style={{ marginLeft: 20, textAlign: 'center', opacity: animatedAppearOpacity, fontSize: 18, textTransform: 'capitalize', fontWeight: 'bold'}}>
-                                {genre}
-                            </Animated.Text>
-                        </View>
-                        <FontAwesome5 
-                            name='sort-alpha-down'
-                            color='#000'
-                            size={22}
-                            onPress={() => setSortModalVisible(!sortModalVisible)}
+                <FlatList 
+                    data={genreStories}
+                    renderItem={renderItem}
+                    keyExtractor={item => item}
+                    extraData={genreStories}
+                    maxToRenderPerBatch={10}
+                    initialNumToRender={15}
+                    refreshControl={
+                        <RefreshControl
+                        refreshing={isFetching}
+                        onRefresh={onRefresh}
                         />
-                    </View>
-                    <View style={{ top: 40, alignItems: 'center'}}>
-                        <Animated.Text style={{ fontSize: 32, color: '#000', textTransform: 'capitalize', fontWeight: 'bold', opacity: animatedOpacity}}>
-                            {genre}
-                        </Animated.Text>
-                    </View>
-                    
-                </LinearGradient>
-            </Animated.View>
+                    }
+                    showsVerticalScrollIndicator={false}  
+                    ListFooterComponent={ () => {
+                        return (
+                            <View style={{ height:  70, alignItems: 'center'}}>
+                                <Text style={{ color: 'white', margin: 20,}}>
+                                    
+                                </Text>
+                            </View>
+                    );}}
+                    ListEmptyComponent={ () => {
+                        return (
+                            <View style={{ height:  70, alignItems: 'center'}}>
+                                {isLoading === true ? (
+                                <View style={{margin: 30}}>
+                                    <ActivityIndicator size='small' color='cyan' />
+                                </View>
+                                ) : (
+                                <Text style={{ color: 'white', margin: 20,}}>
+                                    Oops! There is nothing here!
+                                </Text>
+                                )}
+                            </View>
+                    );}}
+                />
 
-        </View>
+            </View>
 
     );
 }
@@ -344,6 +461,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         color: '#fff',
+        flexWrap: 'wrap',
+        width: 225,
     },
     userId: {
         fontSize: 12,
@@ -378,7 +497,7 @@ const styles = StyleSheet.create({
     },
     category: {
         fontSize: 14,
-        color: 'cyan',
+        color: 'gray',
         //fontStyle: 'italic',
         marginVertical: 3,
         textTransform: 'capitalize'
@@ -387,4 +506,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default AudioListByGenre;
+export default AudioStoryList;

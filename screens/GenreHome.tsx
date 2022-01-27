@@ -4,6 +4,7 @@ import {
     StyleSheet, 
     Text, 
     TouchableWithoutFeedback, 
+    ScrollView
 } from 'react-native';
 
 import {useRoute} from '@react-navigation/native'
@@ -18,9 +19,12 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import { AppContext } from '../AppContext';
 
-import { listStories, getGenre } from '../src/graphql/queries';
+import { listTags, getGenre } from '../src/graphql/queries';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
+
 import GenreCarousel from '../components/HorizList/GenreCarousel';
+import PopTagStories from '../components/HorizList/PopTagStories';
+import NewGenreStories from '../components/HorizList/NewGenreStories';
 
 const GenreHome = ({navigation} : any) => {
 
@@ -60,6 +64,40 @@ const GenreHome = ({navigation} : any) => {
         fetchGenre();
     }, [])
 
+//get 2 trending tags in the genre
+    const [trendingTags, setTrendingTags] = useState(['BattleOfTheBulge', 'HarryPotter']);
+
+    useEffect(() => {
+
+        let TopTags = []
+
+        const fetchTags = async () => {
+            
+            try {
+                const response = await API.graphql(
+                    graphqlOperation(
+                        listTags, {limit: 2, filter: {
+                            story: {
+                                genre: genreRoute
+                            }
+                            }    
+                        } 
+                    )
+                )
+                for (let i = 0; i < response.data.listTags.items.length; i++) {
+                    TopTags.push(response.data.listTags.data[i].tagName)
+                }
+                if (response) {
+                    setTrendingTags(TopTags);
+                }
+                
+            } catch (e) {
+                console.log(e);}
+        
+    }
+    fetchTags();
+    },[genreRoute])
+
 
     return (
         <View style={styles.container}>
@@ -69,32 +107,51 @@ const GenreHome = ({navigation} : any) => {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 0, y: 1 }}
             >
-                <View style={{alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', marginTop: 20}}>
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <FontAwesome5 
-                            name='chevron-left'
-                            size={22}
-                            color='#fff'
-                            style={{padding: 30}}
-                            onPress={() => navigation.goBack()}
-                        /> 
-                        <Text style={{marginLeft: 20, fontWeight: 'bold', fontSize: 22, color: '#fff', textTransform: 'capitalize'}}>
-                            {GenreInfo.genre}
-                        </Text>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <View style={{alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', marginTop: 20}}>
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                            <FontAwesome5 
+                                name='chevron-left'
+                                size={22}
+                                color='#fff'
+                                style={{padding: 30}}
+                                onPress={() => navigation.goBack()}
+                            /> 
+                            <Text style={{fontWeight: 'bold', fontSize: 22, color: '#fff', textTransform: 'capitalize'}}>
+                                {GenreInfo.genre}
+                            </Text>
+                        </View>
+                        <View>
+                            <TouchableWithoutFeedback onPress={() => navigation.navigate('BrowseGenre', {genreID: GenreInfo.id, genreName: GenreInfo.genre})}>
+                                <Text style={{marginRight: 40, color: '#fff'}}>
+                                    Browse All
+                                </Text> 
+                            </TouchableWithoutFeedback>
+                            
+                        </View>
                     </View>
-                    <View>
-                        <TouchableWithoutFeedback>
-                           <Text style={{marginRight: 20, color: '#fff'}}>
-                                Browse All
-                            </Text> 
-                        </TouchableWithoutFeedback>
-                        
-                    </View>
-                </View>
 
-                <View style={{ marginTop: 20}}>
-                    <GenreCarousel genreid={genreRoute}/>
-                </View>
+                    <View style={{ marginTop: 0}}>
+                        <GenreCarousel genreid={genreRoute}/>
+                    </View>
+
+                    <View style={{ marginTop: 20}}>
+                        <PopTagStories genreid={genreRoute} tag={trendingTags[0]}/>
+                    </View>
+
+                    <View style={{ marginTop: 20}}>
+                        <PopTagStories genreid={genreRoute} tag={trendingTags[0]}/>
+                    </View>
+
+                    <View style={{ marginTop: 20}}>
+                        <NewGenreStories genreid={genreRoute}/>
+                    </View>
+
+                    <View style={{height: 40}}>
+
+                    </View>
+
+                </ScrollView>
             </LinearGradient>
         </View>
     );
