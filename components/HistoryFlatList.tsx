@@ -30,6 +30,7 @@ const HistoryList = ({navigation} : any) => {
 
     const Item = ({title, genreName, icon, primary, summary, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
     
+        const navigation = useNavigation();
 
     //expanding list component
         const [isVisible, setIsVisible] = useState(false);
@@ -158,9 +159,12 @@ const HistoryList = ({navigation} : any) => {
                     <View style={styles.tile}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                             <View style={{ width: '78%'}}>
-                                <Text style={styles.name}>
-                                    {title}
-                                </Text> 
+                                <TouchableOpacity onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
+                                    <Text style={styles.name}>
+                                        {title}
+                                    </Text>
+                                </TouchableOpacity>
+                                 
                                 <View style={{flexDirection: 'row'}}>
                                     <Text style={[styles.category]}>
                                         {genreName}
@@ -216,25 +220,16 @@ const HistoryList = ({navigation} : any) => {
                                     <View style={{alignItems: 'center', marginRight: 25,}}>
                                         <AntDesign
                                             name={isQ ? 'pushpin' : 'pushpino'}
-                                            size={22}
+                                            size={20}
                                             color={isQ ? 'cyan' : 'white'}
                                             onPress={onQPress}
-                                        />
-                                    </View>
-
-                                    <View style={{alignItems: 'center', marginRight: 25,}}>
-                                        <FontAwesome
-                                            name='commenting-o'
-                                            size={22}
-                                            color='white'
-                                            onPress={onLikePress}
                                         />
                                     </View>
 
                                     <View style={{alignItems: 'center'}}>
                                         <FontAwesome
                                             name='share'
-                                            size={22}
+                                            size={20}
                                             color='white'
                                             onPress={onLikePress}
                                         />
@@ -245,7 +240,7 @@ const HistoryList = ({navigation} : any) => {
                                     <View style={{justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row'}}>
                                         <FontAwesome
                                             name={isRated ? 'star' : 'star-o'}
-                                            size={22}
+                                            size={17}
                                             color={isRated ? 'gold' : 'white'}
                                             style={{paddingHorizontal: 10}}
                                         />
