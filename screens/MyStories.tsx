@@ -67,7 +67,7 @@ const MyStories = ({navigation} : any) => {
             <View style={styles.tile}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{ width: '78%'}}>
-                        <TouchableWithoutFeedback onPress={() => navigation.navigate('AudioPlayer', {storyID: id})}>
+                        <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
                             <View>
                                 <Text style={styles.name}>
                                     {title}

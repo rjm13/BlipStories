@@ -117,7 +117,7 @@ const PopTagStories = ({genreid, tag} : any) => {
                     />
                 </View>
 
-                <TouchableWithoutFeedback onPress={() => navigation.navigate('AudioPlayer', {storyID: id})}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
                     <ImageBackground
                         source={{uri: imageUri}}
                         style={{marginBottom: 12, backgroundColor: '#ffffffa5', width: 200, height: 180, justifyContent: 'flex-end', borderRadius: 15}}

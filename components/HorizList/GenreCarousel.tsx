@@ -226,7 +226,7 @@ const GenreCarousel = ({genreid} : any) => {
                     />
                 </View>
                 {/* </LinearGradient> */}
-                <TouchableWithoutFeedback onPress={() => navigation.navigate('AudioPlayer', {storyID: id})}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
                 <ImageBackground
                     source={{uri: imageUri}}
                     style={{backgroundColor: '#ffffffa5', width: '100%', height: 280, justifyContent: 'flex-end', borderRadius: 15}}

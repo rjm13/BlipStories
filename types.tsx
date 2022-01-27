@@ -1,6 +1,6 @@
 export type RootStackParamList = {
   Root: undefined;
-  AudioPlayer: undefined;
+  StoryScreen: undefined;
   AudioPlayerTest: undefined;
   UserScreen: undefined;
   SignUp: undefined;

@@ -402,10 +402,10 @@ const AddToHistory = async () => {
         unPinStory();
 
         //navigate to the story page and open the ratings modal, if not already rated
-            RootNavigation.navigate('AudioPlayer', { storyID: storyID });
+            RootNavigation.navigate('StoryScreen', { storyID: storyID });
             onClose();
     } else {
-        RootNavigation.navigate('AudioPlayer', { storyID: storyID });
+        RootNavigation.navigate('StoryScreen', { storyID: storyID });
         onClose();
     }
     
@@ -633,7 +633,7 @@ const AddToHistory = async () => {
                             <View>
                                 <TouchableWithoutFeedback 
                                     onPress={
-                                        () => {RootNavigation.navigate('AudioPlayer', { storyID: storyID });
+                                        () => {RootNavigation.navigate('StoryScreen', { storyID: storyID });
                                         onChangeHandler();}
                                     }>
                                     <View style={{ alignItems: 'center',  marginHorizontal: 40, marginVertical: 20, }}>

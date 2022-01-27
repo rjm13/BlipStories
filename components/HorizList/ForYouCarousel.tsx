@@ -1,23 +1,29 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { SafeAreaView, View, Text, StyleSheet, Dimensions, TouchableWithoutFeedback, ImageBackground, RefreshControl, TouchableOpacity } from 'react-native';
+import { 
+    SafeAreaView, 
+    View, 
+    Text, 
+    StyleSheet, 
+    Dimensions, 
+    TouchableWithoutFeedback, 
+    ImageBackground, 
+    RefreshControl, 
+    TouchableOpacity 
+} from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Carousel from 'react-native-snap-carousel';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {LinearGradient} from 'expo-linear-gradient';
 
 import { useNavigation } from '@react-navigation/native';
-import * as RootNavigation from '../../navigation/RootNavigation';
 
 import { listPinnedStories, listStories } from '../../src/graphql/queries';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
+import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 
 import { AppContext } from '../../AppContext';
 
-import genres from '../../data/dummygenre';
 
-import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 
 
 
@@ -26,9 +32,8 @@ const ForYouCarousel = () => {
 
     const Item = ({primary, title, genreName, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
 
+        //navigation hook
         const navigation = useNavigation();
-    //set context globally for storyID
-    //const {story} = props;
 
         //add a story to the pinned playlist function
         const PinStory = async () => {
@@ -74,9 +79,7 @@ const ForYouCarousel = () => {
         //set the gloabal context for the storyID
         const { setStoryID } = useContext(AppContext);
 
-        const onPlay = () => {
-            setStoryID(id);
-        }
+        const onPlay = () => {setStoryID(id);}
 
         //convert time to formatted string
         function millisToMinutesAndSeconds () {
@@ -85,7 +88,7 @@ const ForYouCarousel = () => {
             return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
         }  
 
-
+    //determine to show the extra story info or not
         const [isVisible, setIsVisible] = useState(false);
         
         const onShow = () => {
@@ -94,18 +97,6 @@ const ForYouCarousel = () => {
             }
             if ( isVisible === true ) {
                 setIsVisible(false);
-            }  
-        };
-
-    //liking the item
-        const [isLiked, setIsLiked] = useState(false);
-        
-        const onLikePress = () => {
-            if ( isLiked === false ) {
-                setIsLiked(true);
-            }
-            if ( isLiked === true ) {
-                setIsLiked(false);
             }  
         };
 
@@ -123,14 +114,13 @@ const ForYouCarousel = () => {
             }  
         };
 
-        //on render, determine if the story in alraedy pinned or not
+    //on render, determine if the story in alraedy pinned or not
         useEffect(() => {
             const fetchPin = async () => {
 
                 const userInfo = await Auth.currentAuthenticatedUser();
 
                 try {
-
                     let getPin = await API.graphql(graphqlOperation(
                         listPinnedStories, {
                             filter: {
@@ -147,7 +137,6 @@ const ForYouCarousel = () => {
                     if (getPin.data.listPinnedStories.items.length === 1) {
                         setQd(true);
                     }
-
                 } catch (error) {
                     console.log(error)
                 }
@@ -157,12 +146,7 @@ const ForYouCarousel = () => {
 
         return (
             <View style={styles.container}>
-                {/* <LinearGradient
-                    colors={['#18c9c9a5','#2f2179', '#000']}
-                    style={{ }}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 1 }}
-                > */}
+         
                 <View style={{ position: 'absolute', alignSelf: 'center', top: 80, backgroundColor: 'transparent'}}>
                     <FontAwesome5 
                         name={icon}
@@ -170,28 +154,26 @@ const ForYouCarousel = () => {
                         size={50}
                     />
                 </View>
-                {/* </LinearGradient> */}
-                <TouchableWithoutFeedback onPress={() => navigation.navigate('AudioPlayer', {storyID: id})}>
-                <ImageBackground
-                    source={{uri: imageUri}}
-                    style={{backgroundColor: '#ffffffa5', width: '100%', height: 280, justifyContent: 'flex-end', borderRadius: 15}}
-                    imageStyle={{
-                        borderRadius: 15,
-                        
-                    }}
-                >
-                    <View style={{ 
-                        backgroundColor: '#000000a5',
-                        borderBottomLeftRadius: 15,
-                        borderBottomRightRadius: 15,
-                        borderTopRightRadius: isVisible === true ? 15 : 0,
-                        borderTopLeftRadius: isVisible === true ? 15 : 0,
-                        //height: isVisible === true ? '100%' : '35%',
-                        //height: '35%',
-                        width: '100%',
-                        padding: 10, 
-                    }}
+
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
+                    <ImageBackground
+                        source={{uri: imageUri}}
+                        style={{backgroundColor: '#ffffffa5', width: '100%', height: 280, justifyContent: 'flex-end', borderRadius: 15}}
+                        imageStyle={{
+                            borderRadius: 15,
+                            
+                        }}
                     >
+                    <View 
+                        style={{ 
+                            backgroundColor: '#000000a5',
+                            borderBottomLeftRadius: 15,
+                            borderBottomRightRadius: 15,
+                            borderTopRightRadius: isVisible === true ? 15 : 0,
+                            borderTopLeftRadius: isVisible === true ? 15 : 0,
+                            width: '100%',
+                            padding: 10, 
+                    }}>
                         <TouchableWithoutFeedback onPress={onShow}>
                             <View>
                                 <View>
@@ -245,7 +227,7 @@ const ForYouCarousel = () => {
                                             {summary}
                                         </Text>
                                     </View>
-                        <View> 
+                            <View> 
                                 <View style={{ justifyContent: 'space-between', alignItems: 'center', marginVertical: 10, marginHorizontal: 0, flexDirection: 'row',  }}>
                                         <TouchableOpacity onPress={onPlay}>
                                             <View style={{ 
@@ -256,9 +238,6 @@ const ForYouCarousel = () => {
                                                 paddingHorizontal: 8,
                                                 backgroundColor: '#ffffff4D',
                                                 borderColor: '#ffffffCC',
-                                                
-                                                //borderWidth: 0.5,
-                                                //height: 26 
                                                 }}>
                                                     <FontAwesome5 
                                                         name='play'
@@ -283,29 +262,27 @@ const ForYouCarousel = () => {
                                             color={isQ ? 'cyan' : 'white'}
                                             onPress={onQPress}
                                         />
-                                    
-                                </View>
-
-                            
                                     </View>
+                                </View>
                             </View>
-
                             ) : false } 
                         </View>
-
                     </View>
-
                 </ImageBackground>
                 </TouchableWithoutFeedback>
             </View>
         );
     }
+    //determines if something needs to rerender
     const [didUpdate, setDidUpdate] = useState(false);
 
+    //refreshes the flatlist
     const [isFetching, setIsFetching] = useState(false);
 
+    //data for the flatlist. 
     const [Storys, setStorys] = useState([]);
 
+    //get the data for the flatlist
     useEffect( () => {
         const fetchStorys = async () => {
             try {
@@ -315,7 +292,6 @@ const ForYouCarousel = () => {
                     )
                 )
                 setStorys(response.data.listStories.items);
-                //console.log(response.data.listStories.items)
             } catch (e) {
                 console.log(e);
             }
@@ -356,14 +332,11 @@ const ForYouCarousel = () => {
           narrator={item.narrator}
           time={item.time}
           id={item.id}
-          //liked={item.liked}
-          //rating={item.rating}
         />
       );}
 
     return (
-        <SafeAreaView style={{}}>
-
+        <SafeAreaView>
             <Carousel
               data={Storys}
               renderItem={renderItem}
@@ -411,17 +384,14 @@ const styles = StyleSheet.create({
     },
     listheader: {
         fontSize: 18,
-        //fontWeight: 'bold',
         color: '#fff',
       },
       button: {
         fontSize: 12,
-        //fontWeight: 'bold',
         color: '#fff',
       },
       buttonbox:
       {
-        //margin: 20,
         borderWidth: 0.5,
         borderColor: '#fff',
         paddingVertical: 4,
@@ -438,14 +408,11 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#ffffffa5',
         textTransform: 'capitalize'
-        //fontStyle: 'italic',
-        //marginVertical: 3,
 
     },
     popupblock: {
         marginTop: 0,
         justifyContent: 'space-between',
-        //height: 180,
     },
     paragraph: {
         color: '#ffffffE6',

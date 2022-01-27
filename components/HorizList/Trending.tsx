@@ -119,7 +119,7 @@ const Item = ({title, genre, description, imageUri, audioUri, writer, narrator, 
                     size={30}
                 />
             </View>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('AudioPlayer', {storyID: id})}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
           <ImageBackground
             source={{uri: imageUri}}
             style={[BackgroundColors, styles.image]}

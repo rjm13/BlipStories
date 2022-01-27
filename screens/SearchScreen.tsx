@@ -319,7 +319,7 @@ const SearchScreen = ({navigation} : any) => {
                             </View>  
                         </View>
 
-                        <TouchableWithoutFeedback onPress={() => navigation.navigate('AudioPlayer', {storyID: id})}>
+                        <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
                             <Image 
                                 source={{uri: imageUri}}
                                 style={{

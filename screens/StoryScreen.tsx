@@ -34,7 +34,7 @@ import { createPinnedStory, deletePinnedStory, createRating, updateRating } from
 import { AppContext } from '../AppContext';
 
 
-const AudioPlayer  = ({navigation} : any) => {
+const StoryScreen  = ({navigation} : any) => {
 
 //ref to scroll to comment section
     const scrollRef = useRef();
@@ -54,7 +54,6 @@ const AudioPlayer  = ({navigation} : any) => {
 
 //set the position of the audio player if the screen is full page
     const { setIsRootScreen } = useContext(AppContext);
-    const { isRootScreen } = useContext(AppContext);
 
     useEffect(() => {
         setIsRootScreen(true)
@@ -64,9 +63,7 @@ const AudioPlayer  = ({navigation} : any) => {
     const { setStoryID } = useContext(AppContext);
 
 //set global state context to the storyID to play the story
-    const onPlay = () => {
-        setStoryID(storyID);
-    }
+    const onPlay = () => {setStoryID(storyID);}
 
 //get the story attributes using the storyID
     useEffect(() => {
@@ -75,46 +72,12 @@ const AudioPlayer  = ({navigation} : any) => {
                 const storyData = await API.graphql(graphqlOperation(getStory, {id: storyID}))
 
                 if (storyData) {setStory(storyData.data.getStory);
-                    //const response = await Storage.get(storyData.data.getStory.audioUri, {download: false, expiration: 604800});
-                    //setAudioUri(response);
                 }
             } catch (e) {
                 console.log(e);
             }}
         fetchStory();
     }, [storyID])
-
-
-//set the colors for the different genres
-    const Colors = {
-        borderColor: 
-            Story?.genre === 'adventure' ? '#27d995' :
-            Story?.genre === 'comedy' ? '#ff9ce6' :
-            Story?.genre === 'crime' ? '#cac715' : 
-            Story?.genre === 'fan fiction' ? '#c92ad1' :
-            Story?.genre === 'fantasy' ? '#15ca54' :
-            Story?.genre === 'horror' ? '#1579ca' :
-            Story?.genre === 'life' ? '#15b8ca' :
-            Story?.genre === 'love' ? '#f05161' :
-            Story?.genre === 'mystery' ? '#ff6f00' :
-            Story?.genre === 'science fiction' ? '#c97f8b' :
-            Story?.genre === 'after dark' ? '#7081ff' : 
-            '#ffffffa5',
-        
-        color: 
-            Story?.genre === 'adventure' ? '#27d995' :
-            Story?.genre === 'comedy' ? '#ff9ce6' :
-            Story?.genre === 'crime' ? '#cac715' : 
-            Story?.genre === 'fan fiction' ? '#c92ad1' :
-            Story?.genre === 'fantasy' ? '#15ca54' :
-            Story?.genre === 'horror' ? '#1579ca' :
-            Story?.genre === 'life' ? '#15b8ca' :
-            Story?.genre === 'love' ? '#f05161' :
-            Story?.genre === 'mystery' ? '#ff6f00' :
-            Story?.genre === 'science fiction' ? '#c97f8b' :
-            Story?.genre === 'after dark' ? '#7081ff' : 
-            '#ffffffa5',
-        }
 
 //rating state (if rated or not)
     const [isLiked, setIsLiked] = useState(false);
@@ -171,13 +134,12 @@ const AudioPlayer  = ({navigation} : any) => {
 
         let tags = []
     
-          const result = await API.graphql(graphqlOperation(
+        const result = await API.graphql(graphqlOperation(
             listStoryTags, {
                 filter: {
                     storyID: {
                         eq: 
                             storytag
-                        
                     }
                 },
                 limit: 12
@@ -189,7 +151,6 @@ const AudioPlayer  = ({navigation} : any) => {
                   tags.push(result.data.listStoryTags.items[i].tag)
               }
             setTags(tags)
-            console.log(tags)
           }
         }
         fetchTags();
@@ -680,7 +641,7 @@ const AudioPlayer  = ({navigation} : any) => {
                                         <View style={ styles.icon}>
                                             <AntDesign 
                                                 name={isQ ? 'pushpin' : 'pushpino'}
-                                                size={22}
+                                                size={20}
                                                 color={isQ ? 'cyan' : 'white'}
                                                 onPress={onQPress}
                                                 style={{ }}
@@ -689,7 +650,7 @@ const AudioPlayer  = ({navigation} : any) => {
                                         <View style={ styles.icon}>
                                             <FontAwesome 
                                                 name='commenting-o'
-                                                size={22}
+                                                size={20}
                                                 color='white'
                                                 onPress={scrollToView}
                                                 style={{ }}
@@ -698,7 +659,7 @@ const AudioPlayer  = ({navigation} : any) => {
                                         <View style={ styles.icon}>
                                             <FontAwesome 
                                                 name='share'
-                                                size={22}
+                                                size={20}
                                                 color='white'
                                                 //onPress={}
                                                 style={{ }}
@@ -710,12 +671,12 @@ const AudioPlayer  = ({navigation} : any) => {
                                         <View style={{justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center'}}>
                                             <FontAwesome 
                                                 name={isRated === true ? 'star' : 'star-o'}
-                                                size={22}
+                                                size={17}
                                                 color={isRated === true || isFinished === true ? 'gold' : 'white'}
                                                 onPress={onLikePress}
                                                 style={{marginHorizontal: 6 }}
                                             />
-                                            <Text style={{textAlign: 'center', color: '#e0e0e0', fontSize: 19}}>
+                                            <Text style={{textAlign: 'center', color: '#e0e0e0', fontSize: 17}}>
                                                 {AverageUserRating}%
                                             </Text>
                                         </View>
@@ -745,7 +706,7 @@ const AudioPlayer  = ({navigation} : any) => {
                                         ListHeaderComponent={() => {
                                             return (
                                                 <View style={{marginHorizontal: 20, height: '100%', alignItems: 'center', justifyContent: 'center'}}>
-                                                    <Text style={{textTransform: 'capitalize', textAlign: 'center', color: '#fff'}}>
+                                                    <Text style={{fontSize: 15, textTransform: 'capitalize', textAlign: 'center', color: '#fff'}}>
                                                         {Story?.genre?.genre}
                                                     </Text>
                                                 </View>
@@ -821,7 +782,7 @@ const styles = StyleSheet.create ({
     },
     username: {
         color: '#ffffffCC',
-        fontSize: 16,
+        fontSize: 14,
         marginVertical: 5,
         textTransform: 'capitalize'
     },
@@ -847,7 +808,7 @@ const styles = StyleSheet.create ({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'transparent',
-        marginRight: 20,
+        marginRight: 30,
     },
     tagbox: {
         marginRight: 10   
@@ -865,4 +826,4 @@ const styles = StyleSheet.create ({
    
 });
 
-export default AudioPlayer;
+export default StoryScreen;

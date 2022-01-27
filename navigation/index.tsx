@@ -11,7 +11,7 @@ import SimpleAudioPlayer from '../screens/SimpleAudioPlayer';
 
 //show over top
 import UserScreen from '../screens/UserScreen';
-import AudioPlayer from '../screens/AudioPlayer';
+import StoryScreen from '../screens/StoryScreen';
 import TagSearchScreen from '../screens/TagSearchScreen';
 
 import RedirectScreen from '../screens/auth/RedirectScreen';
@@ -96,7 +96,7 @@ function RootNavigator() {
       <Stack.Screen name="ForgotPasswordCon" component={ForgotPasswordConScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="ConfirmEmail" component={ConfirmEmailScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="SimpleAudioPlayer" component={SimpleAudioPlayer} options={{ title: 'Oops!' }} />
-      <Stack.Screen name="AudioPlayer" component={AudioPlayer} options={{ title: 'Oops!' }} />
+      <Stack.Screen name="StoryScreen" component={StoryScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="Redirect" component={RedirectScreen} />
       <Stack.Screen name="TagSearchScreen" component={TagSearchScreen} options={{ headerShown: false }}/>
 
