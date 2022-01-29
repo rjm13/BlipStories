@@ -18,11 +18,17 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "function": {
-        "lambdaRatingAvg": {
+        "BlipStoriesRatingAvg": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
             "LambdaExecutionRole": "string"
+        }
+    },
+    "storage": {
+        "BlipStoriesStorage": {
+            "BucketName": "string",
+            "Region": "string"
         }
     }
 }

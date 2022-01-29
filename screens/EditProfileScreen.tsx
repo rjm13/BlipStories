@@ -106,12 +106,12 @@ const EditProfile = ({navigation} : any) => {
     }
 
 //PhotoModal
-    const [visible, setVisible] = React.useState(false);
+    const [visible, setVisible] = useState(false);
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
 
 //SignOutModal
-    const [visible2, setVisible2] = React.useState(false);
+    const [visible2, setVisible2] = useState(false);
     const showSignOutModal = () => setVisible2(true);
     const hideSignOutModal = () => setVisible2(false);
     const containerStyle = {
@@ -176,6 +176,8 @@ const handleUpdateImage = async ()=> {
 
         setAvatarKey(s3Response.key);
 
+        console.log(s3Response.key)
+
     } catch (e) {
         console.error(e);
     }
@@ -186,20 +188,28 @@ const PublishAvatar = async () => {
 
     setIsUploading(true);
 
-    await handleUpdateImage();
+    //await handleUpdateImage();
 
-    if ( avatarKey !== '' ) {
+    const response = await fetch(image);
 
-        const response = await Storage.get(avatarKey);
+        const blob = await response.blob();
+
+        const filename =  uuid.v4().toString();
+
+        const s3Response = await Storage.put(filename, blob);
+
+    //if ( avatarKey !== '' ) {
+
+        const getresponse = await Storage.get(s3Response.key);
   
-        const updatedUser = { id: user.id, imageUri: response }
+        const updatedUser = { id: user.id, imageUri: getresponse }
   
         let result = await API.graphql(graphqlOperation(
             updateUser, { input: updatedUser }
             ))
         console.log(result);
         
-        }
+        //}
     setIsUploading(false);
     hideModal();
 };
@@ -516,7 +526,9 @@ const handleUpdatePassword = async () => {
                                     <ActivityIndicator size="small" color="#0000ff"/>
                                 ) : 
                                     <TouchableOpacity onPress={PublishAvatar}>
-                                        <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
+                                        <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>
+                                            Submit
+                                        </Text>
                                     </TouchableOpacity> 
                                 }   
                             </View>

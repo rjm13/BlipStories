@@ -72,7 +72,7 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   tags: [Tag] @manyToMany (relationName: "StoryTag")
   ratingAvg: Float
   rated: [Rating] @hasMany(indexName: "byStory", fields: ["id"])
-  genreID: ID
+  genreID: ID @index(name: "byGenre", sortKeyFields: ["id"])
   genre: Genre @hasOne (fields: ["genreID"])
   }
 
@@ -84,7 +84,6 @@ type Genre @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
     PrimaryColor: String
     SecondaryColor: String
     imageUri: String
-    type: String!
 
 }
 

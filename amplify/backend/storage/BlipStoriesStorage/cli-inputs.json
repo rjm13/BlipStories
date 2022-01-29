@@ -1,0 +1,18 @@
+{
+  "resourceName": "BlipStoriesStorage",
+  "policyUUID": "d3c23828",
+  "bucketName": "blipstoriesbucket",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
