@@ -26,54 +26,55 @@ import uuid from 'react-native-uuid';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { createStory } from '../src/graphql/mutations';
-import { getUser } from '../src/graphql/queries';
-
-import genres  from '../data/dummygenre';
+import { getUser, listGenres } from '../src/graphql/queries';
 
 
-export default function UploadAudio({navigation} : any) {   
+const UploadAudio = ({navigation} : any) => {   
 
     //set the current user
     const [user, setUser] = useState({})
 
-    //get the user
-    useEffect(() => {
-        const fetchUser = async () => {
 
-          const userInfo = await Auth.currentAuthenticatedUser();
-                if (!userInfo) {return;}
 
-          try {
-            const userData = await API.graphql(graphqlOperation(
-              getUser, {id: userInfo.attributes.sub}
-            ))
-                if (userData) {setUser(userData.data.getUser);
-            }
-
-            console.log(userData.data.getUser);
-
-          } catch (e) {
-            console.log(e);
-          }
-        }
-        fetchUser();
-      }, [])
-
-//audio object
+//audio object and image object
     const [pendingImageState, setPendingImageState] = useState('');
     const [pendingAudioState, setPendingAudioState] = useState('');
 
     //text data input state holders. Will be sent to aws
     const [data, setData] = useState({
         title: '',
+        summary: '',
         description: '',
         genre: '',
-        writer: user?.pseudonym,
+        author: '',
         narrator: '',
         time: null,
         imageUri: '',
         audioUri: '',
     });
+
+        //get the user in order to prefill the author's name
+        useEffect(() => {
+            const fetchUser = async () => {
+    
+              const userInfo = await Auth.currentAuthenticatedUser();
+                    if (!userInfo) {return;}
+    
+              try {
+                const userData = await API.graphql(graphqlOperation(
+                  getUser, {id: userInfo.attributes.sub}
+                ))
+                    if (userData) {setData({...data, author: userData.data.getUser.pseudonym});
+                }
+    
+                console.log(userData.data.getUser);
+    
+              } catch (e) {
+                console.log(e);
+              }
+            }
+            fetchUser();
+          }, [])
 
     const [localImageUri, setLocalImageUri] = useState('');
     const [localAudioUri, setLocalAudioUri] = useState('');
@@ -87,30 +88,30 @@ export default function UploadAudio({navigation} : any) {
 
         setIsLoading(true);
 
-        if (localImageUri) {
+        // if (localImageUri) {
         
-                const response = await fetch(localImageUri);
-                const blob = await response.blob();
-                const filename = uuid.v4().toString();
-                const s3ResponseImage = await Storage.put(filename, blob);
+        //         const response = await fetch(localImageUri);
+        //         const blob = await response.blob();
+        //         const filename = uuid.v4().toString();
+        //         const s3ResponseImage = await Storage.put(filename, blob);
                 
-                const result = await Storage.get(s3ResponseImage.key);
-                setPendingImageState(result);          
-        }
+        //         const result = await Storage.get(s3ResponseImage.key);
+        //         setPendingImageState(result);          
+        // }
         
-        if (localAudioUri) {
-            try {
-                const response = await fetch(localAudioUri);
-                const blob = await response.blob();
-                const filename = uuid.v4().toString();
-                const s3ResponseAudio = await Storage.put(filename, blob);
+        // if (localAudioUri) {
+        //     try {
+        //         const response = await fetch(localAudioUri);
+        //         const blob = await response.blob();
+        //         const filename = uuid.v4().toString();
+        //         const s3ResponseAudio = await Storage.put(filename, blob);
 
-                //const response_a = await Storage.get(s3ResponseAudio.key);
-                setPendingAudioState(s3ResponseAudio.key);
-            } catch (e) {
-                console.error(e);
-            }
-        }
+        //         //const response_a = await Storage.get(s3ResponseAudio.key);
+        //         setPendingAudioState(s3ResponseAudio.key);
+        //     } catch (e) {
+        //         console.error(e);
+        //     }
+        // }
 
         setIsLoading(false);
         setIsLoaded(true);
@@ -123,21 +124,39 @@ export default function UploadAudio({navigation} : any) {
 
     const PublishStory = async () => {
 
-        console.log(pendingAudioState);
-        console.log(pendingImageState);
-
         setIsPublishing(true);
-        setData({...data, imageUri: pendingAudioState, audioUri: pendingImageState});
-        console.log(data);
+
+        try {
+            const response = await fetch(localImageUri);
+            const blob = await response.blob();
+            const filename = uuid.v4().toString();
+            const s3ResponseImage = await Storage.put(filename, blob);
+            const result = await Storage.get(s3ResponseImage.key);
+            setPendingImageState(result);    
+        } catch (e) {
+            console.error(e);
+        }      
+
+        try {
+            const response = await fetch(localAudioUri);
+            const blob = await response.blob();
+            const filename = uuid.v4().toString();
+            const s3ResponseAudio = await Storage.put(filename, blob);
+            const result = await Storage.get(s3ResponseAudio.key);
+            setPendingAudioState(result);
+        } catch (e) {
+            console.error(e);
+        }
 
         try {
             let result = await API.graphql(
                     graphqlOperation(createStory, { input: 
                         {
                             title: data.title,
+                            summary: data.summary,
                             description: data.description,
                             genre: data.genre,
-                            writer: data.writer,
+                            author: data.author,
                             narrator: data.narrator,
                             time: data.time,
                             imageUri: pendingImageState,
@@ -217,38 +236,32 @@ export default function UploadAudio({navigation} : any) {
     };
   
 //Modal dropdown
-      const Genre = genres.map((item, index) => item.genre)
 
-      const ConvertToString = (val) => {
-          if (val === 0) {
-            setData({...data, genre: 'crime'})
-          }  
-          if (val === 1) {
-            setData({...data, genre: 'fantasy'})
-          }
-          if (val === 2) {
-            setData({...data, genre: 'mystery'})
-          }
-          if (val === 3) {
-            setData({...data, genre: 'comedy'})
-          }
-          if (val === 4) {
-            setData({...data, genre: 'heart warming'})
-          }
-          if (val === 5) {
-            setData({...data, genre: 'life'})
-          }  
-          if (val === 6) {
-            setData({...data, genre: 'after dark'})
-          }  
-          if (val === 7) {
-            setData({...data, genre: 'fan fiction'})
-          }    
+    const [Genres, setGenres] = useState([]);
+
+    useEffect(() => {
+
+        let genrearray = []
+
+        const fetchGenres = async () => {
+            
+        const result = await API.graphql(graphqlOperation(listGenres))
+
+        if (result) {
+            genrearray = result.data.listGenres.items
+            setGenres(genrearray.sort((a : any, b : any) => a.genre.localeCompare(b.genre)))
         }
+    }
 
-//Toggle Switch
-      const [isSwitchOn, setIsSwitchOn] = useState(false);
-      const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+    fetchGenres();
+
+    },[])
+
+    const Genre = Genres.map((item, index) => item.genre)
+
+    const ConvertToString = (val : any) => {
+        setData({...data, genre: Genre[val].genre})  
+    }
   
 //Modal
       const [visible, setVisible] = useState(false);
@@ -258,7 +271,7 @@ export default function UploadAudio({navigation} : any) {
         termsAgree === true &&
         audioName !== '' &&
         localImageUri !== '' &&
-        data.writer !== '' &&
+        data.author !== '' &&
         data.genre !== '' &&
         data.description !== '' &&
         data.title !== '' ?
@@ -305,7 +318,7 @@ export default function UploadAudio({navigation} : any) {
                             color='#ffffffa5'
                         />
                         <Text style={styles.userId}>
-                            {data.writer}
+                            {data.author}
                         </Text>  
                         <FontAwesome5 
                             name='book-reader'
@@ -347,21 +360,8 @@ export default function UploadAudio({navigation} : any) {
                             />
                     </View>
                     
-                        
-                        <View style={{ flexDirection: 'row'}}>
-                            <Text style={{
-                                fontSize: 16,
-                                paddingVertical: 20,
-                                color: 'white',
-                                margin: 20,
-                            }}>
-                                    Post annonymously
-                            </Text>  
-                        </View>
-                    
-                    
                         <View style={{ width: '100%', alignItems: 'center'}}>
-                            {!isLoading && !isLoaded? (
+                            {/* {!isLoading && !isLoaded? (
                                 <TouchableOpacity
                                         style={{ 
                                             marginBottom: 20,
@@ -376,17 +376,19 @@ export default function UploadAudio({navigation} : any) {
                                                 borderWidth: 1,
                                                 borderColor: 'cyan'
                                                 }} >
-                                            <Text style={{ color: 'cyan', fontSize: 16, textAlign: 'center'}}>Upload Media</Text>
+                                            <Text style={{ color: 'cyan', fontSize: 16, textAlign: 'center'}}>
+                                                Upload Media
+                                            </Text>
                                         </View>
                                     </TouchableOpacity>
-                            ) : null }
+                            ) : null } */}
 
-                            {isLoading ? (<ActivityIndicator size="large" color="#ffffff"/>) : null }
+                            {/* {isLoading ? (<ActivityIndicator size="large" color="#ffffff"/>) : null } */}
 
-                            {isLoaded && !isPublishing && !isPublished && !isLoading ? (
+                            {/* {!isPublishing && !isPublished && !isLoading ? ( */}
                                 <TouchableOpacity
                                     style={{ 
-                                        marginBottom: 20,
+                                        marginVertical: 40,
                                     }}
                                     onPress={PublishStory}>
                                     <LinearGradient
@@ -397,12 +399,14 @@ export default function UploadAudio({navigation} : any) {
                                             borderRadius: 20,
                                             width: 100,
                                             }} >
-                                        <Text style={{ color: 'black', fontSize: 16, textAlign: 'center'}}>Publish</Text>
+                                        <Text style={{ color: 'black', fontSize: 16, textAlign: 'center'}}>
+                                            Publish
+                                        </Text>
                                     </LinearGradient>
                                 </TouchableOpacity>
-                            ) : null }
+                            {/* ) : null } */}
                             
-                            {isLoaded && isPublishing ? (<ActivityIndicator size="large" color="#ffffff"/>) : null}
+                            {isPublishing ? (<ActivityIndicator size="large" color="#ffffff"/>) : null}
                             
                             {isPublished ? (
                                 <TouchableOpacity
@@ -506,33 +510,30 @@ export default function UploadAudio({navigation} : any) {
                             flexDirection: 'row',
                             }}>
                         <ModalDropdown 
-                        options={Genre}
-                        defaultValue='Select Genre...'
-                        defaultTextStyle={{ color: '#ffffffa5'}}
-                        onSelect={(val) => ConvertToString(val)}
-                        style={{ 
-                        }}
-                        textStyle={{ color: 'cyan', fontSize: 14, textTransform: 'capitalize',}}
-                        dropdownStyle={{ 
-                            backgroundColor: '#363636', 
-                            width: '80%', 
-                            borderWidth: 0,
-                            borderRadius: 15,
-                            height: 280,
-                            marginTop: 10
-                        }}
-                        dropdownTextStyle={{ 
-                            backgroundColor: 'transparent',
-                            color: '#fff',
-                            fontSize: 14,
-                            paddingHorizontal: 20,
-                            paddingVertical: 15,
-                            textTransform: 'capitalize',
-                            
-                        }}
-                        dropdownTextHighlightStyle={{
-                            color: 'cyan'
-                        }}
+                            options={Genre}
+                            defaultValue='Select Genre...'
+                            defaultTextStyle={{ color: '#ffffffa5'}}
+                            onSelect={(val) => ConvertToString(val)}
+                            textStyle={{ color: 'cyan', fontSize: 14, textTransform: 'capitalize',}}
+                            dropdownStyle={{ 
+                                backgroundColor: '#363636', 
+                                width: '80%', 
+                                borderWidth: 0,
+                                borderRadius: 15,
+                                height: 280,
+                                marginTop: 10
+                            }}
+                            dropdownTextStyle={{ 
+                                backgroundColor: 'transparent',
+                                color: '#fff',
+                                fontSize: 14,
+                                paddingHorizontal: 20,
+                                paddingVertical: 15,
+                                textTransform: 'capitalize',
+                            }}
+                            dropdownTextHighlightStyle={{
+                                color: 'cyan'
+                            }}
                         />
                         <FontAwesome5 
                             name='check-circle'
@@ -553,12 +554,12 @@ export default function UploadAudio({navigation} : any) {
                             maxLength={50}
                             multiline={true}
                             numberOfLines={2}
-                            onChangeText={val => setData({...data, writer: val})}
-                            defaultValue={!!user ? user?.pseudonym : 'Annonymous'}
+                            onChangeText={val => setData({...data, author: val})}
+                            defaultValue={user?.pseudonym}
                         />
                         <FontAwesome5 
                             name='check-circle'
-                            color={data.writer !== '' ? 'cyan' : '#363636'}
+                            color={data.author !== '' ? 'cyan' : '#363636'}
                             size={20}
                         />
                     </View>
@@ -628,7 +629,7 @@ export default function UploadAudio({navigation} : any) {
                                     termsAgree === true &&
                                     audioName !== '' &&
                                     localImageUri !== '' &&
-                                    data.writer !== '' &&
+                                    data.author !== '' &&
                                     data.genre !== '' &&
                                     data.description !== '' &&
                                     data.title !== ''
@@ -638,7 +639,7 @@ export default function UploadAudio({navigation} : any) {
                                     termsAgree === true && 
                                     audioName !== '' &&
                                     localImageUri !== '' &&
-                                    data.writer !== '' &&
+                                    data.author !== '' &&
                                     data.genre !== '' &&
                                     data.description !== '' &&
                                     data.title !== ''
@@ -716,3 +717,4 @@ timer: {
 },
 });
 
+export default UploadAudio;
