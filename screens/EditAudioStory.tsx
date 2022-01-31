@@ -63,7 +63,7 @@ const EditAudio = ({navigation} : any) => {
         title: Story.title,
         summary: Story.summary,
         description: Story.description,
-        imageUri: Story.Uri,
+        imageUri: Story.imageUri,
     });
 
 //placeholder for the local image uri
@@ -78,15 +78,16 @@ const [localImageUri, setLocalImageUri] = useState('');
 
         setIsLoading(true);
 
-        if (localImageUri) {
+        if (localImageUri !== '') {
         
-                const response = await fetch(localImageUri);
-                const blob = await response.blob();
-                const filename = uuid.v4().toString();
-                const s3ResponseImage = await Storage.put(filename, blob);
-                
-                const result = await Storage.get(s3ResponseImage.key);
-                setPendingImageState(result);          
+            const response = await fetch(localImageUri);
+            const blob = await response.blob();
+            const filename = uuid.v4().toString();
+            const s3ResponseImage = await Storage.put(filename, blob);
+            
+            const result = await Storage.get(s3ResponseImage.key);
+            setData({...data, imageUri: result});    
+            setNewImageData(true);      
         }
 
         setIsLoading(false);
@@ -157,7 +158,6 @@ const [localImageUri, setLocalImageUri] = useState('');
         }
 
         setIsPublishing(true);
-        setData({...data, imageUri: pendingImageState});
 
         let UpdateObject = {
             id: storyID
@@ -171,6 +171,19 @@ const [localImageUri, setLocalImageUri] = useState('');
         }
         if (newDescData === true) {
             Object.assign(UpdateObject, {description: data.description})
+        }
+        if (newImageData === true) {
+            Object.assign(UpdateObject, {description: data.imageUri})
+        }
+        if (localImageUri !== '') {
+        
+            const response = await fetch(localImageUri);
+            const blob = await response.blob();
+            const filename = uuid.v4().toString();
+            const s3ResponseImage = await Storage.put(filename, blob);
+            const result = await Storage.get(s3ResponseImage.key);
+            Object.assign(UpdateObject, {imageUri: result})
+    
         }
 
 
@@ -278,6 +291,7 @@ const [localImageUri, setLocalImageUri] = useState('');
     const [newData, setNewData] = useState(false);
     const [newSumData, setNewSumData] = useState(false);
     const [newDescData, setNewDescData] = useState(false);
+    const [newImageData, setNewImageData] = useState(false);
 
 
 
@@ -539,7 +553,7 @@ const [localImageUri, setLocalImageUri] = useState('');
                     </View>
 
                     <Image 
-                        source={{uri: Story?.imageUri}}
+                        source={{uri: localImageUri === '' ? Story?.imageUri : localImageUri}}
                         style={{backgroundColor: 'gray', marginVertical: 20, borderRadius: 15, width: Dimensions.get('window').width - 40, height: 200}}
                     />
 

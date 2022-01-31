@@ -22,8 +22,8 @@ import {graphqlOperation, API, Auth} from 'aws-amplify';
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 
 import { AppContext } from '../../AppContext';
-
-
+import PinStory from '../functions/PinStory';
+import unPinStory from '../functions/UnPinStory';
 
 
 
@@ -36,45 +36,45 @@ const ForYouCarousel = () => {
         const navigation = useNavigation();
 
         //add a story to the pinned playlist function
-        const PinStory = async () => {
+        // const PinStory = async () => {
 
-            let userInfo = await Auth.currentAuthenticatedUser();
+        //     let userInfo = await Auth.currentAuthenticatedUser();
         
-            let createPin = await API.graphql(graphqlOperation(
-                createPinnedStory, {input: {userID: userInfo.attributes.sub, storyID: id}}
-            ))
-            console.log(createPin)
-        }
+        //     let createPin = await API.graphql(graphqlOperation(
+        //         createPinnedStory, {input: {userID: userInfo.attributes.sub, storyID: id}}
+        //     ))
+        //     console.log(createPin)
+        // }
 
         //unpin a story
-        const unPinStory = async () => {
+        // const unPinStory = async () => {
 
-            let userInfo = await Auth.currentAuthenticatedUser();
+        //     let userInfo = await Auth.currentAuthenticatedUser();
         
-            let getPin = await API.graphql(graphqlOperation(
-                listPinnedStories, {
-                    filter: {
-                        userID: {
-                            eq: userInfo.attributes.sub
-                        },
-                        storyID: {
-                            eq: id
-                        }
-                    }
-                }
-            ))
-            console.log(getPin)
+        //     let getPin = await API.graphql(graphqlOperation(
+        //         listPinnedStories, {
+        //             filter: {
+        //                 userID: {
+        //                     eq: userInfo.attributes.sub
+        //                 },
+        //                 storyID: {
+        //                     eq: id
+        //                 }
+        //             }
+        //         }
+        //     ))
+        //     console.log(getPin)
             
-            let connectionID = getPin.data.listPinnedStories.items[0].id
-            console.log(connectionID)
+        //     let connectionID = getPin.data.listPinnedStories.items[0].id
+        //     console.log(connectionID)
 
-            let deleteConnection = await API.graphql(graphqlOperation(
-                deletePinnedStory, {input: {"id": connectionID}}
-            ))
-            console.log(deleteConnection)
+        //     let deleteConnection = await API.graphql(graphqlOperation(
+        //         deletePinnedStory, {input: {"id": connectionID}}
+        //     ))
+        //     console.log(deleteConnection)
 
-            setDidUpdate(!didUpdate)
-        }
+        //     setDidUpdate(!didUpdate)
+        // }
 
         //set the gloabal context for the storyID
         const { setStoryID } = useContext(AppContext);
@@ -106,11 +106,12 @@ const ForYouCarousel = () => {
         const onQPress = () => {
             if ( isQ === false ) {
                 setQd(true);
-                PinStory()
+                PinStory({storyID: id})
+                //PinStory()
             }
             if ( isQ === true ) {
                 setQd(false);
-                unPinStory();
+                unPinStory({storyID: id});
             }  
         };
 

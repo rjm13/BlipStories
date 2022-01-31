@@ -32,6 +32,8 @@ import { getStory, listPinnedStories, listRatings, listStoryTags, listFinishedSt
 import { createPinnedStory, deletePinnedStory, createRating, updateRating } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
+import PinStory from '../components/functions/PinStory';
+import unPinStory from '../components/functions/UnPinStory';
 
 
 const StoryScreen  = ({navigation} : any) => {
@@ -179,43 +181,43 @@ const StoryScreen  = ({navigation} : any) => {
       );
 
 //add a story to the pinned playlist function
-    const PinStory = async () => {
+    // const PinStory = async () => {
 
-        let userInfo = await Auth.currentAuthenticatedUser();
+    //     let userInfo = await Auth.currentAuthenticatedUser();
     
-        let createPin = await API.graphql(graphqlOperation(
-            createPinnedStory, {input: {userID: userInfo.attributes.sub, storyID: storyID}}
-        ))
-        console.log(createPin)
-    }
+    //     let createPin = await API.graphql(graphqlOperation(
+    //         createPinnedStory, {input: {userID: userInfo.attributes.sub, storyID: storyID}}
+    //     ))
+    //     console.log(createPin)
+    // }
 
 //unpin a story
-    const unPinStory = async () => {
+    // const unPinStory = async () => {
 
-        let userInfo = await Auth.currentAuthenticatedUser();
+    //     let userInfo = await Auth.currentAuthenticatedUser();
     
-        let getPin = await API.graphql(graphqlOperation(
-            listPinnedStories, {
-                filter: {
-                    userID: {
-                        eq: userInfo.attributes.sub
-                    },
-                    storyID: {
-                        eq: storyID
-                    }
-                }
-            }
-        ))
-        console.log(getPin)
+    //     let getPin = await API.graphql(graphqlOperation(
+    //         listPinnedStories, {
+    //             filter: {
+    //                 userID: {
+    //                     eq: userInfo.attributes.sub
+    //                 },
+    //                 storyID: {
+    //                     eq: storyID
+    //                 }
+    //             }
+    //         }
+    //     ))
+    //     console.log(getPin)
         
-        let connectionID = getPin.data.listPinnedStories.items[0].id
-        console.log(connectionID)
+    //     let connectionID = getPin.data.listPinnedStories.items[0].id
+    //     console.log(connectionID)
 
-        let deleteConnection = await API.graphql(graphqlOperation(
-            deletePinnedStory, {id: connectionID}
-        ))
-        console.log(deleteConnection)
-    }
+    //     let deleteConnection = await API.graphql(graphqlOperation(
+    //         deletePinnedStory, {id: connectionID}
+    //     ))
+    //     console.log(deleteConnection)
+    // }
 
 //queueing the item state when pressed
     const [isQ, setQd] = useState(false);
@@ -223,11 +225,11 @@ const StoryScreen  = ({navigation} : any) => {
     const onQPress = () => {
         if ( isQ === false ) {
             setQd(true);
-            PinStory()
+            PinStory({storyID: storyID})
         }
         if ( isQ === true ) {
             setQd(false);
-            unPinStory();
+            unPinStory({storyID: storyID});
         }  
     };
 

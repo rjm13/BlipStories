@@ -28,6 +28,8 @@ import { listRatings } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
+import UnPinStory from './functions/UnPinStory';
+
 import { ItemParamList } from '../types';
 
 
@@ -62,31 +64,31 @@ const AudioStoryList = ({genre, search, all} : any) => {
         //unpin a story
         const unPinStory = async () => {
 
-            let userInfo = await Auth.currentAuthenticatedUser();
+            // let userInfo = await Auth.currentAuthenticatedUser();
         
-            let getPin = await API.graphql(graphqlOperation(
-                listPinnedStories, {
-                    filter: {
-                        userID: {
-                            eq: userInfo.attributes.sub
-                        },
-                        storyID: {
-                            eq: id
-                        }
-                    }
-                }
-            ))
-            console.log(getPin)
+            // let getPin = await API.graphql(graphqlOperation(
+            //     listPinnedStories, {
+            //         filter: {
+            //             userID: {
+            //                 eq: userInfo.attributes.sub
+            //             },
+            //             storyID: {
+            //                 eq: id
+            //             }
+            //         }
+            //     }
+            // ))
+            // console.log(getPin)
             
-            let connectionID = getPin.data.listPinnedStories.items[0].id
-            console.log(connectionID)
+            // let connectionID = getPin.data.listPinnedStories.items[0].id
+            // console.log(connectionID)
 
-            let deleteConnection = await API.graphql(graphqlOperation(
-                deletePinnedStory, {input: {"id": connectionID}}
-            ))
-            console.log(deleteConnection)
+            // let deleteConnection = await API.graphql(graphqlOperation(
+            //     deletePinnedStory, {input: {"id": connectionID}}
+            // ))
+            // console.log(deleteConnection)
 
-            setDidUpdate(!didUpdate)
+            //setDidUpdate(!didUpdate)
         }
 
         const [isQ, setQd] = useState(true);
@@ -97,7 +99,8 @@ const AudioStoryList = ({genre, search, all} : any) => {
             }
             if ( isQ === true ) {
                 setQd(false);
-                unPinStory();
+                UnPinStory({storyID: id});
+                setDidUpdate(!didUpdate)
             }  
         };
 
