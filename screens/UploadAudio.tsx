@@ -45,6 +45,7 @@ const UploadAudio = ({navigation} : any) => {
         title: '',
         summary: '',
         description: '',
+        genreID: '',
         genre: '',
         author: '',
         narrator: '',
@@ -131,8 +132,8 @@ const UploadAudio = ({navigation} : any) => {
             const blob = await response.blob();
             const filename = uuid.v4().toString();
             const s3ResponseImage = await Storage.put(filename, blob);
-            const result = await Storage.get(s3ResponseImage.key);
-            setPendingImageState(result);    
+            const resultImage = await Storage.get(s3ResponseImage.key);
+            setPendingImageState(resultImage);    
         } catch (e) {
             console.error(e);
         }      
@@ -142,33 +143,50 @@ const UploadAudio = ({navigation} : any) => {
             const blob = await response.blob();
             const filename = uuid.v4().toString();
             const s3ResponseAudio = await Storage.put(filename, blob);
-            const result = await Storage.get(s3ResponseAudio.key);
-            setPendingAudioState(result);
+            const resultAudio = await Storage.get(s3ResponseAudio.key);
+            setPendingAudioState(resultAudio);
         } catch (e) {
             console.error(e);
         }
 
         try {
+            const responseImage = await fetch(localImageUri);
+            const blobImage = await responseImage.blob();
+            const filenameImage = uuid.v4().toString();
+            const s3ResponseImage = await Storage.put(filenameImage, blobImage);
+            const resultImage = await Storage.get(s3ResponseImage.key);
+
+            const responseAudio = await fetch(localAudioUri);
+            const blob = await responseAudio.blob();
+            const filename = uuid.v4().toString();
+            const s3ResponseAudio = await Storage.put(filename, blob);
+            const resultAudio = await Storage.get(s3ResponseAudio.key);
+
             let result = await API.graphql(
                     graphqlOperation(createStory, { input: 
                         {
                             title: data.title,
                             summary: data.summary,
                             description: data.description,
-                            genre: data.genre,
+                            genreID: data.genreID,
                             author: data.author,
                             narrator: data.narrator,
                             time: data.time,
-                            imageUri: pendingImageState,
-                            audioUri:pendingAudioState,
+                            imageUri: resultImage,
+                            audioUri:resultAudio,
                         }
                     }))
-                        console.log(result);
+            if (result) {
+                setIsPublishing(false);
+                navigation.goBack();
+            }
+            console.log(result);
                 } catch (e) {
                         console.error(e);
         }
-        setIsPublishing(false);
-        setIsPublished(true);
+        
+        
+        //setIsPublished(true);
     }
 
 
@@ -260,7 +278,7 @@ const UploadAudio = ({navigation} : any) => {
     const Genre = Genres.map((item, index) => item.genre)
 
     const ConvertToString = (val : any) => {
-        setData({...data, genre: Genre[val].genre})  
+        setData({...data, genreID: Genres[val].id, genre: Genres[val].genre});
     }
   
 //Modal
@@ -357,83 +375,27 @@ const UploadAudio = ({navigation} : any) => {
                                 height: 120,
                                 borderRadius: 15,
                             }} 
-                            />
+                        />
                     </View>
                     
-                        <View style={{ width: '100%', alignItems: 'center'}}>
-                            {/* {!isLoading && !isLoaded? (
-                                <TouchableOpacity
-                                        style={{ 
-                                            marginBottom: 20,
-                                        }}
-                                        onPress={UploadToS3}>
-                                        <View
-                                            style={{ 
-                                                paddingHorizontal: 20,
-                                                paddingVertical: 10,
-                                                borderRadius: 20,
-                                                //width: 100,
-                                                borderWidth: 1,
-                                                borderColor: 'cyan'
-                                                }} >
-                                            <Text style={{ color: 'cyan', fontSize: 16, textAlign: 'center'}}>
-                                                Upload Media
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
-                            ) : null } */}
-
-                            {/* {isLoading ? (<ActivityIndicator size="large" color="#ffffff"/>) : null } */}
-
-                            {/* {!isPublishing && !isPublished && !isLoading ? ( */}
-                                <TouchableOpacity
-                                    style={{ 
-                                        marginVertical: 40,
-                                    }}
-                                    onPress={PublishStory}>
-                                    <LinearGradient
-                                        colors={['cyan', 'cyan']}
-                                        style={{ 
-                                            paddingHorizontal: 20,
-                                            paddingVertical: 10,
-                                            borderRadius: 20,
-                                            width: 100,
-                                            }} >
-                                        <Text style={{ color: 'black', fontSize: 16, textAlign: 'center'}}>
-                                            Publish
-                                        </Text>
-                                    </LinearGradient>
-                                </TouchableOpacity>
-                            {/* ) : null } */}
-                            
-                            {isPublishing ? (<ActivityIndicator size="large" color="#ffffff"/>) : null}
-                            
-                            {isPublished ? (
-                                <TouchableOpacity
+                    <View style={{ width: '100%', alignItems: 'center'}}>
+                        {isPublishing ? (<ActivityIndicator size="large" color="#ffffff"/>) : (
+                        <TouchableOpacity onPress={PublishStory} style={{marginVertical: 40}}>
+                            <LinearGradient
+                                colors={['cyan', 'cyan']}
                                 style={{ 
-                                    marginBottom: 20,
-                                }}
-                                onPress={() => navigation.navigate('Root', { screen: 'HomeScreen'})}
-                                >
-                                <LinearGradient
-                                    colors={['cyan', 'cyan']}
-                                    style={{ 
-                                        paddingHorizontal: 20,
-                                        paddingVertical: 10,
-                                        borderRadius: 20,
-                                        width: 120,
-                                        alignItems: 'center'
-                                        }} >
-                                    <FontAwesome5 
-                                        name='check'
-                                        color='#363636'
-                                        size={20}
-                                    />
-                                </LinearGradient>
-                            </TouchableOpacity>
-                            ) : null}
-
-                        </View>
+                                    paddingHorizontal: 20,
+                                    paddingVertical: 10,
+                                    borderRadius: 20,
+                                    width: 100,
+                                    }} >
+                                <Text style={{ color: 'black', fontSize: 16, textAlign: 'center'}}>
+                                    Publish
+                                </Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
+                        )}   
+                    </View>
                         
                     </View>
                 </Modal>
@@ -537,7 +499,7 @@ const UploadAudio = ({navigation} : any) => {
                         />
                         <FontAwesome5 
                             name='check-circle'
-                            color={data.genre !== '' ? 'cyan' : '#363636'}
+                            color={data.genreID !== '' ? 'cyan' : '#363636'}
                             size={20}
                         />
 

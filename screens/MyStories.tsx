@@ -39,7 +39,7 @@ const MyStories = ({navigation} : any) => {
         } else {
             try {
                 const storyData = await API.graphql(graphqlOperation(
-                    deleteStory, {id: deleteID}))
+                    deleteStory, {input: {id: deleteID}}))
                 console.log(storyData)
             } catch (e) {
                 console.log(e);
