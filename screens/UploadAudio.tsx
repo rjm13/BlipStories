@@ -223,7 +223,7 @@ const UploadAudio = ({navigation} : any) => {
 
     const pickAudio = async () => {
         let result = await DocumentPicker.getDocumentAsync({
-        type: '*/*',
+        type: 'audio/*',
         copyToCacheDirectory: false,
         });
 
@@ -246,7 +246,7 @@ const UploadAudio = ({navigation} : any) => {
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
