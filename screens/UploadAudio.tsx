@@ -9,7 +9,8 @@ import {
     Platform, 
     ActivityIndicator, 
     TouchableWithoutFeedback, 
-    ScrollView }
+    ScrollView,
+    Dimensions }
 from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -25,8 +26,9 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import uuid from 'react-native-uuid';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { createStory } from '../src/graphql/mutations';
-import { getUser, listGenres } from '../src/graphql/queries';
+import { createStory, createStoryTag, createTag } from '../src/graphql/mutations';
+import { listTags, getUser, listGenres } from '../src/graphql/queries';
+import { getStory, listStoryTags } from '../src/graphql/queries';
 
 
 const UploadAudio = ({navigation} : any) => {   
@@ -128,28 +130,6 @@ const UploadAudio = ({navigation} : any) => {
         setIsPublishing(true);
 
         try {
-            const response = await fetch(localImageUri);
-            const blob = await response.blob();
-            const filename = uuid.v4().toString();
-            const s3ResponseImage = await Storage.put(filename, blob);
-            const resultImage = await Storage.get(s3ResponseImage.key);
-            setPendingImageState(resultImage);    
-        } catch (e) {
-            console.error(e);
-        }      
-
-        try {
-            const response = await fetch(localAudioUri);
-            const blob = await response.blob();
-            const filename = uuid.v4().toString();
-            const s3ResponseAudio = await Storage.put(filename, blob);
-            const resultAudio = await Storage.get(s3ResponseAudio.key);
-            setPendingAudioState(resultAudio);
-        } catch (e) {
-            console.error(e);
-        }
-
-        try {
             const responseImage = await fetch(localImageUri);
             const blobImage = await responseImage.blob();
             const filenameImage = uuid.v4().toString();
@@ -163,23 +143,52 @@ const UploadAudio = ({navigation} : any) => {
             const resultAudio = await Storage.get(s3ResponseAudio.key);
 
             let result = await API.graphql(
-                    graphqlOperation(createStory, { input: 
-                        {
-                            title: data.title,
-                            summary: data.summary,
-                            description: data.description,
-                            genreID: data.genreID,
-                            author: data.author,
-                            narrator: data.narrator,
-                            time: data.time,
-                            imageUri: resultImage,
-                            audioUri:resultAudio,
+                graphqlOperation(createStory, { input: 
+                    {
+                        title: data.title,
+                        summary: data.summary,
+                        description: data.description,
+                        genreID: data.genreID,
+                        author: data.author,
+                        narrator: data.narrator,
+                        time: data.time,
+                        imageUri: resultImage,
+                        audioUri:resultAudio,
+                    }
+            }))
+
+            if (result.data.createStory) {
+                //for each tag, check and see if the tag alreadyt exists
+                if (TagsArray.length > 0) {
+                    for (let i = 0; i < TagsArray.length; i++) {
+                        let tagCheck = await API.graphql(graphqlOperation(
+                            listTags, {filter: {tagName: {eq: TagsArray[i].name}}}
+                        ))
+                //if the tag exists, create a StoryTag with the tagID and storyID
+                        if (tagCheck.data.listTags.items.length === 1) {
+                            let addTag = await API.graphql(graphqlOperation(
+                                createStoryTag, {input: {tagID: tagCheck.data.listTags.items[0].id, storyID: result.data.createStory.id, }}
+                            ))
+                            console.log(addTag)
+                //if the tag does not exist, create the tag and then the StoryTag with the tagID and storyID
+                        } else if (tagCheck.data.listTags.items.length === 0) {
+                            let newTag = await API.graphql(graphqlOperation(
+                                createTag, {input: {tagName: TagsArray[i].name}}
+                            ))
+                            if (newTag) {
+                                let makeStoryTag = await API.graphql(graphqlOperation(
+                                    createStoryTag, {input: {tagID: newTag.data.createTag.id, storyID: result.data.createStory.id}}
+                                ))
+                                console.log(makeStoryTag)
+                            }
                         }
-                    }))
-            if (result) {
-                setIsPublishing(false);
-                navigation.goBack();
+
+                    }
+                }
             }
+            setIsPublishing(false);
+            navigation.goBack();
+
             console.log(result);
                 } catch (e) {
                         console.error(e);
@@ -292,6 +301,7 @@ const UploadAudio = ({navigation} : any) => {
         data.author !== '' &&
         data.genre !== '' &&
         data.description !== '' &&
+        data.summary !== '' &&
         data.title !== '' ?
 
       setVisible(true) : null;
@@ -313,6 +323,30 @@ const UploadAudio = ({navigation} : any) => {
               setTermsAgree(true)
           }
       }
+
+//Tags flatlist, data, and functions
+
+    const clear = useRef()
+
+    const [TagsArray, setTagsArray] = useState([])
+
+    const [tagText, setTagText] = useState('')
+
+//add a new tag to the array
+    const AddToTagArray = () => {
+
+        let Tags = []
+
+        if (tagText.includes('#') || tagText === '') {
+            return;
+        } else {
+            Tags.push(...TagsArray, {id: TagsArray.length + 1, name: tagText});
+            setTagsArray(Tags);
+            clear.current.clear();
+        }
+    }
+
+    
 
   return (
     <Provider>
@@ -351,6 +385,12 @@ const UploadAudio = ({navigation} : any) => {
                     <View>
                         <Text style={{ textTransform:'capitalize', color: '#00ffffa5', marginVertical: 5,}}>
                         {data.genre}
+                        </Text>
+                    </View>
+
+                    <View>
+                        <Text style={{ color: '#ffffffa5', borderBottomWidth: 1, borderColor: 'cyan', paddingBottom: 20,}}>
+                        {data.summary}
                         </Text>
                     </View>
 
@@ -438,6 +478,26 @@ const UploadAudio = ({navigation} : any) => {
                     </View>
 
                     <Text style={styles.inputheader}>
+                        Summary *
+                    </Text>
+                    <View style={styles.inputfield}>
+                        <TextInput
+                            placeholder='....'
+                            placeholderTextColor='#ffffffa5'
+                            style={[styles.textInput, { height: 80 }]}
+                            maxLength={120}
+                            multiline={true}
+                            numberOfLines={5}
+                            onChangeText={val => setData({...data, summary: val})}
+                        />
+                        <FontAwesome5 
+                            name='check-circle'
+                            color={data.summary !== '' ? 'cyan' : '#363636'}
+                            size={20}
+                        />
+                    </View>
+
+                    <Text style={styles.inputheader}>
                         Description *
                     </Text>
                     <View style={styles.inputfield}>
@@ -506,6 +566,52 @@ const UploadAudio = ({navigation} : any) => {
                     </View>
 
                     <Text style={styles.inputheader}>
+                        Tags
+                    </Text>
+
+                    <ScrollView 
+                        scrollEnabled={false}
+                        style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {TagsArray.map(({ index, name } : any) => (
+                            <View key={index} style={{marginTop: 10, marginRight: 10}}>
+                                <TouchableOpacity>
+                                    <View style={{}}>
+                                        <Text style={styles.tagtext}>
+                                            #{name}
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        ))}
+                    </ScrollView>
+
+                    <View style={{ alignSelf: 'flex-start', flexDirection: 'row', marginBottom: 20, marginTop: 0, }}>
+                        <TouchableOpacity>
+                            <View style={{ width: Dimensions.get('window').width - 140, marginHorizontal: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
+                                <TextInput
+                                    placeholder='#'
+                                    placeholderTextColor='#ffffffa5'
+                                    style={styles.textInputTitle}
+                                    maxLength={20}
+                                    multiline={false}
+                                    numberOfLines={1}
+                                    ref={clear}
+                                    onChangeText={val => setTagText(val)}
+                                />
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={AddToTagArray}>
+                            <View style={{ marginHorizontal: 20, padding: 10}}>
+                                <FontAwesome5
+                                    name='chevron-up'
+                                    size={20}
+                                    color='#fff'
+                                />
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
+                    {/* <Text style={styles.inputheader}>
                         Author *
                     </Text>
                     <View style={[styles.inputfield, {height: 60}]}>
@@ -524,7 +630,7 @@ const UploadAudio = ({navigation} : any) => {
                             color={data.author !== '' ? 'cyan' : '#363636'}
                             size={20}
                         />
-                    </View>
+                    </View> */}
 
                     <Text style={styles.inputheader}>
                         Narrator *
@@ -676,6 +782,16 @@ uploadbutton: {
 timer: {
     color: '#ffffff',
     fontSize: 16,
+},
+tagtext: {
+    color: 'cyan',
+    fontSize: 14,
+    backgroundColor: '#1A4851a5',
+    borderColor: '#00ffffa5',
+    borderWidth: 0.5,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 20
 },
 });
 
