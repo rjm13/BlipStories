@@ -526,10 +526,10 @@ const UploadAudio = ({navigation} : any) => {
                     </Text>
                     <View style={styles.inputfield}>
                         <TextInput
-                            placeholder='....'
+                            placeholder='Max 200 characters'
                             placeholderTextColor='#ffffffa5'
                             style={[styles.textInput, { height: 80 }]}
-                            maxLength={120}
+                            maxLength={200}
                             multiline={true}
                             numberOfLines={5}
                             onChangeText={val => setData({...data, summary: val})}
@@ -546,10 +546,10 @@ const UploadAudio = ({navigation} : any) => {
                     </Text>
                     <View style={styles.inputfield}>
                         <TextInput
-                            placeholder='....'
+                            placeholder='Max 1500 characters'
                                 placeholderTextColor='#ffffffa5'
-                            style={[styles.textInput, { height: 80 }]}
-                            maxLength={300}
+                            style={[styles.textInput, { height: 120 }]}
+                            maxLength={1500}
                             multiline={true}
                             numberOfLines={10}
                             onChangeText={val => setData({...data, description: val})}

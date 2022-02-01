@@ -208,10 +208,8 @@ const ProfileScreen = ({navigation} : any) => {
                         </View>
                     </TouchableWithoutFeedback>
 
-                    <TouchableWithoutFeedback>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}> 
-                        </View>
-                    </TouchableWithoutFeedback>
+                    <View style={{ height: 80}}> 
+                    </View>
                     
                 </ScrollView>  
             </LinearGradient>

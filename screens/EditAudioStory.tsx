@@ -447,14 +447,14 @@ const [localImageUri, setLocalImageUri] = useState('');
                             Summary
                         </Text>
                         <Text style={{marginBottom: 10, fontSize: 12, alignSelf: 'flex-end', color: '#ffffffa5', marginLeft: 10,}}>
-                           (150 max characters)
+                           (200 max characters)
                         </Text>
                     </View>
                     
                     <View style={styles.inputfield}>
                         <TextInput
                             style={[styles.textInput, { height: 80 }]}
-                            maxLength={150}
+                            maxLength={200}
                             multiline={true}
                             numberOfLines={10}
                             onChangeText={val => {setData({...data, summary: val}); setNewSumData(true)}}
@@ -472,7 +472,7 @@ const [localImageUri, setLocalImageUri] = useState('');
                             Description
                         </Text>
                         <Text style={{marginBottom: 10, fontSize: 12, alignSelf: 'flex-end', color: '#ffffffa5', marginLeft: 10,}}>
-                           (400 max characters)
+                           (1500 max characters)
                         </Text>
                     </View>
                     
@@ -481,7 +481,7 @@ const [localImageUri, setLocalImageUri] = useState('');
                             //placeholder={Story?.description}
                             placeholderTextColor='#ffffffa5'
                             style={[styles.textInput, { height: 200 }]}
-                            maxLength={400}
+                            maxLength={1500}
                             multiline={true}
                             numberOfLines={40}
                             onChangeText={val => {setData({...data, description: val}); setNewDescData(true)}}
