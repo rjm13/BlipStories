@@ -51,7 +51,7 @@ const UploadAudio = ({navigation} : any) => {
         genre: '',
         author: '',
         narrator: '',
-        time: null,
+        time: 0,
         imageUri: '',
         audioUri: '',
     });
@@ -120,6 +120,9 @@ const UploadAudio = ({navigation} : any) => {
         setIsLoaded(true);
     }
 
+//progress of upload
+    const [progressText, setProgressText] = useState(0);
+
 //upload audio object to graphql database
     const [isPublishing, setIsPublishing] = useState(false);
 
@@ -139,7 +142,14 @@ const UploadAudio = ({navigation} : any) => {
             const responseAudio = await fetch(localAudioUri);
             const blob = await responseAudio.blob();
             const filename = uuid.v4().toString();
-            const s3ResponseAudio = await Storage.put(filename, blob);
+            const s3ResponseAudio = await Storage.put(filename, blob, {
+                progressCallback(uploadProgress) {
+                    setProgressText(
+                        Math.round((uploadProgress.loaded / uploadProgress.total) * 100)
+                      );
+                }
+            })
+                
             const resultAudio = await Storage.get(s3ResponseAudio.key);
 
             let result = await API.graphql(
@@ -193,9 +203,6 @@ const UploadAudio = ({navigation} : any) => {
                 } catch (e) {
                         console.error(e);
         }
-        
-        
-        //setIsPublished(true);
     }
 
 
@@ -235,18 +242,8 @@ const UploadAudio = ({navigation} : any) => {
         }
     };
 
-//convert time for upload
-    const Convert = async () => {
-        let { sound } = await Audio.Sound.createAsync(
-            {uri: localAudioUri},
-            {shouldPlay: false}
-        );
-
-        let duration = await sound.getStatusAsync();
-        setData({...data, time: duration.durationMillis});
-    }
-
 //image picker
+
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -259,6 +256,7 @@ const UploadAudio = ({navigation} : any) => {
 
         if (!result.cancelled) {
         setLocalImageUri(result.uri);
+        console.log(result)
         }
     };
   
@@ -346,6 +344,13 @@ const UploadAudio = ({navigation} : any) => {
         }
     }
 
+    //convert the time to show in the modal
+    function millisToMinutesAndSeconds () {
+        let minutes = Math.floor(data.time / 60000);
+        let seconds = Math.floor((data.time % 60000) / 1000);
+        return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
+    }  
+
     
 
   return (
@@ -355,89 +360,128 @@ const UploadAudio = ({navigation} : any) => {
 
             <Portal>
                 <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-                    <View style={{ padding: 20, backgroundColor: '#363636', borderRadius: 15,}}>
-                    
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
-                        <Text style={[styles.title, {textTransform: 'capitalize'}]}>
-                        {data.title}
-                        </Text>   
-                    </View>
-
-                    <View style={{ flexDirection: 'row', marginVertical: 10, alignItems: 'center'}}>
-                        <FontAwesome5 
-                            name='book-open'
-                            size={12}
-                            color='#ffffffa5'
-                        />
-                        <Text style={styles.userId}>
-                            {data.author}
-                        </Text>  
-                        <FontAwesome5 
-                            name='book-reader'
-                            size={12}
-                            color='#ffffffa5'
-                        />
-                        <Text style={styles.userId}>
-                            {data.narrator}
-                        </Text> 
-                    </View>
-
-                    <View>
-                        <Text style={{ textTransform:'capitalize', color: '#00ffffa5', marginVertical: 5,}}>
-                        {data.genre}
-                        </Text>
-                    </View>
-
-                    <View>
-                        <Text style={{ color: '#ffffffa5', borderBottomWidth: 1, borderColor: 'cyan', paddingBottom: 20,}}>
-                        {data.summary}
-                        </Text>
-                    </View>
-
-                    <View>
-                        <Text style={{ color: '#ffffffa5', borderBottomWidth: 1, borderColor: 'cyan', paddingBottom: 20,}}>
-                        {data.description}
-                        </Text>
-                    </View>
-
-                    <View>
-                        <Text style={{ color: '#00ffffa5', marginVertical: 10,}}>
-                        {audioName}
-                        </Text>
-                    </View>
-
-                    <View>
-                        <Image 
-                            source={{ uri: localImageUri}}
-                            resizeMode='contain'
-                            style={{ 
-                                marginVertical: 10,
-                                height: 120,
-                                borderRadius: 15,
-                            }} 
-                        />
-                    </View>
-                    
-                    <View style={{ width: '100%', alignItems: 'center'}}>
-                        {isPublishing ? (<ActivityIndicator size="large" color="#ffffff"/>) : (
-                        <TouchableOpacity onPress={PublishStory} style={{marginVertical: 40}}>
-                            <LinearGradient
-                                colors={['cyan', 'cyan']}
-                                style={{ 
-                                    paddingHorizontal: 20,
-                                    paddingVertical: 10,
-                                    borderRadius: 20,
-                                    width: 100,
-                                    }} >
-                                <Text style={{ color: 'black', fontSize: 16, textAlign: 'center'}}>
-                                    Publish
-                                </Text>
-                            </LinearGradient>
-                        </TouchableOpacity>
-                        )}   
-                    </View>
+                    <ScrollView style={{ padding: 20, backgroundColor: '#363636', borderRadius: 15,}}>
+                       
                         
-                    </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
+                            <Text style={[styles.title, {textTransform: 'capitalize'}]}>
+                            {data.title}
+                            </Text>   
+                        </View>
+
+                        <View>
+                            <Text style={{ textTransform:'capitalize', color: '#00ffffa5', marginVertical: 5,}}>
+                            {data.genre}
+                            </Text>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', marginVertical: 10, alignItems: 'center'}}>
+                            <FontAwesome5 
+                                name='book-open'
+                                size={12}
+                                color='#ffffffa5'
+                            />
+                            <Text style={styles.userId}>
+                                {data.author}
+                            </Text>  
+                            <FontAwesome5 
+                                name='book-reader'
+                                size={12}
+                                color='#ffffffa5'
+                            />
+                            <Text style={styles.userId}>
+                                {data.narrator}
+                            </Text> 
+                        </View>
+
+                        <ScrollView 
+                        scrollEnabled={false}
+                        style={{width: Dimensions.get('window').width - 20, marginHorizontal: 0, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                        {TagsArray.map(({ index, name } : any) => (
+                            <View key={index} style={{marginTop: 10, marginRight: 10}}>
+                                <TouchableOpacity>
+                                    <View style={{}}>
+                                        <Text style={styles.tagtext}>
+                                            #{name}
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        ))}
+                    </ScrollView>
+
+                        <View style={{marginBottom: 10, width: Dimensions.get('window').width - 80, height: 1, backgroundColor: 'gray'}}>
+                        </View>
+
+                        
+
+                        <View>
+                            <Text style={{ marginVertical: 10, color: '#ffffff', borderBottomWidth: 1, borderColor: 'gray', paddingBottom: 20,}}>
+                            {data.summary}
+                            </Text>
+                        </View>
+
+                        <View>
+                            <Text style={{ marginVertical: 10, color: '#ffffff', borderBottomWidth: 1, borderColor: 'gray', paddingBottom: 20,}}>
+                            {data.description}
+                            </Text>
+                        </View>
+
+                        <View>
+                            <Text style={{ color: '#00ffffa5', marginVertical: 10,}}>
+                            {audioName}
+                            </Text>
+                        </View>
+
+                        <View style={{marginVertical: 10,flexDirection: 'row', borderBottomWidth: 1, borderColor: 'gray',}}>
+                            <Text style={{ marginRight: 10,  color: '#ffffffa5',  paddingBottom: 20,}}>
+                            Track Length:
+                            </Text>
+                            <Text style={{fontWeight: 'bold', color: '#ffffff', paddingBottom: 20,}}>
+                                {millisToMinutesAndSeconds()}
+                            </Text>
+                        </View>
+
+                        <View>
+                            <Image 
+                                source={{ uri: localImageUri}}
+                                resizeMode='contain'
+                                style={{ 
+                                    marginVertical: 10,
+                                    height: 200,
+                                    borderRadius: 15,
+                                }} 
+                            />
+                        </View>
+                        
+                        <View style={{ width: '100%', alignItems: 'center', marginBottom: 40}}>
+                            {isPublishing ? (
+                                <View style={{marginVertical: 40, alignContent: 'center'}}>
+                                   <ActivityIndicator size="large" color="cyan"/> 
+                                   <Text style={{fontSize: 16, textAlign: 'center', color: '#fff', marginTop: 10}}>
+                                       {progressText} %
+                                   </Text>
+                                </View>
+                                
+                                ) : (
+                            <TouchableOpacity onPress={PublishStory} style={{marginVertical: 40}}>
+                                <LinearGradient
+                                    colors={['cyan', 'cyan']}
+                                    style={{ 
+                                        paddingHorizontal: 20,
+                                        paddingVertical: 10,
+                                        borderRadius: 20,
+                                        width: 100,
+                                        }} >
+                                    <Text style={{ color: 'black', fontSize: 16, textAlign: 'center'}}>
+                                        Publish
+                                    </Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                            )}   
+                        </View>
+                            
+                    </ScrollView>
                 </Modal>
             </Portal>
 
@@ -656,10 +700,16 @@ const UploadAudio = ({navigation} : any) => {
                         <TouchableOpacity onPress={pickImage}>
                             <View style={{ marginHorizontal: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
                                 <Text style={{ color: '#ffffffa5'}}>
-                                    {localImageUri !== '' ? localImageUri : 'Select artwork'}
+                                    Select artwork
                                 </Text>
                             </View>
                         </TouchableOpacity>
+                        {localImageUri !== '' ? (
+                            <Image 
+                                source={{uri: localImageUri}}
+                                style={{alignSelf: 'center', backgroundColor: 'gray', marginVertical: 20, borderRadius: 15, width: Dimensions.get('window').width - 40, height: 200}}
+                            />
+                        ) : null}
                     </View>
 
                     <View style={{ width: '100%'}}>
@@ -701,7 +751,16 @@ const UploadAudio = ({navigation} : any) => {
                                     data.genre !== '' &&
                                     data.description !== '' &&
                                     data.title !== ''
-                                    ? 'cyan' : 'transparent'
+                                    ? 'cyan' : 'transparent',
+                                    borderColor: 
+                                        termsAgree === true &&
+                                        audioName !== '' &&
+                                        localImageUri !== '' &&
+                                        data.author !== '' &&
+                                        data.genre !== '' &&
+                                        data.description !== '' &&
+                                        data.title !== ''
+                                        ? 'cyan' : 'gray'
                             }]}>
                                 <Text style={{ fontSize: 16, color: 
                                     termsAgree === true && 
@@ -711,9 +770,9 @@ const UploadAudio = ({navigation} : any) => {
                                     data.genre !== '' &&
                                     data.description !== '' &&
                                     data.title !== ''
-                                    ? '#000' : '#00ffff'
+                                    ? '#000' : 'gray'
                                 }}>
-                                    Upload Story
+                                    Preview
                                 </Text>
                             </View>   
                         </TouchableOpacity>
