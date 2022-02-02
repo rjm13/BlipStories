@@ -29,7 +29,7 @@ import * as Animatable from 'react-native-animatable';
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 import { getStory, listPinnedStories, listRatings, listStoryTags, listFinishedStories } from '../src/graphql/queries';
-import { createPinnedStory, deletePinnedStory, createRating, updateRating } from '../src/graphql/mutations';
+import { createPinnedStory, createFlag, createRating, updateRating } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
 import PinStory from '../components/functions/PinStory';
@@ -403,8 +403,38 @@ const StoryScreen  = ({navigation} : any) => {
     const [other, setOther] = useState(false);
 
 //report the story
-    const ReportStory = () => {
-        hideFlagModal();
+    const [isReported, setIsReported] = useState(false);
+
+    //const [flags, setFlags] = useState([])
+
+    const ReportStory = async () => {
+
+        let flags = [];
+
+        if (offensiveContent) {flags.push('OffensiveContent')};
+        if (poorQuality) {flags.push('PoorQuality')};
+        if (poorNarrator) {flags.push('PoorNarrator')};
+        if (noPlay) {flags.push('NoPlay')};
+        if (other) {flags.push('Other')};
+
+        try {
+
+            let userInfo = await Auth.currentAuthenticatedUser();
+
+            const report = await API.graphql(graphqlOperation(
+                createFlag, {input: {
+                    storyID: storyID,
+                    userID: userInfo.attributes.sub,
+                    flagTypes: flags,
+                }}
+          ))
+          console.log(report)
+        } catch (e) {
+            console.log(e)
+        }
+        setIsReported(true);
+        //hideFlagModal();
+
     }
 
     return (
@@ -447,6 +477,7 @@ const StoryScreen  = ({navigation} : any) => {
 {/* flag this story modal */}
                     <Modal visible={visibleFlag} onDismiss={hideFlagModal} contentContainerStyle={containerStyleFlag}>
                         <View style={{alignItems: 'center'}}>
+                            {isReported === false ? (
                             <View style={{}}>
                                 <Text style={{margin: 20, fontSize: 20, fontWeight: 'bold', color: '#fff'}}>
                                     Report this Story
@@ -460,7 +491,7 @@ const StoryScreen  = ({navigation} : any) => {
                                             size={20}
                                             style={{paddingHorizontal: 10}}
                                         />
-                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 20, color: '#fff'}}>
+                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 16, color: '#fff'}}>
                                             Offensive Content
                                         </Text> 
                                     </View>
@@ -474,7 +505,7 @@ const StoryScreen  = ({navigation} : any) => {
                                             size={20}
                                             style={{paddingHorizontal: 10}}
                                         />
-                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 20, color: '#fff'}}>
+                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 16, color: '#fff'}}>
                                             Poor Audio Quality
                                         </Text> 
                                     </View>
@@ -488,7 +519,7 @@ const StoryScreen  = ({navigation} : any) => {
                                             size={20}
                                             style={{paddingHorizontal: 10}}
                                         />
-                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 20, color: '#fff'}}>
+                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 16, color: '#fff'}}>
                                             Poor Narration
                                         </Text> 
                                     </View>
@@ -502,7 +533,7 @@ const StoryScreen  = ({navigation} : any) => {
                                             size={20}
                                             style={{paddingHorizontal: 10}}
                                         />
-                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 20, color: '#fff'}}>
+                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 16, color: '#fff'}}>
                                             Could Not Play
                                         </Text> 
                                     </View>
@@ -516,7 +547,7 @@ const StoryScreen  = ({navigation} : any) => {
                                             size={20}
                                             style={{paddingHorizontal: 10}}
                                         />
-                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 20, color: '#fff'}}>
+                                    <Text style={{margin: 10, textAlign: 'center', fontSize: 16, color: '#fff'}}>
                                             Other
                                         </Text> 
                                     </View>
@@ -524,14 +555,26 @@ const StoryScreen  = ({navigation} : any) => {
                                 
                                 
                             </View>
+                            ) : null}
 
-                            <TouchableOpacity onPress={ReportStory}>
-                                <View style={{marginTop: 40, paddingVertical: 6, paddingHorizontal: 30, backgroundColor: '#00ffff', margin: 10, borderRadius: 30}}>
-                                        <Text style={{color: '#000000', fontSize: 18, fontWeight: 'bold', }}>
-                                            Report
-                                        </Text>
+                            {isReported ? (
+                                <View style={{marginVertical: 40}}>
+                                <Text style={{textAlign: 'center', color: '#fff'}}>
+                                    Thank you for reporting this story. It will be placed under review.
+                                </Text>
+                                
                                 </View>
-                            </TouchableOpacity>
+                            ) : (
+                                <TouchableOpacity onPress={ReportStory}>
+                                    <View style={{marginTop: 40, paddingVertical: 6, paddingHorizontal: 30, backgroundColor: '#00ffff', margin: 10, borderRadius: 30}}>
+                                            <Text style={{color: '#000000', fontSize: 16}}>
+                                                Report
+                                            </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )}
+
+                            
                             
                         </View>
                     </Modal>

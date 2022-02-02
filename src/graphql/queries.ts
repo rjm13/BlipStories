@@ -413,12 +413,6 @@ export const listPinnedStories = /* GraphQL */ `
           description
           nsfw
           ratingAvg
-          genre {
-            id
-            genre
-            icon
-            PrimaryColor
-          }
           genreID
           createdAt
           updatedAt
@@ -571,12 +565,6 @@ export const listFinishedStories = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
-          genre {
-            id
-            genre
-            icon
-            PrimaryColor
-          }
           createdAt
           updatedAt
           owner
@@ -784,6 +772,159 @@ export const listGenres = /* GraphQL */ `
         PrimaryColor
         SecondaryColor
         imageUri
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getFlag = /* GraphQL */ `
+  query GetFlag($id: ID!) {
+    getFlag(id: $id) {
+      id
+      storyID
+      story {
+        id
+        title
+        imageUri
+        audioUri
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        author
+        authorID
+        narrator
+        narratorID
+        time
+        summary
+        description
+        nsfw
+        comments {
+          nextToken
+        }
+        tags {
+          nextToken
+        }
+        ratingAvg
+        rated {
+          nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      flagTypes
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        birthdate
+        isPublisher
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      userID
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listFlags = /* GraphQL */ `
+  query ListFlags(
+    $filter: ModelFlagFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listFlags(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        storyID
+        story {
+          id
+          title
+          imageUri
+          audioUri
+          userID
+          author
+          authorID
+          narrator
+          narratorID
+          time
+          summary
+          description
+          nsfw
+          ratingAvg
+          genreID
+          createdAt
+          updatedAt
+          owner
+        }
+        flagTypes
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
         createdAt
         updatedAt
         owner
@@ -1112,12 +1253,6 @@ export const listRatings = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
-          genre {
-            id
-            genre
-            icon
-            PrimaryColor
-          }
           createdAt
           updatedAt
           owner
@@ -1251,12 +1386,6 @@ export const listStoryTags = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
-          genre {
-            id
-            genre
-            icon
-            PrimaryColor
-          }
           createdAt
           updatedAt
           owner

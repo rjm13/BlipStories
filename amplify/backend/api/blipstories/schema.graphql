@@ -87,6 +87,16 @@ type Genre @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
 
 }
 
+type Flag @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
+  {
+    id: ID!
+    storyID: ID!
+    story: Story @hasOne (fields: ["storyID"])
+    flagTypes: [String]
+    user: User @hasOne (fields: ["userID"])
+    userID: ID 
+}
+
 type Comment @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
   {
     id: ID!
