@@ -10,7 +10,9 @@ import {
     ActivityIndicator, 
     TouchableWithoutFeedback, 
     ScrollView,
-    Dimensions }
+    Dimensions,
+    FlatList,
+}
 from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -20,6 +22,9 @@ import {LinearGradient} from 'expo-linear-gradient';
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import { Audio } from 'expo-av';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { format, parseISO } from "date-fns";
+
 
 import { Modal, Portal, Provider } from 'react-native-paper';
 import ModalDropdown from 'react-native-modal-dropdown';
@@ -351,7 +356,112 @@ const UploadAudio = ({navigation} : any) => {
         return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
     }  
 
+//local audio picking
+
+    const [localAudioVisible, setLocalAudioVisible] = useState(false);
+
+    const showLocalAudioModal = () => {setLocalAudioVisible(true)}
+
+    const hideLocalAudioModal = () => {setLocalAudioVisible(false)}
+
+    const LocalAudioContainerStyle = {
+        backgroundColor: 'transparent', 
+        padding: 20,
+    }; 
+
+    const [localAudioArray, setLocalAudioArray] = useState([])
+
+    useEffect(() => {
+        const PickLocalAudio = async () => {
+            const userInfo = await Auth.currentAuthenticatedUser();
+
+            let saved = await AsyncStorage.getAllKeys();
+        
+            if (saved != null) {
+                let result = saved.filter((item) => item.includes("recording" + userInfo.attributes.sub));
+            setLocalAudioArray(result)
+            } 
+        }
+        PickLocalAudio();
+    }, [])
     
+
+    const Item = ({item} : any) => {
+
+        let [itemState, setItemState] = useState({
+            title: '',
+            time: null,
+            created: new Date(),
+            id: null,
+            audio: '',
+        })
+
+        const SetAudio = () => {
+            setLocalAudioUri(itemState.audio);
+            setAudioName(itemState.title);
+            hideLocalAudioModal();
+        }
+
+        //get the item from async storage
+        useEffect(() => {
+            let componentMounted = true;
+            const fetchData = async () => {
+                try {
+                    console.log('whats going on here')
+                    let object = await AsyncStorage.getItem(item);
+                    let objs = object ? JSON.parse(object) : null
+                    if(componentMounted) {
+                        setItemState({
+                            title: objs.title,
+                            time: objs.time,
+                            created: parseISO(objs.created),
+                            id: objs.id,
+                            audio: objs.audioUri
+                        })
+                }
+                } catch(e) {
+                    // read error
+                }
+                
+            };
+            fetchData();
+            return () => {
+            componentMounted = false;
+            }
+        }, []);
+
+        return (
+            <View style={{marginBottom: 10, padding: 10, width: '100%', backgroundColor: '#232323', alignSelf: 'center', borderRadius: 10}}>
+                    <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+                        <TouchableOpacity onPress={SetAudio}>
+                            <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <View>
+                                   <Text style={{color: '#fff', fontWeight: 'bold', marginBottom: 2}}>
+                                        {itemState.title}
+                                    </Text>
+                                    <Text style={{color: '#ffffffa5', marginBottom: 6, fontSize: 12}}>
+                                        {format(itemState.created, "MMM do yyyy")}
+                                    </Text> 
+                                </View>
+                                
+                                <Text style={{color: '#fff', fontSize: 12}}>
+                                    {itemState.time}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+            </View> 
+        )
+        
+
+    }
+
+    const renderItem = ({ item } : any) => (
+
+        <Item 
+          item={item}
+        />
+      );
 
   return (
     <Provider>
@@ -359,6 +469,45 @@ const UploadAudio = ({navigation} : any) => {
             <View style={styles.container}>
 
             <Portal>
+{/* local audio list modal */}
+                <Modal visible={localAudioVisible} onDismiss={hideLocalAudioModal} contentContainerStyle={LocalAudioContainerStyle}>
+                    <ScrollView style={{ padding: 20, backgroundColor: '#363636', borderRadius: 15,}}>
+                        <View>
+                            <FlatList 
+                                data={localAudioArray}
+                                renderItem={renderItem}
+                                keyExtractor={item => item}
+                                style={{}}
+                                initialNumToRender={20}
+                                ListEmptyComponent={() => {
+                                    return(
+                                        <View style={{alignItems: 'center', margin: 30}}>
+                                            <Text style={{color: '#fff'}}>
+                                                There is nothing here.
+                                            </Text>
+                                        </View>
+                                    )
+                                }}
+                                showsVerticalScrollIndicator={false}    
+                                ListFooterComponent={ () => {
+                                    return (
+                                    <View style={{ height:  60}}>
+                                    </View>
+                                );}}
+                                ListHeaderComponent={ () => {
+                                    return (
+                                    <View style={{ height:  60}}>
+                                        <Text style={{textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: 18}}>
+                                            My Recordings
+                                        </Text>
+                                    </View>
+                                );}}
+                            />
+                        </View>
+                    </ScrollView>
+                </Modal>
+
+{/* confirm modal */}
                 <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
                     <ScrollView style={{ padding: 20, backgroundColor: '#363636', borderRadius: 15,}}>
                        
@@ -712,15 +861,37 @@ const UploadAudio = ({navigation} : any) => {
                         ) : null}
                     </View>
 
-                    <View style={{ width: '100%'}}>
-                        <TouchableOpacity onPress={pickAudio}>
-                            <View style={{ marginHorizontal: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
-                                <Text style={{ color: '#ffffffa5'}}>
-                                    {audioName !== '' ? audioName : 'Select audio file'}
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
+                    <View style={{width: '100%', justifyContent: 'space-between', marginTop: 20, flexDirection: 'row', alignItems: 'center'}}>
+                        <View style={{ width: '45%'}}>
+                            <TouchableOpacity onPress={pickAudio}>
+                                <View style={{ marginLeft: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
+                                    <Text style={{ textAlign: 'center', color: '#ffffffa5'}}>
+                                        {'Select local audio file'}
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={{ width: '45%'}}>
+                            <TouchableOpacity onPress={showLocalAudioModal}>
+                                <View style={{ marginRight: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
+                                    <Text style={{ textAlign: 'center', color: '#ffffffa5'}}>
+                                        {'Select Blip recording'}
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
                     </View>
+                    
+
+                    {audioName !== '' ? (
+                        <View style={{marginTop: 20, }}>
+                            <Text style={{color: 'cyan'}}>
+                                {audioName}
+                            </Text>
+                        </View>
+                    ) : null}
+                    
 
                     <View style={{ margin: 40, flexDirection: 'row'}}>
                         <FontAwesome5 
