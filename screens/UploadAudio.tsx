@@ -155,7 +155,7 @@ const UploadAudio = ({navigation} : any) => {
                 }
             })
                 
-            const resultAudio = await Storage.get(s3ResponseAudio.key);
+            //const resultAudio = await Storage.get(s3ResponseAudio.key);
 
             //console.log(resultAudio);
 
@@ -170,7 +170,7 @@ const UploadAudio = ({navigation} : any) => {
                         narrator: data.narrator,
                         time: data.time,
                         imageUri: resultImage,
-                        audioUri: resultAudio,
+                        audioUri: s3ResponseAudio.key,
                     }
             }))
 
