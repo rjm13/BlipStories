@@ -178,7 +178,9 @@ const AudioPlayer  = () => {
 
                 if (storyData) {
                     setStory(storyData.data.getStory);
-                    const response = await Storage.get(storyData.data.getStory.audioUri, {download: false, expiration: 604800});
+                    const response = await Storage.get(storyData.data.getStory.audioUri, {download: false, 
+                        //expiration: 604800
+                    });
                     setAudioUri(response);
                     setPosition(0);
                 }
@@ -441,7 +443,7 @@ const AddToHistory = async () => {
         console.log('Loading Sound');
         console.log(Story);
         const { sound } = await Audio.Sound.createAsync(
-            {uri: AudioUri},
+            {uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'},
             //require('../assets/zelda.mp3'),
             {shouldPlay: true}
         );

@@ -354,6 +354,7 @@ const UploadAudio = ({navigation} : any) => {
         let minutes = Math.floor(data.time / 60000);
         let seconds = Math.floor((data.time % 60000) / 1000);
         return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
+        
     }  
 
 //local audio picking
@@ -390,7 +391,7 @@ const UploadAudio = ({navigation} : any) => {
 
         let [itemState, setItemState] = useState({
             title: '',
-            time: null,
+            time: 0,
             created: new Date(),
             id: null,
             audio: '',
@@ -399,6 +400,7 @@ const UploadAudio = ({navigation} : any) => {
         const SetAudio = () => {
             setLocalAudioUri(itemState.audio);
             setAudioName(itemState.title);
+            setData({...data, time: itemState.time})
             hideLocalAudioModal();
         }
 

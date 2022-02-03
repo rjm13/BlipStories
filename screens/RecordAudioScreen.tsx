@@ -219,7 +219,7 @@ export default function RecordAudio({
           setAudioData({
             ...AudioData,
             audioUri: uri,
-            time: millisToMinutesAndSeconds(),
+            time: time,
           })
           setStopped(true);
           console.log('Recording stopped and stored at', uri);
