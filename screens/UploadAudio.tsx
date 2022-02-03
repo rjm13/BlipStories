@@ -157,6 +157,8 @@ const UploadAudio = ({navigation} : any) => {
                 
             const resultAudio = await Storage.get(s3ResponseAudio.key);
 
+            //console.log(resultAudio);
+
             let result = await API.graphql(
                 graphqlOperation(createStory, { input: 
                     {
@@ -167,8 +169,8 @@ const UploadAudio = ({navigation} : any) => {
                         author: data.author,
                         narrator: data.narrator,
                         time: data.time,
-                        imageUri: resultImage,
-                        audioUri:resultAudio,
+                        imageUri: resultAudio,
+                        audioUri: s3ResponseAudio,
                     }
             }))
 

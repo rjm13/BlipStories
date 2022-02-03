@@ -441,13 +441,11 @@ const AddToHistory = async () => {
     async function PlayPause() {
 
         console.log('Loading Sound');
-        console.log(Story);
         const { sound } = await Audio.Sound.createAsync(
-            {uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'},
+            {uri: Story.audioUri},
             //require('../assets/zelda.mp3'),
             {shouldPlay: true}
         );
-        
         setSound(sound);
 
 
