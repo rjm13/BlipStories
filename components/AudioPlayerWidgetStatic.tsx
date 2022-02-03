@@ -441,6 +441,7 @@ const AddToHistory = async () => {
     async function PlayPause() {
 
         console.log('Loading Sound');
+        console.log(Story)
         const { sound } = await Audio.Sound.createAsync(
             {uri: Story.audioUri},
             //require('../assets/zelda.mp3'),

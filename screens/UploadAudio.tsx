@@ -169,8 +169,8 @@ const UploadAudio = ({navigation} : any) => {
                         author: data.author,
                         narrator: data.narrator,
                         time: data.time,
-                        imageUri: resultAudio,
-                        audioUri: s3ResponseAudio,
+                        imageUri: resultImage,
+                        audioUri: resultAudio,
                     }
             }))
 
