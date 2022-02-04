@@ -74,6 +74,8 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   rated: [Rating] @hasMany(indexName: "byStory", fields: ["id"])
   genreID: ID @index(name: "byGenre", sortKeyFields: ["id"])
   genre: Genre @hasOne (fields: ["genreID"])
+  hidden: Boolean
+  approved: Boolean
   }
 
 type Genre @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])

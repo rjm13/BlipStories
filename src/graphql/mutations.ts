@@ -31,6 +31,8 @@ export const createUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -69,6 +71,8 @@ export const createUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -104,6 +108,8 @@ export const createUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -145,6 +151,8 @@ export const updateUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -183,6 +191,8 @@ export const updateUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -218,6 +228,8 @@ export const updateUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -259,6 +271,8 @@ export const deleteUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -297,6 +311,8 @@ export const deleteUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -332,6 +348,8 @@ export const deleteUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -659,6 +677,8 @@ export const createPinnedStory = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -759,6 +779,8 @@ export const updatePinnedStory = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -859,6 +881,8 @@ export const deletePinnedStory = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -959,6 +983,8 @@ export const createFinishedStory = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1059,6 +1085,8 @@ export const updateFinishedStory = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1159,6 +1187,8 @@ export const deleteFinishedStory = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1266,6 +1296,8 @@ export const createStory = /* GraphQL */ `
         updatedAt
         owner
       }
+      hidden
+      approved
       createdAt
       updatedAt
       owner
@@ -1369,6 +1401,8 @@ export const updateStory = /* GraphQL */ `
         updatedAt
         owner
       }
+      hidden
+      approved
       createdAt
       updatedAt
       owner
@@ -1472,6 +1506,8 @@ export const deleteStory = /* GraphQL */ `
         updatedAt
         owner
       }
+      hidden
+      approved
       createdAt
       updatedAt
       owner
@@ -1591,6 +1627,8 @@ export const createFlag = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1692,6 +1730,8 @@ export const updateFlag = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1793,6 +1833,8 @@ export const deleteFlag = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1894,6 +1936,8 @@ export const createComment = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1995,6 +2039,8 @@ export const updateComment = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -2096,6 +2142,8 @@ export const deleteComment = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -2272,6 +2320,8 @@ export const createRating = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -2373,6 +2423,8 @@ export const updateRating = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -2474,6 +2526,8 @@ export const deleteRating = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -2576,6 +2630,8 @@ export const createStoryTag = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -2656,6 +2712,8 @@ export const updateStoryTag = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -2736,6 +2794,8 @@ export const deleteStoryTag = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner

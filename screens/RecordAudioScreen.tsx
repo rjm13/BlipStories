@@ -72,7 +72,7 @@ export default function RecordAudio({
       const [AudioData, setAudioData] = useState({
         id: 'recording' + userID + uuid.v4().toString(),
         title: uuid.v4().toString(),
-        time: '',
+        time: 0,
         created: 0,
         audioUri: '',
         check_textInputChange: false,

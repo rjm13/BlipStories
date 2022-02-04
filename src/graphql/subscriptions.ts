@@ -28,6 +28,8 @@ export const onCreateUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -66,6 +68,8 @@ export const onCreateUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -101,6 +105,8 @@ export const onCreateUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -139,6 +145,8 @@ export const onUpdateUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -177,6 +185,8 @@ export const onUpdateUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -212,6 +222,8 @@ export const onUpdateUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -250,6 +262,8 @@ export const onDeleteUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -288,6 +302,8 @@ export const onDeleteUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -323,6 +339,8 @@ export const onDeleteUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -638,6 +656,8 @@ export const onCreatePinnedStory = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -735,6 +755,8 @@ export const onUpdatePinnedStory = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -832,6 +854,8 @@ export const onDeletePinnedStory = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -929,6 +953,8 @@ export const onCreateFinishedStory = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1026,6 +1052,8 @@ export const onUpdateFinishedStory = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1123,6 +1151,8 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1227,6 +1257,8 @@ export const onCreateStory = /* GraphQL */ `
         updatedAt
         owner
       }
+      hidden
+      approved
       createdAt
       updatedAt
       owner
@@ -1327,6 +1359,8 @@ export const onUpdateStory = /* GraphQL */ `
         updatedAt
         owner
       }
+      hidden
+      approved
       createdAt
       updatedAt
       owner
@@ -1427,6 +1461,8 @@ export const onDeleteStory = /* GraphQL */ `
         updatedAt
         owner
       }
+      hidden
+      approved
       createdAt
       updatedAt
       owner
@@ -1534,6 +1570,8 @@ export const onCreateFlag = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1632,6 +1670,8 @@ export const onUpdateFlag = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1730,6 +1770,8 @@ export const onDeleteFlag = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1828,6 +1870,8 @@ export const onCreateComment = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1926,6 +1970,8 @@ export const onUpdateComment = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -2024,6 +2070,8 @@ export const onDeleteComment = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -2188,6 +2236,8 @@ export const onCreateRating = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -2286,6 +2336,8 @@ export const onUpdateRating = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -2384,6 +2436,8 @@ export const onDeleteRating = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -2483,6 +2537,8 @@ export const onCreateStoryTag = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -2560,6 +2616,8 @@ export const onUpdateStoryTag = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -2637,6 +2695,8 @@ export const onDeleteStoryTag = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner

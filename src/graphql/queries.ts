@@ -28,6 +28,8 @@ export const getUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -66,6 +68,8 @@ export const getUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -101,6 +105,8 @@ export const getUser = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -362,6 +368,8 @@ export const getPinnedStory = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -414,6 +422,8 @@ export const listPinnedStories = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -513,6 +523,8 @@ export const getFinishedStory = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -565,6 +577,8 @@ export const listFinishedStories = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -671,6 +685,8 @@ export const getStory = /* GraphQL */ `
         updatedAt
         owner
       }
+      hidden
+      approved
       createdAt
       updatedAt
       owner
@@ -735,6 +751,8 @@ export const listStories = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -836,6 +854,8 @@ export const getFlag = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -904,6 +924,8 @@ export const listFlags = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -989,6 +1011,8 @@ export const getComment = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1057,6 +1081,8 @@ export const listComments = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -1185,6 +1211,8 @@ export const getRating = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1253,6 +1281,8 @@ export const listRatings = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner
@@ -1339,6 +1369,8 @@ export const getStoryTag = /* GraphQL */ `
           updatedAt
           owner
         }
+        hidden
+        approved
         createdAt
         updatedAt
         owner
@@ -1386,6 +1418,8 @@ export const listStoryTags = /* GraphQL */ `
           nsfw
           ratingAvg
           genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner

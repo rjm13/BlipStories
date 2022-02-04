@@ -158,11 +158,17 @@ const Publisher = ({navigation} : any) => {
 
         let [itemState, setItemState] = useState({
             title: null,
-            time: null,
+            time: 0,
             created: new Date(),
             id: null,
             audio: null,
         })
+
+        function millisToMinutesAndSeconds () {
+            let minutes = Math.floor(itemState.time / 60000);
+            let seconds = ((itemState.time % 60000) / 1000);
+            return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
+          }  
 
         //get the item from async storage
         useEffect(() => {
@@ -204,7 +210,7 @@ const Publisher = ({navigation} : any) => {
                                     {format(itemState.created, "MMM do yyyy")}
                                 </Text>
                                 <Text style={{color: '#fff', fontSize: 12}}>
-                                    {itemState.time}
+                                    {millisToMinutesAndSeconds()}
                                 </Text>
                             </View>
                         </TouchableWithoutFeedback>    
