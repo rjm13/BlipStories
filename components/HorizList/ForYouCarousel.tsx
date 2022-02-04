@@ -130,6 +130,12 @@ const ForYouCarousel = () => {
                                 },
                                 storyID: {
                                     eq: id
+                                },
+                                approved: {
+                                    eq: true
+                                },
+                                hidden: {
+                                    eq: false,
                                 }
                             }
                         }
@@ -289,7 +295,17 @@ const ForYouCarousel = () => {
             try {
                 const response = await API.graphql(
                     graphqlOperation(
-                        listStories, {limit: 8}
+                        listStories, {
+                            limit: 8,
+                            filter: {
+                                approved: {
+                                    eq: true
+                                },
+                                hidden: {
+                                    eq: false
+                                }
+                            }
+                        }
                     )
                 )
                 setStorys(response.data.listStories.items);

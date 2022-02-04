@@ -121,7 +121,7 @@ const SearchScreen = ({navigation} : any) => {
                         },
                         storyID: {
                             eq: id
-                        }
+                        },
                     }
                 }
             ))
@@ -377,10 +377,24 @@ const SearchScreen = ({navigation} : any) => {
                         or: [
                           {title: {
                               contains: newSearch
-                          }},
+                          },
+                          approved: {
+                              eq: true
+                          },
+                          hidden: {
+                              eq: false
+                          }
+                        },
                           {summary: {
                             contains: newSearch
-                            }}
+                            },
+                            approved: {
+                                eq: true
+                            },
+                            hidden: {
+                                eq: false
+                            }
+                        }
                         ]
                       }
               }))

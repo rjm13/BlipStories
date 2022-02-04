@@ -31,16 +31,6 @@ const FollowingScreen = ({navigation} : any) => {
 
     const [isFetching, setIsFetching] = useState(false);
 
-    //function is not called
-    // const fetchUsers = async () => {
-    //     let Following = []
-    //     const followData = await API.graphql(graphqlOperation(
-    //         listFollowingConns, {
-    //             filter: {followerID: {eq: user.id}}}))
-    //         for (let i = 0; i < followData.data.listFollowingConns.items.length; i++) {
-    //             Following.push(followData.data.listFollowingConns.items[i].author) 
-    //         setUsers(Following);}}
-
     //refresh function, does not work yet
     const onRefresh = () => {
         setIsFetching(true);
@@ -182,15 +172,6 @@ const FollowingScreen = ({navigation} : any) => {
                                 
                                 
                                 <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>
-                                    {/* <FontAwesome5 
-                                        name='book-open'
-                                        size={12}
-                                        color='#ffffffa5'
-                                        style={{ marginRight: 5}}
-                                    />
-                                    <Text style={styles.userId}>
-                                        0
-                                    </Text>   */}
                                     <FontAwesome5 
                                         name='book-reader'
                                         size={12}
@@ -302,51 +283,10 @@ const FollowingScreen = ({navigation} : any) => {
                         Following
                     </Text>
                 </TouchableWithoutFeedback>
-
-                {/* {user?.isPublisher === true ? (
-                    <TouchableWithoutFeedback onPress={() => setSelectedId(2)}>
-                        <Text style={{ 
-                            color: SelectedId ===  2 ? '#fff' : '#ffffffa5',
-                            marginHorizontal: 15, 
-                            fontSize: SelectedId ===  2 ? 22 : 17,
-                            fontWeight: SelectedId === 2 ? 'bold' : 'normal'
-                        }}>
-                            Followers
-                        </Text>
-                    </TouchableWithoutFeedback>
-                ) : null} */}
-                
-
-                {/* <TouchableWithoutFeedback onPress={() => setSelectedId(3)}>
-                    <Text style={{ 
-                        color: SelectedId ===  3 ? '#fff' : '#ffffffa5',
-                        marginHorizontal: 15, 
-                        fontSize: SelectedId ===  3 ? 22 : 17,
-                        fontWeight: SelectedId === 3 ? 'bold' : 'normal'
-                    }}>
-                        
-                    </Text>
-                </TouchableWithoutFeedback> */}
-
-                {/* <TouchableWithoutFeedback onPress={() => setSelectedId(4)}>
-                    <Text style={{ 
-                        color: SelectedId ===  4 ? '#fff' : '#ffffffa5',
-                        marginHorizontal: 15, 
-                        fontSize: SelectedId ===  4 ? 22 : 17,
-                        fontWeight: SelectedId === 4 ? 'bold' : 'normal'
-                    }}>                        
-                        
-                    </Text>
-                </TouchableWithoutFeedback> */}
             </View>
             </View>
             
           </View>
-        
-            {/* <View>
-                {renderElement()}
-            </View> */}
-            {/* {SelectedId === 1 ? ( */}
                 <View style={{ alignItems: 'center', marginTop: 20, height: '86%'}}>
                     <FlatList
                         style={{ width: '100%' }}
@@ -372,12 +312,6 @@ const FollowingScreen = ({navigation} : any) => {
                         }}
                     />
                 </View>
-            {/* ) : SelectedId === 2 && user?.isPublisher === true ? (
-                <View style={{ alignItems: 'center', marginTop: 20, height: '86%'}}>
-                    <FollowersList />
-                </View>
-            ) : null} */}
-
         </LinearGradient>
         </View>
     );

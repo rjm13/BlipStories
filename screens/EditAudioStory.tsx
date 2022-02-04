@@ -17,8 +17,6 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import * as ImagePicker from 'expo-image-picker';
-import * as DocumentPicker from 'expo-document-picker';
-import { Audio } from 'expo-av';
 
 import { useRoute } from '@react-navigation/native';
 
@@ -55,9 +53,6 @@ const EditAudio = ({navigation} : any) => {
         fetchStory();
     }, [storyID])
 
-//image uri from s3 bucket
-    const [pendingImageState, setPendingImageState] = useState('');
-
 //text data input state holders. Will be sent to aws
     const [data, setData] = useState({
         title: Story.title,
@@ -68,31 +63,6 @@ const EditAudio = ({navigation} : any) => {
 
 //placeholder for the local image uri
 const [localImageUri, setLocalImageUri] = useState('');
-
-//upload audio and image to s3
-    const [isLoading, setIsLoading] = useState(false);
-
-    const [isLoaded, setIsLoaded] = useState(false);
-
-    const UploadToS3 = async () => {
-
-        setIsLoading(true);
-
-        if (localImageUri !== '') {
-        
-            const response = await fetch(localImageUri);
-            const blob = await response.blob();
-            const filename = uuid.v4().toString();
-            const s3ResponseImage = await Storage.put(filename, blob);
-            
-            const result = await Storage.get(s3ResponseImage.key);
-            setData({...data, imageUri: result});    
-            setNewImageData(true);      
-        }
-
-        setIsLoading(false);
-        setIsLoaded(true);
-    }
 
 //Tags flatlist, data, and functions
 
@@ -148,8 +118,6 @@ const [localImageUri, setLocalImageUri] = useState('');
 
 //update attributes for story
     const [isPublishing, setIsPublishing] = useState(false);
-
-    const [isPublished, setIsPublished] = useState(false);
 
     const PublishStory = async () => {
 

@@ -27,6 +27,7 @@ export const onCreateUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -67,6 +68,7 @@ export const onCreateUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -104,6 +106,7 @@ export const onCreateUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -144,6 +147,7 @@ export const onUpdateUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -184,6 +188,7 @@ export const onUpdateUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -221,6 +226,7 @@ export const onUpdateUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -261,6 +267,7 @@ export const onDeleteUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -301,6 +308,7 @@ export const onDeleteUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -338,6 +346,7 @@ export const onDeleteUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -641,6 +650,7 @@ export const onCreatePinnedStory = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -740,6 +750,7 @@ export const onUpdatePinnedStory = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -839,6 +850,7 @@ export const onDeletePinnedStory = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -938,6 +950,7 @@ export const onCreateFinishedStory = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -1037,6 +1050,7 @@ export const onUpdateFinishedStory = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -1136,6 +1150,7 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -1233,6 +1248,7 @@ export const onCreateStory = /* GraphQL */ `
         nextToken
       }
       ratingAvg
+      ratingAmt
       rated {
         items {
           id
@@ -1335,6 +1351,7 @@ export const onUpdateStory = /* GraphQL */ `
         nextToken
       }
       ratingAvg
+      ratingAmt
       rated {
         items {
           id
@@ -1437,6 +1454,7 @@ export const onDeleteStory = /* GraphQL */ `
         nextToken
       }
       ratingAvg
+      ratingAmt
       rated {
         items {
           id
@@ -1555,6 +1573,7 @@ export const onCreateFlag = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -1655,6 +1674,7 @@ export const onUpdateFlag = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -1755,6 +1775,7 @@ export const onDeleteFlag = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -1855,6 +1876,7 @@ export const onCreateComment = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -1955,6 +1977,7 @@ export const onUpdateComment = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -2055,6 +2078,7 @@ export const onDeleteComment = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -2221,6 +2245,7 @@ export const onCreateRating = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -2321,6 +2346,7 @@ export const onUpdateRating = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -2421,6 +2447,7 @@ export const onDeleteRating = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -2522,6 +2549,7 @@ export const onCreateStoryTag = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -2601,6 +2629,7 @@ export const onUpdateStoryTag = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -2680,6 +2709,7 @@ export const onDeleteStoryTag = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }

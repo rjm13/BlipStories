@@ -71,6 +71,7 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   comments: [Comment] @hasMany (indexName: "byStory", fields: ["id"])
   tags: [Tag] @manyToMany (relationName: "StoryTag")
   ratingAvg: Float
+  ratingAmt: Int
   rated: [Rating] @hasMany(indexName: "byStory", fields: ["id"])
   genreID: ID @index(name: "byGenre", sortKeyFields: ["id"])
   genre: Genre @hasOne (fields: ["genreID"])

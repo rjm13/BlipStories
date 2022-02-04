@@ -152,6 +152,7 @@ export type Story = {
   comments?: ModelCommentConnection | null,
   tags?: ModelStoryTagConnection | null,
   ratingAvg?: number | null,
+  ratingAmt?: number | null,
   rated?: ModelRatingConnection | null,
   genreID?: string | null,
   genre?: Genre | null,
@@ -387,6 +388,7 @@ export type CreateStoryInput = {
   description?: string | null,
   nsfw?: boolean | null,
   ratingAvg?: number | null,
+  ratingAmt?: number | null,
   genreID?: string | null,
   hidden?: boolean | null,
   approved?: boolean | null,
@@ -406,6 +408,7 @@ export type ModelStoryConditionInput = {
   description?: ModelStringInput | null,
   nsfw?: ModelBooleanInput | null,
   ratingAvg?: ModelFloatInput | null,
+  ratingAmt?: ModelIntInput | null,
   genreID?: ModelIDInput | null,
   hidden?: ModelBooleanInput | null,
   approved?: ModelBooleanInput | null,
@@ -441,6 +444,7 @@ export type UpdateStoryInput = {
   description?: string | null,
   nsfw?: boolean | null,
   ratingAvg?: number | null,
+  ratingAmt?: number | null,
   genreID?: string | null,
   hidden?: boolean | null,
   approved?: boolean | null,
@@ -698,6 +702,7 @@ export type ModelStoryFilterInput = {
   description?: ModelStringInput | null,
   nsfw?: ModelBooleanInput | null,
   ratingAvg?: ModelFloatInput | null,
+  ratingAmt?: ModelIntInput | null,
   genreID?: ModelIDInput | null,
   hidden?: ModelBooleanInput | null,
   approved?: ModelBooleanInput | null,
@@ -815,6 +820,7 @@ export type CreateUserMutation = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -859,6 +865,7 @@ export type CreateUserMutation = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -900,6 +907,7 @@ export type CreateUserMutation = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -947,6 +955,7 @@ export type UpdateUserMutation = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -991,6 +1000,7 @@ export type UpdateUserMutation = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -1032,6 +1042,7 @@ export type UpdateUserMutation = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -1079,6 +1090,7 @@ export type DeleteUserMutation = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -1123,6 +1135,7 @@ export type DeleteUserMutation = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -1164,6 +1177,7 @@ export type DeleteUserMutation = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -1533,6 +1547,7 @@ export type CreatePinnedStoryMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -1649,6 +1664,7 @@ export type UpdatePinnedStoryMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -1765,6 +1781,7 @@ export type DeletePinnedStoryMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -1881,6 +1898,7 @@ export type CreateFinishedStoryMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -1997,6 +2015,7 @@ export type UpdateFinishedStoryMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -2113,6 +2132,7 @@ export type DeleteFinishedStoryMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -2227,6 +2247,7 @@ export type CreateStoryMutation = {
       nextToken?: string | null,
     } | null,
     ratingAvg?: number | null,
+    ratingAmt?: number | null,
     rated?:  {
       __typename: "ModelRatingConnection",
       items:  Array< {
@@ -2347,6 +2368,7 @@ export type UpdateStoryMutation = {
       nextToken?: string | null,
     } | null,
     ratingAvg?: number | null,
+    ratingAmt?: number | null,
     rated?:  {
       __typename: "ModelRatingConnection",
       items:  Array< {
@@ -2467,6 +2489,7 @@ export type DeleteStoryMutation = {
       nextToken?: string | null,
     } | null,
     ratingAvg?: number | null,
+    ratingAmt?: number | null,
     rated?:  {
       __typename: "ModelRatingConnection",
       items:  Array< {
@@ -2612,6 +2635,7 @@ export type CreateFlagMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -2729,6 +2753,7 @@ export type UpdateFlagMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -2846,6 +2871,7 @@ export type DeleteFlagMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -2963,6 +2989,7 @@ export type CreateCommentMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -3080,6 +3107,7 @@ export type UpdateCommentMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -3197,6 +3225,7 @@ export type DeleteCommentMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -3401,6 +3430,7 @@ export type CreateRatingMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -3518,6 +3548,7 @@ export type UpdateRatingMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -3635,6 +3666,7 @@ export type DeleteRatingMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -3753,6 +3785,7 @@ export type CreateStoryTagMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -3845,6 +3878,7 @@ export type UpdateStoryTagMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -3937,6 +3971,7 @@ export type DeleteStoryTagMutation = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -4009,6 +4044,7 @@ export type GetUserQuery = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -4053,6 +4089,7 @@ export type GetUserQuery = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -4094,6 +4131,7 @@ export type GetUserQuery = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -4386,6 +4424,7 @@ export type GetPinnedStoryQuery = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -4461,6 +4500,7 @@ export type ListPinnedStoriesQuery = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -4562,6 +4602,7 @@ export type GetFinishedStoryQuery = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -4637,6 +4678,7 @@ export type ListFinishedStoriesQuery = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -4736,6 +4778,7 @@ export type GetStoryQuery = {
       nextToken?: string | null,
     } | null,
     ratingAvg?: number | null,
+    ratingAmt?: number | null,
     rated?:  {
       __typename: "ModelRatingConnection",
       items:  Array< {
@@ -4820,6 +4863,7 @@ export type ListStoriesQuery = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -4940,6 +4984,7 @@ export type GetFlagQuery = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -5036,6 +5081,7 @@ export type ListFlagsQuery = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -5118,6 +5164,7 @@ export type GetCommentQuery = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -5214,6 +5261,7 @@ export type ListCommentsQuery = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -5349,6 +5397,7 @@ export type GetRatingQuery = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -5445,6 +5494,7 @@ export type ListRatingsQuery = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -5528,6 +5578,7 @@ export type GetStoryTagQuery = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -5599,6 +5650,7 @@ export type ListStoryTagsQuery = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -5653,6 +5705,7 @@ export type OnCreateUserSubscription = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -5697,6 +5750,7 @@ export type OnCreateUserSubscription = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -5738,6 +5792,7 @@ export type OnCreateUserSubscription = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -5784,6 +5839,7 @@ export type OnUpdateUserSubscription = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -5828,6 +5884,7 @@ export type OnUpdateUserSubscription = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -5869,6 +5926,7 @@ export type OnUpdateUserSubscription = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -5915,6 +5973,7 @@ export type OnDeleteUserSubscription = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -5959,6 +6018,7 @@ export type OnDeleteUserSubscription = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -6000,6 +6060,7 @@ export type OnDeleteUserSubscription = {
         description?: string | null,
         nsfw?: boolean | null,
         ratingAvg?: number | null,
+        ratingAmt?: number | null,
         genreID?: string | null,
         hidden?: boolean | null,
         approved?: boolean | null,
@@ -6365,6 +6426,7 @@ export type OnCreatePinnedStorySubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -6480,6 +6542,7 @@ export type OnUpdatePinnedStorySubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -6595,6 +6658,7 @@ export type OnDeletePinnedStorySubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -6710,6 +6774,7 @@ export type OnCreateFinishedStorySubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -6825,6 +6890,7 @@ export type OnUpdateFinishedStorySubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -6940,6 +7006,7 @@ export type OnDeleteFinishedStorySubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -7053,6 +7120,7 @@ export type OnCreateStorySubscription = {
       nextToken?: string | null,
     } | null,
     ratingAvg?: number | null,
+    ratingAmt?: number | null,
     rated?:  {
       __typename: "ModelRatingConnection",
       items:  Array< {
@@ -7172,6 +7240,7 @@ export type OnUpdateStorySubscription = {
       nextToken?: string | null,
     } | null,
     ratingAvg?: number | null,
+    ratingAmt?: number | null,
     rated?:  {
       __typename: "ModelRatingConnection",
       items:  Array< {
@@ -7291,6 +7360,7 @@ export type OnDeleteStorySubscription = {
       nextToken?: string | null,
     } | null,
     ratingAvg?: number | null,
+    ratingAmt?: number | null,
     rated?:  {
       __typename: "ModelRatingConnection",
       items:  Array< {
@@ -7432,6 +7502,7 @@ export type OnCreateFlagSubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -7548,6 +7619,7 @@ export type OnUpdateFlagSubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -7664,6 +7736,7 @@ export type OnDeleteFlagSubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -7780,6 +7853,7 @@ export type OnCreateCommentSubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -7896,6 +7970,7 @@ export type OnUpdateCommentSubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -8012,6 +8087,7 @@ export type OnDeleteCommentSubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -8212,6 +8288,7 @@ export type OnCreateRatingSubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -8328,6 +8405,7 @@ export type OnUpdateRatingSubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -8444,6 +8522,7 @@ export type OnDeleteRatingSubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -8561,6 +8640,7 @@ export type OnCreateStoryTagSubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -8652,6 +8732,7 @@ export type OnUpdateStoryTagSubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,
@@ -8743,6 +8824,7 @@ export type OnDeleteStoryTagSubscription = {
         nextToken?: string | null,
       } | null,
       ratingAvg?: number | null,
+      ratingAmt?: number | null,
       rated?:  {
         __typename: "ModelRatingConnection",
         nextToken?: string | null,

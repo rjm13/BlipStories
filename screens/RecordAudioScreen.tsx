@@ -11,9 +11,6 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import Slider from '@react-native-community/slider';
-import {LinearGradient} from 'expo-linear-gradient';
-
 import { Audio } from 'expo-av';
 import { Modal, Portal, Provider } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';

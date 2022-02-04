@@ -1,30 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import { 
-    StyleSheet, 
-    Dimensions, 
     TouchableWithoutFeedback,
     Text,
     View,
 } from 'react-native';
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Searchbar } from 'react-native-paper';
 
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Ionicon from 'react-native-vector-icons/Ionicons';
 import {LinearGradient} from 'expo-linear-gradient';
 
 import PinnedStoryFlatList from '../components/PinnedStoryFlatList';
 import FavedStoryFlatList from '../components/FavedStoryFlatList';
 
-import { listPinnedStories } from '../src/graphql/queries';
-import { deleteStory } from '../src/graphql/mutations';
-import {graphqlOperation, API, Auth} from 'aws-amplify';
 
-const AudioStoryHome = ({navigation} : any) => {
-
-    
-
+const PlaylistScreen = () => {
 
     //state for selecting the playlist
     const [SelectedId, setSelectedId] = useState(1);
@@ -69,28 +56,6 @@ const AudioStoryHome = ({navigation} : any) => {
                                 Favorites
                             </Text>
                         </TouchableWithoutFeedback>
-
-                        {/* <TouchableWithoutFeedback onPress={() => setSelectedId(3)}>
-                            <Text style={{ 
-                                color: SelectedId ===  3 ? '#fff' : '#ffffffa5',
-                                marginHorizontal: 15, 
-                                fontSize: SelectedId ===  3 ? 22 : 17,
-                                fontWeight: SelectedId === 3 ? 'bold' : 'normal'
-                            }}>
-                                
-                            </Text>
-                        </TouchableWithoutFeedback> */}
-
-                        {/* <TouchableWithoutFeedback onPress={() => setSelectedId(4)}>
-                            <Text style={{ 
-                                color: SelectedId ===  4 ? '#fff' : '#ffffffa5',
-                                marginHorizontal: 15, 
-                                fontSize: SelectedId ===  4 ? 22 : 17,
-                                fontWeight: SelectedId === 4 ? 'bold' : 'normal'
-                            }}>                        
-                                
-                            </Text>
-                        </TouchableWithoutFeedback> */}
                     </View>
                 </View>
 
@@ -109,4 +74,4 @@ const AudioStoryHome = ({navigation} : any) => {
     );
 }
 
-export default AudioStoryHome;
+export default PlaylistScreen;

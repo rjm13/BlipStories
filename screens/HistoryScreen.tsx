@@ -35,15 +35,6 @@ const Narrations = ({navigation} : any) => {
                             History
                         </Text>
                     </View>
-                    {/* <View>
-                        <FontAwesome5 
-                            name='search'
-                            color="#fff"
-                            size={18}
-                        />
-                    </View> */}
-                    
-
                 </View>
                 
                 

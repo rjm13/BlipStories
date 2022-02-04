@@ -1,26 +1,15 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React from 'react';
 import { 
     View, 
     StyleSheet, 
-    Text, 
-    TouchableWithoutFeedback, 
-    ScrollView
+    Text,
 } from 'react-native';
 
 import {useRoute} from '@react-navigation/native'
 
 import {LinearGradient} from 'expo-linear-gradient';
-import { RadioButton } from 'react-native-paper';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-
-import { AppContext } from '../AppContext';
-
-import { listTags, getGenre } from '../src/graphql/queries';
-import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 import AudioListByGenre from '../components/AudioListByGenre';
 

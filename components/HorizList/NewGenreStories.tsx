@@ -14,11 +14,7 @@ import {
     PanResponder 
 } from 'react-native';
 
-import {useRoute, useNavigation} from '@react-navigation/native'
-
-import Carousel from 'react-native-snap-carousel';
-import {LinearGradient} from 'expo-linear-gradient';
-import { RadioButton } from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native'
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -66,6 +62,12 @@ const NewGenreStories = ({genreid} : any) => {
                                     genreID: {
                                         eq: genreid
                                     },
+                                    hidden: {
+                                        eq: false
+                                    },
+                                    approved: {
+                                        eq: true
+                                    }
                                     // tags: {
                                     //     contains: tag
                                     // }

@@ -317,6 +317,14 @@ const TagSearchScreen = ({navigation} : any) => {
                     listStoryTags, {filter: {
                             tagID: {
                                 eq: mainTag
+                            },
+                            story: {
+                                approved: {
+                                    eq: true,
+                                },
+                                hidden: {
+                                    eq: false
+                                }
                             }
                         }
                     }))

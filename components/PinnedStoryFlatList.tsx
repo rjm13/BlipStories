@@ -317,6 +317,14 @@ const AudioStoryList = ({genre, search, all} : any) => {
                         filter: {
                             userID: {
                                 eq: userInfo.attributes.sub
+                            },
+                            story: {
+                                hidden: {
+                                    eq: false
+                                },
+                                approved: {
+                                    eq: true
+                                }
                             }
                         }
                 }))

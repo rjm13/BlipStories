@@ -299,6 +299,12 @@ const SearchStoriesList = ({search} : any) => {
                         filter: {
                             title: {
                                 contains: search
+                            },
+                            hidden: {
+                                eq: false,
+                            },
+                            approved: {
+                                eq: true
                             }
                         }
                 }))

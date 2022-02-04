@@ -19,7 +19,7 @@ import { Modal, Portal, Provider } from 'react-native-paper';
 
 import { API, graphqlOperation, Auth } from "aws-amplify";
 import { getUser, listStories } from '../src/graphql/queries';
-import { deleteStory } from '../src/graphql/mutations';
+import { updateStory } from '../src/graphql/mutations';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -34,30 +34,41 @@ const MyStories = ({navigation} : any) => {
 
     const DeleteStory = async () => {
 
-        if(confirm !== true) {
+        if (confirm !== true) {
             return;
         } else {
             try {
                 const storyData = await API.graphql(graphqlOperation(
-                    deleteStory, {input: {id: deleteID}}))
+                    updateStory, {input: {id: deleteID, hidden: true}}
+                ))
                 console.log(storyData)
             } catch (e) {
-                console.log(e);
+                console.log(e)
             }
-            setDidUpdate(!didUpdate);
-            hideModal();
-            setDeleteID(null)
         }
+        setDidUpdate(!didUpdate);
+        hideModal();
+        setDeleteID(null);
 
-        
+        //will not actually be deleting stories, just marking them as hidden
+        // if(confirm !== true) {
+        //     return;
+        // } else {
+        //     try {
+        //         const storyData = await API.graphql(graphqlOperation(
+        //             deleteStory, {input: {id: deleteID}}))
+        //         console.log(storyData)
+        //     } catch (e) {
+        //         console.log(e);
+        //     }
+        //     setDidUpdate(!didUpdate);
+        //     hideModal();
+        //     setDeleteID(null)
+        // }
     }
 
 
     const Item = ({id, title, genreName, author, narrator} : any) => {
-
-     
-
-    //const navigation = useNavigation();
 
     //arrow state
     const [optionsVisible, setOptionsVisible] = useState(false)
@@ -104,7 +115,6 @@ const MyStories = ({navigation} : any) => {
                         <TouchableWithoutFeedback onPress={() => setOptionsVisible(!optionsVisible)}>
                             <View style={{alignItems: 'center', borderRadius: 20, height: 40,
                                 width: 40, justifyContent: 'center',
-                                //backgroundColor: '#ffffff33'
                             }}>
                                 <FontAwesome5 
                                     name={optionsVisible === true ? 'chevron-down' : 'chevron-right'}
@@ -191,11 +201,14 @@ const MyStories = ({navigation} : any) => {
 
                 const userStories = await API.graphql(graphqlOperation(
                     listStories, {
-                        // filter: {
-                        //     userID: {
-                        //         eq: userInfo.attributes.sub
-                        //     }
-                        // }
+                        filter: {
+                            userID: {
+                                eq: userInfo.attributes.sub
+                            },
+                            hidden: {
+                                eq: false
+                            },
+                        }
                 }))
 
                 setStories(userStories.data.listStories.items);

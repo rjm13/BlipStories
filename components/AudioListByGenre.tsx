@@ -316,6 +316,12 @@ const AudioStoryList = ({genreID} : any) => {
                             title: {
                                 beginsWith: selectedLetter.toUpperCase()
                             },
+                            hidden: {
+                                eq: false
+                            },
+                            approved: {
+                                eq: true
+                            }
                         }
                 }))
                 setGenreStories(genreData.data.listStories.items)

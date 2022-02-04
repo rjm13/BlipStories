@@ -18,7 +18,6 @@ import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { updateUser } from '../src/graphql/mutations';
 import { getUser } from '../src/graphql/queries';
 
-import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -26,8 +25,6 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { Modal, Portal, Provider } from 'react-native-paper';
 import uuid from 'react-native-uuid';
-
-import uploadImageOnS3 from '../components/functions/imagepicker';
 
 
 const EditProfile = ({navigation} : any) => {
@@ -156,32 +153,9 @@ const [ oldPassword, setOldPassword] = useState('');
 const [image, setImage] = useState('');
 const [Pseudonym, setPseudonym] = useState('');
 
-const [avatarKey, setAvatarKey] = useState('');
-
 //if true, s3 is performing an action. also used to determine if anything is updating
 const [isUploading, setIsUploading ] = useState(false);
 
-
-//to send the profile image to the s3 bucket, this sets file and retrieves the avatar key
-const handleUpdateImage = async ()=> {
-
-    try {
-        const response = await fetch(image);
-
-        const blob = await response.blob();
-
-        const filename =  uuid.v4().toString();
-
-        const s3Response = await Storage.put(filename, blob);
-
-        setAvatarKey(s3Response.key);
-
-        console.log(s3Response.key)
-
-    } catch (e) {
-        console.error(e);
-    }
-}
 
 //using the avatar key, get and update the imageuri for the user
 const PublishAvatar = async () => {

@@ -27,6 +27,7 @@ export const getUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -67,6 +68,7 @@ export const getUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -104,6 +106,7 @@ export const getUser = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -353,6 +356,7 @@ export const getPinnedStory = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -421,6 +425,7 @@ export const listPinnedStories = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -508,6 +513,7 @@ export const getFinishedStory = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -576,6 +582,7 @@ export const listFinishedStories = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -661,6 +668,7 @@ export const getStory = /* GraphQL */ `
         nextToken
       }
       ratingAvg
+      ratingAmt
       rated {
         items {
           id
@@ -736,6 +744,7 @@ export const listStories = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -839,6 +848,7 @@ export const getFlag = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -923,6 +933,7 @@ export const listFlags = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -996,6 +1007,7 @@ export const getComment = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -1080,6 +1092,7 @@ export const listComments = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -1196,6 +1209,7 @@ export const getRating = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -1280,6 +1294,7 @@ export const listRatings = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved
@@ -1354,6 +1369,7 @@ export const getStoryTag = /* GraphQL */ `
           nextToken
         }
         ratingAvg
+        ratingAmt
         rated {
           nextToken
         }
@@ -1417,6 +1433,7 @@ export const listStoryTags = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          ratingAmt
           genreID
           hidden
           approved

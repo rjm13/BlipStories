@@ -4,26 +4,19 @@ import {
     SafeAreaView, 
     StyleSheet, 
     Text, 
-    FlatList, 
     Dimensions, 
     RefreshControl, 
     TouchableWithoutFeedback, 
     TouchableOpacity, 
     ImageBackground, 
-    Animated, 
-    PanResponder 
 } from 'react-native';
 
-import {useRoute, useNavigation} from '@react-navigation/native'
+import {useNavigation} from '@react-navigation/native'
 
 import Carousel from 'react-native-snap-carousel';
-import {LinearGradient} from 'expo-linear-gradient';
-import { RadioButton } from 'react-native-paper';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import { AppContext } from '../../AppContext';
 
@@ -65,6 +58,12 @@ const GenreCarousel = ({genreid} : any) => {
                                 filter: {
                                     genreID: {
                                         eq: genreid
+                                    },
+                                    hidden: {
+                                        eq: false
+                                    },
+                                    approved: {
+                                        eq: true
                                     }
                                 }
                             } 

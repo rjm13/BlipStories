@@ -66,6 +66,12 @@ const PopTagStories = ({genreid, tag} : any) => {
                                     genreID: {
                                         eq: genreid
                                     },
+                                    hidden: {
+                                        eq: false
+                                    },
+                                    approved: {
+                                        eq: true
+                                    }
                                     // tags: {
                                     //     contains: tag
                                     // }

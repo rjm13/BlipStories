@@ -315,6 +315,14 @@ const AudioStoryList = ({genre, search, all} : any) => {
                             },
                             rating: {
                                 gt: 7
+                            },
+                            story:{
+                                hidden: {
+                                    eq: false
+                                },
+                                approved: {
+                                    eq: true
+                                }
                             }
                         }
                 }))
