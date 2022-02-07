@@ -131,12 +131,6 @@ const ForYouCarousel = () => {
                                 storyID: {
                                     eq: id
                                 },
-                                approved: {
-                                    eq: true
-                                },
-                                hidden: {
-                                    eq: false,
-                                }
                             }
                         }
                     ))

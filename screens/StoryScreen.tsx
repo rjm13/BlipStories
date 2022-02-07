@@ -723,6 +723,7 @@ const StoryScreen  = ({navigation} : any) => {
                                             />
                                             <Text style={{textAlign: 'center', color: '#e0e0e0', fontSize: 17}}>
                                                 {AverageUserRating}%
+                                                {/* {Story?.ratingAvg} % */}
                                             </Text>
                                         </View>
                                     </TouchableWithoutFeedback>

@@ -23,8 +23,8 @@ import { AppContext } from '../AppContext';
 
 import dummyaudio from '../data/dummyaudio';
 
-import { listPinnedStories } from '../src/customGraphql/customQueries';
-import { listRatings } from '../src/graphql/queries';
+import { listPinnedStories, listUsersPinnedStories } from '../src/customGraphql/customQueries';
+import { listRatings, listStories } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
@@ -313,6 +313,8 @@ const AudioStoryList = ({genre, search, all} : any) => {
             try {
 
                 const pinnedData = await API.graphql(graphqlOperation(
+                
+
                     listPinnedStories, {
                         filter: {
                             userID: {
@@ -327,7 +329,10 @@ const AudioStoryList = ({genre, search, all} : any) => {
                                 }
                             }
                         }
-                }))
+                    }
+                ))
+
+                console.log(pinnedData)
 
                 for (let i = 0; i < pinnedData.data.listPinnedStories.items.length; i++) {
                     Pinned.push(pinnedData.data.listPinnedStories.items[i].story) 

@@ -49,6 +49,8 @@ export const listFinishedStories = /* GraphQL */ `
             icon
             PrimaryColor
           }
+          approved
+          hidden
           createdAt
           updatedAt
           owner
@@ -103,6 +105,8 @@ export const listPinnedStories = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          approved
+          hidden
           genre {
             id
             genre
@@ -148,6 +152,8 @@ export const listRatings = /* GraphQL */ `
           description
           nsfw
           ratingAvg
+          approved
+          hidden
           genreID
           genre {
             id
@@ -218,6 +224,8 @@ export const listStoryTags = /* GraphQL */ `
             icon
             PrimaryColor
           }
+          approved
+          hidden
           createdAt
           updatedAt
           owner
