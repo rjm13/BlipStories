@@ -77,7 +77,18 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
-            }
+            },
+            "STORY_TABLE": {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${apiGraphQLAPIIdOutput}:GetAtt:StoryTable:Name"
+              }
+            },
+            "RATING_TABLE": {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${apiGraphQLAPIIdOutput}:GetAtt:RatingTable:Name"
+              }
+            },
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": 1
           }
         },
         "Role": {
@@ -194,13 +205,23 @@
                 "dynamodb:DescribeStream",
                 "dynamodb:GetRecords",
                 "dynamodb:GetShardIterator",
-                "dynamodb:ListStreams"
+                "dynamodb:ListStreams",
+                "dynamodb:Update*",
+                "dynamodb:query",
+                "dynamodb:List*"
               ],
-              "Resource": {
-                "Fn::ImportValue": {
-                  "Fn::Sub": "${apiblipstoriesGraphQLAPIIdOutput}:GetAtt:StoryTable:StreamArn"
+              "Resource": [
+                {
+                  "Fn::ImportValue": {
+                    "Fn::Sub": "${apiblipstoriesGraphQLAPIIdOutput}:GetAtt:StoryTable:StreamArn"
+                  }
+                },
+                {
+                  "Fn::ImportValue": {
+                    "Fn::Sub": "${apiblipstoriesGraphQLAPIIdOutput}:GetAtt:RatingTable:StreamArn"
+                  }
                 }
-              }
+              ]
             }
           ]
         }
@@ -217,7 +238,7 @@
         "Enabled": true,
         "EventSourceArn": {
           "Fn::ImportValue": {
-            "Fn::Sub": "${apiblipstoriesGraphQLAPIIdOutput}:GetAtt:StoryTable:StreamArn"
+            "Fn::Sub": "${apiblipstoriesGraphQLAPIIdOutput}:GetAtt:RatingTable:StreamArn"
           }
         },
         "FunctionName": {

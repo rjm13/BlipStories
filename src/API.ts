@@ -661,6 +661,7 @@ export type ModelPinnedStoryFilterInput = {
   id?: ModelIDInput | null,
   userID?: ModelIDInput | null,
   storyID?: ModelIDInput | null,
+  story?: ModelStoryFilterInput | null,
   and?: Array< ModelPinnedStoryFilterInput | null > | null,
   or?: Array< ModelPinnedStoryFilterInput | null > | null,
   not?: ModelPinnedStoryFilterInput | null,

@@ -321,12 +321,11 @@ const AudioStoryList = ({genre, search, all} : any) => {
                                 eq: userInfo.attributes.sub
                             },
                             story: {
-                                hidden: {
-                                    eq: false
-                                },
-                                approved: {
-                                    eq: true
-                                }
+                                
+                                    hidden: {
+                                        eq: false
+                                    },
+                                
                             }
                         }
                     }

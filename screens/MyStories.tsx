@@ -320,21 +320,19 @@ const MyStories = ({navigation} : any) => {
                             ListFooterComponent={ () => {
                                 return (
                                     <View style={{ height:  70, alignItems: 'center'}}>
-                                        <Text style={{ color: 'white', margin: 20,}}>
-                                            
-                                        </Text>
+                                        
                                     </View>
                             );}}
                             ListEmptyComponent={ () => {
                                 return (
-                                    <View style={{ height:  70, alignItems: 'center'}}>
+                                    <View style={{ height:  90, alignItems: 'center'}}>
                                         {isLoading === true ? (
                                         <View style={{margin: 30}}>
                                             <ActivityIndicator size='small' color='cyan' />
                                         </View>
                                         ) : (
                                         <Text style={{ color: 'white', margin: 20,}}>
-                                            There is nothing here! Tap the pin icon to add a story to your playlist.
+                                            There is nothing here! You have no uploaded any stories.
                                         </Text>
                                         )}
                                     </View>

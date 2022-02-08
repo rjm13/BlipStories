@@ -137,6 +137,8 @@ const UploadAudio = ({navigation} : any) => {
 
         setIsPublishing(true);
 
+        let userInfo = await Auth.currentAuthenticatedUser();
+
         try {
             const responseImage = await fetch(localImageUri);
             const blobImage = await responseImage.blob();
@@ -173,6 +175,7 @@ const UploadAudio = ({navigation} : any) => {
                         hidden: false,
                         imageUri: resultImage,
                         audioUri: s3ResponseAudio.key,
+                        userID: userInfo.attributes.sub,
                     }
             }))
 
