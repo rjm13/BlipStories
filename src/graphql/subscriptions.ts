@@ -41,6 +41,9 @@ export const onCreateUser = /* GraphQL */ `
       pseudonym
       birthdate
       isPublisher
+      isNarrator
+      isArtist
+      topthree
       followers {
         items {
           id
@@ -161,6 +164,9 @@ export const onUpdateUser = /* GraphQL */ `
       pseudonym
       birthdate
       isPublisher
+      isNarrator
+      isArtist
+      topthree
       followers {
         items {
           id
@@ -281,6 +287,9 @@ export const onDeleteUser = /* GraphQL */ `
       pseudonym
       birthdate
       isPublisher
+      isNarrator
+      isArtist
+      topthree
       followers {
         items {
           id
@@ -382,6 +391,9 @@ export const onCreateFollowingConn = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -412,6 +424,9 @@ export const onCreateFollowingConn = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -454,6 +469,9 @@ export const onUpdateFollowingConn = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -484,6 +502,9 @@ export const onUpdateFollowingConn = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -526,6 +547,9 @@ export const onDeleteFollowingConn = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -556,6 +580,9 @@ export const onDeleteFollowingConn = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -597,6 +624,9 @@ export const onCreatePinnedStory = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -630,6 +660,9 @@ export const onCreatePinnedStory = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -697,6 +730,9 @@ export const onUpdatePinnedStory = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -730,6 +766,9 @@ export const onUpdatePinnedStory = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -797,6 +836,9 @@ export const onDeletePinnedStory = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -830,6 +872,9 @@ export const onDeletePinnedStory = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -897,6 +942,9 @@ export const onCreateFinishedStory = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -930,6 +978,9 @@ export const onCreateFinishedStory = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -997,6 +1048,9 @@ export const onUpdateFinishedStory = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -1030,6 +1084,9 @@ export const onUpdateFinishedStory = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -1097,6 +1154,9 @@ export const onDeleteFinishedStory = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -1130,6 +1190,9 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -1199,6 +1262,9 @@ export const onCreateStory = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -1302,6 +1368,9 @@ export const onUpdateStory = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -1405,6 +1474,9 @@ export const onDeleteStory = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -1553,6 +1625,9 @@ export const onCreateFlag = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -1610,6 +1685,9 @@ export const onCreateFlag = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -1654,6 +1732,9 @@ export const onUpdateFlag = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -1711,6 +1792,9 @@ export const onUpdateFlag = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -1755,6 +1839,9 @@ export const onDeleteFlag = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -1812,6 +1899,9 @@ export const onDeleteFlag = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -1856,6 +1946,9 @@ export const onCreateComment = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -1913,6 +2006,9 @@ export const onCreateComment = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -1957,6 +2053,9 @@ export const onUpdateComment = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -2014,6 +2113,9 @@ export const onUpdateComment = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -2058,6 +2160,9 @@ export const onDeleteComment = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -2115,6 +2220,9 @@ export const onDeleteComment = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -2225,6 +2333,9 @@ export const onCreateRating = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -2282,6 +2393,9 @@ export const onCreateRating = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -2326,6 +2440,9 @@ export const onUpdateRating = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -2383,6 +2500,9 @@ export const onUpdateRating = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -2427,6 +2547,9 @@ export const onDeleteRating = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -2484,6 +2607,9 @@ export const onDeleteRating = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -2529,6 +2655,9 @@ export const onCreateStoryTag = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -2609,6 +2738,9 @@ export const onUpdateStoryTag = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -2689,6 +2821,9 @@ export const onDeleteStoryTag = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner

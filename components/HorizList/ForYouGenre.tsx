@@ -98,7 +98,7 @@ const ForYouGenre = ({genreid} : any) => {
 
         fetchStorys();
 
-    },[didUpdate])
+    },[didUpdate, genreid])
 
 //item for the flatlist carousel
     const Item = ({primary, title, genreName, ratingAvg, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {

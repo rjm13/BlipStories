@@ -6,7 +6,7 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 const STORY_TABLE = process.env.STORY_TABLE;
 const RATING_TABLE = process.env.RATING_TABLE;
 
-exports.handler = event => {
+exports.handler = async (event) => {
   console.log(event);
   event.Records.forEach(record => {
     console.log(record);

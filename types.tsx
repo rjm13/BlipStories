@@ -13,7 +13,7 @@ export type RootStackParamList = {
   Redirect: undefined;
   SimpleAudioPlayer: undefined;
   TagSearchScreen: undefined;
-
+  SplashCarousel: undefined;
   
 };
 

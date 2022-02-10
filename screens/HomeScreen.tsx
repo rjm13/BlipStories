@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, ScrollView, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { Text, View } from '../components/Themed';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -29,8 +29,10 @@ const AudioStoryHome = ({navigation} : any) => {
             const User = await API.graphql(graphqlOperation(
                 getUser, {id: userInfo.attributes.sub}
             ))
-            setUser(User.data.getUser);
-            //setTopThree(User.data.getUser.TopThree)
+            
+            if (User.data.getUser.topthree.length === 3) {
+                setTopThree(User.data.getUser.topthree)
+            }
         }
         fetchGenres();
 
@@ -46,9 +48,12 @@ const AudioStoryHome = ({navigation} : any) => {
             >
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 60, marginBottom: 10, marginHorizontal: 20}}>
                     <View style={{ flexDirection: 'row'}}>
-                        <Text style={styles.pageheader}>
-                            For you
-                        </Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('SplashCarousel')}>
+                            <Text style={styles.pageheader}>
+                                For you
+                            </Text>
+                        </TouchableOpacity>
+                        
                     </View>
 
                     <TouchableWithoutFeedback onPress={() => navigation.navigate('ProfileScreen')}>

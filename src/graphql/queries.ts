@@ -41,6 +41,9 @@ export const getUser = /* GraphQL */ `
       pseudonym
       birthdate
       isPublisher
+      isNarrator
+      isArtist
+      topthree
       followers {
         items {
           id
@@ -143,6 +146,9 @@ export const listUsers = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -183,6 +189,9 @@ export const getFollowingConn = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -213,6 +222,9 @@ export const getFollowingConn = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -257,6 +269,9 @@ export const listFollowingConns = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -272,6 +287,9 @@ export const listFollowingConns = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -303,6 +321,9 @@ export const getPinnedStory = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -336,6 +357,9 @@ export const getPinnedStory = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -405,6 +429,9 @@ export const listPinnedStories = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -460,6 +487,9 @@ export const getFinishedStory = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -493,6 +523,9 @@ export const getFinishedStory = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -562,6 +595,9 @@ export const listFinishedStories = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -619,6 +655,9 @@ export const getStory = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -724,6 +763,9 @@ export const listStories = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -828,6 +870,9 @@ export const getFlag = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -885,6 +930,9 @@ export const getFlag = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -953,6 +1001,9 @@ export const listFlags = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -987,6 +1038,9 @@ export const getComment = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -1044,6 +1098,9 @@ export const getComment = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -1112,6 +1169,9 @@ export const listComments = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -1189,6 +1249,9 @@ export const getRating = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -1246,6 +1309,9 @@ export const getRating = /* GraphQL */ `
         pseudonym
         birthdate
         isPublisher
+        isNarrator
+        isArtist
+        topthree
         followers {
           nextToken
         }
@@ -1314,6 +1380,9 @@ export const listRatings = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner
@@ -1349,6 +1418,9 @@ export const getStoryTag = /* GraphQL */ `
           pseudonym
           birthdate
           isPublisher
+          isNarrator
+          isArtist
+          topthree
           createdAt
           updatedAt
           owner

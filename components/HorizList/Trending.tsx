@@ -185,12 +185,15 @@ const Trending = () => {
 
         <View>
             <View style={{marginBottom: 0, marginLeft: 20}}>
-                <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}>
-                    Trending
-                </Text>
+                <TouchableOpacity onLongPress={onRefresh}>
+                    <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}>
+                        Trending
+                    </Text>
+                </TouchableOpacity>
             </View>
             <FlatList
                 data={stories}
+                //extraData={stories}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
                 horizontal={true}

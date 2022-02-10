@@ -14,6 +14,9 @@ type User @model @auth(rules: [{ allow: owner, operations: [create, delete, upda
   pseudonym: String
   birthdate: String
   isPublisher: Boolean
+  isNarrator: Boolean
+  isArtist: Boolean
+  topthree: [String]
   followers: [FollowingConn] @hasMany(indexName: "byFollower", fields: "id")
   Pinned: [Story] @hasMany(indexName: "byUser", fields: "id")
   Rated: [Rating] @hasMany (indexName: "byUser", fields: "id")
