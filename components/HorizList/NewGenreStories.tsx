@@ -86,7 +86,7 @@ const NewGenreStories = ({genreid} : any) => {
     },[didUpdate])
 
 //item for the flatlist carousel
-    const Item = ({primary, title, genreName, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
+    const Item = ({primary, title, ratingAvg, genreName, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
 
         const navigation = useNavigation();
 
@@ -125,22 +125,23 @@ const NewGenreStories = ({genreid} : any) => {
                         style={{marginBottom: 12, backgroundColor: '#ffffffa5', width: 200, height: 180, justifyContent: 'flex-end', borderRadius: 15}}
                         imageStyle={{borderRadius: 15,}}
                     >
-                        <View style={{backgroundColor: '#000000a5', borderBottomLeftRadius: 15, borderBottomRightRadius: 15, padding: 10, }}> 
+                        <View style={{backgroundColor: '#000000a5', borderBottomLeftRadius: 15, borderBottomRightRadius: 15, paddingHorizontal: 10, paddingVertical: 10}}> 
+                            
                             <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <View>
-                                    <Text style={{color: '#fff'}}>
-                                    {millisToMinutesAndSeconds()}
+                                    <Text style={{fontWeight: 'bold', color: '#fff', fontSize: 12, textTransform: 'capitalize'}}>
+                                    {title}
                                     </Text>
                                 </View>
                                 <View style={{alignItems: 'center', flexDirection: 'row'}}>
                                     <FontAwesome 
                                         name={isRated === true ? 'star' : 'star-o'}
-                                        size={16}
+                                        size={14}
                                         color={isRated === true || isFinished === true ? 'gold' : 'white'}
                                         style={{marginHorizontal: 6 }}
                                     />
-                                    <Text style={{color: '#fff'}}>
-                                        90%
+                                    <Text style={{color: '#fff', fontSize: 12}}>
+                                        {ratingAvg}%
                                     </Text>
                                 </View>
                                 
@@ -148,11 +149,6 @@ const NewGenreStories = ({genreid} : any) => {
                         </View>
                     </ImageBackground>
                 </TouchableWithoutFeedback>
-                <View>
-                    <Text style={[styles.title, {fontSize: 14, width: 190, marginLeft: 4}]}>
-                        {title}
-                    </Text> 
-                </View>
             </View>
         );
     }
@@ -182,6 +178,7 @@ const NewGenreStories = ({genreid} : any) => {
           narrator={item.narrator}
           time={item.time}
           id={item.id}
+          ratingAvg={item.ratingAvg}
           //liked={item.liked}
           //rating={item.rating}
         />
