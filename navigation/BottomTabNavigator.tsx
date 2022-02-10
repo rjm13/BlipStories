@@ -188,6 +188,16 @@ function HomeNavigator() {
         component={RecordAudioScreen} 
         options={{ headerShown: false }} 
       />
+      <HomeStack.Screen 
+        name="GenreHome" 
+        component={GenreHome} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="BrowseGenre" 
+        component={BrowseGenre} 
+        options={{ headerShown: false }} 
+      />
 
     </HomeStack.Navigator>
   );

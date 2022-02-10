@@ -42,6 +42,8 @@ export type TabOneParamList = {
   EditAudioStory: undefined;
   UploadAudio: undefined;
   RecordAudio: undefined;
+  GenreHome: undefined;
+  BrowseGenre: undefined;
 };
 
 export type TabTwoParamList = {

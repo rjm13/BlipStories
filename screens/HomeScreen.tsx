@@ -1,16 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { Text, View } from '../components/Themed';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {LinearGradient} from 'expo-linear-gradient';
+
 import Trending from '../components/HorizList/Trending';
+import ShortSweet from '../components/HorizList/ShortSweet';
 import ForYouCarousel from '../components/HorizList/ForYouCarousel';
+import ForYouGenre from '../components/HorizList/ForYouGenre';
+
+import { Auth, graphqlOperation, API } from 'aws-amplify';
+import {getUser} from '../src/graphql/queries';
 
 const AudioStoryHome = ({navigation} : any) => {
 
+    const [user, setUser] = useState()
 
+    const [TopThree, setTopThree] = useState(['74be93da-74d5-4393-8382-b6ec2299dfa5', '7537f8b5-16f5-4a30-bc57-7e488f170d96', '3e93e3d2-1489-4371-a508-2fe4772473f4'])
+
+    useEffect(() => {
+
+        const fetchGenres = async () => {
+
+            const userInfo = await Auth.currentAuthenticatedUser();
+
+            const User = await API.graphql(graphqlOperation(
+                getUser, {id: userInfo.attributes.sub}
+            ))
+            setUser(User.data.getUser);
+            //setTopThree(User.data.getUser.TopThree)
+        }
+        fetchGenres();
+
+    }, [])
 
     return (
         <ScrollView style={{backgroundColor: '#3b4b80a5' }}> 
@@ -43,32 +67,28 @@ const AudioStoryHome = ({navigation} : any) => {
                 </View>
             
                 <View>
-                    <Text style={styles.header}>
-                        Trending
-                    </Text>
-                    <Trending genre='all'/>
+                    <Trending/>
                 </View>
 
                 <View>
-                    <Text style={styles.header}>
-                        Under 10 Minutes
-                    </Text>
-                    <Trending genre='fantasy'/>
+                    <ShortSweet/>
                 </View>
 
                 <View>
-                    <Text style={styles.header}>
-                        Fan Fiction
-                    </Text>
-                    <Trending genre='fan fiction'/>
+                    <ForYouGenre genreid={TopThree[0]}/>
                 </View>
 
                 <View>
-                    <Text style={styles.header}>
-                        Mystery
-                    </Text>
-                    <Trending genre='mystery'/>
-                </View>   
+                    <ForYouGenre genreid={TopThree[1]}/>
+                </View>  
+
+                <View>
+                    <ForYouGenre genreid={TopThree[2]}/>
+                </View>  
+
+                <View style={{height: 100}}>
+
+                </View>
             </LinearGradient>
         </ScrollView>
     );

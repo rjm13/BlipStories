@@ -29,7 +29,7 @@ import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutation
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 
-const Trending = () => {
+const ShortSweet = ({genreid} : any) => {
 
     //update list state
     const [didUpdate, setDidUpdate] = useState(false);
@@ -64,6 +64,9 @@ const Trending = () => {
                                     approved: {
                                         eq: true
                                     },
+                                    time: {
+                                        lt: 1800000
+                                    }
                                 }
                             } 
                         )
@@ -124,9 +127,9 @@ const Trending = () => {
                                 </Text>
                             </View>
                             <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                <View>
+                                <View style={{flexDirection: 'row'}}>
                                     <Text style={{color: '#ffffffa5', fontSize: 12, textTransform: 'capitalize'}}>
-                                    {genreName}
+                                        {genreName}
                                     </Text>
                                 </View>
                                 <View style={{alignItems: 'center', flexDirection: 'row'}}>
@@ -145,7 +148,6 @@ const Trending = () => {
                         </View>
                     </ImageBackground>
                 </TouchableWithoutFeedback>
-                
             </View>
         );
     }
@@ -186,7 +188,7 @@ const Trending = () => {
         <View>
             <View style={{marginBottom: 0, marginLeft: 20}}>
                 <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}>
-                    Trending
+                    Short and Sweet
                 </Text>
             </View>
             <FlatList
@@ -194,17 +196,11 @@ const Trending = () => {
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
                 horizontal={true}
-                showsHorizontalScrollIndicator={false}
                 refreshControl={
                     <RefreshControl
                      refreshing={isFetching}
                      onRefresh={onRefresh}
                     />
-                }
-                ListFooterComponent={
-                    <View style={{width: 50}}>
-
-                    </View>
                 }
             />
         </View>
@@ -296,4 +292,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Trending;
+export default ShortSweet;
