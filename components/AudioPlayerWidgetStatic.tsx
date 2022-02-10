@@ -596,10 +596,9 @@ const AddToHistory = async () => {
                     >
                         <Animated.View style={{ height: animatedHeaderHeightSmall, flexDirection: 'row', alignItems: 'center', }}>
                             { isExpanded === true ? (
+                                <TouchableWithoutFeedback onPress={onChangeHandler}>
                                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
-                                    <TouchableWithoutFeedback 
-                                        onPress={onChangeHandler}
-                                    >
+                                    
                                         <Animated.Text
                                             style={{
                                                 opacity: animatedSongTitleOpacity,
@@ -609,7 +608,7 @@ const AddToHistory = async () => {
                                         }}>
                                             {Story?.title}
                                         </Animated.Text>
-                                    </TouchableWithoutFeedback>
+                                    
                                         <Animated.View style={{opacity: animatedSongTitleOpacity,}}>
                                             <FontAwesome5 
                                                 name={isPlaying === true ? 'pause' : 'play'}
@@ -620,6 +619,7 @@ const AddToHistory = async () => {
                                             />
                                         </Animated.View>
                                     </View> 
+                                </TouchableWithoutFeedback>
                             ) : null } 
                         </Animated.View>
                         

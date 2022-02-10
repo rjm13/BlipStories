@@ -80,12 +80,12 @@
             },
             "STORY_TABLE": {
               "Fn::ImportValue": {
-                "Fn::Sub": "${apiGraphQLAPIIdOutput}:GetAtt:StoryTable:Name"
+                "Fn::Sub": "${apiblipstoriesGraphQLAPIIdOutput}:GetAtt:StoryTable:Name"
               }
             },
             "RATING_TABLE": {
               "Fn::ImportValue": {
-                "Fn::Sub": "${apiGraphQLAPIIdOutput}:GetAtt:RatingTable:Name"
+                "Fn::Sub": "${apiblipstoriesGraphQLAPIIdOutput}:GetAtt:RatingTable:Name"
               }
             },
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": 1

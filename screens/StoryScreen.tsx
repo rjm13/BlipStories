@@ -10,7 +10,9 @@ import {
     Animated,
     TouchableWithoutFeedback,
     FlatList,
-    RefreshControl
+    RefreshControl,
+    Image,
+    TextInput,
 } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
@@ -26,10 +28,11 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import * as Animatable from 'react-native-animatable';
+import { format, parseISO } from "date-fns";
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
-import { getStory, listPinnedStories, listRatings, listStoryTags, listFinishedStories } from '../src/graphql/queries';
-import { createPinnedStory, createFlag, createRating, updateRating } from '../src/graphql/mutations';
+import { getStory, getUser, listComments, listPinnedStories, listRatings, listStoryTags, listFinishedStories } from '../src/graphql/queries';
+import { createComment, createFlag, createRating, updateRating } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
 import PinStory from '../components/functions/PinStory';
@@ -437,6 +440,128 @@ const StoryScreen  = ({navigation} : any) => {
 
     }
 
+    const Item = ({content, createdAt, userName, userImageUri}: any) => {
+
+        return (
+            <View style={{ marginVertical: 10, backgroundColor: '#132F35', borderRadius: 15}}>
+    
+                <View style={{ margin: 10, flexDirection: 'row'}}>
+                    <View>
+                       <Image 
+                                source={ userImageUri ? { uri: userImageUri} : require('../assets/images/blankprofile.png')}
+                                style={{ width: 50, height: 50, borderRadius: 25, backgroundColor: 'lightgray'}}
+                        /> 
+                    </View>
+                    <View style={{marginHorizontal: 20, alignSelf: 'center'}}>
+                        <Text style={{fontSize: 16, color: '#fff', fontWeight: 'bold'}}>
+                            {userName}
+                        </Text>
+                        <Text style={{color: '#ffffffa5', fontSize: 12}}>
+                            {format(parseISO(createdAt), 'MMM Do yyyy')}
+                        </Text>
+                    </View>
+                </View>
+    
+                <View>
+                    <Text style={{ color: '#ffffff', marginBottom: 20, marginTop: 10, marginHorizontal: 20}}>
+                        {content}
+                    </Text>
+                </View>
+            </View>
+        );
+    }
+    
+        const [commentUpdated, setCommentUpdated] = useState(false);
+    
+        //get the comments for that story using the storyID
+        useEffect(() => {
+    
+            const fetchComments = async () => {
+               
+                    try {
+                        const response = await API.graphql(
+                            graphqlOperation(
+                                listComments, {
+                                    filter: {
+                                        storyID: {
+                                            eq: storyID
+                                        },
+                                    }
+                                } 
+                            )
+                        )
+                        setCommentList(response.data.listComments.items);
+                        console.log(response.data.listComments.items)
+                    } catch (e) {
+                        console.log(e);}  
+            }
+            fetchComments();
+        },[storyID, commentUpdated])
+    
+        const [commentList, setCommentList ] = useState([]);
+    
+        //const [story, setStory] = useState(storyId);
+    
+        const { userID } = useContext(AppContext);
+        const { setUserID } = useContext(AppContext);
+    
+        const [user, setUser] = useState();
+    
+        useEffect(() => {
+            const fetchUser = async () => {
+    
+                // const userInfo = await Auth.currentAuthenticatedUser(
+                //     { bypassCache: true }
+                //   );
+    
+                const userData = await API.graphql(
+                    graphqlOperation(
+                    getUser, 
+                    { id: userID,
+                    }
+                    )
+                )
+                setUser(userData.data.getUser);
+            }
+        fetchUser();
+        }, [])
+        
+        const renderItem = ({ item } : any) => (
+    
+            <Item 
+                //id={item.id}
+                content={item.content}
+                createdAt={item.createdAt}
+                userName={item.user && item.user.name}
+                userImageUri={item.user && item.user.imageUri}
+            />
+          );
+        
+        const [comment, setComment] = useState('');
+    
+        const handlePostComment = async () => {
+    
+            const poster = await Auth.currentAuthenticatedUser()
+    
+            if (comment.length > 0) {
+                try {
+                    let result = await API.graphql(
+                            graphqlOperation(createComment, { input: 
+                                {
+                                    storyID: storyID,
+                                    content: comment,
+                                    userID: poster.attributes.sub
+                                }
+                            }))
+                                console.log(result);
+                        } catch (e) {
+                                console.error(e);
+                }
+                setComment('');
+                setCommentUpdated(!commentUpdated)
+            }
+        }
+
     return (
         <Provider>
             <View style={styles.container}>
@@ -722,8 +847,8 @@ const StoryScreen  = ({navigation} : any) => {
                                                 style={{marginHorizontal: 6 }}
                                             />
                                             <Text style={{textAlign: 'center', color: '#e0e0e0', fontSize: 17}}>
-                                                {AverageUserRating}%
-                                                {/* {Story?.ratingAvg} % */}
+                                                {/* {AverageUserRating}% */}
+                                                {Story?.ratingAvg} %
                                             </Text>
                                         </View>
                                     </TouchableWithoutFeedback>
@@ -792,9 +917,15 @@ const StoryScreen  = ({navigation} : any) => {
 
                                 <View style={{width: '100%', marginTop: 20}} >
                                     <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10,}}>
-                                        <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>
-                                            Discussion
-                                        </Text>
+                                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                            <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>
+                                                Discussion
+                                            </Text>
+                                            <Text style={{color: '#fff', marginLeft: 10}}>
+                                                ({commentList.length})
+                                            </Text>
+                                        </View>
+                                        
                                         <FontAwesome 
                                             name='flag'
                                             size={20}
@@ -803,7 +934,66 @@ const StoryScreen  = ({navigation} : any) => {
                                         />
                                     </View>
                                     <View onLayout={e => setViewPosition(e.nativeEvent.layout.y)}>
-                                        <Comments storyId={Story?.id} />
+                                        {/* <Comments storyId={Story?.id} /> */}
+                                        <View style={{backgroundColor: '#363636', padding: 20, marginVertical: 10, borderRadius: 15, }}>
+                                            <View style={{ flexDirection: 'row', }}>
+                                                <Image 
+                                                        source={ user?.imageUri ? { uri: user?.imageUri} : require('../assets/images/blankprofile.png')}
+                                                        style={{ width: 40, height: 40, borderRadius: 25, backgroundColor: 'gray'}}
+                                                    />
+                                                <TextInput 
+                                                    placeholder='Leave a comment'
+                                                    placeholderTextColor='#ffFFFFa5'
+                                                    style={{
+                                                        color: '#ffffff',
+                                                        fontSize: 14,
+                                                        marginLeft: 20,
+                                                        marginRight: 30,    
+                                                    }}
+                                                    maxLength={250}
+                                                    multiline={true}
+                                                    numberOfLines={2}
+                                                    onChangeText={comment => setComment(comment)}
+                                                    value={comment}
+                                                />
+                                            </View>
+                                                {comment.length > 0 ? (
+                                                    <View>
+                                                        <View style={{marginTop: 20, alignSelf: 'center', width: '70%', height: 1, borderWidth: 0.5, borderColor: '#ffffffa5'}}>
+                                                        </View>
+                                                        <TouchableOpacity onPress={handlePostComment}>
+                                                            <View style={{ marginTop: 20, alignItems: 'center'}}>
+                                                                <Text style={{backgroundColor: 'cyan', width: 80, padding: 5, borderRadius: 20, color: '#000', borderWidth: 0.5, borderColor: '#00ffff', textAlign: 'center'}}>
+                                                                    Post
+                                                                </Text>
+                                                            </View>
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                ) : null}
+                                        </View>
+
+                                        <FlatList 
+                                            data={commentList}
+                                            renderItem={renderItem}
+                                            keyExtractor={item => item.id}
+                                            showsVerticalScrollIndicator={false}
+                                            scrollEnabled={false}
+                                            extraData={commentList}
+                                            initialNumToRender={10}
+                                            maxToRenderPerBatch={10}
+                                            ListFooterComponent={ () => {
+                                                return (
+                                                    <View style={{height:  300}}>
+                                                    </View>
+                                                );
+                                            }}
+                                            // ListHeaderComponent={ () => {
+                                            //     return (
+                                            //     <View>
+                                            //     </View>
+                                            //     );
+                                            // }}
+                                        />
                                     </View>
                                 </View>
 

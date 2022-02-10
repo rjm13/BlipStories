@@ -96,10 +96,10 @@ const GenreHome = ({navigation} : any) => {
     return (
         <View style={styles.container}>
             <LinearGradient
-                colors={[GenreInfo.PrimaryColor, GenreInfo.PrimaryColor, 'transparent']}
+                colors={[GenreInfo.PrimaryColor, '#212121', '#000', '#000',]}
                 style={{height: '100%'}}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 0, y: 1 }}
+                start={{ x: 1, y: 1 }}
+                end={{ x: 0.5, y: 0.5 }}
             >
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={{alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', marginTop: 20}}>

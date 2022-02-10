@@ -23,7 +23,7 @@ import { AppContext } from '../AppContext';
 
 import dummyaudio from '../data/dummyaudio';
 
-import { listPinnedStories, listUsersPinnedStories } from '../src/customGraphql/customQueries';
+import { listPinnedStories } from '../src/customGraphql/customQueries';
 import { listRatings, listStories } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
@@ -167,13 +167,20 @@ const AudioStoryList = ({genre, search, all} : any) => {
             fetchRating();
         }, [])
 
+        //convert time to formatted string
+        function millisToMinutesAndSeconds () {
+            let minutes = Math.floor(time / 60000);
+            let seconds = Math.floor((time % 60000) / 1000);
+            return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
+        } 
+
         return (
             <View>
                 <TouchableWithoutFeedback onPress={() => setIsVisible(!isVisible)}>
                     <View style={styles.tile}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                             <View style={{ width: '78%'}}>
-                                <TouchableOpacity onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
+                                <TouchableOpacity onLongPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
                                     <Text style={styles.name}>
                                         {title}
                                     </Text> 
@@ -219,7 +226,7 @@ const AudioStoryList = ({genre, search, all} : any) => {
                                         size={10}
                                     />
                                     <Text style={styles.time}>
-                                        12:53
+                                        {millisToMinutesAndSeconds()}
                                     </Text> 
                                 </View>
                             </TouchableOpacity>
@@ -405,10 +412,8 @@ const AudioStoryList = ({genre, search, all} : any) => {
                     showsVerticalScrollIndicator={false}    
                     ListFooterComponent={ () => {
                         return (
-                            <View style={{ height:  70, alignItems: 'center'}}>
-                                <Text style={{ color: 'white', margin: 20,}}>
-                                    
-                                </Text>
+                            <View style={{ height:  100, alignItems: 'center'}}>
+                                
                             </View>
                     );}}
                     ListEmptyComponent={ () => {
