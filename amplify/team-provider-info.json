@@ -18,7 +18,7 @@
       "function": {
         "BlipStoriesRatingAvg": {
           "deploymentBucketName": "amplify-blipstories-dev-192937-deployment",
-          "s3Key": "amplify-builds/BlipStoriesRatingAvg-4c575a6155505a615a6e-build.zip"
+          "s3Key": "amplify-builds/BlipStoriesRatingAvg-4c487632314962704a51-build.zip"
         }
       }
     }

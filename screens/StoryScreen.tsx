@@ -143,11 +143,10 @@ const StoryScreen  = ({navigation} : any) => {
             listStoryTags, {
                 filter: {
                     storyID: {
-                        eq: 
-                            storytag
+                        eq: storytag
                     }
                 },
-                limit: 12
+                //limit: 12
             }
           ))
     

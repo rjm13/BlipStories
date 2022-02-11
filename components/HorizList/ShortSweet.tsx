@@ -196,11 +196,16 @@ const ShortSweet = ({genreid} : any) => {
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
                 horizontal={true}
+                showsHorizontalScrollIndicator={false}
                 refreshControl={
                     <RefreshControl
                      refreshing={isFetching}
                      onRefresh={onRefresh}
                     />
+                }
+                ListFooterComponent={
+                    <View style={{width: 60}}>
+                    </View>
                 }
             />
         </View>

@@ -10,6 +10,7 @@ import Trending from '../components/HorizList/Trending';
 import ShortSweet from '../components/HorizList/ShortSweet';
 import ForYouCarousel from '../components/HorizList/ForYouCarousel';
 import ForYouGenre from '../components/HorizList/ForYouGenre';
+import NewList from '../components/HorizList/NewList';
 
 import { Auth, graphqlOperation, API } from 'aws-amplify';
 import {getUser} from '../src/graphql/queries';
@@ -78,6 +79,10 @@ const AudioStoryHome = ({navigation} : any) => {
                 <View>
                     <ShortSweet/>
                 </View>
+
+                <View>
+                    <NewList />
+                </View> 
 
                 <View>
                     <ForYouGenre genreid={TopThree[0]}/>

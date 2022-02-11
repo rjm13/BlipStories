@@ -53,9 +53,12 @@ type FinishedStory
   story: Story @hasOne (fields: ["storyID"])
 }
 
-type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
+type Story 
+@model 
+@auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
+
 {
-  id: ID!
+  id: ID! @index(name: "byDateCreated", sortKeyFields: ["createdAt"], queryField: "storiesByDate")
   title: String!
   imageUri: String
   audioUri: String!
@@ -80,6 +83,7 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   genre: Genre @hasOne (fields: ["genreID"])
   hidden: Boolean
   approved: Boolean
+  createdAt: String
   }
 
 type Genre @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])

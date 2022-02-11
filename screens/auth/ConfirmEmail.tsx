@@ -71,7 +71,8 @@ const ConfirmEmail = ({navigation, route} : {navigation: any, route : any}) => {
                     )
                 )
                 if (createdUser) {
-                    navigation.navigate('Redirect', {trigger: Math.random()}) 
+                    navigation.navigate('SplashCarousel')
+                    //navigation.navigate('Redirect', {trigger: Math.random()}) 
                 }
             } 
         }

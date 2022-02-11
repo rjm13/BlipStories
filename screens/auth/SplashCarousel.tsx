@@ -56,7 +56,7 @@ const SplashCarousel = ({navigation} : any) => {
                 updateUser, {input: {id: userInfo.attributes.sub, topthree: TopThree}}
             ))
             console.log(update.data.updateUser.topthree)
-            navigation.navigate('HomeScreen')
+            navigation.navigate('Redirect', {trigger: Math.random()})
             
             } catch (e) {
                 return (e)

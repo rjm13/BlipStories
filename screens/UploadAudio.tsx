@@ -176,10 +176,13 @@ const UploadAudio = ({navigation} : any) => {
                         imageUri: resultImage,
                         audioUri: s3ResponseAudio.key,
                         userID: userInfo.attributes.sub,
+                        nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false,
+                        ratingAvg: 0,
+                        ratingAmt: 0,
                     }
             }))
 
-            if (result.data.createStory) {
+            //if (result.data.createStory) {
                 //for each tag, check and see if the tag alreadyt exists
                 if (TagsArray.length > 0) {
                     for (let i = 0; i < TagsArray.length; i++) {
@@ -201,13 +204,14 @@ const UploadAudio = ({navigation} : any) => {
                                 let makeStoryTag = await API.graphql(graphqlOperation(
                                     createStoryTag, {input: {tagID: newTag.data.createTag.id, storyID: result.data.createStory.id}}
                                 ))
+                                console.log('story tags are...')
                                 console.log(makeStoryTag)
                             }
                         }
 
                     }
                 }
-            }
+            //}
             setIsPublishing(false);
             navigation.goBack();
 
@@ -555,8 +559,8 @@ const UploadAudio = ({navigation} : any) => {
                         <ScrollView 
                         scrollEnabled={false}
                         style={{width: Dimensions.get('window').width - 20, marginHorizontal: 0, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                        {TagsArray.map(({ index, name } : any) => (
-                            <View key={index} style={{marginTop: 10, marginRight: 10}}>
+                        {TagsArray.map(({ id, name } : any) => (
+                            <View key={id} style={{marginTop: 10, marginRight: 10}}>
                                 <TouchableOpacity>
                                     <View style={{}}>
                                         <Text style={styles.tagtext}>
@@ -774,8 +778,8 @@ const UploadAudio = ({navigation} : any) => {
                     <ScrollView 
                         scrollEnabled={false}
                         style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                        {TagsArray.map(({ index, name } : any) => (
-                            <View key={index} style={{marginTop: 10, marginRight: 10}}>
+                        {TagsArray.map(({ id, name } : any) => (
+                            <View key={id} style={{marginTop: 10, marginRight: 10}}>
                                 <TouchableOpacity>
                                     <View style={{}}>
                                         <Text style={styles.tagtext}>

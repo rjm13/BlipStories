@@ -24,27 +24,12 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import { AppContext } from '../../AppContext';
 
 import { listPinnedStories } from '../../src/customGraphql/customQueries';
-import { listStories, getGenre } from '../../src/graphql/queries';
+import { listStories } from '../../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 
-const ForYouGenre = ({genreid} : any) => {
-
-    const navigation = useNavigation();
-
-    const [Genre, setGenre] = useState()
-
-    useEffect(() => {
-        const fetchGenre = async () => {
-            const genreInfo = await API.graphql(graphqlOperation(
-                getGenre, {id: genreid}
-            ))
-            setGenre(genreInfo.data.getGenre)
-        }
-        fetchGenre();
-
-    }, [])
+const NewList = () => {
 
     //update list state
     const [didUpdate, setDidUpdate] = useState(false);
@@ -61,47 +46,40 @@ const ForYouGenre = ({genreid} : any) => {
       }
 
 //fetch the stories for a specific genre for promoted carousel      
-    const [tagStories, setTagStories] = useState([]);
+    const [stories, setStories] = useState([]);
 
     useEffect(() => {
 
         const fetchStorys = async () => {
                 
-            if (genreid) {
                 try {
                     const response = await API.graphql(
                         graphqlOperation(
                             listStories, {
-                                limit: 5,
+                                limit: 8,
                                 filter: {
-                                    genreID: {
-                                        eq: genreid
-                                    },
                                     hidden: {
                                         eq: false
                                     },
                                     approved: {
                                         eq: true
-                                    }
-                                    // tags: {
-                                    //     contains: tag
-                                    // }
+                                    },
+
                                 }
                             } 
                         )
                     )
-                    setTagStories(response.data.listStories.items);
+                    setStories(response.data.listStories.items);
                 } catch (e) {
                     console.log(e);}
-            }
         }
 
         fetchStorys();
 
-    },[didUpdate, genreid])
+    },[didUpdate])
 
 //item for the flatlist carousel
-    const Item = ({primary, title, genreName, ratingAvg, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
+    const Item = ({primary, title, ratingAvg, icon, genreName, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
 
         const navigation = useNavigation();
 
@@ -140,12 +118,16 @@ const ForYouGenre = ({genreid} : any) => {
                         style={{marginBottom: 12, backgroundColor: '#ffffffa5', width: 200, height: 180, justifyContent: 'flex-end', borderRadius: 15}}
                         imageStyle={{borderRadius: 15,}}
                     >
-                        <View style={{backgroundColor: '#000000a5', borderBottomLeftRadius: 15, borderBottomRightRadius: 15, paddingHorizontal: 10, paddingVertical: 10}}> 
-                            
+                        <View style={{backgroundColor: '#000000a5', borderBottomLeftRadius: 15, borderBottomRightRadius: 15, paddingHorizontal: 10, paddingVertical: 6}}> 
+                            <View style={{marginBottom: 0}}>
+                                <Text style={{color: '#fff', fontSize: 12, fontWeight: 'bold'}}>
+                                    {title}
+                                </Text>
+                            </View>
                             <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <View>
-                                    <Text style={{fontWeight: 'bold', color: '#fff', fontSize: 12, textTransform: 'capitalize'}}>
-                                    {title}
+                                    <Text style={{color: '#ffffffa5', fontSize: 12, textTransform: 'capitalize'}}>
+                                    {genreName}
                                     </Text>
                                 </View>
                                 <View style={{alignItems: 'center', flexDirection: 'row'}}>
@@ -204,12 +186,15 @@ const ForYouGenre = ({genreid} : any) => {
 
         <View>
             <View style={{marginBottom: 0, marginLeft: 20}}>
-                <Text style={{textTransform: 'capitalize', fontSize: 18, color: '#fff', fontWeight: 'bold'}}>
-                    {Genre?.genre}
-                </Text>
+                <TouchableOpacity onLongPress={onRefresh}>
+                    <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}>
+                        Brand New
+                    </Text>
+                </TouchableOpacity>
             </View>
             <FlatList
-                data={tagStories}
+                data={stories}
+                //extraData={stories}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
                 horizontal={true}
@@ -221,15 +206,9 @@ const ForYouGenre = ({genreid} : any) => {
                     />
                 }
                 ListFooterComponent={
-                        <TouchableOpacity onPress={() => navigation.navigate('GenreHome', {genreRoute: Genre?.id})}>
-                        <View style={{ width: 100, height: 200, justifyContent: 'center', alignItems: 'center'}}>
-                            <FontAwesome5 
-                                name='chevron-circle-right'
-                                color='#ffffffa5'
-                                size={25}
-                            />
-                        </View>
-                    </TouchableOpacity>
+                    <View style={{width: 50}}>
+
+                    </View>
                 }
             />
         </View>
@@ -321,4 +300,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default ForYouGenre;
+export default NewList;

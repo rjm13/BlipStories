@@ -1528,3 +1528,85 @@ export const listStoryTags = /* GraphQL */ `
     }
   }
 `;
+export const storiesByDate = /* GraphQL */ `
+  query StoriesByDate(
+    $id: ID!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelStoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    storiesByDate(
+      id: $id
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        imageUri
+        audioUri
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        author
+        authorID
+        narrator
+        narratorID
+        time
+        summary
+        description
+        nsfw
+        comments {
+          nextToken
+        }
+        tags {
+          nextToken
+        }
+        ratingAvg
+        ratingAmt
+        rated {
+          nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
+        }
+        hidden
+        approved
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
