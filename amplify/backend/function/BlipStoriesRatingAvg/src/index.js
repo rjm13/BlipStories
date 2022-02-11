@@ -7,16 +7,14 @@ const STORY_TABLE = process.env.STORY_TABLE;
 const RATING_TABLE = process.env.RATING_TABLE;
 
 exports.handler = event => {
-  console.log(event);
   event.Records.forEach(async (record) => {
-    console.log(record);
     if (record.eventName == 'INSERT' || record.eventName == 'MODIFY') {
         await processRating(record.dynamodb.NewImage.storyID.S);
     }
 
     // Calculate the average rating
     async function processRating(id){
-      var ratings = await getStoryRatings();
+      var ratings = await getStoryRatings(id);
       console.log(ratings);
       var len = ratings.items.length;
       var average = [];

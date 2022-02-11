@@ -14,6 +14,7 @@ export const getUser = /* GraphQL */ `
       authored {
         items {
           id
+          type
           title
           imageUri
           audioUri
@@ -58,6 +59,7 @@ export const getUser = /* GraphQL */ `
       Pinned {
         items {
           id
+          type
           title
           imageUri
           audioUri
@@ -96,6 +98,7 @@ export const getUser = /* GraphQL */ `
       Finished {
         items {
           id
+          type
           title
           imageUri
           audioUri
@@ -343,6 +346,7 @@ export const getPinnedStory = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -439,6 +443,7 @@ export const listPinnedStories = /* GraphQL */ `
         storyID
         story {
           id
+          type
           title
           imageUri
           audioUri
@@ -509,6 +514,7 @@ export const getFinishedStory = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -605,6 +611,7 @@ export const listFinishedStories = /* GraphQL */ `
         storyID
         story {
           id
+          type
           title
           imageUri
           audioUri
@@ -638,6 +645,7 @@ export const getStory = /* GraphQL */ `
   query GetStory($id: ID!) {
     getStory(id: $id) {
       id
+      type
       title
       imageUri
       audioUri
@@ -749,6 +757,7 @@ export const listStories = /* GraphQL */ `
     listStories(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        type
         title
         imageUri
         audioUri
@@ -856,6 +865,7 @@ export const getFlag = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -968,6 +978,7 @@ export const listFlags = /* GraphQL */ `
         storyID
         story {
           id
+          type
           title
           imageUri
           audioUri
@@ -1024,6 +1035,7 @@ export const getComment = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -1136,6 +1148,7 @@ export const listComments = /* GraphQL */ `
         storyID
         story {
           id
+          type
           title
           imageUri
           audioUri
@@ -1190,6 +1203,7 @@ export const getTag = /* GraphQL */ `
     getTag(id: $id) {
       id
       tagName
+      nsfw
       stories {
         items {
           id
@@ -1217,6 +1231,7 @@ export const listTags = /* GraphQL */ `
       items {
         id
         tagName
+        nsfw
         stories {
           nextToken
         }
@@ -1235,6 +1250,7 @@ export const getRating = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -1347,6 +1363,7 @@ export const listRatings = /* GraphQL */ `
         storyID
         story {
           id
+          type
           title
           imageUri
           audioUri
@@ -1404,6 +1421,7 @@ export const getStoryTag = /* GraphQL */ `
       tagID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -1466,6 +1484,7 @@ export const getStoryTag = /* GraphQL */ `
       tag {
         id
         tagName
+        nsfw
         stories {
           nextToken
         }
@@ -1492,6 +1511,7 @@ export const listStoryTags = /* GraphQL */ `
         tagID
         story {
           id
+          type
           title
           imageUri
           audioUri
@@ -1516,6 +1536,7 @@ export const listStoryTags = /* GraphQL */ `
         tag {
           id
           tagName
+          nsfw
           createdAt
           updatedAt
           owner
@@ -1530,7 +1551,7 @@ export const listStoryTags = /* GraphQL */ `
 `;
 export const storiesByDate = /* GraphQL */ `
   query StoriesByDate(
-    $id: ID!
+    $type: String!
     $createdAt: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelStoryFilterInput
@@ -1538,7 +1559,7 @@ export const storiesByDate = /* GraphQL */ `
     $nextToken: String
   ) {
     storiesByDate(
-      id: $id
+      type: $type
       createdAt: $createdAt
       sortDirection: $sortDirection
       filter: $filter
@@ -1547,6 +1568,7 @@ export const storiesByDate = /* GraphQL */ `
     ) {
       items {
         id
+        type
         title
         imageUri
         audioUri

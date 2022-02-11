@@ -53,12 +53,10 @@ type FinishedStory
   story: Story @hasOne (fields: ["storyID"])
 }
 
-type Story 
-@model 
-@auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
-
+type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
 {
-  id: ID! @index(name: "byDateCreated", sortKeyFields: ["createdAt"], queryField: "storiesByDate")
+  id: ID!
+  type: String @index(name: "storiesByDate", queryField: "storiesByDate", sortKeyFields: ["createdAt"]  )
   title: String!
   imageUri: String
   audioUri: String!
@@ -121,6 +119,7 @@ type Tag @model @auth(rules: [{ allow: owner, operations: [create, delete, updat
   {
     id: ID!
     tagName: String!
+    nsfw: Boolean
     stories: [Story] @manyToMany(relationName: "StoryTag")
   }
 

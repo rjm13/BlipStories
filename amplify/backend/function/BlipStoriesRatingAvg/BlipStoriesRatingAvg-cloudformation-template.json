@@ -206,22 +206,16 @@
                 "dynamodb:GetRecords",
                 "dynamodb:GetShardIterator",
                 "dynamodb:ListStreams",
-                "dynamodb:Update*",
-                "dynamodb:query",
-                "dynamodb:List*"
+                "dynamodb:List",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "dynamodb:Update*"
               ],
-              "Resource": [
-                {
-                  "Fn::ImportValue": {
-                    "Fn::Sub": "${apiblipstoriesGraphQLAPIIdOutput}:GetAtt:StoryTable:StreamArn"
-                  }
-                },
-                {
-                  "Fn::ImportValue": {
-                    "Fn::Sub": "${apiblipstoriesGraphQLAPIIdOutput}:GetAtt:RatingTable:StreamArn"
-                  }
+              "Resource": {
+                "Fn::ImportValue": {
+                  "Fn::Sub": "${apiblipstoriesGraphQLAPIIdOutput}:GetAtt:StoryTable:StreamArn"
                 }
-              ]
+              }
             }
           ]
         }
@@ -231,6 +225,66 @@
       "Type": "AWS::Lambda::EventSourceMapping",
       "DependsOn": [
         "LambdaTriggerPolicyStory",
+        "LambdaExecutionRole"
+      ],
+      "Properties": {
+        "BatchSize": 100,
+        "Enabled": true,
+        "EventSourceArn": {
+          "Fn::ImportValue": {
+            "Fn::Sub": "${apiblipstoriesGraphQLAPIIdOutput}:GetAtt:StoryTable:StreamArn"
+          }
+        },
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "LambdaFunction",
+            "Arn"
+          ]
+        },
+        "StartingPosition": "LATEST"
+      }
+    },
+    "LambdaTriggerPolicyRating": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-execution-policy-Rating",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:DescribeStream",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:ListStreams",
+                "dynamodb:List",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "dynamodb:Update*"
+              ],
+              "Resource": {
+                "Fn::ImportValue": {
+                  "Fn::Sub": "${apiblipstoriesGraphQLAPIIdOutput}:GetAtt:RatingTable:StreamArn"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "LambdaEventSourceMappingRating": {
+      "Type": "AWS::Lambda::EventSourceMapping",
+      "DependsOn": [
+        "LambdaTriggerPolicyRating",
         "LambdaExecutionRole"
       ],
       "Properties": {

@@ -17,6 +17,7 @@ export const createUser = /* GraphQL */ `
       authored {
         items {
           id
+          type
           title
           imageUri
           audioUri
@@ -61,6 +62,7 @@ export const createUser = /* GraphQL */ `
       Pinned {
         items {
           id
+          type
           title
           imageUri
           audioUri
@@ -99,6 +101,7 @@ export const createUser = /* GraphQL */ `
       Finished {
         items {
           id
+          type
           title
           imageUri
           audioUri
@@ -143,6 +146,7 @@ export const updateUser = /* GraphQL */ `
       authored {
         items {
           id
+          type
           title
           imageUri
           audioUri
@@ -187,6 +191,7 @@ export const updateUser = /* GraphQL */ `
       Pinned {
         items {
           id
+          type
           title
           imageUri
           audioUri
@@ -225,6 +230,7 @@ export const updateUser = /* GraphQL */ `
       Finished {
         items {
           id
+          type
           title
           imageUri
           audioUri
@@ -269,6 +275,7 @@ export const deleteUser = /* GraphQL */ `
       authored {
         items {
           id
+          type
           title
           imageUri
           audioUri
@@ -313,6 +320,7 @@ export const deleteUser = /* GraphQL */ `
       Pinned {
         items {
           id
+          type
           title
           imageUri
           audioUri
@@ -351,6 +359,7 @@ export const deleteUser = /* GraphQL */ `
       Finished {
         items {
           id
+          type
           title
           imageUri
           audioUri
@@ -667,6 +676,7 @@ export const createPinnedStory = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -776,6 +786,7 @@ export const updatePinnedStory = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -885,6 +896,7 @@ export const deletePinnedStory = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -994,6 +1006,7 @@ export const createFinishedStory = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -1103,6 +1116,7 @@ export const updateFinishedStory = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -1212,6 +1226,7 @@ export const deleteFinishedStory = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -1284,6 +1299,7 @@ export const createStory = /* GraphQL */ `
   ) {
     createStory(input: $input, condition: $condition) {
       id
+      type
       title
       imageUri
       audioUri
@@ -1393,6 +1409,7 @@ export const updateStory = /* GraphQL */ `
   ) {
     updateStory(input: $input, condition: $condition) {
       id
+      type
       title
       imageUri
       audioUri
@@ -1502,6 +1519,7 @@ export const deleteStory = /* GraphQL */ `
   ) {
     deleteStory(input: $input, condition: $condition) {
       id
+      type
       title
       imageUri
       audioUri
@@ -1668,6 +1686,7 @@ export const createFlag = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -1778,6 +1797,7 @@ export const updateFlag = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -1888,6 +1908,7 @@ export const deleteFlag = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -1998,6 +2019,7 @@ export const createComment = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -2108,6 +2130,7 @@ export const updateComment = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -2218,6 +2241,7 @@ export const deleteComment = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -2326,6 +2350,7 @@ export const createTag = /* GraphQL */ `
     createTag(input: $input, condition: $condition) {
       id
       tagName
+      nsfw
       stories {
         items {
           id
@@ -2351,6 +2376,7 @@ export const updateTag = /* GraphQL */ `
     updateTag(input: $input, condition: $condition) {
       id
       tagName
+      nsfw
       stories {
         items {
           id
@@ -2376,6 +2402,7 @@ export const deleteTag = /* GraphQL */ `
     deleteTag(input: $input, condition: $condition) {
       id
       tagName
+      nsfw
       stories {
         items {
           id
@@ -2403,6 +2430,7 @@ export const createRating = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -2513,6 +2541,7 @@ export const updateRating = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -2623,6 +2652,7 @@ export const deleteRating = /* GraphQL */ `
       storyID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -2734,6 +2764,7 @@ export const createStoryTag = /* GraphQL */ `
       tagID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -2796,6 +2827,7 @@ export const createStoryTag = /* GraphQL */ `
       tag {
         id
         tagName
+        nsfw
         stories {
           nextToken
         }
@@ -2820,6 +2852,7 @@ export const updateStoryTag = /* GraphQL */ `
       tagID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -2882,6 +2915,7 @@ export const updateStoryTag = /* GraphQL */ `
       tag {
         id
         tagName
+        nsfw
         stories {
           nextToken
         }
@@ -2906,6 +2940,7 @@ export const deleteStoryTag = /* GraphQL */ `
       tagID
       story {
         id
+        type
         title
         imageUri
         audioUri
@@ -2968,6 +3003,7 @@ export const deleteStoryTag = /* GraphQL */ `
       tag {
         id
         tagName
+        nsfw
         stories {
           nextToken
         }

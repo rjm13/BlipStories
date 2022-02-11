@@ -145,6 +145,7 @@ export type ModelStoryConnection = {
 export type Story = {
   __typename: "Story",
   id: string,
+  type?: string | null,
   title: string,
   imageUri?: string | null,
   audioUri: string,
@@ -213,6 +214,7 @@ export type Tag = {
   __typename: "Tag",
   id: string,
   tagName: string,
+  nsfw?: boolean | null,
   stories?: ModelStoryTagConnection | null,
   createdAt: string,
   updatedAt: string,
@@ -387,6 +389,7 @@ export type DeleteFinishedStoryInput = {
 
 export type CreateStoryInput = {
   id?: string | null,
+  type?: string | null,
   title: string,
   imageUri?: string | null,
   audioUri: string,
@@ -408,6 +411,7 @@ export type CreateStoryInput = {
 };
 
 export type ModelStoryConditionInput = {
+  type?: ModelStringInput | null,
   title?: ModelStringInput | null,
   imageUri?: ModelStringInput | null,
   audioUri?: ModelStringInput | null,
@@ -445,6 +449,7 @@ export type ModelFloatInput = {
 
 export type UpdateStoryInput = {
   id: string,
+  type?: string | null,
   title?: string | null,
   imageUri?: string | null,
   audioUri?: string | null,
@@ -572,10 +577,12 @@ export type DeleteCommentInput = {
 export type CreateTagInput = {
   id?: string | null,
   tagName: string,
+  nsfw?: boolean | null,
 };
 
 export type ModelTagConditionInput = {
   tagName?: ModelStringInput | null,
+  nsfw?: ModelBooleanInput | null,
   and?: Array< ModelTagConditionInput | null > | null,
   or?: Array< ModelTagConditionInput | null > | null,
   not?: ModelTagConditionInput | null,
@@ -584,6 +591,7 @@ export type ModelTagConditionInput = {
 export type UpdateTagInput = {
   id: string,
   tagName?: string | null,
+  nsfw?: boolean | null,
 };
 
 export type DeleteTagInput = {
@@ -707,6 +715,7 @@ export type ModelFinishedStoryConnection = {
 
 export type ModelStoryFilterInput = {
   id?: ModelIDInput | null,
+  type?: ModelStringInput | null,
   title?: ModelStringInput | null,
   imageUri?: ModelStringInput | null,
   audioUri?: ModelStringInput | null,
@@ -777,6 +786,7 @@ export type ModelCommentFilterInput = {
 export type ModelTagFilterInput = {
   id?: ModelIDInput | null,
   tagName?: ModelStringInput | null,
+  nsfw?: ModelBooleanInput | null,
   and?: Array< ModelTagFilterInput | null > | null,
   or?: Array< ModelTagFilterInput | null > | null,
   not?: ModelTagFilterInput | null,
@@ -842,6 +852,7 @@ export type CreateUserMutation = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -890,6 +901,7 @@ export type CreateUserMutation = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -932,6 +944,7 @@ export type CreateUserMutation = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -980,6 +993,7 @@ export type UpdateUserMutation = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -1028,6 +1042,7 @@ export type UpdateUserMutation = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -1070,6 +1085,7 @@ export type UpdateUserMutation = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -1118,6 +1134,7 @@ export type DeleteUserMutation = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -1166,6 +1183,7 @@ export type DeleteUserMutation = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -1208,6 +1226,7 @@ export type DeleteUserMutation = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -1575,6 +1594,7 @@ export type CreatePinnedStoryMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -1698,6 +1718,7 @@ export type UpdatePinnedStoryMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -1821,6 +1842,7 @@ export type DeletePinnedStoryMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -1944,6 +1966,7 @@ export type CreateFinishedStoryMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -2067,6 +2090,7 @@ export type UpdateFinishedStoryMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -2190,6 +2214,7 @@ export type DeleteFinishedStoryMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -2269,6 +2294,7 @@ export type CreateStoryMutation = {
   createStory?:  {
     __typename: "Story",
     id: string,
+    type?: string | null,
     title: string,
     imageUri?: string | null,
     audioUri: string,
@@ -2393,6 +2419,7 @@ export type UpdateStoryMutation = {
   updateStory?:  {
     __typename: "Story",
     id: string,
+    type?: string | null,
     title: string,
     imageUri?: string | null,
     audioUri: string,
@@ -2517,6 +2544,7 @@ export type DeleteStoryMutation = {
   deleteStory?:  {
     __typename: "Story",
     id: string,
+    type?: string | null,
     title: string,
     imageUri?: string | null,
     audioUri: string,
@@ -2705,6 +2733,7 @@ export type CreateFlagMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -2829,6 +2858,7 @@ export type UpdateFlagMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -2953,6 +2983,7 @@ export type DeleteFlagMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -3077,6 +3108,7 @@ export type CreateCommentMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -3201,6 +3233,7 @@ export type UpdateCommentMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -3325,6 +3358,7 @@ export type DeleteCommentMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -3446,6 +3480,7 @@ export type CreateTagMutation = {
     __typename: "Tag",
     id: string,
     tagName: string,
+    nsfw?: boolean | null,
     stories?:  {
       __typename: "ModelStoryTagConnection",
       items:  Array< {
@@ -3475,6 +3510,7 @@ export type UpdateTagMutation = {
     __typename: "Tag",
     id: string,
     tagName: string,
+    nsfw?: boolean | null,
     stories?:  {
       __typename: "ModelStoryTagConnection",
       items:  Array< {
@@ -3504,6 +3540,7 @@ export type DeleteTagMutation = {
     __typename: "Tag",
     id: string,
     tagName: string,
+    nsfw?: boolean | null,
     stories?:  {
       __typename: "ModelStoryTagConnection",
       items:  Array< {
@@ -3536,6 +3573,7 @@ export type CreateRatingMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -3660,6 +3698,7 @@ export type UpdateRatingMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -3784,6 +3823,7 @@ export type DeleteRatingMutation = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -3909,6 +3949,7 @@ export type CreateStoryTagMutation = {
     story:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -3977,6 +4018,7 @@ export type CreateStoryTagMutation = {
       __typename: "Tag",
       id: string,
       tagName: string,
+      nsfw?: boolean | null,
       stories?:  {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
@@ -4005,6 +4047,7 @@ export type UpdateStoryTagMutation = {
     story:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -4073,6 +4116,7 @@ export type UpdateStoryTagMutation = {
       __typename: "Tag",
       id: string,
       tagName: string,
+      nsfw?: boolean | null,
       stories?:  {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
@@ -4101,6 +4145,7 @@ export type DeleteStoryTagMutation = {
     story:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -4169,6 +4214,7 @@ export type DeleteStoryTagMutation = {
       __typename: "Tag",
       id: string,
       tagName: string,
+      nsfw?: boolean | null,
       stories?:  {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
@@ -4201,6 +4247,7 @@ export type GetUserQuery = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -4249,6 +4296,7 @@ export type GetUserQuery = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -4291,6 +4339,7 @@ export type GetUserQuery = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -4578,6 +4627,7 @@ export type GetPinnedStoryQuery = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -4684,6 +4734,7 @@ export type ListPinnedStoriesQuery = {
       story?:  {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -4765,6 +4816,7 @@ export type GetFinishedStoryQuery = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -4871,6 +4923,7 @@ export type ListFinishedStoriesQuery = {
       story?:  {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -4908,6 +4961,7 @@ export type GetStoryQuery = {
   getStory?:  {
     __typename: "Story",
     id: string,
+    type?: string | null,
     title: string,
     imageUri?: string | null,
     audioUri: string,
@@ -5035,6 +5089,7 @@ export type ListStoriesQuery = {
     items:  Array< {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -5159,6 +5214,7 @@ export type GetFlagQuery = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -5286,6 +5342,7 @@ export type ListFlagsQuery = {
       story?:  {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -5348,6 +5405,7 @@ export type GetCommentQuery = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -5475,6 +5533,7 @@ export type ListCommentsQuery = {
       story?:  {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -5534,6 +5593,7 @@ export type GetTagQuery = {
     __typename: "Tag",
     id: string,
     tagName: string,
+    nsfw?: boolean | null,
     stories?:  {
       __typename: "ModelStoryTagConnection",
       items:  Array< {
@@ -5566,6 +5626,7 @@ export type ListTagsQuery = {
       __typename: "Tag",
       id: string,
       tagName: string,
+      nsfw?: boolean | null,
       stories?:  {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
@@ -5590,6 +5651,7 @@ export type GetRatingQuery = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -5717,6 +5779,7 @@ export type ListRatingsQuery = {
       story?:  {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -5780,6 +5843,7 @@ export type GetStoryTagQuery = {
     story:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -5848,6 +5912,7 @@ export type GetStoryTagQuery = {
       __typename: "Tag",
       id: string,
       tagName: string,
+      nsfw?: boolean | null,
       stories?:  {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
@@ -5879,6 +5944,7 @@ export type ListStoryTagsQuery = {
       story:  {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -5904,6 +5970,7 @@ export type ListStoryTagsQuery = {
         __typename: "Tag",
         id: string,
         tagName: string,
+        nsfw?: boolean | null,
         createdAt: string,
         updatedAt: string,
         owner?: string | null,
@@ -5917,7 +5984,7 @@ export type ListStoryTagsQuery = {
 };
 
 export type StoriesByDateQueryVariables = {
-  id: string,
+  type: string,
   createdAt?: ModelStringKeyConditionInput | null,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelStoryFilterInput | null,
@@ -5931,6 +5998,7 @@ export type StoriesByDateQuery = {
     items:  Array< {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -6017,6 +6085,7 @@ export type OnCreateUserSubscription = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -6065,6 +6134,7 @@ export type OnCreateUserSubscription = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -6107,6 +6177,7 @@ export type OnCreateUserSubscription = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -6154,6 +6225,7 @@ export type OnUpdateUserSubscription = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -6202,6 +6274,7 @@ export type OnUpdateUserSubscription = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -6244,6 +6317,7 @@ export type OnUpdateUserSubscription = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -6291,6 +6365,7 @@ export type OnDeleteUserSubscription = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -6339,6 +6414,7 @@ export type OnDeleteUserSubscription = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -6381,6 +6457,7 @@ export type OnDeleteUserSubscription = {
       items:  Array< {
         __typename: "Story",
         id: string,
+        type?: string | null,
         title: string,
         imageUri?: string | null,
         audioUri: string,
@@ -6744,6 +6821,7 @@ export type OnCreatePinnedStorySubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -6866,6 +6944,7 @@ export type OnUpdatePinnedStorySubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -6988,6 +7067,7 @@ export type OnDeletePinnedStorySubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -7110,6 +7190,7 @@ export type OnCreateFinishedStorySubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -7232,6 +7313,7 @@ export type OnUpdateFinishedStorySubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -7354,6 +7436,7 @@ export type OnDeleteFinishedStorySubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -7432,6 +7515,7 @@ export type OnCreateStorySubscription = {
   onCreateStory?:  {
     __typename: "Story",
     id: string,
+    type?: string | null,
     title: string,
     imageUri?: string | null,
     audioUri: string,
@@ -7555,6 +7639,7 @@ export type OnUpdateStorySubscription = {
   onUpdateStory?:  {
     __typename: "Story",
     id: string,
+    type?: string | null,
     title: string,
     imageUri?: string | null,
     audioUri: string,
@@ -7678,6 +7763,7 @@ export type OnDeleteStorySubscription = {
   onDeleteStory?:  {
     __typename: "Story",
     id: string,
+    type?: string | null,
     title: string,
     imageUri?: string | null,
     audioUri: string,
@@ -7862,6 +7948,7 @@ export type OnCreateFlagSubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -7985,6 +8072,7 @@ export type OnUpdateFlagSubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -8108,6 +8196,7 @@ export type OnDeleteFlagSubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -8231,6 +8320,7 @@ export type OnCreateCommentSubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -8354,6 +8444,7 @@ export type OnUpdateCommentSubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -8477,6 +8568,7 @@ export type OnDeleteCommentSubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -8597,6 +8689,7 @@ export type OnCreateTagSubscription = {
     __typename: "Tag",
     id: string,
     tagName: string,
+    nsfw?: boolean | null,
     stories?:  {
       __typename: "ModelStoryTagConnection",
       items:  Array< {
@@ -8625,6 +8718,7 @@ export type OnUpdateTagSubscription = {
     __typename: "Tag",
     id: string,
     tagName: string,
+    nsfw?: boolean | null,
     stories?:  {
       __typename: "ModelStoryTagConnection",
       items:  Array< {
@@ -8653,6 +8747,7 @@ export type OnDeleteTagSubscription = {
     __typename: "Tag",
     id: string,
     tagName: string,
+    nsfw?: boolean | null,
     stories?:  {
       __typename: "ModelStoryTagConnection",
       items:  Array< {
@@ -8684,6 +8779,7 @@ export type OnCreateRatingSubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -8807,6 +8903,7 @@ export type OnUpdateRatingSubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -8930,6 +9027,7 @@ export type OnDeleteRatingSubscription = {
     story?:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -9054,6 +9152,7 @@ export type OnCreateStoryTagSubscription = {
     story:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -9122,6 +9221,7 @@ export type OnCreateStoryTagSubscription = {
       __typename: "Tag",
       id: string,
       tagName: string,
+      nsfw?: boolean | null,
       stories?:  {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
@@ -9149,6 +9249,7 @@ export type OnUpdateStoryTagSubscription = {
     story:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -9217,6 +9318,7 @@ export type OnUpdateStoryTagSubscription = {
       __typename: "Tag",
       id: string,
       tagName: string,
+      nsfw?: boolean | null,
       stories?:  {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
@@ -9244,6 +9346,7 @@ export type OnDeleteStoryTagSubscription = {
     story:  {
       __typename: "Story",
       id: string,
+      type?: string | null,
       title: string,
       imageUri?: string | null,
       audioUri: string,
@@ -9312,6 +9415,7 @@ export type OnDeleteStoryTagSubscription = {
       __typename: "Tag",
       id: string,
       tagName: string,
+      nsfw?: boolean | null,
       stories?:  {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
