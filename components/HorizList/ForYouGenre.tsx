@@ -27,6 +27,7 @@ import { listPinnedStories } from '../../src/customGraphql/customQueries';
 import { listStories, getGenre } from '../../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
+import { ConsoleLogger } from '@aws-amplify/core';
 
 
 const ForYouGenre = ({genreid} : any) => {
@@ -72,7 +73,7 @@ const ForYouGenre = ({genreid} : any) => {
                     const response = await API.graphql(
                         graphqlOperation(
                             listStories, {
-                                limit: 5,
+                                //limit: 7,
                                 filter: {
                                     genreID: {
                                         eq: genreid
@@ -91,6 +92,7 @@ const ForYouGenre = ({genreid} : any) => {
                         )
                     )
                     setTagStories(response.data.listStories.items);
+       
                 } catch (e) {
                     console.log(e);}
             }
