@@ -13,6 +13,7 @@ import {
     RefreshControl,
     Image,
     TextInput,
+    ActivityIndicator,
 } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
@@ -32,7 +33,7 @@ import { format, parseISO } from "date-fns";
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 import { getStory, getUser, listComments, listPinnedStories, listRatings, listStoryTags, listFinishedStories } from '../src/graphql/queries';
-import { createComment, createFlag, createRating, updateRating } from '../src/graphql/mutations';
+import { createComment, createFlag, createRating, updateRating, updateStory } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
 import PinStory from '../components/functions/PinStory';
@@ -298,8 +299,13 @@ const StoryScreen  = ({navigation} : any) => {
     //the rating id for the AWS
     const [ratingID, setRatingID] = useState();
 
+    //updating state
+    const [isUpdating, setIsUpdating] = useState(false);
+
     //submitting a new rating to AWS
     const SubmitRating = async () => {
+
+        setIsUpdating(true);
 
         let userInfo = await Auth.currentAuthenticatedUser();
 
@@ -321,7 +327,37 @@ const StoryScreen  = ({navigation} : any) => {
             ))
         console.log(Rate)
         }
+
+        //determine the new average and update the story
+
+        let Average = []
+
+        let RatingAvg = await API.graphql(graphqlOperation(
+            listRatings, {filter: {
+                storyID: {
+                    eq: storyID
+                }
+            }}
+        ))
+
+        if (RatingAvg.data.listRatings.items.length > 0) {
+            for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
+                Average.push(RatingAvg.data.listRatings.items[i].rating) 
+            }
+            
+            let newRating =  Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
+            let newLength = RatingAvg.data.listRatings.items.length
+
+            let newResult = await API.graphql(graphqlOperation(
+                updateStory, {input: {
+                    id: storyID, ratingAvg: newRating, ratingAmt: newLength}}
+            ))
+            console.log(newResult)
+        }
+
+
         hideRatingModal();
+        setIsUpdating(false);
     }
 
 //calculate the average user rating for a story
@@ -354,22 +390,22 @@ const StoryScreen  = ({navigation} : any) => {
                 setIsRated(false);
             }
 
-            let RatingAvg = await API.graphql(graphqlOperation(
-                listRatings, {filter: {
-                    storyID: {
-                        eq: storyID
-                    }
-                }}
-            ))
+            // let RatingAvg = await API.graphql(graphqlOperation(
+            //     listRatings, {filter: {
+            //         storyID: {
+            //             eq: storyID
+            //         }
+            //     }}
+            // ))
 
-            if (RatingAvg.data.listRatings.items.length > 0) {
-                for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
-                    Average.push(RatingAvg.data.listRatings.items[i].rating) 
-                }
-                setAverageUserRating(
-                    Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
-                )
-            }
+            // if (RatingAvg.data.listRatings.items.length > 0) {
+            //     for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
+            //         Average.push(RatingAvg.data.listRatings.items[i].rating) 
+            //     }
+            //     setAverageUserRating(
+            //         Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
+            //     )
+            // }
 
             let storyCheck = await API.graphql(graphqlOperation(
                 listFinishedStories, {filter: {
@@ -588,6 +624,9 @@ const StoryScreen  = ({navigation} : any) => {
                                 <FontAwesome onPress={() => setRatingNum(9)} style={{marginHorizontal: 4 }} name={ratingNum < 9 ? 'star-o' : 'star'} size={22} color={ratingNum < 9 ? 'white' : 'gold'}/>
                                 <FontAwesome onPress={() => setRatingNum(10)} style={{marginHorizontal: 4 }} name={ratingNum < 10 ? 'star-o' : 'star'} size={22} color={ratingNum < 10 ? 'white' : 'gold'}/>                                
                             </View>
+                            {isUpdating === true ? (
+                                <ActivityIndicator size='large' color='cyan '/>
+                            ) :
                             <TouchableOpacity onPress={SubmitRating}>
                                 <View style={{marginTop: 40, paddingVertical: 6, paddingHorizontal: 30, backgroundColor: '#00ffff', margin: 10, borderRadius: 30}}>
                                         <Text style={{color: '#000000', fontSize: 18, fontWeight: 'bold', }}>
@@ -595,7 +634,7 @@ const StoryScreen  = ({navigation} : any) => {
                                         </Text>
                                 </View>
                             </TouchableOpacity>
-                            
+                            }
                         </View>
                     </Modal>
 {/* flag this story modal */}
