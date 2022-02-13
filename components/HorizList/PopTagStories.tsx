@@ -33,7 +33,9 @@ import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutation
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 
-const PopTagStories = ({genreid, tag} : any) => {
+const PopTagStories = ({genreid, tag, tagID} : any) => {
+
+    const navigation = useNavigation();
 
     //update list state
     const [didUpdate, setDidUpdate] = useState(false);
@@ -61,7 +63,6 @@ const PopTagStories = ({genreid, tag} : any) => {
                     const response = await API.graphql(
                         graphqlOperation(
                             listStories, {
-                                limit: 5,
                                 filter: {
                                     genreID: {
                                         eq: genreid
@@ -140,12 +141,12 @@ const PopTagStories = ({genreid, tag} : any) => {
                                 <View style={{alignItems: 'center', flexDirection: 'row'}}>
                                     <FontAwesome 
                                         name={isRated === true ? 'star' : 'star-o'}
-                                        size={14}
+                                        size={12}
                                         color={isRated === true || isFinished === true ? 'gold' : 'white'}
                                         style={{marginHorizontal: 6 }}
                                     />
                                     <Text style={{color: '#fff', fontSize: 12}}>
-                                        {ratingAvg}%
+                                        {ratingAvg}
                                     </Text>
                                 </View>
                                 
@@ -191,21 +192,35 @@ const PopTagStories = ({genreid, tag} : any) => {
     return (
 
         <View>
-            <View style={{marginBottom: 0, marginLeft: 20}}>
+            <View style={{marginBottom: 0, marginLeft: 20, flexDirection: 'row', alignItems: 'center'}}>
                 <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}>
-                    Popular in #tag
+                    Popular in 
                 </Text>
+                <View style={{}}>
+                    <TouchableWithoutFeedback onPress={() => navigation.navigate('TagSearchScreen', {mainTag: tagID, tagName: tag})}>
+                        <View style={[styles.tagbox, {marginLeft: 10}]}>
+                            <Text style={styles.tagtext}>
+                                #{tag}
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+          </View>
             </View>
             <FlatList
                 data={tagStories}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
                 horizontal={true}
+                showsHorizontalScrollIndicator={false}
                 refreshControl={
                     <RefreshControl
                      refreshing={isFetching}
                      onRefresh={onRefresh}
                     />
+                }
+                ListFooterComponent={
+                    <View style={{width: 60}}>
+                    </View>
                 }
             />
         </View>
@@ -293,7 +308,19 @@ const styles = StyleSheet.create({
         color: '#ffffffCC',
         marginLeft: 3,
     },
-    
+    tagbox: {
+          
+      },
+      tagtext: {
+        color: 'cyan',
+        fontSize: 18,
+        //backgroundColor: '#1A4851a5',
+        //borderColor: '#00ffffa5',
+        //borderWidth: 0.5,
+        //paddingHorizontal: 16,
+        paddingVertical: 6,
+        borderRadius: 20,
+    },
 
 });
 

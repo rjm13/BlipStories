@@ -360,12 +360,10 @@ const StoryScreen  = ({navigation} : any) => {
         setIsUpdating(false);
     }
 
-//calculate the average user rating for a story
-    const [AverageUserRating, setAverageUserRating] = useState(0);
+
 
     useEffect(() => {
 
-        let Average = []
 
         const fetchRating = async () => {
 
@@ -389,23 +387,6 @@ const StoryScreen  = ({navigation} : any) => {
                 setRatingNum(0);
                 setIsRated(false);
             }
-
-            // let RatingAvg = await API.graphql(graphqlOperation(
-            //     listRatings, {filter: {
-            //         storyID: {
-            //             eq: storyID
-            //         }
-            //     }}
-            // ))
-
-            // if (RatingAvg.data.listRatings.items.length > 0) {
-            //     for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
-            //         Average.push(RatingAvg.data.listRatings.items[i].rating) 
-            //     }
-            //     setAverageUserRating(
-            //         Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
-            //     )
-            // }
 
             let storyCheck = await API.graphql(graphqlOperation(
                 listFinishedStories, {filter: {

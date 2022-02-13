@@ -54,7 +54,7 @@ const GenreCarousel = ({genreid} : any) => {
                     const response = await API.graphql(
                         graphqlOperation(
                             listStories, {
-                                limit: 5,
+                                
                                 filter: {
                                     genreID: {
                                         eq: genreid

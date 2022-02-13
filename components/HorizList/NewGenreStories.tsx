@@ -57,7 +57,6 @@ const NewGenreStories = ({genreid} : any) => {
                     const response = await API.graphql(
                         graphqlOperation(
                             listStories, {
-                                limit: 5,
                                 filter: {
                                     genreID: {
                                         eq: genreid
@@ -136,12 +135,12 @@ const NewGenreStories = ({genreid} : any) => {
                                 <View style={{alignItems: 'center', flexDirection: 'row'}}>
                                     <FontAwesome 
                                         name={isRated === true ? 'star' : 'star-o'}
-                                        size={14}
+                                        size={12}
                                         color={isRated === true || isFinished === true ? 'gold' : 'white'}
                                         style={{marginHorizontal: 6 }}
                                     />
                                     <Text style={{color: '#fff', fontSize: 12}}>
-                                        {ratingAvg}%
+                                        {ratingAvg}
                                     </Text>
                                 </View>
                                 
@@ -197,11 +196,16 @@ const NewGenreStories = ({genreid} : any) => {
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
                 horizontal={true}
+                showsHorizontalScrollIndicator={false}
                 refreshControl={
                     <RefreshControl
                      refreshing={isFetching}
                      onRefresh={onRefresh}
                     />
+                }
+                ListFooterComponent={
+                    <View style={{width: 60}}>
+                    </View>
                 }
             />
         </View>
