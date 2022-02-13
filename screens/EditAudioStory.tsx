@@ -183,7 +183,7 @@ const [localImageUri, setLocalImageUri] = useState('');
         //if the tag does not exist, create the tag and then the StoryTag with the tagID and storyID
                 } else if (tagCheck.data.listTags.items.length === 0) {
                     let newTag = await API.graphql(graphqlOperation(
-                        createTag, {input: {tagName: TagsArray[i].name}}
+                        createTag, {input: {tagName: TagsArray[i].name, genreID: Story?.genreID}}
                     ))
                     if (newTag) {
                         let makeStoryTag = await API.graphql(graphqlOperation(

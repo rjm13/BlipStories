@@ -59,7 +59,7 @@ const GenreHome = ({navigation} : any) => {
     }, [])
 
 //get 2 trending tags in the genre
-    const [trendingTags, setTrendingTags] = useState([{id: 1, tagName: 'WorldWarII'}, {id: 2, tagName: 'Crusaders'}]);
+    const [trendingTags, setTrendingTags] = useState([]);
 
     useEffect(() => {
 
@@ -71,18 +71,20 @@ const GenreHome = ({navigation} : any) => {
                 const response = await API.graphql(
                     graphqlOperation(
                         listTags, {filter: {
-                            story: {
-                                genre: genreRoute
-                            }
+                            genreID: {
+                                eq: genreRoute
+                                }
                             }    
                         } 
                     )
                 )
                 for (let i = 0; i < 3; i++) {
-                    TopTags.push(response.data.listTags.data[i])
+                    TopTags.push(response.data.listTags.items[i])
                 }
                 if (response) {
                     setTrendingTags(TopTags);
+                    console.log('top tags are...')
+                    console.log(genreRoute)
                     console.log(TopTags)
                 }
                 
@@ -131,11 +133,11 @@ const GenreHome = ({navigation} : any) => {
                     </View>
 
                     <View style={{ marginTop: 20}}>
-                        <PopTagStories genreid={genreRoute} tag={trendingTags[0].tagName} tagID={trendingTags[0].id}/>
+                        <PopTagStories genreid={genreRoute} tag={trendingTags[0]?.tagName} tagID={trendingTags[0]?.id}/>
                     </View>
 
                     <View style={{ marginTop: 20}}>
-                        <PopTagStories genreid={genreRoute} tag={trendingTags[1].tagName} tagID={trendingTags[1].id}/>
+                        <PopTagStories genreid={genreRoute} tag={trendingTags[1]?.tagName} tagID={trendingTags[1]?.id}/>
                     </View>
 
                     <View style={{ marginTop: 20}}>

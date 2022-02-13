@@ -120,6 +120,8 @@ type Tag @model @auth(rules: [{ allow: owner, operations: [create, delete, updat
     id: ID!
     tagName: String!
     nsfw: Boolean
+    genreID: ID @index(name: "byGenre", sortKeyFields: ["id"])
+    genre: Genre @hasOne (fields: ["genreID"])
     stories: [Story] @manyToMany(relationName: "StoryTag")
   }
 

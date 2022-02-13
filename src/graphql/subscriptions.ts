@@ -2276,6 +2276,18 @@ export const onCreateTag = /* GraphQL */ `
       id
       tagName
       nsfw
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
+      }
       stories {
         items {
           id
@@ -2299,6 +2311,18 @@ export const onUpdateTag = /* GraphQL */ `
       id
       tagName
       nsfw
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
+      }
       stories {
         items {
           id
@@ -2322,6 +2346,18 @@ export const onDeleteTag = /* GraphQL */ `
       id
       tagName
       nsfw
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
+      }
       stories {
         items {
           id
@@ -2735,6 +2771,18 @@ export const onCreateStoryTag = /* GraphQL */ `
         id
         tagName
         nsfw
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
+        }
         stories {
           nextToken
         }
@@ -2820,6 +2868,18 @@ export const onUpdateStoryTag = /* GraphQL */ `
         id
         tagName
         nsfw
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
+        }
         stories {
           nextToken
         }
@@ -2905,6 +2965,18 @@ export const onDeleteStoryTag = /* GraphQL */ `
         id
         tagName
         nsfw
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
+        }
         stories {
           nextToken
         }

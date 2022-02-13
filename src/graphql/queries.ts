@@ -1204,6 +1204,18 @@ export const getTag = /* GraphQL */ `
       id
       tagName
       nsfw
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
+      }
       stories {
         items {
           id
@@ -1232,6 +1244,18 @@ export const listTags = /* GraphQL */ `
         id
         tagName
         nsfw
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
+        }
         stories {
           nextToken
         }
@@ -1485,6 +1509,18 @@ export const getStoryTag = /* GraphQL */ `
         id
         tagName
         nsfw
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
+        }
         stories {
           nextToken
         }
@@ -1537,6 +1573,7 @@ export const listStoryTags = /* GraphQL */ `
           id
           tagName
           nsfw
+          genreID
           createdAt
           updatedAt
           owner
