@@ -74,10 +74,7 @@ const GenreHome = ({navigation} : any) => {
                             genreID: {
                                 eq: genreRoute
                                 }
-                            },
-                            nsfw: {
-                                eq: false
-                            }    
+                            },  
                         } 
                     )
                 )

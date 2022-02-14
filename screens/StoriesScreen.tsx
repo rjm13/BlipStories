@@ -89,7 +89,13 @@ const AudioStoryHome = ({navigation} : any) => {
 
     const fetchTags = async () => {
       
-      const result = await API.graphql(graphqlOperation(listTags, {limit: 8}))
+      const result = await API.graphql(graphqlOperation(listTags, {
+        filter: {
+          nsfw: {
+            eq: false
+          }
+        }
+      }))
 
       if (result) {setTags(result.data.listTags.items)}
     }
@@ -202,6 +208,7 @@ const AudioStoryHome = ({navigation} : any) => {
                                       renderItem={renderTag}
                                       keyExtractor={(item) => item.id}
                                       scrollEnabled={false}
+                                      maxToRenderPerBatch={9}
                                       showsVerticalScrollIndicator={false}
                                       style={{flexDirection: 'row', flexWrap: 'wrap', width: Dimensions.get('window').width - 20, marginBottom: 20}}
                                     />
