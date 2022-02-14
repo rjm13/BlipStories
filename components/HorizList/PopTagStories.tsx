@@ -27,8 +27,8 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import { AppContext } from '../../AppContext';
 
-import { listPinnedStories } from '../../src/customGraphql/customQueries';
-import { listStories } from '../../src/graphql/queries';
+import { listPinnedStories, listStories } from '../../src/customGraphql/customQueries';
+import { listStoryTags } from '../../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
@@ -56,34 +56,30 @@ const PopTagStories = ({genreid, tag, tagID} : any) => {
 
     useEffect(() => {
 
+        let StoryTags = []
+
         const fetchStorys = async () => {
                 
-            if (genreid) {
+            //if (tagID) {
                 try {
                     const response = await API.graphql(
                         graphqlOperation(
-                            listStories, {
+                            listStoryTags, {
                                 filter: {
-                                    genreID: {
-                                        eq: genreid
+                                    tagID: {
+                                        eq: tagID
                                     },
-                                    hidden: {
-                                        eq: false
-                                    },
-                                    approved: {
-                                        eq: true
-                                    }
-                                    // tags: {
-                                    //     contains: tag
-                                    // }
                                 }
                             } 
                         )
                     )
-                    setTagStories(response.data.listStories.items);
+                    for (let i = 0; i < response.data.listStoryTags.items.length; i++) {
+                        StoryTags.push(response.data.listStoryTags.items[i].story)
+                    }
+                    setTagStories(StoryTags);
                 } catch (e) {
                     console.log(e);}
-            }
+            //}
         }
 
         fetchStorys();

@@ -245,3 +245,77 @@ export const listStoryTags = /* GraphQL */ `
     }
   }
 `;
+export const listStories = /* GraphQL */ `
+  query ListStories(
+    $filter: ModelStoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listStories(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        type
+        title
+        imageUri
+        audioUri
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        author
+        authorID
+        narrator
+        narratorID
+        time
+        summary
+        description
+        nsfw
+        comments {
+          nextToken
+        }
+        tags {
+          nextToken
+        }
+        ratingAvg
+        ratingAmt
+        rated {
+          nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
+        }
+        hidden
+        approved
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+

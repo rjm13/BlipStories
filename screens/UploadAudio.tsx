@@ -59,6 +59,7 @@ const UploadAudio = ({navigation} : any) => {
         time: 0,
         imageUri: '',
         audioUri: '',
+        nsfw: false,
     });
 
         //get the user in order to prefill the author's name
@@ -176,7 +177,7 @@ const UploadAudio = ({navigation} : any) => {
                         imageUri: resultImage,
                         audioUri: s3ResponseAudio.key,
                         userID: userInfo.attributes.sub,
-                        nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false,
+                        nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : data.nsfw,
                         ratingAvg: 0,
                         ratingAmt: 0,
                     }
@@ -198,7 +199,7 @@ const UploadAudio = ({navigation} : any) => {
                 //if the tag does not exist, create the tag and then the StoryTag with the tagID and storyID
                         } else if (tagCheck.data.listTags.items.length === 0) {
                             let newTag = await API.graphql(graphqlOperation(
-                                createTag, {input: {tagName: TagsArray[i].name, genreID: data.genreID}}
+                                createTag, {input: {tagName: TagsArray[i].name, genreID: data.genreID, nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : data.nsfw}}
                             ))
                             if (newTag) {
                                 let makeStoryTag = await API.graphql(graphqlOperation(
@@ -301,7 +302,7 @@ const UploadAudio = ({navigation} : any) => {
     const Genre = Genres.map((item, index) => item.genre)
 
     const ConvertToString = (val : any) => {
-        setData({...data, genreID: Genres[val].id, genre: Genres[val].genre});
+        setData({...data, genreID: Genres[val].id, genre: Genres[val].genre, nsfw: Genres[val].id === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false});
     }
   
 //Modal
@@ -904,26 +905,48 @@ const UploadAudio = ({navigation} : any) => {
                             </Text>
                         </View>
                     ) : null}
-                    
 
-                    <View style={{ margin: 40, flexDirection: 'row'}}>
-                        <FontAwesome5 
-                            name='check-circle'
-                            color={termsAgree === true ? 'cyan' : '#363636'}
-                            size={20}
-                            onPress={handleTerms}
-                        />
-                        <Text style={{ color: '#ffffffa5', fontSize: 12, marginRight: 4, marginLeft: 20, textAlign: 'left'}}>
-                            I agree to the
-                        </Text>
-                        <TouchableWithoutFeedback>
-                            <Text style={{ color: '#ffffffa5', fontSize: 12, textAlign: 'left', textDecorationLine: 'underline'}}>
-                                Publishing Terms and Conditions.
+                    {data.nsfw === true ? (
+                        <View style={{marginTop: 40, alignSelf: 'flex-start', marginLeft: 20}}>
+                            <Text style={{borderColor: 'red', borderWidth: 0.5, borderRadius: 4, paddingVertical: 4, paddingHorizontal: 10, color: 'red'}}>
+                                Explicit Content
                             </Text>
-                        </TouchableWithoutFeedback>
-                        
-                        
-                    </View>
+                        </View>
+                    ) : null}
+                    
+                    <TouchableWithoutFeedback onPress={
+                        () => {data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? null : setData({...data, nsfw: !data.nsfw})}}
+                        >
+                        <View style={{ alignSelf: 'flex-start', marginTop: 40, marginHorizontal: 20, flexDirection: 'row'}}>
+                            <FontAwesome5 
+                                name='check-circle'
+                                color={data.nsfw === true ? 'cyan' : '#363636'}
+                                size={20}
+                            />
+                            <Text style={{ color: '#ffffffa5', fontSize: 12, marginRight: 4, marginLeft: 20, textAlign: 'left'}}>
+                                This story contains graphic sexual or explicit content and is not suitable for minors.
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    
+                    <TouchableWithoutFeedback onPress={handleTerms}>
+                        <View style={{ margin: 20, flexDirection: 'row', alignSelf: 'flex-start'}}>
+                            <FontAwesome5 
+                                name='check-circle'
+                                color={termsAgree === true ? 'cyan' : '#363636'}
+                                size={20}
+                            />
+                            <Text style={{ color: '#ffffffa5', fontSize: 12, marginRight: 4, marginLeft: 20, textAlign: 'left'}}>
+                                I agree to the
+                            </Text>
+                            <TouchableWithoutFeedback>
+                                <Text style={{ color: '#ffffffa5', fontSize: 12, textAlign: 'left', textDecorationLine: 'underline'}}>
+                                    Publishing Terms and Conditions.
+                                </Text>
+                            </TouchableWithoutFeedback>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    
 
                         <TouchableOpacity onPress={showModal}>
                             <View style={[styles.uploadbutton, {
