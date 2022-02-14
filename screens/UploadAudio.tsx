@@ -180,6 +180,7 @@ const UploadAudio = ({navigation} : any) => {
                         nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : data.nsfw,
                         ratingAvg: 0,
                         ratingAmt: 0,
+                        type: 'Story'
                     }
             }))
 
