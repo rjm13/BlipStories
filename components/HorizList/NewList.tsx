@@ -24,7 +24,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import { AppContext } from '../../AppContext';
 
 import { listPinnedStories } from '../../src/customGraphql/customQueries';
-import { listStories } from '../../src/graphql/queries';
+import { listStories, storiesByDate } from '../../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
@@ -55,7 +55,9 @@ const NewList = () => {
                 try {
                     const response = await API.graphql(
                         graphqlOperation(
-                            listStories, {
+                            storiesByDate, {
+                                type: 'Story',
+                                sortDirection: 'DESC',
                                 filter: {
                                     hidden: {
                                         eq: false
@@ -65,13 +67,16 @@ const NewList = () => {
                                     },
                                     genreID: {
                                         ne: '1108a619-1c0e-4064-8fce-41f1f6262070'
+                                    },
+                                    imageUri: {
+                                        attributeExists: true
                                     }
 
                                 }
                             } 
                         )
                     )
-                    setStories(response.data.listStories.items);
+                    setStories(response.data.storiesByDate.items);
                 } catch (e) {
                     console.log(e);}
         }
@@ -201,12 +206,7 @@ const NewList = () => {
                 renderItem={renderItem}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
-                refreshControl={
-                    <RefreshControl
-                     refreshing={isFetching}
-                     onRefresh={onRefresh}
-                    />
-                }
+                maxToRenderPerBatch={8}
                 ListFooterComponent={
                     <View style={{width: 50}}>
 
