@@ -21,10 +21,12 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
+import { format } from "date-fns";
+
 import { AppContext } from '../../AppContext';
 
 import { listPinnedStories } from '../../src/customGraphql/customQueries';
-import { listStories } from '../../src/graphql/queries';
+import { listStories, storiesByDate } from '../../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
@@ -51,12 +53,26 @@ const ShortSweet = ({genreid} : any) => {
     useEffect(() => {
 
         const fetchStorys = async () => {
+
+            const date = new Date();
+
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const day = date.getDate();
+        
+            //const c = new Date(year + 1, month, day) // PLUS 1 YEAR
+            const newdate = new Date(year, month - 1, day).toISOString() // PLUS 1 MONTH
+            //const f = new Date(year, month, day  + 1) // PLUS 1 DAY
+            
                 
                 try {
                     const response = await API.graphql(
                         graphqlOperation(
-                            listStories, {
-                                limit: 8,
+                            storiesByDate, {
+                                type: 'Story',
+                                createdAt: {
+                                    gt: newdate
+                                },
                                 filter: {
                                     hidden: {
                                         eq: false
@@ -66,12 +82,25 @@ const ShortSweet = ({genreid} : any) => {
                                     },
                                     time: {
                                         lt: 1800000
-                                    }
+                                    },
+                                    nsfw: {
+                                        eq: false
+                                    },
+                                    imageUri: {
+                                        attributeExists: true
+                                    },
+                                    // ratingAvg: {
+                                    //     gt: 6
+                                    // },
+                                    // ratingAmt: {
+                                    //     gt: 5,
+                                    // }
                                 }
-                            } 
+                            }
                         )
                     )
-                    setStories(response.data.listStories.items);
+                    setStories(response.data.storiesByDate.items);
+
                 } catch (e) {
                     console.log(e);}
         }
@@ -196,13 +225,9 @@ const ShortSweet = ({genreid} : any) => {
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
                 horizontal={true}
+                maxToRenderPerBatch={8}
                 showsHorizontalScrollIndicator={false}
-                refreshControl={
-                    <RefreshControl
-                     refreshing={isFetching}
-                     onRefresh={onRefresh}
-                    />
-                }
+               
                 ListFooterComponent={
                     <View style={{width: 60}}>
                     </View>
