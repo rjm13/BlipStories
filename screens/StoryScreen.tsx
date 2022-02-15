@@ -322,7 +322,9 @@ const StoryScreen  = ({navigation} : any) => {
                 createRating, {input: {
                     userID: userInfo.attributes.sub, 
                     storyID: storyID,
-                    rating: ratingNum
+                    rating: ratingNum,
+                    genreID: Story?.genreID,
+                    type: 'Rating'
                 }}
             ))
         console.log(Rate)

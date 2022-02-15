@@ -89,9 +89,11 @@ export const createUser = /* GraphQL */ `
       Rated {
         items {
           id
+          type
           storyID
           userID
           rating
+          genreID
           createdAt
           updatedAt
           owner
@@ -218,9 +220,11 @@ export const updateUser = /* GraphQL */ `
       Rated {
         items {
           id
+          type
           storyID
           userID
           rating
+          genreID
           createdAt
           updatedAt
           owner
@@ -347,9 +351,11 @@ export const deleteUser = /* GraphQL */ `
       Rated {
         items {
           id
+          type
           storyID
           userID
           rating
+          genreID
           createdAt
           updatedAt
           owner
@@ -1351,6 +1357,7 @@ export const createStory = /* GraphQL */ `
       comments {
         items {
           id
+          type
           storyID
           content
           userID
@@ -1376,9 +1383,11 @@ export const createStory = /* GraphQL */ `
       rated {
         items {
           id
+          type
           storyID
           userID
           rating
+          genreID
           createdAt
           updatedAt
           owner
@@ -1461,6 +1470,7 @@ export const updateStory = /* GraphQL */ `
       comments {
         items {
           id
+          type
           storyID
           content
           userID
@@ -1486,9 +1496,11 @@ export const updateStory = /* GraphQL */ `
       rated {
         items {
           id
+          type
           storyID
           userID
           rating
+          genreID
           createdAt
           updatedAt
           owner
@@ -1571,6 +1583,7 @@ export const deleteStory = /* GraphQL */ `
       comments {
         items {
           id
+          type
           storyID
           content
           userID
@@ -1596,9 +1609,11 @@ export const deleteStory = /* GraphQL */ `
       rated {
         items {
           id
+          type
           storyID
           userID
           rating
+          genreID
           createdAt
           updatedAt
           owner
@@ -2019,6 +2034,7 @@ export const createComment = /* GraphQL */ `
   ) {
     createComment(input: $input, condition: $condition) {
       id
+      type
       storyID
       story {
         id
@@ -2130,6 +2146,7 @@ export const updateComment = /* GraphQL */ `
   ) {
     updateComment(input: $input, condition: $condition) {
       id
+      type
       storyID
       story {
         id
@@ -2241,6 +2258,7 @@ export const deleteComment = /* GraphQL */ `
   ) {
     deleteComment(input: $input, condition: $condition) {
       id
+      type
       storyID
       story {
         id
@@ -2466,6 +2484,7 @@ export const createRating = /* GraphQL */ `
   ) {
     createRating(input: $input, condition: $condition) {
       id
+      type
       storyID
       story {
         id
@@ -2564,6 +2583,18 @@ export const createRating = /* GraphQL */ `
         owner
       }
       rating
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -2577,6 +2608,7 @@ export const updateRating = /* GraphQL */ `
   ) {
     updateRating(input: $input, condition: $condition) {
       id
+      type
       storyID
       story {
         id
@@ -2675,6 +2707,18 @@ export const updateRating = /* GraphQL */ `
         owner
       }
       rating
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -2688,6 +2732,7 @@ export const deleteRating = /* GraphQL */ `
   ) {
     deleteRating(input: $input, condition: $condition) {
       id
+      type
       storyID
       story {
         id
@@ -2786,6 +2831,18 @@ export const deleteRating = /* GraphQL */ `
         owner
       }
       rating
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner

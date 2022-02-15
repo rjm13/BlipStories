@@ -24,7 +24,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import { AppContext } from '../../AppContext';
 
 import { listPinnedStories } from '../../src/customGraphql/customQueries';
-import { listStories, getGenre } from '../../src/graphql/queries';
+import { listStories, getGenre, storiesByDate, ratingsByDate } from '../../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 import { ConsoleLogger } from '@aws-amplify/core';
@@ -66,23 +66,37 @@ const ForYouGenre = ({genreid} : any) => {
 
     useEffect(() => {
 
+        const date = new Date();
+
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate();
+        
+        //const c = new Date(year + 1, month, day) // PLUS 1 YEAR
+        const newdate = new Date(year, month - 6, day).toISOString() // PLUS 1 MONTH
+        //const f = new Date(year, month, day  + 1) // PLUS 1 DAY
+
+        let genreArr = []
+            
+
         const fetchStorys = async () => {
                 
             if (genreid) {
                 try {
                     const response = await API.graphql(
                         graphqlOperation(
-                            listStories, {
-                                //limit: 7,
+                            ratingsByDate, {
+                                type: 'Rating',
+                                sortDirection: 'DESC',
+                                createdAt: {
+                                    gt: newdate
+                                },
                                 filter: {
+                                    rating: {
+                                        gt: 6
+                                    },
                                     genreID: {
                                         eq: genreid
-                                    },
-                                    hidden: {
-                                        eq: false
-                                    },
-                                    approved: {
-                                        eq: true
                                     }
                                     // tags: {
                                     //     contains: tag
@@ -91,7 +105,10 @@ const ForYouGenre = ({genreid} : any) => {
                             } 
                         )
                     )
-                    setTagStories(response.data.listStories.items);
+                    for(let i = 0; i < response.data.ratingsByDate.items.length; i++) {
+                        genreArr.push(response.data.ratingsByDate.items[i].story)
+                    }
+                    setTagStories(genreArr);
        
                 } catch (e) {
                     console.log(e);}

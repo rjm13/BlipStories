@@ -86,9 +86,11 @@ export const getUser = /* GraphQL */ `
       Rated {
         items {
           id
+          type
           storyID
           userID
           rating
+          genreID
           createdAt
           updatedAt
           owner
@@ -696,6 +698,7 @@ export const getStory = /* GraphQL */ `
       comments {
         items {
           id
+          type
           storyID
           content
           userID
@@ -721,9 +724,11 @@ export const getStory = /* GraphQL */ `
       rated {
         items {
           id
+          type
           storyID
           userID
           rating
+          genreID
           createdAt
           updatedAt
           owner
@@ -1034,6 +1039,7 @@ export const getComment = /* GraphQL */ `
   query GetComment($id: ID!) {
     getComment(id: $id) {
       id
+      type
       storyID
       story {
         id
@@ -1147,6 +1153,7 @@ export const listComments = /* GraphQL */ `
     listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        type
         storyID
         story {
           id
@@ -1273,6 +1280,7 @@ export const getRating = /* GraphQL */ `
   query GetRating($id: ID!) {
     getRating(id: $id) {
       id
+      type
       storyID
       story {
         id
@@ -1371,6 +1379,18 @@ export const getRating = /* GraphQL */ `
         owner
       }
       rating
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -1386,6 +1406,7 @@ export const listRatings = /* GraphQL */ `
     listRatings(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        type
         storyID
         story {
           id
@@ -1431,6 +1452,18 @@ export const listRatings = /* GraphQL */ `
           owner
         }
         rating
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
+        }
         createdAt
         updatedAt
         owner
@@ -1735,6 +1768,164 @@ export const storiesByDate = /* GraphQL */ `
         }
         hidden
         approved
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const commentsByDate = /* GraphQL */ `
+  query CommentsByDate(
+    $type: String!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    commentsByDate(
+      type: $type
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        storyID
+        story {
+          id
+          type
+          title
+          imageUri
+          audioUri
+          userID
+          author
+          authorID
+          narrator
+          narratorID
+          time
+          summary
+          description
+          nsfw
+          ratingAvg
+          ratingAmt
+          genreID
+          hidden
+          approved
+          createdAt
+          updatedAt
+          owner
+        }
+        content
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const ratingsByDate = /* GraphQL */ `
+  query RatingsByDate(
+    $type: String!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelRatingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    ratingsByDate(
+      type: $type
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        storyID
+        story {
+          id
+          type
+          title
+          imageUri
+          audioUri
+          userID
+          author
+          authorID
+          narrator
+          narratorID
+          time
+          summary
+          description
+          nsfw
+          ratingAvg
+          ratingAmt
+          genreID
+          hidden
+          approved
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
+        rating
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+          owner
+        }
         createdAt
         updatedAt
         owner

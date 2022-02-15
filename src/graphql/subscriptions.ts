@@ -86,9 +86,11 @@ export const onCreateUser = /* GraphQL */ `
       Rated {
         items {
           id
+          type
           storyID
           userID
           rating
+          genreID
           createdAt
           updatedAt
           owner
@@ -212,9 +214,11 @@ export const onUpdateUser = /* GraphQL */ `
       Rated {
         items {
           id
+          type
           storyID
           userID
           rating
+          genreID
           createdAt
           updatedAt
           owner
@@ -338,9 +342,11 @@ export const onDeleteUser = /* GraphQL */ `
       Rated {
         items {
           id
+          type
           storyID
           userID
           rating
+          genreID
           createdAt
           updatedAt
           owner
@@ -1312,6 +1318,7 @@ export const onCreateStory = /* GraphQL */ `
       comments {
         items {
           id
+          type
           storyID
           content
           userID
@@ -1337,9 +1344,11 @@ export const onCreateStory = /* GraphQL */ `
       rated {
         items {
           id
+          type
           storyID
           userID
           rating
+          genreID
           createdAt
           updatedAt
           owner
@@ -1419,6 +1428,7 @@ export const onUpdateStory = /* GraphQL */ `
       comments {
         items {
           id
+          type
           storyID
           content
           userID
@@ -1444,9 +1454,11 @@ export const onUpdateStory = /* GraphQL */ `
       rated {
         items {
           id
+          type
           storyID
           userID
           rating
+          genreID
           createdAt
           updatedAt
           owner
@@ -1526,6 +1538,7 @@ export const onDeleteStory = /* GraphQL */ `
       comments {
         items {
           id
+          type
           storyID
           content
           userID
@@ -1551,9 +1564,11 @@ export const onDeleteStory = /* GraphQL */ `
       rated {
         items {
           id
+          type
           storyID
           userID
           rating
+          genreID
           createdAt
           updatedAt
           owner
@@ -1953,6 +1968,7 @@ export const onCreateComment = /* GraphQL */ `
   subscription OnCreateComment($owner: String) {
     onCreateComment(owner: $owner) {
       id
+      type
       storyID
       story {
         id
@@ -2061,6 +2077,7 @@ export const onUpdateComment = /* GraphQL */ `
   subscription OnUpdateComment($owner: String) {
     onUpdateComment(owner: $owner) {
       id
+      type
       storyID
       story {
         id
@@ -2169,6 +2186,7 @@ export const onDeleteComment = /* GraphQL */ `
   subscription OnDeleteComment($owner: String) {
     onDeleteComment(owner: $owner) {
       id
+      type
       storyID
       story {
         id
@@ -2382,6 +2400,7 @@ export const onCreateRating = /* GraphQL */ `
   subscription OnCreateRating($owner: String) {
     onCreateRating(owner: $owner) {
       id
+      type
       storyID
       story {
         id
@@ -2480,6 +2499,18 @@ export const onCreateRating = /* GraphQL */ `
         owner
       }
       rating
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -2490,6 +2521,7 @@ export const onUpdateRating = /* GraphQL */ `
   subscription OnUpdateRating($owner: String) {
     onUpdateRating(owner: $owner) {
       id
+      type
       storyID
       story {
         id
@@ -2588,6 +2620,18 @@ export const onUpdateRating = /* GraphQL */ `
         owner
       }
       rating
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -2598,6 +2642,7 @@ export const onDeleteRating = /* GraphQL */ `
   subscription OnDeleteRating($owner: String) {
     onDeleteRating(owner: $owner) {
       id
+      type
       storyID
       story {
         id
@@ -2696,6 +2741,18 @@ export const onDeleteRating = /* GraphQL */ `
         owner
       }
       rating
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner

@@ -110,11 +110,13 @@ type Flag @model @auth(rules: [{ allow: owner, operations: [create, delete, upda
 type Comment @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
   {
     id: ID!
+    type: String @index(name: "commentsByDate", queryField: "commentsByDate", sortKeyFields: ["createdAt"]  )
     storyID: ID! @index(name: "byStory", sortKeyFields: ["userID"])
     story: Story @hasOne (fields: ["storyID"])
     content: String!
     user: User @hasOne (fields: ["userID"])
     userID: ID 
+    createdAt: String
 }
 
 type Tag @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
@@ -130,9 +132,13 @@ type Tag @model @auth(rules: [{ allow: owner, operations: [create, delete, updat
   type Rating @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
   {
     id: ID!
+    type: String @index(name: "ratingsByDate", queryField: "ratingsByDate", sortKeyFields: ["createdAt"]  )
     storyID: ID! @index(name: "byStory", sortKeyFields: ["userID"])
     story: Story @hasOne (fields: ["storyID"])
     userID: ID! @index(name: "byUser", sortKeyFields: ["storyID"])
     user: User @hasOne (fields: ["userID"])
     rating: Int
+    genreID: ID @index(name: "byGenre", sortKeyFields: ["id"])
+    genre: Genre @hasOne (fields: ["genreID"])
+    createdAt: String
 }
