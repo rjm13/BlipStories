@@ -33,6 +33,7 @@ export const getUser = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -78,6 +79,7 @@ export const getUser = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -119,6 +121,7 @@ export const getUser = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -405,6 +408,7 @@ export const getPinnedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -464,6 +468,7 @@ export const listPinnedStories = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -574,6 +579,7 @@ export const getFinishedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -634,6 +640,7 @@ export const listFinishedStories = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -750,6 +757,7 @@ export const getStory = /* GraphQL */ `
       hidden
       approved
       createdAt
+      numListens
       updatedAt
       owner
     }
@@ -821,6 +829,7 @@ export const listStories = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -929,6 +938,7 @@ export const getFlag = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -1004,6 +1014,7 @@ export const listFlags = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -1100,6 +1111,7 @@ export const getComment = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -1176,6 +1188,7 @@ export const listComments = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -1341,6 +1354,7 @@ export const getRating = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -1429,6 +1443,7 @@ export const listRatings = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -1537,6 +1552,7 @@ export const getStoryTag = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -1601,6 +1617,7 @@ export const listStoryTags = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -1682,6 +1699,7 @@ export const finishedStoriesByDate = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -1769,6 +1787,7 @@ export const storiesByDate = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -1818,6 +1837,7 @@ export const commentsByDate = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -1891,6 +1911,7 @@ export const ratingsByDate = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }

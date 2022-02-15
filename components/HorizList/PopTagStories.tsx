@@ -208,12 +208,8 @@ const PopTagStories = ({genreid, tag, tagID} : any) => {
                 renderItem={renderItem}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
-                refreshControl={
-                    <RefreshControl
-                     refreshing={isFetching}
-                     onRefresh={onRefresh}
-                    />
-                }
+                maxToRenderPerBatch={8}
+                
                 ListFooterComponent={
                     <View style={{width: 60}}>
                     </View>

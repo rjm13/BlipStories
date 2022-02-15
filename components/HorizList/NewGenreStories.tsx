@@ -24,7 +24,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import { AppContext } from '../../AppContext';
 
 import { listPinnedStories } from '../../src/customGraphql/customQueries';
-import { listStories } from '../../src/graphql/queries';
+import { listStories, storiesByDate } from '../../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
@@ -56,7 +56,9 @@ const NewGenreStories = ({genreid} : any) => {
                 try {
                     const response = await API.graphql(
                         graphqlOperation(
-                            listStories, {
+                            storiesByDate, {
+                                type: 'Story',
+                                sortDirection: 'DESC',
                                 filter: {
                                     genreID: {
                                         eq: genreid
@@ -66,7 +68,7 @@ const NewGenreStories = ({genreid} : any) => {
                                     },
                                     approved: {
                                         eq: true
-                                    }
+                                    },
                                     // tags: {
                                     //     contains: tag
                                     // }
@@ -74,7 +76,7 @@ const NewGenreStories = ({genreid} : any) => {
                             } 
                         )
                     )
-                    setTagStories(response.data.listStories.items);
+                    setTagStories(response.data.listStories.items.splice(0,9));
                 } catch (e) {
                     console.log(e);}
             }

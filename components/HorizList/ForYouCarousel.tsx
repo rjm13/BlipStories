@@ -289,20 +289,33 @@ const ForYouCarousel = () => {
             try {
                 const response = await API.graphql(
                     graphqlOperation(
+                        
                         listStories, {
-                            limit: 8,
+                            limit: 100,
                             filter: {
                                 approved: {
                                     eq: true
                                 },
                                 hidden: {
                                     eq: false
-                                }
+                                },
+                                imageUri: {
+                                    attributeExists: true
+                                },
+                                genreID: {
+                                    ne: '1108a619-1c0e-4064-8fce-41f1f6262070'
+                                },
+                                // ratingAvg: {
+                                //     gt: 6
+                                // },
+                                // numListens: {
+                                //     gt: 100
+                                // }
                             }
                         }
                     )
                 )
-                setStorys(response.data.listStories.items);
+                setStorys(response.data.listStories.items.splice(0,9));
             } catch (e) {
                 console.log(e);
             }

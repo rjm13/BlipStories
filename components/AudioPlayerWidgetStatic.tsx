@@ -25,7 +25,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as Animatable from 'react-native-animatable';
 import {graphqlOperation, API, Storage, Auth} from 'aws-amplify';
 import { getStory, listPinnedStories, listRatings, listFinishedStories } from '../src/graphql/queries';
-import { createPinnedStory, deletePinnedStory, createFinishedStory } from '../src/graphql/mutations';
+import { createPinnedStory, deletePinnedStory, createFinishedStory, updateStory } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
 import * as RootNavigation from '../navigation/RootNavigation';
@@ -399,6 +399,10 @@ const AddToHistory = async () => {
                 createFinishedStory, {input: {userID: userInfo.attributes.sub, storyID: storyID, type: 'FinishedStory'}}
             ))
         console.log(FinishedStory)
+        let updateAStory = await API.graphql(graphqlOperation(
+            updateStory, {input: {id: storyID, numListens: FinishedStory.data.createFinishedStory.story.numListens + 1}}
+        ))
+        console.log(updateAStory)
 
         //unpin the story, if pinned
         unPinStory();
@@ -407,6 +411,10 @@ const AddToHistory = async () => {
             RootNavigation.navigate('StoryScreen', { storyID: storyID });
             onClose();
     } else {
+        let updateAStory = await API.graphql(graphqlOperation(
+            updateStory, {input: {id: storyID, numListens: storyCheck.data.listFinishedStories.items[0].story.numListens + 1}}
+        ))
+        console.log(updateAStory)
         RootNavigation.navigate('StoryScreen', { storyID: storyID });
         onClose();
     }

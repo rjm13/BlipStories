@@ -33,6 +33,7 @@ export const onCreateUser = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -78,6 +79,7 @@ export const onCreateUser = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -119,6 +121,7 @@ export const onCreateUser = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -161,6 +164,7 @@ export const onUpdateUser = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -206,6 +210,7 @@ export const onUpdateUser = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -247,6 +252,7 @@ export const onUpdateUser = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -289,6 +295,7 @@ export const onDeleteUser = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -334,6 +341,7 @@ export const onDeleteUser = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -375,6 +383,7 @@ export const onDeleteUser = /* GraphQL */ `
           hidden
           approved
           createdAt
+          numListens
           updatedAt
           owner
         }
@@ -718,6 +727,7 @@ export const onCreatePinnedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -825,6 +835,7 @@ export const onUpdatePinnedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -932,6 +943,7 @@ export const onDeletePinnedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -1040,6 +1052,7 @@ export const onCreateFinishedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -1148,6 +1161,7 @@ export const onUpdateFinishedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -1256,6 +1270,7 @@ export const onDeleteFinishedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -1370,6 +1385,7 @@ export const onCreateStory = /* GraphQL */ `
       hidden
       approved
       createdAt
+      numListens
       updatedAt
       owner
     }
@@ -1480,6 +1496,7 @@ export const onUpdateStory = /* GraphQL */ `
       hidden
       approved
       createdAt
+      numListens
       updatedAt
       owner
     }
@@ -1590,6 +1607,7 @@ export const onDeleteStory = /* GraphQL */ `
       hidden
       approved
       createdAt
+      numListens
       updatedAt
       owner
     }
@@ -1704,6 +1722,7 @@ export const onCreateFlag = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -1812,6 +1831,7 @@ export const onUpdateFlag = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -1920,6 +1940,7 @@ export const onDeleteFlag = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -2029,6 +2050,7 @@ export const onCreateComment = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -2138,6 +2160,7 @@ export const onUpdateComment = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -2247,6 +2270,7 @@ export const onDeleteComment = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -2461,6 +2485,7 @@ export const onCreateRating = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -2582,6 +2607,7 @@ export const onUpdateRating = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -2703,6 +2729,7 @@ export const onDeleteRating = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -2824,6 +2851,7 @@ export const onCreateStoryTag = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -2921,6 +2949,7 @@ export const onUpdateStoryTag = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }
@@ -3018,6 +3047,7 @@ export const onDeleteStoryTag = /* GraphQL */ `
         hidden
         approved
         createdAt
+        numListens
         updatedAt
         owner
       }

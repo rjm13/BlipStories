@@ -84,6 +84,7 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   hidden: Boolean
   approved: Boolean
   createdAt: String
+  numListens: Int
   }
 
 type Genre @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
