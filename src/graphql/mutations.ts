@@ -969,6 +969,7 @@ export const createFinishedStory = /* GraphQL */ `
   ) {
     createFinishedStory(input: $input, condition: $condition) {
       id
+      type
       userID
       user {
         id
@@ -1079,6 +1080,7 @@ export const updateFinishedStory = /* GraphQL */ `
   ) {
     updateFinishedStory(input: $input, condition: $condition) {
       id
+      type
       userID
       user {
         id
@@ -1189,6 +1191,7 @@ export const deleteFinishedStory = /* GraphQL */ `
   ) {
     deleteFinishedStory(input: $input, condition: $condition) {
       id
+      type
       userID
       user {
         id

@@ -355,13 +355,17 @@ export type DeletePinnedStoryInput = {
 
 export type CreateFinishedStoryInput = {
   id?: string | null,
+  type?: string | null,
   userID?: string | null,
   storyID?: string | null,
+  createdAt?: string | null,
 };
 
 export type ModelFinishedStoryConditionInput = {
+  type?: ModelStringInput | null,
   userID?: ModelIDInput | null,
   storyID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelFinishedStoryConditionInput | null > | null,
   or?: Array< ModelFinishedStoryConditionInput | null > | null,
   not?: ModelFinishedStoryConditionInput | null,
@@ -370,19 +374,22 @@ export type ModelFinishedStoryConditionInput = {
 export type FinishedStory = {
   __typename: "FinishedStory",
   id: string,
+  type?: string | null,
   userID?: string | null,
   user?: User | null,
   storyID?: string | null,
   story?: Story | null,
-  createdAt: string,
+  createdAt?: string | null,
   updatedAt: string,
   owner?: string | null,
 };
 
 export type UpdateFinishedStoryInput = {
   id: string,
+  type?: string | null,
   userID?: string | null,
   storyID?: string | null,
+  createdAt?: string | null,
 };
 
 export type DeleteFinishedStoryInput = {
@@ -705,8 +712,10 @@ export type ModelPinnedStoryConnection = {
 
 export type ModelFinishedStoryFilterInput = {
   id?: ModelIDInput | null,
+  type?: ModelStringInput | null,
   userID?: ModelIDInput | null,
   storyID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelFinishedStoryFilterInput | null > | null,
   or?: Array< ModelFinishedStoryFilterInput | null > | null,
   not?: ModelFinishedStoryFilterInput | null,
@@ -1928,6 +1937,7 @@ export type CreateFinishedStoryMutation = {
   createFinishedStory?:  {
     __typename: "FinishedStory",
     id: string,
+    type?: string | null,
     userID?: string | null,
     user?:  {
       __typename: "User",
@@ -2037,7 +2047,7 @@ export type CreateFinishedStoryMutation = {
       updatedAt: string,
       owner?: string | null,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
     owner?: string | null,
   } | null,
@@ -2052,6 +2062,7 @@ export type UpdateFinishedStoryMutation = {
   updateFinishedStory?:  {
     __typename: "FinishedStory",
     id: string,
+    type?: string | null,
     userID?: string | null,
     user?:  {
       __typename: "User",
@@ -2161,7 +2172,7 @@ export type UpdateFinishedStoryMutation = {
       updatedAt: string,
       owner?: string | null,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
     owner?: string | null,
   } | null,
@@ -2176,6 +2187,7 @@ export type DeleteFinishedStoryMutation = {
   deleteFinishedStory?:  {
     __typename: "FinishedStory",
     id: string,
+    type?: string | null,
     userID?: string | null,
     user?:  {
       __typename: "User",
@@ -2285,7 +2297,7 @@ export type DeleteFinishedStoryMutation = {
       updatedAt: string,
       owner?: string | null,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
     owner?: string | null,
   } | null,
@@ -4856,6 +4868,7 @@ export type GetFinishedStoryQuery = {
   getFinishedStory?:  {
     __typename: "FinishedStory",
     id: string,
+    type?: string | null,
     userID?: string | null,
     user?:  {
       __typename: "User",
@@ -4965,7 +4978,7 @@ export type GetFinishedStoryQuery = {
       updatedAt: string,
       owner?: string | null,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
     owner?: string | null,
   } | null,
@@ -4983,6 +4996,7 @@ export type ListFinishedStoriesQuery = {
     items:  Array< {
       __typename: "FinishedStory",
       id: string,
+      type?: string | null,
       userID?: string | null,
       user?:  {
         __typename: "User",
@@ -5029,7 +5043,7 @@ export type ListFinishedStoriesQuery = {
         updatedAt: string,
         owner?: string | null,
       } | null,
-      createdAt: string,
+      createdAt?: string | null,
       updatedAt: string,
       owner?: string | null,
     } | null >,
@@ -6100,6 +6114,76 @@ export type ListStoryTagsQuery = {
         owner?: string | null,
       },
       createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type FinishedStoriesByDateQueryVariables = {
+  type: string,
+  createdAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelFinishedStoryFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type FinishedStoriesByDateQuery = {
+  finishedStoriesByDate?:  {
+    __typename: "ModelFinishedStoryConnection",
+    items:  Array< {
+      __typename: "FinishedStory",
+      id: string,
+      type?: string | null,
+      userID?: string | null,
+      user?:  {
+        __typename: "User",
+        id: string,
+        name?: string | null,
+        email?: string | null,
+        imageUri?: string | null,
+        bio?: string | null,
+        following?: Array< string | null > | null,
+        numAuthored?: number | null,
+        pseudonym?: string | null,
+        birthdate?: string | null,
+        isPublisher?: boolean | null,
+        isNarrator?: boolean | null,
+        isArtist?: boolean | null,
+        topthree?: Array< string | null > | null,
+        createdAt: string,
+        updatedAt: string,
+        owner?: string | null,
+      } | null,
+      storyID?: string | null,
+      story?:  {
+        __typename: "Story",
+        id: string,
+        type?: string | null,
+        title: string,
+        imageUri?: string | null,
+        audioUri: string,
+        userID?: string | null,
+        author?: string | null,
+        authorID?: string | null,
+        narrator?: string | null,
+        narratorID?: string | null,
+        time?: number | null,
+        summary?: string | null,
+        description?: string | null,
+        nsfw?: boolean | null,
+        ratingAvg?: number | null,
+        ratingAmt?: number | null,
+        genreID?: string | null,
+        hidden?: boolean | null,
+        approved?: boolean | null,
+        createdAt?: string | null,
+        updatedAt: string,
+        owner?: string | null,
+      } | null,
+      createdAt?: string | null,
       updatedAt: string,
       owner?: string | null,
     } | null >,
@@ -7270,6 +7354,7 @@ export type OnCreateFinishedStorySubscription = {
   onCreateFinishedStory?:  {
     __typename: "FinishedStory",
     id: string,
+    type?: string | null,
     userID?: string | null,
     user?:  {
       __typename: "User",
@@ -7379,7 +7464,7 @@ export type OnCreateFinishedStorySubscription = {
       updatedAt: string,
       owner?: string | null,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
     owner?: string | null,
   } | null,
@@ -7393,6 +7478,7 @@ export type OnUpdateFinishedStorySubscription = {
   onUpdateFinishedStory?:  {
     __typename: "FinishedStory",
     id: string,
+    type?: string | null,
     userID?: string | null,
     user?:  {
       __typename: "User",
@@ -7502,7 +7588,7 @@ export type OnUpdateFinishedStorySubscription = {
       updatedAt: string,
       owner?: string | null,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
     owner?: string | null,
   } | null,
@@ -7516,6 +7602,7 @@ export type OnDeleteFinishedStorySubscription = {
   onDeleteFinishedStory?:  {
     __typename: "FinishedStory",
     id: string,
+    type?: string | null,
     userID?: string | null,
     user?:  {
       __typename: "User",
@@ -7625,7 +7712,7 @@ export type OnDeleteFinishedStorySubscription = {
       updatedAt: string,
       owner?: string | null,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
     owner?: string | null,
   } | null,

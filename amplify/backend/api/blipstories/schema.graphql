@@ -47,10 +47,12 @@ type FinishedStory
   @model @auth( rules: [{ allow: owner, operations: [create, delete, update, read]}])
 {
   id: ID!
+  type: String @index(name: "finishedStoriesByDate", queryField: "finishedStoriesByDate", sortKeyFields: [ "createdAt" ])
   userID: ID @index(name: "byUser", sortKeyFields: ["storyID"])
   user: User @hasOne (fields: ["userID"])
   storyID: ID
   story: Story @hasOne (fields: ["storyID"])
+  createdAt: String
 }
 
 type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])

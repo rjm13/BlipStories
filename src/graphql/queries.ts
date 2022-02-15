@@ -477,6 +477,7 @@ export const getFinishedStory = /* GraphQL */ `
   query GetFinishedStory($id: ID!) {
     getFinishedStory(id: $id) {
       id
+      type
       userID
       user {
         id
@@ -589,6 +590,7 @@ export const listFinishedStories = /* GraphQL */ `
     listFinishedStories(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        type
         userID
         user {
           id
@@ -1574,6 +1576,78 @@ export const listStoryTags = /* GraphQL */ `
           tagName
           nsfw
           genreID
+          createdAt
+          updatedAt
+          owner
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const finishedStoriesByDate = /* GraphQL */ `
+  query FinishedStoriesByDate(
+    $type: String!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelFinishedStoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    finishedStoriesByDate(
+      type: $type
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        userID
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
+        storyID
+        story {
+          id
+          type
+          title
+          imageUri
+          audioUri
+          userID
+          author
+          authorID
+          narrator
+          narratorID
+          time
+          summary
+          description
+          nsfw
+          ratingAvg
+          ratingAmt
+          genreID
+          hidden
+          approved
           createdAt
           updatedAt
           owner

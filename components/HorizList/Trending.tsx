@@ -24,7 +24,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import { AppContext } from '../../AppContext';
 
 import { listPinnedStories } from '../../src/customGraphql/customQueries';
-import { listStories } from '../../src/graphql/queries';
+import { listStories, finishedStoriesByDate } from '../../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
@@ -50,25 +50,85 @@ const Trending = () => {
 
     useEffect(() => {
 
+        let trendingStories = []
+
+        let count = []
+
+        let finalTrends = []
+
+        //const map = trendingStories.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
+
         const fetchStorys = async () => {
+
+            const date = new Date();
+
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const day = date.getDate();
+        
+            //const c = new Date(year + 1, month, day) // PLUS 1 YEAR
+            const newdate = new Date(year, month - 1, day).toISOString() // PLUS 1 MONTH
+            //const f = new Date(year, month, day  + 1) // PLUS 1 DAY
                 
                 try {
                     const response = await API.graphql(
                         graphqlOperation(
-                            listStories, {
-                                limit: 8,
-                                filter: {
-                                    hidden: {
-                                        eq: false
-                                    },
-                                    approved: {
-                                        eq: true
-                                    },
-                                }
+                            finishedStoriesByDate, {
+                                createdAt: {
+                                    gt: newdate
+                                },
+                                type: 'FinishedStory',
+                                sortDirection: 'DESC',
+                                // filter: {
+                                //     hidden: {
+                                //         eq: false
+                                //     },
+                                //     approved: {
+                                //         eq: true
+                                //     },
+                                //     genreID: {
+                                //         ne: '1108a619-1c0e-4064-8fce-41f1f6262070'
+                                //     },
+                                //     nsfw: {
+                                //         eq: false
+                                //     }
+                                //}
                             } 
                         )
                     )
-                    setStories(response.data.listStories.items);
+                    
+                    //get all of the unique ids in the list
+                    for(let i = 0; i < response.data.finishedStoriesByDate.items.length; i++) {
+                        if (trendingStories.includes(response.data.finishedStoriesByDate.items[i].story)) {
+                            return;
+                        } else {
+                            trendingStories.push(response.data.finishedStoriesByDate.items[i].story)
+                        }
+                    }
+
+                    //count the number of unique ids in the original list
+                    for (let i = 0; i < trendingStories.length; i++) {
+                        count.push({
+                            count: [response.data.finishedStoriesByDate.items].filter(x => x==trendingStories[i]).length,
+                            story: trendingStories[i]
+                        })
+                    }
+
+                    //sort by count
+                    let sortedArr = count.sort((a, b) => (a.count - b.count)).slice(0,7)
+
+                    //filter the top 8 and add them to the array
+                    for(let i = 0; i < sortedArr.length; i++) {
+                        if (i >= sortedArr.length) {
+                            return
+                        } else {
+                            finalTrends.push(sortedArr[i].story)
+                        }
+                        
+                    }
+
+                    setStories(finalTrends);
+                  
                 } catch (e) {
                     console.log(e);}
         }

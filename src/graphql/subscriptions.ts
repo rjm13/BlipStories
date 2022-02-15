@@ -939,6 +939,7 @@ export const onCreateFinishedStory = /* GraphQL */ `
   subscription OnCreateFinishedStory($owner: String) {
     onCreateFinishedStory(owner: $owner) {
       id
+      type
       userID
       user {
         id
@@ -1046,6 +1047,7 @@ export const onUpdateFinishedStory = /* GraphQL */ `
   subscription OnUpdateFinishedStory($owner: String) {
     onUpdateFinishedStory(owner: $owner) {
       id
+      type
       userID
       user {
         id
@@ -1153,6 +1155,7 @@ export const onDeleteFinishedStory = /* GraphQL */ `
   subscription OnDeleteFinishedStory($owner: String) {
     onDeleteFinishedStory(owner: $owner) {
       id
+      type
       userID
       user {
         id

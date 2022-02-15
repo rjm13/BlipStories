@@ -71,7 +71,6 @@ const NewList = () => {
                                     imageUri: {
                                         attributeExists: true
                                     }
-
                                 }
                             } 
                         )
