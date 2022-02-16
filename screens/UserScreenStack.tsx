@@ -23,27 +23,27 @@ const UserScreen = ({navigation} : any) => {
     const route = useRoute();
     const {userID} = route.params
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const userData = await API.graphql(graphqlOperation(
-                  getUser, {id: userID}))
-                  if (userData) {
-                    setUser(userData.data.getUser);
-                  }
-                  console.log(userData.data.getUser);
-            } catch (e) {
-                console.log(e);
-              }  
-        }
-        fetchUser();   
-      }, [])
+    // useEffect(() => {
+    //     const fetchUser = async () => {
+    //         try {
+    //             const userData = await API.graphql(graphqlOperation(
+    //               getUser, {id: userID}))
+    //               if (userData) {
+    //                 setUser(userData.data.getUser);
+    //               }
+    //               console.log(userData.data.getUser);
+    //         } catch (e) {
+    //             console.log(e);
+    //           }  
+    //     }
+    //     fetchUser();   
+    //   }, [])
 
 
     return (
         <View style={styles.container}>
         
-            <AudioListByAuthor genre={'crime'}/>
+            <AudioListByAuthor user={userID}/>
             <StatusBar style="light" />
         </View>
     );

@@ -163,6 +163,13 @@ const AudioStoryList = ({genre, search, all} : any) => {
         fetchRating();
     }, [])
 
+    //convert time to formatted string
+    function millisToMinutesAndSeconds () {
+        let minutes = Math.floor(time / 60000);
+        let seconds = Math.floor((time % 60000) / 1000);
+        return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
+    } 
+
         return (
             <View>
                 <TouchableWithoutFeedback onPress={() => setIsVisible(!isVisible)}>
@@ -215,7 +222,7 @@ const AudioStoryList = ({genre, search, all} : any) => {
                                         size={10}
                                     />
                                     <Text style={styles.time}>
-                                        12:53
+                                        {millisToMinutesAndSeconds()}
                                     </Text> 
                                 </View>
                             </TouchableOpacity>
@@ -316,24 +323,25 @@ const AudioStoryList = ({genre, search, all} : any) => {
                             rating: {
                                 gt: 7
                             },
-                            story:{
-                                hidden: {
-                                    eq: false
-                                },
-                                approved: {
-                                    eq: true
-                                }
-                            }
+                            // story:{
+                            //     hidden: {
+                            //         eq: false
+                            //     },
+                            //     approved: {
+                            //         eq: true
+                            //     }
+                            // }
                         }
                 }))
 
                 console.log(favedData)
 
                 for (let i = 0; i < favedData.data.listRatings.items.length; i++) {
-                    Faved.push(favedData.data.listRatings.items[i].story) 
-                    setFavedStories(Faved);
+                    if (favedData.data.listRatings.items[i].story.hidden === false) {
+                        Faved.push(favedData.data.listRatings.items[i].story) 
+                    } else {return;}
                 } 
-                
+                setFavedStories(Faved);
               console.log(Faved)
 
               setIsLoading(false)

@@ -153,6 +153,13 @@ const HistoryList = ({navigation} : any) => {
             fetchRating();
         }, [])
 
+        //convert time to formatted string
+        function millisToMinutesAndSeconds () {
+            let minutes = Math.floor(time / 60000);
+            let seconds = Math.floor((time % 60000) / 1000);
+            return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
+        } 
+
         return (
             <View>
                 <TouchableWithoutFeedback onPress={() => setIsVisible(!isVisible)}>
@@ -205,7 +212,7 @@ const HistoryList = ({navigation} : any) => {
                                         size={10}
                                     />
                                     <Text style={styles.time}>
-                                        12:53
+                                        {millisToMinutesAndSeconds()}
                                     </Text> 
                                 </View>
                             </TouchableOpacity>
@@ -304,19 +311,22 @@ const HistoryList = ({navigation} : any) => {
                             userID: {
                                 eq: userInfo.attributes.sub
                             },
-                            story: {
-                                hidden: {
-                                    eq: false
-                                },
-                                approved: {
-                                    eq: true
-                                }
-                            }
+                            // story: {
+                            //     hidden: {
+                            //         eq: false
+                            //     },
+                            //     approved: {
+                            //         eq: true
+                            //     }
+                            // }
                         }
                 }))
 
                 for (let i = 0; i < historyData.data.listFinishedStories.items.length; i++) {
-                    History.push(historyData.data.listFinishedStories.items[i].story) 
+                    if (historyData.data.listFinishedStories.items[i].story.hidden === false) {
+                        History.push(historyData.data.listFinishedStories.items[i].story)
+                    } else {return;}
+                     
 
                 setFinishedStories(History);
                 

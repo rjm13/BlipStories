@@ -153,6 +153,13 @@ const SearchStoriesList = ({search} : any) => {
         fetchRating();
     }, [])
 
+    //convert time to formatted string
+    function millisToMinutesAndSeconds () {
+        let minutes = Math.floor(time / 60000);
+        let seconds = Math.floor((time % 60000) / 1000);
+        return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
+    } 
+
         return (
             <View>
                 <TouchableWithoutFeedback onPress={() => setIsVisible(!isVisible)}>
@@ -205,7 +212,7 @@ const SearchStoriesList = ({search} : any) => {
                                         size={10}
                                     />
                                     <Text style={styles.time}>
-                                        12:53
+                                        {millisToMinutesAndSeconds()}
                                     </Text> 
                                 </View>
                             </TouchableOpacity>
@@ -245,7 +252,7 @@ const SearchStoriesList = ({search} : any) => {
                                             style={{paddingHorizontal: 10}}
                                         />
                                         <Text style={{textAlign: 'center', fontSize: 17, color: '#e0e0e0'}}>
-                                            {AverageUserRating}%
+                                            {Story?.ratingAvg}
                                         </Text>
                                     </View>
                                 </View>

@@ -341,7 +341,10 @@ const AudioStoryList = ({genre, search, all} : any) => {
                 console.log(pinnedData)
 
                 for (let i = 0; i < pinnedData.data.listPinnedStories.items.length; i++) {
-                    Pinned.push(pinnedData.data.listPinnedStories.items[i].story) 
+                    if (pinnedData.data.listPinnedStories.items[i].story.hidden === false) {
+                        Pinned.push(pinnedData.data.listPinnedStories.items[i].story)
+                    } else {return;}
+                     
 
                 setPinnedStories(Pinned);
                 

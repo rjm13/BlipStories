@@ -30,7 +30,7 @@ import unPinStory from '../functions/UnPinStory';
 
 const ForYouCarousel = () => {
 
-    const Item = ({primary, title, genreName, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
+    const Item = ({primary, title, userID, genreName, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
 
         //navigation hook
         const navigation = useNavigation();
@@ -198,7 +198,7 @@ const ForYouCarousel = () => {
                                                 size={12}
                                                 color='#ffffffa5'
                                             />
-                                            <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: '7755e914-9ae4-4dd0-a421-b517980b6808'})}>
+                                            <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: userID})}>
                                                 <Text style={styles.userId}>
                                                     {author}
                                                 </Text>  
@@ -208,7 +208,7 @@ const ForYouCarousel = () => {
                                                 size={12}
                                                 color='#ffffffa5'
                                             />
-                                            <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: '7755e914-9ae4-4dd0-a421-b517980b6808'})}>
+                                            <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {user: '7755e914-9ae4-4dd0-a421-b517980b6808'})}>
                                                 <Text style={styles.userId}>
                                                     {narrator}
                                                 </Text> 
@@ -356,6 +356,7 @@ const ForYouCarousel = () => {
           narrator={item.narrator}
           time={item.time}
           id={item.id}
+          userID={item.userID}
         />
       );}
 

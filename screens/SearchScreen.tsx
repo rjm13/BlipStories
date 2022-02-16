@@ -213,6 +213,13 @@ const SearchScreen = ({navigation} : any) => {
         fetchRating();
     }, [])
 
+    //convert time to formatted string
+    function millisToMinutesAndSeconds () {
+        let minutes = Math.floor(time / 60000);
+        let seconds = Math.floor((time % 60000) / 1000);
+        return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
+    } 
+
         return (
             <View>
                 <TouchableWithoutFeedback onPress={() => setIsVisible(!isVisible)}>
@@ -265,7 +272,7 @@ const SearchScreen = ({navigation} : any) => {
                                         size={10}
                                     />
                                     <Text style={styles.time}>
-                                        12:53
+                                        {millisToMinutesAndSeconds()}
                                     </Text> 
                                 </View>
                             </TouchableOpacity>
