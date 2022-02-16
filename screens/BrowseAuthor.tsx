@@ -293,7 +293,6 @@ const FollowingScreen = ({navigation} : any) => {
             id={item.id}
             pseudonym={item.pseudonym}
             imageUri={item.imageUri}
-            authored={item.authored}
             bio={item.bio}
             following={item.following}
             isPublisher={item.isPublisher}

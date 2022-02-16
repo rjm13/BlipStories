@@ -262,7 +262,7 @@ const AudioStoryList = ({genre, search, all} : any) => {
                                             style={{paddingHorizontal: 10}}
                                         />
                                         <Text style={{textAlign: 'center', fontSize: 17, color: '#e0e0e0'}}>
-                                            {AverageUserRating}%
+                                            {AverageUserRating}
                                         </Text>
                                     </View>
                                 </View>

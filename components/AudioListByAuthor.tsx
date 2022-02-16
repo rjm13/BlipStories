@@ -683,15 +683,15 @@ const AudioListByAuthor = ({user} : any) => {
                                         </Text>
                                     </View>
 
-                                    <View style={{ flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
+                                    <View style={{ alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
                                         <FontAwesome5 
-                                            name='book-reader'
+                                            name='book-open'
                                             size={12}
                                             color='#ffffffa5'
-                                            style={{ marginRight: 5}}
+                                            style={{ marginRight: 5, alignSelf: 'center'}}
                                         />
                                         <Text style={styles.userId}>
-                                            {User?.authored.length ? User?.authored.length : 0}
+                                            {User?.authored.items ? User?.authored.items.length : 0}
                                         </Text> 
                                     </View> 
                                 </Animated.View>

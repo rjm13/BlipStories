@@ -245,11 +245,9 @@ const Trending = () => {
 
         <View>
             <View style={{marginBottom: 0, marginLeft: 20}}>
-                <TouchableOpacity onLongPress={onRefresh}>
-                    <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}>
-                        Trending
-                    </Text>
-                </TouchableOpacity>
+                <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}>
+                    Trending
+                </Text>
             </View>
             <FlatList
                 data={stories}
@@ -258,12 +256,7 @@ const Trending = () => {
                 renderItem={renderItem}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
-                refreshControl={
-                    <RefreshControl
-                     refreshing={isFetching}
-                     onRefresh={onRefresh}
-                    />
-                }
+               
                 ListFooterComponent={
                     <View style={{width: 50}}>
 

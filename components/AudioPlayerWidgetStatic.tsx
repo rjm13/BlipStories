@@ -617,15 +617,17 @@ const AddToHistory = async () => {
                                             {Story?.title}
                                         </Animated.Text>
                                     
-                                        <Animated.View style={{opacity: animatedSongTitleOpacity,}}>
-                                            <FontAwesome5 
-                                                name={isPlaying === true ? 'pause' : 'play'}
-                                                color='#ffffffCC'
-                                                size={20}
-                                                style={{ paddingHorizontal: 40,}}
-                                                onPress={PlayPause}
-                                            />
+                                        <TouchableOpacity onPress={PlayPause}>
+                                            <Animated.View style={{opacity: animatedSongTitleOpacity,}}>
+                                                <FontAwesome5 
+                                                    name={isPlaying === true ? 'pause' : 'play'}
+                                                    color='#ffffffCC'
+                                                    size={20}
+                                                    style={{ paddingHorizontal: 40,}}
+                                                />
                                         </Animated.View>
+                                        </TouchableOpacity>
+                                        
                                     </View> 
                                 </TouchableWithoutFeedback>
                             ) : null } 
@@ -693,7 +695,7 @@ const AddToHistory = async () => {
                                                     style={{marginHorizontal: 6 }}
                                                 />
                                                 <Text style={{textAlign: 'center', color: '#e0e0e0', fontSize: 19}}>
-                                                    {AverageUserRating}%
+                                                    {AverageUserRating}
                                                 </Text>
                                         </View>
                                         </View>
@@ -707,14 +709,16 @@ const AddToHistory = async () => {
                             </View>
                             
                             <View>
-                                <View style={{alignSelf: 'center' }}>
-                                    <FontAwesome5 
-                                        name={isPlaying === true ? 'pause' : 'play'}
-                                        color='#ffffffCC'
-                                        size={50}
-                                        onPress={PlayPause}
-                                    />
-                                </View>
+                                <TouchableOpacity onPress={PlayPause}>
+                                    <View style={{alignSelf: 'center' }}>
+                                        <FontAwesome5 
+                                            name={isPlaying === true ? 'pause' : 'play'}
+                                            color='#ffffffCC'
+                                            size={50}
+                                        />
+                                    </View>
+                                </TouchableOpacity>
+                                
 
                                 <View style={{ marginTop: 20, width: '90%', alignSelf: 'center', flexDirection: 'row', justifyContent: 'space-between',}}>
                                     <Text style={{ fontSize: 18, marginBottom: 5, textAlign: 'center', color: 'white'}}>

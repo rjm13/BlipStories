@@ -798,7 +798,7 @@ const StoryScreen  = ({navigation} : any) => {
                                     </Text>
 
                                     <View style={{ width: '100%', flexDirection: 'row', marginVertical: 10, justifyContent: 'space-between'}}>
-                                        <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: '7755e914-9ae4-4dd0-a421-b517980b6808'})}>
+                                        <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: Story?.userID})}>
                                             <View style={{ flexDirection: 'row', alignItems: 'center'}}>
                                                 <FontAwesome5 
                                                     name='book-open'

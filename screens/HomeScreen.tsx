@@ -49,11 +49,11 @@ const AudioStoryHome = ({navigation} : any) => {
             >
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 60, marginBottom: 10, marginHorizontal: 20}}>
                     <View style={{ flexDirection: 'row'}}>
-                        <TouchableOpacity onPress={() => navigation.navigate('SplashCarousel')}>
+                        {/* <TouchableOpacity onPress={() => navigation.navigate('SplashCarousel')}> */}
                             <Text style={styles.pageheader}>
                                 For you
                             </Text>
-                        </TouchableOpacity>
+                        {/* </TouchableOpacity> */}
                         
                     </View>
 

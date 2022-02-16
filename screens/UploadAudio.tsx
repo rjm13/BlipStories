@@ -31,7 +31,7 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import uuid from 'react-native-uuid';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { createStory, createStoryTag, createTag } from '../src/graphql/mutations';
+import { createStory, createStoryTag, createTag, updateUser } from '../src/graphql/mutations';
 import { listTags, getUser, listGenres } from '../src/graphql/queries';
 import { getStory, listStoryTags } from '../src/graphql/queries';
 
@@ -62,6 +62,8 @@ const UploadAudio = ({navigation} : any) => {
         nsfw: false,
     });
 
+    const [numAuthored, setNumAuthored] = useState(0)
+
         //get the user in order to prefill the author's name
         useEffect(() => {
             const fetchUser = async () => {
@@ -73,7 +75,9 @@ const UploadAudio = ({navigation} : any) => {
                 const userData = await API.graphql(graphqlOperation(
                   getUser, {id: userInfo.attributes.sub}
                 ))
-                    if (userData) {setData({...data, author: userData.data.getUser.pseudonym});
+                    if (userData) {
+                        setData({...data, author: userData.data.getUser.pseudonym});
+                        setNumAuthored(userData.data.getUser.numAuthored);
                 }
     
                 console.log(userData.data.getUser);
@@ -214,6 +218,15 @@ const UploadAudio = ({navigation} : any) => {
                     }
                 }
             //}
+
+            let updateUserInfo = await API.graphql(
+                graphqlOperation(updateUser, { input: {
+                    id: userInfo.attributes.sub,
+                    numAuthored: numAuthored + 1
+                }
+            }));
+            console.log(updateUserInfo);
+
             setIsPublishing(false);
             navigation.goBack();
 
