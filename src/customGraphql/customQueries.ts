@@ -245,6 +245,90 @@ export const listStoryTags = /* GraphQL */ `
     }
   }
 `;
+export const finishedStoriesByDate = /* GraphQL */ `
+  query FinishedStoriesByDate(
+    $type: String!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelFinishedStoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    finishedStoriesByDate(
+      type: $type
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        userID
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
+        storyID
+        story {
+          id
+          type
+          title
+          imageUri
+          audioUri
+          userID
+          author
+          authorID
+          narrator
+          narratorID
+          time
+          summary
+          description
+          nsfw
+          ratingAvg
+          ratingAmt
+          genreID
+          genre {
+            id
+            genre
+            icon
+            PrimaryColor
+            SecondaryColor
+            imageUri
+            createdAt
+            updatedAt
+            owner
+          }
+          hidden
+          approved
+          createdAt
+          numListens
+          updatedAt
+          owner
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
 export const listStories = /* GraphQL */ `
   query ListStories(
     $filter: ModelStoryFilterInput

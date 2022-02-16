@@ -23,8 +23,8 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import { AppContext } from '../../AppContext';
 
-import { listPinnedStories } from '../../src/customGraphql/customQueries';
-import { listStories, finishedStoriesByDate } from '../../src/graphql/queries';
+import { listPinnedStories, finishedStoriesByDate } from '../../src/customGraphql/customQueries';
+import { listStories } from '../../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
