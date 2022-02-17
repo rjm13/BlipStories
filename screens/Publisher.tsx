@@ -96,19 +96,21 @@ const Publisher = ({navigation} : any) => {
 
       const BecomeNarrator = () => {
         if (isNarrator === true) {
-          setIsNarrator(true);
+          setIsNarrator(!isNarrator);
         } else {
-          setIsNarrator(false);
-          navigation.navigate('Publishing', {user: user});
+          setIsNarrator(!isNarrator);
+          //setIsNarrator(false);
+          //navigation.navigate('Publishing', {user: user});
         }
     }
 
     const BecomeArtist = () => {
         if (isArtist === true) {
-          setIsNarrator(true);
+          setIsArtist(!isArtist);
         } else {
-          setIsNarrator(false);
-          navigation.navigate('Publishing', {user: user});
+          setIsArtist(!isArtist);
+          //setIsNarrator(false);
+          //navigation.navigate('Publishing', {user: user});
         }
     }
 
