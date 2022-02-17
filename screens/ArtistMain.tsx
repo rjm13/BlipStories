@@ -103,11 +103,11 @@ const PublishingMain = ({navigation} : any) => {
                     </View>
 
                     <TouchableOpacity 
-                        style={{alignContent: 'center', justifyContent: 'center', marginTop: 60, marginHorizontal: 30, backgroundColor: 'cyan', height: 80, borderRadius: 10}}
-                        onPress={() => {navigation.navigate('PublisherSetup', {user: User})}}
+                        style={{alignContent: 'center', justifyContent: 'center', marginTop: 60, marginHorizontal: 30, backgroundColor: '#27d995', height: 80, borderRadius: 10}}
+                        onPress={() => {navigation.navigate('ArtistSetup', {user: User})}}
                     >
                         <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold'}}>
-                            Create a Publisher Profile
+                            Create an Artist Profile
                         </Text>
                     </TouchableOpacity>
                 </View>

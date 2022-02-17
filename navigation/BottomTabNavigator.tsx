@@ -17,7 +17,11 @@ import AboutScreen from '../screens/About';
 import PlanScreen from '../screens/Plan';
 
 import PublishingMainScreen from '../screens/PublishingMain';
+import NarratorMain from '../screens/NarratorMain';
+import ArtistMain from '../screens/ArtistMain';
 import PublisherSetupScreen from '../screens/PublisherSetup';
+import NarratorSetup from '../screens/NarratorSetup';
+import ArtistSetup from '../screens/ArtistSetup';
 import PublisherScreen from '../screens/Publisher';
 import Recordings from '../screens/Recordings';
 import BecomeSomething from '../screens/BecomeSomething';
@@ -204,6 +208,26 @@ function HomeNavigator() {
       <HomeStack.Screen 
         name="BecomeSomething" 
         component={BecomeSomething} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="NarratorMain" 
+        component={NarratorMain} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="ArtistMain" 
+        component={ArtistMain} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="NarratorSetup" 
+        component={NarratorSetup} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="ArtistSetup" 
+        component={ArtistSetup} 
         options={{ headerShown: false }} 
       />
 

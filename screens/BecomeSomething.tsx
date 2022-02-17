@@ -31,7 +31,7 @@ const BecomeSomthing = ({navigation} : any) => {
                 </TouchableWithoutFeedback>
             </View>
             <View style={{alignItems: 'center', alignContent: 'center', justifyContent: 'center', height: Dimensions.get('window').height}}>
-                <TouchableOpacity onPress={() => navigation.navigate('Publisher', {user: User})}>
+                <TouchableOpacity onPress={() => navigation.navigate('Publishing', {user: User})}>
                     <View style={{marginTop: 30, alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={{margin: 10, color: 'gray', fontSize: 14}}>
                             Write a good story?
@@ -42,7 +42,7 @@ const BecomeSomthing = ({navigation} : any) => {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate('Publishing', {user: User})}>
+                <TouchableOpacity onPress={() => navigation.navigate('NarratorMain', {user: User})}>
                     <View style={{marginTop: 30, alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={{margin: 10, color: 'gray', fontSize: 14}}>
                             Have a pleasant voice?
@@ -53,7 +53,7 @@ const BecomeSomthing = ({navigation} : any) => {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate('Publishing', {user: User})}>
+                <TouchableOpacity onPress={() => navigation.navigate('ArtistMain', {user: User})}>
                     <View style={{marginTop: 30, alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={{margin: 10, color: 'gray', fontSize: 14}}>
                             Are you artistic?

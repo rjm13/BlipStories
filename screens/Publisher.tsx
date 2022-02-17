@@ -96,21 +96,19 @@ const Publisher = ({navigation} : any) => {
 
       const BecomeNarrator = () => {
         if (isNarrator === true) {
-          setIsNarrator(!isNarrator);
+          setIsNarrator(true);
         } else {
-          setIsNarrator(!isNarrator);
-          //setIsNarrator(false);
-          //navigation.navigate('Publishing', {user: user});
+          setIsNarrator(false);
+          navigation.navigate('NarratorMain', {user: user});
         }
     }
 
     const BecomeArtist = () => {
         if (isArtist === true) {
-          setIsArtist(!isArtist);
+          setIsArtist(true);
         } else {
-          setIsArtist(!isArtist);
-          //setIsNarrator(false);
-          //navigation.navigate('Publishing', {user: user});
+          setIsNarrator(false);
+          navigation.navigate('ArtistMain', {user: user});
         }
     }
 
@@ -178,13 +176,52 @@ const Publisher = ({navigation} : any) => {
                     
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
-                        <Text style={{ color: '#fff', fontSize: 16}}>
-                            Pseudonym
-                        </Text>
+                        <View>
+                            <Text style={{ color: '#fff', fontSize: 16}}>
+                                Pseudonym
+                            </Text>
+                            <Text style={{ color: 'gray', fontSize: 12}}>
+                                Author
+                            </Text>
+                        </View>
                         <Text style={styles.textcounter}>
                             {user?.pseudonym}
                         </Text>
                     </View>
+
+                    {isNarrator === true ? (
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                            <View>
+                                <Text style={{ color: '#fff', fontSize: 16}}>
+                                    Pseudonym
+                                </Text>
+                                <Text style={{ color: 'gray', fontSize: 12}}>
+                                    Narrator
+                                </Text>
+                            </View>
+                            <Text style={styles.textcounter}>
+                                {user?.narratorPseudo}
+                            </Text>
+                        </View>
+                    ) : null}
+                    
+                    {isArtist === true ? (
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                            <View>
+                                <Text style={{ color: '#fff', fontSize: 16}}>
+                                    Pseudonym
+                                </Text>
+                                <Text style={{ color: 'gray', fontSize: 12}}>
+                                    Artist
+                                </Text>
+                            </View>
+                            
+                            <Text style={styles.textcounter}>
+                                {user?.artistPseudo}
+                            </Text>
+                        </View>
+                    ) : null}
+                    
 
                     <TouchableWithoutFeedback onPress={ () => navigation.navigate('Following')}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
