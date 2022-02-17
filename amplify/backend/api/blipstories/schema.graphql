@@ -10,8 +10,12 @@ type User @model @auth(rules: [{ allow: owner, operations: [create, delete, upda
   bio: String
   following: [ID]
   authored: [Story] @hasMany(indexName: "byUser", fields: "id")
+  narrated: [Story] @hasMany(indexName: "byNarrator", fields: "id")
+  art: [Story] @hasMany(indexName: "byArtist", fields: "id")
   numAuthored: Int
   pseudonym: String
+  narratorPseudo: String
+  artistPseudo: String
   birthdate: String
   isPublisher: Boolean
   isNarrator: Boolean
@@ -68,8 +72,10 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   #author: User @hasOne(fields: ["id"])
   author: String
   authorID: ID @index(name: "byAuthor", sortKeyFields: ["id"])
-  narrator: String
-  narratorID: ID
+  narrator: User @hasOne (fields: ["narratorID"])
+  narratorID: ID @index(name: "byNarrator", sortKeyFields: ["id"])
+  artist: User @hasOne (fields: ["artistID"])
+  artistID: ID @index(name: "byArtist", sortKeyFields: ["id"])
   time: Int
   summary: String
   description: String

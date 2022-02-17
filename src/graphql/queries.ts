@@ -21,8 +21,64 @@ export const getUser = /* GraphQL */ `
           userID
           author
           authorID
-          narrator
           narratorID
+          artistID
+          time
+          summary
+          description
+          nsfw
+          ratingAvg
+          ratingAmt
+          genreID
+          hidden
+          approved
+          createdAt
+          numListens
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      narrated {
+        items {
+          id
+          type
+          title
+          imageUri
+          audioUri
+          userID
+          author
+          authorID
+          narratorID
+          artistID
+          time
+          summary
+          description
+          nsfw
+          ratingAvg
+          ratingAmt
+          genreID
+          hidden
+          approved
+          createdAt
+          numListens
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      art {
+        items {
+          id
+          type
+          title
+          imageUri
+          audioUri
+          userID
+          author
+          authorID
+          narratorID
+          artistID
           time
           summary
           description
@@ -41,6 +97,8 @@ export const getUser = /* GraphQL */ `
       }
       numAuthored
       pseudonym
+      narratorPseudo
+      artistPseudo
       birthdate
       isPublisher
       isNarrator
@@ -67,8 +125,8 @@ export const getUser = /* GraphQL */ `
           userID
           author
           authorID
-          narrator
           narratorID
+          artistID
           time
           summary
           description
@@ -109,8 +167,8 @@ export const getUser = /* GraphQL */ `
           userID
           author
           authorID
-          narrator
           narratorID
+          artistID
           time
           summary
           description
@@ -150,8 +208,16 @@ export const listUsers = /* GraphQL */ `
         authored {
           nextToken
         }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
         numAuthored
         pseudonym
+        narratorPseudo
+        artistPseudo
         birthdate
         isPublisher
         isNarrator
@@ -193,8 +259,16 @@ export const getFollowingConn = /* GraphQL */ `
         authored {
           nextToken
         }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
         numAuthored
         pseudonym
+        narratorPseudo
+        artistPseudo
         birthdate
         isPublisher
         isNarrator
@@ -226,8 +300,16 @@ export const getFollowingConn = /* GraphQL */ `
         authored {
           nextToken
         }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
         numAuthored
         pseudonym
+        narratorPseudo
+        artistPseudo
         birthdate
         isPublisher
         isNarrator
@@ -275,6 +357,8 @@ export const listFollowingConns = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -293,6 +377,8 @@ export const listFollowingConns = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -325,8 +411,16 @@ export const getPinnedStory = /* GraphQL */ `
         authored {
           nextToken
         }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
         numAuthored
         pseudonym
+        narratorPseudo
+        artistPseudo
         birthdate
         isPublisher
         isNarrator
@@ -364,6 +458,8 @@ export const getPinnedStory = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -376,8 +472,48 @@ export const getPinnedStory = /* GraphQL */ `
         userID
         author
         authorID
-        narrator
+        narrator {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
         narratorID
+        artist {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
+        artistID
         time
         summary
         description
@@ -437,6 +573,8 @@ export const listPinnedStories = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -456,8 +594,8 @@ export const listPinnedStories = /* GraphQL */ `
           userID
           author
           authorID
-          narrator
           narratorID
+          artistID
           time
           summary
           description
@@ -496,8 +634,16 @@ export const getFinishedStory = /* GraphQL */ `
         authored {
           nextToken
         }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
         numAuthored
         pseudonym
+        narratorPseudo
+        artistPseudo
         birthdate
         isPublisher
         isNarrator
@@ -535,6 +681,8 @@ export const getFinishedStory = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -547,8 +695,48 @@ export const getFinishedStory = /* GraphQL */ `
         userID
         author
         authorID
-        narrator
+        narrator {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
         narratorID
+        artist {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
+        artistID
         time
         summary
         description
@@ -609,6 +797,8 @@ export const listFinishedStories = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -628,8 +818,8 @@ export const listFinishedStories = /* GraphQL */ `
           userID
           author
           authorID
-          narrator
           narratorID
+          artistID
           time
           summary
           description
@@ -670,8 +860,16 @@ export const getStory = /* GraphQL */ `
         authored {
           nextToken
         }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
         numAuthored
         pseudonym
+        narratorPseudo
+        artistPseudo
         birthdate
         isPublisher
         isNarrator
@@ -696,8 +894,90 @@ export const getStory = /* GraphQL */ `
       userID
       author
       authorID
-      narrator
+      narrator {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
       narratorID
+      artist {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      artistID
       time
       summary
       description
@@ -785,6 +1065,8 @@ export const listStories = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -797,8 +1079,48 @@ export const listStories = /* GraphQL */ `
         userID
         author
         authorID
-        narrator
+        narrator {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
         narratorID
+        artist {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
+        artistID
         time
         summary
         description
@@ -894,6 +1216,8 @@ export const getFlag = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -906,8 +1230,48 @@ export const getFlag = /* GraphQL */ `
         userID
         author
         authorID
-        narrator
+        narrator {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
         narratorID
+        artist {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
+        artistID
         time
         summary
         description
@@ -953,8 +1317,16 @@ export const getFlag = /* GraphQL */ `
         authored {
           nextToken
         }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
         numAuthored
         pseudonym
+        narratorPseudo
+        artistPseudo
         birthdate
         isPublisher
         isNarrator
@@ -1002,8 +1374,8 @@ export const listFlags = /* GraphQL */ `
           userID
           author
           authorID
-          narrator
           narratorID
+          artistID
           time
           summary
           description
@@ -1028,6 +1400,8 @@ export const listFlags = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -1067,6 +1441,8 @@ export const getComment = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -1079,8 +1455,48 @@ export const getComment = /* GraphQL */ `
         userID
         author
         authorID
-        narrator
+        narrator {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
         narratorID
+        artist {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
+        artistID
         time
         summary
         description
@@ -1126,8 +1542,16 @@ export const getComment = /* GraphQL */ `
         authored {
           nextToken
         }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
         numAuthored
         pseudonym
+        narratorPseudo
+        artistPseudo
         birthdate
         isPublisher
         isNarrator
@@ -1176,8 +1600,8 @@ export const listComments = /* GraphQL */ `
           userID
           author
           authorID
-          narrator
           narratorID
+          artistID
           time
           summary
           description
@@ -1202,6 +1626,8 @@ export const listComments = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -1310,6 +1736,8 @@ export const getRating = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -1322,8 +1750,48 @@ export const getRating = /* GraphQL */ `
         userID
         author
         authorID
-        narrator
+        narrator {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
         narratorID
+        artist {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
+        artistID
         time
         summary
         description
@@ -1369,8 +1837,16 @@ export const getRating = /* GraphQL */ `
         authored {
           nextToken
         }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
         numAuthored
         pseudonym
+        narratorPseudo
+        artistPseudo
         birthdate
         isPublisher
         isNarrator
@@ -1431,8 +1907,8 @@ export const listRatings = /* GraphQL */ `
           userID
           author
           authorID
-          narrator
           narratorID
+          artistID
           time
           summary
           description
@@ -1457,6 +1933,8 @@ export const listRatings = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -1508,6 +1986,8 @@ export const getStoryTag = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -1520,8 +2000,48 @@ export const getStoryTag = /* GraphQL */ `
         userID
         author
         authorID
-        narrator
+        narrator {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
         narratorID
+        artist {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
+        artistID
         time
         summary
         description
@@ -1605,8 +2125,8 @@ export const listStoryTags = /* GraphQL */ `
           userID
           author
           authorID
-          narrator
           narratorID
+          artistID
           time
           summary
           description
@@ -1668,6 +2188,8 @@ export const finishedStoriesByDate = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -1687,8 +2209,8 @@ export const finishedStoriesByDate = /* GraphQL */ `
           userID
           author
           authorID
-          narrator
           narratorID
+          artistID
           time
           summary
           description
@@ -1743,6 +2265,8 @@ export const storiesByDate = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -1755,8 +2279,48 @@ export const storiesByDate = /* GraphQL */ `
         userID
         author
         authorID
-        narrator
+        narrator {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
         narratorID
+        artist {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          createdAt
+          updatedAt
+          owner
+        }
+        artistID
         time
         summary
         description
@@ -1825,8 +2389,8 @@ export const commentsByDate = /* GraphQL */ `
           userID
           author
           authorID
-          narrator
           narratorID
+          artistID
           time
           summary
           description
@@ -1851,6 +2415,8 @@ export const commentsByDate = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
@@ -1899,8 +2465,8 @@ export const ratingsByDate = /* GraphQL */ `
           userID
           author
           authorID
-          narrator
           narratorID
+          artistID
           time
           summary
           description
@@ -1925,6 +2491,8 @@ export const ratingsByDate = /* GraphQL */ `
           following
           numAuthored
           pseudonym
+          narratorPseudo
+          artistPseudo
           birthdate
           isPublisher
           isNarrator
