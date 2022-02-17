@@ -15,10 +15,13 @@ import History from '../screens/HistoryScreen';
 import Following from '../screens/FollowingScreen';
 import AboutScreen from '../screens/About';
 import PlanScreen from '../screens/Plan';
+
 import PublishingMainScreen from '../screens/PublishingMain';
 import PublisherSetupScreen from '../screens/PublisherSetup';
 import PublisherScreen from '../screens/Publisher';
 import Recordings from '../screens/Recordings';
+import BecomeSomething from '../screens/BecomeSomething';
+
 import MyStories from '../screens/MyStories';
 import Terms from '../screens/Terms';
 import UploadAudio from '../screens/UploadAudio';
@@ -196,6 +199,11 @@ function HomeNavigator() {
       <HomeStack.Screen 
         name="BrowseGenre" 
         component={BrowseGenre} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="BecomeSomething" 
+        component={BecomeSomething} 
         options={{ headerShown: false }} 
       />
 

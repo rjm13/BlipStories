@@ -44,6 +44,7 @@ export type TabOneParamList = {
   RecordAudio: undefined;
   GenreHome: undefined;
   BrowseGenre: undefined;
+  BecomeSomething: undefined;
 };
 
 export type TabTwoParamList = {
