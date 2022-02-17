@@ -8,7 +8,8 @@ import {
     Dimensions, 
     TouchableOpacity, 
     TextInput, 
-    ScrollView
+    ScrollView,
+    FlatList
 } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
@@ -35,7 +36,11 @@ const NarratorSetup = ({navigation} : any) => {
 
     const [data, setData] = useState({
         pseudonym: '',
-        publisher: false, 
+        isNarrator: false,
+        accents: [],
+        gender: '',
+        pitch: '',
+        voices: false
     });
 
     //accent modal
@@ -95,15 +100,78 @@ const NarratorSetup = ({navigation} : any) => {
     
 }
 
+    //accent list
+    const accents = [
+        {id: 0, accent: 'Other'},
+        {id: 1, accent: 'British'},
+        {id: 2, accent: 'Southern Twang'},
+        {id: 3, accent: 'Minnesota'},
+        {id: 4, accent: 'Boston'},
+        {id: 5, accent: 'New York'},
+        {id: 6, accent: 'Irish'},
+        {id: 7, accent: 'Scottish'},
+        {id: 8, accent: 'African'},
+        {id: 9, accent: 'Russian'},
+        {id: 10, accent: 'British'},
+    ];
+
+    useEffect(() => {
+        console.log(data.accents)
+    }, [data])
+
     return(
         <Provider>
         <View>
             <Portal>
                 <Modal visible={visible} onDismiss={hideAccentModal} contentContainerStyle={containerStyle}>
-                    <View>
-                        <Text style={{color: '#fff'}}>
-                            Test
+                    <View style={{height: 500}}>
+                        <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>
+                            Select Proficient Accents
                         </Text>
+                        <View style={{marginVertical: 40}}>
+                            {accents.map(item => {
+
+                                const [isChecked, setIsChecked] = useState(false);
+
+                                const AddAccent = ({accent} : any) => {
+
+                                    setIsChecked(!isChecked);
+                        
+                                    if (data.accents.includes(accent)) {
+                                        setData({...data, accents: data.accents.filter(item => item !== accent)})
+                                     
+                                    } else {
+                                        setData({...data, accents: [...data.accents, accent]})
+                                    }
+                                }
+
+                                return (
+                                    <TouchableWithoutFeedback onPress={() => AddAccent({accent: item.accent})}>
+                                        <View style={{flexDirection: 'row', paddingVertical: 15, alignItems: 'center'}}>
+                                            <FontAwesome5 
+                                                name={isChecked === true ? 'check-square' : 'square'}
+                                                size={17}
+                                                color={isChecked === true ? 'cyan' : 'gray'}
+                                                style={{paddingRight: 30}}
+                                            />
+                                            <Text style={{color: 'white'}}>
+                                                {item.accent}
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                )
+                            }
+                            )
+                        }
+
+                            
+                            {/* <FlatList 
+                                data={accents}
+                                renderItem={renderAccentItem}
+                                keyExtractor={item => item.id}
+                                showsVerticalScrollIndicator={false}
+                            /> */}
+                        </View>
                     </View>
                 </Modal>
             </Portal>
@@ -175,6 +243,19 @@ const NarratorSetup = ({navigation} : any) => {
                     <View style={{marginTop: 20}}>
                         <Text style={styles.inputheader}>
                             Pitch
+                        </Text>
+                        <View style={styles.inputfield}>
+                            <Text>
+
+                            </Text>
+                        </View>
+                    </View>
+                </TouchableWithoutFeedback>
+
+                <TouchableWithoutFeedback onPress={showAccentModal}>
+                    <View style={{marginTop: 20}}>
+                        <Text style={styles.inputheader}>
+                            Character Voices
                         </Text>
                         <View style={styles.inputfield}>
                             <Text>
