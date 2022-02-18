@@ -35,12 +35,12 @@ const NarratorSetup = ({navigation} : any) => {
     const [publishing, setPublishing] = useState(false);
 
     const [data, setData] = useState({
-        pseudonym: '',
+        narratorPseudo: '',
         isNarrator: false,
         accents: [],
-        gender: '',
-        pitch: '',
-        voices: false
+        voice: '',
+        narratorText: ''
+
     });
 
     //accent modal
@@ -59,22 +59,44 @@ const NarratorSetup = ({navigation} : any) => {
         if( val.length !== 0 ) {
             setData({
                 ... data,
-                pseudonym: val,
+                narratorPseudo: val,
             });
         } else {
             setData({
                 ... data,
-                pseudonym: val,
+                narratorPseudo: val,
+            });
+        }
+    }
+
+    //function for the text input
+    const aboutInputChange = (val : any) => {
+        if( val.length !== 0 ) {
+            setData({
+                ... data,
+                narratorText: val,
+            });
+        } else {
+            setData({
+                ... data,
+                narratorText: val,
             });
         }
     }
 
     const handleUpdateAttributes = async () => {
 
-        if ( data.pseudonym.length !== 0 ) {
+        if ( data.narratorPseudo.length !== 0 ) {
           const userInfo = await Auth.currentAuthenticatedUser();
   
-            const updatedUser = { id: userInfo.attributes.sub, pseudonym: data.pseudonym, isPublisher: true }
+            const updatedUser = { 
+                id: userInfo.attributes.sub, 
+                narratorPseudo: data.narratorPseudo, 
+                isNarrator: true,
+                narratorText: data.narratorText,
+                accents: data.accents,
+                voice: data.voice
+            }
   
           if (userInfo) {
             let result = await API.graphql(
@@ -229,12 +251,32 @@ const NarratorSetup = ({navigation} : any) => {
                 <TouchableWithoutFeedback onPress={showAccentModal}>
                     <View style={{marginTop: 20}}>
                         <Text style={styles.inputheader}>
-                            Gender
+                            Voice Type
                         </Text>
-                        <View style={styles.inputfield}>
-                            <Text>
-
-                            </Text>
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                            <TouchableWithoutFeedback onPress={() => setData({...data, voice: 'masculine'})}>
+                                <View style={{justifyContent: 'center', marginHorizontal: 20, width: 150, height: 60, borderWidth: 0.5, borderColor: 'cyan', alignItems: 'center',
+                                    backgroundColor: data.voice === 'masculine' ? 'cyan' : '#000'
+                                }}>
+                                    <Text style={{
+                                        color: data.voice === 'masculine' ? '#000' : 'cyan'
+                                        }}>
+                                        Masculine
+                                    </Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            
+                            <TouchableWithoutFeedback onPress={() => setData({...data, voice: 'feminine'})}>
+                                <View style={{justifyContent: 'center', marginHorizontal: 20, width: 150, height: 60,  borderWidth: 0.5, borderColor: 'cyan', alignItems: 'center',
+                                    backgroundColor: data.voice === 'feminine' ? 'cyan' : '#000'
+                            }}>
+                                    <Text style={{
+                                        color: data.voice === 'feminine' ? '#000' : 'cyan'
+                                    }}>
+                                        Feminine
+                                    </Text>
+                                </View>
+                            </TouchableWithoutFeedback>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
@@ -252,18 +294,21 @@ const NarratorSetup = ({navigation} : any) => {
                     </View>
                 </TouchableWithoutFeedback>
 
-                <TouchableWithoutFeedback onPress={showAccentModal}>
-                    <View style={{marginTop: 20}}>
-                        <Text style={styles.inputheader}>
-                            Character Voices
-                        </Text>
-                        <View style={styles.inputfield}>
-                            <Text>
-
-                            </Text>
-                        </View>
+                <View style={{marginTop: 20}}>
+                    <Text style={styles.inputheader}>
+                        About Yourself
+                    </Text>
+                    <View style={[styles.inputfield, {height: 160}]}>
+                        <TextInput 
+                            placeholder='....'
+                            placeholderTextColor='#ffffffa5'
+                            style={styles.textInputTitle}
+                            maxLength={30}
+                            onChangeText={(val) => aboutInputChange(val)}
+                            autoCapitalize='none'
+                        />
                     </View>
-                </TouchableWithoutFeedback>
+                </View>
                 
 
                 <View style={{marginTop: 40}}>

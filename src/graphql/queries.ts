@@ -185,6 +185,10 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
+      sampleUri
+      narratorText
+      accents
+      voice
       createdAt
       updatedAt
       owner
@@ -235,6 +239,10 @@ export const listUsers = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -286,6 +294,10 @@ export const getFollowingConn = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -327,6 +339,10 @@ export const getFollowingConn = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -364,6 +380,10 @@ export const listFollowingConns = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -384,6 +404,10 @@ export const listFollowingConns = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -438,6 +462,10 @@ export const getPinnedStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -465,6 +493,10 @@ export const getPinnedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -488,6 +520,10 @@ export const getPinnedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -509,6 +545,10 @@ export const getPinnedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -580,6 +620,10 @@ export const listPinnedStories = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -661,6 +705,10 @@ export const getFinishedStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -688,6 +736,10 @@ export const getFinishedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -711,6 +763,10 @@ export const getFinishedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -732,6 +788,10 @@ export const getFinishedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -804,6 +864,10 @@ export const listFinishedStories = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -887,6 +951,10 @@ export const getStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -931,6 +999,10 @@ export const getStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -973,6 +1045,10 @@ export const getStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -1072,6 +1148,10 @@ export const listStories = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1095,6 +1175,10 @@ export const listStories = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1116,6 +1200,10 @@ export const listStories = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1223,6 +1311,10 @@ export const getFlag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1246,6 +1338,10 @@ export const getFlag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1267,6 +1363,10 @@ export const getFlag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1344,6 +1444,10 @@ export const getFlag = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -1407,6 +1511,10 @@ export const listFlags = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1448,6 +1556,10 @@ export const getComment = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1471,6 +1583,10 @@ export const getComment = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1492,6 +1608,10 @@ export const getComment = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1569,6 +1689,10 @@ export const getComment = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -1633,6 +1757,10 @@ export const listComments = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1743,6 +1871,10 @@ export const getRating = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1766,6 +1898,10 @@ export const getRating = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1787,6 +1923,10 @@ export const getRating = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1864,6 +2004,10 @@ export const getRating = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -1940,6 +2084,10 @@ export const listRatings = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1993,6 +2141,10 @@ export const getStoryTag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2016,6 +2168,10 @@ export const getStoryTag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2037,6 +2193,10 @@ export const getStoryTag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2195,6 +2355,10 @@ export const finishedStoriesByDate = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2272,6 +2436,10 @@ export const storiesByDate = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2295,6 +2463,10 @@ export const storiesByDate = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2316,6 +2488,10 @@ export const storiesByDate = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2422,6 +2598,10 @@ export const commentsByDate = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2498,6 +2678,10 @@ export const ratingsByDate = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner

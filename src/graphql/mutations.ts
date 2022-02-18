@@ -188,6 +188,10 @@ export const createUser = /* GraphQL */ `
         }
         nextToken
       }
+      sampleUri
+      narratorText
+      accents
+      voice
       createdAt
       updatedAt
       owner
@@ -380,6 +384,10 @@ export const updateUser = /* GraphQL */ `
         }
         nextToken
       }
+      sampleUri
+      narratorText
+      accents
+      voice
       createdAt
       updatedAt
       owner
@@ -572,6 +580,10 @@ export const deleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      sampleUri
+      narratorText
+      accents
+      voice
       createdAt
       updatedAt
       owner
@@ -624,6 +636,10 @@ export const createFollowingConn = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -665,6 +681,10 @@ export const createFollowingConn = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -721,6 +741,10 @@ export const updateFollowingConn = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -762,6 +786,10 @@ export const updateFollowingConn = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -818,6 +846,10 @@ export const deleteFollowingConn = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -859,6 +891,10 @@ export const deleteFollowingConn = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -914,6 +950,10 @@ export const createPinnedStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -941,6 +981,10 @@ export const createPinnedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -964,6 +1008,10 @@ export const createPinnedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -985,6 +1033,10 @@ export const createPinnedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1075,6 +1127,10 @@ export const updatePinnedStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -1102,6 +1158,10 @@ export const updatePinnedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1125,6 +1185,10 @@ export const updatePinnedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1146,6 +1210,10 @@ export const updatePinnedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1236,6 +1304,10 @@ export const deletePinnedStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -1263,6 +1335,10 @@ export const deletePinnedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1286,6 +1362,10 @@ export const deletePinnedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1307,6 +1387,10 @@ export const deletePinnedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1398,6 +1482,10 @@ export const createFinishedStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -1425,6 +1513,10 @@ export const createFinishedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1448,6 +1540,10 @@ export const createFinishedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1469,6 +1565,10 @@ export const createFinishedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1560,6 +1660,10 @@ export const updateFinishedStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -1587,6 +1691,10 @@ export const updateFinishedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1610,6 +1718,10 @@ export const updateFinishedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1631,6 +1743,10 @@ export const updateFinishedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1722,6 +1838,10 @@ export const deleteFinishedStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -1749,6 +1869,10 @@ export const deleteFinishedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1772,6 +1896,10 @@ export const deleteFinishedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1793,6 +1921,10 @@ export const deleteFinishedStory = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -1886,6 +2018,10 @@ export const createStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -1930,6 +2066,10 @@ export const createStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -1972,6 +2112,10 @@ export const createStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -2090,6 +2234,10 @@ export const updateStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -2134,6 +2282,10 @@ export const updateStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -2176,6 +2328,10 @@ export const updateStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -2294,6 +2450,10 @@ export const deleteStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -2338,6 +2498,10 @@ export const deleteStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -2380,6 +2544,10 @@ export const deleteStory = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -2534,6 +2702,10 @@ export const createFlag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2557,6 +2729,10 @@ export const createFlag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2578,6 +2754,10 @@ export const createFlag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2655,6 +2835,10 @@ export const createFlag = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -2696,6 +2880,10 @@ export const updateFlag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2719,6 +2907,10 @@ export const updateFlag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2740,6 +2932,10 @@ export const updateFlag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2817,6 +3013,10 @@ export const updateFlag = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -2858,6 +3058,10 @@ export const deleteFlag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2881,6 +3085,10 @@ export const deleteFlag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2902,6 +3110,10 @@ export const deleteFlag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -2979,6 +3191,10 @@ export const deleteFlag = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -3021,6 +3237,10 @@ export const createComment = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3044,6 +3264,10 @@ export const createComment = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3065,6 +3289,10 @@ export const createComment = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3142,6 +3370,10 @@ export const createComment = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -3184,6 +3416,10 @@ export const updateComment = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3207,6 +3443,10 @@ export const updateComment = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3228,6 +3468,10 @@ export const updateComment = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3305,6 +3549,10 @@ export const updateComment = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -3347,6 +3595,10 @@ export const deleteComment = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3370,6 +3622,10 @@ export const deleteComment = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3391,6 +3647,10 @@ export const deleteComment = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3468,6 +3728,10 @@ export const deleteComment = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -3624,6 +3888,10 @@ export const createRating = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3647,6 +3915,10 @@ export const createRating = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3668,6 +3940,10 @@ export const createRating = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3745,6 +4021,10 @@ export const createRating = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -3799,6 +4079,10 @@ export const updateRating = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3822,6 +4106,10 @@ export const updateRating = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3843,6 +4131,10 @@ export const updateRating = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3920,6 +4212,10 @@ export const updateRating = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -3974,6 +4270,10 @@ export const deleteRating = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -3997,6 +4297,10 @@ export const deleteRating = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -4018,6 +4322,10 @@ export const deleteRating = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -4095,6 +4403,10 @@ export const deleteRating = /* GraphQL */ `
         Finished {
           nextToken
         }
+        sampleUri
+        narratorText
+        accents
+        voice
         createdAt
         updatedAt
         owner
@@ -4149,6 +4461,10 @@ export const createStoryTag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -4172,6 +4488,10 @@ export const createStoryTag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -4193,6 +4513,10 @@ export const createStoryTag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -4292,6 +4616,10 @@ export const updateStoryTag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -4315,6 +4643,10 @@ export const updateStoryTag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -4336,6 +4668,10 @@ export const updateStoryTag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -4435,6 +4771,10 @@ export const deleteStoryTag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -4458,6 +4798,10 @@ export const deleteStoryTag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
@@ -4479,6 +4823,10 @@ export const deleteStoryTag = /* GraphQL */ `
           isNarrator
           isArtist
           topthree
+          sampleUri
+          narratorText
+          accents
+          voice
           createdAt
           updatedAt
           owner
