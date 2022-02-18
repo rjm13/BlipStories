@@ -25,6 +25,10 @@ type User @model @auth(rules: [{ allow: owner, operations: [create, delete, upda
   Pinned: [Story] @hasMany(indexName: "byUser", fields: "id")
   Rated: [Rating] @hasMany (indexName: "byUser", fields: "id")
   Finished: [Story] @hasMany (indexName: "byUser", fields: "id")
+  sampleUri: String
+  narratorText: String
+  accents: [String]
+  voice: String
 }
 
 type FollowingConn 
