@@ -303,29 +303,35 @@ const Publisher = ({navigation} : any) => {
                     <View style={{marginVertical: 20, alignSelf: 'center', width: '80%', height: 1, borderColor: '#fff', borderWidth: 0.5}}>
                     </View>
 
-                    <TouchableWithoutFeedback onPress={() => {navigation.navigate('UploadAudio')}}>
-                        <View style={[styles.button, {backgroundColor: 'cyan'}]}>
-                            <Text style={styles.buttontext}>
-                                Publish a Story
-                            </Text>
-                        </View>
-                    </TouchableWithoutFeedback>
+                    {isPublisher === true ? (
+                        <View>
+                            <TouchableWithoutFeedback onPress={() => {navigation.navigate('UploadAudio')}}>
+                                <View style={[styles.button, {backgroundColor: 'cyan'}]}>
+                                    <Text style={styles.buttontext}>
+                                        Publish a Story
+                                    </Text>
+                                </View>
+                            </TouchableWithoutFeedback>
 
-                    <TouchableWithoutFeedback>
-                        <View style={[styles.button, {backgroundColor: 'pink'}]}>
-                            <Text style={styles.buttontext}>
-                                Find a Narrator
-                            </Text>
-                        </View>
-                    </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback>
+                                <View style={[styles.button, {backgroundColor: 'pink'}]}>
+                                    <Text style={styles.buttontext}>
+                                        Find a Narrator
+                                    </Text>
+                                </View>
+                            </TouchableWithoutFeedback>
 
-                    <TouchableWithoutFeedback>
-                        <View style={[styles.button, {backgroundColor: '#27d995'}]}>
-                            <Text style={styles.buttontext}>
-                                Find a Cover Artist
-                            </Text>
+                            <TouchableWithoutFeedback>
+                                <View style={[styles.button, {backgroundColor: '#27d995'}]}>
+                                    <Text style={styles.buttontext}>
+                                        Find a Cover Artist
+                                    </Text>
+                                </View>
+                            </TouchableWithoutFeedback>
                         </View>
-                    </TouchableWithoutFeedback>
+                    ) : null}
+                    
+                    
   
                 </View>
 
