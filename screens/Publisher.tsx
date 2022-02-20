@@ -58,7 +58,13 @@ const Publisher = ({navigation} : any) => {
               getUser, {id: userInfo.attributes.sub}
             ))
 
-            if (userData) {setUser(userData.data.getUser);}
+            if (userData) {
+                setUser(userData.data.getUser);
+                if(userData.data.getUser.isPublisher === true) {setIsPublisher(true);}
+                if(userData.data.getUser.isNarrator === true) {setIsNarrator(true);}
+                if(userData.data.getUser.isArtist === true) {setIsArtist(true);}
+            
+            }
 
             const getFollowers = await API.graphql(graphqlOperation(
                 listFollowingConns, {
@@ -83,7 +89,8 @@ const Publisher = ({navigation} : any) => {
 
       const [isArtist, setIsArtist] = useState(false);
 
-      const [isPublisher, setIsPublisher] = useState(true);
+      const [isPublisher, setIsPublisher] = useState(false);
+
 
       const BecomePublisher = () => {
           if (user?.isPublisher === true) {
@@ -95,7 +102,7 @@ const Publisher = ({navigation} : any) => {
       }
 
       const BecomeNarrator = () => {
-        if (isNarrator === true) {
+        if (user?.isNarrator === true) {
           setIsNarrator(true);
         } else {
           setIsNarrator(false);
@@ -107,7 +114,7 @@ const Publisher = ({navigation} : any) => {
         if (isArtist === true) {
           setIsArtist(true);
         } else {
-          setIsNarrator(false);
+          setIsArtist(false);
           navigation.navigate('ArtistMain', {user: user});
         }
     }
@@ -175,19 +182,22 @@ const Publisher = ({navigation} : any) => {
                     </View>
                     
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
-                        <View>
-                            <Text style={{ color: '#fff', fontSize: 16}}>
-                                Pseudonym
-                            </Text>
-                            <Text style={{ color: 'gray', fontSize: 12}}>
-                                Author
+                    {isPublisher === true ? (
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                            <View>
+                                <Text style={{ color: '#fff', fontSize: 16}}>
+                                    Pseudonym
+                                </Text>
+                                <Text style={{ color: 'gray', fontSize: 12}}>
+                                    Author
+                                </Text>
+                            </View>
+                            <Text style={styles.textcounter}>
+                                {user?.pseudonym}
                             </Text>
                         </View>
-                        <Text style={styles.textcounter}>
-                            {user?.pseudonym}
-                        </Text>
-                    </View>
+                    ) : null}
+                    
 
                     {isNarrator === true ? (
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
@@ -223,27 +233,32 @@ const Publisher = ({navigation} : any) => {
                     ) : null}
                     
 
-                    <TouchableWithoutFeedback onPress={ () => navigation.navigate('Following')}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
-                            <Text style={{ color: '#fff', fontSize: 16}}>
-                                Followers
-                            </Text>
-                            <Text style={styles.textcounter}>
-                                {numFollowers}
-                            </Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-
-                    <TouchableWithoutFeedback onPress={ () => navigation.navigate('MyStories')}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
-                            <Text style={{ color: '#fff', fontSize: 16}}>
-                                My Stories
-                            </Text>
-                            <Text style={styles.textcounter}>
-                                {user?.authored?.items.length}
-                            </Text>
-                        </View>
-                    </TouchableWithoutFeedback>
+                    {isPublisher === true ? (
+                        <View>
+                            <TouchableWithoutFeedback onPress={ () => navigation.navigate('Following')}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                                    <Text style={{ color: '#fff', fontSize: 16}}>
+                                        Followers
+                                    </Text>
+                                    <Text style={styles.textcounter}>
+                                        {numFollowers}
+                                    </Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        
+                        
+                        <TouchableWithoutFeedback onPress={ () => navigation.navigate('MyStories')}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                                <Text style={{ color: '#fff', fontSize: 16}}>
+                                    My Stories
+                                </Text>
+                                <Text style={styles.textcounter}>
+                                    {user?.authored?.items.length}
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
+                    ) : null}
 
                     {isNarrator === true ? (
                         <View>

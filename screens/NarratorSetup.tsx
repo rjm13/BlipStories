@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
     View, 
     Text, 
@@ -137,9 +137,11 @@ const NarratorSetup = ({navigation} : any) => {
         {id: 10, accent: 'British'},
     ];
 
-    useEffect(() => {
-        console.log(data.accents)
-    }, [data])
+    const textRef = useRef();
+
+    const FocusInput = () => { textRef.current.focus();}
+
+
 
     return(
         <Provider>
@@ -150,7 +152,7 @@ const NarratorSetup = ({navigation} : any) => {
                         <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>
                             Select Proficient Accents
                         </Text>
-                        <View style={{marginVertical: 40}}>
+                        <ScrollView style={{marginTop: 40}} showsVerticalScrollIndicator={false}>
                             {accents.map(item => {
 
                                 const [isChecked, setIsChecked] = useState(false);
@@ -185,15 +187,15 @@ const NarratorSetup = ({navigation} : any) => {
                             }
                             )
                         }
-
-                            
-                            {/* <FlatList 
-                                data={accents}
-                                renderItem={renderAccentItem}
-                                keyExtractor={item => item.id}
-                                showsVerticalScrollIndicator={false}
-                            /> */}
-                        </View>
+                        </ScrollView>
+                        <TouchableWithoutFeedback onPress={hideAccentModal}>
+                            <View style={{marginTop: 10, borderRadius: 20, paddingVertical: 6, paddingHorizontal: 20, alignSelf: 'center', backgroundColor: 'cyan'}}>
+                                <Text style={{color: '#000'}}>
+                                    Done
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                        
                     </View>
                 </Modal>
             </Portal>
@@ -235,27 +237,37 @@ const NarratorSetup = ({navigation} : any) => {
                     </View>
                 </View>
 
-                <TouchableWithoutFeedback onPress={showAccentModal}>
-                    <View style={{marginTop: 20}}>
-                        <Text style={styles.inputheader}>
-                            Accents
-                        </Text>
+                <View style={{marginTop: 40}}>
+                    <Text style={styles.inputheader}>
+                        Accents
+                    </Text>
+                    <TouchableWithoutFeedback onPress={showAccentModal}>
                         <View style={styles.inputfield}>
-                            <Text>
-
+                            <Text style={{color: '#ffffffa5'}}>
+                                Select accents
                             </Text>
                         </View>
-                    </View>
-                </TouchableWithoutFeedback>
-
+                    </TouchableWithoutFeedback>
+                    <ScrollView horizontal={true} scrollEnabled={false} contentContainerStyle={{flex: 1, flexDirection: "row", flexWrap: "wrap"}} style={{width: Dimensions.get('window').width}}>
+                       {data.accents.map(item => {
+                           return (
+                                <Text style={{textTransform: 'capitalize', marginHorizontal: 20, marginTop: 20, color: '#00ffffa5', marginRight: 10}}>
+                                    {item}
+                                </Text>
+                           )})
+                        } 
+                    </ScrollView>
+                    
+                </View>
+                
                 <TouchableWithoutFeedback onPress={showAccentModal}>
-                    <View style={{marginTop: 20}}>
+                    <View style={{marginTop: 40}}>
                         <Text style={styles.inputheader}>
                             Voice Type
                         </Text>
-                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <View style={{marginTop: 10, flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
                             <TouchableWithoutFeedback onPress={() => setData({...data, voice: 'masculine'})}>
-                                <View style={{justifyContent: 'center', marginHorizontal: 20, width: 150, height: 60, borderWidth: 0.5, borderColor: 'cyan', alignItems: 'center',
+                                <View style={{borderRadius: 8, justifyContent: 'center', marginHorizontal: 20, width: 120, height: 40, borderWidth: 0.5, borderColor: 'cyan', alignItems: 'center',
                                     backgroundColor: data.voice === 'masculine' ? 'cyan' : '#000'
                                 }}>
                                     <Text style={{
@@ -267,7 +279,7 @@ const NarratorSetup = ({navigation} : any) => {
                             </TouchableWithoutFeedback>
                             
                             <TouchableWithoutFeedback onPress={() => setData({...data, voice: 'feminine'})}>
-                                <View style={{justifyContent: 'center', marginHorizontal: 20, width: 150, height: 60,  borderWidth: 0.5, borderColor: 'cyan', alignItems: 'center',
+                                <View style={{borderRadius: 8, justifyContent: 'center', marginHorizontal: 20, width: 120, height: 40,  borderWidth: 0.5, borderColor: 'cyan', alignItems: 'center',
                                     backgroundColor: data.voice === 'feminine' ? 'cyan' : '#000'
                             }}>
                                     <Text style={{
@@ -279,40 +291,32 @@ const NarratorSetup = ({navigation} : any) => {
                             </TouchableWithoutFeedback>
                         </View>
                     </View>
-                </TouchableWithoutFeedback>
-
-                <TouchableWithoutFeedback onPress={showAccentModal}>
-                    <View style={{marginTop: 20}}>
-                        <Text style={styles.inputheader}>
-                            Pitch
-                        </Text>
-                        <View style={styles.inputfield}>
-                            <Text>
-
-                            </Text>
-                        </View>
-                    </View>
-                </TouchableWithoutFeedback>
-
-                <View style={{marginTop: 20}}>
-                    <Text style={styles.inputheader}>
-                        About Yourself
-                    </Text>
-                    <View style={[styles.inputfield, {height: 160}]}>
-                        <TextInput 
-                            placeholder='....'
-                            placeholderTextColor='#ffffffa5'
-                            style={styles.textInputTitle}
-                            maxLength={30}
-                            onChangeText={(val) => aboutInputChange(val)}
-                            autoCapitalize='none'
-                        />
-                    </View>
-                </View>
-                
+                </TouchableWithoutFeedback>                
 
                 <View style={{marginTop: 40}}>
                     <Text style={styles.inputheader}>
+                        About Yourself
+                    </Text>
+                    <TouchableWithoutFeedback onPress={FocusInput}>
+                        <View style={[styles.inputfield, {height: 120}]}>
+                            <TextInput 
+                                placeholder='....'
+                                placeholderTextColor='#ffffffa5'
+                                style={styles.textInputTitle}
+                                maxLength={200}
+                                onChangeText={(val) => aboutInputChange(val)}
+                                autoCapitalize='none'
+                                ref={textRef}
+                                multiline={true}
+                            />
+                        </View>
+                    </TouchableWithoutFeedback>
+                    
+                </View>
+                
+
+                <View style={{marginVertical: 40}}>
+                    {/* <Text style={styles.inputheader}>
                         Publishing Terms and Conditions
                     </Text>
                     <ScrollView style={{width: '90%', height: 260, borderRadius: 10, alignSelf: 'center', marginTop: 10, backgroundColor: '#363636a5'}}>
@@ -321,17 +325,26 @@ const NarratorSetup = ({navigation} : any) => {
                             i. I agree that as a publisher, I am handing over all rights to Blip. I am their slave and master and will submit to Blip's every command. Blip maintains the right to enforce this servitude indefinitely. This is a binding contract that cannot be ammended. Upon agreeing to terms, the signee will liquidate and forfiet all assets in the signee's name. 
                             i. I agree that as a publisher, I am handing over all rights to Blip. I am their slave and master and will submit to Blip's every command. Blip maintains the right to enforce this servitude indefinitely. This is a binding contract that cannot be ammended. Upon agreeing to terms, the signee will liquidate and forfiet all assets in the signee's name.                        
                         </Text>
-                    </ScrollView>
+                    </ScrollView> */}
                     <TouchableWithoutFeedback onPress={() => setAgree(!agree)}>
-                        <View style={{flexDirection: 'row', marginTop: 20, alignSelf: 'center'}}>
+                        <View style={{flexDirection: 'row', margin: 40, alignSelf: 'center'}}>
                             <FontAwesome 
                                 name={ agree ? 'check-circle' : 'check-circle-o'}
-                                size={20} 
+                                size={22} 
                                 color={ agree ? 'cyan' : '#ffffffa5'} 
                             />
-                            <Text style={{color: '#fff', marginLeft: 10, fontSize: 12}}>
-                                I agree to the Publishing Terms and Conditions
-                            </Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{color: '#fff', marginLeft: 20, fontSize: 14}}>
+                                    I agree to the
+                                </Text>
+                                <TouchableWithoutFeedback onPress={() => navigation.navigate('Terms')}>
+                                    <Text style={{textDecorationLine: 'underline', color: '#fff',fontSize: 14, marginLeft: 5}}>
+                                        Publishing Terms
+                                    </Text>
+                                </TouchableWithoutFeedback>
+                                
+                            </View>
+                            
                     </View>
                     </TouchableWithoutFeedback>
 
@@ -388,7 +401,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        margin: 40,
+        //margin: 40,
      },
      buttontext: {
          backgroundColor: 'cyan',
