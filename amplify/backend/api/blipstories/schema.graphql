@@ -29,6 +29,8 @@ type User @model @auth(rules: [{ allow: owner, operations: [create, delete, upda
   narratorText: String
   accents: [String]
   voice: String
+  artistText: String
+  artStyles: [String]
 }
 
 type FollowingConn 
@@ -105,7 +107,24 @@ type Genre @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
     PrimaryColor: String
     SecondaryColor: String
     imageUri: String
+}
 
+type ImageAsset @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
+  {
+    id: ID!
+    title: String!
+    imageUri: String
+    user: User @hasOne (fields: ["userID"])
+    userID: ID 
+}
+
+type AudioAsset @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
+  {
+    id: ID!
+    title: String!
+    audioUri: String
+    user: User @hasOne (fields: ["userID"])
+    userID: ID
 }
 
 type Flag @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])

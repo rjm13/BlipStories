@@ -189,6 +189,8 @@ export const getUser = /* GraphQL */ `
       narratorText
       accents
       voice
+      artistText
+      artStyles
       createdAt
       updatedAt
       owner
@@ -243,6 +245,8 @@ export const listUsers = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -298,6 +302,8 @@ export const getFollowingConn = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -343,6 +349,8 @@ export const getFollowingConn = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -384,6 +392,8 @@ export const listFollowingConns = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -408,6 +418,8 @@ export const listFollowingConns = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -466,6 +478,8 @@ export const getPinnedStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -497,6 +511,8 @@ export const getPinnedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -524,6 +540,8 @@ export const getPinnedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -549,6 +567,8 @@ export const getPinnedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -624,6 +644,8 @@ export const listPinnedStories = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -709,6 +731,8 @@ export const getFinishedStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -740,6 +764,8 @@ export const getFinishedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -767,6 +793,8 @@ export const getFinishedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -792,6 +820,8 @@ export const getFinishedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -868,6 +898,8 @@ export const listFinishedStories = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -955,6 +987,8 @@ export const getStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -1003,6 +1037,8 @@ export const getStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -1049,6 +1085,8 @@ export const getStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -1152,6 +1190,8 @@ export const listStories = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1179,6 +1219,8 @@ export const listStories = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1204,6 +1246,8 @@ export const listStories = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1284,6 +1328,218 @@ export const listGenres = /* GraphQL */ `
     }
   }
 `;
+export const getImageAsset = /* GraphQL */ `
+  query GetImageAsset($id: ID!) {
+    getImageAsset(id: $id) {
+      id
+      title
+      imageUri
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
+      userID
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listImageAssets = /* GraphQL */ `
+  query ListImageAssets(
+    $filter: ModelImageAssetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listImageAssets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        imageUri
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getAudioAsset = /* GraphQL */ `
+  query GetAudioAsset($id: ID!) {
+    getAudioAsset(id: $id) {
+      id
+      title
+      audioUri
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
+      userID
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listAudioAssets = /* GraphQL */ `
+  query ListAudioAssets(
+    $filter: ModelAudioAssetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAudioAssets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        audioUri
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
 export const getFlag = /* GraphQL */ `
   query GetFlag($id: ID!) {
     getFlag(id: $id) {
@@ -1315,6 +1571,8 @@ export const getFlag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1342,6 +1600,8 @@ export const getFlag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1367,6 +1627,8 @@ export const getFlag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1448,6 +1710,8 @@ export const getFlag = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -1515,6 +1779,8 @@ export const listFlags = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1560,6 +1826,8 @@ export const getComment = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1587,6 +1855,8 @@ export const getComment = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1612,6 +1882,8 @@ export const getComment = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1693,6 +1965,8 @@ export const getComment = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -1761,6 +2035,8 @@ export const listComments = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1875,6 +2151,8 @@ export const getRating = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1902,6 +2180,8 @@ export const getRating = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1927,6 +2207,8 @@ export const getRating = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2008,6 +2290,8 @@ export const getRating = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -2088,6 +2372,8 @@ export const listRatings = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2145,6 +2431,8 @@ export const getStoryTag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2172,6 +2460,8 @@ export const getStoryTag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2197,6 +2487,8 @@ export const getStoryTag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2359,6 +2651,8 @@ export const finishedStoriesByDate = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2440,6 +2734,8 @@ export const storiesByDate = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2467,6 +2763,8 @@ export const storiesByDate = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2492,6 +2790,8 @@ export const storiesByDate = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2602,6 +2902,8 @@ export const commentsByDate = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2682,6 +2984,8 @@ export const ratingsByDate = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner

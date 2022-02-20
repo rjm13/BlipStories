@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
     View, 
     Text, 
@@ -8,7 +8,9 @@ import {
     Dimensions, 
     TouchableOpacity, 
     TextInput, 
-    ScrollView
+    ScrollView,
+    FlatList,
+    Image,
 } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
@@ -17,8 +19,10 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { updateUser } from '../src/graphql/mutations';
+import { updateUser, createImageAsset } from '../src/graphql/mutations';
 import { getUser } from '../src/graphql/queries';
+
+import { Modal, Portal, Provider } from 'react-native-paper';
 
 const ArtistSetup = ({navigation} : any) => {
 
@@ -32,66 +36,92 @@ const ArtistSetup = ({navigation} : any) => {
     const [publishing, setPublishing] = useState(false);
 
     const [data, setData] = useState({
-        pseudonym: '',
-        publisher: false, 
+        artistPseudo: '',
+        isArtist: false,
+        styles: [],
+        artistText: ''
     });
 
-    //const [update, didUpdate] = useState(false);
+    const [imageData, setImageData] = useState([
+        {
+            imageTitle: null,
+            imageUri: null,
+        },
+    ])
 
-    // useEffect(() => {
-    //     setUser(User);
-    // }, [])
-
-    // useEffect(() => {
-    //     const fetchUser = async () => {
-    //       const userInfo = await Auth.currentAuthenticatedUser();
-    //         if (!userInfo) {
-    //           return;
-    //         } setUserID(userInfo.attributes.sub)
-    //     //   try {
-    //     //     const userData = await API.graphql(graphqlOperation(
-    //     //       getUser, {id: userInfo.attributes.sub}))
-    //     //       if (userData) {
-    //     //         setUser(userData.data.getUser);
-    //     //       }
-    //     //       console.log(userData.data.getUser);
-    //     //   } catch (e) {
-    //     //     console.log(e);
-    //     //   }
-    //     }
-    //     fetchUser();
-    //   }, [])
-
-    //const delay = ms => new Promise(res => setTimeout(res, ms));
+    //art styles modal
+    const [visible, setVisible] = useState(false);
+    const showArtistModal = () => setVisible(true);
+    const hideArtistModal = () => setVisible(false);
+    const containerStyle = {
+        backgroundColor: '#363636', 
+        padding: 20,
+        margin: 20,
+        borderRadius: 15,
+    };
 
 //function for the text input
     const textInputChange = (val : any) => {
         if( val.length !== 0 ) {
             setData({
                 ... data,
-                pseudonym: val,
+                artistPseudo: val,
             });
         } else {
             setData({
                 ... data,
-                pseudonym: val,
+                artistPseudo: val,
+            });
+        }
+    }
+
+    //function for the text input
+    const aboutInputChange = (val : any) => {
+        if( val.length !== 0 ) {
+            setData({
+                ... data,
+                artistText: val,
+            });
+        } else {
+            setData({
+                ... data,
+                artistText: val,
             });
         }
     }
 
     const handleUpdateAttributes = async () => {
 
-        if ( data.pseudonym.length !== 0 ) {
+        if ( data.artistPseudo.length !== 0 ) {
           const userInfo = await Auth.currentAuthenticatedUser();
   
-            const updatedUser = { id: userInfo.attributes.sub, pseudonym: data.pseudonym, isPublisher: true }
+            const updatedUser = { 
+                id: userInfo.attributes.sub, 
+                artistPseudo: data.artistPseudo, 
+                isArtist: true,
+                artistText: data.artistText,
+                artStyles: data.styles,
+            }
   
           if (userInfo) {
             let result = await API.graphql(
                 graphqlOperation(updateUser, { input: updatedUser }
             ))
+
+        if (imageData.length > 0) {
+            for (let i = 0; i < imageData.length; i++) {
+                let imageResult = await API.graphql(graphqlOperation(
+                    createImageAsset, {input: {
+                        userID: userInfo.attributes.sub,
+                        imageUri: imageData[i].imageUri,
+                        title: imageData[i].imageTitle
+                    }}
+                ))
+                console.log(imageResult)
+            }
+        }
             
-            console.log(result);
+        console.log(result);
 
           if (result) {navigation.navigate('Publisher')}
           setPublishing(false);
@@ -110,8 +140,85 @@ const ArtistSetup = ({navigation} : any) => {
     
 }
 
+    //styles list
+    const artStyles = [
+        {id: 0, style: 'Watercolor'},
+        {id: 1, style: 'Charcoal'},
+        {id: 2, style: 'Pencil'},
+        {id: 3, style: 'Paint'},
+        {id: 4, style: 'Pastels'},
+        {id: 5, style: 'Animation'},
+        {id: 6, style: 'Graphic Design'},
+    ];
+
+    const textRef = useRef();
+
+    const FocusInput = () => { textRef.current.focus();}
+
+    const PickImage = () => {
+
+    }
+
+
+
     return(
+        <Provider>
         <View>
+            <Portal>
+                <Modal visible={visible} onDismiss={hideArtistModal} contentContainerStyle={containerStyle}>
+                    <View style={{height: 500}}>
+                        <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>
+                            Select Art Styles
+                        </Text>
+                        <ScrollView style={{marginTop: 40}} showsVerticalScrollIndicator={false}>
+                            {artStyles.map(item => {
+
+                                const [isChecked, setIsChecked] = useState(false);
+
+                                const AddStyle = ({style} : any) => {
+
+                                    setIsChecked(!isChecked);
+                        
+                                    if (data.styles.includes(style)) {
+                                        setData({...data, styles: data.styles.filter(item => item !== style)})
+                                     
+                                    } else {
+                                        setData({...data, styles: [...data.styles, style]})
+                                    }
+                                }
+
+                                return (
+                                    <TouchableWithoutFeedback onPress={() => AddStyle({style: item.style})}>
+                                        <View style={{flexDirection: 'row', paddingVertical: 15, alignItems: 'center'}}>
+                                            <FontAwesome5 
+                                                name={isChecked === true ? 'check-square' : 'square'}
+                                                size={17}
+                                                color={isChecked === true ? 'cyan' : 'gray'}
+                                                style={{paddingRight: 30}}
+                                            />
+                                            <Text style={{color: 'white'}}>
+                                                {item.style}
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                )
+                            }
+                            )
+                        }
+                        </ScrollView>
+                        <TouchableWithoutFeedback onPress={hideArtistModal}>
+                            <View style={{marginTop: 10, borderRadius: 20, paddingVertical: 6, paddingHorizontal: 20, alignSelf: 'center', backgroundColor: 'cyan'}}>
+                                <Text style={{color: '#000'}}>
+                                    Done
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                        
+                    </View>
+                </Modal>
+            </Portal>
+
+            <ScrollView>
             <View style={{marginHorizontal: 20, marginTop: 50}}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{flexDirection: 'row'}}>
@@ -126,7 +233,7 @@ const ArtistSetup = ({navigation} : any) => {
                             </View>
                         </TouchableWithoutFeedback>
                         <Text style={styles.header}>
-                            Publisher Setup
+                            Artist Setup
                         </Text>
                     </View>
                 </View>  
@@ -150,6 +257,74 @@ const ArtistSetup = ({navigation} : any) => {
 
                 <View style={{marginTop: 40}}>
                     <Text style={styles.inputheader}>
+                        Art Styles
+                    </Text>
+                    <TouchableWithoutFeedback onPress={showArtistModal}>
+                        <View style={styles.inputfield}>
+                            <Text style={{color: '#ffffffa5'}}>
+                                Select styles
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <ScrollView horizontal={true} scrollEnabled={false} contentContainerStyle={{flex: 1, flexDirection: "row", flexWrap: "wrap"}} style={{width: Dimensions.get('window').width}}>
+                       {data.styles.map(item => {
+                           return (
+                                <Text style={{textTransform: 'capitalize', marginHorizontal: 20, marginTop: 20, color: '#00ffffa5', marginRight: 10}}>
+                                    {item}
+                                </Text>
+                           )})
+                        } 
+                    </ScrollView>
+                </View>
+                              
+
+                <View style={{marginTop: 40}}>
+                    <Text style={styles.inputheader}>
+                        About Yourself
+                    </Text>
+                    <TouchableWithoutFeedback onPress={FocusInput}>
+                        <View style={[styles.inputfield, {height: 120}]}>
+                            <TextInput 
+                                placeholder='....'
+                                placeholderTextColor='#ffffffa5'
+                                style={styles.textInputTitle}
+                                maxLength={200}
+                                onChangeText={(val) => aboutInputChange(val)}
+                                autoCapitalize='none'
+                                ref={textRef}
+                                multiline={true}
+                            />
+                        </View>
+                    </TouchableWithoutFeedback>
+                </View>
+                
+
+                <View style={{marginTop: 40}}>
+                    <Text style={styles.inputheader}>
+                        Add Portfolio
+                    </Text>
+                    <TouchableWithoutFeedback onPress={PickImage}>
+                        <View style={styles.inputfield}>
+                            <Text style={{color: '#ffffffa5'}}>
+                                Select Artwork
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <ScrollView scrollEnabled={false} contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}} style={{width: Dimensions.get('window').width}} numColumns={2}>
+                       {imageData.map(item => {
+                           return (
+                                <Image 
+                                    source={{uri: item.imageUri}}
+                                    style={{ width: 120, height: 120}}
+                                />
+                           )})
+                        } 
+                    </ScrollView>
+                </View>
+                
+
+                <View style={{marginVertical: 40}}>
+                    {/* <Text style={styles.inputheader}>
                         Publishing Terms and Conditions
                     </Text>
                     <ScrollView style={{width: '90%', height: 260, borderRadius: 10, alignSelf: 'center', marginTop: 10, backgroundColor: '#363636a5'}}>
@@ -158,17 +333,26 @@ const ArtistSetup = ({navigation} : any) => {
                             i. I agree that as a publisher, I am handing over all rights to Blip. I am their slave and master and will submit to Blip's every command. Blip maintains the right to enforce this servitude indefinitely. This is a binding contract that cannot be ammended. Upon agreeing to terms, the signee will liquidate and forfiet all assets in the signee's name. 
                             i. I agree that as a publisher, I am handing over all rights to Blip. I am their slave and master and will submit to Blip's every command. Blip maintains the right to enforce this servitude indefinitely. This is a binding contract that cannot be ammended. Upon agreeing to terms, the signee will liquidate and forfiet all assets in the signee's name.                        
                         </Text>
-                    </ScrollView>
+                    </ScrollView> */}
                     <TouchableWithoutFeedback onPress={() => setAgree(!agree)}>
-                        <View style={{flexDirection: 'row', marginTop: 20, alignSelf: 'center'}}>
+                        <View style={{flexDirection: 'row', margin: 40, alignSelf: 'center'}}>
                             <FontAwesome 
                                 name={ agree ? 'check-circle' : 'check-circle-o'}
-                                size={20} 
+                                size={22} 
                                 color={ agree ? 'cyan' : '#ffffffa5'} 
                             />
-                            <Text style={{color: '#fff', marginLeft: 10, fontSize: 12}}>
-                                I agree to the Publishing Terms and Conditions
-                            </Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{color: '#fff', marginLeft: 20, fontSize: 14}}>
+                                    I agree to the
+                                </Text>
+                                <TouchableWithoutFeedback onPress={() => navigation.navigate('Terms')}>
+                                    <Text style={{textDecorationLine: 'underline', color: '#fff',fontSize: 14, marginLeft: 5}}>
+                                        Publishing Terms
+                                    </Text>
+                                </TouchableWithoutFeedback>
+                                
+                            </View>
+                            
                     </View>
                     </TouchableWithoutFeedback>
 
@@ -178,16 +362,17 @@ const ArtistSetup = ({navigation} : any) => {
                                 <ActivityIndicator size="small" color="cyan"/>
                             ) : (
                                 <Text style={styles.buttontext}>
-                                    Create Author Profile
+                                    Create Artist Profile
                                 </Text>
                             )}
                         </View>
                 </TouchableOpacity>
                     
                 </View>
+                </ScrollView>
 
         </View>
-    
+        </Provider>
     )
 };
 
@@ -224,7 +409,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        margin: 40,
+        //margin: 40,
      },
      buttontext: {
          backgroundColor: 'cyan',

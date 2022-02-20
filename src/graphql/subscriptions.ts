@@ -189,6 +189,8 @@ export const onCreateUser = /* GraphQL */ `
       narratorText
       accents
       voice
+      artistText
+      artStyles
       createdAt
       updatedAt
       owner
@@ -382,6 +384,8 @@ export const onUpdateUser = /* GraphQL */ `
       narratorText
       accents
       voice
+      artistText
+      artStyles
       createdAt
       updatedAt
       owner
@@ -575,6 +579,8 @@ export const onDeleteUser = /* GraphQL */ `
       narratorText
       accents
       voice
+      artistText
+      artStyles
       createdAt
       updatedAt
       owner
@@ -628,6 +634,8 @@ export const onCreateFollowingConn = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -673,6 +681,8 @@ export const onCreateFollowingConn = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -730,6 +740,8 @@ export const onUpdateFollowingConn = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -775,6 +787,8 @@ export const onUpdateFollowingConn = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -832,6 +846,8 @@ export const onDeleteFollowingConn = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -877,6 +893,8 @@ export const onDeleteFollowingConn = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -933,6 +951,8 @@ export const onCreatePinnedStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -964,6 +984,8 @@ export const onCreatePinnedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -991,6 +1013,8 @@ export const onCreatePinnedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1016,6 +1040,8 @@ export const onCreatePinnedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1107,6 +1133,8 @@ export const onUpdatePinnedStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -1138,6 +1166,8 @@ export const onUpdatePinnedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1165,6 +1195,8 @@ export const onUpdatePinnedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1190,6 +1222,8 @@ export const onUpdatePinnedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1281,6 +1315,8 @@ export const onDeletePinnedStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -1312,6 +1348,8 @@ export const onDeletePinnedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1339,6 +1377,8 @@ export const onDeletePinnedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1364,6 +1404,8 @@ export const onDeletePinnedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1456,6 +1498,8 @@ export const onCreateFinishedStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -1487,6 +1531,8 @@ export const onCreateFinishedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1514,6 +1560,8 @@ export const onCreateFinishedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1539,6 +1587,8 @@ export const onCreateFinishedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1631,6 +1681,8 @@ export const onUpdateFinishedStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -1662,6 +1714,8 @@ export const onUpdateFinishedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1689,6 +1743,8 @@ export const onUpdateFinishedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1714,6 +1770,8 @@ export const onUpdateFinishedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1806,6 +1864,8 @@ export const onDeleteFinishedStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -1837,6 +1897,8 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1864,6 +1926,8 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1889,6 +1953,8 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -1983,6 +2049,8 @@ export const onCreateStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -2031,6 +2099,8 @@ export const onCreateStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -2077,6 +2147,8 @@ export const onCreateStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -2196,6 +2268,8 @@ export const onUpdateStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -2244,6 +2318,8 @@ export const onUpdateStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -2290,6 +2366,8 @@ export const onUpdateStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -2409,6 +2487,8 @@ export const onDeleteStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -2457,6 +2537,8 @@ export const onDeleteStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -2503,6 +2585,8 @@ export const onDeleteStory = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -2618,6 +2702,366 @@ export const onDeleteGenre = /* GraphQL */ `
     }
   }
 `;
+export const onCreateImageAsset = /* GraphQL */ `
+  subscription OnCreateImageAsset($owner: String) {
+    onCreateImageAsset(owner: $owner) {
+      id
+      title
+      imageUri
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
+      userID
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateImageAsset = /* GraphQL */ `
+  subscription OnUpdateImageAsset($owner: String) {
+    onUpdateImageAsset(owner: $owner) {
+      id
+      title
+      imageUri
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
+      userID
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteImageAsset = /* GraphQL */ `
+  subscription OnDeleteImageAsset($owner: String) {
+    onDeleteImageAsset(owner: $owner) {
+      id
+      title
+      imageUri
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
+      userID
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateAudioAsset = /* GraphQL */ `
+  subscription OnCreateAudioAsset($owner: String) {
+    onCreateAudioAsset(owner: $owner) {
+      id
+      title
+      audioUri
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
+      userID
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateAudioAsset = /* GraphQL */ `
+  subscription OnUpdateAudioAsset($owner: String) {
+    onUpdateAudioAsset(owner: $owner) {
+      id
+      title
+      audioUri
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
+      userID
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteAudioAsset = /* GraphQL */ `
+  subscription OnDeleteAudioAsset($owner: String) {
+    onDeleteAudioAsset(owner: $owner) {
+      id
+      title
+      audioUri
+      user {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
+      userID
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
 export const onCreateFlag = /* GraphQL */ `
   subscription OnCreateFlag($owner: String) {
     onCreateFlag(owner: $owner) {
@@ -2649,6 +3093,8 @@ export const onCreateFlag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2676,6 +3122,8 @@ export const onCreateFlag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2701,6 +3149,8 @@ export const onCreateFlag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2782,6 +3232,8 @@ export const onCreateFlag = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -2824,6 +3276,8 @@ export const onUpdateFlag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2851,6 +3305,8 @@ export const onUpdateFlag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2876,6 +3332,8 @@ export const onUpdateFlag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -2957,6 +3415,8 @@ export const onUpdateFlag = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -2999,6 +3459,8 @@ export const onDeleteFlag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3026,6 +3488,8 @@ export const onDeleteFlag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3051,6 +3515,8 @@ export const onDeleteFlag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3132,6 +3598,8 @@ export const onDeleteFlag = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -3175,6 +3643,8 @@ export const onCreateComment = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3202,6 +3672,8 @@ export const onCreateComment = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3227,6 +3699,8 @@ export const onCreateComment = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3308,6 +3782,8 @@ export const onCreateComment = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -3351,6 +3827,8 @@ export const onUpdateComment = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3378,6 +3856,8 @@ export const onUpdateComment = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3403,6 +3883,8 @@ export const onUpdateComment = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3484,6 +3966,8 @@ export const onUpdateComment = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -3527,6 +4011,8 @@ export const onDeleteComment = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3554,6 +4040,8 @@ export const onDeleteComment = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3579,6 +4067,8 @@ export const onDeleteComment = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3660,6 +4150,8 @@ export const onDeleteComment = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -3808,6 +4300,8 @@ export const onCreateRating = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3835,6 +4329,8 @@ export const onCreateRating = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3860,6 +4356,8 @@ export const onCreateRating = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -3941,6 +4439,8 @@ export const onCreateRating = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -3996,6 +4496,8 @@ export const onUpdateRating = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -4023,6 +4525,8 @@ export const onUpdateRating = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -4048,6 +4552,8 @@ export const onUpdateRating = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -4129,6 +4635,8 @@ export const onUpdateRating = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -4184,6 +4692,8 @@ export const onDeleteRating = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -4211,6 +4721,8 @@ export const onDeleteRating = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -4236,6 +4748,8 @@ export const onDeleteRating = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -4317,6 +4831,8 @@ export const onDeleteRating = /* GraphQL */ `
         narratorText
         accents
         voice
+        artistText
+        artStyles
         createdAt
         updatedAt
         owner
@@ -4372,6 +4888,8 @@ export const onCreateStoryTag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -4399,6 +4917,8 @@ export const onCreateStoryTag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -4424,6 +4944,8 @@ export const onCreateStoryTag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -4524,6 +5046,8 @@ export const onUpdateStoryTag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -4551,6 +5075,8 @@ export const onUpdateStoryTag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -4576,6 +5102,8 @@ export const onUpdateStoryTag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -4676,6 +5204,8 @@ export const onDeleteStoryTag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -4703,6 +5233,8 @@ export const onDeleteStoryTag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
@@ -4728,6 +5260,8 @@ export const onDeleteStoryTag = /* GraphQL */ `
           narratorText
           accents
           voice
+          artistText
+          artStyles
           createdAt
           updatedAt
           owner
