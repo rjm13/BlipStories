@@ -23,6 +23,7 @@ import { updateUser, createImageAsset } from '../src/graphql/mutations';
 import { getUser } from '../src/graphql/queries';
 
 import { Modal, Portal, Provider } from 'react-native-paper';
+import * as ImagePicker from 'expo-image-picker';
 
 const ArtistSetup = ({navigation} : any) => {
 
@@ -35,6 +36,10 @@ const ArtistSetup = ({navigation} : any) => {
 
     const [publishing, setPublishing] = useState(false);
 
+    const [imageState, setImageState] = useState();
+    const [imageTitleState, setImageTitleState] = useState();
+    const [imageIndex, setImageIndex] = useState(0)
+
     const [data, setData] = useState({
         artistPseudo: '',
         isArtist: false,
@@ -42,12 +47,7 @@ const ArtistSetup = ({navigation} : any) => {
         artistText: ''
     });
 
-    const [imageData, setImageData] = useState([
-        {
-            imageTitle: null,
-            imageUri: null,
-        },
-    ])
+    const [imageData, setImageData] = useState([])
 
     //art styles modal
     const [visible, setVisible] = useState(false);
@@ -59,6 +59,18 @@ const ArtistSetup = ({navigation} : any) => {
         margin: 20,
         borderRadius: 15,
     };
+
+        //art styles modal
+        const [visible2, setVisible2] = useState(false);
+        const showImageModal = (imageUri : any, imageTitle: any, imageIndex: any) => {
+            setImageState(imageUri);
+            setImageTitleState(imageTitle);
+            setImageIndex(imageIndex)
+            setVisible2(true);
+            console.log(imageIndex)
+        }
+        const hideImageModal = () => setVisible2(false);
+
 
 //function for the text input
     const textInputChange = (val : any) => {
@@ -88,6 +100,25 @@ const ArtistSetup = ({navigation} : any) => {
                 artistText: val,
             });
         }
+    }
+
+    const [textChange, setTextChange] = useState()
+
+     //function for the text input
+     const titleInputChange = (val : any) => {
+
+        if( val.length !== 0 ) {
+            setTextChange(val);
+        } else {
+            setTextChange(val);
+        }
+    }
+
+    const UpdateStates = () => {
+        let newState = [...imageData];
+
+        newState[imageIndex].imageTitle = textChange;
+        setImageData(newState);
     }
 
     const handleUpdateAttributes = async () => {
@@ -155,9 +186,28 @@ const ArtistSetup = ({navigation} : any) => {
 
     const FocusInput = () => { textRef.current.focus();}
 
-    const PickImage = () => {
-
-    }
+    //pick the image from the camera roll
+    const PickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+    
+        console.log(result);
+    
+        if (!result.cancelled) {
+          setImageData([
+              ...imageData,
+              {
+                imageIndex: imageData.length,
+                imageTitle: null,
+                imageUri: result.uri
+              }
+          ]);
+        }
+      };
 
 
 
@@ -214,6 +264,31 @@ const ArtistSetup = ({navigation} : any) => {
                             </View>
                         </TouchableWithoutFeedback>
                         
+                    </View>
+                </Modal>
+
+                <Modal visible={visible2} onDismiss={hideImageModal} contentContainerStyle={containerStyle}>
+                    <View style={{alignItems: 'center'}}>
+                        <Image 
+                            source={{uri: imageState}}
+                            style={{width: Dimensions.get('window').width - 40, height: 260}}
+                        />
+                        <TextInput 
+                            placeholder={imageTitleState ? imageTitleState : "Add Title"}
+                            placeholderTextColor='#ffffff'
+                            style={{color: '#fff', marginTop: 20, }}
+                            maxLength={30}
+                            onChangeText={(val) => titleInputChange(val)}
+                            autoCapitalize='none'
+                        />
+                        <View style={{margin: 20}}>
+                            <TouchableWithoutFeedback onPress={UpdateStates}>
+                                <Text style={{borderRadius: 20, color: '#000', backgroundColor: 'cyan', paddingHorizontal: 20, paddingVertical: 6}}>
+                                    Update
+                                </Text>
+                            </TouchableWithoutFeedback>
+                            
+                        </View>
                     </View>
                 </Modal>
             </Portal>
@@ -310,13 +385,26 @@ const ArtistSetup = ({navigation} : any) => {
                             </Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <ScrollView scrollEnabled={false} contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}} style={{width: Dimensions.get('window').width}} numColumns={2}>
+                    <ScrollView scrollEnabled={false} contentContainerStyle={{justifyContent: 'center', marginTop: 40, flexDirection: 'row', flexWrap: 'wrap',}} style={{width: Dimensions.get('window').width}}>
                        {imageData.map(item => {
+
+                            let imageUri = item.imageUri
+                            let imageTitle = item.imageTitle
+                            let imageIndex = item.imageIndex
+
                            return (
-                                <Image 
-                                    source={{uri: item.imageUri}}
-                                    style={{ width: 120, height: 120}}
-                                />
+                               <View>
+                                   
+                                  <TouchableWithoutFeedback onPress={() => showImageModal(imageUri, imageTitle, imageIndex)}>
+                                   <Image 
+                                        source={{uri: item.imageUri}}
+                                        style={{ width: 160, height: 120, marginHorizontal: 5, borderRadius: 8, marginBottom: 30}}
+                                    />
+                               </TouchableWithoutFeedback> 
+                               </View>
+                               
+                               
+                                
                            )})
                         } 
                     </ScrollView>
