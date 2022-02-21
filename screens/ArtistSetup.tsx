@@ -24,6 +24,7 @@ import { getUser } from '../src/graphql/queries';
 
 import { Modal, Portal, Provider } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
+import uuid from 'react-native-uuid';
 
 const ArtistSetup = ({navigation} : any) => {
 
@@ -123,6 +124,8 @@ const ArtistSetup = ({navigation} : any) => {
 
     const handleUpdateAttributes = async () => {
 
+        setPublishing(true);
+
         if ( data.artistPseudo.length !== 0 ) {
           const userInfo = await Auth.currentAuthenticatedUser();
   
@@ -141,10 +144,16 @@ const ArtistSetup = ({navigation} : any) => {
 
         if (imageData.length > 0) {
             for (let i = 0; i < imageData.length; i++) {
+                //upload to s3 bucket
+                const response = await fetch(imageData[i].imageUri);
+                const blob = await response.blob();
+                const filename =  uuid.v4().toString();
+                const s3Response = await Storage.put(filename, blob);
+
                 let imageResult = await API.graphql(graphqlOperation(
                     createImageAsset, {input: {
                         userID: userInfo.attributes.sub,
-                        imageUri: imageData[i].imageUri,
+                        imageUri: s3Response.key,
                         title: imageData[i].imageTitle
                     }}
                 ))
@@ -197,7 +206,7 @@ const ArtistSetup = ({navigation} : any) => {
     
         console.log(result);
     
-        if (!result.cancelled) {
+        if (!result.cancelled && imageData.length < 5) {
           setImageData([
               ...imageData,
               {
@@ -206,6 +215,8 @@ const ArtistSetup = ({navigation} : any) => {
                 imageUri: result.uri
               }
           ]);
+        } else {
+            alert ('You are only allowed a maximum of 4 images')
         }
       };
 
