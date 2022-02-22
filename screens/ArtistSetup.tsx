@@ -310,7 +310,7 @@ const ArtistSetup = ({navigation} : any) => {
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{flexDirection: 'row'}}>
                         <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-                            <View style={{padding: 30, margin: -30}}>
+                            <View style={{alignSelf: 'center', padding: 30, margin: -30}}>
                                 <FontAwesome5 
                                     name='chevron-left'  
                                     color="#fff"
