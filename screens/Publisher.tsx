@@ -15,7 +15,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { API, graphqlOperation, Auth } from "aws-amplify";
-import { getUser, listFollowingConns } from '../src/graphql/queries';
+import { getUser, listFollowingConns, listImageAssets } from '../src/graphql/queries';
 
 const Publisher = ({navigation} : any) => {
 
@@ -118,6 +118,29 @@ const Publisher = ({navigation} : any) => {
           navigation.navigate('ArtistMain', {user: user});
         }
     }
+
+        //get the image data
+
+        const [ImageData, setImageData] = useState();
+
+        useEffect(() => {
+            const fetchData = async () => {
+    
+                const userInfo = await Auth.currentAuthenticatedUser();
+    
+                let result = await API.graphql(graphqlOperation(
+                    listImageAssets, { 
+                        filter: {
+                            userID: {
+                                eq: userInfo.attributes.sub
+                            }
+                        }
+                    }
+                ))
+                setImageData(result.data.listImageAssets.items.length)
+            }
+            fetchData();
+        }, [])
 
 
     return (
@@ -287,13 +310,13 @@ const Publisher = ({navigation} : any) => {
                     ) : null}
 
                     {isArtist === true ? (
-                        <TouchableWithoutFeedback onPress={ () => navigation.navigate('MyStories')}>
+                        <TouchableWithoutFeedback onPress={ () => navigation.navigate('MyArt')}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
                                 <Text style={{ color: '#fff', fontSize: 16}}>
                                     My Artwork
                                 </Text>
                                 <Text style={styles.textcounter}>
-                                    {user?.authored?.items.length}
+                                    {ImageData}
                                 </Text>
                             </View>
                         </TouchableWithoutFeedback>

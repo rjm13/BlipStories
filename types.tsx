@@ -49,6 +49,7 @@ export type TabOneParamList = {
   ArtistMain: undefined;
   ArtistSetup: undefined;
   NarratorSetup: undefined;
+  MyArt: undefined;
 };
 
 export type TabTwoParamList = {

@@ -25,6 +25,7 @@ import ArtistSetup from '../screens/ArtistSetup';
 import PublisherScreen from '../screens/Publisher';
 import Recordings from '../screens/Recordings';
 import BecomeSomething from '../screens/BecomeSomething';
+import MyArt from '../screens/MyArt';
 
 import MyStories from '../screens/MyStories';
 import Terms from '../screens/Terms';
@@ -228,6 +229,11 @@ function HomeNavigator() {
       <HomeStack.Screen 
         name="ArtistSetup" 
         component={ArtistSetup} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="MyArt" 
+        component={MyArt} 
         options={{ headerShown: false }} 
       />
 
