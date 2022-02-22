@@ -11,6 +11,7 @@ import {
     ScrollView,
     FlatList,
     Image,
+    Platform
 } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
@@ -27,6 +28,18 @@ import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 
 const ArtistSetup = ({navigation} : any) => {
+
+    //on render, request permission for camera roll
+    useEffect(() => {
+        (async () => {
+            if (Platform.OS !== 'web') {
+                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (status !== 'granted') {
+                    alert('Sorry, we need camera roll permissions to make this work!');
+                }
+            }
+        })();
+    }, []);
 
     //const [userID, setUserID] = useState({})
 
@@ -142,20 +155,22 @@ const ArtistSetup = ({navigation} : any) => {
 
         if (imageData.length > 0) {
             for (let i = 0; i < imageData.length; i++) {
-                //upload to s3 bucket
-                const response = await fetch(imageData[i].imageUri);
-                const blob = await response.blob();
-                const filename =  uuid.v4().toString();
-                const s3Response = await Storage.put(filename, blob);
+                if (imageData[i].imageUri) {
+                    const response = await fetch(imageData[i].imageUri);
+                    const blob = await response.blob();
+                    const filename =  uuid.v4().toString();
+                    const s3Response = await Storage.put(filename, blob);
 
-                let imageResult = await API.graphql(graphqlOperation(
-                    createImageAsset, {input: {
-                        userID: userInfo.attributes.sub,
-                        imageUri: s3Response.key,
-                        title: imageData[i].imageTitle
-                    }}
-                ))
-                console.log(imageResult)
+                    let imageResult = await API.graphql(graphqlOperation(
+                        createImageAsset, {input: {
+                            userID: userInfo.attributes.sub,
+                            imageUri: s3Response.key,
+                            title: imageData[i].imageTitle
+                        }}
+                    ))
+                    console.log(imageResult)
+                }
+                
             }
         }
             

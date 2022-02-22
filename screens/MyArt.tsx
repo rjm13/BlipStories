@@ -10,7 +10,8 @@ import {
     StyleSheet,
     Dimensions,
     TextInput,
-    ActivityIndicator
+    ActivityIndicator,
+    Platform
 } from 'react-native';
 
 import { Modal, Portal, Provider } from 'react-native-paper';
@@ -25,6 +26,18 @@ import { deleteImageAsset, createImageAsset } from '../src/graphql/mutations';
 import { listImageAssets } from '../src/graphql/queries';
 
 const MyArt = ({navigation} : any) => {
+
+    //on render, request permission for camera roll
+    useEffect(() => {
+        (async () => {
+            if (Platform.OS !== 'web') {
+                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (status !== 'granted') {
+                    alert('Sorry, we need camera roll permissions to make this work!');
+                }
+            }
+        })();
+    }, []);
 
     const SCREEN_WIDTH = Dimensions.get('window').width
 
@@ -72,7 +85,7 @@ const MyArt = ({navigation} : any) => {
     //data form AWS image asset table
     const [imageData, setImageData] = useState();
 
-    const [sampleImages, setSampleImages] = useState();
+    const [sampleImages, setSampleImages] = useState([]);
 
     const [didUpdate, setDidUpdate] = useState(false);
 
@@ -106,7 +119,7 @@ const MyArt = ({navigation} : any) => {
             ))
             //setImageData(result.data.listImageAssets.items)
 
-            let newArr = result.data.listImageAssets.items.filter((item : any) => item.isSample === true);
+            let newArr = result.data.listImageAssets.items.filter((item : any) => item.isSample === false);
 
             for (let i = 0; i < newArr.length; i++) {
             
@@ -117,7 +130,7 @@ const MyArt = ({navigation} : any) => {
             console.log(newArr)
             setImageData(newArr)
 
-            let sampleArr = result.data.listImageAssets.items.filter((item : any) => item.isSample === false);
+            let sampleArr = result.data.listImageAssets.items.filter((item : any) => item.isSample === true);
 
             for (let i = 0; i < sampleArr.length; i++) {
             
@@ -163,6 +176,7 @@ const MyArt = ({navigation} : any) => {
 
     //pick the image from the camera roll
     const PickImage = async () => {
+
             let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
@@ -172,32 +186,40 @@ const MyArt = ({navigation} : any) => {
             if (!result.cancelled) {
                     setImageState(result.uri);
                     }
-            console.log(result);
+            console.log(result); 
       };
 
-      const UploadToS3 = async () => {
-        setIsUploading(true);
+    const UploadToS3 = async () => {
 
-        let userInfo = await Auth.currentAuthenticatedUser();
+        if (sampleImages.length === 4 && sampleState === true) {
+            alert('You are only allowed a maximum of 4 sample images for your profile. Please remove one to continue.');
+        } else {
+            console.log(sampleImages)
+            console.log('state is' + sampleState)
+            setIsUploading(true);
 
-        const response = await fetch(imageState);
-                const blob = await response.blob();
-                const filename =  uuid.v4().toString();
-                const s3Response = await Storage.put(filename, blob);
+            let userInfo = await Auth.currentAuthenticatedUser();
 
-        let result = await API.graphql(graphqlOperation(
-            createImageAsset, {input: {
-                userID: userInfo.attributes.sub,
-                title: textChange,
-                imageUri: s3Response.key,
-                isSample: sampleState,
-            }}
-        ))
+            const response = await fetch(imageState);
+                    const blob = await response.blob();
+                    const filename =  uuid.v4().toString();
+                    const s3Response = await Storage.put(filename, blob);
 
-        console.log(result);
-        setDidUpdate(!didUpdate)
-        setIsUploading(false);
-        hideUploadModal();
+            let result = await API.graphql(graphqlOperation(
+                createImageAsset, {input: {
+                    userID: userInfo.attributes.sub,
+                    title: textChange,
+                    imageUri: s3Response.key,
+                    isSample: sampleState,
+                }}
+            ))
+
+            console.log(result);
+            setDidUpdate(!didUpdate)
+            setIsUploading(false);
+            hideUploadModal();
+        }
+        
       }
 
       const DeleteImage = async () => {
@@ -276,7 +298,7 @@ const MyArt = ({navigation} : any) => {
                                     color={sampleState ? 'cyan' : 'gray'}
                                 />
                                 <Text style={{marginLeft: 10, color: '#fff'}}>
-                                    This is a sample image fior my profile
+                                    This is a sample image for my profile
                                 </Text>
                             </View>
                         </TouchableWithoutFeedback>
@@ -369,6 +391,7 @@ const MyArt = ({navigation} : any) => {
                         showsVerticalScrollIndicator={false}
                         numColumns={2}
                         scrollEnabled={false}
+                        maxToRenderPerBatch={10}
                     />
                 </View>
 
@@ -388,6 +411,7 @@ const MyArt = ({navigation} : any) => {
                         scrollEnabled={false}
                     />
                 </View>
+                <View style={{height: 100}}/>
             </ScrollView> 
         </Provider>
         
