@@ -564,12 +564,14 @@ export type CreateImageAssetInput = {
   id?: string | null,
   title: string,
   imageUri?: string | null,
+  isSample?: boolean | null,
   userID?: string | null,
 };
 
 export type ModelImageAssetConditionInput = {
   title?: ModelStringInput | null,
   imageUri?: ModelStringInput | null,
+  isSample?: ModelBooleanInput | null,
   userID?: ModelIDInput | null,
   and?: Array< ModelImageAssetConditionInput | null > | null,
   or?: Array< ModelImageAssetConditionInput | null > | null,
@@ -581,6 +583,7 @@ export type ImageAsset = {
   id: string,
   title: string,
   imageUri?: string | null,
+  isSample?: boolean | null,
   user?: User | null,
   userID?: string | null,
   createdAt: string,
@@ -592,6 +595,7 @@ export type UpdateImageAssetInput = {
   id: string,
   title?: string | null,
   imageUri?: string | null,
+  isSample?: boolean | null,
   userID?: string | null,
 };
 
@@ -921,6 +925,7 @@ export type ModelImageAssetFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
   imageUri?: ModelStringInput | null,
+  isSample?: ModelBooleanInput | null,
   userID?: ModelIDInput | null,
   and?: Array< ModelImageAssetFilterInput | null > | null,
   or?: Array< ModelImageAssetFilterInput | null > | null,
@@ -4111,6 +4116,7 @@ export type CreateImageAssetMutation = {
     id: string,
     title: string,
     imageUri?: string | null,
+    isSample?: boolean | null,
     user?:  {
       __typename: "User",
       id: string,
@@ -4184,6 +4190,7 @@ export type UpdateImageAssetMutation = {
     id: string,
     title: string,
     imageUri?: string | null,
+    isSample?: boolean | null,
     user?:  {
       __typename: "User",
       id: string,
@@ -4257,6 +4264,7 @@ export type DeleteImageAssetMutation = {
     id: string,
     title: string,
     imageUri?: string | null,
+    isSample?: boolean | null,
     user?:  {
       __typename: "User",
       id: string,
@@ -8561,6 +8569,7 @@ export type GetImageAssetQuery = {
     id: string,
     title: string,
     imageUri?: string | null,
+    isSample?: boolean | null,
     user?:  {
       __typename: "User",
       id: string,
@@ -8637,6 +8646,7 @@ export type ListImageAssetsQuery = {
       id: string,
       title: string,
       imageUri?: string | null,
+      isSample?: boolean | null,
       user?:  {
         __typename: "User",
         id: string,
@@ -13434,6 +13444,7 @@ export type OnCreateImageAssetSubscription = {
     id: string,
     title: string,
     imageUri?: string | null,
+    isSample?: boolean | null,
     user?:  {
       __typename: "User",
       id: string,
@@ -13506,6 +13517,7 @@ export type OnUpdateImageAssetSubscription = {
     id: string,
     title: string,
     imageUri?: string | null,
+    isSample?: boolean | null,
     user?:  {
       __typename: "User",
       id: string,
@@ -13578,6 +13590,7 @@ export type OnDeleteImageAssetSubscription = {
     id: string,
     title: string,
     imageUri?: string | null,
+    isSample?: boolean | null,
     user?:  {
       __typename: "User",
       id: string,

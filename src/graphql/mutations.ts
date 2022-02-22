@@ -2765,6 +2765,7 @@ export const createImageAsset = /* GraphQL */ `
       id
       title
       imageUri
+      isSample
       user {
         id
         name
@@ -2828,6 +2829,7 @@ export const updateImageAsset = /* GraphQL */ `
       id
       title
       imageUri
+      isSample
       user {
         id
         name
@@ -2891,6 +2893,7 @@ export const deleteImageAsset = /* GraphQL */ `
       id
       title
       imageUri
+      isSample
       user {
         id
         name

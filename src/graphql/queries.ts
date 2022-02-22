@@ -1334,6 +1334,7 @@ export const getImageAsset = /* GraphQL */ `
       id
       title
       imageUri
+      isSample
       user {
         id
         name
@@ -1399,6 +1400,7 @@ export const listImageAssets = /* GraphQL */ `
         id
         title
         imageUri
+        isSample
         user {
           id
           name

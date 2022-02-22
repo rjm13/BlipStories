@@ -2708,6 +2708,7 @@ export const onCreateImageAsset = /* GraphQL */ `
       id
       title
       imageUri
+      isSample
       user {
         id
         name
@@ -2768,6 +2769,7 @@ export const onUpdateImageAsset = /* GraphQL */ `
       id
       title
       imageUri
+      isSample
       user {
         id
         name
@@ -2828,6 +2830,7 @@ export const onDeleteImageAsset = /* GraphQL */ `
       id
       title
       imageUri
+      isSample
       user {
         id
         name
