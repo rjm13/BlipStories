@@ -112,7 +112,7 @@ type Genre @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
 type ImageAsset @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
   {
     id: ID!
-    title: String!
+    title: String
     imageUri: String
     isSample: Boolean
     user: User @hasOne (fields: ["userID"])
@@ -122,8 +122,9 @@ type ImageAsset @model @auth(rules: [{ allow: owner, operations: [create, delete
 type AudioAsset @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
   {
     id: ID!
-    title: String!
+    title: String
     audioUri: String
+    isSample: Boolean
     user: User @hasOne (fields: ["userID"])
     userID: ID
 }

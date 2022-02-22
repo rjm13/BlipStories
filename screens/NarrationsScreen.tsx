@@ -83,7 +83,7 @@ const MyNarrations = ({navigation} : any) => {
                 const userStories = await API.graphql(graphqlOperation(
                     listStories, {
                         filter: {
-                            userID: {
+                            narratorID: {
                                 eq: userInfo.attributes.sub
                             },
                             hidden: {
@@ -115,7 +115,7 @@ const MyNarrations = ({navigation} : any) => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    
+
     return (
             
             <View>

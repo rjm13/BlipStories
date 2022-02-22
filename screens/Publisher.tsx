@@ -291,7 +291,7 @@ const Publisher = ({navigation} : any) => {
                                     My Narrations
                                 </Text>
                                 <Text style={styles.textcounter}>
-                                    {user?.authored?.items.length}
+                                    {user?.narrated?.items.length}
                                 </Text>
                             </View>
                         </TouchableWithoutFeedback>
