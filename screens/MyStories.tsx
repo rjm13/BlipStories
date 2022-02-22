@@ -202,7 +202,7 @@ const MyStories = ({navigation} : any) => {
                 const userStories = await API.graphql(graphqlOperation(
                     listStories, {
                         filter: {
-                            userID: {
+                            narratorID: {
                                 eq: userInfo.attributes.sub
                             },
                             hidden: {

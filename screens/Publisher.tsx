@@ -284,31 +284,31 @@ const Publisher = ({navigation} : any) => {
                     ) : null}
 
                     {isNarrator === true ? (
-                        <View>
-                            <TouchableWithoutFeedback onPress={ () => navigation.navigate('MyStories')}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
-                                    <Text style={{ color: '#fff', fontSize: 16}}>
-                                        My Narrations
-                                    </Text>
-                                    <Text style={styles.textcounter}>
-                                        {user?.authored?.items.length}
-                                    </Text>
-                                </View>
-                            </TouchableWithoutFeedback>
+                    
+                        <TouchableWithoutFeedback onPress={ () => navigation.navigate('Narrations')}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                                <Text style={{ color: '#fff', fontSize: 16}}>
+                                    My Narrations
+                                </Text>
+                                <Text style={styles.textcounter}>
+                                    {user?.authored?.items.length}
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
 
-                            <TouchableWithoutFeedback onPress={ () => navigation.navigate('Recordings', {user: user})}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
-                                    <Text style={{ color: '#fff', fontSize: 16}}>
-                                        My Recordings
-                                    </Text>
-                                    <Text style={styles.textcounter}>
-                                        {SavedAudio.length}
-                                    </Text>
-                                </View>
-                            </TouchableWithoutFeedback>
-                        </View>
                     ) : null}
 
+                        <TouchableWithoutFeedback onPress={ () => navigation.navigate('Recordings', {user: user})}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                                <Text style={{ color: '#fff', fontSize: 16}}>
+                                    My Recordings
+                                </Text>
+                                <Text style={styles.textcounter}>
+                                    {SavedAudio.length}
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                        
                     {isArtist === true ? (
                         <TouchableWithoutFeedback onPress={ () => navigation.navigate('MyArt')}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>

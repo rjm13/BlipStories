@@ -21,19 +21,31 @@ import { listImageAssets } from '../src/graphql/queries';
 
 const MyArt = ({navigation} : any) => {
 
+    const SCREEN_WIDTH = Dimensions.get('window').width
+
+    const [imageState, setImageState] = useState();
+    const [titleState, setTitleState] = useState();
+    const [indexState, setIndexState] = useState()
+
     //art styles modal
     const [visible, setVisible] = useState(false);
-    const showImageModal = () => setVisible(true);
+    const showImageModal = ({title, imageUri, index} : any) => {
+        setVisible(true);
+        setImageState(imageUri);
+        setTitleState(title);
+        setIndexState(index);
+    }
     const hideImageModal = () => setVisible(false);
     const containerStyle = {
         backgroundColor: '#363636', 
-        padding: 20,
-        margin: 20,
         borderRadius: 15,
+        paddingVertical: 40
     };
 
     //data form AWS image asset table
     const [imageData, setImageData] = useState()
+
+    const [didUpdate, setDidUpdate] = useState(false);
 
     //get the image data
     useEffect(() => {
@@ -50,29 +62,31 @@ const MyArt = ({navigation} : any) => {
                     }
                 }
             ))
-            setImageData(result.data.listImageAssets.items)
+            //setImageData(result.data.listImageAssets.items)
+
+            let newArr = result.data.listImageAssets.items;
+
+            for (let i = 0; i < result.data.listImageAssets.items.length; i++) {
+            
+                const getUri = await Storage.get(result.data.listImageAssets.items[i].imageUri);
+
+                newArr[i].imageUri = getUri
+            }
+
+            setImageData(newArr)
         }
+
         fetchData();
-    }, [])
+    }, [didUpdate])
 
-    const Item = ({title, imageKey} : any) => {
-
-        const [imageUri, setImageUri] = useState('')
-
-        useEffect(() => {
-            const fetchImage = async () => {
-                const getUri = await Storage.get(imageKey);
-                setImageUri(getUri);
-            };
-            fetchImage();
-        }, [])
+    const Item = ({title, imageUri, index} : any) => {
 
         return (
-            <TouchableWithoutFeedback onPress={showImageModal}>
+            <TouchableWithoutFeedback onPress={() => showImageModal({title, imageUri, index})}>
                 <View style={{marginTop: 20}}>
                     <Image 
                         source={{uri: imageUri}}
-                        style={{borderRadius: 8, margin: 10, width: Dimensions.get('window').width/2 - 20, height: 120}}
+                        style={{borderRadius: 8, margin: 10, width: SCREEN_WIDTH/2 - 20, height: 120}}
                     />
                     <Text style={{marginLeft: 10, color: '#fff'}}>
                         {title}
@@ -83,11 +97,12 @@ const MyArt = ({navigation} : any) => {
         )
     }
 
-    const renderItem = ({item} : any) => {
+    const renderItem = ({item, index} : any) => {
         return(
             <Item 
                 title={item.title}
-                imageKey={item.imageUri}
+                imageUri={item.imageUri}
+                index={index}
             />
         )
     }
@@ -97,7 +112,13 @@ const MyArt = ({navigation} : any) => {
             <Portal>
                 <Modal visible={visible} onDismiss={hideImageModal} contentContainerStyle={containerStyle}>
                     <View>
-
+                        <Image 
+                            source={{uri: imageState}}
+                            style={{alignSelf: 'center', width: SCREEN_WIDTH, height: SCREEN_WIDTH*0.75}}
+                        />
+                        <Text style={{textAlign: 'center', color: '#fff', marginTop: 20, alignSelf: 'center'}}>
+                            {titleState}
+                        </Text>
                     </View>
                 </Modal>
             </Portal>
@@ -127,7 +148,8 @@ const MyArt = ({navigation} : any) => {
                     <FlatList 
                         data={imageData}
                         renderItem={renderItem}
-                        keyExtractor={item => item}
+                        extraData={imageData}
+                        keyExtractor={(item, index) => item + index}
                         showsVerticalScrollIndicator={false}
                         numColumns={2}
                         

@@ -114,6 +114,7 @@ type ImageAsset @model @auth(rules: [{ allow: owner, operations: [create, delete
     id: ID!
     title: String!
     imageUri: String
+    isSample: Boolean
     user: User @hasOne (fields: ["userID"])
     userID: ID 
 }

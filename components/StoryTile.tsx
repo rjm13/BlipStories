@@ -1,19 +1,28 @@
-import React, {useState} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 
 import {
     View, 
     Text, 
     TouchableOpacity, 
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    Image,
+    Dimensions,
+    StyleSheet
 } from'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
+import { API, graphqlOperation, Auth } from "aws-amplify";
+import { getUser, listStories, listRatings } from '../src/graphql/queries';
+import { updateStory } from '../src/graphql/mutations';
+
 import {useNavigation} from '@react-navigation/native';
 
 import UnPinStory from './functions/UnPinStory';
+
+import { AppContext } from '../AppContext';
 
 const StoryTile = ({
     title, 
@@ -25,10 +34,14 @@ const StoryTile = ({
     author, 
     narrator, 
     time, 
-    id} : any) => {
+    id,
+    ratingAvg
+} : any) => {
         
         
     const navigation = useNavigation();
+
+    const [didUpdate, setDidUpdate] = useState(false);
 
 //expanding list component
     const [isVisible, setIsVisible] = useState(false);
@@ -122,6 +135,13 @@ const StoryTile = ({
         fetchRating();
     }, [])
 
+        //convert time to formatted string
+        function millisToMinutesAndSeconds () {
+            let minutes = Math.floor(time / 60000);
+            let seconds = Math.floor((time % 60000) / 1000);
+            return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
+        } 
+
     return (
         <View>
             <TouchableWithoutFeedback onPress={() => setIsVisible(!isVisible)}>
@@ -174,7 +194,7 @@ const StoryTile = ({
                                     size={10}
                                 />
                                 <Text style={styles.time}>
-                                    12:53
+                                    {millisToMinutesAndSeconds()}
                                 </Text> 
                             </View>
                         </TouchableOpacity>
@@ -214,7 +234,7 @@ const StoryTile = ({
                                         style={{paddingHorizontal: 10}}
                                     />
                                     <Text style={{textAlign: 'center', fontSize: 17, color: '#e0e0e0'}}>
-                                        {AverageUserRating}%
+                                        {ratingAvg}
                                     </Text>
                                 </View>
                             </View>
@@ -243,5 +263,65 @@ const StoryTile = ({
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+       width: Dimensions.get('window').width, 
+    },
+    tile: {
+        backgroundColor: '#363636a5',
+        marginHorizontal: 10,
+        marginVertical: 5,
+        padding: 20,
+        borderRadius: 15,
+    },
+    name: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#fff',
+        flexWrap: 'wrap',
+        width: 225,
+    },
+    userId: {
+        fontSize: 12,
+        color: '#ffffffa5',
+        marginRight: 15,
+        marginLeft: 5,
+    },
+    icontext: {
+        fontSize: 10,
+        color: '#ffffffa5',
+        marginTop: 5,
+    },
+    popupblock: {
+        marginTop: 10,
+    },
+    paragraph: {
+        color: '#ffffffB3'
+    },
+    playbutton: {
+        borderWidth: 0.5,
+        paddingHorizontal: 15,
+        paddingVertical: 3,
+        borderRadius: 15,
+        borderColor: '#ffffffa5',
+        color: '#ffffffa5',
+    },
+    time: {
+        fontSize: 14,
+        fontWeight: 'normal',
+        color: '#ffffffa5',
+        marginHorizontal: 5,
+    },
+    category: {
+        fontSize: 14,
+        color: 'gray',
+        //fontStyle: 'italic',
+        marginVertical: 3,
+        textTransform: 'capitalize'
+
+    },
+
+});
 
 export default StoryTile;
