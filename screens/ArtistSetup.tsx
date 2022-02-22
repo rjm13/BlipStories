@@ -63,12 +63,11 @@ const ArtistSetup = ({navigation} : any) => {
 
         //art styles modal
         const [visible2, setVisible2] = useState(false);
-        const showImageModal = (imageUri : any, imageTitle: any, imageIndex: any) => {
-            setImageState(imageUri);
-            setImageTitleState(imageTitle);
-            setImageIndex(imageIndex)
+        const showImageModal = ({item, index} : any) => {
+            setImageState(item.imageUri);
+            setImageTitleState(item.imageTitle);
+            setImageIndex(index)
             setVisible2(true);
-            console.log(imageIndex)
         }
         const hideImageModal = () => setVisible2(false);
 
@@ -120,11 +119,10 @@ const ArtistSetup = ({navigation} : any) => {
 
         newState[imageIndex].imageTitle = textChange;
         setImageData(newState);
+        hideImageModal();
     }
 
     const handleUpdateAttributes = async () => {
-
-        setPublishing(true);
 
         if ( data.artistPseudo.length !== 0 ) {
           const userInfo = await Auth.currentAuthenticatedUser();
@@ -197,26 +195,28 @@ const ArtistSetup = ({navigation} : any) => {
 
     //pick the image from the camera roll
     const PickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-    
-        console.log(result);
-    
-        if (!result.cancelled && imageData.length < 5) {
-          setImageData([
-              ...imageData,
-              {
-                imageIndex: imageData.length,
-                imageTitle: null,
-                imageUri: result.uri
-              }
-          ]);
+
+        if (imageData.length < 4) {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+            if (!result.cancelled && imageData.length < 4) {
+                    setImageData([
+                        ...imageData,
+                        {
+                            imageIndex: imageData.length,
+                            imageTitle: null,
+                            imageUri: result.uri
+                        }
+                    ]);
+                    }
+
+            console.log(result);
         } else {
-            alert ('You are only allowed a maximum of 4 images')
+            alert ('You are only allowed a maximum of 4 images. To remove an image for upload, press and hold it for 3 seconds.')
         }
       };
 
@@ -284,13 +284,14 @@ const ArtistSetup = ({navigation} : any) => {
                             source={{uri: imageState}}
                             style={{width: Dimensions.get('window').width - 40, height: 260}}
                         />
+                        
                         <TextInput 
                             placeholder={imageTitleState ? imageTitleState : "Add Title"}
                             placeholderTextColor='#ffffff'
                             style={{color: '#fff', marginTop: 20, }}
                             maxLength={30}
                             onChangeText={(val) => titleInputChange(val)}
-                            autoCapitalize='none'
+                            autoCapitalize='words'
                         />
                         <View style={{margin: 20}}>
                             <TouchableWithoutFeedback onPress={UpdateStates}>
@@ -396,22 +397,31 @@ const ArtistSetup = ({navigation} : any) => {
                             </Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <ScrollView scrollEnabled={false} contentContainerStyle={{justifyContent: 'center', marginTop: 40, flexDirection: 'row', flexWrap: 'wrap',}} style={{width: Dimensions.get('window').width}}>
-                       {imageData.map(item => {
+                    <ScrollView scrollEnabled={false} contentContainerStyle={{justifyContent: 'center', marginTop: 0, flexDirection: 'row', flexWrap: 'wrap',}} style={{width: Dimensions.get('window').width}}>
+                       {imageData.map((item, index) => {
 
-                            let imageUri = item.imageUri
-                            let imageTitle = item.imageTitle
-                            let imageIndex = item.imageIndex
+                            // let imageUri = item.imageUri
+                            // let imageTitle = item.imageTitle
+                            // let imageIndex = index
 
                            return (
                                <View>
                                    
-                                  <TouchableWithoutFeedback onPress={() => showImageModal(imageUri, imageTitle, imageIndex)}>
+                                    <TouchableOpacity 
+                                        onPress={() => showImageModal({item, index})}
+                                        onLongPress={() => {
+                                            imageData.splice(index)
+                                        }}
+                                    >
                                    <Image 
                                         source={{uri: item.imageUri}}
-                                        style={{ width: 160, height: 120, marginHorizontal: 5, borderRadius: 8, marginBottom: 30}}
+                                        style={{ width: 160, height: 120, marginHorizontal: 5, borderRadius: 8, marginBottom: 10, marginTop: 30}}
                                     />
-                               </TouchableWithoutFeedback> 
+                                    <Text style={{color: '#fff', marginLeft: 10}}>
+                                        {item.imageTitle}
+                                    </Text>
+
+                               </TouchableOpacity> 
                                </View>
                                
                                
