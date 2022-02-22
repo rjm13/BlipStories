@@ -1442,6 +1442,7 @@ export const getAudioAsset = /* GraphQL */ `
       id
       title
       audioUri
+      isSample
       user {
         id
         name
@@ -1507,6 +1508,7 @@ export const listAudioAssets = /* GraphQL */ `
         id
         title
         audioUri
+        isSample
         user {
           id
           name

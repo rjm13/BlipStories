@@ -2891,6 +2891,7 @@ export const onCreateAudioAsset = /* GraphQL */ `
       id
       title
       audioUri
+      isSample
       user {
         id
         name
@@ -2951,6 +2952,7 @@ export const onUpdateAudioAsset = /* GraphQL */ `
       id
       title
       audioUri
+      isSample
       user {
         id
         name
@@ -3011,6 +3013,7 @@ export const onDeleteAudioAsset = /* GraphQL */ `
       id
       title
       audioUri
+      isSample
       user {
         id
         name

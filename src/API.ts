@@ -562,7 +562,7 @@ export type DeleteGenreInput = {
 
 export type CreateImageAssetInput = {
   id?: string | null,
-  title: string,
+  title?: string | null,
   imageUri?: string | null,
   isSample?: boolean | null,
   userID?: string | null,
@@ -581,7 +581,7 @@ export type ModelImageAssetConditionInput = {
 export type ImageAsset = {
   __typename: "ImageAsset",
   id: string,
-  title: string,
+  title?: string | null,
   imageUri?: string | null,
   isSample?: boolean | null,
   user?: User | null,
@@ -605,14 +605,16 @@ export type DeleteImageAssetInput = {
 
 export type CreateAudioAssetInput = {
   id?: string | null,
-  title: string,
+  title?: string | null,
   audioUri?: string | null,
+  isSample?: boolean | null,
   userID?: string | null,
 };
 
 export type ModelAudioAssetConditionInput = {
   title?: ModelStringInput | null,
   audioUri?: ModelStringInput | null,
+  isSample?: ModelBooleanInput | null,
   userID?: ModelIDInput | null,
   and?: Array< ModelAudioAssetConditionInput | null > | null,
   or?: Array< ModelAudioAssetConditionInput | null > | null,
@@ -622,8 +624,9 @@ export type ModelAudioAssetConditionInput = {
 export type AudioAsset = {
   __typename: "AudioAsset",
   id: string,
-  title: string,
+  title?: string | null,
   audioUri?: string | null,
+  isSample?: boolean | null,
   user?: User | null,
   userID?: string | null,
   createdAt: string,
@@ -635,6 +638,7 @@ export type UpdateAudioAssetInput = {
   id: string,
   title?: string | null,
   audioUri?: string | null,
+  isSample?: boolean | null,
   userID?: string | null,
 };
 
@@ -942,6 +946,7 @@ export type ModelAudioAssetFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
   audioUri?: ModelStringInput | null,
+  isSample?: ModelBooleanInput | null,
   userID?: ModelIDInput | null,
   and?: Array< ModelAudioAssetFilterInput | null > | null,
   or?: Array< ModelAudioAssetFilterInput | null > | null,
@@ -4114,7 +4119,7 @@ export type CreateImageAssetMutation = {
   createImageAsset?:  {
     __typename: "ImageAsset",
     id: string,
-    title: string,
+    title?: string | null,
     imageUri?: string | null,
     isSample?: boolean | null,
     user?:  {
@@ -4188,7 +4193,7 @@ export type UpdateImageAssetMutation = {
   updateImageAsset?:  {
     __typename: "ImageAsset",
     id: string,
-    title: string,
+    title?: string | null,
     imageUri?: string | null,
     isSample?: boolean | null,
     user?:  {
@@ -4262,7 +4267,7 @@ export type DeleteImageAssetMutation = {
   deleteImageAsset?:  {
     __typename: "ImageAsset",
     id: string,
-    title: string,
+    title?: string | null,
     imageUri?: string | null,
     isSample?: boolean | null,
     user?:  {
@@ -4336,8 +4341,9 @@ export type CreateAudioAssetMutation = {
   createAudioAsset?:  {
     __typename: "AudioAsset",
     id: string,
-    title: string,
+    title?: string | null,
     audioUri?: string | null,
+    isSample?: boolean | null,
     user?:  {
       __typename: "User",
       id: string,
@@ -4409,8 +4415,9 @@ export type UpdateAudioAssetMutation = {
   updateAudioAsset?:  {
     __typename: "AudioAsset",
     id: string,
-    title: string,
+    title?: string | null,
     audioUri?: string | null,
+    isSample?: boolean | null,
     user?:  {
       __typename: "User",
       id: string,
@@ -4482,8 +4489,9 @@ export type DeleteAudioAssetMutation = {
   deleteAudioAsset?:  {
     __typename: "AudioAsset",
     id: string,
-    title: string,
+    title?: string | null,
     audioUri?: string | null,
+    isSample?: boolean | null,
     user?:  {
       __typename: "User",
       id: string,
@@ -8567,7 +8575,7 @@ export type GetImageAssetQuery = {
   getImageAsset?:  {
     __typename: "ImageAsset",
     id: string,
-    title: string,
+    title?: string | null,
     imageUri?: string | null,
     isSample?: boolean | null,
     user?:  {
@@ -8644,7 +8652,7 @@ export type ListImageAssetsQuery = {
     items:  Array< {
       __typename: "ImageAsset",
       id: string,
-      title: string,
+      title?: string | null,
       imageUri?: string | null,
       isSample?: boolean | null,
       user?:  {
@@ -8691,8 +8699,9 @@ export type GetAudioAssetQuery = {
   getAudioAsset?:  {
     __typename: "AudioAsset",
     id: string,
-    title: string,
+    title?: string | null,
     audioUri?: string | null,
+    isSample?: boolean | null,
     user?:  {
       __typename: "User",
       id: string,
@@ -8767,8 +8776,9 @@ export type ListAudioAssetsQuery = {
     items:  Array< {
       __typename: "AudioAsset",
       id: string,
-      title: string,
+      title?: string | null,
       audioUri?: string | null,
+      isSample?: boolean | null,
       user?:  {
         __typename: "User",
         id: string,
@@ -13442,7 +13452,7 @@ export type OnCreateImageAssetSubscription = {
   onCreateImageAsset?:  {
     __typename: "ImageAsset",
     id: string,
-    title: string,
+    title?: string | null,
     imageUri?: string | null,
     isSample?: boolean | null,
     user?:  {
@@ -13515,7 +13525,7 @@ export type OnUpdateImageAssetSubscription = {
   onUpdateImageAsset?:  {
     __typename: "ImageAsset",
     id: string,
-    title: string,
+    title?: string | null,
     imageUri?: string | null,
     isSample?: boolean | null,
     user?:  {
@@ -13588,7 +13598,7 @@ export type OnDeleteImageAssetSubscription = {
   onDeleteImageAsset?:  {
     __typename: "ImageAsset",
     id: string,
-    title: string,
+    title?: string | null,
     imageUri?: string | null,
     isSample?: boolean | null,
     user?:  {
@@ -13661,8 +13671,9 @@ export type OnCreateAudioAssetSubscription = {
   onCreateAudioAsset?:  {
     __typename: "AudioAsset",
     id: string,
-    title: string,
+    title?: string | null,
     audioUri?: string | null,
+    isSample?: boolean | null,
     user?:  {
       __typename: "User",
       id: string,
@@ -13733,8 +13744,9 @@ export type OnUpdateAudioAssetSubscription = {
   onUpdateAudioAsset?:  {
     __typename: "AudioAsset",
     id: string,
-    title: string,
+    title?: string | null,
     audioUri?: string | null,
+    isSample?: boolean | null,
     user?:  {
       __typename: "User",
       id: string,
@@ -13805,8 +13817,9 @@ export type OnDeleteAudioAssetSubscription = {
   onDeleteAudioAsset?:  {
     __typename: "AudioAsset",
     id: string,
-    title: string,
+    title?: string | null,
     audioUri?: string | null,
+    isSample?: boolean | null,
     user?:  {
       __typename: "User",
       id: string,

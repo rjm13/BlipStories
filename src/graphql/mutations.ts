@@ -2957,6 +2957,7 @@ export const createAudioAsset = /* GraphQL */ `
       id
       title
       audioUri
+      isSample
       user {
         id
         name
@@ -3020,6 +3021,7 @@ export const updateAudioAsset = /* GraphQL */ `
       id
       title
       audioUri
+      isSample
       user {
         id
         name
@@ -3083,6 +3085,7 @@ export const deleteAudioAsset = /* GraphQL */ `
       id
       title
       audioUri
+      isSample
       user {
         id
         name
