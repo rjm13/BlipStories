@@ -19,6 +19,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { AppContext } from '../AppContext';
+import StoryTile from '../components/StoryTile';
 
 import { listFinishedStories } from '../src/customGraphql/customQueries';
 import { listPinnedStories, listRatings } from '../src/graphql/queries';
@@ -363,7 +364,7 @@ const HistoryList = ({navigation} : any) => {
         }
         
         return (
-        <Item 
+        <StoryTile 
           title={item.title}
           imageUri={item.imageUri}
           genreName={genreName}

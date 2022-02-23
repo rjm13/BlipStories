@@ -149,7 +149,7 @@ const UploadAudio = ({navigation} : any) => {
             const blobImage = await responseImage.blob();
             const filenameImage = uuid.v4().toString();
             const s3ResponseImage = await Storage.put(filenameImage, blobImage);
-            const resultImage = await Storage.get(s3ResponseImage.key);
+            //const resultImage = await Storage.get(s3ResponseImage.key);
 
             const responseAudio = await fetch(localAudioUri);
             const blob = await responseAudio.blob();
@@ -174,11 +174,11 @@ const UploadAudio = ({navigation} : any) => {
                         description: data.description,
                         genreID: data.genreID,
                         author: data.author,
-                        narrator: data.narrator,
+                        //narrator: data.narrator,
                         time: data.time,
                         approved: true,
                         hidden: false,
-                        imageUri: resultImage,
+                        imageUri: s3ResponseImage.key,
                         audioUri: s3ResponseAudio.key,
                         userID: userInfo.attributes.sub,
                         nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : data.nsfw,

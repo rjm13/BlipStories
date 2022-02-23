@@ -89,6 +89,16 @@ const PopTagStories = ({genreid, tag, tagID} : any) => {
 //item for the flatlist carousel
     const Item = ({primary, title, ratingAvg, genreName, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
 
+        const [imageU, setImageU] = useState()
+        
+        useEffect(() => {
+            const fetchImage = async () => {
+                let response = await Storage.get(imageUri);
+                setImageU(response);
+            }
+            fetchImage()
+        }, [])
+
         const navigation = useNavigation();
 
         //set the gloabal context for the storyID
@@ -122,7 +132,7 @@ const PopTagStories = ({genreid, tag, tagID} : any) => {
 
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
                     <ImageBackground
-                        source={{uri: imageUri}}
+                        source={{uri: imageU}}
                         style={{marginBottom: 12, backgroundColor: '#ffffffa5', width: 200, height: 180, justifyContent: 'flex-end', borderRadius: 15}}
                         imageStyle={{borderRadius: 15,}}
                     >

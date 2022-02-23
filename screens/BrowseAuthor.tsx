@@ -18,7 +18,7 @@ import { Searchbar } from 'react-native-paper';
 
 import {LinearGradient} from 'expo-linear-gradient';
 
-import { API, graphqlOperation, Auth } from "aws-amplify";
+import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { getUser } from '../src/graphql/queries';
 import { listFollowingConns, listUsers } from '../src/graphql/queries';
 import { createFollowingConn, deleteFollowingConn } from '../src/graphql/mutations';
@@ -136,6 +136,16 @@ const FollowingScreen = ({navigation} : any) => {
     //title item for the flatlist that displays the authors the user following
     const Item = ({ numAuthored, pseudonym, imageUri, id, bio } : any) => {
 
+        const [imageU, setImageU] = useState()
+        
+        useEffect(() => {
+            const fetchImage = async () => {
+                let response = await Storage.get(imageUri);
+                setImageU(response);
+            }
+            fetchImage()
+        }, [])
+
         //on item render, determine if the user is following them or not
         const [isFollowing, setIsFollowing] = useState(true)
 
@@ -208,7 +218,7 @@ const FollowingScreen = ({navigation} : any) => {
                     <TouchableWithoutFeedback onPress={() => navigation.navigate('UserScreenStack', {userID: id})}>
                         <View style={{ flexDirection: 'row'}}>
                             <Image 
-                                source={ imageUri ? { uri: imageUri} : require('../assets/images/blankprofile.png')}
+                                source={ imageUri ? { uri: imageU} : require('../assets/images/blankprofile.png')}
                                 style={{
                                     width: 50,
                                     height: 50,

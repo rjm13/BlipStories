@@ -167,6 +167,7 @@ const AudioPlayer  = () => {
 //use storyID to retrieve Story from AWS
     const [Story, setStory] = useState(null);
     const [AudioUri, setAudioUri] = useState('');
+    const [imageU, setImageU] = useState('')
 
 //fetch the story attributes and audioUri from the s3 bucket
     useEffect(() => {
@@ -181,7 +182,9 @@ const AudioPlayer  = () => {
                     const response = await Storage.get(storyData.data.getStory.audioUri, {download: false, 
                         //expiration: 604800
                     });
+                    const imageresponse = await Storage.get(storyData.data.getStory.imageUri)
                     setAudioUri(response);
+                    setImageU(imageresponse);
                     setPosition(0);
                 }
             } catch (e) {
@@ -519,7 +522,7 @@ const AddToHistory = async () => {
                         height: null,
                         backgroundColor: '#363636'
                     }}
-                    source={{uri: Story?.imageUri}}
+                    source={{uri: imageU}}
                 >
                 { isExpanded === false ? (
                     <Animated.View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'space-between', marginHorizontal: 20}}>

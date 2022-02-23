@@ -65,6 +65,8 @@ const EditProfile = ({navigation} : any) => {
     //the current authenticated user object
     const [user, setUser] = useState(User)
 
+    const [imageU, setImageU] = useState('');
+
     //determines if the user object updated. If it did, pull the info
     const [update, didUpdate] = useState(false);
 
@@ -80,7 +82,11 @@ const EditProfile = ({navigation} : any) => {
                     getUser, {id: userInfo.attributes.sub}
                 ))
 
-                if (userData) {setUser(userData.data.getUser);}
+                if (userData) {
+                    setUser(userData.data.getUser);
+                    let imageresponse = await Storage.get(userData.data.getUser.imageUri)
+                    setImageU(imageresponse)
+                }
 
                 console.log(userData.data.getUser);
 
@@ -174,9 +180,9 @@ const PublishAvatar = async () => {
 
     //if ( avatarKey !== '' ) {
 
-        const getresponse = await Storage.get(s3Response.key);
+        //const getresponse = await Storage.get(s3Response.key);
   
-        const updatedUser = { id: user.id, imageUri: getresponse }
+        const updatedUser = { id: user.id, imageUri: s3Response.key }
   
         let result = await API.graphql(graphqlOperation(
             updateUser, { input: updatedUser }
@@ -483,7 +489,7 @@ const handleUpdatePassword = async () => {
                 <View style={{ alignItems: 'center'}}>
                     <TouchableOpacity onPress={pickImage}>
                     <Image 
-                        source={{ uri: image || user?.imageUri}} 
+                        source={{ uri: image || imageU}} 
                         style={styles.modalavatar} 
                     />
                     </TouchableOpacity>
@@ -638,7 +644,7 @@ const handleUpdatePassword = async () => {
                     <View style={styles.photocontainer }>
                         <Text style={ styles.words }>Photo</Text>
                         <Image 
-                            source={user?.imageUri ? { uri: user?.imageUri} : require('../assets/images/blankprofile.png')} 
+                            source={user?.imageUri ? { uri: imageU} : require('../assets/images/blankprofile.png')} 
                             style={styles.avatar} 
                         />
                     </View>

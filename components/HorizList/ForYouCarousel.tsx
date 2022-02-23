@@ -18,7 +18,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 
 import { listPinnedStories, listStories } from '../../src/graphql/queries';
-import {graphqlOperation, API, Auth} from 'aws-amplify';
+import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 
 import { AppContext } from '../../AppContext';
@@ -31,6 +31,16 @@ import unPinStory from '../functions/UnPinStory';
 const ForYouCarousel = () => {
 
     const Item = ({primary, title, userID, genreName, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
+
+        const [imageU, setImageU] = useState()
+        
+        useEffect(() => {
+            const fetchImage = async () => {
+                let response = await Storage.get(imageUri);
+                setImageU(response);
+            }
+            fetchImage()
+        }, [])
 
         //navigation hook
         const navigation = useNavigation();
@@ -158,7 +168,7 @@ const ForYouCarousel = () => {
 
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
                     <ImageBackground
-                        source={{uri: imageUri}}
+                        source={{uri: imageU}}
                         style={{backgroundColor: '#ffffffa5', width: '100%', height: 280, justifyContent: 'flex-end', borderRadius: 15}}
                         imageStyle={{
                             borderRadius: 15,

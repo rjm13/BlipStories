@@ -77,13 +77,19 @@ const StoryScreen  = ({navigation} : any) => {
             try {
                 const storyData = await API.graphql(graphqlOperation(getStory, {id: storyID}))
 
-                if (storyData) {setStory(storyData.data.getStory);
+                if (storyData) {
+                    setStory(storyData.data.getStory);
+                    let response = await Storage.get(storyData.data.getStory.imageUri);
+                    setImageU(response);
                 }
             } catch (e) {
                 console.log(e);
             }}
         fetchStory();
     }, [storyID])
+
+    const [imageU, setImageU] = useState()
+        
 
 //rating state (if rated or not)
     const [isLiked, setIsLiked] = useState(false);
@@ -727,7 +733,7 @@ const StoryScreen  = ({navigation} : any) => {
                 </Portal>
 
                 <ImageBackground 
-                    source={{uri: Story?.imageUri}}
+                    source={{uri: imageU}}
                     style={{  backgroundColor: '#363636', width: Dimensions.get('window').width, height: 330,  position: 'absolute'  }}
                 >
                     {Story?.imageUri ? (null) : (

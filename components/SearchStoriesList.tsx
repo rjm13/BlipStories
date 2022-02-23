@@ -19,6 +19,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import { AppContext } from '../AppContext';
+import StoryTile from '../components/StoryTile';
 
 import { listPinnedStories, listRatings, listStories } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
@@ -350,7 +351,7 @@ const SearchStoriesList = ({search} : any) => {
 
         return (
 
-        <Item 
+        <StoryTile 
             title={item.title}
             imageUri={item.imageUri}
             genreName={genreName}

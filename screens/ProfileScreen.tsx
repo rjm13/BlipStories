@@ -13,7 +13,7 @@ import {StatusBar} from 'expo-status-bar';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import { API, graphqlOperation, Auth } from "aws-amplify";
+import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { getUser, listFollowingConns } from '../src/graphql/queries';
 
 
@@ -25,6 +25,7 @@ const ProfileScreen = ({navigation} : any) => {
 
     //the current authenticated user
     const [user, setUser] = useState();
+    const [imageU, setImageU] = useState();
 
     //on render, set the current user and get the list of followers an author has
     useEffect(() => {
@@ -38,7 +39,11 @@ const ProfileScreen = ({navigation} : any) => {
                 getUser, {id: userInfo.attributes.sub}
             ))
 
-            if (userData) {setUser(userData.data.getUser);}
+            if (userData) {
+                setUser(userData.data.getUser);
+                let imageresponse = await Storage.get(userData.data.getUser.imageUri)
+                setImageU(imageresponse)
+            }
 
             const getFollowers = await API.graphql(graphqlOperation(
                 listFollowingConns, {
@@ -86,7 +91,7 @@ const ProfileScreen = ({navigation} : any) => {
                 <ScrollView style={{ height: '86%'}}>
                     <View style={{ alignItems: 'center'}}>
                         <Image 
-                            source={ user?.imageUri ? { uri: user.imageUri} : require('../assets/images/blankprofile.png')}
+                            source={ user?.imageUri ? { uri: imageU} : require('../assets/images/blankprofile.png')}
                             style={{
                                 width: 120,
                                 height: 120,

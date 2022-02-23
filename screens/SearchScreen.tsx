@@ -26,6 +26,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import SearchStoriesList from '../components/SearchStoriesList';
 
 import { AppContext } from '../AppContext';
+import StoryTile from '../components/StoryTile';
 
 import { listPinnedStories, listRatings, listStories, listTags } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
@@ -451,7 +452,7 @@ const SearchScreen = ({navigation} : any) => {
 
         return (
 
-      <Item 
+      <StoryTile 
             title={item.title}
             imageUri={item.imageUri}
             genreName={genreName}

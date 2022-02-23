@@ -26,7 +26,7 @@ import { AppContext } from '../../AppContext';
 import { listPinnedStories } from '../../src/customGraphql/customQueries';
 import { listStories, storiesByDate } from '../../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
-import {graphqlOperation, API, Auth} from 'aws-amplify';
+import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 
 
 const NewGenreStories = ({genreid} : any) => {
@@ -89,6 +89,16 @@ const NewGenreStories = ({genreid} : any) => {
 //item for the flatlist carousel
     const Item = ({primary, title, ratingAvg, genreName, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
 
+        const [imageU, setImageU] = useState()
+        
+        useEffect(() => {
+            const fetchImage = async () => {
+                let response = await Storage.get(imageUri);
+                setImageU(response);
+            }
+            fetchImage()
+        }, [])
+
         const navigation = useNavigation();
 
         //set the gloabal context for the storyID
@@ -122,7 +132,7 @@ const NewGenreStories = ({genreid} : any) => {
 
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
                     <ImageBackground
-                        source={{uri: imageUri}}
+                        source={{uri: imageU}}
                         style={{marginBottom: 12, backgroundColor: '#ffffffa5', width: 200, height: 180, justifyContent: 'flex-end', borderRadius: 15}}
                         imageStyle={{borderRadius: 15,}}
                     >

@@ -14,7 +14,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import { API, graphqlOperation, Auth } from "aws-amplify";
+import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { getUser, listStories, listRatings } from '../src/graphql/queries';
 import { updateStory } from '../src/graphql/mutations';
 
@@ -38,7 +38,16 @@ const StoryTile = ({
     ratingAvg
 } : any) => {
         
+    const [imageU, setImageU] = useState()
         
+        useEffect(() => {
+            const fetchImage = async () => {
+                let response = await Storage.get(imageUri);
+                setImageU(response);
+            }
+            fetchImage()
+        }, [])    
+
     const navigation = useNavigation();
 
     const [didUpdate, setDidUpdate] = useState(false);
@@ -244,9 +253,9 @@ const StoryTile = ({
 
                     <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
                         <Image 
-                            source={{uri: imageUri}}
+                            source={{uri: imageU}}
                             style={{
-                                height: imageUri ? 200 : 0,
+                                height: imageU ? 200 : 0,
                                 borderRadius: 15,
                                 marginVertical: 15,
                                 marginHorizontal: -10

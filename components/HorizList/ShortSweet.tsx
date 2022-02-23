@@ -28,7 +28,7 @@ import { AppContext } from '../../AppContext';
 import { listPinnedStories } from '../../src/customGraphql/customQueries';
 import { listStories, storiesByDate } from '../../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
-import {graphqlOperation, API, Auth} from 'aws-amplify';
+import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 
 
 const ShortSweet = ({genreid} : any) => {
@@ -99,18 +99,41 @@ const ShortSweet = ({genreid} : any) => {
                             }
                         )
                     )
-                    setStories(response.data.storiesByDate.items);
 
-                } catch (e) {
-                    console.log(e);}
+                setStories(response.data.storiesByDate.items);
+
+            //     let newArr = response.data.storiesByDate.items
+
+            //     for (let i = 0; i < newArr.length; i++) {
+            
+            //         const getUri = await Storage.get(newArr[i].imageUri);
+
+            //         newArr[i].imageUri = getUri
+            // }
+            //         setStories(newArr);
+
+            } catch (e) {
+                 console.log(e);}
         }
 
         fetchStorys();
 
     },[didUpdate])
 
+
+
 //item for the flatlist carousel
     const Item = ({primary, title, ratingAvg, icon, genreName, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
+
+        const [imageU, setImageU] = useState()
+        
+        useEffect(() => {
+            const fetchImage = async () => {
+                let response = await Storage.get(imageUri);
+                setImageU(response);
+            }
+            fetchImage()
+        }, [])
 
         const navigation = useNavigation();
 
@@ -145,7 +168,7 @@ const ShortSweet = ({genreid} : any) => {
 
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
                     <ImageBackground
-                        source={{uri: imageUri}}
+                        source={{uri: imageU}}
                         style={{marginBottom: 12, backgroundColor: '#ffffffa5', width: 200, height: 180, justifyContent: 'flex-end', borderRadius: 15}}
                         imageStyle={{borderRadius: 15,}}
                     >
