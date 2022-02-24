@@ -15,12 +15,14 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import {StatusBar} from 'expo-status-bar';
 import uuid from 'react-native-uuid';
+import * as DocumentPicker from 'expo-document-picker';
+import { Audio } from 'expo-av';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Modal, Portal, Provider } from 'react-native-paper';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, listAudioAssets } from '../src/graphql/queries';
+import { getUser, listAudioAssets, listUsers } from '../src/graphql/queries';
 import { updateStory, createAudioAsset } from '../src/graphql/mutations';
 
 import { useNavigation } from '@react-navigation/native';
@@ -31,6 +33,18 @@ import { AppContext } from '../AppContext';
 
 
 const SharedAssets = ({navigation} : any) => {
+
+    //request permission to access camera roll
+    useEffect(() => {
+        (async () => {
+          if (Platform.OS !== 'web') {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+              alert('Sorry, we need camera roll permissions to make this work!');
+            }
+          }
+        })();
+      }, []);
 
 
     const Item = ({id, title, time, userID, sharedUserID, audioUri, isSample, createdAt} : any) => {
@@ -164,7 +178,39 @@ const SharedAssets = ({navigation} : any) => {
           }
         }
            fetchAssets(); 
-      }, [didUpdate])
+      }, [didUpdate]);
+
+    const [data, setData] = useState({
+        title: '',
+        time: 0,
+        sharedUserID: 0,
+        sharedUserName: '',
+        createdAt: new Date(),
+})
+
+//audio picker
+    const [audioName, setAudioName] = useState('');
+
+    const pickAudio = async () => {
+        let result = await DocumentPicker.getDocumentAsync({
+        type: 'audio/*',
+        copyToCacheDirectory: false,
+        });
+
+        console.log(result);
+
+        if (result) {
+        setLocalAudioUri(result.uri);
+        setAudioName(result.name);
+        let { sound } = await Audio.Sound.createAsync(
+            {uri: result.uri},
+            {shouldPlay: false}
+        );
+        let duration = await sound.getStatusAsync();
+        setData({...data, time: duration.durationMillis});
+        console.log(duration);
+        }
+    };
 
     const [isFetching, setIsFetching] = useState(false);
 
@@ -198,72 +244,112 @@ const SharedAssets = ({navigation} : any) => {
     const hideUploadModal = () => setVisible2(false);
 
 
-    const [confirm, setConfirm] = useState(false);
+    const [publishers, setPublishers] = useState([]);
+
+    useEffect(() => {
+        const fetchPublishers = async () => {
+            const response = await API.graphql(graphqlOperation(
+                listUsers, {
+                    filter: {
+                        isPublisher: {
+                            eq: true
+                        }
+                    }
+                }
+            ))
+            setPublishers(response.data.listUsers.items)
+        }
+        fetchPublishers();
+    }, [])
+
+    const PublishItem = ({id, pseudonym, imageUri} : any) => {
+
+
+        return (
+            <TouchableWithoutFeedback onPress={() => {setData({...data, sharedUserID: id, sharedUserName: pseudonym}); hideModal();}}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <View>
+                        <Image 
+                            source={{uri: imageUri}}
+                            style={{width: 50, height: 50, borderRadius: 25, backgroundColor: 'gray'}}
+                        />
+                        <Text style={{fontWeight: 'bold', color: '#fff'}}>
+                            {pseudonym}
+                        </Text>
+                    </View>
+                    <View>
+                        <Text>
+
+                        </Text> 
+                    </View>
+                </View>
+            </TouchableWithoutFeedback>
+            
+        )
+    }
+
+//get the list of publishers to share with
+    const renderPublishers = ({item} : any) => {
+        return(
+            <PublishItem 
+                id={item.id}
+                pseudonym={item.pseudonym}
+                imageUri={item.imageUri}
+            />
+        )
+    }
 
 //progress of upload
     const [progressText, setProgressText] = useState(0);
 
     const [localAudioUri, setLocalAudioUri] = useState('')
 
+    const [isPublishing, setIsPublishing] = useState(false);
+
     const UploadAsset = async () => {
 
-        const userInfo = await Auth.currentAuthenticatedUser();
+        setIsPublishing(true);
 
-        const responseAudio = await fetch(localAudioUri);
-        const blob = await responseAudio.blob();
-        const filename = uuid.v4().toString();
-        const s3ResponseAudio = await Storage.put(filename, blob, {
-            progressCallback(uploadProgress) {
-                setProgressText(
-                    Math.round((uploadProgress.loaded / uploadProgress.total) * 100)
+        try {
+            const userInfo = await Auth.currentAuthenticatedUser();
+
+            const responseAudio = await fetch(localAudioUri);
+            const blob = await responseAudio.blob();
+            const filename = uuid.v4().toString();
+            const s3ResponseAudio = await Storage.put(filename, blob, {
+                progressCallback(uploadProgress) {
+                    setProgressText(
+                        Math.round((uploadProgress.loaded / uploadProgress.total) * 100)
                     );
-            }
-        })
+                }
+            })
 
-        const asset = await API.graphql(graphqlOperation(
-            createAudioAsset, {input: {
-                type: 'AudioAsset',
-                title: '',
-                audioUri: s3ResponseAudio.key,
-                isSample: false,
-                time: 0,
-                userID: userInfo.attributes.sub,
-                sharedUserID: 0,
-                createdAt: new Date(),
+            const asset = await API.graphql(graphqlOperation(
+                createAudioAsset, {input: {
+                    type: 'AudioAsset',
+                    title: data.title,
+                    audioUri: s3ResponseAudio.key,
+                    isSample: false,
+                    time: data.time,
+                    userID: userInfo.attributes.sub,
+                    sharedUserID: data.sharedUserID,
+                    createdAt: new Date(),
 
-            }}
-        ))
-        console.log(asset);
-        setDidUpdate(!didUpdate)
-        hideUploadModal();
+                }}
+            ))
+            console.log(asset);
+            setDidUpdate(!didUpdate);
+            setIsPublishing(false)
+            hideUploadModal();
+        } catch (e) {
+            console.log(e)
+        }        
     }
 
     return (
         <Provider>
             <Portal>
-                <Modal visible={visible} onDismiss={() => {hideModal(); setConfirm(false);}} contentContainerStyle={containerStyle}>
-                    <View style={{paddingHorizontal: 20, paddingVertical: 40, alignItems: 'center' }}>
-                        <Text style={{fontSize: 14, marginBottom: 20, textAlign: 'center', color: '#fff'}}>
-                            Once confirmed, this action cannot be undone and your story cannot be recovered!
-                        </Text>
-                        <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: '#fff', }}>
-                            Are you sure you want to permenantly delete this story?
-                        </Text>
-                        <View style={{marginTop: 40}}>
-                            <TouchableOpacity onPress={() => setConfirm(true)}>
-                                <View style={{
-                                    borderWidth: 1, alignItems: 'center', paddingHorizontal: 20, paddingVertical: 6, borderRadius: 20, 
-                                    borderColor: confirm === true ? '#ff0000' : 'gray', 
-                                    backgroundColor: confirm === true ? '#ff0000' : 'transparent',
-                                    }}>
-                                    <Text style={{fontWeight: 'bold', color: confirm === true ? '#ffffff' : 'gray'}}>
-                                        {confirm === true ? 'Hold to Delete' : 'Yes, Delete'}
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </Modal>
+                
                 <Modal visible={visible2} onDismiss={() => {hideUploadModal();}} contentContainerStyle={containerStyle}>
                     <View style={{marginHorizontal: 20, height: '90%'}}>
                         <Text style={{textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: 16}}>
@@ -279,6 +365,8 @@ const SharedAssets = ({navigation} : any) => {
                                         placeholder='...'
                                         placeholderTextColor='#fff'
                                         style={styles.textinput}
+                                        onChangeText={val => setData({...data, title: val})}
+                                        maxLength={50}
                                     />
                                 </View>
 
@@ -286,34 +374,75 @@ const SharedAssets = ({navigation} : any) => {
                                     <Text style={{color: '#fff', fontWeight: 'bold'}}>
                                         Select Audio
                                     </Text>
-                                    <View style={[styles.textinput, {justifyContent: 'center'}]}>
-                                        <Text style={{color: '#fff'}}>
-                                            Select Audio File
+                                    <TouchableWithoutFeedback onPress={pickAudio}>
+                                        <View style={[styles.textinput, {justifyContent: 'center'}]}>
+                                            <Text style={{color: '#fff'}}>
+                                                Select Audio File
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                    
+                                    {audioName !== '' ? (
+                                        <Text style={{marginTop: 10, textAlign: 'center', color: '#00ffffa5'}}>
+                                            {audioName}
                                         </Text>
-                                    </View>
+                                    ) : null}
                                 </View>
 
                                 <View style={{marginTop: 20}}>
                                     <Text style={{color: '#fff', fontWeight: 'bold'}}>
                                         Share With
                                     </Text>
-                                    <View style={[styles.textinput, {justifyContent: 'center'}]}>
-                                        <Text style={{color: '#fff'}}>
-                                            Select a Publisher
+                                    <TouchableWithoutFeedback onPress={showModal}>
+                                        <View style={[styles.textinput, {justifyContent: 'center'}]}>
+                                            <Text style={{color: '#fff'}}>
+                                                Select a Publisher
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                    <View>
+                                        <Text style={{marginTop: 10, color: '#00ffffa5', textAlign: 'center'}}>
+                                            {data.sharedUserName}
                                         </Text>
                                     </View>
+
                                 </View>
                             </View>
-                            <TouchableOpacity onPress={UploadAsset}>
-                                <View style={{alignSelf: 'center', margin: 20}}>
-                                    <Text style={{backgroundColor: 'cyan', color: '#000', paddingHorizontal: 20, paddingVertical: 6, borderRadius: 15}}>
-                                        Upload
+                            {isPublishing === true ?  (
+                                <View>
+                                    <ActivityIndicator size='large' color='cyan'/>
+                                    <Text style={{color: '#fff', marginTop: 10}}>
+                                        {progressText}
                                     </Text>
                                 </View>
-                            </TouchableOpacity>
+                            ) : (
+                                <TouchableOpacity onPress={UploadAsset}>
+                                    <View style={{alignSelf: 'center', margin: 20}}>
+                                        <Text style={{backgroundColor: 'cyan', color: '#000', paddingHorizontal: 20, paddingVertical: 6, borderRadius: 15}}>
+                                            Upload
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )}
+                            
                             
                         </View>
                         
+                    </View>
+                </Modal>
+
+                <Modal visible={visible} onDismiss={() => {hideModal()}} contentContainerStyle={containerStyle}>
+                    <View style={{paddingHorizontal: 20, paddingVertical: 40, alignItems: 'center' }}>
+                        <Text style={{fontSize: 14, marginBottom: 20, textAlign: 'center', color: '#fff'}}>
+                            Find a Publisher
+                        </Text>
+                        <View style={{marginTop: 40}}>
+                            <FlatList 
+                                data={publishers}
+                                keyExtractor={item => item}
+                                renderItem={renderPublishers}
+                            />
+                        </View>
                     </View>
                 </Modal>
             </Portal>
@@ -472,7 +601,8 @@ const styles = StyleSheet.create ({
         borderRadius: 10,
         marginTop: 10,
         height: 40,
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        color: '#fff'
     },
 
 });
