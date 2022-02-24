@@ -10,7 +10,7 @@ type User @model @auth(rules: [{ allow: owner, operations: [create, delete, upda
   bio: String
   following: [ID]
   authored: [Story] @hasMany(indexName: "byUser", fields: "id")
-  narrated: [Story] @hasMany(indexName: "byNarrator", fields: "id")
+  narrated: [Story] @hasMany(indexName: "byNarratorUser", fields: "id")
   art: [Story] @hasMany(indexName: "byArtist", fields: "id")
   numAuthored: Int
   pseudonym: String
@@ -78,8 +78,9 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   #author: User @hasOne(fields: ["id"])
   author: String
   authorID: ID @index(name: "byAuthor", sortKeyFields: ["id"])
-  narrator: User @hasOne (fields: ["narratorID"])
-  narratorID: ID @index(name: "byNarrator", sortKeyFields: ["id"])
+  narrator: String
+  narratorUser: User @hasOne (fields: ["narratorID"])
+  narratorID: ID @index(name: "byNarratorUser", sortKeyFields: ["id"])
   artist: User @hasOne (fields: ["artistID"])
   artistID: ID @index(name: "byArtist", sortKeyFields: ["id"])
   time: Int
@@ -122,11 +123,16 @@ type ImageAsset @model @auth(rules: [{ allow: owner, operations: [create, delete
 type AudioAsset @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
   {
     id: ID!
+    type: String @index(name: "audioAssetsByDate", queryField: "audioAssetsByDate", sortKeyFields: ["createdAt"]  )
     title: String
     audioUri: String
+    time: String
     isSample: Boolean
     user: User @hasOne (fields: ["userID"])
     userID: ID
+    sharedUserID: ID
+    sharedUser: User @hasOne (fields: ["userID"])
+    createdAt: String
 }
 
 type Flag @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])

@@ -21,6 +21,7 @@ export const getUser = /* GraphQL */ `
           userID
           author
           authorID
+          narrator
           narratorID
           artistID
           time
@@ -49,6 +50,7 @@ export const getUser = /* GraphQL */ `
           userID
           author
           authorID
+          narrator
           narratorID
           artistID
           time
@@ -77,6 +79,7 @@ export const getUser = /* GraphQL */ `
           userID
           author
           authorID
+          narrator
           narratorID
           artistID
           time
@@ -125,6 +128,7 @@ export const getUser = /* GraphQL */ `
           userID
           author
           authorID
+          narrator
           narratorID
           artistID
           time
@@ -167,6 +171,7 @@ export const getUser = /* GraphQL */ `
           userID
           author
           authorID
+          narrator
           narratorID
           artistID
           time
@@ -520,7 +525,8 @@ export const getPinnedStory = /* GraphQL */ `
         userID
         author
         authorID
-        narrator {
+        narrator
+        narratorUser {
           id
           name
           email
@@ -660,6 +666,7 @@ export const listPinnedStories = /* GraphQL */ `
           userID
           author
           authorID
+          narrator
           narratorID
           artistID
           time
@@ -773,7 +780,8 @@ export const getFinishedStory = /* GraphQL */ `
         userID
         author
         authorID
-        narrator {
+        narrator
+        narratorUser {
           id
           name
           email
@@ -914,6 +922,7 @@ export const listFinishedStories = /* GraphQL */ `
           userID
           author
           authorID
+          narrator
           narratorID
           artistID
           time
@@ -996,7 +1005,8 @@ export const getStory = /* GraphQL */ `
       userID
       author
       authorID
-      narrator {
+      narrator
+      narratorUser {
         id
         name
         email
@@ -1199,7 +1209,8 @@ export const listStories = /* GraphQL */ `
         userID
         author
         authorID
-        narrator {
+        narrator
+        narratorUser {
           id
           name
           email
@@ -1584,7 +1595,8 @@ export const getFlag = /* GraphQL */ `
         userID
         author
         authorID
-        narrator {
+        narrator
+        narratorUser {
           id
           name
           email
@@ -1746,6 +1758,7 @@ export const listFlags = /* GraphQL */ `
           userID
           author
           authorID
+          narrator
           narratorID
           artistID
           time
@@ -1839,7 +1852,8 @@ export const getComment = /* GraphQL */ `
         userID
         author
         authorID
-        narrator {
+        narrator
+        narratorUser {
           id
           name
           email
@@ -2002,6 +2016,7 @@ export const listComments = /* GraphQL */ `
           userID
           author
           authorID
+          narrator
           narratorID
           artistID
           time
@@ -2164,7 +2179,8 @@ export const getRating = /* GraphQL */ `
         userID
         author
         authorID
-        narrator {
+        narrator
+        narratorUser {
           id
           name
           email
@@ -2339,6 +2355,7 @@ export const listRatings = /* GraphQL */ `
           userID
           author
           authorID
+          narrator
           narratorID
           artistID
           time
@@ -2444,7 +2461,8 @@ export const getStoryTag = /* GraphQL */ `
         userID
         author
         authorID
-        narrator {
+        narrator
+        narratorUser {
           id
           name
           email
@@ -2581,6 +2599,7 @@ export const listStoryTags = /* GraphQL */ `
           userID
           author
           authorID
+          narrator
           narratorID
           artistID
           time
@@ -2671,6 +2690,7 @@ export const finishedStoriesByDate = /* GraphQL */ `
           userID
           author
           authorID
+          narrator
           narratorID
           artistID
           time
@@ -2747,7 +2767,8 @@ export const storiesByDate = /* GraphQL */ `
         userID
         author
         authorID
-        narrator {
+        narrator
+        narratorUser {
           id
           name
           email
@@ -2869,6 +2890,7 @@ export const commentsByDate = /* GraphQL */ `
           userID
           author
           authorID
+          narrator
           narratorID
           artistID
           time
@@ -2951,6 +2973,7 @@ export const ratingsByDate = /* GraphQL */ `
           userID
           author
           authorID
+          narrator
           narratorID
           artistID
           time

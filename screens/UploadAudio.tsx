@@ -32,14 +32,22 @@ import uuid from 'react-native-uuid';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { createStory, createStoryTag, createTag, updateUser } from '../src/graphql/mutations';
-import { listTags, getUser, listGenres } from '../src/graphql/queries';
+import { listTags, getUser, listGenres, listAudioAssets } from '../src/graphql/queries';
 import { getStory, listStoryTags } from '../src/graphql/queries';
 
 
 const UploadAudio = ({navigation} : any) => {   
 
     //set the current user
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState()
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            let userInfo = await Auth.currentAuthenticatedUser();
+            setUser(userInfo.attributes.sub)
+        }
+        fetchUser();
+    }, [])
 
 
 
@@ -60,6 +68,7 @@ const UploadAudio = ({navigation} : any) => {
         imageUri: '',
         audioUri: '',
         nsfw: false,
+        narratorID: '',
     });
 
     const [numAuthored, setNumAuthored] = useState(0)
@@ -174,7 +183,8 @@ const UploadAudio = ({navigation} : any) => {
                         description: data.description,
                         genreID: data.genreID,
                         author: data.author,
-                        //narrator: data.narrator,
+                        narrator: data.narrator,
+                        narratorID: data.narratorID,
                         time: data.time,
                         approved: true,
                         hidden: false,
@@ -337,9 +347,18 @@ const UploadAudio = ({navigation} : any) => {
 
       const hideModal = () => setVisible(false);
       const containerStyle = {
-          backgroundColor: 'transparent', 
+          backgroundColor: '#363636', 
           padding: 20,
+          borderRadius: 20, 
       }; 
+
+//Modal
+    const [visible2, setVisible2] = useState(false);
+    
+    const showNarratorModal = () => setVisible2(true);
+
+    const hideNarratorModal = () => setVisible2(false);
+ 
       
 //terms state management
       const [termsAgree, setTermsAgree] = useState(false);
@@ -393,7 +412,7 @@ const UploadAudio = ({navigation} : any) => {
 
     const LocalAudioContainerStyle = {
         backgroundColor: 'transparent', 
-        padding: 20,
+        padding: 15,
     }; 
 
     const [localAudioArray, setLocalAudioArray] = useState([])
@@ -426,7 +445,7 @@ const UploadAudio = ({navigation} : any) => {
         const SetAudio = () => {
             setLocalAudioUri(itemState.audio);
             setAudioName(itemState.title);
-            setData({...data, time: itemState.time})
+            setData({...data, time: itemState.time, narratorID: user})
             hideLocalAudioModal();
         }
 
@@ -489,7 +508,105 @@ const UploadAudio = ({navigation} : any) => {
         <Item 
           item={item}
         />
-      );
+    );
+
+    const [sharedAudio, setSharedAudio] = useState([]);
+
+    useEffect(() => {
+
+        const fetchAudioAssets = async () => {
+            const response = await API.graphql(graphqlOperation(
+                listAudioAssets, {
+                    type: 'Story',
+                    sortDirection: 'DESC',
+                    filter: {
+                        sharedUserID: {
+                            eq: user?.id
+                        }
+                    }
+                }
+            ))
+            setSharedAudio(response)
+        }
+        fetchAudioAssets();
+
+    }, [])
+
+    const dummyAudioAsset = [
+        {
+            id: 1,
+            title: 'Visceral Falls',
+            audioUri: 'Test Aduio Uri',
+            isSample: false,
+            time: 100040,
+            userID: 'Jerry Jones',
+            sharedUser: user?.id,
+            createdAt: 'Dec 18 2022'
+        },
+        {
+            id: 2,
+            title: 'Gravity Falls',
+            audioUri: 'Test Aduio Uri',
+            isSample: false,
+            time: 100040,
+            userID: 'Jerry Jones',
+            sharedUser: user?.id,
+            createdAt: 'Dec 18 2022'
+        },
+        {
+            id: 3,
+            title: 'Canyon Falls',
+            audioUri: 'Test Aduio Uri',
+            isSample: false,
+            time: 100040,
+            userID: 'Jerry Jones',
+            sharedUser: user?.id,
+            createdAt: 'Dec 18 2022'
+        },
+    ]
+
+    const SharedItem = ({id, title, audioUri, isSample, time, userID, sharedUserID, createdAt} : any) => {
+        return (
+            <View>
+                <View style={{marginTop: 20, padding: 10, width: '100%', backgroundColor: '#232323', alignSelf: 'center', borderRadius: 10}}>
+                    <TouchableOpacity>
+                        <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <View>
+                            <Text style={{color: '#fff', fontWeight: 'bold', marginBottom: 2}}>
+                                    {title}
+                                </Text>
+                                <Text style={{color: '#ffffffa5', marginBottom: 6, fontSize: 12}}>
+                                    {/* {format(itemState.created, "MMM do yyyy")} */}{createdAt}
+                                </Text> 
+                            </View>
+                            
+                            <Text style={{color: '#fff', fontSize: 12}}>
+                                {time}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <Text style={{color: '#ffffffa5', marginTop: 2, marginLeft: 5}}>
+                    Shared by {userID}
+                </Text>
+            </View>
+        )
+    }
+
+    const renderSharedItem = ({item} : any) => {
+        return (
+            <SharedItem 
+                id={item.id}
+                title={item.title}
+                audioUri={item.audioUri}
+                isSample={item.isSample}
+                time={item.time}
+                userID={item.userID}
+                sharedUserID={item.sharedUserID}
+                createdAt={item.createdAt}
+            />
+        )
+    }
 
   return (
     <Provider>
@@ -659,6 +776,30 @@ const UploadAudio = ({navigation} : any) => {
                         </View>
                             
                     </ScrollView>
+                </Modal>
+
+                <Modal visible={visible2} onDismiss={hideNarratorModal} contentContainerStyle={containerStyle}>
+                    <View style={{height: '80%'}}>
+                        <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 16}}>
+                            Shared Files
+                        </Text>
+                        <Text style={{color: 'gray', fontSize: 11, marginTop: 4, marginBottom: 20}}>
+                            Files that are shared with me from narrators will appear here for upload.
+                        </Text>
+                        <View style={{marginVertical: 10, alignSelf: 'center', width: '90%', height: 1, backgroundColor: '#fff'}}/>
+                        <FlatList 
+                            data={dummyAudioAsset}
+                            keyExtractor={item => item.id.toString()}
+                            renderItem={renderSharedItem}
+                            showsVerticalScrollIndicator={false}
+                            ListFooterComponent={() => {
+                                return(
+                                    <View style={{height: 60}}/>
+                                )
+                            }}
+                        />
+                        
+                    </View>
                 </Modal>
             </Portal>
 
@@ -873,7 +1014,10 @@ const UploadAudio = ({navigation} : any) => {
                         />
                     </View>
 
-                    <View style={{ width: '100%', marginBottom: 20, marginTop: 20, }}>
+                    <View style={{ width: '100%', marginBottom: 20, marginTop: 10, }}>
+                    <Text style={styles.inputheader}>
+                        Cover Art
+                    </Text>
                         <TouchableOpacity onPress={pickImage}>
                             <View style={{ marginHorizontal: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
                                 <Text style={{ color: '#ffffffa5'}}>
@@ -889,8 +1033,21 @@ const UploadAudio = ({navigation} : any) => {
                         ) : null}
                     </View>
 
+                    <Text style={[styles.inputheader, {marginTop: 10}]}>
+                        Audio *
+                    </Text>
+                    <View style={{ width: '100%', marginBottom: 0, marginTop: 0, }}>
+                        <TouchableOpacity onPress={showNarratorModal}>
+                            <View style={{ marginHorizontal: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
+                                <Text style={{ textAlign: 'center', color: '#ffffffa5'}}>
+                                    Select shared audio
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
                     <View style={{width: '100%', justifyContent: 'space-between', marginTop: 20, flexDirection: 'row', alignItems: 'center'}}>
-                        <View style={{ width: '45%'}}>
+                        <View style={{ width: '48%'}}>
                             <TouchableOpacity onPress={pickAudio}>
                                 <View style={{ marginLeft: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
                                     <Text style={{ textAlign: 'center', color: '#ffffffa5'}}>
@@ -900,7 +1057,7 @@ const UploadAudio = ({navigation} : any) => {
                             </TouchableOpacity>
                         </View>
 
-                        <View style={{ width: '45%'}}>
+                        <View style={{ width: '48%'}}>
                             <TouchableOpacity onPress={showLocalAudioModal}>
                                 <View style={{ marginRight: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
                                     <Text style={{ textAlign: 'center', color: '#ffffffa5'}}>

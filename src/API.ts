@@ -179,7 +179,8 @@ export type Story = {
   userID?: string | null,
   author?: string | null,
   authorID?: string | null,
-  narrator?: User | null,
+  narrator?: string | null,
+  narratorUser?: User | null,
   narratorID?: string | null,
   artist?: User | null,
   artistID?: string | null,
@@ -446,6 +447,7 @@ export type CreateStoryInput = {
   userID?: string | null,
   author?: string | null,
   authorID?: string | null,
+  narrator?: string | null,
   narratorID?: string | null,
   artistID?: string | null,
   time?: number | null,
@@ -469,6 +471,7 @@ export type ModelStoryConditionInput = {
   userID?: ModelIDInput | null,
   author?: ModelStringInput | null,
   authorID?: ModelIDInput | null,
+  narrator?: ModelStringInput | null,
   narratorID?: ModelIDInput | null,
   artistID?: ModelIDInput | null,
   time?: ModelIntInput | null,
@@ -508,6 +511,7 @@ export type UpdateStoryInput = {
   userID?: string | null,
   author?: string | null,
   authorID?: string | null,
+  narrator?: string | null,
   narratorID?: string | null,
   artistID?: string | null,
   time?: number | null,
@@ -889,6 +893,7 @@ export type ModelStoryFilterInput = {
   userID?: ModelIDInput | null,
   author?: ModelStringInput | null,
   authorID?: ModelIDInput | null,
+  narrator?: ModelStringInput | null,
   narratorID?: ModelIDInput | null,
   artistID?: ModelIDInput | null,
   time?: ModelIntInput | null,
@@ -1067,6 +1072,7 @@ export type CreateUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -1097,6 +1103,7 @@ export type CreateUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -1127,6 +1134,7 @@ export type CreateUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -1179,6 +1187,7 @@ export type CreateUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -1225,6 +1234,7 @@ export type CreateUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -1281,6 +1291,7 @@ export type UpdateUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -1311,6 +1322,7 @@ export type UpdateUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -1341,6 +1353,7 @@ export type UpdateUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -1393,6 +1406,7 @@ export type UpdateUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -1439,6 +1453,7 @@ export type UpdateUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -1495,6 +1510,7 @@ export type DeleteUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -1525,6 +1541,7 @@ export type DeleteUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -1555,6 +1572,7 @@ export type DeleteUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -1607,6 +1625,7 @@ export type DeleteUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -1653,6 +1672,7 @@ export type DeleteUserMutation = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -2167,7 +2187,8 @@ export type CreatePinnedStoryMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -2370,7 +2391,8 @@ export type UpdatePinnedStoryMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -2573,7 +2595,8 @@ export type DeletePinnedStoryMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -2777,7 +2800,8 @@ export type CreateFinishedStoryMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -2981,7 +3005,8 @@ export type UpdateFinishedStoryMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -3185,7 +3210,8 @@ export type DeleteFinishedStoryMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -3356,7 +3382,8 @@ export type CreateStoryMutation = {
     userID?: string | null,
     author?: string | null,
     authorID?: string | null,
-    narrator?:  {
+    narrator?: string | null,
+    narratorUser?:  {
       __typename: "User",
       id: string,
       name?: string | null,
@@ -3611,7 +3638,8 @@ export type UpdateStoryMutation = {
     userID?: string | null,
     author?: string | null,
     authorID?: string | null,
-    narrator?:  {
+    narrator?: string | null,
+    narratorUser?:  {
       __typename: "User",
       id: string,
       name?: string | null,
@@ -3866,7 +3894,8 @@ export type DeleteStoryMutation = {
     userID?: string | null,
     author?: string | null,
     authorID?: string | null,
-    narrator?:  {
+    narrator?: string | null,
+    narratorUser?:  {
       __typename: "User",
       id: string,
       name?: string | null,
@@ -4601,7 +4630,8 @@ export type CreateFlagMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -4805,7 +4835,8 @@ export type UpdateFlagMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -5009,7 +5040,8 @@ export type DeleteFlagMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -5214,7 +5246,8 @@ export type CreateCommentMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -5419,7 +5452,8 @@ export type UpdateCommentMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -5624,7 +5658,8 @@ export type DeleteCommentMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -5958,7 +5993,8 @@ export type CreateRatingMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -6176,7 +6212,8 @@ export type UpdateRatingMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -6394,7 +6431,8 @@ export type DeleteRatingMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -6612,7 +6650,8 @@ export type CreateStoryTagMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -6786,7 +6825,8 @@ export type UpdateStoryTagMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -6960,7 +7000,8 @@ export type DeleteStoryTagMutation = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -7111,6 +7152,7 @@ export type GetUserQuery = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -7141,6 +7183,7 @@ export type GetUserQuery = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -7171,6 +7214,7 @@ export type GetUserQuery = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -7223,6 +7267,7 @@ export type GetUserQuery = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -7269,6 +7314,7 @@ export type GetUserQuery = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -7671,7 +7717,8 @@ export type GetPinnedStoryQuery = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -7822,6 +7869,7 @@ export type ListPinnedStoriesQuery = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -7949,7 +7997,8 @@ export type GetFinishedStoryQuery = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -8101,6 +8150,7 @@ export type ListFinishedStoriesQuery = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -8195,7 +8245,8 @@ export type GetStoryQuery = {
     userID?: string | null,
     author?: string | null,
     authorID?: string | null,
-    narrator?:  {
+    narrator?: string | null,
+    narratorUser?:  {
       __typename: "User",
       id: string,
       name?: string | null,
@@ -8425,7 +8476,8 @@ export type ListStoriesQuery = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -8861,7 +8913,8 @@ export type GetFlagQuery = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -9041,6 +9094,7 @@ export type ListFlagsQuery = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -9141,7 +9195,8 @@ export type GetCommentQuery = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -9322,6 +9377,7 @@ export type ListCommentsQuery = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -9503,7 +9559,8 @@ export type GetRatingQuery = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -9697,6 +9754,7 @@ export type ListRatingsQuery = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -9810,7 +9868,8 @@ export type GetStoryTagQuery = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -9960,6 +10019,7 @@ export type ListStoryTagsQuery = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10049,6 +10109,7 @@ export type FinishedStoriesByDateQuery = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10122,7 +10183,8 @@ export type StoriesByDateQuery = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -10247,6 +10309,7 @@ export type CommentsByDateQuery = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10327,6 +10390,7 @@ export type RatingsByDateQuery = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10418,6 +10482,7 @@ export type OnCreateUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10448,6 +10513,7 @@ export type OnCreateUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10478,6 +10544,7 @@ export type OnCreateUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10530,6 +10597,7 @@ export type OnCreateUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10576,6 +10644,7 @@ export type OnCreateUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10631,6 +10700,7 @@ export type OnUpdateUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10661,6 +10731,7 @@ export type OnUpdateUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10691,6 +10762,7 @@ export type OnUpdateUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10743,6 +10815,7 @@ export type OnUpdateUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10789,6 +10862,7 @@ export type OnUpdateUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10844,6 +10918,7 @@ export type OnDeleteUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10874,6 +10949,7 @@ export type OnDeleteUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10904,6 +10980,7 @@ export type OnDeleteUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -10956,6 +11033,7 @@ export type OnDeleteUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -11002,6 +11080,7 @@ export type OnDeleteUserSubscription = {
         userID?: string | null,
         author?: string | null,
         authorID?: string | null,
+        narrator?: string | null,
         narratorID?: string | null,
         artistID?: string | null,
         time?: number | null,
@@ -11512,7 +11591,8 @@ export type OnCreatePinnedStorySubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -11714,7 +11794,8 @@ export type OnUpdatePinnedStorySubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -11916,7 +11997,8 @@ export type OnDeletePinnedStorySubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -12119,7 +12201,8 @@ export type OnCreateFinishedStorySubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -12322,7 +12405,8 @@ export type OnUpdateFinishedStorySubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -12525,7 +12609,8 @@ export type OnDeleteFinishedStorySubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -12695,7 +12780,8 @@ export type OnCreateStorySubscription = {
     userID?: string | null,
     author?: string | null,
     authorID?: string | null,
-    narrator?:  {
+    narrator?: string | null,
+    narratorUser?:  {
       __typename: "User",
       id: string,
       name?: string | null,
@@ -12949,7 +13035,8 @@ export type OnUpdateStorySubscription = {
     userID?: string | null,
     author?: string | null,
     authorID?: string | null,
-    narrator?:  {
+    narrator?: string | null,
+    narratorUser?:  {
       __typename: "User",
       id: string,
       name?: string | null,
@@ -13203,7 +13290,8 @@ export type OnDeleteStorySubscription = {
     userID?: string | null,
     author?: string | null,
     authorID?: string | null,
-    narrator?:  {
+    narrator?: string | null,
+    narratorUser?:  {
       __typename: "User",
       id: string,
       name?: string | null,
@@ -13928,7 +14016,8 @@ export type OnCreateFlagSubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -14131,7 +14220,8 @@ export type OnUpdateFlagSubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -14334,7 +14424,8 @@ export type OnDeleteFlagSubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -14538,7 +14629,8 @@ export type OnCreateCommentSubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -14742,7 +14834,8 @@ export type OnUpdateCommentSubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -14946,7 +15039,8 @@ export type OnDeleteCommentSubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -15276,7 +15370,8 @@ export type OnCreateRatingSubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -15493,7 +15588,8 @@ export type OnUpdateRatingSubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -15710,7 +15806,8 @@ export type OnDeleteRatingSubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -15927,7 +16024,8 @@ export type OnCreateStoryTagSubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -16100,7 +16198,8 @@ export type OnUpdateStoryTagSubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
@@ -16273,7 +16372,8 @@ export type OnDeleteStoryTagSubscription = {
       userID?: string | null,
       author?: string | null,
       authorID?: string | null,
-      narrator?:  {
+      narrator?: string | null,
+      narratorUser?:  {
         __typename: "User",
         id: string,
         name?: string | null,
