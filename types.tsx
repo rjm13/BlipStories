@@ -50,6 +50,7 @@ export type TabOneParamList = {
   ArtistSetup: undefined;
   NarratorSetup: undefined;
   MyArt: undefined;
+  SharedAssets: undefined;
 };
 
 export type TabTwoParamList = {

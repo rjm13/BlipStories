@@ -322,6 +322,17 @@ const Publisher = ({navigation} : any) => {
                         </TouchableWithoutFeedback>
                     ) : null}
 
+                    <TouchableWithoutFeedback onPress={ () => navigation.navigate('SharedAssets')}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                            <Text style={{ color: '#fff', fontSize: 16}}>
+                                Shared Assets
+                            </Text>
+                            <Text style={styles.textcounter}>
+                                00
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+
 {/* line break */}
                     <View style={{marginVertical: 20, alignSelf: 'center', width: '80%', height: 1, borderColor: '#fff', borderWidth: 0.5}}>
                     </View>

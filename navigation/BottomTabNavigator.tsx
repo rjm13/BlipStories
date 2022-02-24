@@ -26,6 +26,7 @@ import PublisherScreen from '../screens/Publisher';
 import Recordings from '../screens/Recordings';
 import BecomeSomething from '../screens/BecomeSomething';
 import MyArt from '../screens/MyArt';
+import SharedAssets from '../screens/SharedAssets';
 
 import MyStories from '../screens/MyStories';
 import Terms from '../screens/Terms';
@@ -234,6 +235,11 @@ function HomeNavigator() {
       <HomeStack.Screen 
         name="MyArt" 
         component={MyArt} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="SharedAssets" 
+        component={SharedAssets} 
         options={{ headerShown: false }} 
       />
 
