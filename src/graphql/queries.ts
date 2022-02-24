@@ -1451,8 +1451,10 @@ export const getAudioAsset = /* GraphQL */ `
   query GetAudioAsset($id: ID!) {
     getAudioAsset(id: $id) {
       id
+      type
       title
       audioUri
+      time
       isSample
       user {
         id
@@ -1502,6 +1504,54 @@ export const getAudioAsset = /* GraphQL */ `
         owner
       }
       userID
+      sharedUserID
+      sharedUser {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -1517,8 +1567,10 @@ export const listAudioAssets = /* GraphQL */ `
     listAudioAssets(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        type
         title
         audioUri
+        time
         isSample
         user {
           id
@@ -1547,6 +1599,33 @@ export const listAudioAssets = /* GraphQL */ `
           owner
         }
         userID
+        sharedUserID
+        sharedUser {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          createdAt
+          updatedAt
+          owner
+        }
         createdAt
         updatedAt
         owner
@@ -2853,6 +2932,92 @@ export const storiesByDate = /* GraphQL */ `
         approved
         createdAt
         numListens
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const audioAssetsByDate = /* GraphQL */ `
+  query AudioAssetsByDate(
+    $type: String!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelAudioAssetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    audioAssetsByDate(
+      type: $type
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        title
+        audioUri
+        time
+        isSample
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        sharedUserID
+        sharedUser {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          createdAt
+          updatedAt
+          owner
+        }
+        createdAt
         updatedAt
         owner
       }

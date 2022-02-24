@@ -2979,8 +2979,10 @@ export const createAudioAsset = /* GraphQL */ `
   ) {
     createAudioAsset(input: $input, condition: $condition) {
       id
+      type
       title
       audioUri
+      time
       isSample
       user {
         id
@@ -3030,6 +3032,54 @@ export const createAudioAsset = /* GraphQL */ `
         owner
       }
       userID
+      sharedUserID
+      sharedUser {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -3043,8 +3093,10 @@ export const updateAudioAsset = /* GraphQL */ `
   ) {
     updateAudioAsset(input: $input, condition: $condition) {
       id
+      type
       title
       audioUri
+      time
       isSample
       user {
         id
@@ -3094,6 +3146,54 @@ export const updateAudioAsset = /* GraphQL */ `
         owner
       }
       userID
+      sharedUserID
+      sharedUser {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -3107,8 +3207,10 @@ export const deleteAudioAsset = /* GraphQL */ `
   ) {
     deleteAudioAsset(input: $input, condition: $condition) {
       id
+      type
       title
       audioUri
+      time
       isSample
       user {
         id
@@ -3158,6 +3260,54 @@ export const deleteAudioAsset = /* GraphQL */ `
         owner
       }
       userID
+      sharedUserID
+      sharedUser {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
