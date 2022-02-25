@@ -10,7 +10,8 @@ import {
     ActivityIndicator,
     RefreshControl,
     FlatList,
-    TextInput
+    TextInput,
+    Platform
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import {StatusBar} from 'expo-status-bar';
@@ -46,8 +47,17 @@ const SharedAssets = ({navigation} : any) => {
         })();
       }, []);
 
+ 
+
 
     const Item = ({id, title, time, userID, sharedUserID, audioUri, isSample, createdAt} : any) => {
+
+    //convert the time to show in the modal
+    function millisToMinutesAndSeconds () {
+        let minutes = Math.floor(time / 60000);
+        let seconds = Math.floor((time % 60000) / 1000);
+        return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);  
+    }  
 
     //arrow state
     const [optionsVisible, setOptionsVisible] = useState(false)
@@ -64,22 +74,9 @@ const SharedAssets = ({navigation} : any) => {
                         </View>
                         
                         <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>
-                            <FontAwesome5 
-                                name='book-open'
-                                size={12}
-                                color='#ffffffa5'
-                            />
-                            <Text style={styles.userId}>
-                                {sharedUserID}
-                            </Text>  
-                            <FontAwesome5 
-                                name='book-reader'
-                                size={12}
-                                color='#ffffffa5'
-                            />
-                            <Text style={styles.userId}>
-                                {userID}
-                            </Text> 
+                            <Text style={{color: '#fff'}}>
+                                {millisToMinutesAndSeconds()}
+                            </Text>
                         </View>
                     </View>
 
@@ -101,21 +98,32 @@ const SharedAssets = ({navigation} : any) => {
                 
                 {optionsVisible === true ? (
                     <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around'}}>
-                        <TouchableWithoutFeedback onPress={() => {showModal();}}>
+                        {/* <TouchableWithoutFeedback onPress={() => {showDeleteModal()}}>
                             <View style={{alignItems: 'center', marginTop: 20, width: 80, paddingVertical: 6, borderRadius: 20, backgroundColor: 'gray'}}>
                                 <Text style={{color: '#000'}}>
                                     Delete
                                 </Text> 
                             </View>
-                        </TouchableWithoutFeedback>
-
-                        <TouchableWithoutFeedback onPress={() => navigation.navigate('EditAudioStory', {storyID: id})}>
-                            <View style={{alignItems: 'center', marginTop: 20, width: 80, paddingVertical: 6, borderRadius: 20, backgroundColor: '#00ffffa5'}}>
-                                <Text style={{color: '#000'}}>
-                                    Edit
-                                </Text> 
-                            </View>
-                        </TouchableWithoutFeedback>
+                        </TouchableWithoutFeedback> */}
+                        {sharedUserID ? (
+                            <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: sharedUserID})}>
+                                <View style={{marginTop: 10}}>
+                                    <Text style={{color: '#00ffff', textAlign: 'center'}}>
+                                        Shared with {sharedUserID}
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                            
+                        ) : (
+                            <TouchableWithoutFeedback onPress={() => navigation.navigate('EditAudioStory', {storyID: id})}>
+                                <View style={{alignItems: 'center', marginTop: 20, width: 80, paddingVertical: 6, borderRadius: 20, backgroundColor: '#00ffffa5'}}>
+                                    <Text style={{color: '#000'}}>
+                                        Share
+                                    </Text> 
+                                </View>
+                            </TouchableWithoutFeedback>
+                        )}
+                        
                     </View>
                 ) : null}
                 
@@ -224,7 +232,7 @@ const SharedAssets = ({navigation} : any) => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    //Modal
+//Modal
     const [visible, setVisible] = useState(false);
   
     const showModal = () => setVisible(true);
@@ -242,6 +250,13 @@ const SharedAssets = ({navigation} : any) => {
     const showUploadModal = () => setVisible2(true);
 
     const hideUploadModal = () => setVisible2(false);
+
+//Modal
+    const [visible3, setVisible3] = useState(false);
+  
+    const showDeleteModal = () => setVisible3(true);
+
+    const hideDeleteModal = () => setVisible3(false);
 
 
     const [publishers, setPublishers] = useState([]);
@@ -346,6 +361,16 @@ const SharedAssets = ({navigation} : any) => {
         }        
     }
 
+    const DeleteAsset = async () => {
+        // let response = await API.graphql(graphqlOperation(
+        //     deleteAudioAsset, {input: {
+        //         id: {
+        //             eq: 
+        //         }
+        //     }}
+        // ))
+    }
+
     return (
         <Provider>
             <Portal>
@@ -442,6 +467,25 @@ const SharedAssets = ({navigation} : any) => {
                                 keyExtractor={item => item}
                                 renderItem={renderPublishers}
                             />
+                        </View>
+                    </View>
+                </Modal>
+
+                <Modal visible={visible3} onDismiss={() => {hideDeleteModal()}} contentContainerStyle={containerStyle}>
+                    <View style={{paddingHorizontal: 20, paddingVertical: 40, alignItems: 'center' }}>
+                        <Text style={{fontSize: 14, marginBottom: 20, textAlign: 'center', color: '#fff'}}>
+                            Remove this asset?
+                        </Text>
+                        <Text style={{fontSize: 14, marginBottom: 20, textAlign: 'center', color: '#fff'}}>
+                            If this asset has already been published, it will remain so.
+                        </Text>
+                        <View style={{marginTop: 40}}>
+                            <TouchableOpacity onPress={DeleteAsset}>
+                                <Text style={{borderRadius: 15, backgroundColor: 'cyan', color: '#000', paddingVertical: 6, paddingHorizontal: 20}}>
+                                    Delete
+                                </Text>
+                            </TouchableOpacity>
+                            
                         </View>
                     </View>
                 </Modal>
