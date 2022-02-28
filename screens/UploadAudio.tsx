@@ -32,7 +32,7 @@ import uuid from 'react-native-uuid';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { createStory, createStoryTag, createTag, updateUser } from '../src/graphql/mutations';
-import { listTags, getUser, listGenres, listAudioAssets } from '../src/graphql/queries';
+import { listTags, getUser, listGenres, listAudioAssets, audioAssetsByDate } from '../src/graphql/queries';
 import { getStory, listStoryTags } from '../src/graphql/queries';
 
 
@@ -515,85 +515,74 @@ const UploadAudio = ({navigation} : any) => {
     useEffect(() => {
 
         const fetchAudioAssets = async () => {
-            const response = await API.graphql(graphqlOperation(
-                listAudioAssets, {
-                    type: 'Story',
-                    sortDirection: 'DESC',
-                    filter: {
-                        sharedUserID: {
-                            eq: user?.id
-                        }
+
+        let userInfo = await Auth.currentAuthenticatedUser();  
+
+        const response = await API.graphql(graphqlOperation(
+            audioAssetsByDate, {
+                type: 'AudioAsset',
+                sortDirection: 'DESC',
+                filter: {
+                    sharedUserID: {
+                        eq: userInfo.attributes.sub
                     }
                 }
-            ))
-            setSharedAudio(response)
+            }
+        ))
+
+        setSharedAudio(response.data.audioAssetsByDate.items);
+
         }
         fetchAudioAssets();
 
     }, [])
 
-    const dummyAudioAsset = [
-        {
-            id: 1,
-            title: 'Visceral Falls',
-            audioUri: 'Test Aduio Uri',
-            isSample: false,
-            time: 100040,
-            userID: 'Jerry Jones',
-            sharedUser: user?.id,
-            createdAt: 'Dec 18 2022'
-        },
-        {
-            id: 2,
-            title: 'Gravity Falls',
-            audioUri: 'Test Aduio Uri',
-            isSample: false,
-            time: 100040,
-            userID: 'Jerry Jones',
-            sharedUser: user?.id,
-            createdAt: 'Dec 18 2022'
-        },
-        {
-            id: 3,
-            title: 'Canyon Falls',
-            audioUri: 'Test Aduio Uri',
-            isSample: false,
-            time: 100040,
-            userID: 'Jerry Jones',
-            sharedUser: user?.id,
-            createdAt: 'Dec 18 2022'
-        },
-    ]
 
-    const SharedItem = ({id, title, audioUri, isSample, time, userID, sharedUserID, createdAt} : any) => {
+    const SharedItem = ({id, title, audioUri, userName, isSample, time, userID, sharedUserID, createdAt} : any) => {
+        
+        //convert the time to show in the modal
+        function millisToMinutesAndSeconds () {
+            let minutes = Math.floor(time / 60000);
+            let seconds = Math.floor((time % 60000) / 1000);
+            return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);  
+        }  
+
+        const SetAudio = () => {
+            setLocalAudioUri(audioUri);
+            setAudioName(title);
+            setData({...data, time: time, narratorID: sharedUserID})
+            hideNarratorModal();
+        }
+        
         return (
             <View>
                 <View style={{marginTop: 20, padding: 10, width: '100%', backgroundColor: '#232323', alignSelf: 'center', borderRadius: 10}}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={SetAudio}>
                         <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between'}}>
                             <View>
                             <Text style={{color: '#fff', fontWeight: 'bold', marginBottom: 2}}>
                                     {title}
                                 </Text>
                                 <Text style={{color: '#ffffffa5', marginBottom: 6, fontSize: 12}}>
-                                    {/* {format(itemState.created, "MMM do yyyy")} */}{createdAt}
+                                    {format(parseISO(createdAt), "MMM do yyyy")}
                                 </Text> 
                             </View>
                             
                             <Text style={{color: '#fff', fontSize: 12}}>
-                                {time}
+                                {millisToMinutesAndSeconds()}
                             </Text>
                         </View>
                     </TouchableOpacity>
                 </View>
                 <Text style={{color: '#ffffffa5', marginTop: 2, marginLeft: 5}}>
-                    Shared by {userID}
+                    Shared by {userName}
                 </Text>
             </View>
         )
     }
 
     const renderSharedItem = ({item} : any) => {
+
         return (
             <SharedItem 
                 id={item.id}
@@ -602,6 +591,7 @@ const UploadAudio = ({navigation} : any) => {
                 isSample={item.isSample}
                 time={item.time}
                 userID={item.userID}
+                userName={item.user.pseudonym}
                 sharedUserID={item.sharedUserID}
                 createdAt={item.createdAt}
             />
@@ -783,13 +773,13 @@ const UploadAudio = ({navigation} : any) => {
                         <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 16}}>
                             Shared Files
                         </Text>
-                        <Text style={{color: 'gray', fontSize: 11, marginTop: 4, marginBottom: 20}}>
+                        <Text style={{color: '#e0e0e0', fontSize: 11, marginTop: 4, marginBottom: 20}}>
                             Files that are shared with me from narrators will appear here for upload.
                         </Text>
                         <View style={{marginVertical: 10, alignSelf: 'center', width: '90%', height: 1, backgroundColor: '#fff'}}/>
                         <FlatList 
-                            data={dummyAudioAsset}
-                            keyExtractor={item => item.id.toString()}
+                            data={sharedAudio}
+                            keyExtractor={item => item.id}
                             renderItem={renderSharedItem}
                             showsVerticalScrollIndicator={false}
                             ListFooterComponent={() => {
