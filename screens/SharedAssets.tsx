@@ -21,10 +21,11 @@ import { Audio } from 'expo-av';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Modal, Portal, Provider } from 'react-native-paper';
+import * as ImagePicker from 'expo-image-picker';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { getUser, listAudioAssets, listUsers } from '../src/graphql/queries';
-import { updateStory, createAudioAsset } from '../src/graphql/mutations';
+import { updateAudioAsset, createAudioAsset } from '../src/graphql/mutations';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -47,10 +48,10 @@ const SharedAssets = ({navigation} : any) => {
         })();
       }, []);
 
- 
+      const [updateAssetState, setUpdateAssetState] = useState();
 
 
-    const Item = ({id, title, time, userID, sharedUserID, audioUri, isSample, createdAt} : any) => {
+    const Item = ({id, title, time, userID, sharedUserID, audioUri, isSample, createdAt, pseudonym} : any) => {
 
     //convert the time to show in the modal
     function millisToMinutesAndSeconds () {
@@ -59,14 +60,11 @@ const SharedAssets = ({navigation} : any) => {
         return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);  
     }  
 
-    //arrow state
-    const [optionsVisible, setOptionsVisible] = useState(false)
-
     return (
         <View>
             <View style={styles.tile}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <View style={{ width: '78%'}}>
+                    
                         <View>
                             <Text style={styles.name}>
                                 {title}
@@ -78,26 +76,11 @@ const SharedAssets = ({navigation} : any) => {
                                 {millisToMinutesAndSeconds()}
                             </Text>
                         </View>
-                    </View>
-
-                    <View style={{alignSelf: 'center'}}>
-                        <TouchableWithoutFeedback onPress={() => setOptionsVisible(!optionsVisible)}>
-                            <View style={{alignItems: 'center', borderRadius: 20, height: 40,
-                                width: 40, justifyContent: 'center',
-                            }}>
-                                <FontAwesome5 
-                                    name={optionsVisible === true ? 'chevron-down' : 'chevron-right'}
-                                    color='#ffffff'
-                                    size={20}
-                                />
-                            </View>
-                        </TouchableWithoutFeedback>
-                    </View>
+                    
                     
                 </View> 
                 
-                {optionsVisible === true ? (
-                    <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around'}}>
+                    <View style={{flexDirection: 'row', width: '100%'}}>
                         {/* <TouchableWithoutFeedback onPress={() => {showDeleteModal()}}>
                             <View style={{alignItems: 'center', marginTop: 20, width: 80, paddingVertical: 6, borderRadius: 20, backgroundColor: 'gray'}}>
                                 <Text style={{color: '#000'}}>
@@ -108,15 +91,15 @@ const SharedAssets = ({navigation} : any) => {
                         {sharedUserID ? (
                             <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: sharedUserID})}>
                                 <View style={{marginTop: 10}}>
-                                    <Text style={{color: '#00ffff', textAlign: 'center'}}>
-                                        Shared with {sharedUserID}
+                                    <Text style={{color: 'gray', }}>
+                                        Shared with {pseudonym}
                                     </Text>
                                 </View>
                             </TouchableOpacity>
                             
                         ) : (
-                            <TouchableWithoutFeedback onPress={() => navigation.navigate('EditAudioStory', {storyID: id})}>
-                                <View style={{alignItems: 'center', marginTop: 20, width: 80, paddingVertical: 6, borderRadius: 20, backgroundColor: '#00ffffa5'}}>
+                            <TouchableWithoutFeedback onPress={() => {showDeleteModal(); setUpdateAssetState(id)}}>
+                                <View style={{alignItems: 'center', marginTop: 12, width: 72, paddingVertical: 4, borderRadius: 20, backgroundColor: '#00ffffa5'}}>
                                     <Text style={{color: '#000'}}>
                                         Share
                                     </Text> 
@@ -125,7 +108,6 @@ const SharedAssets = ({navigation} : any) => {
                         )}
                         
                     </View>
-                ) : null}
                 
             </View>
         </View>
@@ -133,6 +115,12 @@ const SharedAssets = ({navigation} : any) => {
     }
 
     const renderItem = ({ item }: any) => {
+
+        let pseudonym = ''
+
+        if (item.sharedUser) {
+            pseudonym = item.sharedUser.pseudonym
+        }
         
         return (
         <Item 
@@ -144,6 +132,7 @@ const SharedAssets = ({navigation} : any) => {
             userID={item.userID}
             sharedUserID={item.sharedUserID}
             createdAt={item.createdAt}
+            pseudonym={pseudonym}
         />
       );}
 
@@ -191,7 +180,7 @@ const SharedAssets = ({navigation} : any) => {
     const [data, setData] = useState({
         title: '',
         time: 0,
-        sharedUserID: 0,
+        sharedUserID: null,
         sharedUserName: '',
         createdAt: new Date(),
 })
@@ -279,24 +268,43 @@ const SharedAssets = ({navigation} : any) => {
 
     const PublishItem = ({id, pseudonym, imageUri} : any) => {
 
+        const [imageU, setImageU] = useState('')
+        
+        useEffect(() => {
+            const fetchImage = async () => {
+                let response = await Storage.get(imageUri);
+                setImageU(response);
+            }
+            fetchImage()
+        }, [])
+
 
         return (
             <TouchableWithoutFeedback onPress={() => {setData({...data, sharedUserID: id, sharedUserName: pseudonym}); hideModal();}}>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <View>
+                <View style={{width: Dimensions.get('window').width - 60}}>
+                    <View style={{flexDirection: 'row'}}>
                         <Image 
-                            source={{uri: imageUri}}
+                            source={{uri: imageU}}
                             style={{width: 50, height: 50, borderRadius: 25, backgroundColor: 'gray'}}
                         />
-                        <Text style={{fontWeight: 'bold', color: '#fff'}}>
-                            {pseudonym}
-                        </Text>
+                        <View style={{alignSelf: 'center'}}>
+                            <Text style={{fontWeight: 'bold', color: '#fff', marginLeft: 10}}>
+                                {pseudonym}
+                            </Text>
+                            <View style={{flexDirection: 'row', marginLeft: 10, marginTop: 6}}>
+                                <FontAwesome5 
+                                    name='book-reader'
+                                    color='#ffffffa5'
+                                    style={{alignSelf: 'center'}}
+                                />
+                                {/* <Text style={{color: '#fff', marginLeft: 10}}>
+                                    {authored}
+                                </Text>  */}
+                            </View>
+                        </View>
+                        
                     </View>
-                    <View>
-                        <Text>
-
-                        </Text> 
-                    </View>
+                    
                 </View>
             </TouchableWithoutFeedback>
             
@@ -305,6 +313,8 @@ const SharedAssets = ({navigation} : any) => {
 
 //get the list of publishers to share with
     const renderPublishers = ({item} : any) => {
+
+
         return(
             <PublishItem 
                 id={item.id}
@@ -354,21 +364,33 @@ const SharedAssets = ({navigation} : any) => {
             ))
             console.log(asset);
             setDidUpdate(!didUpdate);
-            setIsPublishing(false)
+            setIsPublishing(false);
             hideUploadModal();
+            setData({ 
+                title: '',
+                time: 0,
+                sharedUserID: null,
+                sharedUserName: '',
+                createdAt: new Date(),
+            })
         } catch (e) {
             console.log(e)
         }        
     }
 
-    const DeleteAsset = async () => {
-        // let response = await API.graphql(graphqlOperation(
-        //     deleteAudioAsset, {input: {
-        //         id: {
-        //             eq: 
-        //         }
-        //     }}
-        // ))
+    const UpdateAsset = async () => {
+
+        let response = await API.graphql(graphqlOperation(
+            updateAudioAsset, {input: {
+                id: updateAssetState,
+                sharedUserID: data.sharedUserID
+            }}
+        ))
+
+        console.log(response);
+        setDidUpdate(!didUpdate);
+        setUpdateAssetState(null);
+        hideDeleteModal();
     }
 
     return (
@@ -418,7 +440,7 @@ const SharedAssets = ({navigation} : any) => {
                                     <Text style={{color: '#fff', fontWeight: 'bold'}}>
                                         Share With
                                     </Text>
-                                    <TouchableWithoutFeedback onPress={showModal}>
+                                    <TouchableWithoutFeedback onPress={() => {showModal(); setData({...data, sharedUserID: null})}}>
                                         <View style={[styles.textinput, {justifyContent: 'center'}]}>
                                             <Text style={{color: '#fff'}}>
                                                 Select a Publisher
@@ -434,10 +456,10 @@ const SharedAssets = ({navigation} : any) => {
                                 </View>
                             </View>
                             {isPublishing === true ?  (
-                                <View>
+                                <View style={{marginBottom: 20}}>
                                     <ActivityIndicator size='large' color='cyan'/>
-                                    <Text style={{color: '#fff', marginTop: 10}}>
-                                        {progressText}
+                                    <Text style={{color: '#fff', marginTop: 10, textAlign: 'center'}}>
+                                        {progressText} %
                                     </Text>
                                 </View>
                             ) : (
@@ -456,9 +478,42 @@ const SharedAssets = ({navigation} : any) => {
                     </View>
                 </Modal>
 
-                <Modal visible={visible} onDismiss={() => {hideModal()}} contentContainerStyle={containerStyle}>
+                <Modal visible={visible3} onDismiss={() => {hideDeleteModal()}} contentContainerStyle={containerStyle}>
                     <View style={{paddingHorizontal: 20, paddingVertical: 40, alignItems: 'center' }}>
-                        <Text style={{fontSize: 14, marginBottom: 20, textAlign: 'center', color: '#fff'}}>
+                        <Text style={{fontWeight: 'bold', fontSize: 14, marginBottom: 20, textAlign: 'center', color: '#fff'}}>
+                            Share Asset
+                        </Text>
+                        <TouchableWithoutFeedback onPress={() => {showModal(); setData({...data, sharedUserID: null})}}>
+                            <View style={[styles.textinput, {justifyContent: 'center', paddingHorizontal: 20}]}>
+                                <Text style={{color: '#fff'}}>
+                                    Select a Publisher
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                        <View style={{marginTop: 20}}>
+                            {data.sharedUserID ? (
+                                <View>
+                                    <Text style={{textAlign: 'center', color: '#00ffffa5'}}>
+                                        {data.sharedUserName}
+                                    </Text>
+                                    <TouchableOpacity onPress={() => UpdateAsset()}>
+                                        <View style={{ marginTop: 20, borderRadius: 15, backgroundColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
+                                            <Text>
+                                            Confirm Share 
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    
+                                </View>
+                                
+                            ) : null}
+                        </View>
+                    </View>
+                </Modal>
+
+                <Modal visible={visible} onDismiss={() => {hideModal()}} contentContainerStyle={containerStyle}>
+                    <View style={{height: 600, paddingHorizontal: 20, paddingVertical: 40, alignItems: 'center' }}>
+                        <Text style={{fontWeight: 'bold', fontSize: 16, marginBottom: 20, textAlign: 'center', color: '#fff'}}>
                             Find a Publisher
                         </Text>
                         <View style={{marginTop: 40}}>
@@ -471,24 +526,7 @@ const SharedAssets = ({navigation} : any) => {
                     </View>
                 </Modal>
 
-                <Modal visible={visible3} onDismiss={() => {hideDeleteModal()}} contentContainerStyle={containerStyle}>
-                    <View style={{paddingHorizontal: 20, paddingVertical: 40, alignItems: 'center' }}>
-                        <Text style={{fontSize: 14, marginBottom: 20, textAlign: 'center', color: '#fff'}}>
-                            Remove this asset?
-                        </Text>
-                        <Text style={{fontSize: 14, marginBottom: 20, textAlign: 'center', color: '#fff'}}>
-                            If this asset has already been published, it will remain so.
-                        </Text>
-                        <View style={{marginTop: 40}}>
-                            <TouchableOpacity onPress={DeleteAsset}>
-                                <Text style={{borderRadius: 15, backgroundColor: 'cyan', color: '#000', paddingVertical: 6, paddingHorizontal: 20}}>
-                                    Delete
-                                </Text>
-                            </TouchableOpacity>
-                            
-                        </View>
-                    </View>
-                </Modal>
+                
             </Portal>
             <View>
                 

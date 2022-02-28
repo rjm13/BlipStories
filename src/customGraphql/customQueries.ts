@@ -402,4 +402,79 @@ export const listStories = /* GraphQL */ `
     }
   }
 `;
-
+export const listAudioAssets = /* GraphQL */ `
+  query ListAudioAssets(
+    $filter: ModelAudioAssetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAudioAssets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        type
+        title
+        audioUri
+        time
+        isSample
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        sharedUserID
+        sharedUser {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          createdAt
+          updatedAt
+          owner
+        }
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
