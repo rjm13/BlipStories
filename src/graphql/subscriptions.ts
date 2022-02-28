@@ -69,6 +69,22 @@ export const onCreateUser = /* GraphQL */ `
         }
         nextToken
       }
+      sharedAssets {
+        items {
+          id
+          type
+          title
+          audioUri
+          time
+          isSample
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       art {
         items {
           id
@@ -264,6 +280,22 @@ export const onUpdateUser = /* GraphQL */ `
           approved
           createdAt
           numListens
+          updatedAt
+          owner
+        }
+        nextToken
+      }
+      sharedAssets {
+        items {
+          id
+          type
+          title
+          audioUri
+          time
+          isSample
+          userID
+          sharedUserID
+          createdAt
           updatedAt
           owner
         }
@@ -469,6 +501,22 @@ export const onDeleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      sharedAssets {
+        items {
+          id
+          type
+          title
+          audioUri
+          time
+          isSample
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       art {
         items {
           id
@@ -621,6 +669,9 @@ export const onCreateFollowingConn = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -666,6 +717,9 @@ export const onCreateFollowingConn = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -727,6 +781,9 @@ export const onUpdateFollowingConn = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -772,6 +829,9 @@ export const onUpdateFollowingConn = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -833,6 +893,9 @@ export const onDeleteFollowingConn = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -878,6 +941,9 @@ export const onDeleteFollowingConn = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -936,6 +1002,9 @@ export const onCreatePinnedStory = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -1121,6 +1190,9 @@ export const onUpdatePinnedStory = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1302,6 +1374,9 @@ export const onDeletePinnedStory = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -1488,6 +1563,9 @@ export const onCreateFinishedStory = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1672,6 +1750,9 @@ export const onUpdateFinishedStory = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1854,6 +1935,9 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -2042,6 +2126,9 @@ export const onCreateStory = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2093,6 +2180,9 @@ export const onCreateStory = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2139,6 +2229,9 @@ export const onCreateStory = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -2262,6 +2355,9 @@ export const onUpdateStory = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2313,6 +2409,9 @@ export const onUpdateStory = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2359,6 +2458,9 @@ export const onUpdateStory = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -2482,6 +2584,9 @@ export const onDeleteStory = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2533,6 +2638,9 @@ export const onDeleteStory = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2579,6 +2687,9 @@ export const onDeleteStory = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -2746,6 +2857,9 @@ export const onCreateImageAsset = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2807,6 +2921,9 @@ export const onUpdateImageAsset = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2866,6 +2983,9 @@ export const onDeleteImageAsset = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -2931,6 +3051,9 @@ export const onCreateAudioAsset = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2978,6 +3101,9 @@ export const onCreateAudioAsset = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -3042,6 +3168,9 @@ export const onUpdateAudioAsset = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -3089,6 +3218,9 @@ export const onUpdateAudioAsset = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -3153,6 +3285,9 @@ export const onDeleteAudioAsset = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -3200,6 +3335,9 @@ export const onDeleteAudioAsset = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -3383,6 +3521,9 @@ export const onCreateFlag = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -3569,6 +3710,9 @@ export const onUpdateFlag = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -3751,6 +3895,9 @@ export const onDeleteFlag = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -3938,6 +4085,9 @@ export const onCreateComment = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -4123,6 +4273,9 @@ export const onUpdateComment = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -4306,6 +4459,9 @@ export const onDeleteComment = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -4598,6 +4754,9 @@ export const onCreateRating = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -4795,6 +4954,9 @@ export const onUpdateRating = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -4990,6 +5152,9 @@ export const onDeleteRating = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {

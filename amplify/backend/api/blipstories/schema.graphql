@@ -11,6 +11,7 @@ type User @model @auth(rules: [{ allow: owner, operations: [create, delete, upda
   following: [ID]
   authored: [Story] @hasMany(indexName: "byUser", fields: "id")
   narrated: [Story] @hasMany(indexName: "byNarratorUser", fields: "id")
+  sharedAssets: [AudioAsset] @hasMany(indexName: "byUser", fields: "id")
   art: [Story] @hasMany(indexName: "byArtist", fields: "id")
   numAuthored: Int
   pseudonym: String
@@ -117,7 +118,7 @@ type ImageAsset @model @auth(rules: [{ allow: owner, operations: [create, delete
     imageUri: String
     isSample: Boolean
     user: User @hasOne (fields: ["userID"])
-    userID: ID 
+    userID: ID
 }
 
 type AudioAsset @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
@@ -129,7 +130,7 @@ type AudioAsset @model @auth(rules: [{ allow: owner, operations: [create, delete
     time: String
     isSample: Boolean
     user: User @hasOne (fields: ["userID"])
-    userID: ID
+    userID: ID @index(name: "byUser", sortKeyFields: ["id"])
     sharedUserID: ID
     sharedUser: User @hasOne (fields: ["userID"])
     createdAt: String

@@ -69,6 +69,22 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
+      sharedAssets {
+        items {
+          id
+          type
+          title
+          audioUri
+          time
+          isSample
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       art {
         items {
           id
@@ -222,6 +238,9 @@ export const listUsers = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -279,6 +298,9 @@ export const getFollowingConn = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -324,6 +346,9 @@ export const getFollowingConn = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -453,6 +478,9 @@ export const getPinnedStory = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -708,6 +736,9 @@ export const getFinishedStory = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -968,6 +999,9 @@ export const getStory = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1019,6 +1053,9 @@ export const getStory = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1065,6 +1102,9 @@ export const getStory = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -1359,6 +1399,9 @@ export const getImageAsset = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1469,6 +1512,9 @@ export const getAudioAsset = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1516,6 +1562,9 @@ export const getAudioAsset = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -1777,6 +1826,9 @@ export const getFlag = /* GraphQL */ `
         narrated {
           nextToken
         }
+        sharedAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2032,6 +2084,9 @@ export const getComment = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
@@ -2359,6 +2414,9 @@ export const getRating = /* GraphQL */ `
           nextToken
         }
         narrated {
+          nextToken
+        }
+        sharedAssets {
           nextToken
         }
         art {
