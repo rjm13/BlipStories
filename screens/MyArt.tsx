@@ -260,6 +260,8 @@ const MyArt = ({navigation} : any) => {
                     title: textChange,
                     imageUri: s3Response.key,
                     isSample: sampleState,
+                    type: 'ImageAsset',
+                    createdAt: new Date(),
                 }}
             ))
 
@@ -393,22 +395,24 @@ const MyArt = ({navigation} : any) => {
                                     </Text>
                                 </TouchableOpacity>
                             )}
-                            
-                            <FontAwesome5 
-                                name='trash'
-                                size={16}
-                                color='#fff'
-                            />
+
+                            <TouchableWithoutFeedback onPress={showDeleteModal}>
+                                <FontAwesome5 
+                                    name='trash'
+                                    size={16}
+                                    color='#fff'
+                                />
+                            </TouchableWithoutFeedback>
                         </View>
                         
-                        <TouchableWithoutFeedback onPress={showDeleteModal}>
+                        
                             <View style={{alignSelf: 'center', marginTop: 20}}>
                                 <Text style={{fontSize: 16, textAlign: 'center', color: '#fff', marginTop: 20, alignSelf: 'center'}}>
                                     {data.title}
                                 </Text>
                                 
                             </View>
-                        </TouchableWithoutFeedback>
+                        
                         
                     </View>
                 </Modal>
@@ -568,10 +572,10 @@ const MyArt = ({navigation} : any) => {
                     <View style={{height: 1, backgroundColor: '#fff', marginHorizontal: 20}}>
                     </View>
                     <FlatList 
-                        data={imageData}
+                        data={sampleImages}
                         renderItem={renderItem}
-                        extraData={imageData}
-                        keyExtractor={(item, index) => item + index}
+                        extraData={sampleImages}
+                        keyExtractor={(item, index) => item.id + index}
                         showsVerticalScrollIndicator={false}
                         numColumns={2}
                         scrollEnabled={false}
@@ -586,10 +590,10 @@ const MyArt = ({navigation} : any) => {
                     <View style={{height: 1, backgroundColor: '#fff', marginHorizontal: 20}}>
                     </View>
                     <FlatList 
-                        data={sampleImages}
+                        data={imageData}
                         renderItem={renderItem}
-                        extraData={sampleImages}
-                        keyExtractor={(item, index) => item + index}
+                        extraData={imageData}
+                        keyExtractor={(item, index) => item.id + index}
                         showsVerticalScrollIndicator={false}
                         numColumns={2}
                         scrollEnabled={false}
