@@ -114,11 +114,15 @@ type Genre @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
 type ImageAsset @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])
   {
     id: ID!
+    type: String @index(name: "imageAssetsByDate", queryField: "imageAssetsByDate", sortKeyFields: ["createdAt"]  )
     title: String
     imageUri: String
     isSample: Boolean
     user: User @hasOne (fields: ["userID"])
-    userID: ID
+    userID: ID @index(name: "byUser", sortKeyFields: ["id"])
+    sharedUserID: ID
+    sharedUser: User @hasOne (fields: ["userID"])
+    createdAt: String
 }
 
 type AudioAsset @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}])

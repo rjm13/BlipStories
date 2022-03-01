@@ -22,8 +22,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { deleteImageAsset, createImageAsset } from '../src/graphql/mutations';
-import { listImageAssets } from '../src/graphql/queries';
+import { deleteImageAsset, createImageAsset, updateImageAsset } from '../src/graphql/mutations';
+import { listImageAssets, listUsers } from '../src/graphql/queries';
 
 const MyArt = ({navigation} : any) => {
 
@@ -46,18 +46,51 @@ const MyArt = ({navigation} : any) => {
     const [indexState, setIndexState] = useState();
     const [imageIDState, setImageIDState] = useState();
 
+    const [data, setData] = useState({
+        imageUri: '',
+        title: '',
+        index: '',
+        id: '',
+        sharedUserID: '',
+        sharedUserName: '',
+    })
+
+    const UpdateAsset = async () => {
+
+        let response = await API.graphql(graphqlOperation(
+            updateImageAsset, {input: {
+                id: data.id,
+                sharedUserID: data.sharedUserID
+            }}
+        ))
+
+        console.log(response);
+        setDidUpdate(!didUpdate);
+        setData({
+            imageUri: '',
+            title: '',
+            index: '',
+            id: '',
+            sharedUserID: '',
+            sharedUserName: '', 
+        })
+        hideConfirmModal();
+        hideUserListModal();
+        hideImageModal();
+        
+    }
+
+
     const [sampleState, setSampleState] = useState(false)
 
     const [isUploading, setIsUploading] = useState(false);
 
     //art styles modal
     const [visible, setVisible] = useState(false);
-    const showImageModal = ({title, imageUri, id, index} : any) => {
+    const showImageModal = ({title, imageUri, id, index, sharedUserID, sharedUserName} : any) => {
         setVisible(true);
-        setImageState(imageUri);
-        setTitleState(title);
-        setIndexState(index);
-        setImageIDState(id)
+        setData({...data, imageUri: imageUri, title: title, index: index, id: id, sharedUserID: sharedUserID, sharedUserName: sharedUserName})
+
     }
     const hideImageModal = () => setVisible(false);
     const containerStyle = {
@@ -70,16 +103,30 @@ const MyArt = ({navigation} : any) => {
         const [visible2, setVisible2] = useState(false);
         const showUploadModal = () => {
             setVisible2(true);
-            setImageState(null);
+            setData({...data, imageUri: ''})
         }
         const hideUploadModal = () => setVisible2(false);
 
-    //upload modal
+    //user list modal
+        const [visible4, setVisible4] = useState(false);
+        const showUserListModal = () => {
+            setVisible4(true);
+        }
+        const hideUserListModal = () => setVisible4(false);
+
+    //delete modal
         const [visible3, setVisible3] = useState(false);
         const showDeleteModal = () => {
             setVisible3(true);
         }
         const hideDeleteModal = () => setVisible3(false);
+
+    //confirm modal
+        const [visible5, setVisible5] = useState(false);
+        const showConfirmModal = () => {
+            setVisible5(true);
+        }
+        const hideConfirmModal = () => setVisible5(false);
 
 
     //data form AWS image asset table
@@ -145,10 +192,10 @@ const MyArt = ({navigation} : any) => {
         fetchData();
     }, [didUpdate])
 
-    const Item = ({title, imageUri, id, index} : any) => {
+    const Item = ({title, imageUri, id, index, sharedUserID, sharedUserName} : any) => {
 
         return (
-            <TouchableWithoutFeedback onPress={() => showImageModal({title, imageUri, id, index})}>
+            <TouchableWithoutFeedback onPress={() => showImageModal({title, imageUri, id, index, sharedUserID, sharedUserName})}>
                 <View style={{marginTop: 20}}>
                     <Image 
                         source={{uri: imageUri}}
@@ -170,6 +217,8 @@ const MyArt = ({navigation} : any) => {
                 imageUri={item.imageUri}
                 id={item.id}
                 index={index}
+                sharedUserID={item.sharedUserID}
+                sharedUserName={item.user?.pseudonym}
             />
         )
     };
@@ -184,7 +233,7 @@ const MyArt = ({navigation} : any) => {
                 quality: 1,
             });
             if (!result.cancelled) {
-                    setImageState(result.uri);
+                    setData({...data, imageUri: result.uri});
                     }
             console.log(result); 
       };
@@ -200,7 +249,7 @@ const MyArt = ({navigation} : any) => {
 
             let userInfo = await Auth.currentAuthenticatedUser();
 
-            const response = await fetch(imageState);
+            const response = await fetch(data.imageUri);
                     const blob = await response.blob();
                     const filename =  uuid.v4().toString();
                     const s3Response = await Storage.put(filename, blob);
@@ -225,36 +274,139 @@ const MyArt = ({navigation} : any) => {
       const DeleteImage = async () => {
         let deleted = await API.graphql(graphqlOperation(
             deleteImageAsset, {input: {
-                id: imageIDState
+                id: data.id
             }}
         ))
         console.log(deleted);
         setDidUpdate(!didUpdate);
+        setData({
+            imageUri: '',
+            title: '',
+            index: '',
+            id: '',
+            sharedUserID: '',
+            sharedUserName: '', 
+        })
         hideDeleteModal();
         hideImageModal();
       }
 
+    const [publishers, setPublishers] = useState([]);
+
+    useEffect(() => {
+        const fetchPublishers = async () => {
+            const response = await API.graphql(graphqlOperation(
+                listUsers, {
+                    filter: {
+                        isPublisher: {
+                            eq: true
+                        }
+                    }
+                }
+            ))
+            setPublishers(response.data.listUsers.items)
+        }
+        fetchPublishers();
+    }, []);
+
+    const PublishItem = ({id, pseudonym, imageUri} : any) => {
+
+        const [imageU, setImageU] = useState('')
+        
+        useEffect(() => {
+            const fetchImage = async () => {
+                let response = await Storage.get(imageUri);
+                setImageU(response);
+            }
+            fetchImage()
+        }, [])
+
+
+        return (
+            <TouchableWithoutFeedback onPress={() => {setData({...data, sharedUserID: id, sharedUserName: pseudonym}); showConfirmModal();}}>
+                <View style={{width: Dimensions.get('window').width - 60}}>
+                    <View style={{flexDirection: 'row'}}>
+                        <Image 
+                            source={{uri: imageU}}
+                            style={{width: 50, height: 50, borderRadius: 25, backgroundColor: 'gray'}}
+                        />
+                        <View style={{alignSelf: 'center'}}>
+                            <Text style={{fontWeight: 'bold', color: '#fff', marginLeft: 10}}>
+                                {pseudonym}
+                            </Text>
+                            <View style={{flexDirection: 'row', marginLeft: 10, marginTop: 6}}>
+                                <FontAwesome5 
+                                    name='book-reader'
+                                    color='#ffffffa5'
+                                    style={{alignSelf: 'center'}}
+                                />
+                                {/* <Text style={{color: '#fff', marginLeft: 10}}>
+                                    {authored}
+                                </Text>  */}
+                            </View>
+                        </View>
+                        
+                    </View>
+                    
+                </View>
+            </TouchableWithoutFeedback>
+            
+        )
+    }
+
+//get the list of publishers to share with
+    const renderPublishers = ({item} : any) => {
+
+
+        return(
+            <PublishItem 
+                id={item.id}
+                pseudonym={item.pseudonym}
+                imageUri={item.imageUri}
+            />
+        )
+    }
+
     return (
         <Provider>
             <Portal>
+
 {/* image modal */}
                 <Modal visible={visible} onDismiss={hideImageModal} contentContainerStyle={containerStyle}>
                     <View>
                         <Image 
-                            source={{uri: imageState}}
+                            source={{uri: data.imageUri}}
                             style={{alignSelf: 'center', width: SCREEN_WIDTH, height: SCREEN_WIDTH*0.75}}
                         />
-                        <Text style={{textAlign: 'center', color: '#fff', marginTop: 20, alignSelf: 'center'}}>
-                            {titleState}
-                        </Text>
-                       
+
+                        <View style={{marginTop: 20, marginHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between'}}>
+                            {data.sharedUserID !== null ? (
+                                <View>
+                                    <Text style={{color: '#00ffffa5'}}>
+                                        Shrared with {data.sharedUserName}
+                                    </Text>
+                                </View>
+                            ) : (
+                                <TouchableOpacity onPress={() => showUserListModal()}>
+                                    <Text style={{borderRadius: 15, paddingVertical: 4, paddingHorizontal: 16, backgroundColor: '#00ffff'}}>
+                                        Share
+                                    </Text>
+                                </TouchableOpacity>
+                            )}
+                            
+                            <FontAwesome5 
+                                name='trash'
+                                size={16}
+                                color='#fff'
+                            />
+                        </View>
+                        
                         <TouchableWithoutFeedback onPress={showDeleteModal}>
-                            <View style={{alignSelf: 'center', marginTop: 40}}>
-                                <FontAwesome5 
-                                    name='trash'
-                                    size={25}
-                                    color='#fff'
-                                />
+                            <View style={{alignSelf: 'center', marginTop: 20}}>
+                                <Text style={{fontSize: 16, textAlign: 'center', color: '#fff', marginTop: 20, alignSelf: 'center'}}>
+                                    {data.title}
+                                </Text>
+                                
                             </View>
                         </TouchableWithoutFeedback>
                         
@@ -285,7 +437,7 @@ const MyArt = ({navigation} : any) => {
                                 </View>
                             </TouchableWithoutFeedback>
                             <Image 
-                                source={{uri: imageState}}
+                                source={{uri: data.imageUri}}
                                 style={{marginTop: 20, alignSelf: 'center', width: SCREEN_WIDTH - 40, height: (SCREEN_WIDTH - 40)*0.75}}
                             />
                         </View>
@@ -339,6 +491,38 @@ const MyArt = ({navigation} : any) => {
                             </View>
                         </TouchableWithoutFeedback>
                         
+                    </View>
+                </Modal>
+                
+{/* user list modal */}
+                <Modal visible={visible4} onDismiss={hideUserListModal} contentContainerStyle={[containerStyle, {marginHorizontal: 20}]}>
+                    <View style={{height: 500, paddingHorizontal: 20}}>
+                        <Text style={{marginBottom: 20, fontWeight: 'bold', textAlign: 'center', color: '#fff', alignSelf: 'center'}}>
+                            Select Publisher
+                        </Text>
+                       
+                        <FlatList 
+                            data={publishers}
+                            keyExtractor={item => item.id}
+                            renderItem={renderPublishers}
+                            showsVerticalScrollIndicator={false}
+                            
+                        />
+                        
+                    </View>
+                </Modal>
+{/* user list modal */}
+                <Modal visible={visible5} onDismiss={hideConfirmModal} contentContainerStyle={[containerStyle, {marginHorizontal: 20}]}>
+                    <View style={{paddingHorizontal: 20}}>
+                        <Text style={{marginBottom: 20, fontWeight: 'bold', textAlign: 'center', color: '#fff', alignSelf: 'center'}}>
+                            Share with {data.sharedUserName}?
+                        </Text>
+                       <TouchableOpacity onPress={UpdateAsset}>
+                           <Text style={{marginTop: 10, alignSelf: 'center', textAlign: 'center', paddingVertical: 6, paddingHorizontal: 15, borderRadius: 15, backgroundColor: 'cyan'}}>
+                               Confirm Share
+                           </Text>
+                       </TouchableOpacity>
+                    
                     </View>
                 </Modal>
             </Portal>

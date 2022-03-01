@@ -2898,6 +2898,7 @@ export const createImageAsset = /* GraphQL */ `
   ) {
     createImageAsset(input: $input, condition: $condition) {
       id
+      type
       title
       imageUri
       isSample
@@ -2952,6 +2953,57 @@ export const createImageAsset = /* GraphQL */ `
         owner
       }
       userID
+      sharedUserID
+      sharedUser {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -2965,6 +3017,7 @@ export const updateImageAsset = /* GraphQL */ `
   ) {
     updateImageAsset(input: $input, condition: $condition) {
       id
+      type
       title
       imageUri
       isSample
@@ -3019,6 +3072,57 @@ export const updateImageAsset = /* GraphQL */ `
         owner
       }
       userID
+      sharedUserID
+      sharedUser {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -3032,6 +3136,7 @@ export const deleteImageAsset = /* GraphQL */ `
   ) {
     deleteImageAsset(input: $input, condition: $condition) {
       id
+      type
       title
       imageUri
       isSample
@@ -3086,6 +3191,57 @@ export const deleteImageAsset = /* GraphQL */ `
         owner
       }
       userID
+      sharedUserID
+      sharedUser {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner

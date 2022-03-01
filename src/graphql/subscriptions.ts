@@ -2841,6 +2841,7 @@ export const onCreateImageAsset = /* GraphQL */ `
   subscription OnCreateImageAsset($owner: String) {
     onCreateImageAsset(owner: $owner) {
       id
+      type
       title
       imageUri
       isSample
@@ -2895,6 +2896,57 @@ export const onCreateImageAsset = /* GraphQL */ `
         owner
       }
       userID
+      sharedUserID
+      sharedUser {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -2905,6 +2957,7 @@ export const onUpdateImageAsset = /* GraphQL */ `
   subscription OnUpdateImageAsset($owner: String) {
     onUpdateImageAsset(owner: $owner) {
       id
+      type
       title
       imageUri
       isSample
@@ -2959,6 +3012,57 @@ export const onUpdateImageAsset = /* GraphQL */ `
         owner
       }
       userID
+      sharedUserID
+      sharedUser {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -2969,6 +3073,7 @@ export const onDeleteImageAsset = /* GraphQL */ `
   subscription OnDeleteImageAsset($owner: String) {
     onDeleteImageAsset(owner: $owner) {
       id
+      type
       title
       imageUri
       isSample
@@ -3023,6 +3128,57 @@ export const onDeleteImageAsset = /* GraphQL */ `
         owner
       }
       userID
+      sharedUserID
+      sharedUser {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner

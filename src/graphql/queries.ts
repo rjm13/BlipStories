@@ -1383,6 +1383,7 @@ export const getImageAsset = /* GraphQL */ `
   query GetImageAsset($id: ID!) {
     getImageAsset(id: $id) {
       id
+      type
       title
       imageUri
       isSample
@@ -1437,6 +1438,57 @@ export const getImageAsset = /* GraphQL */ `
         owner
       }
       userID
+      sharedUserID
+      sharedUser {
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
       owner
@@ -1452,6 +1504,7 @@ export const listImageAssets = /* GraphQL */ `
     listImageAssets(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        type
         title
         imageUri
         isSample
@@ -1482,6 +1535,33 @@ export const listImageAssets = /* GraphQL */ `
           owner
         }
         userID
+        sharedUserID
+        sharedUser {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          createdAt
+          updatedAt
+          owner
+        }
         createdAt
         updatedAt
         owner
@@ -2990,6 +3070,91 @@ export const storiesByDate = /* GraphQL */ `
         approved
         createdAt
         numListens
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const imageAssetsByDate = /* GraphQL */ `
+  query ImageAssetsByDate(
+    $type: String!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelImageAssetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    imageAssetsByDate(
+      type: $type
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        title
+        imageUri
+        isSample
+        user {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          createdAt
+          updatedAt
+          owner
+        }
+        userID
+        sharedUserID
+        sharedUser {
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          createdAt
+          updatedAt
+          owner
+        }
+        createdAt
         updatedAt
         owner
       }
