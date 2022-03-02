@@ -736,6 +736,8 @@ const StoryScreen  = ({navigation} : any) => {
                     source={{uri: imageU}}
                     style={{  backgroundColor: '#363636', width: Dimensions.get('window').width, height: 330,  position: 'absolute'  }}
                 >
+                    
+                    
                     {Story?.imageUri ? (null) : (
                         <View style={{ alignSelf: 'center', marginTop: 140}}>
                             <FontAwesome5 
@@ -789,7 +791,23 @@ const StoryScreen  = ({navigation} : any) => {
                         scrollEventThrottle={1}
                         showsVerticalScrollIndicator={false}
                     >
-                        <View style={{ height: 220, backgroundColor: 'transparent'}}>
+                        
+                        <View style={{ height: 220, backgroundColor: 'transparent', alignItems: 'flex-start'}}>
+                            {Story?.imageUri ? (
+                                <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: Story?.artistID})}>
+                                    <View style={{marginLeft: 10, marginTop: 186, alignItems: 'center', borderRadius: 15, paddingHorizontal: 10, paddingVertical: 4, backgroundColor: '#363636a5', flexDirection: 'row'}}>
+                                        <FontAwesome5 
+                                            name='palette'
+                                            size={14}
+                                            color='#fff'
+                                            style={{marginRight: 10}}
+                                        />
+                                        <Text style={{color: '#fff'}}>
+                                            {Story?.artistName}
+                                        </Text>
+                                    </View> 
+                                </TouchableOpacity>
+                            ) : null}
                         </View>
                         <LinearGradient 
                             colors={['#202020', '#282828', '#000', '#000']}
@@ -818,7 +836,7 @@ const StoryScreen  = ({navigation} : any) => {
                                             </View>
                                         </TouchableOpacity>
 
-                                        <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: '7755e914-9ae4-4dd0-a421-b517980b6808'})}>
+                                        <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: Story?.narratorID})}>
                                             <View style={{ flexDirection: 'row', alignItems: 'center'}}>
                                                 <FontAwesome5 
                                                     name='book-reader'
