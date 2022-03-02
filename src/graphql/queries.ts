@@ -23,6 +23,7 @@ export const getUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -52,6 +53,7 @@ export const getUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -97,6 +99,7 @@ export const getUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -146,6 +149,7 @@ export const getUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -189,6 +193,7 @@ export const getUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -581,6 +586,7 @@ export const getPinnedStory = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -696,6 +702,7 @@ export const listPinnedStories = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -839,6 +846,7 @@ export const getFinishedStory = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -955,6 +963,7 @@ export const listFinishedStories = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -1091,6 +1100,7 @@ export const getStory = /* GraphQL */ `
         owner
       }
       narratorID
+      artistName
       artist {
         id
         name
@@ -1277,6 +1287,7 @@ export const listStories = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -1831,6 +1842,7 @@ export const getFlag = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -1971,6 +1983,7 @@ export const listFlags = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -2091,6 +2104,7 @@ export const getComment = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -2232,6 +2246,7 @@ export const listComments = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -2421,6 +2436,7 @@ export const getRating = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -2574,6 +2590,7 @@ export const listRatings = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -2706,6 +2723,7 @@ export const getStoryTag = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -2818,6 +2836,7 @@ export const listStoryTags = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -2909,6 +2928,7 @@ export const finishedStoriesByDate = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -3012,6 +3032,7 @@ export const storiesByDate = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -3280,6 +3301,7 @@ export const commentsByDate = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -3363,6 +3385,7 @@ export const ratingsByDate = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary

@@ -82,6 +82,7 @@ type Story @model @auth(rules: [{ allow: owner, operations: [create, delete, upd
   narrator: String
   narratorUser: User @hasOne (fields: ["narratorID"])
   narratorID: ID @index(name: "byNarratorUser", sortKeyFields: ["id"])
+  artistName: String
   artist: User @hasOne (fields: ["artistID"])
   artistID: ID @index(name: "byArtist", sortKeyFields: ["id"])
   time: Int

@@ -44,7 +44,12 @@ const UploadAudio = ({navigation} : any) => {
     useEffect(() => {
         const fetchUser = async () => {
             let userInfo = await Auth.currentAuthenticatedUser();
-            setUser(userInfo.attributes.sub)
+            let response = await API.graphql(graphqlOperation(
+                getUser, { 
+                    id: userInfo.attributes.sub
+                }
+            ))
+            setUser(response.data.getUser)
         }
         fetchUser();
     }, [])
@@ -64,12 +69,14 @@ const UploadAudio = ({navigation} : any) => {
         genre: '',
         author: '',
         narrator: '',
+        artistName: '',
         time: 0,
         imageUri: '',
         audioUri: '',
         nsfw: false,
         narratorID: null,
         artistID: null,
+
     });
 
     const [numAuthored, setNumAuthored] = useState(0)
@@ -186,6 +193,7 @@ const UploadAudio = ({navigation} : any) => {
                         genreID: data.genreID,
                         author: data.author,
                         narrator: data.narrator,
+                        artistName: data.artistName,
                         narratorID: data.narratorID,
                         artistID: data.artistID,
                         time: data.time,
@@ -655,7 +663,7 @@ const UploadAudio = ({navigation} : any) => {
 
         if (!result.cancelled) {
         setLocalImageUri(result.uri);
-        setData({...data, artistID: user.id})
+        setData({...data, artistID: user.id, artistName: user.artistPseudo})
         setIsLocalImage(true);
         console.log(result)
         }
@@ -945,7 +953,7 @@ const UploadAudio = ({navigation} : any) => {
                     </TouchableOpacity>
                 </View>
                 <Text style={{color: '#ffffffa5', marginTop: 2, marginLeft: 5}}>
-                    Shared by {userName}
+                    Shared by {sharedUserName}
                 </Text>
             </View>
         )
@@ -1014,7 +1022,7 @@ const UploadAudio = ({navigation} : any) => {
         const SetImage = () => {
             setLocalImageUri(imageU);
             setIsLocalImage(false);
-            setData({...data, artistID: sharedUserID, imageUri: imageUri})
+            setData({...data, artistID: sharedUserID, imageUri: imageUri, artistName: sharedUserName})
             hideArtModal();
         }
         

@@ -23,6 +23,7 @@ export const onCreateUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -52,6 +53,7 @@ export const onCreateUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -97,6 +99,7 @@ export const onCreateUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -146,6 +149,7 @@ export const onCreateUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -189,6 +193,7 @@ export const onCreateUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -239,6 +244,7 @@ export const onUpdateUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -268,6 +274,7 @@ export const onUpdateUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -313,6 +320,7 @@ export const onUpdateUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -362,6 +370,7 @@ export const onUpdateUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -405,6 +414,7 @@ export const onUpdateUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -455,6 +465,7 @@ export const onDeleteUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -484,6 +495,7 @@ export const onDeleteUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -529,6 +541,7 @@ export const onDeleteUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -578,6 +591,7 @@ export const onDeleteUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -621,6 +635,7 @@ export const onDeleteUser = /* GraphQL */ `
           authorID
           narrator
           narratorID
+          artistName
           artistID
           time
           summary
@@ -1105,6 +1120,7 @@ export const onCreatePinnedStory = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -1291,6 +1307,7 @@ export const onUpdatePinnedStory = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -1477,6 +1494,7 @@ export const onDeletePinnedStory = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -1664,6 +1682,7 @@ export const onCreateFinishedStory = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -1851,6 +1870,7 @@ export const onUpdateFinishedStory = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -2038,6 +2058,7 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -2218,6 +2239,7 @@ export const onCreateStory = /* GraphQL */ `
         owner
       }
       narratorID
+      artistName
       artist {
         id
         name
@@ -2447,6 +2469,7 @@ export const onUpdateStory = /* GraphQL */ `
         owner
       }
       narratorID
+      artistName
       artist {
         id
         name
@@ -2676,6 +2699,7 @@ export const onDeleteStory = /* GraphQL */ `
         owner
       }
       narratorID
+      artistName
       artist {
         id
         name
@@ -3604,6 +3628,7 @@ export const onCreateFlag = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -3791,6 +3816,7 @@ export const onUpdateFlag = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -3978,6 +4004,7 @@ export const onDeleteFlag = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -4166,6 +4193,7 @@ export const onCreateComment = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -4354,6 +4382,7 @@ export const onUpdateComment = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -4542,6 +4571,7 @@ export const onDeleteComment = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -4835,6 +4865,7 @@ export const onCreateRating = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -5035,6 +5066,7 @@ export const onUpdateRating = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -5235,6 +5267,7 @@ export const onDeleteRating = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -5435,6 +5468,7 @@ export const onCreateStoryTag = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -5594,6 +5628,7 @@ export const onUpdateStoryTag = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
@@ -5753,6 +5788,7 @@ export const onDeleteStoryTag = /* GraphQL */ `
           owner
         }
         narratorID
+        artistName
         artist {
           id
           name
