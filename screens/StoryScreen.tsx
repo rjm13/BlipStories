@@ -794,7 +794,7 @@ const StoryScreen  = ({navigation} : any) => {
                         
                         <View style={{ height: 220, backgroundColor: 'transparent', alignItems: 'flex-start'}}>
                             {Story?.imageUri ? (
-                                <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: Story?.artistID})}>
+                                <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: Story?.artistID, status: 'artist'})}>
                                     <View style={{marginLeft: 10, marginTop: 186, alignItems: 'center', borderRadius: 15, paddingHorizontal: 10, paddingVertical: 4, backgroundColor: '#363636a5', flexDirection: 'row'}}>
                                         <FontAwesome5 
                                             name='palette'
@@ -822,7 +822,7 @@ const StoryScreen  = ({navigation} : any) => {
                                     </Text>
 
                                     <View style={{ width: '100%', flexDirection: 'row', marginVertical: 10, justifyContent: 'space-between'}}>
-                                        <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: Story?.userID})}>
+                                        <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: Story?.userID, status: 'publisher'})}>
                                             <View style={{ flexDirection: 'row', alignItems: 'center'}}>
                                                 <FontAwesome5 
                                                     name='book-open'
@@ -836,7 +836,7 @@ const StoryScreen  = ({navigation} : any) => {
                                             </View>
                                         </TouchableOpacity>
 
-                                        <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: Story?.narratorID})}>
+                                        <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: Story?.narratorID, status: 'narrator'})}>
                                             <View style={{ flexDirection: 'row', alignItems: 'center'}}>
                                                 <FontAwesome5 
                                                     name='book-reader'

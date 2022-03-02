@@ -21,7 +21,7 @@ const UserScreen = ({navigation} : any) => {
     const [User, setUser] = useState(null);
 
     const route = useRoute();
-    const {userID} = route.params
+    const {userID, status} = route.params
 
     // useEffect(() => {
     //     const fetchUser = async () => {
@@ -43,7 +43,7 @@ const UserScreen = ({navigation} : any) => {
     return (
         <View style={styles.container}>
         
-            <AudioListByAuthor user={userID}/>
+            <AudioListByAuthor user={userID} status={status}/>
             <StatusBar style="light" />
         </View>
     );

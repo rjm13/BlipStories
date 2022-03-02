@@ -40,7 +40,8 @@ import { forceTouchGestureHandlerProps } from 'react-native-gesture-handler/lib/
 
 
 
-const AudioListByAuthor = ({user} : any) => {
+const AudioListByAuthor = ({user, status} : any) => {
+
 
 
     const navigation = useNavigation();
@@ -67,6 +68,12 @@ const AudioListByAuthor = ({user} : any) => {
     const [audioSamples, setAudioSamples] = useState([]);
 
     const [sampleState, setSampleState] = useState(false);
+
+    useEffect(() => {
+        if (status === 'publisher'){setPublisher(true);}
+        if (status === 'narrator'){setNarrator(true);}
+        if (status === 'artist'){setArtist(true);}
+    }, [])
 
 
     useEffect( () => {
