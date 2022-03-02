@@ -30,7 +30,7 @@ import unPinStory from '../functions/UnPinStory';
 
 const ForYouCarousel = () => {
 
-    const Item = ({primary, title, userID, genreName, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
+    const Item = ({primary, title, userID, genreName, icon, summary, imageUri, audioUri, author, narrator, artistID, narratorID, time, id} : any) => {
 
         const [imageU, setImageU] = useState()
         
@@ -218,7 +218,7 @@ const ForYouCarousel = () => {
                                                 size={12}
                                                 color='#ffffffa5'
                                             />
-                                            <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {user: '7755e914-9ae4-4dd0-a421-b517980b6808'})}>
+                                            <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: narratorID})}>
                                                 <Text style={styles.userId}>
                                                     {narrator}
                                                 </Text> 
@@ -364,9 +364,12 @@ const ForYouCarousel = () => {
           summary={item.summary}
           author={item.author}
           narrator={item.narrator}
+          narratorID={item.narratorID}
+          artistID={item.artistID}
           time={item.time}
           id={item.id}
           userID={item.userID}
+          
         />
       );}
 

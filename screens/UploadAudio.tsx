@@ -635,7 +635,7 @@ const UploadAudio = ({navigation} : any) => {
             {shouldPlay: false}
         );
         let duration = await sound.getStatusAsync();
-        setData({...data, time: duration.durationMillis, narratorID: user.id});
+        setData({...data, time: duration.durationMillis, narratorID: user.id, narrator: user.narratorPseudo});
         setIsLocalAudio(true);
         console.log(duration);
         }
@@ -812,7 +812,7 @@ const UploadAudio = ({navigation} : any) => {
         const SetAudio = () => {
             setLocalAudioUri(itemState.audio);
             setAudioName(itemState.title);
-            setData({...data, time: itemState.time, narratorID: user.id})
+            setData({...data, time: itemState.time, narratorID: user.id, narrator: user.narratorPseudo})
             setIsLocalAudio(true);
             hideLocalAudioModal();
         }
@@ -906,7 +906,7 @@ const UploadAudio = ({navigation} : any) => {
     }, [])
 
 
-    const SharedItem = ({id, title, audioUri, userName, isSample, time, userID, sharedUserID, createdAt} : any) => {
+    const SharedItem = ({id, title, audioUri, userName, sharedUserName, isSample, time, userID, sharedUserID, createdAt} : any) => {
         
         //convert the time to show in the modal
         function millisToMinutesAndSeconds () {
@@ -918,7 +918,7 @@ const UploadAudio = ({navigation} : any) => {
         const SetAudio = () => {
             setLocalAudioUri(audioUri);
             setAudioName(title);
-            setData({...data, time: time, narratorID: sharedUserID, audioUri: audioUri})
+            setData({...data, time: time, narratorID: sharedUserID, narrator: sharedUserName, audioUri: audioUri})
             hideNarratorModal();
             setIsLocalAudio(false);
         }
@@ -964,6 +964,7 @@ const UploadAudio = ({navigation} : any) => {
                 userName={item.user.pseudonym}
                 sharedUserID={item.sharedUserID}
                 createdAt={item.createdAt}
+                sharedUserName={item.sharedUser.narratorPseudo}
             />
         )
     }
@@ -1019,10 +1020,10 @@ const UploadAudio = ({navigation} : any) => {
         
         return (
             <TouchableWithoutFeedback onPress={SetImage}>
-                <View style={{marginTop: 20}}>
+                <View style={{marginTop: 20, marginHorizontal: 10}}>
                     <Image 
                         source={{uri: imageU}}
-                        style={{borderRadius: 15, width: (SCREEN_WIDTH-40)/2, height: ((SCREEN_WIDTH-40)/2)*0.75}}
+                        style={{borderRadius: 15, width: (SCREEN_WIDTH-80)/2, height: ((SCREEN_WIDTH-40)/2)*0.75}}
                     />
                     <Text style={{color: '#fff', marginTop: 4}}>
                         {title}
@@ -1047,7 +1048,7 @@ const UploadAudio = ({navigation} : any) => {
                 userID={item.userID}
                 userName={item.user.pseudonym}
                 sharedUserID={item.sharedUserID}
-                sharedUserName={item.sharedUser.pseudonym}
+                sharedUserName={item.sharedUser.artistPseudo}
                 createdAt={item.createdAt}
             />
         )
@@ -1261,6 +1262,7 @@ const UploadAudio = ({navigation} : any) => {
                             keyExtractor={item => item.id}
                             renderItem={renderSharedArt}
                             showsVerticalScrollIndicator={false}
+                            numColumns={2}
                             ListFooterComponent={() => {
                                 return(
                                     <View style={{height: 60}}/>
