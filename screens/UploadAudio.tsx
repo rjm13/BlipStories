@@ -812,7 +812,8 @@ const UploadAudio = ({navigation} : any) => {
         const SetAudio = () => {
             setLocalAudioUri(itemState.audio);
             setAudioName(itemState.title);
-            setData({...data, time: itemState.time, narratorID: user})
+            setData({...data, time: itemState.time, narratorID: user.id})
+            setIsLocalAudio(true);
             hideLocalAudioModal();
         }
 
