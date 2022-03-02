@@ -635,7 +635,7 @@ const UploadAudio = ({navigation} : any) => {
             {shouldPlay: false}
         );
         let duration = await sound.getStatusAsync();
-        setData({...data, time: duration.durationMillis});
+        setData({...data, time: duration.durationMillis, narratorID: user.id});
         setIsLocalAudio(true);
         console.log(duration);
         }
