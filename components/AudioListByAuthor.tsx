@@ -26,7 +26,7 @@ import {
 import { deleteStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 import { listRatings } from '../src/customGraphql/customQueries';
-import { getUser, getFollowingConn, listFollowingConns, listStories, listPinnedStories } from '../src/graphql/queries';
+import { getUser, getFollowingConn, listFollowingConns, listStories, listPinnedStories, listImageAssets, listAudioAssets } from '../src/graphql/queries';
 import { updateUser } from '../src/graphql/mutations';
 import { createFollowingConn, deleteFollowingConn } from '../src/graphql/mutations';
 import PinStory from './functions/PinStory';
@@ -35,236 +35,13 @@ import unPinStory from './functions/UnPinStory';
 import { ItemParamList } from '../types';
 
 import StoryTile from '../components/StoryTile';
+import { Item } from 'react-native-paper/lib/typescript/components/List/List';
+import { forceTouchGestureHandlerProps } from 'react-native-gesture-handler/lib/typescript/handlers/ForceTouchGestureHandler';
 
 
 
 const AudioListByAuthor = ({user} : any) => {
 
-    //     const Item = ({title, genreName, icon, ratingAvg, Primary, summary, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
-            
-    
-    //         const navigation = useNavigation();
-    
-    //     //expanding list component
-    //         const [isVisible, setIsVisible] = useState(false);
-    //     //liking the item
-    //         const [isLiked, setIsLiked] = useState(false);
-            
-    //         const onLikePress = () => {
-    //             if ( isLiked === false ) {
-    //                 setIsLiked(true);
-    //             }
-    //             if ( isLiked === true ) {
-    //                 setIsLiked(false);
-    //             }  
-    //         };
-    
-    // //queueing the item
-    // const [isQ, setQd] = useState(false);
-        
-    // const onQPress = () => {
-    //     if ( isQ === false ) {
-    //         setQd(true);
-    //         PinStory({storyID: id})
-    //         //PinStory()
-    //     }
-    //     if ( isQ === true ) {
-    //         setQd(false);
-    //         unPinStory({storyID: id});
-    //     }  
-    // };
-    
-    
-    
-    
-    //         //play the audio story
-    //         const { setStoryID } = useContext(AppContext);
-    
-    //         const onPlay = () => {
-    //             setStoryID(id);
-    //         }
-    
-    //         //calculate the average user rating fora  story
-    //     const [AverageUserRating, setAverageUserRating] = useState(0);
-    
-    //     //rating function
-    //     const [isRated, setIsRated] = useState(false);
-    
-    //     useEffect(() => {
-    
-    //         let Average = []
-    
-    //         const fetchRating = async () => {
-    
-    //             let userInfo = await Auth.currentAuthenticatedUser();
-    
-    //             let Rating = await API.graphql(graphqlOperation(
-    //                 listRatings, {filter: {
-    //                     userID: {
-    //                         eq: userInfo.attributes.sub
-    //                     },
-    //                     storyID: {
-    //                         eq: id
-    //                     }
-    //                 }}
-    //             ))
-    //             if (Rating.data.listRatings.items.length === 1) {
-    //                 //setRatingNum(Rating.data.listRatings.items[0].rating);
-    //                 setIsRated(true);
-    //                 //setRatingID(Rating.data.listRatings.items[0].id);
-    //             } else {
-    //                 //setRatingNum(0);
-    //                 setIsRated(false);
-    //             }
-    
-    //             let RatingAvg = await API.graphql(graphqlOperation(
-    //                 listRatings, {filter: {
-    //                     storyID: {
-    //                         eq: id
-    //                     }
-    //                 }}
-    //             ))
-    
-    //             if (RatingAvg.data.listRatings.items.length > 0) {
-    //                 for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
-    //                     Average.push(RatingAvg.data.listRatings.items[i].rating) 
-    //                 }
-    //                 setAverageUserRating(
-    //                     Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
-    //                 )
-    //             }
-    //         }
-    //         fetchRating();
-    //     }, [])
-
-    //     //convert time to formatted string
-    //     function millisToMinutesAndSeconds () {
-    //         let minutes = Math.floor(time / 60000);
-    //         let seconds = Math.floor((time % 60000) / 1000);
-    //         return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
-    //     } 
-    
-    //         return (
-    //             <View>
-    //                 <TouchableWithoutFeedback onPress={() => setIsVisible(!isVisible)}>
-    //                     <View style={styles.tile}>
-    //                         <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-    //                             <View style={{ width: '78%'}}>
-    //                                 <TouchableOpacity onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
-    //                                     <Text style={styles.name}>
-    //                                         {title}
-    //                                     </Text>
-    //                                 </TouchableOpacity>
-                                     
-    //                                 <View style={{flexDirection: 'row'}}>
-    //                                     <Text style={[styles.category]}>
-    //                                         {genreName}
-    //                                     </Text>
-    //                                 </View>
-    //                                 <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>
-    //                                     <FontAwesome5 
-    //                                         name='book-open'
-    //                                         size={12}
-    //                                         color='#ffffffa5'
-    //                                     />
-    //                                     <Text style={styles.userId}>
-    //                                         {author}
-    //                                     </Text>  
-    //                                     <FontAwesome5 
-    //                                         name='book-reader'
-    //                                         size={12}
-    //                                         color='#ffffffa5'
-    //                                     />
-    //                                     <Text style={styles.userId}>
-    //                                         {narrator}
-    //                                     </Text> 
-    //                                 </View>
-    //                             </View>
-    //                             <TouchableOpacity onPress={onPlay}>
-    //                                 <View style={{ 
-    //                                     flexDirection: 'row', 
-    //                                     alignItems: 'center', 
-    //                                     borderRadius: 30,
-    //                                     paddingVertical: 2,
-    //                                     paddingHorizontal: 8,
-    //                                     backgroundColor: '#ffffff33',
-    //                                     borderColor: '#ffffffCC',
-    //                                 }}>
-    //                                     <FontAwesome5 
-    //                                         name='play'
-    //                                         color='#ffffff'
-    //                                         size={10}
-    //                                     />
-    //                                     <Text style={styles.time}>
-    //                                         {millisToMinutesAndSeconds()}
-    //                                     </Text> 
-    //                                 </View>
-    //                             </TouchableOpacity>
-    //                         </View> 
-                    
-    //                 { isVisible ? (
-    //                     <View style={styles.popupblock}>
-    //                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
-    //                             <View style={{alignItems: 'center', width: '100%',flexDirection: 'row', justifyContent: 'space-between'}}>
-    //                                 <View style={{ marginVertical: 10, alignSelf: 'flex-start', flexDirection: 'row',  }}>
-        
-    //                                     <View style={{alignItems: 'center', marginRight: 25,}}>
-    //                                         <AntDesign
-    //                                             name={isQ ? 'pushpin' : 'pushpino'}
-    //                                             size={20}
-    //                                             color={isQ ? 'cyan' : 'white'}
-    //                                             onPress={onQPress}
-    //                                         />
-    //                                     </View>
-    
-    //                                     <View style={{alignItems: 'center'}}>
-    //                                         <FontAwesome
-    //                                             name='share'
-    //                                             size={20}
-    //                                             color='white'
-    //                                             onPress={onLikePress}
-    //                                         />
-    //                                     </View>
-    //                                 </View>
-    
-    //                                 <View>
-    //                                     <View style={{justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row'}}>
-    //                                         <FontAwesome
-    //                                             name={isRated ? 'star' : 'star-o'}
-    //                                             size={17}
-    //                                             color={isRated ? 'gold' : 'white'}
-    //                                             style={{paddingHorizontal: 10}}
-    //                                         />
-    //                                         <Text style={{textAlign: 'center', fontSize: 17, color: '#e0e0e0'}}>
-    //                                             {ratingAvg}
-    //                                         </Text>
-    //                                     </View>
-    //                                 </View>
-                            
-    //                             </View>  
-    //                         </View>
-    
-    //                         <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
-    //                             <Image 
-    //                                 source={{uri: imageUri}}
-    //                                 style={{
-    //                                     height: 200,
-    //                                     borderRadius: 15,
-    //                                     marginVertical: 15,
-    //                                     marginHorizontal: -10
-    //                                 }}
-    //                             />
-    //                         </TouchableWithoutFeedback>
-    //                         <Text style={styles.paragraph}>
-    //                             {summary}
-    //                         </Text>
-    //                     </View>
-    //                 ) : false }  
-    //                     </View>
-    //                 </TouchableWithoutFeedback>
-    //             </View>
-    //         );
-    //     }
 
     const navigation = useNavigation();
 
@@ -278,9 +55,63 @@ const AudioListByAuthor = ({user} : any) => {
         }, 2000);
       }
 
+    const [publisher, setPublisher] = useState(false);
+    const [narrator, setNarrator] = useState(false);
+    const [artist, setArtist] = useState(false);
+
     const [Storys, setStorys] = useState([]);
+    const [Narrations, setNarrations] = useState([]);
+    const [Arts, setArts] = useState([]);
+
+    const [artSamples, setArtSamples] = useState([]);
+    const [audioSamples, setAudioSamples] = useState([]);
+
+    const [sampleState, setSampleState] = useState(false);
+
 
     useEffect( () => {
+
+        const fetchArtSamples = async () => {
+            try {
+                const response = await API.graphql(
+                    graphqlOperation(
+                        listImageAssets, {
+                            filter: {
+                                userID: {
+                                    eq: user
+                                },
+                                isSample: {
+                                    eq: true
+                                }
+                            }
+                        } 
+                    )
+                )
+                setArtSamples(response.data.listImageAssets.items);
+            } catch (e) {
+                console.log(e);}
+        }
+
+        const fetchAudioSamples = async () => {
+            try {
+                const response = await API.graphql(
+                    graphqlOperation(
+                        listAudioAssets, {
+                            filter: {
+                                userID: {
+                                    eq: user
+                                },
+                                isSample: {
+                                    eq: true
+                                }
+                            }
+                        } 
+                    )
+                )
+                setAudioSamples(response.data.listAudioAssets.items);
+            } catch (e) {
+                console.log(e);}
+    }
 
         const fetchStorys = async () => {
                 try {
@@ -305,8 +136,150 @@ const AudioListByAuthor = ({user} : any) => {
                 } catch (e) {
                     console.log(e);}
         }
-        fetchStorys();
-    },[])
+
+        const fetchNarrations = async () => {
+            try {
+                const response = await API.graphql(
+                    graphqlOperation(
+                        listStories, {
+                            filter: {
+                                narratorID: {
+                                    eq: user
+                                },
+                                hidden: {
+                                    eq: false
+                                },
+                                approved: {
+                                    eq: true
+                                }
+                            }
+                        } 
+                    )
+                )
+                setNarrations(response.data.listStories.items);
+            } catch (e) {
+                console.log(e);}
+        }
+
+        const fetchArt = async () => {
+            try {
+                const response = await API.graphql(
+                    graphqlOperation(
+                        listStories, {
+                            filter: {
+                                artistID: {
+                                    eq: user
+                                },
+                                hidden: {
+                                    eq: false
+                                },
+                                approved: {
+                                    eq: true
+                                }
+                            }
+                        } 
+                    )
+                )
+                setArts(response.data.listStories.items);
+            } catch (e) {
+                console.log(e);}
+        }
+
+        if (publisher) {fetchStorys();}
+        if (narrator) {fetchNarrations();}
+        if (artist) {fetchArt();}
+        if (sampleState === false) {fetchArtSamples();}
+        if (sampleState === true) {fetchAudioSamples();}
+
+        
+    },[publisher, narrator, artist, sampleState])
+
+    const ArtItem = ({id, title, imageUri} : any) => {
+
+        const [imageLink, setImageLink] = useState('')
+
+        useEffect(() => {
+            const fetchUrl = async () => {
+                let response = await Storage.get(imageUri)
+                setImageLink(response)
+            }
+            fetchUrl();
+        }, [])
+
+        return (
+            <TouchableWithoutFeedback>
+                <View style={{marginVertical: 10, alignItems: 'center'}}>
+                    <Image 
+                        source={{uri: imageLink}} 
+                        style={{
+                            borderRadius: 10, 
+                            width: (Dimensions.get('window').width)-40,
+                            height: ((Dimensions.get('window').width)-40)*0.75
+                        }}
+                    />
+                    <Text style={{marginLeft: 40, marginTop: 10, color: '#fff', fontWeight: 'bold', alignSelf: 'flex-start'}}>
+                        {title}
+                    </Text>
+                </View>
+            </TouchableWithoutFeedback>
+            
+        );
+    }
+
+    const renderArtItem = ({item} : any) => {
+        return (
+            <ArtItem 
+                id={item.id}
+                title={item.title}
+                imageUri={item.imageUri}
+
+            />
+        );
+    }
+
+    const AudioSampleItem = ({title, id, time} : any) => {
+
+        //convert the time to show in the modal
+        function millisToMinutesAndSeconds () {
+            let minutes = Math.floor(time / 60000);
+            let seconds = Math.floor((time % 60000) / 1000);
+            return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
+        }  
+
+        return (
+            <View style={{borderRadius: 15, marginVertical: 10, marginHorizontal:20, paddingVertical: 10, paddingHorizontal: 20, backgroundColor: '#363636', flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View>
+                    <Text style={{color: '#fff', fontWeight: 'bold'}}>
+                        {title}
+                    </Text>
+                    <Text style={{marginTop: 4, color: 'gray'}}>
+                        {millisToMinutesAndSeconds()}
+                    </Text>
+                </View>
+                <TouchableOpacity>
+                    <View style={{justifyContent: 'center'}}>
+                        <FontAwesome 
+                            name='play'
+                            color='#fff'
+                            size={20}  
+                            style={{padding: 10,}}
+                        />
+                    </View>
+                </TouchableOpacity>
+                
+            </View>
+        );
+    }
+
+    const renderAudioSampleItem = ({item} : any) => {
+        return (
+            <AudioSampleItem 
+                title={item.title}
+                id={item.id}
+                time={item.time}
+            />
+        );
+    }
 
     const renderItem = ({ item } : any) => {
 
@@ -582,52 +555,332 @@ const AudioListByAuthor = ({user} : any) => {
         }
     }
 
-
-
-
+    
 
     return (
 
         <View style={[styles.container]}>
 
-            <Animated.FlatList 
-                data={Storys}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-                //extraData={Following}
-                //stickyHeaderIndices={[0]}
-                //onScroll={event => {setScrollOffset(event.nativeEvent.contentOffset.y);}}
-                onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset: { y: animation } } }],
-                    { useNativeDriver: false }
-                  )}
-                scrollEventThrottle={1}
-                //style={{marginTop: 300}}
-                refreshControl={
-                    <RefreshControl
-                     refreshing={isFetching}
-                     onRefresh={onRefresh}
-                    />
-                  }
-                showsVerticalScrollIndicator={false}    
-                ListFooterComponent={ () => {
-                    return (
-                    <View style={{ height:  70, alignItems: 'center'}}>
-                        <Text style={{ color: 'white', margin: 20,}}>
-                            
-                        </Text>
-                    </View>
-                    );}
-                }
-                ListHeaderComponent={ () => {
+{/* display published stories */}
+            {publisher ? (
+                <Animated.FlatList 
+                    data={Storys}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                    //extraData={Following}
+                    //stickyHeaderIndices={[0]}
+                    //onScroll={event => {setScrollOffset(event.nativeEvent.contentOffset.y);}}
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { y: animation } } }],
+                        { useNativeDriver: false }
+                    )}
+                    scrollEventThrottle={1}
+                    refreshControl={
+                        <RefreshControl
+                        refreshing={isFetching}
+                        onRefresh={onRefresh}
+                        />
+                    }
+                    showsVerticalScrollIndicator={false}    
+                    ListFooterComponent={ () => {
+                        return (
+                        <View style={{ height:  100}}/>
+                        );}
+                    }
+                    ListHeaderComponent={ () => {
 
-                    return (
+                        return (
+                                <View>
+                                    <View style={{ height: 500}}/>
 
-                        <View style={{ height: 500}}>
-                        </View>                
-                        );
-                    }}
-            />
+                                    {narrator || artist ? (
+                                        <View style={{marginBottom: 20, flexDirection: 'row', justifyContent: 'center'}}>
+                                            <TouchableWithoutFeedback onPress={() => setSampleState(false)}>
+                                                <Text style={{paddingHorizontal: 20, 
+                                                        color: !sampleState ? '#fff' : '#ffffffa5', 
+                                                        fontWeight: !sampleState ? 'bold' : 'normal', 
+                                                        fontSize: !sampleState ? 18 : 16, 
+                                                    }}>
+                                                        Stories
+                                                </Text>
+                                            </TouchableWithoutFeedback>
+                                            
+                                            <TouchableWithoutFeedback onPress={() => setSampleState(true)}>
+                                                <Text style={{paddingHorizontal: 20, 
+                                                    color: sampleState ? '#fff' : '#ffffffa5',
+                                                    fontWeight: sampleState ? 'bold' : 'normal', 
+                                                    fontSize: sampleState ? 18 : 16, 
+                                                }}>
+                                                    Samples
+                                                </Text> 
+                                            </TouchableWithoutFeedback>  
+                                        </View>   
+                                    ) : null}
+                                    
+                                    
+                                </View>
+                                            
+                                        );
+                                    }}
+                />
+            ) : null}
+
+{/* display narrated samples */}
+            {narrator && sampleState ? (
+                <Animated.FlatList 
+                    data={audioSamples}
+                    renderItem={renderAudioSampleItem}
+                    keyExtractor={item => item.id}
+                    //extraData={Following}
+                    //stickyHeaderIndices={[0]}
+                    //onScroll={event => {setScrollOffset(event.nativeEvent.contentOffset.y);}}
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { y: animation } } }],
+                        { useNativeDriver: false }
+                    )}
+                    scrollEventThrottle={1}
+                    refreshControl={
+                        <RefreshControl
+                        refreshing={isFetching}
+                        onRefresh={onRefresh}
+                        />
+                    }
+                    showsVerticalScrollIndicator={false}    
+                    ListFooterComponent={ () => {
+                        return (
+                        <View style={{ height:  100}}/>
+                        );}
+                    }
+                    ListHeaderComponent={ () => {
+
+                        return (
+                                <View>
+                                    <View style={{ height: 500}}/>
+
+                                    {narrator || artist ? (
+                                        <View style={{marginBottom: 20, flexDirection: 'row', justifyContent: 'center'}}>
+                                            <TouchableWithoutFeedback onPress={() => setSampleState(false)}>
+                                                <Text style={{paddingHorizontal: 20, 
+                                                        color: !sampleState ? '#fff' : '#ffffffa5', 
+                                                        fontWeight: !sampleState ? 'bold' : 'normal', 
+                                                        fontSize: !sampleState ? 18 : 16, 
+                                                    }}>
+                                                        Stories
+                                                </Text>
+                                            </TouchableWithoutFeedback>
+                                            
+                                            <TouchableWithoutFeedback onPress={() => setSampleState(true)}>
+                                                <Text style={{paddingHorizontal: 20, 
+                                                    color: sampleState ? '#fff' : '#ffffffa5',
+                                                    fontWeight: sampleState ? 'bold' : 'normal', 
+                                                    fontSize: sampleState ? 18 : 16, 
+                                                }}>
+                                                    Samples
+                                                </Text> 
+                                            </TouchableWithoutFeedback>  
+                                        </View>   
+                                    ) : null}
+                                    
+                                    
+                                </View>
+                                            
+                                        );
+                                    }}
+                />
+            ) : null}
+
+{/* display narrated stories */}
+            {narrator && !sampleState ? (
+                <Animated.FlatList 
+                    data={Narrations}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                    //extraData={Following}
+                    //stickyHeaderIndices={[0]}
+                    //onScroll={event => {setScrollOffset(event.nativeEvent.contentOffset.y);}}
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { y: animation } } }],
+                        { useNativeDriver: false }
+                    )}
+                    scrollEventThrottle={1}
+                    refreshControl={
+                        <RefreshControl
+                        refreshing={isFetching}
+                        onRefresh={onRefresh}
+                        />
+                    }
+                    showsVerticalScrollIndicator={false}    
+                    ListFooterComponent={ () => {
+                        return (
+                        <View style={{ height:  100}}/>
+                        );}
+                    }
+                    ListHeaderComponent={ () => {
+
+                        return (
+                                <View>
+                                    <View style={{ height: 500}}/>
+
+                                    {narrator || artist ? (
+                                        <View style={{marginBottom: 20, flexDirection: 'row', justifyContent: 'center'}}>
+                                            <TouchableWithoutFeedback onPress={() => setSampleState(false)}>
+                                                <Text style={{paddingHorizontal: 20, 
+                                                        color: !sampleState ? '#fff' : '#ffffffa5', 
+                                                        fontWeight: !sampleState ? 'bold' : 'normal', 
+                                                        fontSize: !sampleState ? 18 : 16, 
+                                                    }}>
+                                                        Stories
+                                                </Text>
+                                            </TouchableWithoutFeedback>
+                                            
+                                            <TouchableWithoutFeedback onPress={() => setSampleState(true)}>
+                                                <Text style={{paddingHorizontal: 20, 
+                                                    color: sampleState ? '#fff' : '#ffffffa5',
+                                                    fontWeight: sampleState ? 'bold' : 'normal', 
+                                                    fontSize: sampleState ? 18 : 16, 
+                                                }}>
+                                                    Samples
+                                                </Text> 
+                                            </TouchableWithoutFeedback>  
+                                        </View>   
+                                    ) : null}
+                                    
+                                    
+                                </View>
+                                            
+                                        );
+                                    }}
+                />
+            ) : null}
+
+{/* display artist samples */}
+            {artist && sampleState ? (
+                <Animated.FlatList 
+                    data={artSamples}
+                    renderItem={renderArtItem}
+                    keyExtractor={item => item.id}
+                    //extraData={Following}
+                    //stickyHeaderIndices={[0]}
+                    //onScroll={event => {setScrollOffset(event.nativeEvent.contentOffset.y);}}
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { y: animation } } }],
+                        { useNativeDriver: false }
+                    )}
+                    scrollEventThrottle={1}
+                    refreshControl={
+                        <RefreshControl
+                        refreshing={isFetching}
+                        onRefresh={onRefresh}
+                        />
+                    }
+                    showsVerticalScrollIndicator={false}    
+                    ListFooterComponent={ () => {
+                        return (
+                        <View style={{ height:  100}}/>
+                        );}
+                    }
+                    ListHeaderComponent={ () => {
+
+                        return (
+                                <View>
+                                    <View style={{ height: 500}}/>
+
+                                    {narrator || artist ? (
+                                        <View style={{marginBottom: 20, flexDirection: 'row', justifyContent: 'center'}}>
+                                            <TouchableWithoutFeedback onPress={() => setSampleState(false)}>
+                                                <Text style={{paddingHorizontal: 20, 
+                                                        color: !sampleState ? '#fff' : '#ffffffa5', 
+                                                        fontWeight: !sampleState ? 'bold' : 'normal', 
+                                                        fontSize: !sampleState ? 18 : 16, 
+                                                    }}>
+                                                        Stories
+                                                </Text>
+                                            </TouchableWithoutFeedback>
+                                            
+                                            <TouchableWithoutFeedback onPress={() => setSampleState(true)}>
+                                                <Text style={{paddingHorizontal: 20, 
+                                                    color: sampleState ? '#fff' : '#ffffffa5',
+                                                    fontWeight: sampleState ? 'bold' : 'normal', 
+                                                    fontSize: sampleState ? 18 : 16, 
+                                                }}>
+                                                    Samples
+                                                </Text> 
+                                            </TouchableWithoutFeedback>  
+                                        </View>   
+                                    ) : null}
+                                    
+                                    
+                                </View>
+                                            
+                                        );
+                                    }}
+                />
+            ) : null}
+
+{/* display artist stories */}
+            {artist && !sampleState ? (
+                <Animated.FlatList 
+                    data={Arts}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                    //extraData={Following}
+                    //stickyHeaderIndices={[0]}
+                    //onScroll={event => {setScrollOffset(event.nativeEvent.contentOffset.y);}}
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { y: animation } } }],
+                        { useNativeDriver: false }
+                    )}
+                    scrollEventThrottle={1}
+                    refreshControl={
+                        <RefreshControl
+                        refreshing={isFetching}
+                        onRefresh={onRefresh}
+                        />
+                    }
+                    showsVerticalScrollIndicator={false}    
+                    ListFooterComponent={ () => {
+                        return (
+                        <View style={{ height:  100}}/>
+                        );}
+                    }
+                    ListHeaderComponent={ () => {
+
+                        return (
+                                <View>
+                                    <View style={{ height: 500}}/>
+
+                                    {narrator || artist ? (
+                                        <View style={{marginBottom: 20, flexDirection: 'row', justifyContent: 'center'}}>
+                                            <TouchableWithoutFeedback onPress={() => setSampleState(false)}>
+                                                <Text style={{paddingHorizontal: 20, 
+                                                        color: !sampleState ? '#fff' : '#ffffffa5', 
+                                                        fontWeight: !sampleState ? 'bold' : 'normal', 
+                                                        fontSize: !sampleState ? 18 : 16, 
+                                                    }}>
+                                                        Stories
+                                                </Text>
+                                            </TouchableWithoutFeedback>
+                                            
+                                            <TouchableWithoutFeedback onPress={() => setSampleState(true)}>
+                                                <Text style={{paddingHorizontal: 20, 
+                                                    color: sampleState ? '#fff' : '#ffffffa5',
+                                                    fontWeight: sampleState ? 'bold' : 'normal', 
+                                                    fontSize: sampleState ? 18 : 16, 
+                                                }}>
+                                                    Samples
+                                                </Text> 
+                                            </TouchableWithoutFeedback>  
+                                        </View>   
+                                    ) : null}
+                                    
+                                    
+                                </View>
+                                            
+                                        );
+                                    }}
+                />
+            ) : null}
+            
 
                         <Animated.View style={[ {backgroundColor: animatedColor, height: animatedHeaderHeight, width: Dimensions.get('window').width, position: 'absolute', flex: 1}]}
                         >
@@ -682,29 +935,94 @@ const AudioListByAuthor = ({user} : any) => {
                                     </View>
 
                                     <View style={{ alignItems: 'center', marginTop: 20, marginBottom: 10 }}>
-                                        <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
-                                            {User?.pseudonym}
-                                        </Text>
+                                        {publisher ? (
+                                            <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
+                                                {User?.pseudonym}
+                                            </Text>
+                                        ) : null}
+                                        {narrator ? (
+                                            <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
+                                                {User?.narratorPseudo}
+                                            </Text>
+                                        ) : null}
+                                        {artist ? (
+                                            <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
+                                                {User?.artistPseudo}
+                                            </Text>
+                                        ) : null}
+                                        
                                     </View>
 
-                                    <View style={{ alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
-                                        <FontAwesome5 
-                                            name='book-open'
-                                            size={12}
-                                            color='#ffffffa5'
-                                            style={{ marginRight: 5, alignSelf: 'center'}}
-                                        />
-                                        <Text style={styles.userId}>
-                                            {User?.authored.items ? User?.authored.items.length : 0}
-                                        </Text> 
-                                    </View> 
+                                    <View style={{justifyContent: 'center', flexDirection: 'row', alignItems: 'center',}}>
+                                        {User?.isPublisher === true ? (
+                                            <TouchableWithoutFeedback onPress={() => {setPublisher(true); setNarrator(false); setArtist(false)}}>
+                                                <View style={{ alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
+                                                    <FontAwesome5 
+                                                        name='book-open'
+                                                        size={publisher ? 14 : 12}
+                                                        color={publisher ? '#fff' : '#ffffffa5'}
+                                                        style={{ marginHorizontal: 5, alignSelf: 'center'}}
+                                                    />
+                                                    <Text style={styles.userId}>
+                                                        {User?.authored.items ? User?.authored.items.length : 0}
+                                                    </Text> 
+                                                </View> 
+                                            </TouchableWithoutFeedback>
+                                            
+                                        ) : null}
+                                        
+                                        {User?.isNarrator === true ? (
+                                            <TouchableWithoutFeedback onPress={() => {setPublisher(false); setNarrator(true); setArtist(false)}}>
+                                                <View style={{ alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
+                                                    <FontAwesome5 
+                                                        name='book-reader'
+                                                        size={narrator ? 14 : 12}
+                                                        color={narrator ? '#fff' : '#ffffffa5'}
+                                                        style={{ marginHorizontal: 3, alignSelf: 'center'}}
+                                                    />
+                                                    <Text style={styles.userId}>
+                                                        {User?.narrated.items ? User?.narrated.items.length : 0}
+                                                    </Text> 
+                                                </View> 
+                                            </TouchableWithoutFeedback>
+                                        ) : null}
+
+                                        {User?.isArtist === true ? (
+                                            <TouchableWithoutFeedback onPress={() => {setPublisher(false); setNarrator(false); setArtist(true)}}>
+                                                <View style={{ alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
+                                                    <FontAwesome5 
+                                                        name='palette'
+                                                        size={artist ? 14 : 12}
+                                                        color={artist ? '#fff' : '#ffffffa5'}
+                                                        style={{ marginHorizontal: 3, alignSelf: 'center'}}
+                                                    />
+                                                    <Text style={styles.userId}>
+                                                        {User?.authored.items ? User?.authored.items.length : 0}
+                                                    </Text> 
+                                                </View> 
+                                            </TouchableWithoutFeedback>
+                                        ) : null}
+                                    </View>
                                 </Animated.View>
 
                                 <Animated.View style={{opacity: animatedOpacity}}>
                                 <View style={{ alignItems: 'center', marginHorizontal: 20, marginVertical: 10}}>
-                                    <Text style={{ color: '#ffffffa5', fontSize: 14, textAlign: 'center'}}>
-                                        {User?.bio}
-                                    </Text>
+                                    {publisher ? (
+                                        <Text style={{ color: '#ffffffa5', fontSize: 14, textAlign: 'center'}}>
+                                            {User?.bio}
+                                        </Text>
+                                    ) : null}
+                                    {narrator ? (
+                                        <Text style={{ color: '#ffffffa5', fontSize: 14, textAlign: 'center'}}>
+                                            {User?.narratorText}
+                                        </Text>
+                                    ) : null}
+                                    {artist ? (
+                                        <Text style={{ color: '#ffffffa5', fontSize: 14, textAlign: 'center'}}>
+                                            {User?.artistText}
+                                        </Text>
+                                    ) : null}
+                                    
                                 </View>
 
                                 <View style={{ 

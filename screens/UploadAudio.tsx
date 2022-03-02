@@ -1200,6 +1200,17 @@ const UploadAudio = ({navigation} : any) => {
                                     borderRadius: 15,
                                 }} 
                             />
+                            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                <FontAwesome5 
+                                    name='palette'
+                                    size={12}
+                                    color='#ffffffa5'
+                                />
+                                <Text style={styles.userId}>
+                                    {data.artistName}
+                                </Text> 
+                            </View>
+                            
                         </View>
                         
                         <View style={{ width: '100%', alignItems: 'center', marginBottom: 40}}>
