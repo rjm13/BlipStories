@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { API, graphqlOperation, Auth } from "aws-amplify";
 import { getUser, listFollowingConns, listImageAssets } from '../src/graphql/queries';
+import { updateUser } from '../src/graphql/mutations';
 
 const Publisher = ({navigation} : any) => {
 
@@ -91,6 +92,32 @@ const Publisher = ({navigation} : any) => {
 
       const [isPublisher, setIsPublisher] = useState(false);
 
+      const UpdateNarratorStatus = async () => {
+        let response = await API.graphql(graphqlOperation(
+            updateUser, {
+                input: {
+                    id: user?.id,
+                    narratorActiveAt: new Date(),
+
+                }
+            }
+        ))
+        console.log(response)
+      }
+
+      const UpdateArtistStatus = async () => {
+        let response = await API.graphql(graphqlOperation(
+            updateUser, {
+                input: {
+                    id: user?.id,
+                    artistActiveAt: new Date(),
+
+                }
+            }
+        ))
+        console.log(response)
+      }
+
 
       const BecomePublisher = () => {
           if (user?.isPublisher === true) {
@@ -104,6 +131,7 @@ const Publisher = ({navigation} : any) => {
       const BecomeNarrator = () => {
         if (user?.isNarrator === true) {
           setIsNarrator(true);
+          UpdateNarratorStatus();
         } else {
           setIsNarrator(false);
           navigation.navigate('NarratorMain', {user: user});
@@ -113,6 +141,7 @@ const Publisher = ({navigation} : any) => {
     const BecomeArtist = () => {
         if (isArtist === true) {
           setIsArtist(true);
+          UpdateArtistStatus();
         } else {
           setIsArtist(false);
           navigation.navigate('ArtistMain', {user: user});
