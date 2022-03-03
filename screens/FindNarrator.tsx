@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { 
     View, 
     Text, 
@@ -15,6 +15,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import {StatusBar} from 'expo-status-bar';
 import { Modal, Portal, Provider } from 'react-native-paper';
+import { Searchbar } from 'react-native-paper';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -27,23 +28,17 @@ const FindNarrator = ({navigation} : any) => {
 
     const [narrators, setNarrators] = useState([])
 
-    useEffect(() => {
-        const fetchNarrators = async () => {
-            let response = await API.graphql(graphqlOperation(
-                listUsers, {
-                    filter: {
-                        isNarrator: {
-                            eq: true
-                        }
-                    }
-                }
-            ))
-        setNarrators(response.data.listUsers.items)
-        }
-        fetchNarrators();
-    }, [])
+    //state to determine the filter by accents
+    const [accentList, setAccentList] = useState([]);
 
-    const Item = ({id, narratorPseudo, narratorText, voice, imageUri} : any) => {
+    //state for expanding the accent list in the modal
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    //state to determine the filter of the voice
+    const [isMasculine, setIsMasculine] = useState(true);
+    const [isFeminine, setIsFeminine] = useState(true);
+
+    const Item = ({id, narratorPseudo, narratorText, voice, imageUri, accents} : any) => {
 
         const [imageU, setImageU] = useState('')
 
@@ -81,12 +76,20 @@ const FindNarrator = ({navigation} : any) => {
                     <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>
                         Accents: 
                     </Text>
-                    <Text style={{textTransform: 'capitalize', color: '#ffffffa5', fontSize: 12, marginLeft: 10}}>
-                        British, Canadian
-                    </Text>
+                    {accents.map((item : any) => 
+                        <Text style={{textTransform: 'capitalize', color: '#ffffffa5', fontSize: 12, marginLeft: 8}}>
+                            {item}
+                        </Text>
+                    )}
                 </View>
                 <View style={{marginTop: 30, flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{flexDirection: 'row'}}>
+                        <FontAwesome5 
+                            name='bolt'
+                            color='gold'
+                            size={12}
+                            style={{alignSelf: 'center', marginRight: 6}}
+                        />
                         <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>
                             Avg delivery:
                         </Text>
@@ -121,6 +124,7 @@ const FindNarrator = ({navigation} : any) => {
                 narratorText={item.narratorText}
                 voice={item.voice}
                 imageUri={item.imageUri}
+                accents={item.accents}
             />
         );
     }
@@ -132,17 +136,228 @@ const FindNarrator = ({navigation} : any) => {
        const containerStyle = {
         backgroundColor: '#363636', 
         borderRadius: 15,
-        paddingVertical: 40
+        paddingVertical: 0,
+        paddingHorizontal: 20
     };
+
+      //search function states
+      const [newSearch, setNewSearch] = useState('');
+
+      //search function trigger that refreshes the search results
+      const [didUpdate, setDidUpdate] = useState(false);
+  
+      //focus the keyboard only on initial render
+      const focus = useRef(null)
+  
+      useEffect(() => {
+        focus.current.focus()
+      }, [])
+
+//this is the search bar
+    function SearchBar () {
+
+        const [searchQuery, setSearchQuery] = useState('');
+
+        const onChangeSearch = (query : any)  => setSearchQuery(query); 
+
+        return (
+          <View>
+            <Searchbar
+              placeholder={'Search narrators'}
+              placeholderTextColor='#000000a5'
+              autoComplete={true}
+              onChangeText={onChangeSearch}
+              onIconPress={() => {setNewSearch(searchQuery); setDidUpdate(!didUpdate); }}
+              onSubmitEditing={() => {setNewSearch(searchQuery); setDidUpdate(!didUpdate);}}
+              value={searchQuery}
+              ref={focus}
+              maxLength={20}
+              icon={() => {return(
+                <FontAwesome5 
+                  name='search'
+                  color='#000000a5'
+                  size={16}
+                />)}}
+              iconColor='#000000a5'
+              style={{
+                height: 35,
+                marginLeft: 30,
+                borderRadius: 8,
+                backgroundColor: '#e0e0e0',
+                width: Dimensions.get('window').width - 140 
+              }}
+              inputStyle={{fontSize: 16,}}
+            />
+          </View>
+        );
+      };
+
+      useEffect(() => {
+
+        const fetchNarrators = async () => {
+                let response = await API.graphql(graphqlOperation(
+                    listUsers, {
+                        filter: {
+                            or: [
+                                {
+                                    narratorPseudo: {
+                                        contains: newSearch
+                                    },
+                                    isNarrator: {
+                                        eq: true
+                                    },
+                                    voice: {
+                                        contains: isMasculine === true && isFeminine === true ? '' :
+                                            isMasculine === true && isFeminine === false ? 'masculine' :
+                                            isMasculine === false && isFeminine === true ? 'feminine' :
+                                            ''
+                                    },
+                                },
+                                
+                                {
+                                    narratorText: {
+                                        contains: newSearch
+                                    },
+                                    isNarrator: {
+                                        eq: true
+                                    },
+                                    voice: {
+                                        contains: isMasculine === true && isFeminine === true ? '' :
+                                            isMasculine === true && isFeminine === false ? 'masculine' :
+                                            isMasculine === false && isFeminine === true ? 'feminine' :
+                                            ''
+                                    },
+                                }
+                            ]
+                        }
+                    }
+                ))
+            setNarrators(response.data.listUsers.items)
+            
+            
+        }
+        fetchNarrators();
+    }, [didUpdate])
+
+    //accent list
+        const accents = [
+            {id: 0, accent: 'Other'},
+            {id: 1, accent: 'British'},
+            {id: 2, accent: 'Southern Twang'},
+            {id: 3, accent: 'Minnesota'},
+            {id: 4, accent: 'Boston'},
+            {id: 5, accent: 'New York'},
+            {id: 6, accent: 'Irish'},
+            {id: 7, accent: 'Scottish'},
+            {id: 8, accent: 'African'},
+            {id: 9, accent: 'Russian'},
+            {id: 10, accent: 'British'},
+        ];
+
 
     return (
         <Provider>
             <Portal>
                 <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
                     <View>
-                        <Text>
+                        <ScrollView style={{height: '75%'}}>
+                            <Text style={{color: '#fff', textAlign: 'center', fontWeight: 'bold', fontSize: 18,}}>
+                                Filter Narrator
+                            </Text>
+                            <View style={{marginTop: 20}}>
+                                {/* <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                    <Text style={{color: '#fff', fontWeight: 'bold'}}>
+                                        By Accent:
+                                    </Text>
+                                    <FontAwesome5 
+                                        name={isExpanded ? 'chevron-down' : 'chevron-right'}
+                                        color='#fff'
+                                        size={16}
+                                        style={{paddingHorizontal: 20}}
+                                        onPress={() => setIsExpanded(!isExpanded)}
+                                    />
+                                </View> */}
 
-                        </Text>
+                                {/* <View style={{height: isExpanded ? '100%' : 0, marginLeft: 20, marginTop: 10, flex: 1, flexDirection: 'row', flexWrap: 'wrap',}}>
+                                    {accents.map(item => {
+
+                                        const [isChecked, setIsChecked] = useState(false);
+
+                                        const AddAccent = ({accent} : any) => {
+
+                                            setIsChecked(!isChecked);
+
+                                            if (accentList.includes(accent)) {
+                                                setAccentList(accentList.filter(item => item !== accent))
+                                            
+                                            } else {
+                                                setAccentList([...accentList, accent])
+                                            }
+                                        }
+
+                                        return (
+                                            <TouchableWithoutFeedback onPress={() => AddAccent({accent: item.accent})}>
+                                                <View style={{width: '50%', flexDirection: 'row', paddingVertical: 10, alignItems: 'center'}}>
+                                                    <FontAwesome5 
+                                                        name={isChecked === true ? 'check-square' : 'square'}
+                                                        size={17}
+                                                        color={isChecked === true ? 'cyan' : 'gray'}
+                                                        style={{paddingRight: 16}}
+                                                    />
+                                                    <Text style={{color: 'white', width: '68%'}}>
+                                                        {item.accent}
+                                                    </Text>
+                                                </View>
+                                            </TouchableWithoutFeedback>
+                                        )
+                                        }
+                                        )
+                                    }
+                                </View> */}
+
+                                <View style={{marginTop: 20, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                    <Text style={{color: '#fff', fontWeight: 'bold'}}>
+                                        By Voice Type:
+                                    </Text>
+                                </View>
+                                <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 20}}>
+                                    <TouchableWithoutFeedback onPress={() => setIsMasculine(!isMasculine)}>
+                                        <View style={{flexDirection: 'row'}}>
+                                            <FontAwesome5 
+                                                name={isMasculine === true ? 'check-square' : 'square'}
+                                                size={17}
+                                                color={isMasculine === true ? 'cyan' : 'gray'}
+                                                style={{paddingRight: 16}}
+                                            />
+                                            <Text style={{color: '#fff'}}>
+                                                Masculine
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                    
+                                    <TouchableWithoutFeedback onPress={() => setIsFeminine(!isFeminine)}>
+                                        <View style={{flexDirection: 'row'}}>
+                                            <FontAwesome5 
+                                                name={isFeminine === true ? 'check-square' : 'square'}
+                                                size={17}
+                                                color={isFeminine === true ? 'cyan' : 'gray'}
+                                                style={{paddingRight: 16}}
+                                            />
+                                            <Text style={{color: '#fff'}}>
+                                                Feminine
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                    
+                                </View>
+                                
+                            </View>
+                        </ScrollView>
+                        <TouchableOpacity onPress={() => {setDidUpdate(!didUpdate); hideModal();}}>
+                            <Text style={{alignSelf: 'center', marginTop: 20, textAlign: 'center', paddingVertical: 6, paddingHorizontal: 20, borderRadius: 15, backgroundColor: 'cyan'}}>
+                                Apply Filter
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                 </Modal>
             </Portal>
@@ -167,9 +382,7 @@ const FindNarrator = ({navigation} : any) => {
                                     </View>
                                 </TouchableWithoutFeedback>
                                 
-                                <Text style={styles.header}>
-                                    Find a Narrator
-                                </Text>
+                                <SearchBar />
                             </View>
                             <View>
                                 <Ionicons 
