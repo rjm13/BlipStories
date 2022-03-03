@@ -347,7 +347,7 @@ const Publisher = ({navigation} : any) => {
                                 </View>
                             </TouchableWithoutFeedback>
 
-                            <TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback onPress={() => navigation.navigate('FindNarrator')}>
                                 <View style={[styles.button, {backgroundColor: 'pink'}]}>
                                     <Text style={styles.buttontext}>
                                         Find a Narrator
@@ -355,7 +355,7 @@ const Publisher = ({navigation} : any) => {
                                 </View>
                             </TouchableWithoutFeedback>
 
-                            <TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback onPress={() => navigation.navigate('FindArtist')}>
                                 <View style={[styles.button, {backgroundColor: '#27d995'}]}>
                                     <Text style={styles.buttontext}>
                                         Find a Cover Artist

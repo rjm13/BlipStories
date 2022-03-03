@@ -27,6 +27,8 @@ import Recordings from '../screens/Recordings';
 import BecomeSomething from '../screens/BecomeSomething';
 import MyArt from '../screens/MyArt';
 import SharedAssets from '../screens/SharedAssets';
+import FindNarrator from '../screens/FindNarrator';
+import FindArtist from '../screens/FindArtist';
 
 import MyStories from '../screens/MyStories';
 import Terms from '../screens/Terms';
@@ -240,6 +242,16 @@ function HomeNavigator() {
       <HomeStack.Screen 
         name="SharedAssets" 
         component={SharedAssets} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="FindNarrator" 
+        component={FindNarrator} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="FindArtist" 
+        component={FindArtist} 
         options={{ headerShown: false }} 
       />
 
