@@ -21,7 +21,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, listUsers } from '../src/graphql/queries';
+import { getUser, listUsers, usersByArtistActiveAt } from '../src/graphql/queries';
 
 
 const FindArtist = ({navigation} : any) => {
@@ -38,7 +38,18 @@ const FindArtist = ({navigation} : any) => {
     const [isMasculine, setIsMasculine] = useState(true);
     const [isFeminine, setIsFeminine] = useState(true);
 
-    const Item = ({id, artistPseudo, artistText, imageUri, artStyles} : any) => {
+    const Item = ({id, artistPseudo, artistText, imageUri, artStyles, artistActiveAt} : any) => {
+
+        const date = new Date();
+        
+
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate();
+    
+        //const c = new Date(year + 1, month, day).toISOString() // PLUS 1 YEAR
+        //const newdate = new Date(year, month - 1, day).toISOString() // PLUS 1 MONTH
+        const newdate = new Date(year, month, day  - 7).toISOString() // PLUS 1 DAY
 
         const [imageU, setImageU] = useState('')
 
@@ -84,12 +95,15 @@ const FindArtist = ({navigation} : any) => {
                 </View>
                 <View style={{marginTop: 30, flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{flexDirection: 'row'}}>
-                        <FontAwesome5 
-                            name='bolt'
-                            color='gold'
-                            size={12}
-                            style={{alignSelf: 'center', marginRight: 6}}
-                        />
+                        {newdate < artistActiveAt ? (
+                            <FontAwesome5 
+                                name='bolt'
+                                color='gold'
+                                size={12}
+                                style={{alignSelf: 'center', marginRight: 6}}
+                            />
+                        ) : null}
+                        
                         <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>
                             Avg delivery:
                         </Text>
@@ -124,6 +138,7 @@ const FindArtist = ({navigation} : any) => {
                 artistText={item.artistText}
                 imageUri={item.imageUri}
                 artStyles={item.artStyles}
+                artistActiveAt={item.artistActiveAt}
             />
         );
     }
@@ -195,7 +210,9 @@ const FindArtist = ({navigation} : any) => {
 
         const fetchArtists = async () => {
                 let response = await API.graphql(graphqlOperation(
-                    listUsers, {
+                    usersByArtistActiveAt, {
+                        type: 'User',
+                        sortDirection: 'DESC',
                         filter: {
                             or: [
                                 {
@@ -221,7 +238,7 @@ const FindArtist = ({navigation} : any) => {
                         }
                     }
                 ))
-            setArtists(response.data.listUsers.items)
+            setArtists(response.data.usersByArtistActiveAt.items)
             
             
         }

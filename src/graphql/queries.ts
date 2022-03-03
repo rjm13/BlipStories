@@ -5,6 +5,7 @@
 export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
+      type
       id
       name
       email
@@ -217,6 +218,8 @@ export const getUser = /* GraphQL */ `
       voice
       artistText
       artStyles
+      narratorActiveAt
+      artistActiveAt
       createdAt
       updatedAt
       owner
@@ -231,6 +234,7 @@ export const listUsers = /* GraphQL */ `
   ) {
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        type
         id
         name
         email
@@ -276,6 +280,8 @@ export const listUsers = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
@@ -291,6 +297,7 @@ export const getFollowingConn = /* GraphQL */ `
       followerID
       authorID
       author {
+        type
         id
         name
         email
@@ -336,11 +343,14 @@ export const getFollowingConn = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
       }
       follower {
+        type
         id
         name
         email
@@ -386,6 +396,8 @@ export const getFollowingConn = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
@@ -408,6 +420,7 @@ export const listFollowingConns = /* GraphQL */ `
         followerID
         authorID
         author {
+          type
           id
           name
           email
@@ -429,11 +442,14 @@ export const listFollowingConns = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
         }
         follower {
+          type
           id
           name
           email
@@ -455,6 +471,8 @@ export const listFollowingConns = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -473,6 +491,7 @@ export const getPinnedStory = /* GraphQL */ `
       id
       userID
       user {
+        type
         id
         name
         email
@@ -518,6 +537,8 @@ export const getPinnedStory = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
@@ -530,6 +551,7 @@ export const getPinnedStory = /* GraphQL */ `
         imageUri
         audioUri
         user {
+          type
           id
           name
           email
@@ -551,6 +573,8 @@ export const getPinnedStory = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -560,6 +584,7 @@ export const getPinnedStory = /* GraphQL */ `
         authorID
         narrator
         narratorUser {
+          type
           id
           name
           email
@@ -581,6 +606,8 @@ export const getPinnedStory = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -588,6 +615,7 @@ export const getPinnedStory = /* GraphQL */ `
         narratorID
         artistName
         artist {
+          type
           id
           name
           email
@@ -609,6 +637,8 @@ export const getPinnedStory = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -665,6 +695,7 @@ export const listPinnedStories = /* GraphQL */ `
         id
         userID
         user {
+          type
           id
           name
           email
@@ -686,6 +717,8 @@ export const listPinnedStories = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -733,6 +766,7 @@ export const getFinishedStory = /* GraphQL */ `
       type
       userID
       user {
+        type
         id
         name
         email
@@ -778,6 +812,8 @@ export const getFinishedStory = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
@@ -790,6 +826,7 @@ export const getFinishedStory = /* GraphQL */ `
         imageUri
         audioUri
         user {
+          type
           id
           name
           email
@@ -811,6 +848,8 @@ export const getFinishedStory = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -820,6 +859,7 @@ export const getFinishedStory = /* GraphQL */ `
         authorID
         narrator
         narratorUser {
+          type
           id
           name
           email
@@ -841,6 +881,8 @@ export const getFinishedStory = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -848,6 +890,7 @@ export const getFinishedStory = /* GraphQL */ `
         narratorID
         artistName
         artist {
+          type
           id
           name
           email
@@ -869,6 +912,8 @@ export const getFinishedStory = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -926,6 +971,7 @@ export const listFinishedStories = /* GraphQL */ `
         type
         userID
         user {
+          type
           id
           name
           email
@@ -947,6 +993,8 @@ export const listFinishedStories = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -996,6 +1044,7 @@ export const getStory = /* GraphQL */ `
       imageUri
       audioUri
       user {
+        type
         id
         name
         email
@@ -1041,6 +1090,8 @@ export const getStory = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
@@ -1050,6 +1101,7 @@ export const getStory = /* GraphQL */ `
       authorID
       narrator
       narratorUser {
+        type
         id
         name
         email
@@ -1095,6 +1147,8 @@ export const getStory = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
@@ -1102,6 +1156,7 @@ export const getStory = /* GraphQL */ `
       narratorID
       artistName
       artist {
+        type
         id
         name
         email
@@ -1147,6 +1202,8 @@ export const getStory = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
@@ -1231,6 +1288,7 @@ export const listStories = /* GraphQL */ `
         imageUri
         audioUri
         user {
+          type
           id
           name
           email
@@ -1252,6 +1310,8 @@ export const listStories = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -1261,6 +1321,7 @@ export const listStories = /* GraphQL */ `
         authorID
         narrator
         narratorUser {
+          type
           id
           name
           email
@@ -1282,6 +1343,8 @@ export const listStories = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -1289,6 +1352,7 @@ export const listStories = /* GraphQL */ `
         narratorID
         artistName
         artist {
+          type
           id
           name
           email
@@ -1310,6 +1374,8 @@ export const listStories = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -1399,6 +1465,7 @@ export const getImageAsset = /* GraphQL */ `
       imageUri
       isSample
       user {
+        type
         id
         name
         email
@@ -1444,6 +1511,8 @@ export const getImageAsset = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
@@ -1451,6 +1520,7 @@ export const getImageAsset = /* GraphQL */ `
       userID
       sharedUserID
       sharedUser {
+        type
         id
         name
         email
@@ -1496,6 +1566,8 @@ export const getImageAsset = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
@@ -1520,6 +1592,7 @@ export const listImageAssets = /* GraphQL */ `
         imageUri
         isSample
         user {
+          type
           id
           name
           email
@@ -1541,6 +1614,8 @@ export const listImageAssets = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -1548,6 +1623,7 @@ export const listImageAssets = /* GraphQL */ `
         userID
         sharedUserID
         sharedUser {
+          type
           id
           name
           email
@@ -1569,6 +1645,8 @@ export const listImageAssets = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -1591,6 +1669,7 @@ export const getAudioAsset = /* GraphQL */ `
       time
       isSample
       user {
+        type
         id
         name
         email
@@ -1636,6 +1715,8 @@ export const getAudioAsset = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
@@ -1643,6 +1724,7 @@ export const getAudioAsset = /* GraphQL */ `
       userID
       sharedUserID
       sharedUser {
+        type
         id
         name
         email
@@ -1688,6 +1770,8 @@ export const getAudioAsset = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
@@ -1713,6 +1797,7 @@ export const listAudioAssets = /* GraphQL */ `
         time
         isSample
         user {
+          type
           id
           name
           email
@@ -1734,6 +1819,8 @@ export const listAudioAssets = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -1741,6 +1828,7 @@ export const listAudioAssets = /* GraphQL */ `
         userID
         sharedUserID
         sharedUser {
+          type
           id
           name
           email
@@ -1762,6 +1850,8 @@ export const listAudioAssets = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -1786,6 +1876,7 @@ export const getFlag = /* GraphQL */ `
         imageUri
         audioUri
         user {
+          type
           id
           name
           email
@@ -1807,6 +1898,8 @@ export const getFlag = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -1816,6 +1909,7 @@ export const getFlag = /* GraphQL */ `
         authorID
         narrator
         narratorUser {
+          type
           id
           name
           email
@@ -1837,6 +1931,8 @@ export const getFlag = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -1844,6 +1940,7 @@ export const getFlag = /* GraphQL */ `
         narratorID
         artistName
         artist {
+          type
           id
           name
           email
@@ -1865,6 +1962,8 @@ export const getFlag = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -1906,6 +2005,7 @@ export const getFlag = /* GraphQL */ `
       }
       flagTypes
       user {
+        type
         id
         name
         email
@@ -1951,6 +2051,8 @@ export const getFlag = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
@@ -2001,6 +2103,7 @@ export const listFlags = /* GraphQL */ `
         }
         flagTypes
         user {
+          type
           id
           name
           email
@@ -2022,6 +2125,8 @@ export const listFlags = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -2048,6 +2153,7 @@ export const getComment = /* GraphQL */ `
         imageUri
         audioUri
         user {
+          type
           id
           name
           email
@@ -2069,6 +2175,8 @@ export const getComment = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -2078,6 +2186,7 @@ export const getComment = /* GraphQL */ `
         authorID
         narrator
         narratorUser {
+          type
           id
           name
           email
@@ -2099,6 +2208,8 @@ export const getComment = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -2106,6 +2217,7 @@ export const getComment = /* GraphQL */ `
         narratorID
         artistName
         artist {
+          type
           id
           name
           email
@@ -2127,6 +2239,8 @@ export const getComment = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -2168,6 +2282,7 @@ export const getComment = /* GraphQL */ `
       }
       content
       user {
+        type
         id
         name
         email
@@ -2213,6 +2328,8 @@ export const getComment = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
@@ -2264,6 +2381,7 @@ export const listComments = /* GraphQL */ `
         }
         content
         user {
+          type
           id
           name
           email
@@ -2285,6 +2403,8 @@ export const listComments = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -2380,6 +2500,7 @@ export const getRating = /* GraphQL */ `
         imageUri
         audioUri
         user {
+          type
           id
           name
           email
@@ -2401,6 +2522,8 @@ export const getRating = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -2410,6 +2533,7 @@ export const getRating = /* GraphQL */ `
         authorID
         narrator
         narratorUser {
+          type
           id
           name
           email
@@ -2431,6 +2555,8 @@ export const getRating = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -2438,6 +2564,7 @@ export const getRating = /* GraphQL */ `
         narratorID
         artistName
         artist {
+          type
           id
           name
           email
@@ -2459,6 +2586,8 @@ export const getRating = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -2500,6 +2629,7 @@ export const getRating = /* GraphQL */ `
       }
       userID
       user {
+        type
         id
         name
         email
@@ -2545,6 +2675,8 @@ export const getRating = /* GraphQL */ `
         voice
         artistText
         artStyles
+        narratorActiveAt
+        artistActiveAt
         createdAt
         updatedAt
         owner
@@ -2608,6 +2740,7 @@ export const listRatings = /* GraphQL */ `
         }
         userID
         user {
+          type
           id
           name
           email
@@ -2629,6 +2762,8 @@ export const listRatings = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -2667,6 +2802,7 @@ export const getStoryTag = /* GraphQL */ `
         imageUri
         audioUri
         user {
+          type
           id
           name
           email
@@ -2688,6 +2824,8 @@ export const getStoryTag = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -2697,6 +2835,7 @@ export const getStoryTag = /* GraphQL */ `
         authorID
         narrator
         narratorUser {
+          type
           id
           name
           email
@@ -2718,6 +2857,8 @@ export const getStoryTag = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -2725,6 +2866,7 @@ export const getStoryTag = /* GraphQL */ `
         narratorID
         artistName
         artist {
+          type
           id
           name
           email
@@ -2746,6 +2888,8 @@ export const getStoryTag = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -2869,6 +3013,154 @@ export const listStoryTags = /* GraphQL */ `
     }
   }
 `;
+export const usersByNarratorActiveAt = /* GraphQL */ `
+  query UsersByNarratorActiveAt(
+    $type: String!
+    $narratorActiveAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersByNarratorActiveAt(
+      type: $type
+      narratorActiveAt: $narratorActiveAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const usersByArtistActiveAt = /* GraphQL */ `
+  query UsersByArtistActiveAt(
+    $type: String!
+    $artistActiveAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersByArtistActiveAt(
+      type: $type
+      artistActiveAt: $artistActiveAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
 export const finishedStoriesByDate = /* GraphQL */ `
   query FinishedStoriesByDate(
     $type: String!
@@ -2891,6 +3183,7 @@ export const finishedStoriesByDate = /* GraphQL */ `
         type
         userID
         user {
+          type
           id
           name
           email
@@ -2912,6 +3205,8 @@ export const finishedStoriesByDate = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -2976,6 +3271,7 @@ export const storiesByDate = /* GraphQL */ `
         imageUri
         audioUri
         user {
+          type
           id
           name
           email
@@ -2997,6 +3293,8 @@ export const storiesByDate = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -3006,6 +3304,7 @@ export const storiesByDate = /* GraphQL */ `
         authorID
         narrator
         narratorUser {
+          type
           id
           name
           email
@@ -3027,6 +3326,8 @@ export const storiesByDate = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -3034,6 +3335,7 @@ export const storiesByDate = /* GraphQL */ `
         narratorID
         artistName
         artist {
+          type
           id
           name
           email
@@ -3055,6 +3357,8 @@ export const storiesByDate = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -3122,6 +3426,7 @@ export const imageAssetsByDate = /* GraphQL */ `
         imageUri
         isSample
         user {
+          type
           id
           name
           email
@@ -3143,6 +3448,8 @@ export const imageAssetsByDate = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -3150,6 +3457,7 @@ export const imageAssetsByDate = /* GraphQL */ `
         userID
         sharedUserID
         sharedUser {
+          type
           id
           name
           email
@@ -3171,6 +3479,8 @@ export const imageAssetsByDate = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -3208,6 +3518,7 @@ export const audioAssetsByDate = /* GraphQL */ `
         time
         isSample
         user {
+          type
           id
           name
           email
@@ -3229,6 +3540,8 @@ export const audioAssetsByDate = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -3236,6 +3549,7 @@ export const audioAssetsByDate = /* GraphQL */ `
         userID
         sharedUserID
         sharedUser {
+          type
           id
           name
           email
@@ -3257,6 +3571,8 @@ export const audioAssetsByDate = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -3319,6 +3635,7 @@ export const commentsByDate = /* GraphQL */ `
         }
         content
         user {
+          type
           id
           name
           email
@@ -3340,6 +3657,8 @@ export const commentsByDate = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner
@@ -3403,6 +3722,7 @@ export const ratingsByDate = /* GraphQL */ `
         }
         userID
         user {
+          type
           id
           name
           email
@@ -3424,6 +3744,8 @@ export const ratingsByDate = /* GraphQL */ `
           voice
           artistText
           artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
           owner

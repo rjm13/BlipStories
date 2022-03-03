@@ -3,6 +3,9 @@
 #input AMPLIFY { globalAuthRule: AuthRule = { allow: public} } # FOR TESTING ONLY!
 
 type User @model @auth(rules: [{ allow: owner, operations: [create, delete, update, read]}]) {
+  type: String 
+    @index(name: "usersByNarratorActiveAt", queryField: "usersByNarratorActiveAt", sortKeyFields: ["narratorActiveAt"])
+    @index(name: "usersByArtistActiveAt", queryField: "usersByArtistActiveAt", sortKeyFields: ["artistActiveAt"])
   id: ID! 
   name: String
   email: String
@@ -32,6 +35,8 @@ type User @model @auth(rules: [{ allow: owner, operations: [create, delete, upda
   voice: String
   artistText: String
   artStyles: [String]
+  narratorActiveAt: String
+  artistActiveAt: String
 }
 
 type FollowingConn 

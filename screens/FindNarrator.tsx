@@ -21,7 +21,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, listUsers } from '../src/graphql/queries';
+import { getUser, listUsers, usersByNarratorActiveAt } from '../src/graphql/queries';
 
 
 const FindNarrator = ({navigation} : any) => {
@@ -38,8 +38,19 @@ const FindNarrator = ({navigation} : any) => {
     const [isMasculine, setIsMasculine] = useState(true);
     const [isFeminine, setIsFeminine] = useState(true);
 
-    const Item = ({id, narratorPseudo, narratorText, voice, imageUri, accents} : any) => {
+    const Item = ({id, narratorPseudo, narratorText, voice, imageUri, accents, narratorActiveAt} : any) => {
 
+        const date = new Date();
+        
+
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate();
+    
+        //const c = new Date(year + 1, month, day).toISOString() // PLUS 1 YEAR
+        //const newdate = new Date(year, month - 1, day).toISOString() // PLUS 1 MONTH
+        const newdate = new Date(year, month, day  - 7).toISOString() // PLUS 1 DAY
+        
         const [imageU, setImageU] = useState('')
 
         useEffect(() => {
@@ -84,12 +95,15 @@ const FindNarrator = ({navigation} : any) => {
                 </View>
                 <View style={{marginTop: 30, flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{flexDirection: 'row'}}>
-                        <FontAwesome5 
-                            name='bolt'
-                            color='gold'
-                            size={12}
-                            style={{alignSelf: 'center', marginRight: 6}}
-                        />
+                        {newdate < narratorActiveAt ? (
+                            <FontAwesome5 
+                                name='bolt'
+                                color='gold'
+                                size={12}
+                                style={{alignSelf: 'center', marginRight: 6}}
+                            />
+                        ) : null}
+                        
                         <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>
                             Avg delivery:
                         </Text>
@@ -125,6 +139,7 @@ const FindNarrator = ({navigation} : any) => {
                 voice={item.voice}
                 imageUri={item.imageUri}
                 accents={item.accents}
+                narratorActiveAt={item.narratorActiveAt}
             />
         );
     }
@@ -196,7 +211,9 @@ const FindNarrator = ({navigation} : any) => {
 
         const fetchNarrators = async () => {
                 let response = await API.graphql(graphqlOperation(
-                    listUsers, {
+                    usersByNarratorActiveAt, {
+                        type: "User",
+                        sortDirection: "DESC",
                         filter: {
                             or: [
                                 {
@@ -232,7 +249,7 @@ const FindNarrator = ({navigation} : any) => {
                         }
                     }
                 ))
-            setNarrators(response.data.listUsers.items)
+            setNarrators(response.data.usersByNarratorActiveAt.items)
             
             
         }
