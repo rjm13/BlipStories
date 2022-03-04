@@ -31,10 +31,12 @@ const Publisher = ({navigation} : any) => {
     //const route = useRoute();
     //const {User} = route.params
 
-    const [narActive, setNarActive] = useState(false);
-    const [artActive, setArtActive] = useState(false);
+    const [narActive, setNarActive] = useState('0%');
+    const [artActive, setArtActive] = useState('0%');
 
     const [SavedAudio, setSavedAudio] = useState([''])
+
+    const [didUpdate, setDidUpdate] = useState(false);
 
     //load the keys from async storage
     useEffect(() => {
@@ -63,7 +65,14 @@ const Publisher = ({navigation} : any) => {
         
             //const c = new Date(year + 1, month, day).toISOString() // PLUS 1 YEAR
             //const newdate = new Date(year, month - 1, day).toISOString() // PLUS 1 MONTH
-            const newdate = new Date(year, month, day  - 7).toISOString() // PLUS 1 DAY
+            const newdate1 = new Date(year, month, day  - 1).toISOString() // PLUS 1 DAY
+            const newdate2 = new Date(year, month, day  - 2).toISOString() // PLUS 2 DAY
+            const newdate3 = new Date(year, month, day  - 3).toISOString() // PLUS 3 DAY
+            const newdate4 = new Date(year, month, day  - 4).toISOString() // PLUS 4 DAY
+            const newdate5 = new Date(year, month, day  - 5).toISOString() // PLUS 5 DAY
+            const newdate6 = new Date(year, month, day  - 6).toISOString() // PLUS 6 DAY
+            const newdate7 = new Date(year, month, day  - 7).toISOString() // PLUS 7 DAY
+
 
           const userInfo = await Auth.currentAuthenticatedUser();
 
@@ -79,8 +88,23 @@ const Publisher = ({navigation} : any) => {
                 if(userData.data.getUser.isPublisher === true) {setIsPublisher(true);}
                 if(userData.data.getUser.isNarrator === true) {setIsNarrator(true);}
                 if(userData.data.getUser.isArtist === true) {setIsArtist(true);}
-                if(userData.data.getUser.narratorActiveStatus < newdate ) {setNarActive(true);}
-                if(userData.data.getUser.artistActiveStatus < newdate ) {setNarActive(true);}
+
+                if(userData.data.getUser.narratorActiveAt > newdate1 ) {setNarActive('70%')}
+                else if(userData.data.getUser.narratorActiveAt > newdate2 ) {setNarActive('60%')}
+                else if(userData.data.getUser.narratorActiveAt > newdate3 ) {setNarActive('50%')}
+                else if(userData.data.getUser.narratorActiveAt > newdate4 ) {setNarActive('40%')}
+                else if(userData.data.getUser.narratorActiveAt > newdate5 ) {setNarActive('30%')}
+                else if(userData.data.getUser.narratorActiveAt > newdate6 ) {setNarActive('20%')}
+                else if(userData.data.getUser.narratorActiveAt > newdate7) {setNarActive('10%')}
+                
+
+                if(userData.data.getUser.artistActiveAt > newdate1 ) {setArtActive('70%')}
+                else if(userData.data.getUser.artistActiveAt > newdate2 ) {setArtActive('60%')}
+                else if(userData.data.getUser.artistActiveAt > newdate3 ) {setArtActive('50%')}
+                else if(userData.data.getUser.artistActiveAt > newdate4 ) {setArtActive('40%')}
+                else if(userData.data.getUser.artistActiveAt > newdate5 ) {setArtActive('30%')}
+                else if(userData.data.getUser.artistActiveAt > newdate6 ) {setArtActive('20%')}
+                else if(userData.data.getUser.artistActiveAt > newdate7) {setArtActive('10%')}
             
             }
 
@@ -101,7 +125,7 @@ const Publisher = ({navigation} : any) => {
           }
         }
         fetchUser();
-      }, [])
+      }, [didUpdate])
 
       const [isNarrator, setIsNarrator] = useState(false);
 
@@ -121,6 +145,7 @@ const Publisher = ({navigation} : any) => {
                 }
             }
         ))
+        setDidUpdate(!didUpdate)
         console.log(response)
       }
 
@@ -134,6 +159,7 @@ const Publisher = ({navigation} : any) => {
                 }
             }
         ))
+        setDidUpdate(!didUpdate)
         console.log(response);
       }
 
@@ -227,7 +253,11 @@ const Publisher = ({navigation} : any) => {
                                 </View>
                             </TouchableOpacity>
 
-                            <Text style={{width: Dimensions.get('window').width, padding: 20, fontSize: 16, marginTop: 20, fontWeight: 'bold', textAlign: 'center', color: '#fff'}}>
+                            <Text style={{width: Dimensions.get('window').width, padding: 10, fontSize: 16, marginTop: 20, fontWeight: 'bold', textAlign: 'center', color: '#fff'}}>
+                                {statusRoute === 'narrator' ? 'Narrator' : statusRoute === 'artist' ? 'Artist' : null} Status
+                            </Text>
+
+                            <Text style={{width: Dimensions.get('window').width, padding: 20, fontSize: 16, marginTop: 0, fontWeight: 'bold', textAlign: 'center', color: '#fff'}}>
                                 Last Charged on {statusRoute === 'narrator' ? format(parseISO(user?.narratorActiveAt), "MMM do yyyy") : statusRoute === 'artist' ? format(parseISO(user?.narratorActiveAt), "MMM do yyyy") : null}
                             </Text>
                             
@@ -276,7 +306,7 @@ const Publisher = ({navigation} : any) => {
                                     size={isNarrator === true ? 30 : 22}
                                     style={{paddingTop: 40, paddingHorizontal: 20, }}
                                 />
-                                <View style={{alignSelf: 'center', width: '80%', borderRadius: 4, backgroundColor: 'gold', height: 2, marginTop: 10, marginBottom: 30}}/>
+                                <View style={{alignSelf: 'center', width: narActive, borderRadius: 4, backgroundColor: 'gold', height: 2, marginTop: 10, marginBottom: 30}}/>
                             </View>
                         </TouchableWithoutFeedback>
                         
@@ -296,7 +326,7 @@ const Publisher = ({navigation} : any) => {
                                     size={isArtist === true ? 30 : 22}
                                     style={{paddingTop: 40, paddingHorizontal: 20, }}
                                 />
-                                <View style={{alignSelf: 'center', width: '80%', borderRadius: 4, backgroundColor: 'gold', height: 2, marginTop: 10, marginBottom: 30}}/>
+                                <View style={{alignSelf: 'center', width: artActive, borderRadius: 4, backgroundColor: 'gold', height: 2, marginTop: 10, marginBottom: 30}}/>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
