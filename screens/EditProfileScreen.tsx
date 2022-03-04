@@ -149,6 +149,16 @@ const [visible7, setVisible7] = useState(false);
 const showPseudModal = () => setVisible7(true);
 const hidePseudModal = () => setVisible7(false);
 
+//pseudonym Modal
+const [visible8, setVisible8] = useState(false);
+const showAccentsModal = () => setVisible8(true);
+const hideAccentsModal = () => setVisible8(false);
+
+//pseudonym Modal
+const [visible9, setVisible9] = useState(false);
+const showStylesModal = () => setVisible9(true);
+const hideStylesModal = () => setVisible9(false);
+
 //Attribute states
 const [ Name, setName ] = useState('');
 const [ Email, setEmail ] = useState('');
@@ -302,6 +312,37 @@ const handleUpdatePassword = async () => {
     setIsUploading(false); 
     hidePassModal();
 }
+
+    //accent list
+    const accents = [
+        {id: 0, accent: 'Other'},
+        {id: 1, accent: 'British'},
+        {id: 2, accent: 'Southern Twang'},
+        {id: 3, accent: 'Minnesota'},
+        {id: 4, accent: 'Boston'},
+        {id: 5, accent: 'New York'},
+        {id: 6, accent: 'Irish'},
+        {id: 7, accent: 'Scottish'},
+        {id: 8, accent: 'African'},
+        {id: 9, accent: 'Russian'},
+        {id: 10, accent: 'British'},
+    ];
+
+        //styles list
+        const artStyles = [
+            {id: 0, style: 'Watercolor'},
+            {id: 1, style: 'Charcoal'},
+            {id: 2, style: 'Pencil'},
+            {id: 3, style: 'Paint'},
+            {id: 4, style: 'Pastels'},
+            {id: 5, style: 'Animation'},
+            {id: 6, style: 'Graphic Design'},
+        ];
+
+    const [accentsData, setAccentsData] = useState([]);
+    const [stylesData, setStylesData] = useState([]);
+
+
 
 //render the page
     return (
@@ -596,6 +637,112 @@ const handleUpdatePassword = async () => {
                     </View>
                 </View>
             </Modal>
+
+{/* //Accents modal */}
+            <Modal visible={visible8} onDismiss={hideAccentsModal} contentContainerStyle={containerStyle}>
+                <View style={{height: 500}}>
+                        <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>
+                            Select Proficient Accents
+                        </Text>
+                        <ScrollView style={{marginTop: 40}} showsVerticalScrollIndicator={false}>
+                            {accents.map(item => {
+
+                                const [isChecked, setIsChecked] = useState(false);
+
+                                const AddAccent = ({accent} : any) => {
+
+                                    setIsChecked(!isChecked);
+                        
+                                    if (accentsData.includes(accent)) {
+                                        setAccentsData(accentsData.filter(item => item !== accent))
+                                     
+                                    } else {
+                                        setAccentsData([...accentsData, accent])
+                                    }
+                                }
+
+                                return (
+                                    <TouchableWithoutFeedback onPress={() => AddAccent({accent: item.accent})}>
+                                        <View style={{flexDirection: 'row', paddingVertical: 15, alignItems: 'center'}}>
+                                            <FontAwesome5 
+                                                name={isChecked === true ? 'check-square' : 'square'}
+                                                size={17}
+                                                color={isChecked === true ? 'cyan' : 'gray'}
+                                                style={{paddingRight: 30}}
+                                            />
+                                            <Text style={{color: 'white'}}>
+                                                {item.accent}
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                )
+                            }
+                            )
+                        }
+                        </ScrollView>
+                        <TouchableWithoutFeedback onPress={hideAccentsModal}>
+                            <View style={{marginTop: 10, borderRadius: 20, paddingVertical: 6, paddingHorizontal: 20, alignSelf: 'center', backgroundColor: 'cyan'}}>
+                                <Text style={{color: '#000'}}>
+                                    Done
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                        
+                    </View> 
+            </Modal>
+{/* //Styles modal */}
+                <Modal visible={visible9} onDismiss={hideStylesModal} contentContainerStyle={containerStyle}>
+                <View style={{height: 500}}>
+                        <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>
+                            Select Art Styles
+                        </Text>
+                        <ScrollView style={{marginTop: 40}} showsVerticalScrollIndicator={false}>
+                            {artStyles.map(item => {
+
+                                const [isChecked, setIsChecked] = useState(false);
+
+                                const AddStyle = ({style} : any) => {
+
+                                    setIsChecked(!isChecked);
+                        
+                                    if (accentsData.includes(style)) {
+                                        setAccentsData(stylesData.filter(item => item !== style))
+                                     
+                                    } else {
+                                        setAccentsData([...stylesData, style])
+                                    }
+                                }
+
+                                return (
+                                    <TouchableWithoutFeedback onPress={() => AddStyle({accent: item.style})}>
+                                        <View style={{flexDirection: 'row', paddingVertical: 15, alignItems: 'center'}}>
+                                            <FontAwesome5 
+                                                name={isChecked === true ? 'check-square' : 'square'}
+                                                size={17}
+                                                color={isChecked === true ? 'cyan' : 'gray'}
+                                                style={{paddingRight: 30}}
+                                            />
+                                            <Text style={{color: 'white'}}>
+                                                {item.style}
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                )
+                            }
+                            )
+                        }
+                        </ScrollView>
+                        <TouchableWithoutFeedback onPress={hideAccentsModal}>
+                            <View style={{marginTop: 10, borderRadius: 20, paddingVertical: 6, paddingHorizontal: 20, alignSelf: 'center', backgroundColor: 'cyan'}}>
+                                <Text style={{color: '#000'}}>
+                                    Done
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                        
+                    </View>
+                </Modal>
+    
         </Portal>
 
 {/* primary visible content */}
@@ -620,6 +767,16 @@ const handleUpdatePassword = async () => {
                     <View style={styles.emailcontainer }> 
                         <Text style={ styles.words }>Name</Text>
                         <Text style={ styles.placeholdertext }>{user?.name}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+
+                <TouchableWithoutFeedback onPress={showModal}>
+                    <View style={styles.photocontainer }>
+                        <Text style={ styles.words }>Photo</Text>
+                        <Image 
+                            source={user?.imageUri ? { uri: imageU} : require('../assets/images/blankprofile.png')} 
+                            style={styles.avatar} 
+                        />
                     </View>
                 </TouchableWithoutFeedback>
 
@@ -676,24 +833,98 @@ const handleUpdatePassword = async () => {
                         </View>
                     </TouchableWithoutFeedback>    
                     ) : null}
-                   
-                <TouchableWithoutFeedback onPress={showBioModal}>
-                    <View style={styles.statuscontainer}> 
-                        <Text style={{fontSize: 14, color: '#ffffffa5', padding: 10}}>
-                            {user?.bio || 'Say something about yourself'}
-                        </Text>
-                    </View>
-                </TouchableWithoutFeedback>
 
-                <TouchableWithoutFeedback onPress={showModal}>
-                    <View style={styles.photocontainer }>
-                        <Text style={ styles.words }>Photo</Text>
-                        <Image 
-                            source={user?.imageUri ? { uri: imageU} : require('../assets/images/blankprofile.png')} 
-                            style={styles.avatar} 
-                        />
+                {user?.isPublisher === true ? (
+                <View>
+                    <Text style={{ marginTop: 20, marginLeft: 20, color: '#fff', fontSize: 16}}>
+                        Publisher Bio
+                    </Text>
+                    
+                    <TouchableWithoutFeedback onPress={showBioModal}>
+                        <View style={styles.statuscontainer}> 
+                            <Text style={{fontSize: 14, color: '#ffffffa5', padding: 10}}>
+                                {user?.bio || 'Say something about yourself'}
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                </View>
+                ) : null}
+
+                {user?.isNarrator === true ? (
+                    <View>
+                        <Text style={{ marginTop: 20, marginLeft: 20, color: '#fff', fontSize: 16}}>
+                            Narrator Bio
+                        </Text>
+                        
+                        <TouchableWithoutFeedback onPress={showBioModal}>
+                            <View style={styles.statuscontainer}> 
+                                <Text style={{fontSize: 14, color: '#ffffffa5', padding: 10}}>
+                                    {user?.narratorText || 'Say something about yourself'}
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
-                </TouchableWithoutFeedback> 
+                ) : null}
+
+                {user?.isArtist === true ? (
+                <View>
+                    <Text style={{ marginTop: 20, marginLeft: 20, color: '#fff', fontSize: 16}}>
+                        Artist Bio
+                    </Text>
+                    
+                    <TouchableWithoutFeedback onPress={showBioModal}>
+                        <View style={styles.statuscontainer}> 
+                            <Text style={{fontSize: 14, color: '#ffffffa5', padding: 10}}>
+                                {user?.artistText || 'Say something about yourself'}
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                </View>
+                ) : null}
+
+                {user?.isArtist === true ? (
+                    <TouchableWithoutFeedback onPress={showStylesModal}>
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 20, paddingRight: 40}}>
+                            <Text style={{fontSize: 16, color: '#fff'}}>
+                                Art Styles
+                            </Text>
+                            <FontAwesome5 
+                                name='chevron-right'
+                                size={18}
+                                color='#fff'
+                            />
+                        </View>
+                    </TouchableWithoutFeedback>
+                ) : null}
+
+                {user?.isNarrator === true ? (
+                    <TouchableWithoutFeedback onPress={showAccentsModal}>
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 20, paddingRight: 40}}>
+                            <Text style={{fontSize: 16, color: '#fff'}}>
+                                Accents
+                            </Text>
+                            <FontAwesome5 
+                                name='chevron-right'
+                                size={18}
+                                color='#fff'
+                            />
+                        </View>
+                    </TouchableWithoutFeedback>
+                ) : null}
+
+                {user?.isNarrator === true ? (
+                    <TouchableWithoutFeedback >
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 20, paddingRight: 40}}>
+                            <Text style={{fontSize: 16, color: '#fff'}}>
+                                Voice Type
+                            </Text>
+                            <Text style={{textTransform: 'capitalize', color: '#ffffffa5'}}>
+                                {user?.voice}
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                ) : null}
+
 
                 <TouchableWithoutFeedback onPress={showEmailModal}>
                     <View style={styles.emailcontainer }> 
