@@ -245,20 +245,6 @@ const FindArtist = ({navigation} : any) => {
         fetchArtists();
     }, [didUpdate])
 
-    //accent list
-        const accents = [
-            {id: 0, accent: 'Other'},
-            {id: 1, accent: 'British'},
-            {id: 2, accent: 'Southern Twang'},
-            {id: 3, accent: 'Minnesota'},
-            {id: 4, accent: 'Boston'},
-            {id: 5, accent: 'New York'},
-            {id: 6, accent: 'Irish'},
-            {id: 7, accent: 'Scottish'},
-            {id: 8, accent: 'African'},
-            {id: 9, accent: 'Russian'},
-            {id: 10, accent: 'British'},
-        ];
 
 
     return (

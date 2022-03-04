@@ -5,7 +5,8 @@ import {
     StyleSheet, 
     ScrollView, 
     Dimensions, 
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    TouchableOpacity
 } from 'react-native';
 
 //import { useRoute } from '@react-navigation/native';
@@ -13,6 +14,8 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Modal, Portal, Provider } from 'react-native-paper';
+import { format, parseISO } from "date-fns";
 
 import { API, graphqlOperation, Auth } from "aws-amplify";
 import { getUser, listFollowingConns, listImageAssets } from '../src/graphql/queries';
@@ -27,6 +30,9 @@ const Publisher = ({navigation} : any) => {
 
     //const route = useRoute();
     //const {User} = route.params
+
+    const [narActive, setNarActive] = useState(false);
+    const [artActive, setArtActive] = useState(false);
 
     const [SavedAudio, setSavedAudio] = useState([''])
 
@@ -50,6 +56,15 @@ const Publisher = ({navigation} : any) => {
     useEffect(() => {
         const fetchUser = async () => {
 
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const day = date.getDate();
+        
+            //const c = new Date(year + 1, month, day).toISOString() // PLUS 1 YEAR
+            //const newdate = new Date(year, month - 1, day).toISOString() // PLUS 1 MONTH
+            const newdate = new Date(year, month, day  - 7).toISOString() // PLUS 1 DAY
+
           const userInfo = await Auth.currentAuthenticatedUser();
 
             if (!userInfo) {return;}
@@ -64,6 +79,8 @@ const Publisher = ({navigation} : any) => {
                 if(userData.data.getUser.isPublisher === true) {setIsPublisher(true);}
                 if(userData.data.getUser.isNarrator === true) {setIsNarrator(true);}
                 if(userData.data.getUser.isArtist === true) {setIsArtist(true);}
+                if(userData.data.getUser.narratorActiveStatus < newdate ) {setNarActive(true);}
+                if(userData.data.getUser.artistActiveStatus < newdate ) {setNarActive(true);}
             
             }
 
@@ -92,6 +109,8 @@ const Publisher = ({navigation} : any) => {
 
       const [isPublisher, setIsPublisher] = useState(false);
 
+      const [statusRoute, setStatusRoute] = useState('');
+
       const UpdateNarratorStatus = async () => {
         let response = await API.graphql(graphqlOperation(
             updateUser, {
@@ -115,7 +134,7 @@ const Publisher = ({navigation} : any) => {
                 }
             }
         ))
-        console.log(response)
+        console.log(response);
       }
 
 
@@ -131,7 +150,8 @@ const Publisher = ({navigation} : any) => {
       const BecomeNarrator = () => {
         if (user?.isNarrator === true) {
           setIsNarrator(true);
-          UpdateNarratorStatus();
+          setStatusRoute('narrator');
+          showModal();
         } else {
           setIsNarrator(false);
           navigation.navigate('NarratorMain', {user: user});
@@ -141,7 +161,8 @@ const Publisher = ({navigation} : any) => {
     const BecomeArtist = () => {
         if (isArtist === true) {
           setIsArtist(true);
-          UpdateArtistStatus();
+          setStatusRoute('artist');
+          showModal();
         } else {
           setIsArtist(false);
           navigation.navigate('ArtistMain', {user: user});
@@ -171,8 +192,49 @@ const Publisher = ({navigation} : any) => {
             fetchData();
         }, [])
 
+    //reset active status modal
+       const [visible, setVisible] = useState(false);
+       const showModal = () => {setVisible(true);}
+       const hideModal = () => setVisible(false);
+       const containerStyle = {
+           backgroundColor: '#000000a5',
+           height: Dimensions.get('window').height
+        //borderRadius: 15,
+        //paddingVertical: 0,
+        //paddingHorizontal: 20
+    };
+
 
     return (
+        <Provider>
+            <Portal>
+                <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                    <TouchableWithoutFeedback onPress={hideModal}>
+                        <View style={{height: Dimensions.get('window').height, justifyContent: 'center', alignItems: 'center'}}>
+                            <Text style={{width: Dimensions.get('window').width, padding: 20, fontSize: 20, marginTop: 20, fontWeight: 'bold', textAlign: 'center', color: '#fff'}}>
+                                Recharge Active Status
+                            </Text>
+                            <Text style={{padding: 20, fontSize: 14, marginTop: 20, textAlign: 'center', color: '#fff'}}>
+                                Looking to connect with a publisher? Charge your status to temporarily boost your visibility.
+                            </Text>
+                            <TouchableOpacity onPress={() => {statusRoute === 'narrator' ? UpdateNarratorStatus : statusRoute === 'artist' ? UpdateArtistStatus : null}}>
+                                <View style={{height: 120, width: 120, backgroundColor: 'gold', marginTop: 60, padding: 40, alignItems: 'center', borderRadius: 60}}>
+                                    <FontAwesome5 
+                                        name='bolt'
+                                        color='#000'
+                                        size={40}
+                                    />
+                                </View>
+                            </TouchableOpacity>
+
+                            <Text style={{width: Dimensions.get('window').width, padding: 20, fontSize: 16, marginTop: 20, fontWeight: 'bold', textAlign: 'center', color: '#fff'}}>
+                                Last Charged on {statusRoute === 'narrator' ? format(parseISO(user?.narratorActiveAt), "MMM do yyyy") : statusRoute === 'artist' ? format(parseISO(user?.narratorActiveAt), "MMM do yyyy") : null}
+                            </Text>
+                            
+                        </View>
+                    </TouchableWithoutFeedback>
+                </Modal>
+            </Portal>
         <View style={styles.container}>
             
             <LinearGradient
@@ -207,12 +269,15 @@ const Publisher = ({navigation} : any) => {
                 <View style={styles.container}>
                     <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
                         <TouchableWithoutFeedback onPress={BecomeNarrator}>
-                            <FontAwesome5 
-                                name='book-reader'
-                                color={isNarrator === true ? '#fff' : 'gray'}
-                                size={isNarrator === true ? 30 : 22}
-                                style={{paddingVertical: 40, paddingHorizontal: 20, }}
-                            />
+                            <View>
+                                <FontAwesome5 
+                                    name='book-reader'
+                                    color={isNarrator === true ? '#fff' : 'gray'}
+                                    size={isNarrator === true ? 30 : 22}
+                                    style={{paddingTop: 40, paddingHorizontal: 20, }}
+                                />
+                                <View style={{alignSelf: 'center', width: '80%', borderRadius: 4, backgroundColor: 'gold', height: 2, marginTop: 10, marginBottom: 30}}/>
+                            </View>
                         </TouchableWithoutFeedback>
                         
                         <TouchableWithoutFeedback onPress={BecomePublisher}>
@@ -224,12 +289,15 @@ const Publisher = ({navigation} : any) => {
                             />
                         </TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={BecomeArtist}>
-                            <FontAwesome5 
-                                name='palette'
-                                color={isArtist === true ? '#fff' : 'gray'}
-                                size={isArtist === true ? 30 : 22}
-                                style={{paddingVertical: 40, paddingHorizontal: 20, }}
-                            />
+                            <View>
+                                <FontAwesome5 
+                                    name='palette'
+                                    color={isArtist === true ? '#fff' : 'gray'}
+                                    size={isArtist === true ? 30 : 22}
+                                    style={{paddingTop: 40, paddingHorizontal: 20, }}
+                                />
+                                <View style={{alignSelf: 'center', width: '80%', borderRadius: 4, backgroundColor: 'gold', height: 2, marginTop: 10, marginBottom: 30}}/>
+                            </View>
                         </TouchableWithoutFeedback>
                     </View>
                     
@@ -411,6 +479,7 @@ const Publisher = ({navigation} : any) => {
             </LinearGradient>
             
         </View>
+        </Provider>
     );
 }
 
