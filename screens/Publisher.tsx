@@ -332,7 +332,7 @@ const Publisher = ({navigation} : any) => {
                     </View>
                     
 
-                    {isPublisher === true ? (
+                    {/* {isPublisher === true ? (
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
                             <View>
                                 <Text style={{ color: '#fff', fontSize: 16}}>
@@ -346,10 +346,10 @@ const Publisher = ({navigation} : any) => {
                                 {user?.pseudonym}
                             </Text>
                         </View>
-                    ) : null}
+                    ) : null} */}
                     
 
-                    {isNarrator === true ? (
+                    {/* {isNarrator === true ? (
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
                             <View>
                                 <Text style={{ color: '#fff', fontSize: 16}}>
@@ -363,9 +363,9 @@ const Publisher = ({navigation} : any) => {
                                 {user?.narratorPseudo}
                             </Text>
                         </View>
-                    ) : null}
+                    ) : null} */}
                     
-                    {isArtist === true ? (
+                    {/* {isArtist === true ? (
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
                             <View>
                                 <Text style={{ color: '#fff', fontSize: 16}}>
@@ -380,7 +380,7 @@ const Publisher = ({navigation} : any) => {
                                 {user?.artistPseudo}
                             </Text>
                         </View>
-                    ) : null}
+                    ) : null} */}
                     
 
                     {isPublisher === true ? (

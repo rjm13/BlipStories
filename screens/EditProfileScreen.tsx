@@ -599,7 +599,7 @@ const handleUpdatePassword = async () => {
         </Portal>
 
 {/* primary visible content */}
-            <View>
+            <ScrollView>
                 <View style={{  alignItems: 'center', flexDirection: 'row', marginTop: 50, marginBottom: 20, marginHorizontal: 20,}}>
                     <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
                         <View style={{padding: 30, margin: -30}}>
@@ -625,12 +625,57 @@ const handleUpdatePassword = async () => {
 
                 {user?.isPublisher === true ? (
                     <TouchableWithoutFeedback onPress={showPseudModal}>
-                        <View style={styles.emailcontainer }> 
-                            <Text style={ styles.words }>Pseudonym</Text>
-                            <Text style={ styles.placeholdertext }>{user?.pseudonym || 'annonymous'}</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, marginVertical: 10}}>
+                            <View>
+                                <Text style={{ color: '#fff', fontSize: 16}}>
+                                    Pseudonym
+                                </Text>
+                                <Text style={{ color: 'gray', fontSize: 12}}>
+                                    Author
+                                </Text>
+                            </View>
+                            <Text style={{color: '#fff', fontSize: 16, fontWeight: 'normal'}}>
+                                {user?.pseudonym}
+                            </Text>
                         </View>
-                    </TouchableWithoutFeedback>
-                ) : null}
+                    </TouchableWithoutFeedback>    
+                    ) : null}
+
+                {user?.isNarrator === true ? (
+                    <TouchableWithoutFeedback onPress={showPseudModal}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, marginVertical: 10}}>
+                            <View>
+                                <Text style={{ color: '#fff', fontSize: 16}}>
+                                    Pseudonym
+                                </Text>
+                                <Text style={{ color: 'gray', fontSize: 12}}>
+                                    Narrator
+                                </Text>
+                            </View>
+                            <Text style={{color: '#fff', fontSize: 16, fontWeight: 'normal'}}>
+                                {user?.narratorPseudo}
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>    
+                    ) : null}
+
+                {user?.isArtist === true ? (
+                    <TouchableWithoutFeedback onPress={showPseudModal}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, marginVertical: 10}}>
+                            <View>
+                                <Text style={{ color: '#fff', fontSize: 16}}>
+                                    Pseudonym
+                                </Text>
+                                <Text style={{ color: 'gray', fontSize: 12}}>
+                                    Artist
+                                </Text>
+                            </View>
+                            <Text style={{color: '#fff', fontSize: 16, fontWeight: 'normal'}}>
+                                {user?.artistPseudo}
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>    
+                    ) : null}
                    
                 <TouchableWithoutFeedback onPress={showBioModal}>
                     <View style={styles.statuscontainer}> 
@@ -668,7 +713,9 @@ const handleUpdatePassword = async () => {
                         <Text style={ styles.words }>Log Out</Text>
                     </View>
                 </TouchableWithoutFeedback>
-            </View>
+
+                <View style={{height: 100}}/>
+            </ScrollView>
             <StatusBar style="light" />
         </View>            
     </Provider> 
