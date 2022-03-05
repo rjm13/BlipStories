@@ -151,7 +151,7 @@ const hidePseudModal = () => setVisible7(false);
 
 //pseudonym Modal
 const [visible8, setVisible8] = useState(false);
-const showAccentsModal = () => setVisible8(true);
+const showAccentsModal = () => {setVisible8(true); setAccentsData(user?.accents)}
 const hideAccentsModal = () => setVisible8(false);
 
 //pseudonym Modal
@@ -342,7 +342,16 @@ const handleUpdatePassword = async () => {
     const [accentsData, setAccentsData] = useState([]);
     const [stylesData, setStylesData] = useState([]);
 
-
+    const SubmitAccents = async () => {
+        let response = await API.graphql(graphqlOperation(
+            updateUser, {input: {
+                id: user?.id,
+                accents: accentsData
+            }}
+        ))
+        console.log(response);
+        hideAccentsModal();
+    }
 
 //render the page
     return (
@@ -645,10 +654,16 @@ const handleUpdatePassword = async () => {
                             Select Proficient Accents
                         </Text>
                         <ScrollView style={{marginTop: 40}} showsVerticalScrollIndicator={false}>
-                            {accents.map(item => {
+                            {accents.map((item, index) => {
 
-                                const [isChecked, setIsChecked] = useState(false);
+                                const [isChecked, setIsChecked] = useState();
 
+                                useEffect(() => {
+                                    if (accentsData.includes(item.accent)) {
+                                        setIsChecked(true)
+                                    }
+                                })
+                              
                                 const AddAccent = ({accent} : any) => {
 
                                     setIsChecked(!isChecked);
@@ -680,7 +695,7 @@ const handleUpdatePassword = async () => {
                             )
                         }
                         </ScrollView>
-                        <TouchableWithoutFeedback onPress={hideAccentsModal}>
+                        <TouchableWithoutFeedback onPress={SubmitAccents}>
                             <View style={{marginTop: 10, borderRadius: 20, paddingVertical: 6, paddingHorizontal: 20, alignSelf: 'center', backgroundColor: 'cyan'}}>
                                 <Text style={{color: '#000'}}>
                                     Done
@@ -706,10 +721,10 @@ const handleUpdatePassword = async () => {
                                     setIsChecked(!isChecked);
                         
                                     if (accentsData.includes(style)) {
-                                        setAccentsData(stylesData.filter(item => item !== style))
+                                        setStylesData(stylesData.filter(item => item !== style))
                                      
                                     } else {
-                                        setAccentsData([...stylesData, style])
+                                        setStylesData([...stylesData, style])
                                     }
                                 }
 
@@ -732,7 +747,7 @@ const handleUpdatePassword = async () => {
                             )
                         }
                         </ScrollView>
-                        <TouchableWithoutFeedback onPress={hideAccentsModal}>
+                        <TouchableWithoutFeedback onPress={SubmitAccents}>
                             <View style={{marginTop: 10, borderRadius: 20, paddingVertical: 6, paddingHorizontal: 20, alignSelf: 'center', backgroundColor: 'cyan'}}>
                                 <Text style={{color: '#000'}}>
                                     Done
