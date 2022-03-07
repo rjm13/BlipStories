@@ -146,6 +146,19 @@ const ProfileScreen = ({navigation} : any) => {
                         </View>
                     </TouchableWithoutFeedback>
 
+                    <TouchableWithoutFeedback onPress={ () => navigation.navigate('Inbox')}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                            <Text style={{ color: '#fff', fontSize: 16}}>
+                                Inbox
+                            </Text>
+                            <FontAwesome5 
+                                name='chevron-right'
+                                color='#fff'
+                                size={15}
+                            />
+                        </View>
+                    </TouchableWithoutFeedback>
+
                     <TouchableWithoutFeedback onPress={() => navigation.navigate('EditProfileScreen', {user: user})}>
                         <View style={styles.tile}>
                             <Text style={{ color: '#fff', fontSize: 16}}>

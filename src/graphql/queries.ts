@@ -2689,6 +2689,203 @@ export const listRatings = /* GraphQL */ `
     }
   }
 `;
+export const getMessage = /* GraphQL */ `
+  query GetMessage($id: ID!) {
+    getMessage(id: $id) {
+      id
+      type
+      title
+      subtitle
+      content
+      user {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      userID
+      otherUserID
+      otherUser {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listMessages = /* GraphQL */ `
+  query ListMessages(
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        type
+        title
+        subtitle
+        content
+        user {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        userID
+        otherUserID
+        otherUser {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getStoryTag = /* GraphQL */ `
   query GetStoryTag($id: ID!) {
     getStoryTag(id: $id) {
@@ -3627,6 +3824,94 @@ export const ratingsByDate = /* GraphQL */ `
           PrimaryColor
           SecondaryColor
           imageUri
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const messagesByDate = /* GraphQL */ `
+  query MessagesByDate(
+    $type: String!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    messagesByDate(
+      type: $type
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        title
+        subtitle
+        content
+        user {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        userID
+        otherUserID
+        otherUser {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
           createdAt
           updatedAt
         }

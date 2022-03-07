@@ -52,7 +52,10 @@ export type TabOneParamList = {
   MyArt: undefined;
   SharedAssets: undefined;
   FindNarrator: undefined;
-  findArtist: undefined;
+  FindArtist: undefined;
+  Inbox: undefined;
+  ViewMessage: undefined;
+  CreateMessage: undefined;
 };
 
 export type TabTwoParamList = {

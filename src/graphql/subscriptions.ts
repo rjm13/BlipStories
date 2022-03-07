@@ -5471,6 +5471,363 @@ export const onDeleteRating = /* GraphQL */ `
     }
   }
 `;
+export const onCreateMessage = /* GraphQL */ `
+  subscription OnCreateMessage {
+    onCreateMessage {
+      id
+      type
+      title
+      subtitle
+      content
+      user {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      userID
+      otherUserID
+      otherUser {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateMessage = /* GraphQL */ `
+  subscription OnUpdateMessage {
+    onUpdateMessage {
+      id
+      type
+      title
+      subtitle
+      content
+      user {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      userID
+      otherUserID
+      otherUser {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteMessage = /* GraphQL */ `
+  subscription OnDeleteMessage {
+    onDeleteMessage {
+      id
+      type
+      title
+      subtitle
+      content
+      user {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      userID
+      otherUserID
+      otherUser {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateStoryTag = /* GraphQL */ `
   subscription OnCreateStoryTag {
     onCreateStoryTag {

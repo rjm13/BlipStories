@@ -927,19 +927,22 @@ const AudioListByAuthor = ({user, status} : any) => {
 
                                 <Animated.View style={{opacity: animatedOpacitySlow}}>
 
-                                    <View style={{ alignItems: 'center'}}>
-                                        <Image 
-                                            source={{ uri: imageU}}
-                                            style={{
-                                                width: 120,
-                                                height: 120,
-                                                backgroundColor: '#363636',
-                                                borderRadius: 60,
-                                                marginTop: 20,
-                                                
-                                            }}
-                                        />
-                                    </View>
+                                    <TouchableWithoutFeedback onPress={() => navigation.navigate('CreateMessage')}>
+                                        <View style={{ alignItems: 'center'}}>
+                                            <Image 
+                                                source={{ uri: imageU}}
+                                                style={{
+                                                    width: 120,
+                                                    height: 120,
+                                                    backgroundColor: '#363636',
+                                                    borderRadius: 60,
+                                                    marginTop: 20,
+                                                    
+                                                }}
+                                            />
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                    
 
                                     <View style={{ alignItems: 'center', marginTop: 20, marginBottom: 10 }}>
                                         {publisher ? (

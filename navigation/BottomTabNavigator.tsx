@@ -15,6 +15,9 @@ import History from '../screens/HistoryScreen';
 import Following from '../screens/FollowingScreen';
 import AboutScreen from '../screens/About';
 import PlanScreen from '../screens/Plan';
+import Inbox from '../screens/Inbox';
+import CreateMessage from '../screens/CreateMessage';
+import ViewMessage from '../screens/ViewMessage';
 
 import PublishingMainScreen from '../screens/PublishingMain';
 import NarratorMain from '../screens/NarratorMain';
@@ -252,6 +255,21 @@ function HomeNavigator() {
       <HomeStack.Screen 
         name="FindArtist" 
         component={FindArtist} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="Inbox" 
+        component={Inbox} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="CreateMessage" 
+        component={CreateMessage} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="ViewMessage" 
+        component={ViewMessage} 
         options={{ headerShown: false }} 
       />
 
