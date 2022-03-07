@@ -146,6 +146,7 @@ const Publisher = ({navigation} : any) => {
             }
         ))
         setDidUpdate(!didUpdate)
+        hideModal();
         console.log(response)
       }
 
@@ -159,7 +160,8 @@ const Publisher = ({navigation} : any) => {
                 }
             }
         ))
-        setDidUpdate(!didUpdate)
+        setDidUpdate(!didUpdate);
+        hideModal();
         console.log(response);
       }
 
@@ -243,7 +245,7 @@ const Publisher = ({navigation} : any) => {
                             <Text style={{padding: 20, fontSize: 14, marginTop: 20, textAlign: 'center', color: '#fff'}}>
                                 Looking to connect with a publisher? Charge your status to temporarily boost your visibility.
                             </Text>
-                            <TouchableOpacity onPress={() => {statusRoute === 'narrator' ? UpdateNarratorStatus : statusRoute === 'artist' ? UpdateArtistStatus : null}}>
+                            <TouchableOpacity onPress={() => {statusRoute === 'narrator' ? UpdateNarratorStatus() : statusRoute === 'artist' ? UpdateArtistStatus() : null}}>
                                 <View style={{height: 120, width: 120, backgroundColor: 'gold', marginTop: 60, padding: 40, alignItems: 'center', borderRadius: 60}}>
                                     <FontAwesome5 
                                         name='bolt'
@@ -258,7 +260,7 @@ const Publisher = ({navigation} : any) => {
                             </Text>
 
                             <Text style={{width: Dimensions.get('window').width, padding: 20, fontSize: 16, marginTop: 0, fontWeight: 'bold', textAlign: 'center', color: '#fff'}}>
-                                Last Charged on {statusRoute === 'narrator' ? format(parseISO(user?.narratorActiveAt), "MMM do yyyy") : statusRoute === 'artist' ? format(parseISO(user?.narratorActiveAt), "MMM do yyyy") : null}
+                                Last Charged on {statusRoute === 'narrator' ? format(parseISO(user?.narratorActiveAt), "MMM do yyyy") : statusRoute === 'artist' ? format(parseISO(user?.artistActiveAt), "MMM do yyyy") : null}
                             </Text>
                             
                         </View>
@@ -306,7 +308,7 @@ const Publisher = ({navigation} : any) => {
                                     size={isNarrator === true ? 30 : 22}
                                     style={{paddingTop: 40, paddingHorizontal: 20, }}
                                 />
-                                <View style={{alignSelf: 'center', width: narActive, borderRadius: 4, backgroundColor: 'gold', height: 2, marginTop: 10, marginBottom: 30}}/>
+                                <View style={{alignSelf: 'center', width: narActive, borderRadius: 4, backgroundColor: '#946c00', height: 2, marginTop: 10, marginBottom: 30}}/>
                             </View>
                         </TouchableWithoutFeedback>
                         
@@ -326,7 +328,7 @@ const Publisher = ({navigation} : any) => {
                                     size={isArtist === true ? 30 : 22}
                                     style={{paddingTop: 40, paddingHorizontal: 20, }}
                                 />
-                                <View style={{alignSelf: 'center', width: artActive, borderRadius: 4, backgroundColor: 'gold', height: 2, marginTop: 10, marginBottom: 30}}/>
+                                <View style={{alignSelf: 'center', width: artActive, borderRadius: 4, backgroundColor: '#946c00', height: 2, marginTop: 10, marginBottom: 30}}/>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>

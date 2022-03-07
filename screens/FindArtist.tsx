@@ -83,7 +83,7 @@ const FindArtist = ({navigation} : any) => {
                         {artistText}
                     </Text>
                 </View>
-                <View style={{marginTop: 10, flexDirection: 'row'}}>
+                <View style={{marginTop: 10, flexDirection: 'row', flexWrap: 'wrap'}}>
                     <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>
                         Styles: 
                     </Text>
