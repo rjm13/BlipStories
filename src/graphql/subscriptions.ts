@@ -3,8 +3,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser($owner: String) {
-    onCreateUser(owner: $owner) {
+  subscription OnCreateUser {
+    onCreateUser {
       type
       id
       name
@@ -38,7 +38,6 @@ export const onCreateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -68,7 +67,6 @@ export const onCreateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -84,7 +82,6 @@ export const onCreateUser = /* GraphQL */ `
           sharedUserID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -114,7 +111,6 @@ export const onCreateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -134,7 +130,6 @@ export const onCreateUser = /* GraphQL */ `
           authorID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -164,7 +159,6 @@ export const onCreateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -178,7 +172,6 @@ export const onCreateUser = /* GraphQL */ `
           genreID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -208,7 +201,6 @@ export const onCreateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -222,13 +214,12 @@ export const onCreateUser = /* GraphQL */ `
       artistActiveAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser($owner: String) {
-    onUpdateUser(owner: $owner) {
+  subscription OnUpdateUser {
+    onUpdateUser {
       type
       id
       name
@@ -262,7 +253,6 @@ export const onUpdateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -292,7 +282,6 @@ export const onUpdateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -308,7 +297,6 @@ export const onUpdateUser = /* GraphQL */ `
           sharedUserID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -338,7 +326,6 @@ export const onUpdateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -358,7 +345,6 @@ export const onUpdateUser = /* GraphQL */ `
           authorID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -388,7 +374,6 @@ export const onUpdateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -402,7 +387,6 @@ export const onUpdateUser = /* GraphQL */ `
           genreID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -432,7 +416,6 @@ export const onUpdateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -446,13 +429,12 @@ export const onUpdateUser = /* GraphQL */ `
       artistActiveAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteUser = /* GraphQL */ `
-  subscription OnDeleteUser($owner: String) {
-    onDeleteUser(owner: $owner) {
+  subscription OnDeleteUser {
+    onDeleteUser {
       type
       id
       name
@@ -486,7 +468,6 @@ export const onDeleteUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -516,7 +497,6 @@ export const onDeleteUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -532,7 +512,6 @@ export const onDeleteUser = /* GraphQL */ `
           sharedUserID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -562,7 +541,6 @@ export const onDeleteUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -582,7 +560,6 @@ export const onDeleteUser = /* GraphQL */ `
           authorID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -612,7 +589,6 @@ export const onDeleteUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -626,7 +602,6 @@ export const onDeleteUser = /* GraphQL */ `
           genreID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -656,7 +631,6 @@ export const onDeleteUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -670,13 +644,12 @@ export const onDeleteUser = /* GraphQL */ `
       artistActiveAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onCreateFollowingConn = /* GraphQL */ `
-  subscription OnCreateFollowingConn($owner: String) {
-    onCreateFollowingConn(owner: $owner) {
+  subscription OnCreateFollowingConn {
+    onCreateFollowingConn {
       id
       followerID
       authorID
@@ -731,7 +704,6 @@ export const onCreateFollowingConn = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       follower {
         type
@@ -784,17 +756,15 @@ export const onCreateFollowingConn = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateFollowingConn = /* GraphQL */ `
-  subscription OnUpdateFollowingConn($owner: String) {
-    onUpdateFollowingConn(owner: $owner) {
+  subscription OnUpdateFollowingConn {
+    onUpdateFollowingConn {
       id
       followerID
       authorID
@@ -849,7 +819,6 @@ export const onUpdateFollowingConn = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       follower {
         type
@@ -902,17 +871,15 @@ export const onUpdateFollowingConn = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteFollowingConn = /* GraphQL */ `
-  subscription OnDeleteFollowingConn($owner: String) {
-    onDeleteFollowingConn(owner: $owner) {
+  subscription OnDeleteFollowingConn {
+    onDeleteFollowingConn {
       id
       followerID
       authorID
@@ -967,7 +934,6 @@ export const onDeleteFollowingConn = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       follower {
         type
@@ -1020,17 +986,15 @@ export const onDeleteFollowingConn = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onCreatePinnedStory = /* GraphQL */ `
-  subscription OnCreatePinnedStory($owner: String) {
-    onCreatePinnedStory(owner: $owner) {
+  subscription OnCreatePinnedStory {
+    onCreatePinnedStory {
       id
       userID
       user {
@@ -1084,7 +1048,6 @@ export const onCreatePinnedStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       storyID
       story {
@@ -1120,7 +1083,6 @@ export const onCreatePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -1153,7 +1115,6 @@ export const onCreatePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -1184,7 +1145,6 @@ export const onCreatePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -1212,24 +1172,21 @@ export const onCreatePinnedStory = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdatePinnedStory = /* GraphQL */ `
-  subscription OnUpdatePinnedStory($owner: String) {
-    onUpdatePinnedStory(owner: $owner) {
+  subscription OnUpdatePinnedStory {
+    onUpdatePinnedStory {
       id
       userID
       user {
@@ -1283,7 +1240,6 @@ export const onUpdatePinnedStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       storyID
       story {
@@ -1319,7 +1275,6 @@ export const onUpdatePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -1352,7 +1307,6 @@ export const onUpdatePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -1383,7 +1337,6 @@ export const onUpdatePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -1411,24 +1364,21 @@ export const onUpdatePinnedStory = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeletePinnedStory = /* GraphQL */ `
-  subscription OnDeletePinnedStory($owner: String) {
-    onDeletePinnedStory(owner: $owner) {
+  subscription OnDeletePinnedStory {
+    onDeletePinnedStory {
       id
       userID
       user {
@@ -1482,7 +1432,6 @@ export const onDeletePinnedStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       storyID
       story {
@@ -1518,7 +1467,6 @@ export const onDeletePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -1551,7 +1499,6 @@ export const onDeletePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -1582,7 +1529,6 @@ export const onDeletePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -1610,24 +1556,21 @@ export const onDeletePinnedStory = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onCreateFinishedStory = /* GraphQL */ `
-  subscription OnCreateFinishedStory($owner: String) {
-    onCreateFinishedStory(owner: $owner) {
+  subscription OnCreateFinishedStory {
+    onCreateFinishedStory {
       id
       type
       userID
@@ -1682,7 +1625,6 @@ export const onCreateFinishedStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       storyID
       story {
@@ -1718,7 +1660,6 @@ export const onCreateFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -1751,7 +1692,6 @@ export const onCreateFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -1782,7 +1722,6 @@ export const onCreateFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -1810,24 +1749,21 @@ export const onCreateFinishedStory = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateFinishedStory = /* GraphQL */ `
-  subscription OnUpdateFinishedStory($owner: String) {
-    onUpdateFinishedStory(owner: $owner) {
+  subscription OnUpdateFinishedStory {
+    onUpdateFinishedStory {
       id
       type
       userID
@@ -1882,7 +1818,6 @@ export const onUpdateFinishedStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       storyID
       story {
@@ -1918,7 +1853,6 @@ export const onUpdateFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -1951,7 +1885,6 @@ export const onUpdateFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -1982,7 +1915,6 @@ export const onUpdateFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -2010,24 +1942,21 @@ export const onUpdateFinishedStory = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteFinishedStory = /* GraphQL */ `
-  subscription OnDeleteFinishedStory($owner: String) {
-    onDeleteFinishedStory(owner: $owner) {
+  subscription OnDeleteFinishedStory {
+    onDeleteFinishedStory {
       id
       type
       userID
@@ -2082,7 +2011,6 @@ export const onDeleteFinishedStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       storyID
       story {
@@ -2118,7 +2046,6 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -2151,7 +2078,6 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -2182,7 +2108,6 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -2210,24 +2135,21 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onCreateStory = /* GraphQL */ `
-  subscription OnCreateStory($owner: String) {
-    onCreateStory(owner: $owner) {
+  subscription OnCreateStory {
+    onCreateStory {
       id
       type
       title
@@ -2284,7 +2206,6 @@ export const onCreateStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       author
@@ -2341,7 +2262,6 @@ export const onCreateStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       narratorID
       artistName
@@ -2396,7 +2316,6 @@ export const onCreateStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       artistID
       time
@@ -2412,7 +2331,6 @@ export const onCreateStory = /* GraphQL */ `
           userID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2423,7 +2341,6 @@ export const onCreateStory = /* GraphQL */ `
           tagID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2439,7 +2356,6 @@ export const onCreateStory = /* GraphQL */ `
           genreID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2453,20 +2369,18 @@ export const onCreateStory = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       hidden
       approved
       createdAt
       numListens
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateStory = /* GraphQL */ `
-  subscription OnUpdateStory($owner: String) {
-    onUpdateStory(owner: $owner) {
+  subscription OnUpdateStory {
+    onUpdateStory {
       id
       type
       title
@@ -2523,7 +2437,6 @@ export const onUpdateStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       author
@@ -2580,7 +2493,6 @@ export const onUpdateStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       narratorID
       artistName
@@ -2635,7 +2547,6 @@ export const onUpdateStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       artistID
       time
@@ -2651,7 +2562,6 @@ export const onUpdateStory = /* GraphQL */ `
           userID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2662,7 +2572,6 @@ export const onUpdateStory = /* GraphQL */ `
           tagID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2678,7 +2587,6 @@ export const onUpdateStory = /* GraphQL */ `
           genreID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2692,20 +2600,18 @@ export const onUpdateStory = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       hidden
       approved
       createdAt
       numListens
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteStory = /* GraphQL */ `
-  subscription OnDeleteStory($owner: String) {
-    onDeleteStory(owner: $owner) {
+  subscription OnDeleteStory {
+    onDeleteStory {
       id
       type
       title
@@ -2762,7 +2668,6 @@ export const onDeleteStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       author
@@ -2819,7 +2724,6 @@ export const onDeleteStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       narratorID
       artistName
@@ -2874,7 +2778,6 @@ export const onDeleteStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       artistID
       time
@@ -2890,7 +2793,6 @@ export const onDeleteStory = /* GraphQL */ `
           userID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2901,7 +2803,6 @@ export const onDeleteStory = /* GraphQL */ `
           tagID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2917,7 +2818,6 @@ export const onDeleteStory = /* GraphQL */ `
           genreID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2931,20 +2831,18 @@ export const onDeleteStory = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       hidden
       approved
       createdAt
       numListens
       updatedAt
-      owner
     }
   }
 `;
 export const onCreateGenre = /* GraphQL */ `
-  subscription OnCreateGenre($owner: String) {
-    onCreateGenre(owner: $owner) {
+  subscription OnCreateGenre {
+    onCreateGenre {
       id
       genre
       icon
@@ -2953,13 +2851,12 @@ export const onCreateGenre = /* GraphQL */ `
       imageUri
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateGenre = /* GraphQL */ `
-  subscription OnUpdateGenre($owner: String) {
-    onUpdateGenre(owner: $owner) {
+  subscription OnUpdateGenre {
+    onUpdateGenre {
       id
       genre
       icon
@@ -2968,13 +2865,12 @@ export const onUpdateGenre = /* GraphQL */ `
       imageUri
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteGenre = /* GraphQL */ `
-  subscription OnDeleteGenre($owner: String) {
-    onDeleteGenre(owner: $owner) {
+  subscription OnDeleteGenre {
+    onDeleteGenre {
       id
       genre
       icon
@@ -2983,13 +2879,12 @@ export const onDeleteGenre = /* GraphQL */ `
       imageUri
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onCreateImageAsset = /* GraphQL */ `
-  subscription OnCreateImageAsset($owner: String) {
-    onCreateImageAsset(owner: $owner) {
+  subscription OnCreateImageAsset {
+    onCreateImageAsset {
       id
       type
       title
@@ -3046,7 +2941,6 @@ export const onCreateImageAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       sharedUserID
@@ -3101,17 +2995,15 @@ export const onCreateImageAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateImageAsset = /* GraphQL */ `
-  subscription OnUpdateImageAsset($owner: String) {
-    onUpdateImageAsset(owner: $owner) {
+  subscription OnUpdateImageAsset {
+    onUpdateImageAsset {
       id
       type
       title
@@ -3168,7 +3060,6 @@ export const onUpdateImageAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       sharedUserID
@@ -3223,17 +3114,15 @@ export const onUpdateImageAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteImageAsset = /* GraphQL */ `
-  subscription OnDeleteImageAsset($owner: String) {
-    onDeleteImageAsset(owner: $owner) {
+  subscription OnDeleteImageAsset {
+    onDeleteImageAsset {
       id
       type
       title
@@ -3290,7 +3179,6 @@ export const onDeleteImageAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       sharedUserID
@@ -3345,17 +3233,15 @@ export const onDeleteImageAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onCreateAudioAsset = /* GraphQL */ `
-  subscription OnCreateAudioAsset($owner: String) {
-    onCreateAudioAsset(owner: $owner) {
+  subscription OnCreateAudioAsset {
+    onCreateAudioAsset {
       id
       type
       title
@@ -3413,7 +3299,6 @@ export const onCreateAudioAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       sharedUserID
@@ -3468,17 +3353,15 @@ export const onCreateAudioAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateAudioAsset = /* GraphQL */ `
-  subscription OnUpdateAudioAsset($owner: String) {
-    onUpdateAudioAsset(owner: $owner) {
+  subscription OnUpdateAudioAsset {
+    onUpdateAudioAsset {
       id
       type
       title
@@ -3536,7 +3419,6 @@ export const onUpdateAudioAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       sharedUserID
@@ -3591,17 +3473,15 @@ export const onUpdateAudioAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteAudioAsset = /* GraphQL */ `
-  subscription OnDeleteAudioAsset($owner: String) {
-    onDeleteAudioAsset(owner: $owner) {
+  subscription OnDeleteAudioAsset {
+    onDeleteAudioAsset {
       id
       type
       title
@@ -3659,7 +3539,6 @@ export const onDeleteAudioAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       sharedUserID
@@ -3714,17 +3593,15 @@ export const onDeleteAudioAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onCreateFlag = /* GraphQL */ `
-  subscription OnCreateFlag($owner: String) {
-    onCreateFlag(owner: $owner) {
+  subscription OnCreateFlag {
+    onCreateFlag {
       id
       storyID
       story {
@@ -3760,7 +3637,6 @@ export const onCreateFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -3793,7 +3669,6 @@ export const onCreateFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -3824,7 +3699,6 @@ export const onCreateFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -3852,14 +3726,12 @@ export const onCreateFlag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       flagTypes
       user {
@@ -3913,18 +3785,16 @@ export const onCreateFlag = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateFlag = /* GraphQL */ `
-  subscription OnUpdateFlag($owner: String) {
-    onUpdateFlag(owner: $owner) {
+  subscription OnUpdateFlag {
+    onUpdateFlag {
       id
       storyID
       story {
@@ -3960,7 +3830,6 @@ export const onUpdateFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -3993,7 +3862,6 @@ export const onUpdateFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -4024,7 +3892,6 @@ export const onUpdateFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -4052,14 +3919,12 @@ export const onUpdateFlag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       flagTypes
       user {
@@ -4113,18 +3978,16 @@ export const onUpdateFlag = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteFlag = /* GraphQL */ `
-  subscription OnDeleteFlag($owner: String) {
-    onDeleteFlag(owner: $owner) {
+  subscription OnDeleteFlag {
+    onDeleteFlag {
       id
       storyID
       story {
@@ -4160,7 +4023,6 @@ export const onDeleteFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -4193,7 +4055,6 @@ export const onDeleteFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -4224,7 +4085,6 @@ export const onDeleteFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -4252,14 +4112,12 @@ export const onDeleteFlag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       flagTypes
       user {
@@ -4313,18 +4171,16 @@ export const onDeleteFlag = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onCreateComment = /* GraphQL */ `
-  subscription OnCreateComment($owner: String) {
-    onCreateComment(owner: $owner) {
+  subscription OnCreateComment {
+    onCreateComment {
       id
       type
       storyID
@@ -4361,7 +4217,6 @@ export const onCreateComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -4394,7 +4249,6 @@ export const onCreateComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -4425,7 +4279,6 @@ export const onCreateComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -4453,14 +4306,12 @@ export const onCreateComment = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       content
       user {
@@ -4514,18 +4365,16 @@ export const onCreateComment = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateComment = /* GraphQL */ `
-  subscription OnUpdateComment($owner: String) {
-    onUpdateComment(owner: $owner) {
+  subscription OnUpdateComment {
+    onUpdateComment {
       id
       type
       storyID
@@ -4562,7 +4411,6 @@ export const onUpdateComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -4595,7 +4443,6 @@ export const onUpdateComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -4626,7 +4473,6 @@ export const onUpdateComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -4654,14 +4500,12 @@ export const onUpdateComment = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       content
       user {
@@ -4715,18 +4559,16 @@ export const onUpdateComment = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteComment = /* GraphQL */ `
-  subscription OnDeleteComment($owner: String) {
-    onDeleteComment(owner: $owner) {
+  subscription OnDeleteComment {
+    onDeleteComment {
       id
       type
       storyID
@@ -4763,7 +4605,6 @@ export const onDeleteComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -4796,7 +4637,6 @@ export const onDeleteComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -4827,7 +4667,6 @@ export const onDeleteComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -4855,14 +4694,12 @@ export const onDeleteComment = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       content
       user {
@@ -4916,18 +4753,16 @@ export const onDeleteComment = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onCreateTag = /* GraphQL */ `
-  subscription OnCreateTag($owner: String) {
-    onCreateTag(owner: $owner) {
+  subscription OnCreateTag {
+    onCreateTag {
       id
       tagName
       nsfw
@@ -4941,7 +4776,6 @@ export const onCreateTag = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       stories {
         items {
@@ -4950,19 +4784,17 @@ export const onCreateTag = /* GraphQL */ `
           tagID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateTag = /* GraphQL */ `
-  subscription OnUpdateTag($owner: String) {
-    onUpdateTag(owner: $owner) {
+  subscription OnUpdateTag {
+    onUpdateTag {
       id
       tagName
       nsfw
@@ -4976,7 +4808,6 @@ export const onUpdateTag = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       stories {
         items {
@@ -4985,19 +4816,17 @@ export const onUpdateTag = /* GraphQL */ `
           tagID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteTag = /* GraphQL */ `
-  subscription OnDeleteTag($owner: String) {
-    onDeleteTag(owner: $owner) {
+  subscription OnDeleteTag {
+    onDeleteTag {
       id
       tagName
       nsfw
@@ -5011,7 +4840,6 @@ export const onDeleteTag = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       stories {
         items {
@@ -5020,19 +4848,17 @@ export const onDeleteTag = /* GraphQL */ `
           tagID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onCreateRating = /* GraphQL */ `
-  subscription OnCreateRating($owner: String) {
-    onCreateRating(owner: $owner) {
+  subscription OnCreateRating {
+    onCreateRating {
       id
       type
       storyID
@@ -5069,7 +4895,6 @@ export const onCreateRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -5102,7 +4927,6 @@ export const onCreateRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -5133,7 +4957,6 @@ export const onCreateRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -5161,14 +4984,12 @@ export const onCreateRating = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       userID
       user {
@@ -5222,7 +5043,6 @@ export const onCreateRating = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       rating
       genreID
@@ -5235,17 +5055,15 @@ export const onCreateRating = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateRating = /* GraphQL */ `
-  subscription OnUpdateRating($owner: String) {
-    onUpdateRating(owner: $owner) {
+  subscription OnUpdateRating {
+    onUpdateRating {
       id
       type
       storyID
@@ -5282,7 +5100,6 @@ export const onUpdateRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -5315,7 +5132,6 @@ export const onUpdateRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -5346,7 +5162,6 @@ export const onUpdateRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -5374,14 +5189,12 @@ export const onUpdateRating = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       userID
       user {
@@ -5435,7 +5248,6 @@ export const onUpdateRating = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       rating
       genreID
@@ -5448,17 +5260,15 @@ export const onUpdateRating = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteRating = /* GraphQL */ `
-  subscription OnDeleteRating($owner: String) {
-    onDeleteRating(owner: $owner) {
+  subscription OnDeleteRating {
+    onDeleteRating {
       id
       type
       storyID
@@ -5495,7 +5305,6 @@ export const onDeleteRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -5528,7 +5337,6 @@ export const onDeleteRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -5559,7 +5367,6 @@ export const onDeleteRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -5587,14 +5394,12 @@ export const onDeleteRating = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       userID
       user {
@@ -5648,7 +5453,6 @@ export const onDeleteRating = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       rating
       genreID
@@ -5661,17 +5465,15 @@ export const onDeleteRating = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onCreateStoryTag = /* GraphQL */ `
-  subscription OnCreateStoryTag($owner: String) {
-    onCreateStoryTag(owner: $owner) {
+  subscription OnCreateStoryTag {
+    onCreateStoryTag {
       id
       storyID
       tagID
@@ -5708,7 +5510,6 @@ export const onCreateStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -5741,7 +5542,6 @@ export const onCreateStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -5772,7 +5572,6 @@ export const onCreateStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -5800,14 +5599,12 @@ export const onCreateStoryTag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       tag {
         id
@@ -5823,24 +5620,21 @@ export const onCreateStoryTag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         stories {
           nextToken
         }
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateStoryTag = /* GraphQL */ `
-  subscription OnUpdateStoryTag($owner: String) {
-    onUpdateStoryTag(owner: $owner) {
+  subscription OnUpdateStoryTag {
+    onUpdateStoryTag {
       id
       storyID
       tagID
@@ -5877,7 +5671,6 @@ export const onUpdateStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -5910,7 +5703,6 @@ export const onUpdateStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -5941,7 +5733,6 @@ export const onUpdateStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -5969,14 +5760,12 @@ export const onUpdateStoryTag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       tag {
         id
@@ -5992,24 +5781,21 @@ export const onUpdateStoryTag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         stories {
           nextToken
         }
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteStoryTag = /* GraphQL */ `
-  subscription OnDeleteStoryTag($owner: String) {
-    onDeleteStoryTag(owner: $owner) {
+  subscription OnDeleteStoryTag {
+    onDeleteStoryTag {
       id
       storyID
       tagID
@@ -6046,7 +5832,6 @@ export const onDeleteStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -6079,7 +5864,6 @@ export const onDeleteStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -6110,7 +5894,6 @@ export const onDeleteStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -6138,14 +5921,12 @@ export const onDeleteStoryTag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       tag {
         id
@@ -6161,18 +5942,15 @@ export const onDeleteStoryTag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         stories {
           nextToken
         }
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;

@@ -43,6 +43,7 @@ const ForYouGenre = ({genreid} : any) => {
             ))
             setGenre(genreInfo.data.getGenre)
         }
+        console.log(genreid)
         fetchGenre();
 
     }, [])

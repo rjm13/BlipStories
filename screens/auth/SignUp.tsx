@@ -46,14 +46,14 @@ const SignUp = ({navigation} : any) => {
 
     const [userExist, setUserExist] = useState(false);
 
-    const [seePass, setSeePass] = useState(false);
+    const [seePass, setSeePass] = useState(true);
 
-    const [seeConPass, setSeeConPass] = useState(false);
+    const [seeConPass, setSeeConPass] = useState(true);
 
     const [signingUp, setSigningUp] = useState(false);
 
     const [data, setData] = useState({
-        username: '',
+        email: '',
         password: '',
         name: '',
         birthdate: format(date, "MM/dd/yyyy"),
@@ -61,22 +61,27 @@ const SignUp = ({navigation} : any) => {
         check_textInputChange: false,
         secureTextEntry: true,
         confirm_secureTextEntry: true,
+        membership: 'basic'
     });
 
 const CreateUser = async () => {
 
-    const { password, confirm_password, name, username, birthdate } = data;
+    const { password, confirm_password, name, email, birthdate, membership } = data;
+
+    let username = email.replace(/ /g, '');
 
     setSigningUp(true);
 
         try {
+
             const { user } = await Auth.signUp({
                 username,
                 password,
                 attributes: {
                     name,
                     birthdate,
-                }
+                    'custom:membership': membership
+                },
             });
             console.log(user);
 
@@ -94,7 +99,7 @@ const CreateUser = async () => {
         if( val.length !== 0 ) {
             setData({
                 ... data,
-                username: val,
+                email: val,
                 check_textInputChange: true
             });
         } else {
@@ -142,7 +147,7 @@ const CreateUser = async () => {
 
     const handleSignUp = () => {
 
-        const { password, confirm_password, name, username, dob } = data;
+        const { password, confirm_password } = data;
 
         if (password.length < 6) {
             setNoMatch(false);
@@ -280,7 +285,7 @@ const CreateUser = async () => {
                                 onChangeText={(val) => handlePasswordChange(val)}
                             />
                             <Feather 
-                                name={seePass === true ? 'eye' : 'eye-off'}
+                                name={seePass === true ? 'eye-off' : 'eye'}
                                 color='#fff'
                                 size={18}
                                 style={{marginRight: 10}}
@@ -304,7 +309,7 @@ const CreateUser = async () => {
                                 onChangeText={(val) => handleConfirmPasswordChange(val)}
                             />
                             <Feather 
-                                name={seeConPass === true ? 'eye' : 'eye-off'}
+                                name={seeConPass === true ? 'eye-off' : 'eye'}
                                 color='#fff'
                                 size={18}
                                 style={{marginRight: 10}}

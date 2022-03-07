@@ -41,7 +41,6 @@ export const createUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -71,7 +70,6 @@ export const createUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -87,7 +85,6 @@ export const createUser = /* GraphQL */ `
           sharedUserID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -117,7 +114,6 @@ export const createUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -137,7 +133,6 @@ export const createUser = /* GraphQL */ `
           authorID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -167,7 +162,6 @@ export const createUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -181,7 +175,6 @@ export const createUser = /* GraphQL */ `
           genreID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -211,7 +204,6 @@ export const createUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -225,7 +217,6 @@ export const createUser = /* GraphQL */ `
       artistActiveAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -268,7 +259,6 @@ export const updateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -298,7 +288,6 @@ export const updateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -314,7 +303,6 @@ export const updateUser = /* GraphQL */ `
           sharedUserID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -344,7 +332,6 @@ export const updateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -364,7 +351,6 @@ export const updateUser = /* GraphQL */ `
           authorID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -394,7 +380,6 @@ export const updateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -408,7 +393,6 @@ export const updateUser = /* GraphQL */ `
           genreID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -438,7 +422,6 @@ export const updateUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -452,7 +435,6 @@ export const updateUser = /* GraphQL */ `
       artistActiveAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -495,7 +477,6 @@ export const deleteUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -525,7 +506,6 @@ export const deleteUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -541,7 +521,6 @@ export const deleteUser = /* GraphQL */ `
           sharedUserID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -571,7 +550,6 @@ export const deleteUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -591,7 +569,6 @@ export const deleteUser = /* GraphQL */ `
           authorID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -621,7 +598,6 @@ export const deleteUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -635,7 +611,6 @@ export const deleteUser = /* GraphQL */ `
           genreID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -665,7 +640,6 @@ export const deleteUser = /* GraphQL */ `
           createdAt
           numListens
           updatedAt
-          owner
         }
         nextToken
       }
@@ -679,7 +653,6 @@ export const deleteUser = /* GraphQL */ `
       artistActiveAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -743,7 +716,6 @@ export const createFollowingConn = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       follower {
         type
@@ -796,11 +768,9 @@ export const createFollowingConn = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -864,7 +834,6 @@ export const updateFollowingConn = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       follower {
         type
@@ -917,11 +886,9 @@ export const updateFollowingConn = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -985,7 +952,6 @@ export const deleteFollowingConn = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       follower {
         type
@@ -1038,11 +1004,9 @@ export const deleteFollowingConn = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -1105,7 +1069,6 @@ export const createPinnedStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       storyID
       story {
@@ -1141,7 +1104,6 @@ export const createPinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -1174,7 +1136,6 @@ export const createPinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -1205,7 +1166,6 @@ export const createPinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -1233,18 +1193,15 @@ export const createPinnedStory = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -1307,7 +1264,6 @@ export const updatePinnedStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       storyID
       story {
@@ -1343,7 +1299,6 @@ export const updatePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -1376,7 +1331,6 @@ export const updatePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -1407,7 +1361,6 @@ export const updatePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -1435,18 +1388,15 @@ export const updatePinnedStory = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -1509,7 +1459,6 @@ export const deletePinnedStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       storyID
       story {
@@ -1545,7 +1494,6 @@ export const deletePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -1578,7 +1526,6 @@ export const deletePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -1609,7 +1556,6 @@ export const deletePinnedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -1637,18 +1583,15 @@ export const deletePinnedStory = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -1712,7 +1655,6 @@ export const createFinishedStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       storyID
       story {
@@ -1748,7 +1690,6 @@ export const createFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -1781,7 +1722,6 @@ export const createFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -1812,7 +1752,6 @@ export const createFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -1840,18 +1779,15 @@ export const createFinishedStory = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -1915,7 +1851,6 @@ export const updateFinishedStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       storyID
       story {
@@ -1951,7 +1886,6 @@ export const updateFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -1984,7 +1918,6 @@ export const updateFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -2015,7 +1948,6 @@ export const updateFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -2043,18 +1975,15 @@ export const updateFinishedStory = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -2118,7 +2047,6 @@ export const deleteFinishedStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       storyID
       story {
@@ -2154,7 +2082,6 @@ export const deleteFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -2187,7 +2114,6 @@ export const deleteFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -2218,7 +2144,6 @@ export const deleteFinishedStory = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -2246,18 +2171,15 @@ export const deleteFinishedStory = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -2323,7 +2245,6 @@ export const createStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       author
@@ -2380,7 +2301,6 @@ export const createStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       narratorID
       artistName
@@ -2435,7 +2355,6 @@ export const createStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       artistID
       time
@@ -2451,7 +2370,6 @@ export const createStory = /* GraphQL */ `
           userID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2462,7 +2380,6 @@ export const createStory = /* GraphQL */ `
           tagID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2478,7 +2395,6 @@ export const createStory = /* GraphQL */ `
           genreID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2492,14 +2408,12 @@ export const createStory = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       hidden
       approved
       createdAt
       numListens
       updatedAt
-      owner
     }
   }
 `;
@@ -2565,7 +2479,6 @@ export const updateStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       author
@@ -2622,7 +2535,6 @@ export const updateStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       narratorID
       artistName
@@ -2677,7 +2589,6 @@ export const updateStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       artistID
       time
@@ -2693,7 +2604,6 @@ export const updateStory = /* GraphQL */ `
           userID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2704,7 +2614,6 @@ export const updateStory = /* GraphQL */ `
           tagID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2720,7 +2629,6 @@ export const updateStory = /* GraphQL */ `
           genreID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2734,14 +2642,12 @@ export const updateStory = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       hidden
       approved
       createdAt
       numListens
       updatedAt
-      owner
     }
   }
 `;
@@ -2807,7 +2713,6 @@ export const deleteStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       author
@@ -2864,7 +2769,6 @@ export const deleteStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       narratorID
       artistName
@@ -2919,7 +2823,6 @@ export const deleteStory = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       artistID
       time
@@ -2935,7 +2838,6 @@ export const deleteStory = /* GraphQL */ `
           userID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2946,7 +2848,6 @@ export const deleteStory = /* GraphQL */ `
           tagID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2962,7 +2863,6 @@ export const deleteStory = /* GraphQL */ `
           genreID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
@@ -2976,14 +2876,12 @@ export const deleteStory = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       hidden
       approved
       createdAt
       numListens
       updatedAt
-      owner
     }
   }
 `;
@@ -3001,7 +2899,6 @@ export const createGenre = /* GraphQL */ `
       imageUri
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -3019,7 +2916,6 @@ export const updateGenre = /* GraphQL */ `
       imageUri
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -3037,7 +2933,6 @@ export const deleteGenre = /* GraphQL */ `
       imageUri
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -3103,7 +2998,6 @@ export const createImageAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       sharedUserID
@@ -3158,11 +3052,9 @@ export const createImageAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -3228,7 +3120,6 @@ export const updateImageAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       sharedUserID
@@ -3283,11 +3174,9 @@ export const updateImageAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -3353,7 +3242,6 @@ export const deleteImageAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       sharedUserID
@@ -3408,11 +3296,9 @@ export const deleteImageAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -3479,7 +3365,6 @@ export const createAudioAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       sharedUserID
@@ -3534,11 +3419,9 @@ export const createAudioAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -3605,7 +3488,6 @@ export const updateAudioAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       sharedUserID
@@ -3660,11 +3542,9 @@ export const updateAudioAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -3731,7 +3611,6 @@ export const deleteAudioAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       sharedUserID
@@ -3786,11 +3665,9 @@ export const deleteAudioAsset = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -3835,7 +3712,6 @@ export const createFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -3868,7 +3744,6 @@ export const createFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -3899,7 +3774,6 @@ export const createFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -3927,14 +3801,12 @@ export const createFlag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       flagTypes
       user {
@@ -3988,12 +3860,10 @@ export const createFlag = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -4038,7 +3908,6 @@ export const updateFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -4071,7 +3940,6 @@ export const updateFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -4102,7 +3970,6 @@ export const updateFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -4130,14 +3997,12 @@ export const updateFlag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       flagTypes
       user {
@@ -4191,12 +4056,10 @@ export const updateFlag = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -4241,7 +4104,6 @@ export const deleteFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -4274,7 +4136,6 @@ export const deleteFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -4305,7 +4166,6 @@ export const deleteFlag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -4333,14 +4193,12 @@ export const deleteFlag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       flagTypes
       user {
@@ -4394,12 +4252,10 @@ export const deleteFlag = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -4445,7 +4301,6 @@ export const createComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -4478,7 +4333,6 @@ export const createComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -4509,7 +4363,6 @@ export const createComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -4537,14 +4390,12 @@ export const createComment = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       content
       user {
@@ -4598,12 +4449,10 @@ export const createComment = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -4649,7 +4498,6 @@ export const updateComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -4682,7 +4530,6 @@ export const updateComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -4713,7 +4560,6 @@ export const updateComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -4741,14 +4587,12 @@ export const updateComment = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       content
       user {
@@ -4802,12 +4646,10 @@ export const updateComment = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -4853,7 +4695,6 @@ export const deleteComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -4886,7 +4727,6 @@ export const deleteComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -4917,7 +4757,6 @@ export const deleteComment = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -4945,14 +4784,12 @@ export const deleteComment = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       content
       user {
@@ -5006,12 +4843,10 @@ export const deleteComment = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       userID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -5034,7 +4869,6 @@ export const createTag = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       stories {
         items {
@@ -5043,13 +4877,11 @@ export const createTag = /* GraphQL */ `
           tagID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -5072,7 +4904,6 @@ export const updateTag = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       stories {
         items {
@@ -5081,13 +4912,11 @@ export const updateTag = /* GraphQL */ `
           tagID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -5110,7 +4939,6 @@ export const deleteTag = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       stories {
         items {
@@ -5119,13 +4947,11 @@ export const deleteTag = /* GraphQL */ `
           tagID
           createdAt
           updatedAt
-          owner
         }
         nextToken
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -5171,7 +4997,6 @@ export const createRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -5204,7 +5029,6 @@ export const createRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -5235,7 +5059,6 @@ export const createRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -5263,14 +5086,12 @@ export const createRating = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       userID
       user {
@@ -5324,7 +5145,6 @@ export const createRating = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       rating
       genreID
@@ -5337,11 +5157,9 @@ export const createRating = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -5387,7 +5205,6 @@ export const updateRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -5420,7 +5237,6 @@ export const updateRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -5451,7 +5267,6 @@ export const updateRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -5479,14 +5294,12 @@ export const updateRating = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       userID
       user {
@@ -5540,7 +5353,6 @@ export const updateRating = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       rating
       genreID
@@ -5553,11 +5365,9 @@ export const updateRating = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -5603,7 +5413,6 @@ export const deleteRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -5636,7 +5445,6 @@ export const deleteRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -5667,7 +5475,6 @@ export const deleteRating = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -5695,14 +5502,12 @@ export const deleteRating = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       userID
       user {
@@ -5756,7 +5561,6 @@ export const deleteRating = /* GraphQL */ `
         artistActiveAt
         createdAt
         updatedAt
-        owner
       }
       rating
       genreID
@@ -5769,11 +5573,9 @@ export const deleteRating = /* GraphQL */ `
         imageUri
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -5819,7 +5621,6 @@ export const createStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -5852,7 +5653,6 @@ export const createStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -5883,7 +5683,6 @@ export const createStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -5911,14 +5710,12 @@ export const createStoryTag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       tag {
         id
@@ -5934,18 +5731,15 @@ export const createStoryTag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         stories {
           nextToken
         }
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -5991,7 +5785,6 @@ export const updateStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -6024,7 +5817,6 @@ export const updateStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -6055,7 +5847,6 @@ export const updateStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -6083,14 +5874,12 @@ export const updateStoryTag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       tag {
         id
@@ -6106,18 +5895,15 @@ export const updateStoryTag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         stories {
           nextToken
         }
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -6163,7 +5949,6 @@ export const deleteStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         userID
         author
@@ -6196,7 +5981,6 @@ export const deleteStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         narratorID
         artistName
@@ -6227,7 +6011,6 @@ export const deleteStoryTag = /* GraphQL */ `
           artistActiveAt
           createdAt
           updatedAt
-          owner
         }
         artistID
         time
@@ -6255,14 +6038,12 @@ export const deleteStoryTag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         hidden
         approved
         createdAt
         numListens
         updatedAt
-        owner
       }
       tag {
         id
@@ -6278,18 +6059,15 @@ export const deleteStoryTag = /* GraphQL */ `
           imageUri
           createdAt
           updatedAt
-          owner
         }
         stories {
           nextToken
         }
         createdAt
         updatedAt
-        owner
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;

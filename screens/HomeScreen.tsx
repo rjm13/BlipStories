@@ -19,9 +19,12 @@ const AudioStoryHome = ({navigation} : any) => {
 
     const [user, setUser] = useState()
 
-    const [TopThree, setTopThree] = useState(['74be93da-74d5-4393-8382-b6ec2299dfa5', '7537f8b5-16f5-4a30-bc57-7e488f170d96', '3e93e3d2-1489-4371-a508-2fe4772473f4'])
+    //const [TopThree, setTopThree] = useState(['74be93da-74d5-4393-8382-b6ec2299dfa5', '7537f8b5-16f5-4a30-bc57-7e488f170d96', '3e93e3d2-1489-4371-a508-2fe4772473f4'])
+    const [TopThree, setTopThree] = useState([])
+
 
     useEffect(() => {
+
 
         const fetchGenres = async () => {
 
@@ -84,21 +87,16 @@ const AudioStoryHome = ({navigation} : any) => {
                     <NewList />
                 </View> 
 
-                <View>
-                    <ForYouGenre genreid={TopThree[0]}/>
-                </View>
+                {TopThree.length === 3 ? (
+                    <View>
+                        <ForYouGenre genreid={TopThree[0]}/>
+                        <ForYouGenre genreid={TopThree[1]}/>
+                        <ForYouGenre genreid={TopThree[2]}/>
+                    </View>
+                ) : null}
+                
+                <View style={{height: 100}} />
 
-                <View>
-                    <ForYouGenre genreid={TopThree[1]}/>
-                </View>  
-
-                <View>
-                    <ForYouGenre genreid={TopThree[2]}/>
-                </View>  
-
-                <View style={{height: 100}}>
-
-                </View>
             </LinearGradient>
         </ScrollView>
     );
