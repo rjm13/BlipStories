@@ -133,10 +133,23 @@ const ProfileScreen = ({navigation} : any) => {
                         </Text>
                     </View>
 
+                    <TouchableWithoutFeedback onPress={ () => navigation.navigate('PlanScreen')}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                            <Text style={{ color: '#fff', fontSize: 16}}>
+                                Account
+                            </Text>
+                            <FontAwesome5 
+                                name='chevron-right'
+                                color='#fff'
+                                size={15}
+                            />
+                        </View>
+                    </TouchableWithoutFeedback>
+
                     <TouchableWithoutFeedback onPress={() => navigation.navigate('EditProfileScreen', {user: user})}>
                         <View style={styles.tile}>
                             <Text style={{ color: '#fff', fontSize: 16}}>
-                                Profile
+                                Public Profile
                             </Text>
                             <FontAwesome5 
                                 name='chevron-right'
@@ -165,19 +178,6 @@ const ProfileScreen = ({navigation} : any) => {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 40, paddingVertical: 20}}>
                             <Text style={{ color: '#fff', fontSize: 16}}>
                                 Publishing
-                            </Text>
-                            <FontAwesome5 
-                                name='chevron-right'
-                                color='#fff'
-                                size={15}
-                            />
-                        </View>
-                    </TouchableWithoutFeedback>
-
-                    <TouchableWithoutFeedback onPress={ () => navigation.navigate('PlanScreen')}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
-                            <Text style={{ color: '#fff', fontSize: 16}}>
-                                View Your Plan
                             </Text>
                             <FontAwesome5 
                                 name='chevron-right'
