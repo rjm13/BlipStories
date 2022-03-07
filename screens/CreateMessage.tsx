@@ -7,7 +7,8 @@ import {
     TouchableWithoutFeedback,  
     Image,
     FlatList,
-    Dimensions
+    Dimensions,
+    TextInput
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
@@ -19,6 +20,17 @@ import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { getUser, messagesByDate } from '../src/graphql/queries';
 
 const CreateMessage = ({navigation} : any) => {
+
+    const [imageU, setImageU] = useState('');
+
+    const [data, setData] = useState({
+        userID: '',
+        otherUserID: '',
+        content: '',
+        title: '',
+        subtitle: '',
+
+    })
 
     return (
         <View >
@@ -41,6 +53,45 @@ const CreateMessage = ({navigation} : any) => {
                     <Text style={styles.header}>
                         Compose Message
                     </Text>
+                </View>
+
+                <View style={{flexDirection: 'row', marginHorizontal: 20, marginVertical: 20, justifyContent: 'space-around'}}>
+                    <View style={{alignItems: 'center'}}>
+                        <Image 
+                            source={{uri: imageU}}
+                            style={{marginBottom: 10, width: 50, height: 50, borderRadius: 25, backgroundColor: 'gray'}}
+                        />
+                        <Text style={{color: '#00ffffa5'}}>
+                            Tex Jahones
+                        </Text>
+                    </View>
+
+                    <View style={{marginBottom: 20, flexDirection: 'row', alignItems: 'center'}}>
+                        <FontAwesome5 name='arrow-left' size={25} color='cyan' />
+                        <FontAwesome5 name='arrow-right' size={25} color='cyan' />
+                    </View>
+                    
+                    <View style={{alignItems: 'center'}}>
+                        <Image 
+                            source={{uri: imageU}}
+                            style={{marginBottom: 10, width: 50, height: 50, borderRadius: 25, backgroundColor: 'gray'}}
+                        />
+                        <Text style={{color: '#00ffffa5'}}>
+                            Myself
+                        </Text>
+                    </View>
+                </View>
+
+                <View style={{alignItems: 'center'}}>
+                    <TextInput
+                        placeholder='....'
+                        placeholderTextColor='#ffffffa5'
+                        style={{width: '90%', backgroundColor: '#303030', borderRadius: 8, paddingHorizontal: 10}}
+                        maxLength={50}
+                        multiline={true}
+                        numberOfLines={2}
+                        onChangeText={val => setData({...data, title: val})}
+                    />
                 </View>
 
                 
