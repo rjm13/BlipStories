@@ -205,4 +205,18 @@ type Message @model @auth(rules: [{ allow: private, operations: [create, delete,
     otherUser: User @hasOne (fields: ["otherUserID"])
     createdAt: String
     isRead: Boolean
+    replies: [Reply] @hasMany(indexName: "byMessage", fields: ["id"])
+}
+
+type Reply @model @auth(rules: [{ allow: private, operations: [create, delete, update, read]}])
+  {
+    id: ID!
+    type: String @index(name: "repliesByDate", queryField: "repliesByDate", sortKeyFields: ["createdAt"]  )
+    content: String
+    createdAt: String
+    isRead: Boolean
+    messageID: ID! @index(name: "byMessage", sortKeyFields: ["id"])
+    message: Message @hasOne (fields: ["messageID"])
+    user: User @hasOne (fields: ["userID"])
+    userID: ID @index(name: "byUser", sortKeyFields: ["id"])
 }
