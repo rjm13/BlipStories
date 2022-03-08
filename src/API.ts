@@ -833,6 +833,7 @@ export type CreateMessageInput = {
   userID?: string | null,
   otherUserID?: string | null,
   createdAt?: string | null,
+  isRead?: boolean | null,
 };
 
 export type ModelMessageConditionInput = {
@@ -843,6 +844,7 @@ export type ModelMessageConditionInput = {
   userID?: ModelIDInput | null,
   otherUserID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
+  isRead?: ModelBooleanInput | null,
   and?: Array< ModelMessageConditionInput | null > | null,
   or?: Array< ModelMessageConditionInput | null > | null,
   not?: ModelMessageConditionInput | null,
@@ -860,6 +862,7 @@ export type Message = {
   otherUserID?: string | null,
   otherUser?: User | null,
   createdAt?: string | null,
+  isRead?: boolean | null,
   updatedAt: string,
 };
 
@@ -872,6 +875,7 @@ export type UpdateMessageInput = {
   userID?: string | null,
   otherUserID?: string | null,
   createdAt?: string | null,
+  isRead?: boolean | null,
 };
 
 export type DeleteMessageInput = {
@@ -1127,6 +1131,7 @@ export type ModelMessageFilterInput = {
   userID?: ModelIDInput | null,
   otherUserID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
+  isRead?: ModelBooleanInput | null,
   and?: Array< ModelMessageFilterInput | null > | null,
   or?: Array< ModelMessageFilterInput | null > | null,
   not?: ModelMessageFilterInput | null,
@@ -7529,6 +7534,7 @@ export type CreateMessageMutation = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
+    isRead?: boolean | null,
     updatedAt: string,
   } | null,
 };
@@ -7671,6 +7677,7 @@ export type UpdateMessageMutation = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
+    isRead?: boolean | null,
     updatedAt: string,
   } | null,
 };
@@ -7813,6 +7820,7 @@ export type DeleteMessageMutation = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
+    isRead?: boolean | null,
     updatedAt: string,
   } | null,
 };
@@ -11483,6 +11491,7 @@ export type GetMessageQuery = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
+    isRead?: boolean | null,
     updatedAt: string,
   } | null,
 };
@@ -11564,6 +11573,7 @@ export type ListMessagesQuery = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
+      isRead?: boolean | null,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -12620,6 +12630,7 @@ export type MessagesByDateQuery = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
+      isRead?: boolean | null,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -18807,6 +18818,7 @@ export type OnCreateMessageSubscription = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
+    isRead?: boolean | null,
     updatedAt: string,
   } | null,
 };
@@ -18944,6 +18956,7 @@ export type OnUpdateMessageSubscription = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
+    isRead?: boolean | null,
     updatedAt: string,
   } | null,
 };
@@ -19081,6 +19094,7 @@ export type OnDeleteMessageSubscription = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
+    isRead?: boolean | null,
     updatedAt: string,
   } | null,
 };

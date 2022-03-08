@@ -7,19 +7,25 @@ import {
     TouchableWithoutFeedback,  
     Image,
     FlatList,
-    Dimensions
+    Dimensions,
+    RefreshControl
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import {StatusBar} from 'expo-status-bar';
+import { format, parseISO } from "date-fns";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { getUser, messagesByDate } from '../src/graphql/queries';
+
+
 const Inbox = ({navigation} : any) => {
     
     const [messages, setMessages] = useState([]);
+
+    const [didUpdate, setDidUpdate] = useState(false);
 
     useEffect(() => {
         let getMessages = async () => {
@@ -30,24 +36,76 @@ const Inbox = ({navigation} : any) => {
                 messagesByDate, {
                     type: 'Message',
                     sortDirection: 'DESC',
+                    limit: 100,
                     filter: {
-                        userID: {
-                            eq: userInfo.attributes.sub
-                        }
+                        or: [
+                           {
+                                userID: {
+                                    eq: userInfo.attributes.sub
+                                } 
+                            },
+                            {
+                                otherUserID: {
+                                    eq: userInfo.attributes.sub
+                                } 
+                            },
+                        ]
+                        
                     }
                 }
             ))
             setMessages(response.data.messagesByDate.items)
         }
         getMessages();
-    }, [])
+    }, [didUpdate])
 
-    const Item = ({id, title, content, subtitle, uersID, otherUserID, createdAt} : any) => {
+    const Item = ({id, title, content, subtitle, uersID, otherUserID, createdAt, isRead} : any) => {
+
+        const [user, setUser] = useState({})
+
+        useEffect(() => {
+            const fetchUser = async () => {
+                let response = await API.graphql(graphqlOperation(
+                    getUser, {id: otherUserID}
+                ))
+            setUser(response.data.getUser)    
+            }
+            fetchUser();
+        }, [])
 
         return (
-            <View>
-
-            </View>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate('ViewMessage', {messageid: id})}>
+                <View style={{alignItems: 'center', marginVertical: 6, flexDirection: 'row', justifyContent: 'space-between'}}>
+                    {isRead === true ? null : (
+                        <View style={{}}>
+                            <FontAwesome5 
+                                name='hand-point-right'
+                                size={20}
+                                color='#00ffffa5'
+                                style={{marginLeft: 20, marginRight: 0, alignSelf: 'center'}}
+                            />
+                        </View>
+                    )}
+                    
+                    <View style={{marginRight: 20, marginVertical: 10, paddingHorizontal: 20, width: isRead === true ? Dimensions.get('window').width : Dimensions.get('window').width - 40 }}>
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <Text style={{color: '#fff', fontWeight: 'bold'}}>
+                                {user?.pseudonym}
+                            </Text>
+                            <Text style={{color: '#fff', fontSize: 12}}>
+                                {format(parseISO(createdAt), "MMM do")}
+                            </Text>
+                        </View>
+                        <Text style={{color: '#fff', fontSize: 12, marginTop: 4 }}>
+                            {title}
+                        </Text>
+                        <Text numberOfLines={2} style={{color: 'gray', fontSize: 12 }}>
+                            {content}
+                        </Text>
+                    </View>
+                </View>
+            </TouchableWithoutFeedback>
+            
         );
     }
 
@@ -61,9 +119,20 @@ const Inbox = ({navigation} : any) => {
                 userID={item.userID}
                 otherUserID={item.otherUserID}
                 createdAt={item.createdAt}
+                isRead={item.isRead}
             />
         )
     }
+
+    const [isFetching, setIsFetching] = useState(false);
+
+    const onRefresh = () => {
+        setIsFetching(true);
+        setDidUpdate(!didUpdate)
+        setTimeout(() => {
+          setIsFetching(false);
+        }, 2000);
+      }
 
     return (
         <View >
@@ -91,9 +160,17 @@ const Inbox = ({navigation} : any) => {
                 <View>
                     <FlatList 
                         data={messages}
+                        extraData={messages}
                         keyExtractor={item => item.id}
                         renderItem={renderItem}
                         showsVerticalScrollIndicator={false}
+                        maxToRenderPerBatch={20}
+                        refreshControl={
+                            <RefreshControl
+                            refreshing={isFetching}
+                            onRefresh={onRefresh}
+                            />
+                        }
                     />
                 </View>
             </LinearGradient>

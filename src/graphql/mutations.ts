@@ -5697,6 +5697,7 @@ export const createMessage = /* GraphQL */ `
         updatedAt
       }
       createdAt
+      isRead
       updatedAt
     }
   }
@@ -5819,6 +5820,7 @@ export const updateMessage = /* GraphQL */ `
         updatedAt
       }
       createdAt
+      isRead
       updatedAt
     }
   }
@@ -5941,6 +5943,7 @@ export const deleteMessage = /* GraphQL */ `
         updatedAt
       }
       createdAt
+      isRead
       updatedAt
     }
   }

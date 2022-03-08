@@ -2804,6 +2804,7 @@ export const getMessage = /* GraphQL */ `
         updatedAt
       }
       createdAt
+      isRead
       updatedAt
     }
   }
@@ -2880,6 +2881,7 @@ export const listMessages = /* GraphQL */ `
           updatedAt
         }
         createdAt
+        isRead
         updatedAt
       }
       nextToken
@@ -3916,6 +3918,7 @@ export const messagesByDate = /* GraphQL */ `
           updatedAt
         }
         createdAt
+        isRead
         updatedAt
       }
       nextToken

@@ -927,7 +927,7 @@ const AudioListByAuthor = ({user, status} : any) => {
 
                                 <Animated.View style={{opacity: animatedOpacitySlow}}>
 
-                                    <TouchableWithoutFeedback onPress={() => navigation.navigate('CreateMessage')}>
+                                    <TouchableWithoutFeedback onPress={() => navigation.navigate('CreateMessage', {otherUserID: user})}>
                                         <View style={{ alignItems: 'center'}}>
                                             <Image 
                                                 source={{ uri: imageU}}
