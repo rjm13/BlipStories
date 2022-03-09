@@ -188,7 +188,7 @@ const ViewMessage = ({navigation} : any) => {
                                 style={{height: 40, width: 40, borderRadius: 25, marginLeft: 40}}
                             />
                             <Text style={styles.header}>
-                                {message?.otherUser?.pseudonym}
+                                {message?.user === user ? message?.otherUser?.pseudonym : message?.user?.pseudonym}
                             </Text>
                         </View>
 
@@ -246,7 +246,7 @@ const ViewMessage = ({navigation} : any) => {
 {/* Footer */}
                     <View style={{position: 'absolute', bottom: isKeyboardVisible ? 300 : 0, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 30, width: SCREEN_WIDTH, height: 80, backgroundColor: '#303030'}}>
                         <TextInput
-                            placeholder={'Reply to ' + message?.otherUser?.pseudonym}
+                            placeholder={'Reply to ' + (message?.user === user ? message?.otherUser?.pseudonym : message?.user?.pseudonym)}
                             placeholderTextColor='#ffffffa5'
                             style={{color: '#fff', padding: 10, width: SCREEN_WIDTH - 60}}
                             maxLength={1000}

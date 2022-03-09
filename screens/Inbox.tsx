@@ -59,7 +59,7 @@ const Inbox = ({navigation} : any) => {
         getMessages();
     }, [didUpdate])
 
-    const Item = ({id, title, content, subtitle, uersID, otherUserID, createdAt, isRead} : any) => {
+    const Item = ({index, id, title, content, subtitle, uersID, otherUserID, createdAt, isRead} : any) => {
 
         const [user, setUser] = useState({})
 
@@ -75,7 +75,7 @@ const Inbox = ({navigation} : any) => {
 
         return (
             <TouchableWithoutFeedback onPress={() => navigation.navigate('ViewMessage', {messageid: id})}>
-                <View style={{alignItems: 'center', marginVertical: 6, flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={{backgroundColor: index%2 === 0 ? '#303030a5' : 'transparent', alignItems: 'center', paddingVertical: 6, flexDirection: 'row', justifyContent: 'space-between'}}>
                     {isRead === true ? null : (
                         <View style={{}}>
                             <FontAwesome5 
@@ -109,7 +109,7 @@ const Inbox = ({navigation} : any) => {
         );
     }
 
-    const renderItem = ({item}: any) => {
+    const renderItem = ({item, index}: any) => {
         return (
             <Item 
                 id={item.id}
@@ -120,6 +120,7 @@ const Inbox = ({navigation} : any) => {
                 otherUserID={item.otherUserID}
                 createdAt={item.createdAt}
                 isRead={item.isRead}
+                index={index}
             />
         )
     }
