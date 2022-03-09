@@ -908,21 +908,57 @@ const AudioListByAuthor = ({user, status} : any) => {
                                             {User?.pseudonym}
                                         </Animated.Text>
                                     </View>
-                                    <TouchableOpacity onPress={FollowButton}>
-                                        <View>
-                                            <Text style={{
-                                                color: Following === true ? '#000' : 'cyan',
-                                                backgroundColor: Following === true ? 'cyan' : 'transparent',
-                                                borderRadius: 20,
-                                                paddingHorizontal: 20,
-                                                paddingVertical: 5,
-                                                borderWidth: Following === true ? 0 : 0.5,
-                                                borderColor: 'cyan',
-                                            }}>
-                                                {Following === true ? 'Following' : 'Follow'}
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
+
+                                    {narrator === true && currentUser?.isPublisher === true ? (
+                                        <TouchableOpacity onPress={() => navigation.navigate('CreateMessage', {otherUserID: userID, type: 'narrator'})}>
+                                            <View>
+                                                <Text style={{
+                                                    color: Following === true ? '#000' : 'cyan',
+                                                    backgroundColor: Following === true ? 'cyan' : 'transparent',
+                                                    borderRadius: 20,
+                                                    paddingHorizontal: 20,
+                                                    paddingVertical: 5,
+                                                    borderWidth: Following === true ? 0 : 0.5,
+                                                    borderColor: 'cyan',
+                                                }}>
+                                                    Request Narration
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    ) : artist === true && currentUser?.isPublisher === true ? (
+                                        <TouchableOpacity onPress={() => navigation.navigate('CreateMessage', {otherUserID: userID, type: 'artist'})}>
+                                            <View>
+                                                <Text style={{
+                                                    color: Following === true ? '#000' : 'cyan',
+                                                    backgroundColor: Following === true ? 'cyan' : 'transparent',
+                                                    borderRadius: 20,
+                                                    paddingHorizontal: 20,
+                                                    paddingVertical: 5,
+                                                    borderWidth: Following === true ? 0 : 0.5,
+                                                    borderColor: 'cyan',
+                                                }}>
+                                                    Request Cover Art
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    ) : publisher === true ? (
+                                        <TouchableOpacity onPress={FollowButton}>
+                                            <View>
+                                                <Text style={{
+                                                    color: Following === true ? '#000' : 'cyan',
+                                                    backgroundColor: Following === true ? 'cyan' : 'transparent',
+                                                    borderRadius: 20,
+                                                    paddingHorizontal: 20,
+                                                    paddingVertical: 5,
+                                                    borderWidth: Following === true ? 0 : 0.5,
+                                                    borderColor: 'cyan',
+                                                }}>
+                                                    {Following === true ? 'Following' : 'Follow'}
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    ) : null}
+
                                 </View>
 
                                 <Animated.View style={{opacity: animatedOpacitySlow}}>

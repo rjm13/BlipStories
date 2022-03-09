@@ -10,12 +10,20 @@ import {
     Dimensions,
     TextInput,
     Keyboard,
-    TouchableOpacity
+    TouchableOpacity,
+    Platform
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import {StatusBar} from 'expo-status-bar';
-import { format, parseISO } from "date-fns";
+import { StorageAccessFramework } from 'expo-file-system';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+import * as Permissions from 'expo-permissions'
+import * as MediaLibrary from 'expo-media-library';
+//import RNFetchBlob from 'rn-fetch-blob';
+//import pdf2base64 from 'pdf-to-base64';
+import { format, formatRelative, parseISO } from "date-fns";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -120,13 +128,22 @@ const ViewMessage = ({navigation} : any) => {
         fetchReplies();
     },[didUpdate, messageid]);
 
-    const Reply = ({id, content, createdAt, isRead, userID} : any) => {
+    const Reply = ({id, content, createdAt, isRead, userID, userName, otherUserName} : any) => {
+
 
         return (
             <View style={{backgroundColor: userID === user ? '#132F35' : '#000', width: SCREEN_WIDTH*0.8, borderRadius: 8, margin: 10, alignSelf: userID === user ? 'flex-end' : 'flex-start'}}>
                 <Text style={{padding: 10, color: '#fff'}}>
                     {content}
                 </Text>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', margin: 10}}>
+                    <Text style={{color: '#ffffffa5', fontSize: 10, textTransform: 'capitalize'}}>
+                        {userID === user ? userName : otherUserName}
+                    </Text>
+                    <Text style={{color: '#ffffffa5', fontSize: 10, textTransform: 'capitalize'}}>
+                        {formatRelative(parseISO(createdAt), new Date())}
+                    </Text>
+                </View>
             </View>
         );
     }
@@ -139,6 +156,8 @@ const ViewMessage = ({navigation} : any) => {
                 createdAt={item.createdAt}
                 isRead={item.isRead}
                 userID={item.userID}
+                userName={item.user.pseudonym}
+                otherUserName={item.user.pseudonym}
             />
         )
     }
@@ -161,6 +180,64 @@ const ViewMessage = ({navigation} : any) => {
             clear.current.clear()
         }
     }
+
+
+
+    const DownloadDocument = async () => {
+        let response = await Storage.get(message?.doc.docUri);
+
+        const targetUri = FileSystem.documentDirectory + message?.doc.title
+
+        const downloadedFile = await FileSystem.downloadAsync(response, targetUri)
+
+
+            if (downloadedFile.status === 200) {
+                if (Platform.OS === 'android') {
+
+                    const permissions = await StorageAccessFramework.requestDirectoryPermissionsAsync();
+                    if (!permissions.granted) {
+                        return;
+                    }
+
+                    const base64Data = await FileSystem.readAsStringAsync(downloadedFile.uri, { encoding: FileSystem.EncodingType.Base64 })
+
+                    try {
+                        await StorageAccessFramework.createFileAsync(permissions.directoryUri, message?.doc.title, 'application/pdf')
+                            .then(async(uri) => {
+                                await FileSystem.writeAsStringAsync(uri, base64Data, { encoding: FileSystem.EncodingType.Base64 });
+                            })
+                            .catch((e) => {
+                                console.log(e);
+                            });
+                    } catch (e) {
+                        throw new Error(e);
+}
+                    // const mediaLibraryPermissions = await MediaLibrary.requestPermissionsAsync();
+                    // if (!mediaLibraryPermissions.granted) {
+                    //     return;
+                    // }
+                    // try {
+                      
+                    //     const asset = await MediaLibrary.createAssetAsync(downloadedFile.uri)
+                        
+                    //     //const asset = await MediaLibrary.createAssetAsync(downloadedFile.uri);
+                        
+                    //     const album = await MediaLibrary.getAlbumAsync('Blip');
+                    //     if (album == null) {
+                    //       await MediaLibrary.createAlbumAsync('Blip', asset, false);
+                    //     } else {
+                    //       await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+                    //     }
+                    //   } catch (e) {
+                    //     console.log(e);
+                    //   }
+            
+        }
+            }
+        }
+    
+
+
 
     return (
         <View >
@@ -188,7 +265,7 @@ const ViewMessage = ({navigation} : any) => {
                                 style={{height: 40, width: 40, borderRadius: 25, marginLeft: 40}}
                             />
                             <Text style={styles.header}>
-                                {message?.user === user ? message?.otherUser?.pseudonym : message?.user?.pseudonym}
+                                {message?.user === user && message?.subtitle === 'artist' ? message?.otherUser?.artistPseudo : message?.user === user && message?.subtitle === 'narrator' ? message?.otherUser?.narratorPseudo : message?.user?.pseudonym}
                             </Text>
                         </View>
 
@@ -213,9 +290,29 @@ const ViewMessage = ({navigation} : any) => {
                                     <Text style={{fontSize: 13, color: '#fff', marginTop: 14}}>
                                         {message?.content}
                                     </Text>
-                                    <Text style={{color: '#00ffffa5', fontSize: 12, marginTop: 20}}>
-                                        {messageDate}
-                                    </Text>
+                                    <View style={{flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between'}}>
+                                        <Text style={{color: '#00ffffa5', fontSize: 12, marginTop: 20}}>
+                                            {messageDate}
+                                        </Text>
+                                        {message?.docID !== null ? (
+                                            <TouchableWithoutFeedback onPress={DownloadDocument}>
+                                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                                    <FontAwesome5 
+                                                        name='download'
+                                                        size={14}
+                                                        color='#00ffff'
+                                                        style={{paddingRight: 6}}
+                                                    />
+                                                    <Text style={{color: '#00ffff', }}>
+                                                        PDF
+                                                    </Text>
+                                                </View>
+                                            </TouchableWithoutFeedback>
+                                        ) : null}
+                                        
+                                        
+                                    </View>
+                                    
                                 </View>
                             ) : null}
                             
@@ -246,7 +343,7 @@ const ViewMessage = ({navigation} : any) => {
 {/* Footer */}
                     <View style={{position: 'absolute', bottom: isKeyboardVisible ? 300 : 0, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 30, width: SCREEN_WIDTH, height: 80, backgroundColor: '#303030'}}>
                         <TextInput
-                            placeholder={'Reply to ' + (message?.user === user ? message?.otherUser?.pseudonym : message?.user?.pseudonym)}
+                            placeholder={'Reply to ' + (message?.user === user && message?.subtitle === 'artist' ? message?.otherUser?.artistPseudo : message?.user === user && message?.subtitle === 'narrator' ? message?.otherUser?.narratorPseudo : message?.user?.pseudonym)}
                             placeholderTextColor='#ffffffa5'
                             style={{color: '#fff', padding: 10, width: SCREEN_WIDTH - 60}}
                             maxLength={1000}

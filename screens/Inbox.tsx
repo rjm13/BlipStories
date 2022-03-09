@@ -158,7 +158,7 @@ const Inbox = ({navigation} : any) => {
                         </Text>
                 </View>
 
-                <View>
+                <View style={{height: '87%'}}>
                     <FlatList 
                         data={messages}
                         extraData={messages}
@@ -172,6 +172,11 @@ const Inbox = ({navigation} : any) => {
                             onRefresh={onRefresh}
                             />
                         }
+                        ListFooterComponent={() => {
+                            return (
+                                <View style={{height: 100}}/>
+                            )
+                        }}
                     />
                 </View>
             </LinearGradient>

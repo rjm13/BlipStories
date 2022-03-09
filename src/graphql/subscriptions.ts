@@ -3239,6 +3239,360 @@ export const onDeleteImageAsset = /* GraphQL */ `
     }
   }
 `;
+export const onCreateDocumentAsset = /* GraphQL */ `
+  subscription OnCreateDocumentAsset {
+    onCreateDocumentAsset {
+      id
+      type
+      title
+      docUri
+      user {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      userID
+      sharedUserID
+      sharedUser {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateDocumentAsset = /* GraphQL */ `
+  subscription OnUpdateDocumentAsset {
+    onUpdateDocumentAsset {
+      id
+      type
+      title
+      docUri
+      user {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      userID
+      sharedUserID
+      sharedUser {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteDocumentAsset = /* GraphQL */ `
+  subscription OnDeleteDocumentAsset {
+    onDeleteDocumentAsset {
+      id
+      type
+      title
+      docUri
+      user {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      userID
+      sharedUserID
+      sharedUser {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateAudioAsset = /* GraphQL */ `
   subscription OnCreateAudioAsset {
     onCreateAudioAsset {
@@ -5600,6 +5954,73 @@ export const onCreateMessage = /* GraphQL */ `
         }
         nextToken
       }
+      docID
+      doc {
+        id
+        type
+        title
+        docUri
+        user {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        userID
+        sharedUserID
+        sharedUser {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
       updatedAt
     }
   }
@@ -5732,6 +6153,73 @@ export const onUpdateMessage = /* GraphQL */ `
           updatedAt
         }
         nextToken
+      }
+      docID
+      doc {
+        id
+        type
+        title
+        docUri
+        user {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        userID
+        sharedUserID
+        sharedUser {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
       }
       updatedAt
     }
@@ -5866,6 +6354,73 @@ export const onDeleteMessage = /* GraphQL */ `
         }
         nextToken
       }
+      docID
+      doc {
+        id
+        type
+        title
+        docUri
+        user {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        userID
+        sharedUserID
+        sharedUser {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
       updatedAt
     }
   }
@@ -5947,6 +6502,17 @@ export const onCreateReply = /* GraphQL */ `
         isRead
         replies {
           nextToken
+        }
+        docID
+        doc {
+          id
+          type
+          title
+          docUri
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
         }
         updatedAt
       }
@@ -6085,6 +6651,17 @@ export const onUpdateReply = /* GraphQL */ `
         replies {
           nextToken
         }
+        docID
+        doc {
+          id
+          type
+          title
+          docUri
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
+        }
         updatedAt
       }
       user {
@@ -6221,6 +6798,17 @@ export const onDeleteReply = /* GraphQL */ `
         isRead
         replies {
           nextToken
+        }
+        docID
+        doc {
+          id
+          type
+          title
+          docUri
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
         }
         updatedAt
       }

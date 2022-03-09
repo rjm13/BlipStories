@@ -1602,6 +1602,201 @@ export const listImageAssets = /* GraphQL */ `
     }
   }
 `;
+export const getDocumentAsset = /* GraphQL */ `
+  query GetDocumentAsset($id: ID!) {
+    getDocumentAsset(id: $id) {
+      id
+      type
+      title
+      docUri
+      user {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      userID
+      sharedUserID
+      sharedUser {
+        type
+        id
+        name
+        email
+        imageUri
+        bio
+        following
+        authored {
+          nextToken
+        }
+        narrated {
+          nextToken
+        }
+        sharedAssets {
+          nextToken
+        }
+        art {
+          nextToken
+        }
+        numAuthored
+        pseudonym
+        narratorPseudo
+        artistPseudo
+        birthdate
+        isPublisher
+        isNarrator
+        isArtist
+        topthree
+        followers {
+          nextToken
+        }
+        Pinned {
+          nextToken
+        }
+        Rated {
+          nextToken
+        }
+        Finished {
+          nextToken
+        }
+        sampleUri
+        narratorText
+        accents
+        voice
+        artistText
+        artStyles
+        narratorActiveAt
+        artistActiveAt
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listDocumentAssets = /* GraphQL */ `
+  query ListDocumentAssets(
+    $filter: ModelDocumentAssetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listDocumentAssets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        type
+        title
+        docUri
+        user {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        userID
+        sharedUserID
+        sharedUser {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getAudioAsset = /* GraphQL */ `
   query GetAudioAsset($id: ID!) {
     getAudioAsset(id: $id) {
@@ -2818,6 +3013,73 @@ export const getMessage = /* GraphQL */ `
         }
         nextToken
       }
+      docID
+      doc {
+        id
+        type
+        title
+        docUri
+        user {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        userID
+        sharedUserID
+        sharedUser {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
       updatedAt
     }
   }
@@ -2897,6 +3159,17 @@ export const listMessages = /* GraphQL */ `
         isRead
         replies {
           nextToken
+        }
+        docID
+        doc {
+          id
+          type
+          title
+          docUri
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
         }
         updatedAt
       }
@@ -2982,6 +3255,17 @@ export const getReply = /* GraphQL */ `
         replies {
           nextToken
         }
+        docID
+        doc {
+          id
+          type
+          title
+          docUri
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
+        }
         updatedAt
       }
       user {
@@ -3065,6 +3349,7 @@ export const listReplies = /* GraphQL */ `
           otherUserID
           createdAt
           isRead
+          docID
           updatedAt
         }
         user {
@@ -3782,6 +4067,93 @@ export const imageAssetsByDate = /* GraphQL */ `
     }
   }
 `;
+export const documentsByDate = /* GraphQL */ `
+  query DocumentsByDate(
+    $type: String!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelDocumentAssetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    documentsByDate(
+      type: $type
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        title
+        docUri
+        user {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        userID
+        sharedUserID
+        sharedUser {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const audioAssetsByDate = /* GraphQL */ `
   query AudioAssetsByDate(
     $type: String!
@@ -4136,6 +4508,17 @@ export const messagesByDate = /* GraphQL */ `
         replies {
           nextToken
         }
+        docID
+        doc {
+          id
+          type
+          title
+          docUri
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
+        }
         updatedAt
       }
       nextToken
@@ -4176,6 +4559,7 @@ export const repliesByDate = /* GraphQL */ `
           otherUserID
           createdAt
           isRead
+          docID
           updatedAt
         }
         user {

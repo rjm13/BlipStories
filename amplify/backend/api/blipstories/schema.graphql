@@ -131,6 +131,19 @@ type ImageAsset @model @auth(rules: [{ allow: private, operations: [create, dele
     createdAt: String
 }
 
+type DocumentAsset @model @auth(rules: [{ allow: private, operations: [create, delete, update, read]}])
+  {
+    id: ID!
+    type: String @index(name: "documentsByDate", queryField: "documentsByDate", sortKeyFields: ["createdAt"]  )
+    title: String
+    docUri: String
+    user: User @hasOne (fields: ["userID"])
+    userID: ID @index(name: "byUser", sortKeyFields: ["id"])
+    sharedUserID: ID
+    sharedUser: User @hasOne (fields: ["sharedUserID"])
+    createdAt: String
+}
+
 type AudioAsset @model @auth(rules: [{ allow: private, operations: [create, delete, update, read]}])
   {
     id: ID!
@@ -206,6 +219,8 @@ type Message @model @auth(rules: [{ allow: private, operations: [create, delete,
     createdAt: String
     isRead: Boolean
     replies: [Reply] @hasMany(indexName: "byMessage", fields: ["id"])
+    docID: ID
+    doc: DocumentAsset @hasOne (fields: ["docID"])
 }
 
 type Reply @model @auth(rules: [{ allow: private, operations: [create, delete, update, read]}])
