@@ -9,7 +9,8 @@ import {
     FlatList,
     Dimensions,
     TextInput,
-    Keyboard
+    Keyboard,
+    TouchableOpacity
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
@@ -19,12 +20,14 @@ import { format, parseISO } from "date-fns";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getMessage } from '../src/graphql/queries';
-import { updateMessage } from '../src/graphql/mutations';
+import { getMessage, repliesByDate } from '../src/graphql/queries';
+import { updateMessage, createReply } from '../src/graphql/mutations';
 
 import { useRoute } from '@react-navigation/native';
 
 const ViewMessage = ({navigation} : any) => {
+
+    let clear = useRef(null)
 
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
@@ -63,8 +66,14 @@ const ViewMessage = ({navigation} : any) => {
 
     const [reply, setReply] = useState('')
 
+    const [user, setUser] = useState('')
+
     useEffect(() => {
         const markRead = async () => {
+
+            const userInfo = await Auth.currentAuthenticatedUser();
+            setUser(userInfo.attributes.sub);
+
             let response = await API.graphql(graphqlOperation(
                 updateMessage, {input: {
                     id: messageid,
@@ -72,6 +81,7 @@ const ViewMessage = ({navigation} : any) => {
                 }}
             ))
             console.log(response);
+            
 
             let messageresponse = await API.graphql(graphqlOperation(
                 getMessage, {id: messageid}
@@ -80,9 +90,77 @@ const ViewMessage = ({navigation} : any) => {
             setMessage(messageresponse.data.getMessage);
             setImageU(imageresponse)
             setMessageDate(format(parseISO(messageresponse.data.getMessage.createdAt), "MMM do yyyy"))
+            
         }
         markRead();
     }, [])
+
+    const [didUpdate, setDidUpdate] = useState(false);
+
+    const [replies, setReplies] = useState([]);
+
+    useEffect(() => {
+        const fetchReplies = async () => {
+            let response = await API.graphql(graphqlOperation(
+                repliesByDate, {
+                    type: 'Reply',
+                    sortDirection: 'DESC',
+                    filter: {
+                        messageID: {
+                            eq: messageid
+                        }
+                    }
+                }
+            ))
+            setReplies(response.data.repliesByDate.items)
+            if (response.data.repliesByDate.items.length > 0) {
+                setIsExpanded(false);
+            }
+        }
+        fetchReplies();
+    },[didUpdate, messageid]);
+
+    const Reply = ({id, content, createdAt, isRead, userID} : any) => {
+
+        return (
+            <View style={{backgroundColor: userID === user ? '#132F35' : '#000', width: SCREEN_WIDTH*0.8, borderRadius: 8, margin: 10, alignSelf: userID === user ? 'flex-end' : 'flex-start'}}>
+                <Text style={{padding: 10, color: '#fff'}}>
+                    {content}
+                </Text>
+            </View>
+        );
+    }
+
+    const renderReplies = ({item}: any) => {
+        return (
+            <Reply 
+                id={item.id}
+                content={item.content}
+                createdAt={item.createdAt}
+                isRead={item.isRead}
+                userID={item.userID}
+            />
+        )
+    }
+
+    const SubmitReply = async () => {
+        if (reply !== '') {
+            let response = await API.graphql(graphqlOperation(
+                createReply, {input: {
+                    content: reply,
+                    createdAt: new Date(),
+                    isRead: false,
+                    type: 'Reply',
+                    messageID: message?.id,
+                    userID: user
+                }}
+            ))
+            console.log(response)
+            setDidUpdate(!didUpdate);
+            setReply('');
+            clear.current.clear()
+        }
+    }
 
     return (
         <View >
@@ -114,7 +192,7 @@ const ViewMessage = ({navigation} : any) => {
                             </Text>
                         </View>
 
-                        <View style={{marginTop: 20, borderRadius: 15, alignSelf: 'center', backgroundColor: '#303030', padding: 20, width: Dimensions.get('window').width - 40}}>
+                        <View style={{marginTop: 0, borderRadius: 15, alignSelf: 'center', backgroundColor: '#303030', padding: 20, width: Dimensions.get('window').width - 40}}>
                                                 
                             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <Text style={{color: '#fff', fontWeight: 'bold'}}>
@@ -144,7 +222,28 @@ const ViewMessage = ({navigation} : any) => {
                         </View>
 
                     </View>
-                    
+
+                    <View style={{marginBottom: 120, height: isExpanded === true ? '49%' : '59%'}}>
+                        <FlatList 
+                            data={replies}
+                            keyExtractor={item => item.id}
+                            renderItem={renderReplies}
+                            showsVerticalScrollIndicator={false}
+                            maxToRenderPerBatch={20}
+                            extraData={replies}
+                            inverted
+                            ListFooterComponent={() => {
+                                return(
+                                    <View style={{height: 20}}/>
+                                )
+                                
+                            }}
+                        />
+                    </View>
+
+
+
+{/* Footer */}
                     <View style={{position: 'absolute', bottom: isKeyboardVisible ? 300 : 0, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 30, width: SCREEN_WIDTH, height: 80, backgroundColor: '#303030'}}>
                         <TextInput
                             placeholder={'Reply to ' + message?.otherUser?.pseudonym}
@@ -154,15 +253,19 @@ const ViewMessage = ({navigation} : any) => {
                             multiline={true}
                             onChangeText={val => setReply(val)}
                             textAlignVertical='top'
+                            ref={clear}
                         />
-                        <View style={{justifyContent: 'center'}}>
-                            <FontAwesome5 
-                                name='arrow-right'
-                                color='#fff'
-                                size={20}
-                                style={{paddingHorizontal: 20}}
-                            />
-                        </View>
+                       
+                            <View style={{justifyContent: 'center'}}>
+                                <TouchableOpacity onPress={SubmitReply}>
+                                    <FontAwesome5 
+                                        name='arrow-right'
+                                        color='#fff'
+                                        size={20}
+                                        style={{paddingHorizontal: 20}}
+                                    />
+                                </TouchableOpacity>
+                            </View>
                     </View>
                     
 
