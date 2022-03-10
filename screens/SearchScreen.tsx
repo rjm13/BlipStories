@@ -358,7 +358,7 @@ const SearchScreen = ({navigation} : any) => {
                 listTags, {
                     filter: {
                         tagName: {
-                            contains: newSearch
+                            contains: newSearch.toLowerCase()
                         }
                     }
                 }
