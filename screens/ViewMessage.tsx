@@ -11,7 +11,8 @@ import {
     TextInput,
     Keyboard,
     TouchableOpacity,
-    Platform
+    Platform,
+    ActivityIndicator
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
@@ -21,8 +22,6 @@ import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import * as Permissions from 'expo-permissions'
 import * as MediaLibrary from 'expo-media-library';
-//import RNFetchBlob from 'rn-fetch-blob';
-//import pdf2base64 from 'pdf-to-base64';
 import { format, formatRelative, parseISO } from "date-fns";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -30,8 +29,26 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { getMessage, repliesByDate } from '../src/graphql/queries';
 import { updateMessage, createReply } from '../src/graphql/mutations';
+import * as Notifications from 'expo-notifications';
+import {
+    AndroidImportance,
+    AndroidNotificationVisibility,
+    NotificationChannel,
+    NotificationChannelInput,
+    NotificationContentInput,
+  } from "expo-notifications";
 
 import { useRoute } from '@react-navigation/native';
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
+
+  const channelId = "DownloadInfo";
 
 const ViewMessage = ({navigation} : any) => {
 
@@ -181,61 +198,130 @@ const ViewMessage = ({navigation} : any) => {
         }
     }
 
+    const [downloadProgress, setDownloadProgress] = useState("0%");
 
+      async function setNotificationChannel() {
+        const loadingChannel: NotificationChannel | null = await Notifications.getNotificationChannelAsync(
+          channelId
+        );
+    
+        // if we didn't find a notification channel set how we like it, then we create one
+        if (loadingChannel == null) {
+          const channelOptions: NotificationChannelInput = {
+            name: channelId,
+            importance: AndroidImportance.HIGH,
+            lockscreenVisibility: AndroidNotificationVisibility.PUBLIC,
+            sound: "default",
+            vibrationPattern: [250],
+            enableVibrate: true,
+          };
+          await Notifications.setNotificationChannelAsync(
+            channelId,
+            channelOptions
+          );
+        }
+      }
+    
+      useEffect(() => {
+        setNotificationChannel();
+      });
 
-    const DownloadDocument = async () => {
+        // IMPORTANT: You MUST obtain MEDIA_LIBRARY permissions for the file download to succeed
+  // If you don't the downloads will fail
+  async function getMediaLibraryPermissions() {
+    //await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+    await MediaLibrary.requestPermissionsAsync();
+  }
+
+  // You also MUST obtain NOTIFICATIONS permissions to show any notification
+  // to the user. Please read the docs for more on permissions for notifications
+  // https://docs.expo.io/versions/latest/sdk/notifications/#fetching-information-about-notifications-related-permissions
+  async function getNotificationPermissions() {
+    //await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    await Notifications.requestPermissionsAsync();
+  }
+
+  const downloadProgressUpdater = ({
+    totalBytesWritten,
+    totalBytesExpectedToWrite,
+  }: {
+    totalBytesWritten: number;
+    totalBytesExpectedToWrite: number;
+  }) => {
+    const pctg = 100 * (totalBytesWritten / totalBytesExpectedToWrite);
+    setDownloadProgress(`${pctg.toFixed(0)}%`);
+  };
+
+  useEffect(() => {
+    getMediaLibraryPermissions();
+  });
+
+  useEffect(() => {
+    getNotificationPermissions();
+  });
+
+      async function scheduleNotification() {
+        await Notifications.scheduleNotificationAsync({
+            content: {
+              title: 'Download Complete!',
+              body: message?.doc.title,
+            },
+            trigger: null,
+          });
+      }
+
+      async function downloadingNotification() {
+        await Notifications.scheduleNotificationAsync({
+            content: {
+              title: '...downloading',
+              body: message?.doc.title,
+            },
+            trigger: null,
+          });
+      }
+
+      const [isDownloading, setIsDownloading] = useState(false);
+      
+
+    const DownloadDocument2 = async () => {
+
+        setIsDownloading(true);
+
         let response = await Storage.get(message?.doc.docUri);
 
         const targetUri = FileSystem.documentDirectory + message?.doc.title
 
         const downloadedFile = await FileSystem.downloadAsync(response, targetUri)
 
+        if (downloadedFile.status === 200) {
+            if (Platform.OS === 'android') {
 
-            if (downloadedFile.status === 200) {
-                if (Platform.OS === 'android') {
+                const permissions = await StorageAccessFramework.requestDirectoryPermissionsAsync();
+                if (!permissions.granted) {
+                    return;
+                }
 
-                    const permissions = await StorageAccessFramework.requestDirectoryPermissionsAsync();
-                    if (!permissions.granted) {
-                        return;
-                    }
+                downloadingNotification();
 
-                    const base64Data = await FileSystem.readAsStringAsync(downloadedFile.uri, { encoding: FileSystem.EncodingType.Base64 })
+                const base64Data = await FileSystem.readAsStringAsync(downloadedFile.uri, { encoding: FileSystem.EncodingType.Base64 })
 
-                    try {
-                        await StorageAccessFramework.createFileAsync(permissions.directoryUri, message?.doc.title, 'application/pdf')
-                            .then(async(uri) => {
-                                await FileSystem.writeAsStringAsync(uri, base64Data, { encoding: FileSystem.EncodingType.Base64 });
-                            })
-                            .catch((e) => {
-                                console.log(e);
-                            });
-                    } catch (e) {
-                        throw new Error(e);
-}
-                    // const mediaLibraryPermissions = await MediaLibrary.requestPermissionsAsync();
-                    // if (!mediaLibraryPermissions.granted) {
-                    //     return;
-                    // }
-                    // try {
-                      
-                    //     const asset = await MediaLibrary.createAssetAsync(downloadedFile.uri)
-                        
-                    //     //const asset = await MediaLibrary.createAssetAsync(downloadedFile.uri);
-                        
-                    //     const album = await MediaLibrary.getAlbumAsync('Blip');
-                    //     if (album == null) {
-                    //       await MediaLibrary.createAlbumAsync('Blip', asset, false);
-                    //     } else {
-                    //       await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
-                    //     }
-                    //   } catch (e) {
-                    //     console.log(e);
-                    //   }
-            
-        }
+                try {
+                    await StorageAccessFramework.createFileAsync(permissions.directoryUri, message?.doc.title, 'application/pdf')
+                        .then(async(uri) => {
+                            await FileSystem.writeAsStringAsync(uri, base64Data, { encoding: FileSystem.EncodingType.Base64 });
+                        })
+                        .then(scheduleNotification)
+                        .then(() => setIsDownloading(false))
+                        .catch((e) => {
+                            console.log(e);
+                            setIsDownloading(false);
+                        });
+                } catch (e) {
+                    throw new Error(e);
+                }    
             }
         }
-    
+    }
 
 
 
@@ -294,23 +380,23 @@ const ViewMessage = ({navigation} : any) => {
                                         <Text style={{color: '#00ffffa5', fontSize: 12, marginTop: 20}}>
                                             {messageDate}
                                         </Text>
-                                        {message?.docID !== null ? (
-                                            <TouchableWithoutFeedback onPress={DownloadDocument}>
-                                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                                    <FontAwesome5 
-                                                        name='download'
-                                                        size={14}
-                                                        color='#00ffff'
-                                                        style={{paddingRight: 6}}
-                                                    />
-                                                    <Text style={{color: '#00ffff', }}>
-                                                        PDF
-                                                    </Text>
-                                                </View>
+                                        {message?.docID !== null && isDownloading === false ? (
+                                            <TouchableWithoutFeedback onPress={DownloadDocument2}>
+                                                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                                        <FontAwesome5 
+                                                            name='download'
+                                                            size={14}
+                                                            color='#00ffff'
+                                                            style={{paddingRight: 6}}
+                                                        />
+                                                        <Text style={{color: '#00ffff', }}>
+                                                            PDF
+                                                        </Text>
+                                                    </View>
                                             </TouchableWithoutFeedback>
+                                        ) : message?.docID !== null && isDownloading === true ? (
+                                            <ActivityIndicator size='small' color='cyan'/>
                                         ) : null}
-                                        
-                                        
                                     </View>
                                     
                                 </View>
