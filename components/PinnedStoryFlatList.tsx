@@ -23,12 +23,13 @@ import { AppContext } from '../AppContext';
 
 import dummyaudio from '../data/dummyaudio';
 
-import { listPinnedStories } from '../src/customGraphql/customQueries';
-import { listRatings, listStories } from '../src/graphql/queries';
+//import { listPinnedStories } from '../src/customGraphql/customQueries';
+import { listRatings, listStories, listPinnedStories } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 import UnPinStory from './functions/UnPinStory';
+import StoryTile from './StoryTile';
 
 import { ItemParamList } from '../types';
 
@@ -327,13 +328,13 @@ const AudioStoryList = ({genre, search, all} : any) => {
                             userID: {
                                 eq: userInfo.attributes.sub
                             },
-                            story: {
+                            // story: {
                                 
-                                    hidden: {
-                                        eq: false
-                                    },
+                            //         hidden: {
+                            //             eq: false
+                            //         },
                                 
-                            }
+                            // }
                         }
                     }
                 ))
@@ -381,7 +382,7 @@ const AudioStoryList = ({genre, search, all} : any) => {
         }
         
         return (
-        <Item 
+        <StoryTile 
           title={item.title}
           imageUri={item.imageUri}
           genreName={genreName}

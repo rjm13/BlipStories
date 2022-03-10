@@ -719,6 +719,12 @@ export const listPinnedStories = /* GraphQL */ `
           nsfw
           ratingAvg
           ratingAmt
+          genre {
+            id
+            genre
+            icon
+            PrimaryColor
+          }
           genreID
           hidden
           approved
