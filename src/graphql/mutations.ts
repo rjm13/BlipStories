@@ -129,6 +129,7 @@ export const createUser = /* GraphQL */ `
       followers {
         items {
           id
+          type
           followerID
           authorID
           createdAt
@@ -140,27 +141,9 @@ export const createUser = /* GraphQL */ `
         items {
           id
           type
-          title
-          imageUri
-          audioUri
           userID
-          author
-          authorID
-          narrator
-          narratorID
-          artistName
-          artistID
-          time
-          summary
-          description
-          nsfw
-          ratingAvg
-          ratingAmt
-          genreID
-          hidden
-          approved
+          storyID
           createdAt
-          numListens
           updatedAt
         }
         nextToken
@@ -182,27 +165,9 @@ export const createUser = /* GraphQL */ `
         items {
           id
           type
-          title
-          imageUri
-          audioUri
           userID
-          author
-          authorID
-          narrator
-          narratorID
-          artistName
-          artistID
-          time
-          summary
-          description
-          nsfw
-          ratingAvg
-          ratingAmt
-          genreID
-          hidden
-          approved
+          storyID
           createdAt
-          numListens
           updatedAt
         }
         nextToken
@@ -347,6 +312,7 @@ export const updateUser = /* GraphQL */ `
       followers {
         items {
           id
+          type
           followerID
           authorID
           createdAt
@@ -358,27 +324,9 @@ export const updateUser = /* GraphQL */ `
         items {
           id
           type
-          title
-          imageUri
-          audioUri
           userID
-          author
-          authorID
-          narrator
-          narratorID
-          artistName
-          artistID
-          time
-          summary
-          description
-          nsfw
-          ratingAvg
-          ratingAmt
-          genreID
-          hidden
-          approved
+          storyID
           createdAt
-          numListens
           updatedAt
         }
         nextToken
@@ -400,27 +348,9 @@ export const updateUser = /* GraphQL */ `
         items {
           id
           type
-          title
-          imageUri
-          audioUri
           userID
-          author
-          authorID
-          narrator
-          narratorID
-          artistName
-          artistID
-          time
-          summary
-          description
-          nsfw
-          ratingAvg
-          ratingAmt
-          genreID
-          hidden
-          approved
+          storyID
           createdAt
-          numListens
           updatedAt
         }
         nextToken
@@ -565,6 +495,7 @@ export const deleteUser = /* GraphQL */ `
       followers {
         items {
           id
+          type
           followerID
           authorID
           createdAt
@@ -576,27 +507,9 @@ export const deleteUser = /* GraphQL */ `
         items {
           id
           type
-          title
-          imageUri
-          audioUri
           userID
-          author
-          authorID
-          narrator
-          narratorID
-          artistName
-          artistID
-          time
-          summary
-          description
-          nsfw
-          ratingAvg
-          ratingAmt
-          genreID
-          hidden
-          approved
+          storyID
           createdAt
-          numListens
           updatedAt
         }
         nextToken
@@ -618,27 +531,9 @@ export const deleteUser = /* GraphQL */ `
         items {
           id
           type
-          title
-          imageUri
-          audioUri
           userID
-          author
-          authorID
-          narrator
-          narratorID
-          artistName
-          artistID
-          time
-          summary
-          description
-          nsfw
-          ratingAvg
-          ratingAmt
-          genreID
-          hidden
-          approved
+          storyID
           createdAt
-          numListens
           updatedAt
         }
         nextToken
@@ -663,6 +558,7 @@ export const createFollowingConn = /* GraphQL */ `
   ) {
     createFollowingConn(input: $input, condition: $condition) {
       id
+      type
       followerID
       authorID
       author {
@@ -781,6 +677,7 @@ export const updateFollowingConn = /* GraphQL */ `
   ) {
     updateFollowingConn(input: $input, condition: $condition) {
       id
+      type
       followerID
       authorID
       author {
@@ -899,6 +796,7 @@ export const deleteFollowingConn = /* GraphQL */ `
   ) {
     deleteFollowingConn(input: $input, condition: $condition) {
       id
+      type
       followerID
       authorID
       author {
@@ -1017,6 +915,7 @@ export const createPinnedStory = /* GraphQL */ `
   ) {
     createPinnedStory(input: $input, condition: $condition) {
       id
+      type
       userID
       user {
         type
@@ -1212,6 +1111,7 @@ export const updatePinnedStory = /* GraphQL */ `
   ) {
     updatePinnedStory(input: $input, condition: $condition) {
       id
+      type
       userID
       user {
         type
@@ -1407,6 +1307,7 @@ export const deletePinnedStory = /* GraphQL */ `
   ) {
     deletePinnedStory(input: $input, condition: $condition) {
       id
+      type
       userID
       user {
         type

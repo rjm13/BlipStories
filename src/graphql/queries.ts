@@ -126,6 +126,7 @@ export const getUser = /* GraphQL */ `
       followers {
         items {
           id
+          type
           followerID
           authorID
           createdAt
@@ -137,27 +138,9 @@ export const getUser = /* GraphQL */ `
         items {
           id
           type
-          title
-          imageUri
-          audioUri
           userID
-          author
-          authorID
-          narrator
-          narratorID
-          artistName
-          artistID
-          time
-          summary
-          description
-          nsfw
-          ratingAvg
-          ratingAmt
-          genreID
-          hidden
-          approved
+          storyID
           createdAt
-          numListens
           updatedAt
         }
         nextToken
@@ -179,27 +162,9 @@ export const getUser = /* GraphQL */ `
         items {
           id
           type
-          title
-          imageUri
-          audioUri
           userID
-          author
-          authorID
-          narrator
-          narratorID
-          artistName
-          artistID
-          time
-          summary
-          description
-          nsfw
-          ratingAvg
-          ratingAmt
-          genreID
-          hidden
-          approved
+          storyID
           createdAt
-          numListens
           updatedAt
         }
         nextToken
@@ -284,6 +249,7 @@ export const getFollowingConn = /* GraphQL */ `
   query GetFollowingConn($id: ID!) {
     getFollowingConn(id: $id) {
       id
+      type
       followerID
       authorID
       author {
@@ -404,6 +370,7 @@ export const listFollowingConns = /* GraphQL */ `
     listFollowingConns(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        type
         followerID
         authorID
         author {
@@ -473,6 +440,7 @@ export const getPinnedStory = /* GraphQL */ `
   query GetPinnedStory($id: ID!) {
     getPinnedStory(id: $id) {
       id
+      type
       userID
       user {
         type
@@ -670,6 +638,7 @@ export const listPinnedStories = /* GraphQL */ `
     listPinnedStories(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        type
         userID
         user {
           type
@@ -719,12 +688,6 @@ export const listPinnedStories = /* GraphQL */ `
           nsfw
           ratingAvg
           ratingAmt
-          genre {
-            id
-            genre
-            icon
-            PrimaryColor
-          }
           genreID
           hidden
           approved
@@ -3745,6 +3708,182 @@ export const usersByArtistActiveAt = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const followingByDate = /* GraphQL */ `
+  query FollowingByDate(
+    $type: String!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelFollowingConnFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    followingByDate(
+      type: $type
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        followerID
+        authorID
+        author {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        follower {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const pinnedStoryByDate = /* GraphQL */ `
+  query PinnedStoryByDate(
+    $type: String!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelPinnedStoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    PinnedStoryByDate(
+      type: $type
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        userID
+        user {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        storyID
+        story {
+          id
+          type
+          title
+          imageUri
+          audioUri
+          userID
+          author
+          authorID
+          narrator
+          narratorID
+          artistName
+          artistID
+          time
+          summary
+          description
+          nsfw
+          ratingAvg
+          ratingAmt
+          genreID
+          genre {
+            id
+            genre
+            icon
+            PrimaryColor
+            SecondaryColor
+            imageUri
+          }
+          hidden
+          approved
+          createdAt
+          numListens
+          updatedAt
+        }
         createdAt
         updatedAt
       }

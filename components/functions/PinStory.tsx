@@ -8,7 +8,12 @@ const PinStory = async ({storyID} : any) => {
     let userInfo = await Auth.currentAuthenticatedUser();
 
     let createPin = await API.graphql(graphqlOperation(
-        createPinnedStory, {input: {userID: userInfo.attributes.sub, storyID: storyID}}
+        createPinnedStory, {input: {
+            userID: userInfo.attributes.sub, 
+            storyID: storyID,
+            type: "PinnedStory",
+            createdAt: new Date(),
+        }}
     ))
     console.log(createPin)
 }

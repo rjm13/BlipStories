@@ -24,7 +24,7 @@ import { AppContext } from '../AppContext';
 import dummyaudio from '../data/dummyaudio';
 
 //import { listPinnedStories } from '../src/customGraphql/customQueries';
-import { listRatings, listStories, listPinnedStories } from '../src/graphql/queries';
+import { listRatings, listStories, pinnedStoryByDate } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
@@ -40,264 +40,6 @@ import { ItemParamList } from '../types';
 
 
 const AudioStoryList = ({genre, search, all} : any) => {
-
-    const Item = ({title, genreName, icon, primary, summary, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
-        
-        
-        const navigation = useNavigation();
-
-    //expanding list component
-        const [isVisible, setIsVisible] = useState(false);
-    //liking the item
-        const [isLiked, setIsLiked] = useState(false);
-        
-        const onLikePress = () => {
-            if ( isLiked === false ) {
-                setIsLiked(true);
-            }
-            if ( isLiked === true ) {
-                setIsLiked(false);
-            }  
-        };
-
-    //queueing the item
-
-        //unpin a story
-        const unPinStory = async () => {
-
-            // let userInfo = await Auth.currentAuthenticatedUser();
-        
-            // let getPin = await API.graphql(graphqlOperation(
-            //     listPinnedStories, {
-            //         filter: {
-            //             userID: {
-            //                 eq: userInfo.attributes.sub
-            //             },
-            //             storyID: {
-            //                 eq: id
-            //             }
-            //         }
-            //     }
-            // ))
-            // console.log(getPin)
-            
-            // let connectionID = getPin.data.listPinnedStories.items[0].id
-            // console.log(connectionID)
-
-            // let deleteConnection = await API.graphql(graphqlOperation(
-            //     deletePinnedStory, {input: {"id": connectionID}}
-            // ))
-            // console.log(deleteConnection)
-
-            //setDidUpdate(!didUpdate)
-        }
-
-        const [isQ, setQd] = useState(true);
-        
-        const onQPress = () => {
-            if ( isQ === false ) {
-                setQd(true);
-            }
-            if ( isQ === true ) {
-                setQd(false);
-                UnPinStory({storyID: id});
-                setDidUpdate(!didUpdate)
-            }  
-        };
-
-
-
-
-        //play the audio story
-        const { setStoryID } = useContext(AppContext);
-
-        const onPlay = () => {
-            setStoryID(id);
-        }
-
-        //calculate the average user rating fora  story
-        const [AverageUserRating, setAverageUserRating] = useState(0);
-
-        //rating function
-        const [isRated, setIsRated] = useState(false);
-
-        useEffect(() => {
-
-            let Average = []
-
-            const fetchRating = async () => {
-
-                let userInfo = await Auth.currentAuthenticatedUser();
-
-                let Rating = await API.graphql(graphqlOperation(
-                    listRatings, {filter: {
-                        userID: {
-                            eq: userInfo.attributes.sub
-                        },
-                        storyID: {
-                            eq: id
-                        }
-                    }}
-                ))
-                if (Rating.data.listRatings.items.length === 1) {
-                    //setRatingNum(Rating.data.listRatings.items[0].rating);
-                    setIsRated(true);
-                    //setRatingID(Rating.data.listRatings.items[0].id);
-                } else {
-                    //setRatingNum(0);
-                    setIsRated(false);
-                }
-
-                let RatingAvg = await API.graphql(graphqlOperation(
-                    listRatings, {filter: {
-                        storyID: {
-                            eq: id
-                        }
-                    }}
-                ))
-
-                if (RatingAvg.data.listRatings.items.length > 0) {
-                    for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
-                        Average.push(RatingAvg.data.listRatings.items[i].rating) 
-                    }
-                    setAverageUserRating(
-                        Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
-                    )
-                }
-            }
-            fetchRating();
-        }, [])
-
-        //convert time to formatted string
-        function millisToMinutesAndSeconds () {
-            let minutes = Math.floor(time / 60000);
-            let seconds = Math.floor((time % 60000) / 1000);
-            return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
-        } 
-
-        return (
-            <View>
-                <TouchableWithoutFeedback onPress={() => setIsVisible(!isVisible)}>
-                    <View style={styles.tile}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                            <View style={{ width: '78%'}}>
-                                <TouchableOpacity onLongPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
-                                    <Text style={styles.name}>
-                                        {title}
-                                    </Text> 
-                                </TouchableOpacity>
-                                
-                                <View style={{flexDirection: 'row'}}>
-                                    <Text style={[styles.category]}>
-                                        {genreName}
-                                    </Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>
-                                    <FontAwesome5 
-                                        name='book-open'
-                                        size={12}
-                                        color='#ffffffa5'
-                                    />
-                                    <Text style={styles.userId}>
-                                        {author}
-                                    </Text>  
-                                    <FontAwesome5 
-                                        name='book-reader'
-                                        size={12}
-                                        color='#ffffffa5'
-                                    />
-                                    <Text style={styles.userId}>
-                                        {narrator}
-                                    </Text> 
-                                </View>
-                            </View>
-                            <TouchableOpacity onPress={onPlay}>
-                                <View style={{ 
-                                    flexDirection: 'row', 
-                                    alignItems: 'center', 
-                                    borderRadius: 30,
-                                    paddingVertical: 2,
-                                    paddingHorizontal: 8,
-                                    backgroundColor: '#ffffff33',
-                                    borderColor: '#ffffffCC',
-                                }}>
-                                    <FontAwesome5 
-                                        name='play'
-                                        color='#ffffff'
-                                        size={10}
-                                    />
-                                    <Text style={styles.time}>
-                                        {millisToMinutesAndSeconds()}
-                                    </Text> 
-                                </View>
-                            </TouchableOpacity>
-                        </View> 
-                
-                { isVisible ? (
-                    <View style={styles.popupblock}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
-                            <View style={{alignItems: 'center', width: '100%',flexDirection: 'row', justifyContent: 'space-between'}}>
-                                <View style={{ marginVertical: 10, alignSelf: 'flex-start', flexDirection: 'row',  }}>
-    
-                                    <View style={{alignItems: 'center', marginRight: 25,}}>
-                                        <AntDesign
-                                            name={isQ ? 'pushpin' : 'pushpino'}
-                                            size={20}
-                                            color={isQ ? 'cyan' : 'white'}
-                                            onPress={onQPress}
-                                        />
-                                    </View>
-
-                                    <View style={{alignItems: 'center'}}>
-                                        <FontAwesome
-                                            name='share'
-                                            size={20}
-                                            color='white'
-                                            onPress={onLikePress}
-                                        />
-                                    </View>
-                                </View>
-
-                                <View>
-                                    <View style={{justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row'}}>
-                                        <FontAwesome
-                                            name={isRated ? 'star' : 'star-o'}
-                                            size={17}
-                                            color={isRated ? 'gold' : 'white'}
-                                            style={{paddingHorizontal: 10}}
-                                        />
-                                        <Text style={{textAlign: 'center', fontSize: 17, color: '#e0e0e0'}}>
-                                            {AverageUserRating}
-                                        </Text>
-                                    </View>
-                                </View>
-                        
-                            </View>  
-                        </View>
-
-                        <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
-                            <Image 
-                                source={{uri: imageUri}}
-                                style={{
-                                    height: imageUri ? 200 : 0,
-                                    borderRadius: 15,
-                                    marginVertical: 15,
-                                    marginHorizontal: -10
-                                }}
-                            />
-                        </TouchableWithoutFeedback>
-                        <Text style={styles.paragraph}>
-                            {summary}
-                        </Text>
-                    </View>
-                ) : false }  
-                    </View>
-                </TouchableWithoutFeedback>
-            </View>
-        );
-    }
-
-
 
     //state for the array of pinned stories for that user
     const [pinnedStories, setPinnedStories] = useState([])
@@ -321,32 +63,25 @@ const AudioStoryList = ({genre, search, all} : any) => {
             try {
 
                 const pinnedData = await API.graphql(graphqlOperation(
-                
 
-                    listPinnedStories, {
+                    pinnedStoryByDate, {
+                        type: 'PinnedStory',
+                        sortDirection: 'DESC',
                         filter: {
                             userID: {
                                 eq: userInfo.attributes.sub
                             },
-                            // story: {
-                                
-                            //         hidden: {
-                            //             eq: false
-                            //         },
-                                
-                            // }
                         }
                     }
                 ))
 
                 console.log(pinnedData)
 
-                for (let i = 0; i < pinnedData.data.listPinnedStories.items.length; i++) {
-                    if (pinnedData.data.listPinnedStories.items[i].story.hidden === false) {
-                        Pinned.push(pinnedData.data.listPinnedStories.items[i].story)
+                for (let i = 0; i < pinnedData.data.PinnedStoryByDate.items.length; i++) {
+                    if (pinnedData.data.PinnedStoryByDate.items[i].story.hidden === false) {
+                        Pinned.push(pinnedData.data.PinnedStoryByDate.items[i].story)
                     } else {return;}
                      
-
                 setPinnedStories(Pinned);
                 
                 setIsLoading(false);
@@ -355,11 +90,12 @@ const AudioStoryList = ({genre, search, all} : any) => {
             console.log(e);
           }
         }
-           fetchStories(); 
+        fetchStories(); 
       }, [didUpdate])
 
-
+    //refresh state of the flatlist
     const [isFetching, setIsFetching] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const onRefresh = () => {
         setIsFetching(true);
@@ -397,11 +133,9 @@ const AudioStoryList = ({genre, search, all} : any) => {
         />
       );}
 
-      const [isLoading, setIsLoading] = useState(false);
-
     return (
             <View style={styles.container}>
-
+               
                 <FlatList 
                     data={pinnedStories}
                     renderItem={renderItem}
@@ -416,28 +150,19 @@ const AudioStoryList = ({genre, search, all} : any) => {
                     showsVerticalScrollIndicator={false}    
                     ListFooterComponent={ () => {
                         return (
-                            <View style={{ height:  100, alignItems: 'center'}}>
-                                
-                            </View>
+                            <View style={{ height:  100, alignItems: 'center'}} />
                     );}}
                     ListEmptyComponent={ () => {
                         return (
                             <View style={{ height:  70, alignItems: 'center'}}>
-                                {isLoading === true ? (
-                                <View style={{margin: 30}}>
-                                    <ActivityIndicator size='small' color='cyan' />
-                                </View>
-                                ) : (
                                 <Text style={{ color: 'white', margin: 20,}}>
                                     There is nothing here! Tap the pin icon to add a story to your playlist.
                                 </Text>
-                                )}
                             </View>
                     );}}
                 />
-
+            
             </View>
-
     );
 }
 

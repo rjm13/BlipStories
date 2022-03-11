@@ -156,9 +156,9 @@ export type User = {
   isArtist?: boolean | null,
   topthree?: Array< string | null > | null,
   followers?: ModelFollowingConnConnection | null,
-  Pinned?: ModelStoryConnection | null,
+  Pinned?: ModelPinnedStoryConnection | null,
   Rated?: ModelRatingConnection | null,
-  Finished?: ModelStoryConnection | null,
+  Finished?: ModelFinishedStoryConnection | null,
   sampleUri?: string | null,
   narratorText?: string | null,
   accents?: Array< string | null > | null,
@@ -324,11 +324,48 @@ export type ModelFollowingConnConnection = {
 export type FollowingConn = {
   __typename: "FollowingConn",
   id: string,
+  type?: string | null,
   followerID?: string | null,
   authorID?: string | null,
   author?: User | null,
   follower?: User | null,
-  createdAt: string,
+  createdAt?: string | null,
+  updatedAt: string,
+};
+
+export type ModelPinnedStoryConnection = {
+  __typename: "ModelPinnedStoryConnection",
+  items:  Array<PinnedStory | null >,
+  nextToken?: string | null,
+};
+
+export type PinnedStory = {
+  __typename: "PinnedStory",
+  id: string,
+  type?: string | null,
+  userID?: string | null,
+  user?: User | null,
+  storyID?: string | null,
+  story?: Story | null,
+  createdAt?: string | null,
+  updatedAt: string,
+};
+
+export type ModelFinishedStoryConnection = {
+  __typename: "ModelFinishedStoryConnection",
+  items:  Array<FinishedStory | null >,
+  nextToken?: string | null,
+};
+
+export type FinishedStory = {
+  __typename: "FinishedStory",
+  id: string,
+  type?: string | null,
+  userID?: string | null,
+  user?: User | null,
+  storyID?: string | null,
+  story?: Story | null,
+  createdAt?: string | null,
   updatedAt: string,
 };
 
@@ -365,13 +402,17 @@ export type DeleteUserInput = {
 
 export type CreateFollowingConnInput = {
   id?: string | null,
+  type?: string | null,
   followerID?: string | null,
   authorID?: string | null,
+  createdAt?: string | null,
 };
 
 export type ModelFollowingConnConditionInput = {
+  type?: ModelStringInput | null,
   followerID?: ModelIDInput | null,
   authorID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelFollowingConnConditionInput | null > | null,
   or?: Array< ModelFollowingConnConditionInput | null > | null,
   not?: ModelFollowingConnConditionInput | null,
@@ -379,8 +420,10 @@ export type ModelFollowingConnConditionInput = {
 
 export type UpdateFollowingConnInput = {
   id: string,
+  type?: string | null,
   followerID?: string | null,
   authorID?: string | null,
+  createdAt?: string | null,
 };
 
 export type DeleteFollowingConnInput = {
@@ -389,33 +432,28 @@ export type DeleteFollowingConnInput = {
 
 export type CreatePinnedStoryInput = {
   id?: string | null,
+  type?: string | null,
   userID?: string | null,
   storyID?: string | null,
+  createdAt?: string | null,
 };
 
 export type ModelPinnedStoryConditionInput = {
+  type?: ModelStringInput | null,
   userID?: ModelIDInput | null,
   storyID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelPinnedStoryConditionInput | null > | null,
   or?: Array< ModelPinnedStoryConditionInput | null > | null,
   not?: ModelPinnedStoryConditionInput | null,
 };
 
-export type PinnedStory = {
-  __typename: "PinnedStory",
-  id: string,
-  userID?: string | null,
-  user?: User | null,
-  storyID?: string | null,
-  story?: Story | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
 export type UpdatePinnedStoryInput = {
   id: string,
+  type?: string | null,
   userID?: string | null,
   storyID?: string | null,
+  createdAt?: string | null,
 };
 
 export type DeletePinnedStoryInput = {
@@ -438,18 +476,6 @@ export type ModelFinishedStoryConditionInput = {
   and?: Array< ModelFinishedStoryConditionInput | null > | null,
   or?: Array< ModelFinishedStoryConditionInput | null > | null,
   not?: ModelFinishedStoryConditionInput | null,
-};
-
-export type FinishedStory = {
-  __typename: "FinishedStory",
-  id: string,
-  type?: string | null,
-  userID?: string | null,
-  user?: User | null,
-  storyID?: string | null,
-  story?: Story | null,
-  createdAt?: string | null,
-  updatedAt: string,
 };
 
 export type UpdateFinishedStoryInput = {
@@ -1056,8 +1082,10 @@ export type ModelUserConnection = {
 
 export type ModelFollowingConnFilterInput = {
   id?: ModelIDInput | null,
+  type?: ModelStringInput | null,
   followerID?: ModelIDInput | null,
   authorID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelFollowingConnFilterInput | null > | null,
   or?: Array< ModelFollowingConnFilterInput | null > | null,
   not?: ModelFollowingConnFilterInput | null,
@@ -1065,17 +1093,13 @@ export type ModelFollowingConnFilterInput = {
 
 export type ModelPinnedStoryFilterInput = {
   id?: ModelIDInput | null,
+  type?: ModelStringInput | null,
   userID?: ModelIDInput | null,
   storyID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelPinnedStoryFilterInput | null > | null,
   or?: Array< ModelPinnedStoryFilterInput | null > | null,
   not?: ModelPinnedStoryFilterInput | null,
-};
-
-export type ModelPinnedStoryConnection = {
-  __typename: "ModelPinnedStoryConnection",
-  items:  Array<PinnedStory | null >,
-  nextToken?: string | null,
 };
 
 export type ModelFinishedStoryFilterInput = {
@@ -1087,12 +1111,6 @@ export type ModelFinishedStoryFilterInput = {
   and?: Array< ModelFinishedStoryFilterInput | null > | null,
   or?: Array< ModelFinishedStoryFilterInput | null > | null,
   not?: ModelFinishedStoryFilterInput | null,
-};
-
-export type ModelFinishedStoryConnection = {
-  __typename: "ModelFinishedStoryConnection",
-  items:  Array<FinishedStory | null >,
-  nextToken?: string | null,
 };
 
 export type ModelStoryFilterInput = {
@@ -1452,40 +1470,23 @@ export type CreateUserMutation = {
       items:  Array< {
         __typename: "FollowingConn",
         id: string,
+        type?: string | null,
         followerID?: string | null,
         authorID?: string | null,
-        createdAt: string,
+        createdAt?: string | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
     } | null,
     Pinned?:  {
-      __typename: "ModelStoryConnection",
+      __typename: "ModelPinnedStoryConnection",
       items:  Array< {
-        __typename: "Story",
+        __typename: "PinnedStory",
         id: string,
         type?: string | null,
-        title: string,
-        imageUri?: string | null,
-        audioUri: string,
         userID?: string | null,
-        author?: string | null,
-        authorID?: string | null,
-        narrator?: string | null,
-        narratorID?: string | null,
-        artistName?: string | null,
-        artistID?: string | null,
-        time?: number | null,
-        summary?: string | null,
-        description?: string | null,
-        nsfw?: boolean | null,
-        ratingAvg?: number | null,
-        ratingAmt?: number | null,
-        genreID?: string | null,
-        hidden?: boolean | null,
-        approved?: boolean | null,
+        storyID?: string | null,
         createdAt?: string | null,
-        numListens?: number | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -1506,32 +1507,14 @@ export type CreateUserMutation = {
       nextToken?: string | null,
     } | null,
     Finished?:  {
-      __typename: "ModelStoryConnection",
+      __typename: "ModelFinishedStoryConnection",
       items:  Array< {
-        __typename: "Story",
+        __typename: "FinishedStory",
         id: string,
         type?: string | null,
-        title: string,
-        imageUri?: string | null,
-        audioUri: string,
         userID?: string | null,
-        author?: string | null,
-        authorID?: string | null,
-        narrator?: string | null,
-        narratorID?: string | null,
-        artistName?: string | null,
-        artistID?: string | null,
-        time?: number | null,
-        summary?: string | null,
-        description?: string | null,
-        nsfw?: boolean | null,
-        ratingAvg?: number | null,
-        ratingAmt?: number | null,
-        genreID?: string | null,
-        hidden?: boolean | null,
-        approved?: boolean | null,
+        storyID?: string | null,
         createdAt?: string | null,
-        numListens?: number | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -1688,40 +1671,23 @@ export type UpdateUserMutation = {
       items:  Array< {
         __typename: "FollowingConn",
         id: string,
+        type?: string | null,
         followerID?: string | null,
         authorID?: string | null,
-        createdAt: string,
+        createdAt?: string | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
     } | null,
     Pinned?:  {
-      __typename: "ModelStoryConnection",
+      __typename: "ModelPinnedStoryConnection",
       items:  Array< {
-        __typename: "Story",
+        __typename: "PinnedStory",
         id: string,
         type?: string | null,
-        title: string,
-        imageUri?: string | null,
-        audioUri: string,
         userID?: string | null,
-        author?: string | null,
-        authorID?: string | null,
-        narrator?: string | null,
-        narratorID?: string | null,
-        artistName?: string | null,
-        artistID?: string | null,
-        time?: number | null,
-        summary?: string | null,
-        description?: string | null,
-        nsfw?: boolean | null,
-        ratingAvg?: number | null,
-        ratingAmt?: number | null,
-        genreID?: string | null,
-        hidden?: boolean | null,
-        approved?: boolean | null,
+        storyID?: string | null,
         createdAt?: string | null,
-        numListens?: number | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -1742,32 +1708,14 @@ export type UpdateUserMutation = {
       nextToken?: string | null,
     } | null,
     Finished?:  {
-      __typename: "ModelStoryConnection",
+      __typename: "ModelFinishedStoryConnection",
       items:  Array< {
-        __typename: "Story",
+        __typename: "FinishedStory",
         id: string,
         type?: string | null,
-        title: string,
-        imageUri?: string | null,
-        audioUri: string,
         userID?: string | null,
-        author?: string | null,
-        authorID?: string | null,
-        narrator?: string | null,
-        narratorID?: string | null,
-        artistName?: string | null,
-        artistID?: string | null,
-        time?: number | null,
-        summary?: string | null,
-        description?: string | null,
-        nsfw?: boolean | null,
-        ratingAvg?: number | null,
-        ratingAmt?: number | null,
-        genreID?: string | null,
-        hidden?: boolean | null,
-        approved?: boolean | null,
+        storyID?: string | null,
         createdAt?: string | null,
-        numListens?: number | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -1924,40 +1872,23 @@ export type DeleteUserMutation = {
       items:  Array< {
         __typename: "FollowingConn",
         id: string,
+        type?: string | null,
         followerID?: string | null,
         authorID?: string | null,
-        createdAt: string,
+        createdAt?: string | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
     } | null,
     Pinned?:  {
-      __typename: "ModelStoryConnection",
+      __typename: "ModelPinnedStoryConnection",
       items:  Array< {
-        __typename: "Story",
+        __typename: "PinnedStory",
         id: string,
         type?: string | null,
-        title: string,
-        imageUri?: string | null,
-        audioUri: string,
         userID?: string | null,
-        author?: string | null,
-        authorID?: string | null,
-        narrator?: string | null,
-        narratorID?: string | null,
-        artistName?: string | null,
-        artistID?: string | null,
-        time?: number | null,
-        summary?: string | null,
-        description?: string | null,
-        nsfw?: boolean | null,
-        ratingAvg?: number | null,
-        ratingAmt?: number | null,
-        genreID?: string | null,
-        hidden?: boolean | null,
-        approved?: boolean | null,
+        storyID?: string | null,
         createdAt?: string | null,
-        numListens?: number | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -1978,32 +1909,14 @@ export type DeleteUserMutation = {
       nextToken?: string | null,
     } | null,
     Finished?:  {
-      __typename: "ModelStoryConnection",
+      __typename: "ModelFinishedStoryConnection",
       items:  Array< {
-        __typename: "Story",
+        __typename: "FinishedStory",
         id: string,
         type?: string | null,
-        title: string,
-        imageUri?: string | null,
-        audioUri: string,
         userID?: string | null,
-        author?: string | null,
-        authorID?: string | null,
-        narrator?: string | null,
-        narratorID?: string | null,
-        artistName?: string | null,
-        artistID?: string | null,
-        time?: number | null,
-        summary?: string | null,
-        description?: string | null,
-        nsfw?: boolean | null,
-        ratingAvg?: number | null,
-        ratingAmt?: number | null,
-        genreID?: string | null,
-        hidden?: boolean | null,
-        approved?: boolean | null,
+        storyID?: string | null,
         createdAt?: string | null,
-        numListens?: number | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -2030,6 +1943,7 @@ export type CreateFollowingConnMutation = {
   createFollowingConn?:  {
     __typename: "FollowingConn",
     id: string,
+    type?: string | null,
     followerID?: string | null,
     authorID?: string | null,
     author?:  {
@@ -2071,7 +1985,7 @@ export type CreateFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -2079,7 +1993,7 @@ export type CreateFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -2132,7 +2046,7 @@ export type CreateFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -2140,7 +2054,7 @@ export type CreateFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -2154,7 +2068,7 @@ export type CreateFollowingConnMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -2168,6 +2082,7 @@ export type UpdateFollowingConnMutation = {
   updateFollowingConn?:  {
     __typename: "FollowingConn",
     id: string,
+    type?: string | null,
     followerID?: string | null,
     authorID?: string | null,
     author?:  {
@@ -2209,7 +2124,7 @@ export type UpdateFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -2217,7 +2132,7 @@ export type UpdateFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -2270,7 +2185,7 @@ export type UpdateFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -2278,7 +2193,7 @@ export type UpdateFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -2292,7 +2207,7 @@ export type UpdateFollowingConnMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -2306,6 +2221,7 @@ export type DeleteFollowingConnMutation = {
   deleteFollowingConn?:  {
     __typename: "FollowingConn",
     id: string,
+    type?: string | null,
     followerID?: string | null,
     authorID?: string | null,
     author?:  {
@@ -2347,7 +2263,7 @@ export type DeleteFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -2355,7 +2271,7 @@ export type DeleteFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -2408,7 +2324,7 @@ export type DeleteFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -2416,7 +2332,7 @@ export type DeleteFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -2430,7 +2346,7 @@ export type DeleteFollowingConnMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -2444,6 +2360,7 @@ export type CreatePinnedStoryMutation = {
   createPinnedStory?:  {
     __typename: "PinnedStory",
     id: string,
+    type?: string | null,
     userID?: string | null,
     user?:  {
       __typename: "User",
@@ -2484,7 +2401,7 @@ export type CreatePinnedStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -2492,7 +2409,7 @@ export type CreatePinnedStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -2644,7 +2561,7 @@ export type CreatePinnedStoryMutation = {
       numListens?: number | null,
       updatedAt: string,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -2658,6 +2575,7 @@ export type UpdatePinnedStoryMutation = {
   updatePinnedStory?:  {
     __typename: "PinnedStory",
     id: string,
+    type?: string | null,
     userID?: string | null,
     user?:  {
       __typename: "User",
@@ -2698,7 +2616,7 @@ export type UpdatePinnedStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -2706,7 +2624,7 @@ export type UpdatePinnedStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -2858,7 +2776,7 @@ export type UpdatePinnedStoryMutation = {
       numListens?: number | null,
       updatedAt: string,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -2872,6 +2790,7 @@ export type DeletePinnedStoryMutation = {
   deletePinnedStory?:  {
     __typename: "PinnedStory",
     id: string,
+    type?: string | null,
     userID?: string | null,
     user?:  {
       __typename: "User",
@@ -2912,7 +2831,7 @@ export type DeletePinnedStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -2920,7 +2839,7 @@ export type DeletePinnedStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -3072,7 +2991,7 @@ export type DeletePinnedStoryMutation = {
       numListens?: number | null,
       updatedAt: string,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -3127,7 +3046,7 @@ export type CreateFinishedStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -3135,7 +3054,7 @@ export type CreateFinishedStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -3342,7 +3261,7 @@ export type UpdateFinishedStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -3350,7 +3269,7 @@ export type UpdateFinishedStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -3557,7 +3476,7 @@ export type DeleteFinishedStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -3565,7 +3484,7 @@ export type DeleteFinishedStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -3774,7 +3693,7 @@ export type CreateStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -3782,7 +3701,7 @@ export type CreateStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -3839,7 +3758,7 @@ export type CreateStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -3847,7 +3766,7 @@ export type CreateStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -3902,7 +3821,7 @@ export type CreateStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -3910,7 +3829,7 @@ export type CreateStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -4044,7 +3963,7 @@ export type UpdateStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -4052,7 +3971,7 @@ export type UpdateStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -4109,7 +4028,7 @@ export type UpdateStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -4117,7 +4036,7 @@ export type UpdateStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -4172,7 +4091,7 @@ export type UpdateStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -4180,7 +4099,7 @@ export type UpdateStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -4314,7 +4233,7 @@ export type DeleteStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -4322,7 +4241,7 @@ export type DeleteStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -4379,7 +4298,7 @@ export type DeleteStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -4387,7 +4306,7 @@ export type DeleteStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -4442,7 +4361,7 @@ export type DeleteStoryMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -4450,7 +4369,7 @@ export type DeleteStoryMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -4641,7 +4560,7 @@ export type CreateImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -4649,7 +4568,7 @@ export type CreateImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -4704,7 +4623,7 @@ export type CreateImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -4712,7 +4631,7 @@ export type CreateImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -4783,7 +4702,7 @@ export type UpdateImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -4791,7 +4710,7 @@ export type UpdateImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -4846,7 +4765,7 @@ export type UpdateImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -4854,7 +4773,7 @@ export type UpdateImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -4925,7 +4844,7 @@ export type DeleteImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -4933,7 +4852,7 @@ export type DeleteImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -4988,7 +4907,7 @@ export type DeleteImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -4996,7 +4915,7 @@ export type DeleteImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -5066,7 +4985,7 @@ export type CreateDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -5074,7 +4993,7 @@ export type CreateDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -5129,7 +5048,7 @@ export type CreateDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -5137,7 +5056,7 @@ export type CreateDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -5207,7 +5126,7 @@ export type UpdateDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -5215,7 +5134,7 @@ export type UpdateDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -5270,7 +5189,7 @@ export type UpdateDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -5278,7 +5197,7 @@ export type UpdateDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -5348,7 +5267,7 @@ export type DeleteDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -5356,7 +5275,7 @@ export type DeleteDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -5411,7 +5330,7 @@ export type DeleteDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -5419,7 +5338,7 @@ export type DeleteDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -5491,7 +5410,7 @@ export type CreateAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -5499,7 +5418,7 @@ export type CreateAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -5554,7 +5473,7 @@ export type CreateAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -5562,7 +5481,7 @@ export type CreateAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -5634,7 +5553,7 @@ export type UpdateAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -5642,7 +5561,7 @@ export type UpdateAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -5697,7 +5616,7 @@ export type UpdateAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -5705,7 +5624,7 @@ export type UpdateAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -5777,7 +5696,7 @@ export type DeleteAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -5785,7 +5704,7 @@ export type DeleteAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -5840,7 +5759,7 @@ export type DeleteAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -5848,7 +5767,7 @@ export type DeleteAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -6054,7 +5973,7 @@ export type CreateFlagMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -6062,7 +5981,7 @@ export type CreateFlagMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -6269,7 +6188,7 @@ export type UpdateFlagMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -6277,7 +6196,7 @@ export type UpdateFlagMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -6484,7 +6403,7 @@ export type DeleteFlagMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -6492,7 +6411,7 @@ export type DeleteFlagMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -6700,7 +6619,7 @@ export type CreateCommentMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -6708,7 +6627,7 @@ export type CreateCommentMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -6916,7 +6835,7 @@ export type UpdateCommentMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -6924,7 +6843,7 @@ export type UpdateCommentMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -7132,7 +7051,7 @@ export type DeleteCommentMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -7140,7 +7059,7 @@ export type DeleteCommentMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -7468,7 +7387,7 @@ export type CreateRatingMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -7476,7 +7395,7 @@ export type CreateRatingMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -7696,7 +7615,7 @@ export type UpdateRatingMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -7704,7 +7623,7 @@ export type UpdateRatingMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -7924,7 +7843,7 @@ export type DeleteRatingMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -7932,7 +7851,7 @@ export type DeleteRatingMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -8016,7 +7935,7 @@ export type CreateMessageMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -8024,7 +7943,7 @@ export type CreateMessageMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -8079,7 +7998,7 @@ export type CreateMessageMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -8087,7 +8006,7 @@ export type CreateMessageMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -8244,7 +8163,7 @@ export type UpdateMessageMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -8252,7 +8171,7 @@ export type UpdateMessageMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -8307,7 +8226,7 @@ export type UpdateMessageMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -8315,7 +8234,7 @@ export type UpdateMessageMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -8472,7 +8391,7 @@ export type DeleteMessageMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -8480,7 +8399,7 @@ export type DeleteMessageMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -8535,7 +8454,7 @@ export type DeleteMessageMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -8543,7 +8462,7 @@ export type DeleteMessageMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -8788,7 +8707,7 @@ export type CreateReplyMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -8796,7 +8715,7 @@ export type CreateReplyMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -8955,7 +8874,7 @@ export type UpdateReplyMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -8963,7 +8882,7 @@ export type UpdateReplyMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -9122,7 +9041,7 @@ export type DeleteReplyMutation = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -9130,7 +9049,7 @@ export type DeleteReplyMutation = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -9818,40 +9737,23 @@ export type GetUserQuery = {
       items:  Array< {
         __typename: "FollowingConn",
         id: string,
+        type?: string | null,
         followerID?: string | null,
         authorID?: string | null,
-        createdAt: string,
+        createdAt?: string | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
     } | null,
     Pinned?:  {
-      __typename: "ModelStoryConnection",
+      __typename: "ModelPinnedStoryConnection",
       items:  Array< {
-        __typename: "Story",
+        __typename: "PinnedStory",
         id: string,
         type?: string | null,
-        title: string,
-        imageUri?: string | null,
-        audioUri: string,
         userID?: string | null,
-        author?: string | null,
-        authorID?: string | null,
-        narrator?: string | null,
-        narratorID?: string | null,
-        artistName?: string | null,
-        artistID?: string | null,
-        time?: number | null,
-        summary?: string | null,
-        description?: string | null,
-        nsfw?: boolean | null,
-        ratingAvg?: number | null,
-        ratingAmt?: number | null,
-        genreID?: string | null,
-        hidden?: boolean | null,
-        approved?: boolean | null,
+        storyID?: string | null,
         createdAt?: string | null,
-        numListens?: number | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -9872,32 +9774,14 @@ export type GetUserQuery = {
       nextToken?: string | null,
     } | null,
     Finished?:  {
-      __typename: "ModelStoryConnection",
+      __typename: "ModelFinishedStoryConnection",
       items:  Array< {
-        __typename: "Story",
+        __typename: "FinishedStory",
         id: string,
         type?: string | null,
-        title: string,
-        imageUri?: string | null,
-        audioUri: string,
         userID?: string | null,
-        author?: string | null,
-        authorID?: string | null,
-        narrator?: string | null,
-        narratorID?: string | null,
-        artistName?: string | null,
-        artistID?: string | null,
-        time?: number | null,
-        summary?: string | null,
-        description?: string | null,
-        nsfw?: boolean | null,
-        ratingAvg?: number | null,
-        ratingAmt?: number | null,
-        genreID?: string | null,
-        hidden?: boolean | null,
-        approved?: boolean | null,
+        storyID?: string | null,
         createdAt?: string | null,
-        numListens?: number | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -9963,7 +9847,7 @@ export type ListUsersQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -9971,7 +9855,7 @@ export type ListUsersQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -9997,6 +9881,7 @@ export type GetFollowingConnQuery = {
   getFollowingConn?:  {
     __typename: "FollowingConn",
     id: string,
+    type?: string | null,
     followerID?: string | null,
     authorID?: string | null,
     author?:  {
@@ -10038,7 +9923,7 @@ export type GetFollowingConnQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -10046,7 +9931,7 @@ export type GetFollowingConnQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -10099,7 +9984,7 @@ export type GetFollowingConnQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -10107,7 +9992,7 @@ export type GetFollowingConnQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -10121,7 +10006,7 @@ export type GetFollowingConnQuery = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -10138,6 +10023,7 @@ export type ListFollowingConnsQuery = {
     items:  Array< {
       __typename: "FollowingConn",
       id: string,
+      type?: string | null,
       followerID?: string | null,
       authorID?: string | null,
       author?:  {
@@ -10198,7 +10084,7 @@ export type ListFollowingConnsQuery = {
         createdAt: string,
         updatedAt: string,
       } | null,
-      createdAt: string,
+      createdAt?: string | null,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -10213,6 +10099,7 @@ export type GetPinnedStoryQuery = {
   getPinnedStory?:  {
     __typename: "PinnedStory",
     id: string,
+    type?: string | null,
     userID?: string | null,
     user?:  {
       __typename: "User",
@@ -10253,7 +10140,7 @@ export type GetPinnedStoryQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -10261,7 +10148,7 @@ export type GetPinnedStoryQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -10413,7 +10300,7 @@ export type GetPinnedStoryQuery = {
       numListens?: number | null,
       updatedAt: string,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -10430,6 +10317,7 @@ export type ListPinnedStoriesQuery = {
     items:  Array< {
       __typename: "PinnedStory",
       id: string,
+      type?: string | null,
       userID?: string | null,
       user?:  {
         __typename: "User",
@@ -10488,7 +10376,7 @@ export type ListPinnedStoriesQuery = {
         numListens?: number | null,
         updatedAt: string,
       } | null,
-      createdAt: string,
+      createdAt?: string | null,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -10544,7 +10432,7 @@ export type GetFinishedStoryQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -10552,7 +10440,7 @@ export type GetFinishedStoryQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -10838,7 +10726,7 @@ export type GetStoryQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -10846,7 +10734,7 @@ export type GetStoryQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -10903,7 +10791,7 @@ export type GetStoryQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -10911,7 +10799,7 @@ export type GetStoryQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -10966,7 +10854,7 @@ export type GetStoryQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -10974,7 +10862,7 @@ export type GetStoryQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -11299,7 +11187,7 @@ export type GetImageAssetQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -11307,7 +11195,7 @@ export type GetImageAssetQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -11362,7 +11250,7 @@ export type GetImageAssetQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -11370,7 +11258,7 @@ export type GetImageAssetQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -11522,7 +11410,7 @@ export type GetDocumentAssetQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -11530,7 +11418,7 @@ export type GetDocumentAssetQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -11585,7 +11473,7 @@ export type GetDocumentAssetQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -11593,7 +11481,7 @@ export type GetDocumentAssetQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -11746,7 +11634,7 @@ export type GetAudioAssetQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -11754,7 +11642,7 @@ export type GetAudioAssetQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -11809,7 +11697,7 @@ export type GetAudioAssetQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -11817,7 +11705,7 @@ export type GetAudioAssetQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -12106,7 +11994,7 @@ export type GetFlagQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -12114,7 +12002,7 @@ export type GetFlagQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -12399,7 +12287,7 @@ export type GetCommentQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -12407,7 +12295,7 @@ export type GetCommentQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -12769,7 +12657,7 @@ export type GetRatingQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -12777,7 +12665,7 @@ export type GetRatingQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -12951,7 +12839,7 @@ export type GetMessageQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -12959,7 +12847,7 @@ export type GetMessageQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -13014,7 +12902,7 @@ export type GetMessageQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -13022,7 +12910,7 @@ export type GetMessageQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -13366,7 +13254,7 @@ export type GetReplyQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -13374,7 +13262,7 @@ export type GetReplyQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -13744,7 +13632,7 @@ export type UsersByNarratorActiveAtQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -13752,7 +13640,7 @@ export type UsersByNarratorActiveAtQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -13821,7 +13709,7 @@ export type UsersByArtistActiveAtQuery = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -13829,7 +13717,7 @@ export type UsersByArtistActiveAtQuery = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -13841,6 +13729,170 @@ export type UsersByArtistActiveAtQuery = {
       narratorActiveAt?: string | null,
       artistActiveAt?: string | null,
       createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type FollowingByDateQueryVariables = {
+  type: string,
+  createdAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelFollowingConnFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type FollowingByDateQuery = {
+  followingByDate?:  {
+    __typename: "ModelFollowingConnConnection",
+    items:  Array< {
+      __typename: "FollowingConn",
+      id: string,
+      type?: string | null,
+      followerID?: string | null,
+      authorID?: string | null,
+      author?:  {
+        __typename: "User",
+        type?: string | null,
+        id: string,
+        name?: string | null,
+        email?: string | null,
+        imageUri?: string | null,
+        bio?: string | null,
+        following?: Array< string | null > | null,
+        numAuthored?: number | null,
+        pseudonym?: string | null,
+        narratorPseudo?: string | null,
+        artistPseudo?: string | null,
+        birthdate?: string | null,
+        isPublisher?: boolean | null,
+        isNarrator?: boolean | null,
+        isArtist?: boolean | null,
+        topthree?: Array< string | null > | null,
+        sampleUri?: string | null,
+        narratorText?: string | null,
+        accents?: Array< string | null > | null,
+        voice?: string | null,
+        artistText?: string | null,
+        artStyles?: Array< string | null > | null,
+        narratorActiveAt?: string | null,
+        artistActiveAt?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      follower?:  {
+        __typename: "User",
+        type?: string | null,
+        id: string,
+        name?: string | null,
+        email?: string | null,
+        imageUri?: string | null,
+        bio?: string | null,
+        following?: Array< string | null > | null,
+        numAuthored?: number | null,
+        pseudonym?: string | null,
+        narratorPseudo?: string | null,
+        artistPseudo?: string | null,
+        birthdate?: string | null,
+        isPublisher?: boolean | null,
+        isNarrator?: boolean | null,
+        isArtist?: boolean | null,
+        topthree?: Array< string | null > | null,
+        sampleUri?: string | null,
+        narratorText?: string | null,
+        accents?: Array< string | null > | null,
+        voice?: string | null,
+        artistText?: string | null,
+        artStyles?: Array< string | null > | null,
+        narratorActiveAt?: string | null,
+        artistActiveAt?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      createdAt?: string | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type PinnedStoryByDateQueryVariables = {
+  type: string,
+  createdAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelPinnedStoryFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type PinnedStoryByDateQuery = {
+  PinnedStoryByDate?:  {
+    __typename: "ModelPinnedStoryConnection",
+    items:  Array< {
+      __typename: "PinnedStory",
+      id: string,
+      type?: string | null,
+      userID?: string | null,
+      user?:  {
+        __typename: "User",
+        type?: string | null,
+        id: string,
+        name?: string | null,
+        email?: string | null,
+        imageUri?: string | null,
+        bio?: string | null,
+        following?: Array< string | null > | null,
+        numAuthored?: number | null,
+        pseudonym?: string | null,
+        narratorPseudo?: string | null,
+        artistPseudo?: string | null,
+        birthdate?: string | null,
+        isPublisher?: boolean | null,
+        isNarrator?: boolean | null,
+        isArtist?: boolean | null,
+        topthree?: Array< string | null > | null,
+        sampleUri?: string | null,
+        narratorText?: string | null,
+        accents?: Array< string | null > | null,
+        voice?: string | null,
+        artistText?: string | null,
+        artStyles?: Array< string | null > | null,
+        narratorActiveAt?: string | null,
+        artistActiveAt?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      storyID?: string | null,
+      story?:  {
+        __typename: "Story",
+        id: string,
+        type?: string | null,
+        title: string,
+        imageUri?: string | null,
+        audioUri: string,
+        userID?: string | null,
+        author?: string | null,
+        authorID?: string | null,
+        narrator?: string | null,
+        narratorID?: string | null,
+        artistName?: string | null,
+        artistID?: string | null,
+        time?: number | null,
+        summary?: string | null,
+        description?: string | null,
+        nsfw?: boolean | null,
+        ratingAvg?: number | null,
+        ratingAmt?: number | null,
+        genreID?: string | null,
+        hidden?: boolean | null,
+        approved?: boolean | null,
+        createdAt?: string | null,
+        numListens?: number | null,
+        updatedAt: string,
+      } | null,
+      createdAt?: string | null,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -14822,40 +14874,23 @@ export type OnCreateUserSubscription = {
       items:  Array< {
         __typename: "FollowingConn",
         id: string,
+        type?: string | null,
         followerID?: string | null,
         authorID?: string | null,
-        createdAt: string,
+        createdAt?: string | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
     } | null,
     Pinned?:  {
-      __typename: "ModelStoryConnection",
+      __typename: "ModelPinnedStoryConnection",
       items:  Array< {
-        __typename: "Story",
+        __typename: "PinnedStory",
         id: string,
         type?: string | null,
-        title: string,
-        imageUri?: string | null,
-        audioUri: string,
         userID?: string | null,
-        author?: string | null,
-        authorID?: string | null,
-        narrator?: string | null,
-        narratorID?: string | null,
-        artistName?: string | null,
-        artistID?: string | null,
-        time?: number | null,
-        summary?: string | null,
-        description?: string | null,
-        nsfw?: boolean | null,
-        ratingAvg?: number | null,
-        ratingAmt?: number | null,
-        genreID?: string | null,
-        hidden?: boolean | null,
-        approved?: boolean | null,
+        storyID?: string | null,
         createdAt?: string | null,
-        numListens?: number | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -14876,32 +14911,14 @@ export type OnCreateUserSubscription = {
       nextToken?: string | null,
     } | null,
     Finished?:  {
-      __typename: "ModelStoryConnection",
+      __typename: "ModelFinishedStoryConnection",
       items:  Array< {
-        __typename: "Story",
+        __typename: "FinishedStory",
         id: string,
         type?: string | null,
-        title: string,
-        imageUri?: string | null,
-        audioUri: string,
         userID?: string | null,
-        author?: string | null,
-        authorID?: string | null,
-        narrator?: string | null,
-        narratorID?: string | null,
-        artistName?: string | null,
-        artistID?: string | null,
-        time?: number | null,
-        summary?: string | null,
-        description?: string | null,
-        nsfw?: boolean | null,
-        ratingAvg?: number | null,
-        ratingAmt?: number | null,
-        genreID?: string | null,
-        hidden?: boolean | null,
-        approved?: boolean | null,
+        storyID?: string | null,
         createdAt?: string | null,
-        numListens?: number | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -15053,40 +15070,23 @@ export type OnUpdateUserSubscription = {
       items:  Array< {
         __typename: "FollowingConn",
         id: string,
+        type?: string | null,
         followerID?: string | null,
         authorID?: string | null,
-        createdAt: string,
+        createdAt?: string | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
     } | null,
     Pinned?:  {
-      __typename: "ModelStoryConnection",
+      __typename: "ModelPinnedStoryConnection",
       items:  Array< {
-        __typename: "Story",
+        __typename: "PinnedStory",
         id: string,
         type?: string | null,
-        title: string,
-        imageUri?: string | null,
-        audioUri: string,
         userID?: string | null,
-        author?: string | null,
-        authorID?: string | null,
-        narrator?: string | null,
-        narratorID?: string | null,
-        artistName?: string | null,
-        artistID?: string | null,
-        time?: number | null,
-        summary?: string | null,
-        description?: string | null,
-        nsfw?: boolean | null,
-        ratingAvg?: number | null,
-        ratingAmt?: number | null,
-        genreID?: string | null,
-        hidden?: boolean | null,
-        approved?: boolean | null,
+        storyID?: string | null,
         createdAt?: string | null,
-        numListens?: number | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -15107,32 +15107,14 @@ export type OnUpdateUserSubscription = {
       nextToken?: string | null,
     } | null,
     Finished?:  {
-      __typename: "ModelStoryConnection",
+      __typename: "ModelFinishedStoryConnection",
       items:  Array< {
-        __typename: "Story",
+        __typename: "FinishedStory",
         id: string,
         type?: string | null,
-        title: string,
-        imageUri?: string | null,
-        audioUri: string,
         userID?: string | null,
-        author?: string | null,
-        authorID?: string | null,
-        narrator?: string | null,
-        narratorID?: string | null,
-        artistName?: string | null,
-        artistID?: string | null,
-        time?: number | null,
-        summary?: string | null,
-        description?: string | null,
-        nsfw?: boolean | null,
-        ratingAvg?: number | null,
-        ratingAmt?: number | null,
-        genreID?: string | null,
-        hidden?: boolean | null,
-        approved?: boolean | null,
+        storyID?: string | null,
         createdAt?: string | null,
-        numListens?: number | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -15284,40 +15266,23 @@ export type OnDeleteUserSubscription = {
       items:  Array< {
         __typename: "FollowingConn",
         id: string,
+        type?: string | null,
         followerID?: string | null,
         authorID?: string | null,
-        createdAt: string,
+        createdAt?: string | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
     } | null,
     Pinned?:  {
-      __typename: "ModelStoryConnection",
+      __typename: "ModelPinnedStoryConnection",
       items:  Array< {
-        __typename: "Story",
+        __typename: "PinnedStory",
         id: string,
         type?: string | null,
-        title: string,
-        imageUri?: string | null,
-        audioUri: string,
         userID?: string | null,
-        author?: string | null,
-        authorID?: string | null,
-        narrator?: string | null,
-        narratorID?: string | null,
-        artistName?: string | null,
-        artistID?: string | null,
-        time?: number | null,
-        summary?: string | null,
-        description?: string | null,
-        nsfw?: boolean | null,
-        ratingAvg?: number | null,
-        ratingAmt?: number | null,
-        genreID?: string | null,
-        hidden?: boolean | null,
-        approved?: boolean | null,
+        storyID?: string | null,
         createdAt?: string | null,
-        numListens?: number | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -15338,32 +15303,14 @@ export type OnDeleteUserSubscription = {
       nextToken?: string | null,
     } | null,
     Finished?:  {
-      __typename: "ModelStoryConnection",
+      __typename: "ModelFinishedStoryConnection",
       items:  Array< {
-        __typename: "Story",
+        __typename: "FinishedStory",
         id: string,
         type?: string | null,
-        title: string,
-        imageUri?: string | null,
-        audioUri: string,
         userID?: string | null,
-        author?: string | null,
-        authorID?: string | null,
-        narrator?: string | null,
-        narratorID?: string | null,
-        artistName?: string | null,
-        artistID?: string | null,
-        time?: number | null,
-        summary?: string | null,
-        description?: string | null,
-        nsfw?: boolean | null,
-        ratingAvg?: number | null,
-        ratingAmt?: number | null,
-        genreID?: string | null,
-        hidden?: boolean | null,
-        approved?: boolean | null,
+        storyID?: string | null,
         createdAt?: string | null,
-        numListens?: number | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -15385,6 +15332,7 @@ export type OnCreateFollowingConnSubscription = {
   onCreateFollowingConn?:  {
     __typename: "FollowingConn",
     id: string,
+    type?: string | null,
     followerID?: string | null,
     authorID?: string | null,
     author?:  {
@@ -15426,7 +15374,7 @@ export type OnCreateFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -15434,7 +15382,7 @@ export type OnCreateFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -15487,7 +15435,7 @@ export type OnCreateFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -15495,7 +15443,7 @@ export type OnCreateFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -15509,7 +15457,7 @@ export type OnCreateFollowingConnSubscription = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -15518,6 +15466,7 @@ export type OnUpdateFollowingConnSubscription = {
   onUpdateFollowingConn?:  {
     __typename: "FollowingConn",
     id: string,
+    type?: string | null,
     followerID?: string | null,
     authorID?: string | null,
     author?:  {
@@ -15559,7 +15508,7 @@ export type OnUpdateFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -15567,7 +15516,7 @@ export type OnUpdateFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -15620,7 +15569,7 @@ export type OnUpdateFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -15628,7 +15577,7 @@ export type OnUpdateFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -15642,7 +15591,7 @@ export type OnUpdateFollowingConnSubscription = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -15651,6 +15600,7 @@ export type OnDeleteFollowingConnSubscription = {
   onDeleteFollowingConn?:  {
     __typename: "FollowingConn",
     id: string,
+    type?: string | null,
     followerID?: string | null,
     authorID?: string | null,
     author?:  {
@@ -15692,7 +15642,7 @@ export type OnDeleteFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -15700,7 +15650,7 @@ export type OnDeleteFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -15753,7 +15703,7 @@ export type OnDeleteFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -15761,7 +15711,7 @@ export type OnDeleteFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -15775,7 +15725,7 @@ export type OnDeleteFollowingConnSubscription = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -15784,6 +15734,7 @@ export type OnCreatePinnedStorySubscription = {
   onCreatePinnedStory?:  {
     __typename: "PinnedStory",
     id: string,
+    type?: string | null,
     userID?: string | null,
     user?:  {
       __typename: "User",
@@ -15824,7 +15775,7 @@ export type OnCreatePinnedStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -15832,7 +15783,7 @@ export type OnCreatePinnedStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -15984,7 +15935,7 @@ export type OnCreatePinnedStorySubscription = {
       numListens?: number | null,
       updatedAt: string,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -15993,6 +15944,7 @@ export type OnUpdatePinnedStorySubscription = {
   onUpdatePinnedStory?:  {
     __typename: "PinnedStory",
     id: string,
+    type?: string | null,
     userID?: string | null,
     user?:  {
       __typename: "User",
@@ -16033,7 +15985,7 @@ export type OnUpdatePinnedStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -16041,7 +15993,7 @@ export type OnUpdatePinnedStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -16193,7 +16145,7 @@ export type OnUpdatePinnedStorySubscription = {
       numListens?: number | null,
       updatedAt: string,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -16202,6 +16154,7 @@ export type OnDeletePinnedStorySubscription = {
   onDeletePinnedStory?:  {
     __typename: "PinnedStory",
     id: string,
+    type?: string | null,
     userID?: string | null,
     user?:  {
       __typename: "User",
@@ -16242,7 +16195,7 @@ export type OnDeletePinnedStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -16250,7 +16203,7 @@ export type OnDeletePinnedStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -16402,7 +16355,7 @@ export type OnDeletePinnedStorySubscription = {
       numListens?: number | null,
       updatedAt: string,
     } | null,
-    createdAt: string,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -16452,7 +16405,7 @@ export type OnCreateFinishedStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -16460,7 +16413,7 @@ export type OnCreateFinishedStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -16662,7 +16615,7 @@ export type OnUpdateFinishedStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -16670,7 +16623,7 @@ export type OnUpdateFinishedStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -16872,7 +16825,7 @@ export type OnDeleteFinishedStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -16880,7 +16833,7 @@ export type OnDeleteFinishedStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -17084,7 +17037,7 @@ export type OnCreateStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -17092,7 +17045,7 @@ export type OnCreateStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -17149,7 +17102,7 @@ export type OnCreateStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -17157,7 +17110,7 @@ export type OnCreateStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -17212,7 +17165,7 @@ export type OnCreateStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -17220,7 +17173,7 @@ export type OnCreateStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -17349,7 +17302,7 @@ export type OnUpdateStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -17357,7 +17310,7 @@ export type OnUpdateStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -17414,7 +17367,7 @@ export type OnUpdateStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -17422,7 +17375,7 @@ export type OnUpdateStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -17477,7 +17430,7 @@ export type OnUpdateStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -17485,7 +17438,7 @@ export type OnUpdateStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -17614,7 +17567,7 @@ export type OnDeleteStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -17622,7 +17575,7 @@ export type OnDeleteStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -17679,7 +17632,7 @@ export type OnDeleteStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -17687,7 +17640,7 @@ export type OnDeleteStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -17742,7 +17695,7 @@ export type OnDeleteStorySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -17750,7 +17703,7 @@ export type OnDeleteStorySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -17921,7 +17874,7 @@ export type OnCreateImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -17929,7 +17882,7 @@ export type OnCreateImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -17984,7 +17937,7 @@ export type OnCreateImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -17992,7 +17945,7 @@ export type OnCreateImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -18058,7 +18011,7 @@ export type OnUpdateImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -18066,7 +18019,7 @@ export type OnUpdateImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -18121,7 +18074,7 @@ export type OnUpdateImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -18129,7 +18082,7 @@ export type OnUpdateImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -18195,7 +18148,7 @@ export type OnDeleteImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -18203,7 +18156,7 @@ export type OnDeleteImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -18258,7 +18211,7 @@ export type OnDeleteImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -18266,7 +18219,7 @@ export type OnDeleteImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -18331,7 +18284,7 @@ export type OnCreateDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -18339,7 +18292,7 @@ export type OnCreateDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -18394,7 +18347,7 @@ export type OnCreateDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -18402,7 +18355,7 @@ export type OnCreateDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -18467,7 +18420,7 @@ export type OnUpdateDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -18475,7 +18428,7 @@ export type OnUpdateDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -18530,7 +18483,7 @@ export type OnUpdateDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -18538,7 +18491,7 @@ export type OnUpdateDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -18603,7 +18556,7 @@ export type OnDeleteDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -18611,7 +18564,7 @@ export type OnDeleteDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -18666,7 +18619,7 @@ export type OnDeleteDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -18674,7 +18627,7 @@ export type OnDeleteDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -18741,7 +18694,7 @@ export type OnCreateAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -18749,7 +18702,7 @@ export type OnCreateAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -18804,7 +18757,7 @@ export type OnCreateAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -18812,7 +18765,7 @@ export type OnCreateAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -18879,7 +18832,7 @@ export type OnUpdateAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -18887,7 +18840,7 @@ export type OnUpdateAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -18942,7 +18895,7 @@ export type OnUpdateAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -18950,7 +18903,7 @@ export type OnUpdateAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -19017,7 +18970,7 @@ export type OnDeleteAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -19025,7 +18978,7 @@ export type OnDeleteAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -19080,7 +19033,7 @@ export type OnDeleteAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -19088,7 +19041,7 @@ export type OnDeleteAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -19289,7 +19242,7 @@ export type OnCreateFlagSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -19297,7 +19250,7 @@ export type OnCreateFlagSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -19499,7 +19452,7 @@ export type OnUpdateFlagSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -19507,7 +19460,7 @@ export type OnUpdateFlagSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -19709,7 +19662,7 @@ export type OnDeleteFlagSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -19717,7 +19670,7 @@ export type OnDeleteFlagSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -19920,7 +19873,7 @@ export type OnCreateCommentSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -19928,7 +19881,7 @@ export type OnCreateCommentSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -20131,7 +20084,7 @@ export type OnUpdateCommentSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -20139,7 +20092,7 @@ export type OnUpdateCommentSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -20342,7 +20295,7 @@ export type OnDeleteCommentSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -20350,7 +20303,7 @@ export type OnDeleteCommentSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -20658,7 +20611,7 @@ export type OnCreateRatingSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -20666,7 +20619,7 @@ export type OnCreateRatingSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -20881,7 +20834,7 @@ export type OnUpdateRatingSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -20889,7 +20842,7 @@ export type OnUpdateRatingSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -21104,7 +21057,7 @@ export type OnDeleteRatingSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -21112,7 +21065,7 @@ export type OnDeleteRatingSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -21191,7 +21144,7 @@ export type OnCreateMessageSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -21199,7 +21152,7 @@ export type OnCreateMessageSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -21254,7 +21207,7 @@ export type OnCreateMessageSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -21262,7 +21215,7 @@ export type OnCreateMessageSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -21414,7 +21367,7 @@ export type OnUpdateMessageSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -21422,7 +21375,7 @@ export type OnUpdateMessageSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -21477,7 +21430,7 @@ export type OnUpdateMessageSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -21485,7 +21438,7 @@ export type OnUpdateMessageSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -21637,7 +21590,7 @@ export type OnDeleteMessageSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -21645,7 +21598,7 @@ export type OnDeleteMessageSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -21700,7 +21653,7 @@ export type OnDeleteMessageSubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -21708,7 +21661,7 @@ export type OnDeleteMessageSubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -21948,7 +21901,7 @@ export type OnCreateReplySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -21956,7 +21909,7 @@ export type OnCreateReplySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -22110,7 +22063,7 @@ export type OnUpdateReplySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -22118,7 +22071,7 @@ export type OnUpdateReplySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,
@@ -22272,7 +22225,7 @@ export type OnDeleteReplySubscription = {
         nextToken?: string | null,
       } | null,
       Pinned?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelPinnedStoryConnection",
         nextToken?: string | null,
       } | null,
       Rated?:  {
@@ -22280,7 +22233,7 @@ export type OnDeleteReplySubscription = {
         nextToken?: string | null,
       } | null,
       Finished?:  {
-        __typename: "ModelStoryConnection",
+        __typename: "ModelFinishedStoryConnection",
         nextToken?: string | null,
       } | null,
       sampleUri?: string | null,

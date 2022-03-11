@@ -26,9 +26,9 @@ type User @model @auth(rules: [{ allow: private, operations: [create, delete, up
   isArtist: Boolean
   topthree: [String]
   followers: [FollowingConn] @hasMany(indexName: "byFollower", fields: "id")
-  Pinned: [Story] @hasMany(indexName: "byUser", fields: "id")
+  Pinned: [PinnedStory] @hasMany(indexName: "byUser", fields: "id")
   Rated: [Rating] @hasMany (indexName: "byUser", fields: "id")
-  Finished: [Story] @hasMany (indexName: "byUser", fields: "id")
+  Finished: [FinishedStory] @hasMany (indexName: "byUser", fields: "id")
   sampleUri: String
   narratorText: String
   accents: [String]
@@ -39,23 +39,26 @@ type User @model @auth(rules: [{ allow: private, operations: [create, delete, up
   artistActiveAt: String
 }
 
-type FollowingConn 
-  @model @auth(rules: [{ allow: private, operations: [create, delete, update, read]}])
+type FollowingConn @model @auth(rules: [{ allow: private, operations: [create, delete, update, read]}])
 {
     id: ID!
+    type: String @index(name: "followingByDate", queryField: "followingByDate", sortKeyFields: ["createdAt"])
     followerID: ID @index(name: "byFollower", sortKeyFields: ["authorID"])
     authorID: ID @index(name: "byAuthor", sortKeyFields: ["followerID"])
     author: User @hasOne (fields: ["authorID"])
     follower: User @hasOne (fields: ["followerID"])
+    createdAt: String
 }
 
 type PinnedStory @model @auth( rules: [{ allow: private, operations: [create, delete, update, read]}])
 {
   id: ID!
+  type: String @index(name: "pinnedStoryByDate", queryField: "PinnedStoryByDate", sortKeyFields: ["createdAt"])
   userID: ID @index(name: "byUser", sortKeyFields: ["storyID"])
   user: User @hasOne (fields: ["userID"])
   storyID: ID
   story: Story @hasOne (fields: ["storyID"])
+  createdAt: String
 }
 
 type FinishedStory @model @auth( rules: [{ allow: private, operations: [create, delete, update, read]}])
