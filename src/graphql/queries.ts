@@ -3960,6 +3960,14 @@ export const finishedStoriesByDate = /* GraphQL */ `
           nsfw
           ratingAvg
           ratingAmt
+          genre {
+            id
+            genre
+            icon
+            PrimaryColor
+            SecondaryColor
+            imageUri
+          }
           genreID
           hidden
           approved

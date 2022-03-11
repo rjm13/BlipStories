@@ -399,7 +399,7 @@ const AddToHistory = async () => {
     if (storyCheck.data.listFinishedStories.items.length === 0) {
         //create the history object
         let FinishedStory = await API.graphql(graphqlOperation(
-                createFinishedStory, {input: {userID: userInfo.attributes.sub, storyID: storyID, type: 'FinishedStory'}}
+                createFinishedStory, {input: {userID: userInfo.attributes.sub, storyID: storyID, type: 'FinishedStory', createdAt: new Date()}}
             ))
         console.log(FinishedStory)
         let updateAStory = await API.graphql(graphqlOperation(
