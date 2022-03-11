@@ -402,7 +402,7 @@ const Publisher = ({navigation} : any) => {
                         <TouchableWithoutFeedback onPress={ () => navigation.navigate('MyStories')}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
                                 <Text style={{ color: '#fff', fontSize: 16}}>
-                                    My Stories
+                                    Published Stories
                                 </Text>
                                 <Text style={styles.textcounter}>
                                     {user?.authored?.items.length}
@@ -417,7 +417,7 @@ const Publisher = ({navigation} : any) => {
                         <TouchableWithoutFeedback onPress={ () => navigation.navigate('Narrations')}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
                                 <Text style={{ color: '#fff', fontSize: 16}}>
-                                    My Narrations
+                                    Narrated Stories
                                 </Text>
                                 <Text style={styles.textcounter}>
                                     {user?.narrated?.items.length}
@@ -430,7 +430,7 @@ const Publisher = ({navigation} : any) => {
                         <TouchableWithoutFeedback onPress={ () => navigation.navigate('Recordings', {user: user})}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
                                 <Text style={{ color: '#fff', fontSize: 16}}>
-                                    My Recordings
+                                    Recording Studio
                                 </Text>
                                 <Text style={styles.textcounter}>
                                     {SavedAudio.length}
@@ -454,7 +454,7 @@ const Publisher = ({navigation} : any) => {
                     <TouchableWithoutFeedback onPress={ () => navigation.navigate('SharedAssets')}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
                             <Text style={{ color: '#fff', fontSize: 16}}>
-                                Shared Narrations
+                                My Narrations
                             </Text>
                             <Text style={styles.textcounter}>
                             {user?.sharedAssets?.items.length}

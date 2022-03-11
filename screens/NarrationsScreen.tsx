@@ -58,6 +58,7 @@ const MyNarrations = ({navigation} : any) => {
                 time={item.time}
                 id={item.id}
                 ratingAvg={item.ratingAvg}
+                ratingAmt={item.ratingAmt}
             />
       );}
 
@@ -141,7 +142,7 @@ const MyNarrations = ({navigation} : any) => {
                         
                         
                         <Text style={styles.header}>
-                            My Narrations
+                            Narrated Stories
                         </Text>
                     </View>
 

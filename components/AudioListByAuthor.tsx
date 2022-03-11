@@ -269,7 +269,8 @@ const AudioListByAuthor = ({user, status} : any) => {
                             name='play'
                             color='#fff'
                             size={20}  
-                            style={{padding: 10,}}
+                            style={{padding: 10}}
+                            onPress={() => navigation.navigate('SimpleAudioPlayer', {item: id})}
                         />
                     </View>
                 </TouchableOpacity>
@@ -315,6 +316,8 @@ const AudioListByAuthor = ({user, status} : any) => {
             time={item.time}
             ratingAvg={item.ratingAvg}
             id={item.id}
+            ratingAmt={item.ratingAmt}
+
         />
       );}
 

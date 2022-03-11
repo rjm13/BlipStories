@@ -114,6 +114,28 @@ const SharedAssets = ({navigation} : any) => {
         )
     }
 
+    const renderSampleItem = ({ item }: any) => {
+
+        let pseudonym = ''
+
+        if (item.sharedUser) {
+            pseudonym = item.sharedUser.pseudonym
+        }
+        
+        return (
+        <Item 
+            id={item.id}
+            title={item.title}
+            audioUri={item.audioUri}
+            time={item.time}
+            isSample={item.isSample}
+            userID={item.userID}
+            sharedUserID={item.sharedUserID}
+            createdAt={item.createdAt}
+            pseudonym={pseudonym}
+        />
+      );}
+
     const renderItem = ({ item }: any) => {
 
         let pseudonym = ''
@@ -141,6 +163,44 @@ const SharedAssets = ({navigation} : any) => {
     const [didUpdate, setDidUpdate] = useState(false);
 
     const [audioAssets, setAudioAssets] = useState([])
+
+    const [audioSamples, setAudioSamples] = useState([]);
+
+    //on render, list the sample audios for that user
+    useEffect(() => {
+
+        const fetchAssets = async () => {
+
+            setIsLoading(true);
+
+            const userInfo = await Auth.currentAuthenticatedUser();
+
+            if (!userInfo) {return;}
+
+            try {
+
+                const userAssets = await API.graphql(graphqlOperation(
+                    listAudioAssets, {
+                        type: 'AudioAsset',
+                        sortDirection: 'DESC',
+                        filter: {
+                            userID: {
+                                eq: userInfo.attributes.sub
+                            },
+                            isSample: true
+                        }
+                }))
+
+                setAudioAssets(userAssets.data.listAudioAssets.items);
+                
+                setIsLoading(false);
+
+            } catch (e) {
+            console.log(e);
+            }
+        }
+            fetchAssets(); 
+        }, [didUpdate]);
 
     //on render, list the stories for that user
     useEffect(() => {
@@ -393,6 +453,8 @@ const SharedAssets = ({navigation} : any) => {
         hideDeleteModal();
     }
 
+    const [selected, setIsSelected] = useState('shared');
+
     return (
         <Provider>
             <Portal>
@@ -550,55 +612,104 @@ const SharedAssets = ({navigation} : any) => {
                         </TouchableWithoutFeedback>
                         
                         <Text style={styles.header}>
-                            Shared Assets
+                            Audio Assets
                         </Text>
                     </View>
 
+                    <TouchableOpacity onPress={showUploadModal}>
+                        <View style={{alignSelf: 'center', backgroundColor: 'cyan', borderRadius: 15, justifyContent: 'center', marginBottom: 20, marginTop: 10, width: '90%', height: 70, alignItems: 'center'}}>
+                            <Text style={{fontWeight: 'bold', fontSize: 16}}>
+                                Upload Audio Asset
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop: 10, marginBottom: 20}}>
+                        <TouchableWithoutFeedback onPress={() => setIsSelected('shared')}>
+                                <Text style={{fontSize: selected === 'shared' ? 18 : 16, paddingHorizontal: 20, color: selected === 'shared' ? '#fff' : 'gray', fontWeight: selected === 'shared' ? 'bold' : 'normal'}}>
+                                    To Share
+                                </Text>
+                        </TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback onPress={() => {setIsSelected('samples')}}>
+                                <Text style={{fontSize: selected === 'samples' ? 18 : 16, color: selected === 'samples' ? '#fff' : 'gray', fontWeight: selected === 'samples' ? 'bold' : 'normal', paddingHorizontal: 20,}}>
+                                    Samples
+                                </Text>
+                        </TouchableWithoutFeedback>
+                    </View>
+
                     <View style={{height: '86%'}}>
-                        <FlatList 
-                            data={audioAssets}
-                            renderItem={renderItem}
-                            keyExtractor={item => item.id}
-                            extraData={audioAssets}
-                            refreshControl={
-                                <RefreshControl
-                                refreshing={isFetching}
-                                onRefresh={onRefresh}
-                                />
-                            }
-                            showsVerticalScrollIndicator={false}    
-                            ListHeaderComponent={ () => {
-                                return (
-                                    <TouchableOpacity onPress={showUploadModal}>
-                                        <View style={{alignSelf: 'center', backgroundColor: 'cyan', borderRadius: 15, justifyContent: 'center', marginVertical: 20, width: '90%', height: 70, alignItems: 'center'}}>
-                                            <Text style={{fontWeight: 'bold', fontSize: 16}}>
-                                                Upload Audio Asset to Share
+                        {selected === 'shared' ? (
+                            <FlatList 
+                                data={audioAssets}
+                                renderItem={renderItem}
+                                keyExtractor={item => item.id}
+                                extraData={audioAssets}
+                                refreshControl={
+                                    <RefreshControl
+                                    refreshing={isFetching}
+                                    onRefresh={onRefresh}
+                                    />
+                                }
+                                showsVerticalScrollIndicator={false}    
+                                
+                                ListFooterComponent={ () => {
+                                    return (
+                                        <View style={{ height:  70, alignItems: 'center'}}>
+                                            
+                                        </View>
+                                );}}
+                                ListEmptyComponent={ () => {
+                                    return (
+                                        <View style={{ height:  90, alignItems: 'center'}}>
+                                            {isLoading === true ? (
+                                            <View style={{margin: 30}}>
+                                                <ActivityIndicator size='small' color='cyan' />
+                                            </View>
+                                            ) : (
+                                            <Text style={{ color: 'white', margin: 20,}}>
+                                                There is nothing here! You have no uploaded any stories.
                                             </Text>
+                                            )}
                                         </View>
-                                    </TouchableOpacity>
-                                    
-                            );}}
-                            ListFooterComponent={ () => {
-                                return (
-                                    <View style={{ height:  70, alignItems: 'center'}}>
-                                        
-                                    </View>
-                            );}}
-                            ListEmptyComponent={ () => {
-                                return (
-                                    <View style={{ height:  90, alignItems: 'center'}}>
-                                        {isLoading === true ? (
-                                        <View style={{margin: 30}}>
-                                            <ActivityIndicator size='small' color='cyan' />
+                                );}}
+                            />
+                        ) : (
+                            <FlatList 
+                                data={audioSamples}
+                                renderItem={renderSampleItem}
+                                keyExtractor={item => item.id}
+                                extraData={audioSamples}
+                                refreshControl={
+                                    <RefreshControl
+                                    refreshing={isFetching}
+                                    onRefresh={onRefresh}
+                                    />
+                                }
+                                showsVerticalScrollIndicator={false}    
+                                
+                                ListFooterComponent={ () => {
+                                    return (
+                                        <View style={{ height:  70, alignItems: 'center'}}>
+                                            
                                         </View>
-                                        ) : (
-                                        <Text style={{ color: 'white', margin: 20,}}>
-                                            There is nothing here! You have no uploaded any stories.
-                                        </Text>
-                                        )}
-                                    </View>
-                            );}}
-                        />
+                                );}}
+                                ListEmptyComponent={ () => {
+                                    return (
+                                        <View style={{ height:  90, alignItems: 'center'}}>
+                                            {isLoading === true ? (
+                                            <View style={{margin: 30}}>
+                                                <ActivityIndicator size='small' color='cyan' />
+                                            </View>
+                                            ) : (
+                                            <Text style={{ color: 'white', margin: 20,}}>
+                                                There is nothing here! You have no uploaded any samples.
+                                            </Text>
+                                            )}
+                                        </View>
+                                );}}
+                            />
+                        )}
+                        
                     </View>
                 </LinearGradient>
                 <StatusBar style="light" />
