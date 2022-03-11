@@ -363,6 +363,8 @@ const SearchStoriesList = ({search} : any) => {
             narrator={item.narrator}
             time={item.time}
             id={item.id}
+            ratingAvg={item.ratingAvg}
+            ratingAmt={item.ratingAmt}
         />
       );}
 
@@ -374,6 +376,7 @@ const SearchStoriesList = ({search} : any) => {
                     renderItem={renderItem}
                     keyExtractor={item => item}
                     extraData={searchedStories}
+                    maxToRenderPerBatch={20}
                     refreshControl={
                         <RefreshControl
                         refreshing={isFetching}
@@ -383,24 +386,17 @@ const SearchStoriesList = ({search} : any) => {
                     showsVerticalScrollIndicator={false}    
                     ListFooterComponent={ () => {
                         return (
-                            <View style={{ height:  70, alignItems: 'center'}}>
-                                <Text style={{ color: 'white', margin: 20,}}>
-                                    
-                                </Text>
-                            </View>
+                            <View style={{ height:  70, alignItems: 'center'}}/>
                     );}}
                     ListHeaderComponent={ () => {
                         return (
-                            <View style={{ height:  20, alignItems: 'center'}}>
-                                <Text style={{ color: 'white', margin: 20,}}>
-                                    
-                                </Text>
-                            </View>
+                            <View style={{ height:  20, alignItems: 'center'}}/>
                     );}}
                     ListEmptyComponent={ () => {
                         return (
                             <View style={{ height:  70, alignItems: 'center'}}>
                                 <Text style={{ color: 'white', margin: 20,}}>
+                                    Sorry, we couldn't find what you were looking for.
                                 </Text>
                             </View>
                     );}}

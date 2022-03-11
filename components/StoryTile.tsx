@@ -15,12 +15,13 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, listStories, listRatings } from '../src/graphql/queries';
+import { getUser, listPinnedStories, listRatings, listFinishedStories } from '../src/graphql/queries';
 import { updateStory } from '../src/graphql/mutations';
 
 import {useNavigation} from '@react-navigation/native';
 
-import UnPinStory from './functions/UnPinStory';
+import PinStory from '../components/functions/PinStory';
+import unPinStory from '../components/functions/UnPinStory';
 
 import { AppContext } from '../AppContext';
 
@@ -70,18 +71,49 @@ const StoryTile = ({
         }  
     };
 
-//queueing the item
-    const [isQ, setQd] = useState(true);
-    
-    const onQPress = () => {
-        if ( isQ === false ) {
-            setQd(true);
+//queueing the item state when pressed
+const [isQ, setQd] = useState(false);
+        
+const onQPress = () => {
+    if ( isQ === false ) {
+        setQd(true);
+        PinStory({storyID: id})
+    }
+    if ( isQ === true ) {
+        setQd(false);
+        unPinStory({storyID: id});
+    }  
+};
+
+//on render, determine if the story in alraedy pinned or not
+useEffect(() => {
+    const fetchPin = async () => {
+
+        const userInfo = await Auth.currentAuthenticatedUser();
+
+        try {
+            let getPin = await API.graphql(graphqlOperation(
+                listPinnedStories, {
+                    filter: {
+                        userID: {
+                            eq: userInfo.attributes.sub
+                        },
+                        storyID: {
+                            eq: id
+                        }
+                    }
+                }
+            ))
+
+            if (getPin.data.listPinnedStories.items.length === 1) {
+                setQd(true);
+            }
+        } catch (error) {
+            console.log(error)
         }
-        if ( isQ === true ) {
-            setQd(false);
-            UnPinStory({storyID: id});
-        }  
-    };
+    }
+    fetchPin();
+}, [])
 
 //play the audio story by setting the global context to the story id
     const { setStoryID } = useContext(AppContext);
@@ -89,6 +121,9 @@ const StoryTile = ({
 
     //determine if this user has rated this story or not. If rated, the star will appear gold
     const [isRated, setIsRated] = useState(false);
+
+    //if item is finished state
+    const [isFinished, setIsFinished] = useState(false);
 
     useEffect(() => {
 
@@ -106,11 +141,28 @@ const StoryTile = ({
                     }
                 }}
             ))
+
+            let storyCheck = await API.graphql(graphqlOperation(
+                listFinishedStories, {filter: {
+                    userID: {
+                        eq: userInfo.attributes.sub
+                        },
+                    storyID: {
+                        eq: id
+                    }
+                    }
+                }
+            ));
+
+            if (storyCheck.data.listFinishedStories.items.length === 1) {
+                setIsFinished(true);
+            }
             if (Rating.data.listRatings.items.length === 1) {
                 setIsRated(true);
             } else {
                 setIsRated(false);
             }
+
         }
         fetchRating();
     }, [])
@@ -214,7 +266,7 @@ const StoryTile = ({
                                        <FontAwesome
                                             name={isRated ? 'star' : 'star-o'}
                                             size={17}
-                                            color={isRated ? 'gold' : 'white'}
+                                            color={isRated === true || isFinished === true ? 'gold' : 'white'}
                                             style={{paddingHorizontal: 10}}
                                         /> 
                                         
