@@ -122,6 +122,8 @@ const AudioStoryList = () => {
           narrator={item.narrator}
           time={item.time}
           id={item.id}
+          ratingAvg={item.ratingAvg}
+          ratingAmt={item.ratingAmt}
         />
       );}
 

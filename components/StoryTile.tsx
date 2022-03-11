@@ -35,26 +35,30 @@ const StoryTile = ({
     narrator, 
     time, 
     id,
-    ratingAvg
+    ratingAvg,
+    ratingAmt,
+    icon
 } : any) => {
         
-    const [imageU, setImageU] = useState()
-        
-        useEffect(() => {
-            const fetchImage = async () => {
-                let response = await Storage.get(imageUri);
-                setImageU(response);
-            }
-            fetchImage()
-        }, [])    
+//temporary signed image uri
+    const [imageU, setImageU] = useState('')
+      
+//push the s3 image key to get the signed uri
+    useEffect(() => {
+        const fetchImage = async () => {
+            let response = await Storage.get(imageUri);
+            setImageU(response);
+        }
+        fetchImage()
+    }, [])    
 
+//navigation hook
     const navigation = useNavigation();
 
-    const [didUpdate, setDidUpdate] = useState(false);
-
-//expanding list component
+//expanding list item
     const [isVisible, setIsVisible] = useState(false);
-//liking the item
+
+//liking the item state
     const [isLiked, setIsLiked] = useState(false);
     
     const onLikePress = () => {
@@ -67,7 +71,6 @@ const StoryTile = ({
     };
 
 //queueing the item
-
     const [isQ, setQd] = useState(true);
     
     const onQPress = () => {
@@ -77,29 +80,17 @@ const StoryTile = ({
         if ( isQ === true ) {
             setQd(false);
             UnPinStory({storyID: id});
-            setDidUpdate(!didUpdate)
         }  
     };
 
-
-
-
-    //play the audio story
+//play the audio story by setting the global context to the story id
     const { setStoryID } = useContext(AppContext);
+    const onPlay = () => {setStoryID(id);}
 
-    const onPlay = () => {
-        setStoryID(id);
-    }
-
-    //calculate the average user rating fora  story
-    const [AverageUserRating, setAverageUserRating] = useState(0);
-
-    //rating function
+    //determine if this user has rated this story or not. If rated, the star will appear gold
     const [isRated, setIsRated] = useState(false);
 
     useEffect(() => {
-
-        let Average = []
 
         const fetchRating = async () => {
 
@@ -116,35 +107,15 @@ const StoryTile = ({
                 }}
             ))
             if (Rating.data.listRatings.items.length === 1) {
-                //setRatingNum(Rating.data.listRatings.items[0].rating);
                 setIsRated(true);
-                //setRatingID(Rating.data.listRatings.items[0].id);
             } else {
-                //setRatingNum(0);
                 setIsRated(false);
-            }
-
-            let RatingAvg = await API.graphql(graphqlOperation(
-                listRatings, {filter: {
-                    storyID: {
-                        eq: id
-                    }
-                }}
-            ))
-
-            if (RatingAvg.data.listRatings.items.length > 0) {
-                for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
-                    Average.push(RatingAvg.data.listRatings.items[i].rating) 
-                }
-                setAverageUserRating(
-                    Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
-                )
             }
         }
         fetchRating();
     }, [])
 
-        //convert time to formatted string
+//convert time to formatted string
         function millisToMinutesAndSeconds () {
             let minutes = Math.floor(time / 60000);
             let seconds = Math.floor((time % 60000) / 1000);
@@ -187,26 +158,28 @@ const StoryTile = ({
                                 </Text> 
                             </View>
                         </View>
-                        <TouchableOpacity onPress={onPlay}>
-                            <View style={{ 
-                                flexDirection: 'row', 
-                                alignItems: 'center', 
-                                borderRadius: 30,
-                                paddingVertical: 2,
-                                paddingHorizontal: 8,
-                                backgroundColor: '#ffffff33',
-                                borderColor: '#ffffffCC',
-                            }}>
-                                <FontAwesome5 
-                                    name='play'
-                                    color='#ffffff'
-                                    size={10}
-                                />
-                                <Text style={styles.time}>
-                                    {millisToMinutesAndSeconds()}
-                                </Text> 
-                            </View>
-                        </TouchableOpacity>
+                        <View>
+                            <TouchableOpacity onPress={onPlay}>
+                                <View style={{ 
+                                    flexDirection: 'row', 
+                                    alignItems: 'center', 
+                                    borderRadius: 30,
+                                    paddingVertical: 2,
+                                    paddingHorizontal: 8,
+                                    backgroundColor: '#ffffff33',
+                                }}>
+                                    <FontAwesome5 
+                                        name='play'
+                                        color='#ffffff'
+                                        size={10}
+                                    />
+                                    <Text style={styles.time}>
+                                        {millisToMinutesAndSeconds()}
+                                    </Text> 
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                        
                     </View> 
             
             { isVisible ? (
@@ -252,15 +225,25 @@ const StoryTile = ({
                     </View>
 
                     <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
-                        <Image 
-                            source={{uri: imageU}}
-                            style={{
-                                height: imageU ? 200 : 0,
-                                borderRadius: 15,
-                                marginVertical: 15,
-                                marginHorizontal: -10
-                            }}
-                        />
+                        <View>
+                            <View style={{ position: 'absolute', alignSelf: 'center', top: 80}}>
+                                <FontAwesome5 
+                                    name={icon}
+                                    color='#ffffff'
+                                    size={50}
+                                />
+                            </View>
+                            <Image 
+                                source={{uri: imageU}}
+                                style={{
+                                    height: imageU ? 200 : 0,
+                                    borderRadius: 15,
+                                    marginVertical: 15,
+                                    marginHorizontal: -10,
+                                    backgroundColor: '#ffffffa5'
+                                }}
+                            />
+                        </View>
                     </TouchableWithoutFeedback>
                     <Text style={styles.paragraph}>
                         {summary}
