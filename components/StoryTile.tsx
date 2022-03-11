@@ -128,11 +128,9 @@ const StoryTile = ({
                 <View style={styles.tile}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                         <View style={{ width: '78%'}}>
-                            <TouchableOpacity onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
                                 <Text style={styles.name}>
                                     {title}
                                 </Text> 
-                            </TouchableOpacity>
                             
                             <View style={{flexDirection: 'row'}}>
                                 <Text style={[styles.category]}>
@@ -209,14 +207,20 @@ const StoryTile = ({
 
                             <View>
                                 <View style={{justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row'}}>
-                                    <FontAwesome
-                                        name={isRated ? 'star' : 'star-o'}
-                                        size={17}
-                                        color={isRated ? 'gold' : 'white'}
-                                        style={{paddingHorizontal: 10}}
-                                    />
+                                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                        <Text style={{color: '#ffffffa5', fontSize: 15, alignSelf: 'center'}}>
+                                            ({ratingAmt})
+                                        </Text>
+                                       <FontAwesome
+                                            name={isRated ? 'star' : 'star-o'}
+                                            size={17}
+                                            color={isRated ? 'gold' : 'white'}
+                                            style={{paddingHorizontal: 10}}
+                                        /> 
+                                        
+                                    </View>
                                     <Text style={{textAlign: 'center', fontSize: 17, color: '#e0e0e0'}}>
-                                        {ratingAvg}
+                                        {Math.round(ratingAvg/10).toFixed(1)}
                                     </Text>
                                 </View>
                             </View>
