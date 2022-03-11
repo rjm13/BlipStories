@@ -330,7 +330,8 @@ const StoryScreen  = ({navigation} : any) => {
                     storyID: storyID,
                     rating: ratingNum,
                     genreID: Story?.genreID,
-                    type: 'Rating'
+                    type: 'Rating',
+                    createdAt: new Date(),
                 }}
             ))
         console.log(Rate)

@@ -61,9 +61,9 @@ const PlaylistScreen = () => {
 
             <View style={{ alignItems: 'center', marginTop: 20, height: '86%'}}>
                 {SelectedId === 1 ? (
-                    <PinnedStoryFlatList genre={null} search={null} all={'all'}/>
+                    <PinnedStoryFlatList/>
                 ) : SelectedId === 2 ? (
-                    <FavedStoryFlatList genre={null} search={null} all={'all'}/>
+                    <FavedStoryFlatList/>
                 ) : null}
             </View>
            

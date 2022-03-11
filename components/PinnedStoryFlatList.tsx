@@ -39,7 +39,7 @@ import { ItemParamList } from '../types';
 
 
 
-const AudioStoryList = ({genre, search, all} : any) => {
+const AudioStoryList = () => {
 
     //state for the array of pinned stories for that user
     const [pinnedStories, setPinnedStories] = useState([])
@@ -75,17 +75,21 @@ const AudioStoryList = ({genre, search, all} : any) => {
                     }
                 ))
 
-                console.log(pinnedData)
-
-                for (let i = 0; i < pinnedData.data.PinnedStoryByDate.items.length; i++) {
-                    if (pinnedData.data.PinnedStoryByDate.items[i].story.hidden === false) {
-                        Pinned.push(pinnedData.data.PinnedStoryByDate.items[i].story)
-                    } else {return;}
+                //console.log(pinnedData)
+                if (pinnedData.data.PinnedStoryByDate.items.length > 0) {
+                    for (let i = 0; i < pinnedData.data.PinnedStoryByDate.items.length; i++) {
+                        if (pinnedData.data.PinnedStoryByDate.items[i].story.hidden === false) {
+                            Pinned.push(pinnedData.data.PinnedStoryByDate.items[i].story)
+                        } else {return;}
+                    }
+                }
                      
                 setPinnedStories(Pinned);
+
+                console.log(pinnedStories)
                 
                 setIsLoading(false);
-              } 
+               
             } catch (e) {
             console.log(e);
           }
@@ -141,6 +145,7 @@ const AudioStoryList = ({genre, search, all} : any) => {
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     extraData={pinnedStories}
+                    maxToRenderPerBatch={20}
                     refreshControl={
                         <RefreshControl
                         refreshing={isFetching}
@@ -154,10 +159,22 @@ const AudioStoryList = ({genre, search, all} : any) => {
                     );}}
                     ListEmptyComponent={ () => {
                         return (
-                            <View style={{ height:  70, alignItems: 'center'}}>
-                                <Text style={{ color: 'white', margin: 20,}}>
-                                    There is nothing here! Tap the pin icon to add a story to your playlist.
-                                </Text>
+                            <View style={{ alignItems: 'center'}}>
+                                {isLoading === true ? (
+                                <View style={{margin: 30}}>
+                                    <ActivityIndicator size='small' color='cyan' />
+                                </View>
+                                ) : (
+                                <View>
+                                    <Text style={{ color: 'white', margin: 20,}}>
+                                        There is nothing here! Tap the pin icon to add a story to your playlist.
+                                    </Text>
+
+                                    <Text style={{ textAlign: 'center', color: 'gray', margin: 20,}}>
+                                        (pull to refresh)
+                                    </Text>
+                                </View>
+                                )}
                             </View>
                     );}}
                 />
