@@ -11,21 +11,24 @@ import {
     RefreshControl,
     FlatList,
     TextInput,
-    Platform
+    Platform,
+    ScrollView
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import {StatusBar} from 'expo-status-bar';
 import uuid from 'react-native-uuid';
 import * as DocumentPicker from 'expo-document-picker';
 import { Audio } from 'expo-av';
+import { format, parseISO } from "date-fns";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Modal, Portal, Provider } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { getUser, listAudioAssets, listUsers } from '../src/graphql/queries';
-import { updateAudioAsset, createAudioAsset } from '../src/graphql/mutations';
+import { updateAudioAsset, createAudioAsset, deleteAudioAsset } from '../src/graphql/mutations';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -64,53 +67,92 @@ const SharedAssets = ({navigation} : any) => {
         <View>
             <View style={styles.tile}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <View>
+                        <Text style={styles.name}>
+                            {title}
+                        </Text>
+                    </View>
                     
+                    <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>
+                        <Text style={{color: '#fff'}}>
+                            {millisToMinutesAndSeconds()}
+                        </Text>
+                    </View>
+                </View> 
+                
+                <View style={{flexDirection: 'row', width: '100%'}}>
+                    {sharedUserID ? (
+                        <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: sharedUserID})}>
+                            <View style={{marginTop: 10}}>
+                                <Text style={{color: 'gray', }}>
+                                    Shared with {pseudonym}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                        
+                    ) : (
+                        <TouchableWithoutFeedback onPress={() => {showShareModal(); setUpdateAssetState(id)}}>
+                            <View style={{alignItems: 'center', marginTop: 12, width: 72, paddingVertical: 4, borderRadius: 20, backgroundColor: '#00ffffa5'}}>
+                                <Text style={{color: '#000'}}>
+                                    Share
+                                </Text> 
+                            </View>
+                        </TouchableWithoutFeedback>
+                    )}
+                </View>
+            </View>
+        </View>
+        )
+    }
+
+    const SampleItem = ({id, title, audioUri, time, isSample, userID, createdAt} : any) => {
+
+        //convert the time to show in the modal
+            function millisToMinutesAndSeconds () {
+                let minutes = Math.floor(time / 60000);
+                let seconds = Math.floor((time % 60000) / 1000);
+                return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);  
+            }  
+
+        return (
+            <View>
+                <View style={styles.tile}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                         <View>
                             <Text style={styles.name}>
                                 {title}
                             </Text>
-                        </View>
-                        
-                        <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>
-                            <Text style={{color: '#fff'}}>
+                            <Text style={{color: '#ffffffa5'}}>
                                 {millisToMinutesAndSeconds()}
                             </Text>
                         </View>
-                    
-                    
-                </View> 
-                
-                    <View style={{flexDirection: 'row', width: '100%'}}>
-                        {/* <TouchableWithoutFeedback onPress={() => {showDeleteModal()}}>
-                            <View style={{alignItems: 'center', marginTop: 20, width: 80, paddingVertical: 6, borderRadius: 20, backgroundColor: 'gray'}}>
-                                <Text style={{color: '#000'}}>
-                                    Delete
-                                </Text> 
-                            </View>
-                        </TouchableWithoutFeedback> */}
-                        {sharedUserID ? (
-                            <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: sharedUserID})}>
-                                <View style={{marginTop: 10}}>
-                                    <Text style={{color: 'gray', }}>
-                                        Shared with {pseudonym}
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                            
-                        ) : (
-                            <TouchableWithoutFeedback onPress={() => {showDeleteModal(); setUpdateAssetState(id)}}>
-                                <View style={{alignItems: 'center', marginTop: 12, width: 72, paddingVertical: 4, borderRadius: 20, backgroundColor: '#00ffffa5'}}>
-                                    <Text style={{color: '#000'}}>
-                                        Share
-                                    </Text> 
+                        
+                        <View style={{flexDirection: 'row', marginRight: 20, alignSelf: 'center'}}>
+                            <TouchableWithoutFeedback onPress={() => {showDeleteModal(); setDeleteId(id)}}>
+                                <View style={{alignItems: 'center', paddingRight: 10}}>
+                                    <FontAwesome5 
+                                        name='trash'
+                                        size={18}
+                                        color='#fff'
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
-                        )}
+                            <TouchableOpacity onPress={() => navigation.navigate('SimpleAudioPlayer', {item: id})}>
+                                <View style={{alignItems: 'center', paddingHorizontal: 20}}>
+                                    <FontAwesome5 
+                                        name='play'
+                                        size={18}
+                                        color='#fff'
+                                    />
+                                </View>
+                            </TouchableOpacity>
+                        </View>
                         
-                    </View>
-                
+                    </View> 
+                    
+                    
+                </View>
             </View>
-        </View>
         )
     }
 
@@ -123,7 +165,7 @@ const SharedAssets = ({navigation} : any) => {
         }
         
         return (
-        <Item 
+        <SampleItem 
             id={item.id}
             title={item.title}
             audioUri={item.audioUri}
@@ -187,11 +229,13 @@ const SharedAssets = ({navigation} : any) => {
                             userID: {
                                 eq: userInfo.attributes.sub
                             },
-                            isSample: true
+                            isSample: {
+                                eq: true
+                            }
                         }
                 }))
 
-                setAudioAssets(userAssets.data.listAudioAssets.items);
+                setAudioSamples(userAssets.data.listAudioAssets.items);
                 
                 setIsLoading(false);
 
@@ -223,6 +267,9 @@ const SharedAssets = ({navigation} : any) => {
                             userID: {
                                 eq: userInfo.attributes.sub
                             },
+                            isSample: {
+                                eq: false
+                            }
                         }
                 }))
 
@@ -301,11 +348,54 @@ const SharedAssets = ({navigation} : any) => {
     const hideUploadModal = () => setVisible2(false);
 
 //Modal
+    const [visible4, setVisible4] = useState(false);
+    
+    const showUploadSampledModal = () => {setVisible4(true); setIsSample(true);}
+
+    const hideUploadSampleModal = () => {setVisible4(false); setIsSample(false);}
+
+//Modal
     const [visible3, setVisible3] = useState(false);
   
-    const showDeleteModal = () => setVisible3(true);
+    const showShareModal = () => setVisible3(true);
 
-    const hideDeleteModal = () => setVisible3(false);
+    const hideShareModal = () => setVisible3(false);
+
+//Modal
+    const [visible5, setVisible5] = useState(false);
+  
+    const showDeleteModal = () => setVisible5(true);
+
+    const hideDeleteModal = () => setVisible5(false);
+
+    //local audio picking
+
+    const [localAudioVisible, setLocalAudioVisible] = useState(false);
+
+    const showLocalAudioModal = () => {setLocalAudioVisible(true)}
+
+    const hideLocalAudioModal = () => {setLocalAudioVisible(false)}
+
+    const LocalAudioContainerStyle = {
+        backgroundColor: 'transparent', 
+        padding: 15,
+    }; 
+
+    const [localAudioArray, setLocalAudioArray] = useState([])
+
+    useEffect(() => {
+        const PickLocalAudio = async () => {
+            const userInfo = await Auth.currentAuthenticatedUser();
+
+            let saved = await AsyncStorage.getAllKeys();
+        
+            if (saved != null) {
+                let result = saved.filter((item) => item.includes("recording" + userInfo.attributes.sub));
+            setLocalAudioArray(result)
+            } 
+        }
+        PickLocalAudio();
+    }, [])
 
 
     const [publishers, setPublishers] = useState([]);
@@ -391,6 +481,8 @@ const SharedAssets = ({navigation} : any) => {
 
     const [isPublishing, setIsPublishing] = useState(false);
 
+    const [isSample, setIsSample] = useState(false);
+
     const UploadAsset = async () => {
 
         setIsPublishing(true);
@@ -414,7 +506,7 @@ const SharedAssets = ({navigation} : any) => {
                     type: 'AudioAsset',
                     title: data.title,
                     audioUri: s3ResponseAudio.key,
-                    isSample: false,
+                    isSample: isSample,
                     time: data.time,
                     userID: userInfo.attributes.sub,
                     sharedUserID: data.sharedUserID,
@@ -426,6 +518,7 @@ const SharedAssets = ({navigation} : any) => {
             setDidUpdate(!didUpdate);
             setIsPublishing(false);
             hideUploadModal();
+            hideUploadSampleModal();
             setData({ 
                 title: '',
                 time: 0,
@@ -450,10 +543,107 @@ const SharedAssets = ({navigation} : any) => {
         console.log(response);
         setDidUpdate(!didUpdate);
         setUpdateAssetState(null);
-        hideDeleteModal();
+        hideShareModal();
     }
 
     const [selected, setIsSelected] = useState('shared');
+
+    const RecordingItem = ({item} : any) => {
+
+        let [itemState, setItemState] = useState({
+            title: '',
+            time: 0,
+            created: new Date(),
+            id: null,
+            audio: '',
+        })
+
+        const SetAudio = () => {
+            setLocalAudioUri(itemState.audio);
+            setAudioName(itemState.title);
+            setData({...data, time: itemState.time})
+            //setIsLocalAudio(true);
+            hideLocalAudioModal();
+        }
+
+            //convert the time to show in the modal
+    function millisToMinutesAndSeconds () {
+        let minutes = Math.floor(itemState.time / 60000);
+        let seconds = Math.floor((itemState.time % 60000) / 1000);
+        return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds); 
+    }  
+
+        //get the item from async storage
+        useEffect(() => {
+            let componentMounted = true;
+            const fetchData = async () => {
+                try {
+                    console.log('whats going on here')
+                    let object = await AsyncStorage.getItem(item);
+                    let objs = object ? JSON.parse(object) : null
+                    if(componentMounted) {
+                        setItemState({
+                            title: objs.title,
+                            time: objs.time,
+                            created: parseISO(objs.created),
+                            id: objs.id,
+                            audio: objs.audioUri
+                        })
+                }
+                } catch(e) {
+                    // read error
+                }
+                
+            };
+            fetchData();
+            return () => {
+            componentMounted = false;
+            }
+        }, []);
+
+        console.log(itemState.time)
+
+        return (
+            <View style={{marginBottom: 10, padding: 10, width: '100%', backgroundColor: '#232323', alignSelf: 'center', borderRadius: 10}}>
+                    <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+                        <TouchableOpacity onPress={SetAudio}>
+                            <View style={{width: '80%', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <View>
+                                   <Text style={{color: '#fff', fontWeight: 'bold', marginBottom: 2}}>
+                                        {itemState.title}
+                                    </Text>
+                                    <Text style={{color: '#ffffffa5', marginBottom: 6, fontSize: 12}}>
+                                        {format(itemState.created, "MMM do yyyy")}
+                                    </Text> 
+                                </View>
+                                    <Text style={{color: '#fff', fontSize: 12}}>
+                                        {millisToMinutesAndSeconds()}
+                                    </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+            </View> 
+        )
+    }
+
+    const renderBlipRecording = ({ item } : any) => (
+
+        <RecordingItem 
+          item={item}
+        />
+    );
+
+    const [deleteId, setDeleteId] = useState('')
+
+    const DeleteSample = async () => {
+        await API.graphql(graphqlOperation(
+            deleteAudioAsset, {input: {
+                id: deleteId}}
+        ))
+        setDidUpdate(!didUpdate);
+        setDeleteId('');
+        hideDeleteModal();
+    }
 
     return (
         <Provider>
@@ -540,7 +730,117 @@ const SharedAssets = ({navigation} : any) => {
                     </View>
                 </Modal>
 
-                <Modal visible={visible3} onDismiss={() => {hideDeleteModal()}} contentContainerStyle={containerStyle}>
+                <Modal visible={visible4} onDismiss={() => {hideUploadSampleModal();}} contentContainerStyle={containerStyle}>
+                    <View style={{marginHorizontal: 20, height: '90%'}}>
+                        <Text style={{textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: 16}}>
+                            Upload Sample Audio to Profile
+                        </Text>
+                        <View style={{justifyContent: 'space-between', height: '100%'}}>
+                            <View style={{marginTop: 40, }}>
+                                <View>
+                                    <Text style={{color: '#fff', fontWeight: 'bold'}}>
+                                        Title
+                                    </Text>
+                                    <TextInput 
+                                        placeholder='...'
+                                        placeholderTextColor='#fff'
+                                        style={styles.textinput}
+                                        onChangeText={val => setData({...data, title: val})}
+                                        maxLength={50}
+                                    />
+                                </View>
+
+                                <View style={{marginTop: 20}}>
+                                    <Text style={{color: '#fff', fontWeight: 'bold'}}>
+                                        Select Audio
+                                    </Text>
+                                    <TouchableWithoutFeedback onPress={pickAudio}>
+                                        <View style={[styles.textinput, {justifyContent: 'center'}]}>
+                                            <Text style={{color: '#fff'}}>
+                                                Select Local File
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+
+                                    <TouchableWithoutFeedback onPress={showLocalAudioModal}>
+                                        <View style={[styles.textinput, {justifyContent: 'center'}]}>
+                                            <Text style={{color: '#fff'}}>
+                                                Select Blip Recording
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                    
+                                    {audioName !== '' ? (
+                                        <Text style={{marginTop: 10, textAlign: 'center', color: '#00ffffa5'}}>
+                                            {audioName}
+                                        </Text>
+                                    ) : null}
+                                </View>
+
+                                
+                            </View>
+                            {isPublishing === true ?  (
+                                <View style={{marginBottom: 20}}>
+                                    <ActivityIndicator size='large' color='cyan'/>
+                                    <Text style={{color: '#fff', marginTop: 10, textAlign: 'center'}}>
+                                        {progressText} %
+                                    </Text>
+                                </View>
+                            ) : (
+                                <TouchableOpacity onPress={UploadAsset}>
+                                    <View style={{alignSelf: 'center', margin: 20}}>
+                                        <Text style={{backgroundColor: 'cyan', color: '#000', paddingHorizontal: 20, paddingVertical: 6, borderRadius: 15}}>
+                                            Upload
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )}
+                            
+                            
+                        </View>
+                        
+                    </View>
+                </Modal>
+
+{/* local audio list modal */}
+                <Modal visible={localAudioVisible} onDismiss={hideLocalAudioModal} contentContainerStyle={LocalAudioContainerStyle}>
+                    <ScrollView style={{ padding: 20, backgroundColor: '#363636', borderRadius: 15,}}>
+                        <View>
+                            <FlatList 
+                                data={localAudioArray}
+                                renderItem={renderBlipRecording}
+                                keyExtractor={item => item}
+                                style={{}}
+                                initialNumToRender={20}
+                                ListEmptyComponent={() => {
+                                    return(
+                                        <View style={{alignItems: 'center', margin: 30}}>
+                                            <Text style={{color: '#fff'}}>
+                                                There is nothing here.
+                                            </Text>
+                                        </View>
+                                    )
+                                }}
+                                showsVerticalScrollIndicator={false}    
+                                ListFooterComponent={ () => {
+                                    return (
+                                    <View style={{ height:  60}}>
+                                    </View>
+                                );}}
+                                ListHeaderComponent={ () => {
+                                    return (
+                                    <View style={{ height:  60}}>
+                                        <Text style={{textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: 18}}>
+                                            My Recordings
+                                        </Text>
+                                    </View>
+                                );}}
+                            />
+                        </View>
+                    </ScrollView>
+                </Modal>
+
+                <Modal visible={visible3} onDismiss={() => {hideShareModal()}} contentContainerStyle={containerStyle}>
                     <View style={{paddingHorizontal: 20, paddingVertical: 40, alignItems: 'center' }}>
                         <Text style={{fontWeight: 'bold', fontSize: 14, marginBottom: 20, textAlign: 'center', color: '#fff'}}>
                             Share Asset
@@ -570,6 +870,21 @@ const SharedAssets = ({navigation} : any) => {
                                 
                             ) : null}
                         </View>
+                    </View>
+                </Modal>
+
+                <Modal visible={visible5} onDismiss={() => {hideDeleteModal()}} contentContainerStyle={containerStyle}>
+                    <View style={{paddingHorizontal: 20, paddingVertical: 40, alignItems: 'center' }}>
+                        <Text style={{fontWeight: 'bold', fontSize: 14, marginBottom: 20, textAlign: 'center', color: '#fff'}}>
+                            Delete Sample from Profile
+                        </Text>
+                        <TouchableWithoutFeedback onPress={() => DeleteSample(deleteId)}>
+                            <View style={[styles.textinput, {justifyContent: 'center', backgroundColor: 'red', paddingHorizontal: 20}]}>
+                                <Text style={{color: '#fff'}}>
+                                    Confirm Delete
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
                 </Modal>
 
@@ -637,7 +952,7 @@ const SharedAssets = ({navigation} : any) => {
                         </TouchableWithoutFeedback>
                     </View>
 
-                    <View style={{height: '86%'}}>
+                    <View style={{height: '64%'}}>
                         {selected === 'shared' ? (
                             <FlatList 
                                 data={audioAssets}
@@ -673,7 +988,7 @@ const SharedAssets = ({navigation} : any) => {
                                         </View>
                                 );}}
                             />
-                        ) : (
+                        ) : selected === 'samples' ? (
                             <FlatList 
                                 data={audioSamples}
                                 renderItem={renderSampleItem}
@@ -686,29 +1001,38 @@ const SharedAssets = ({navigation} : any) => {
                                     />
                                 }
                                 showsVerticalScrollIndicator={false}    
+                                ListHeaderComponent={ () => {
+                                    return (
+                                        <TouchableOpacity onPress={showUploadSampledModal}>
+                                            <View style={{alignItems: 'flex-start', marginHorizontal: 20, marginVertical: 20}}>
+                                                <Text style={{ borderRadius: 15, color: '#fff', backgroundColor: 'gray', paddingHorizontal: 20, paddingVertical: 6, textAlign: 'center'}}>
+                                                    + Add Sample Audio
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity> 
+                                        
+                                );}}
                                 
                                 ListFooterComponent={ () => {
                                     return (
-                                        <View style={{ height:  70, alignItems: 'center'}}>
-                                            
-                                        </View>
+                                        <View style={{ height:  70, alignItems: 'center'}} />
                                 );}}
                                 ListEmptyComponent={ () => {
                                     return (
-                                        <View style={{ height:  90, alignItems: 'center'}}>
+                                        <View style={{ height:  300, alignItems: 'center', justifyContent: 'center'}}>
                                             {isLoading === true ? (
                                             <View style={{margin: 30}}>
                                                 <ActivityIndicator size='small' color='cyan' />
                                             </View>
                                             ) : (
                                             <Text style={{ color: 'white', margin: 20,}}>
-                                                There is nothing here! You have no uploaded any samples.
+                                                
                                             </Text>
                                             )}
                                         </View>
                                 );}}
                             />
-                        )}
+                        ) : null}
                         
                     </View>
                 </LinearGradient>
