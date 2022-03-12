@@ -13,8 +13,8 @@ import { format, parseISO } from "date-fns";
 
 import { useRoute } from '@react-navigation/native';
 
-import { API, graphqlOperation, Auth } from "aws-amplify";
-import { getUser } from '../src/graphql/queries';
+import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
+import { getUser, getAudioAsset } from '../src/graphql/queries';
 
 import { AppContext } from '../AppContext';
 
@@ -53,11 +53,11 @@ const SimpleAudioPlayer = ({navigation} : any) => {
     const [SavedAudio, setSavedAudio] = useState()
 
     const route = useRoute();
-    const {item} = route.params
+    const {item, cloudItem} = route.params
 
-    useEffect(() => {
-        setSavedAudio(item)
-    }, [])
+    // useEffect(() => {
+    //     setSavedAudio(item)
+    // }, [])
 
       const [isSaved, setIsSaved] = useState(false);
 
@@ -81,27 +81,45 @@ const SimpleAudioPlayer = ({navigation} : any) => {
     // }, [isSaved])
 
     useEffect(() => {
-        let componentMounted = true;
-        const fetchData = async () => {
-            try {
-                console.log('whats going on here')
-                let object = await AsyncStorage.getItem(item);
-                let objs = object ? JSON.parse(object) : null
-                if(componentMounted) {
-                    setPlayItem({
-                        title: objs.title,
-                        time: objs.time,
-                        audioUri: objs.audioUri
-                    })
+        if (item !== null) {
+            let componentMounted = true;
+            const fetchData = async () => {
+                try {
+                    console.log('whats going on here')
+                    let object = await AsyncStorage.getItem(item);
+                    let objs = object ? JSON.parse(object) : null
+                    if(componentMounted) {
+                        setPlayItem({
+                            title: objs.title,
+                            time: objs.time,
+                            audioUri: objs.audioUri
+                        })
+                }
+                } catch(e) {
+                    // read error
+                }
+                
+            };
+            fetchData();
+            return () => {
+            componentMounted = false;
             }
-            } catch(e) {
-                // read error
+        } else if (cloudItem !== null) {
+            const fetchCloudAudio = async () => {
+
+                let getAsset = await API.graphql(graphqlOperation(
+                    getAudioAsset, {id: cloudItem}
+                ))
+
+                let response = await Storage.get(getAsset.data.getAudioAsset.audioUri);
+                
+                setPlayItem({
+                    title: getAsset.data.getAudioAsset.title,
+                    time: getAsset.data.getAudioAsset.time,
+                    audioUri: response
+                })
             }
-            
-        };
-        fetchData();
-        return () => {
-        componentMounted = false;
+            fetchCloudAudio();
         }
     }, []);
 

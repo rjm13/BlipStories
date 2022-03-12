@@ -226,7 +226,7 @@ const Publisher = ({navigation} : any) => {
                                 color='#fff' 
                                 size={18} 
                                 style={{marginRight: 10}}
-                                onPress={() => {navigation.navigate('SimpleAudioPlayer', {item: item})}}
+                                onPress={() => {navigation.navigate('SimpleAudioPlayer', {item: item, cloudItem: null})}}
                                 //onPress={() => {setPlayItem({title: itemState.title, time: itemState.time, audioUri: itemState.audio}); showPlayModal(); setPosition(0)}}
                             />                           
                         </View>

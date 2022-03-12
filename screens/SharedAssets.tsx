@@ -137,7 +137,7 @@ const SharedAssets = ({navigation} : any) => {
                                     />
                                 </View>
                             </TouchableWithoutFeedback>
-                            <TouchableOpacity onPress={() => navigation.navigate('SimpleAudioPlayer', {item: id})}>
+                            <TouchableOpacity onPress={() => navigation.navigate('SimpleAudioPlayer', {item: null, cloudItem: id})}>
                                 <View style={{alignItems: 'center', paddingHorizontal: 20}}>
                                     <FontAwesome5 
                                         name='play'
@@ -878,13 +878,13 @@ const SharedAssets = ({navigation} : any) => {
                         <Text style={{fontWeight: 'bold', fontSize: 14, marginBottom: 20, textAlign: 'center', color: '#fff'}}>
                             Delete Sample from Profile
                         </Text>
-                        <TouchableWithoutFeedback onPress={() => DeleteSample(deleteId)}>
-                            <View style={[styles.textinput, {justifyContent: 'center', backgroundColor: 'red', paddingHorizontal: 20}]}>
+                        <TouchableOpacity onPress={DeleteSample}>
+                            <View style={[styles.textinput, {justifyContent: 'center', backgroundColor: '#ff0000a5', paddingHorizontal: 20}]}>
                                 <Text style={{color: '#fff'}}>
                                     Confirm Delete
                                 </Text>
                             </View>
-                        </TouchableWithoutFeedback>
+                        </TouchableOpacity>
                     </View>
                 </Modal>
 

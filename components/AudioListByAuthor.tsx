@@ -244,7 +244,7 @@ const AudioListByAuthor = ({user, status} : any) => {
         );
     }
 
-    const AudioSampleItem = ({title, id, time} : any) => {
+    const AudioSampleItem = ({title, id, time, audioUri} : any) => {
 
         //convert the time to show in the modal
         function millisToMinutesAndSeconds () {
@@ -270,7 +270,7 @@ const AudioListByAuthor = ({user, status} : any) => {
                             color='#fff'
                             size={20}  
                             style={{padding: 10}}
-                            onPress={() => navigation.navigate('SimpleAudioPlayer', {item: id})}
+                            onPress={() => navigation.navigate('SimpleAudioPlayer', {item: null, cloudItem: id})}
                         />
                     </View>
                 </TouchableOpacity>
@@ -285,6 +285,7 @@ const AudioListByAuthor = ({user, status} : any) => {
                 title={item.title}
                 id={item.id}
                 time={item.time}
+                audioUri={item.audioUri}
             />
         );
     }

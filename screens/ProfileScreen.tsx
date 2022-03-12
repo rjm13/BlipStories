@@ -14,7 +14,7 @@ import {StatusBar} from 'expo-status-bar';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, listFollowingConns } from '../src/graphql/queries';
+import { getUser, listFollowingConns, listMessages } from '../src/graphql/queries';
 
 
 
@@ -62,6 +62,30 @@ const ProfileScreen = ({navigation} : any) => {
         }
       }
       fetchUser();
+    }, [])
+
+    const [newMessages, setNewMessages] = useState(0);
+
+    useEffect(() => {
+        const GetMessages = async () => {
+
+            let userInfo = await Auth.currentAuthenticatedUser();
+
+            let response = await API.graphql(graphqlOperation(
+                listMessages, {
+                    filter: {
+                        userID: {
+                            eq: userInfo.attributes.sub,
+                        },
+                        isRead: {
+                            eq: false
+                        }
+                    }
+                }
+            ))
+            setNewMessages(response.data.listMessages.items.length);
+        }
+        GetMessages();
     }, [])
 
     return (
@@ -148,9 +172,17 @@ const ProfileScreen = ({navigation} : any) => {
 
                     <TouchableWithoutFeedback onPress={ () => navigation.navigate('Inbox')}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
-                            <Text style={{ color: '#fff', fontSize: 16}}>
-                                Inbox
-                            </Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{ color: '#fff', fontSize: 16}}>
+                                    Inbox
+                                </Text>
+                                {newMessages.length > 0 ? (
+                                    <Text style={{fontWeight: 'bold', textAlign: 'center', paddingHorizontal: 8, backgroundColor: '#00ffff', borderRadius: 15, height: 20, marginLeft: 10}}>
+                                        {newMessages}
+                                    </Text>
+                                ) : null}
+                            </View>
+                            
                             <FontAwesome5 
                                 name='chevron-right'
                                 color='#fff'
