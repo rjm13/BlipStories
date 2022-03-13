@@ -1,7 +1,8 @@
 import * as Linking from 'expo-linking';
 
+
 export default {
-  prefixes: [Linking.makeUrl('/')],
+  prefixes: [Linking.createURL('/')],
   config: {
     screens: {
       Root: {
@@ -39,7 +40,11 @@ export default {
       ForgotPasswordCon: '*',
       ConfirmEmail: '*',
       UploadAudio: '*',
-      StoryScreen: 'storyscreen',
+      StoryScreen: {
+        path: 'storyscreen/:id?',
+        parse: {
+          id: (id: String) => `${id}`,
+        },
     },
   },
-};
+}};
