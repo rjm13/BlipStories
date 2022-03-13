@@ -39,6 +39,7 @@ export default {
       ForgotPasswordCon: '*',
       ConfirmEmail: '*',
       UploadAudio: '*',
+      StoryScreen: 'storyscreen',
     },
   },
 };

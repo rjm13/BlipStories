@@ -18,6 +18,7 @@ Amplify.configure(config);
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { getUser } from './src/graphql/queries';
 import { createUser } from './src/graphql/mutations';
+import Linking from 'expo-linking';
 
 import { AppContext } from './AppContext';
 
@@ -48,6 +49,32 @@ export default function App() {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+
+  const [deepLink, setDeepLink] = useState(null)
+
+  const handleDeepLink = (event : any) => {
+    let data = Linking.parse(event.url);
+    setDeepLink(data);
+  }
+
+  useEffect(() => {
+
+    async function getInitialURL() {
+      const initialURL = await Linking.getInitialURL();
+      
+      if (initialURL)  {
+        let response = Linking.parse(initialURL);
+        setDeepLink(response)
+      }
+    }
+
+    Linking.addEventListener('url', handleDeepLink);
+    if (!deepLink) {getInitialURL}
+    return (() => {
+      Linking.removeEventListener('url', handleDeepLink);
+    })
+  }, [])
+
 
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
