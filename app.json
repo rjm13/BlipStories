@@ -14,7 +14,7 @@
       ]
     ],
     "name": "BlipStories",
-    "scheme": "test-scheme",
+    "scheme": "blip",
     "slug": "BlipStories",
     "version": "1.0.0",
     "orientation": "portrait",

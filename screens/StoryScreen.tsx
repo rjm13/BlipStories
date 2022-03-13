@@ -14,11 +14,13 @@ import {
     Image,
     TextInput,
     ActivityIndicator,
+    Share
 } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
 
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Linking from 'expo-linking';
 import { StatusBar } from 'expo-status-bar';
 import { Modal, Portal, Provider } from 'react-native-paper';
 
@@ -42,6 +44,7 @@ import unPinStory from '../components/functions/UnPinStory';
 
 const StoryScreen  = ({navigation} : any) => {
 
+
 //ref to scroll to comment section
     const scrollRef = useRef();
     const [viewPosition, setViewPosition] = useState(0);
@@ -54,9 +57,58 @@ const StoryScreen  = ({navigation} : any) => {
     const route = useRoute();
     const {storyID} = route.params;
 
+    const [storyUri, setStoryUri] = useState(null);
+
 //use storyID to retrieve Story from AWS
     const [Story, setStory] = useState();
     const [AudioUri, setAudioUri] = useState('');
+
+    //share the story
+// const handleShareWithLinking = () => {
+    
+//       //Linking.openURL(deepUri);
+//   };
+
+  const handleShareWithLinking = async () => {
+
+    let deepUri = Linking.createURL('storyscreen', {
+            queryParams: { storylinkid: Story?.id },
+    });    
+
+    try {
+      const result = await Share.share({
+        message: Story?.title + ', : ' + deepUri,
+        url: deepUri,
+        title: 'Check out this short story on Blip!'
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      //alert(error.message);
+    }
+}
+
+//   useEffect(() => {
+    
+//     const handleUrl = ({ storylinkid } : any) => {
+//         if (storylinkid) {
+//             setStoryUri({ storylinkid });
+//             let { path, queryParams } = Linking.parse(url);
+//             alert(`Linked to app with path: ${path} and data: ${JSON.stringify(queryParams)}`);
+//         }
+//     };
+//     //handleUrl(storylinkid);
+
+//   }, [])
+
+  
 
 //set the position of the audio player if the screen is full page
     const { setIsRootScreen } = useContext(AppContext);
@@ -877,7 +929,7 @@ const StoryScreen  = ({navigation} : any) => {
                                                 name='share'
                                                 size={20}
                                                 color='white'
-                                                //onPress={}
+                                                onPress={handleShareWithLinking}
                                                 style={{ }}
                                             />
                                         </View>
