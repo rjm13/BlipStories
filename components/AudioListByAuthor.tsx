@@ -344,7 +344,7 @@ const AudioListByAuthor = ({user, status} : any) => {
         });
 
     const animatedOpacitySlow = animation.interpolate({
-        inputRange: [0, 200],
+        inputRange: [0, 220],
         outputRange: [1, 0],
         extrapolate: 'clamp',
         });
@@ -362,7 +362,7 @@ const AudioListByAuthor = ({user, status} : any) => {
         });
 
     const animatedColor = animation.interpolate({
-        inputRange: [0, 800],
+        inputRange: [250, 800],
         outputRange: ['#000000', '#363636'],
         extrapolate: 'clamp',
         });
@@ -893,230 +893,159 @@ const AudioListByAuthor = ({user, status} : any) => {
             ) : null}
             
 
-                        <Animated.View style={[ {backgroundColor: animatedColor, height: animatedHeaderHeight, width: Dimensions.get('window').width, position: 'absolute', flex: 1}]}
-                        >
-                       
-                                <View style={{ flexDirection: 'row', marginVertical: 40, justifyContent: 'space-between', marginHorizontal: 20, alignItems: 'center'}}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                                        <AntDesign 
-                                            name='close'
-                                            size={25}
-                                            color='#fff'
-                                            style={{
-                                                marginVertical: 20,
-                                                marginRight: 10,
-                                            }}
-                                            onPress={() => navigation.goBack() }
-                                        />
-                                        <Animated.Text style={[styles.name, { opacity: animatedAppearOpacity}]}>
-                                            {User?.pseudonym}
-                                        </Animated.Text>
-                                    </View>
+        <Animated.View style={[ {backgroundColor: animatedColor, height: animatedHeaderHeight, width: Dimensions.get('window').width, position: 'absolute', flex: 1}]}>              
+            <View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'space-between', marginHorizontal: 20, alignItems: 'center'}}>
+                <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+                    <AntDesign 
+                        name='close'
+                        size={25}
+                        color='#fff'
+                        style={{paddingTop: 0, paddingRight: 10}}
+                        onPress={() => navigation.goBack() }
+                    />
+                    <Animated.Text style={[styles.name, { opacity: animatedAppearOpacity}]}>
+                        {publisher === true ? User?.pseudonym : narrator === true ? User?.narratorPseudo : artist === true ? User?.artistPseudo : null}
+                    </Animated.Text>
+                </View>
 
-                                    {narrator === true && currentUser?.isPublisher === true ? (
-                                        <TouchableOpacity onPress={() => navigation.navigate('CreateMessage', {otherUserID: userID, type: 'narrator'})}>
-                                            <View>
-                                                <Text style={{
-                                                    color: Following === true ? '#000' : 'cyan',
-                                                    backgroundColor: Following === true ? 'cyan' : 'transparent',
-                                                    borderRadius: 20,
-                                                    paddingHorizontal: 20,
-                                                    paddingVertical: 5,
-                                                    borderWidth: Following === true ? 0 : 0.5,
-                                                    borderColor: 'cyan',
-                                                }}>
-                                                    Request Narration
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    ) : artist === true && currentUser?.isPublisher === true ? (
-                                        <TouchableOpacity onPress={() => navigation.navigate('CreateMessage', {otherUserID: userID, type: 'artist'})}>
-                                            <View>
-                                                <Text style={{
-                                                    color: Following === true ? '#000' : 'cyan',
-                                                    backgroundColor: Following === true ? 'cyan' : 'transparent',
-                                                    borderRadius: 20,
-                                                    paddingHorizontal: 20,
-                                                    paddingVertical: 5,
-                                                    borderWidth: Following === true ? 0 : 0.5,
-                                                    borderColor: 'cyan',
-                                                }}>
-                                                    Request Cover Art
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    ) : publisher === true ? (
-                                        <TouchableOpacity onPress={FollowButton}>
-                                            <View>
-                                                <Text style={{
-                                                    color: Following === true ? '#000' : 'cyan',
-                                                    backgroundColor: Following === true ? 'cyan' : 'transparent',
-                                                    borderRadius: 20,
-                                                    paddingHorizontal: 20,
-                                                    paddingVertical: 5,
-                                                    borderWidth: Following === true ? 0 : 0.5,
-                                                    borderColor: 'cyan',
-                                                }}>
-                                                    {Following === true ? 'Following' : 'Follow'}
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    ) : null}
+                {narrator === true && currentUser?.isPublisher === true ? (
+                <View>
+                    <TouchableOpacity onPress={() => navigation.navigate('CreateMessage', {otherUserID: userID, type: 'narrator'})}>  
+                            <Text style={{color: 'cyan', backgroundColor: 'transparent', borderRadius: 20, paddingHorizontal: 20, paddingVertical: 5, borderWidth: 0.5, borderColor: 'cyan',}}>
+                                Request Narration
+                            </Text>
+                    </TouchableOpacity>        
+                </View>
+                
+                ) : artist === true && currentUser?.isPublisher === true ? (
+                    <TouchableOpacity onPress={() => navigation.navigate('CreateMessage', {otherUserID: userID, type: 'artist'})}>
+                        <View>
+                            <Text style={{color: 'cyan', borderRadius: 20, paddingHorizontal: 20, paddingVertical: 5, borderWidth: 0.5, borderColor: 'cyan',}}>
+                                Request Cover Art
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                ) : publisher === true ? (
+                    <TouchableOpacity onPress={FollowButton}>
+                        <View>
+                            <Text style={{
+                                color: Following === true ? '#000' : 'cyan',
+                                backgroundColor: Following === true ? 'cyan' : 'transparent',
+                                borderRadius: 20,
+                                paddingHorizontal: 20,
+                                paddingVertical: 5,
+                                borderWidth: Following === true ? 0 : 0.5,
+                                borderColor: 'cyan',
+                            }}>
+                                {Following === true ? 'Following' : 'Follow'}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                ) : null}
+            </View>
 
-                                </View>
+            <Animated.View style={{opacity: animatedOpacitySlow}}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('CreateMessage', {otherUserID: user})}>
+                    <View style={{ alignItems: 'center'}}>
+                        <Image 
+                            source={{ uri: imageU}}
+                            style={{width: 120, height: 120, backgroundColor: '#363636',borderRadius: 60, marginTop: 20,}}
+                        />
+                    </View>
+                </TouchableWithoutFeedback>
 
-                                <Animated.View style={{opacity: animatedOpacitySlow}}>
+                <View style={{ alignItems: 'center', marginTop: 20, marginBottom: 10 }}>
+                    {publisher ? (
+                        <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
+                            {User?.pseudonym}
+                        </Text>
+                    ) : null}
+                    {narrator ? (
+                        <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
+                            {User?.narratorPseudo}
+                        </Text>
+                    ) : null}
+                    {artist ? (
+                        <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
+                            {User?.artistPseudo}
+                        </Text>
+                    ) : null}
+                </View>
 
-                                    <TouchableWithoutFeedback onPress={() => navigation.navigate('CreateMessage', {otherUserID: user})}>
-                                        <View style={{ alignItems: 'center'}}>
-                                            <Image 
-                                                source={{ uri: imageU}}
-                                                style={{
-                                                    width: 120,
-                                                    height: 120,
-                                                    backgroundColor: '#363636',
-                                                    borderRadius: 60,
-                                                    marginTop: 20,
-                                                    
-                                                }}
-                                            />
-                                        </View>
-                                    </TouchableWithoutFeedback>
-                                    
-
-                                    <View style={{ alignItems: 'center', marginTop: 20, marginBottom: 10 }}>
-                                        {publisher ? (
-                                            <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
-                                                {User?.pseudonym}
-                                            </Text>
-                                        ) : null}
-                                        {narrator ? (
-                                            <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
-                                                {User?.narratorPseudo}
-                                            </Text>
-                                        ) : null}
-                                        {artist ? (
-                                            <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
-                                                {User?.artistPseudo}
-                                            </Text>
-                                        ) : null}
-                                        
-                                    </View>
-
-                                    <View style={{justifyContent: 'center', flexDirection: 'row', alignItems: 'center',}}>
-                                        {User?.isPublisher === true ? (
-                                            <TouchableWithoutFeedback onPress={() => {setPublisher(true); setNarrator(false); setArtist(false)}}>
-                                                <View style={{ alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
-                                                    <FontAwesome5 
-                                                        name='book-open'
-                                                        size={publisher ? 14 : 12}
-                                                        color={publisher ? '#fff' : '#ffffffa5'}
-                                                        style={{ marginHorizontal: 5, alignSelf: 'center'}}
-                                                    />
-                                                    <Text style={styles.userId}>
-                                                        {User?.authored.items ? User?.authored.items.length : 0}
-                                                    </Text> 
-                                                </View> 
-                                            </TouchableWithoutFeedback>
-                                            
-                                        ) : null}
-                                        
-                                        {User?.isNarrator === true ? (
-                                            <TouchableWithoutFeedback onPress={() => {setPublisher(false); setNarrator(true); setArtist(false)}}>
-                                                <View style={{ alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
-                                                    <FontAwesome5 
-                                                        name='book-reader'
-                                                        size={narrator ? 14 : 12}
-                                                        color={narrator ? '#fff' : '#ffffffa5'}
-                                                        style={{ marginHorizontal: 3, alignSelf: 'center'}}
-                                                    />
-                                                    <Text style={styles.userId}>
-                                                        {User?.narrated.items ? User?.narrated.items.length : 0}
-                                                    </Text> 
-                                                </View> 
-                                            </TouchableWithoutFeedback>
-                                        ) : null}
-
-                                        {User?.isArtist === true ? (
-                                            <TouchableWithoutFeedback onPress={() => {setPublisher(false); setNarrator(false); setArtist(true)}}>
-                                                <View style={{ alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
-                                                    <FontAwesome5 
-                                                        name='palette'
-                                                        size={artist ? 14 : 12}
-                                                        color={artist ? '#fff' : '#ffffffa5'}
-                                                        style={{ marginHorizontal: 3, alignSelf: 'center'}}
-                                                    />
-                                                    <Text style={styles.userId}>
-                                                        {User?.authored.items ? User?.authored.items.length : 0}
-                                                    </Text> 
-                                                </View> 
-                                            </TouchableWithoutFeedback>
-                                        ) : null}
-                                    </View>
-                                </Animated.View>
-
-                                <Animated.View style={{opacity: animatedOpacity}}>
-                                <View style={{ alignItems: 'center', marginHorizontal: 20, marginVertical: 10}}>
-                                    {publisher ? (
-                                        <Text style={{ color: '#ffffffa5', fontSize: 14, textAlign: 'center'}}>
-                                            {User?.bio}
-                                        </Text>
-                                    ) : null}
-                                    {narrator ? (
-                                        <Text style={{ color: '#ffffffa5', fontSize: 14, textAlign: 'center'}}>
-                                            {User?.narratorText}
-                                        </Text>
-                                    ) : null}
-                                    {artist ? (
-                                        <Text style={{ color: '#ffffffa5', fontSize: 14, textAlign: 'center'}}>
-                                            {User?.artistText}
-                                        </Text>
-                                    ) : null}
-                                    
-                                </View>
-
-                                <View style={{ 
-                                    flexDirection: 'row', 
-                                    justifyContent: 'space-evenly', 
-                                    width: '100%', 
-                                    alignItems: 'flex-end',
-                                    //marginHorizontal: 20,
-                                    height: 50,
-                                    marginBottom: 20
-                                }}>
+                <View style={{justifyContent: 'center', flexDirection: 'row', alignItems: 'center',}}>
+                    {User?.isPublisher === true ? (
+                        <TouchableWithoutFeedback onPress={() => {setPublisher(true); setNarrator(false); setArtist(false)}}>
+                            <View style={{ alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
+                                <FontAwesome5 
+                                    name='book-open'
+                                    size={publisher ? 14 : 12}
+                                    color={publisher ? '#fff' : '#ffffffa5'}
+                                    style={{ marginHorizontal: 5, alignSelf: 'center'}}
+                                />
+                                <Text style={styles.userId}>
+                                    {User?.authored.items ? User?.authored.items.length : 0}
+                                </Text> 
+                            </View> 
+                        </TouchableWithoutFeedback>
                         
-                                    {/* <TouchableWithoutFeedback onPress={() => setSelectedId(1)}>
-                                        <Text style={{ 
-                                            color: SelectedId ===  1 ? '#fff' : '#ffffffa5',
-                                            marginHorizontal: 15, 
-                                            fontSize: SelectedId ===  1 ? 22 : 17,
-                                            fontWeight: SelectedId === 1 ? 'bold' : 'normal',
-                                            borderBottomColor: '#fff',
-                                            //borderBottomWidth: SelectedId ===  1 ? 1 : 0,
-                                        }}>
-                                            Authored
-                                        </Text>
-                                    </TouchableWithoutFeedback> */}
+                    ) : null}
+                                        
+                    {User?.isNarrator === true ? (
+                        <TouchableWithoutFeedback onPress={() => {setPublisher(false); setNarrator(true); setArtist(false)}}>
+                            <View style={{ alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
+                                <FontAwesome5 
+                                    name='book-reader'
+                                    size={narrator ? 14 : 12}
+                                    color={narrator ? '#fff' : '#ffffffa5'}
+                                    style={{ marginHorizontal: 3, alignSelf: 'center'}}
+                                />
+                                <Text style={styles.userId}>
+                                    {User?.narrated.items ? User?.narrated.items.length : 0}
+                                </Text> 
+                            </View> 
+                        </TouchableWithoutFeedback>
+                    ) : null}
 
-                                    {/* <TouchableWithoutFeedback onPress={() => setSelectedId(2)}>
-                                        <Text style={{ 
-                                            color: SelectedId ===  2 ? '#fff' : '#ffffffa5',
-                                            marginHorizontal: 15, 
-                                            fontSize: SelectedId ===  2 ? 22 : 17,
-                                            fontWeight: SelectedId === 2 ? 'bold' : 'normal'
-                                        }}>
-                                            Narrations
-                                        </Text>
-                                    </TouchableWithoutFeedback> */}
-                                </View> 
-                                </Animated.View>
-                                 
-                           
-                            
-                        </Animated.View>
+                    {User?.isArtist === true ? (
+                        <TouchableWithoutFeedback onPress={() => {setPublisher(false); setNarrator(false); setArtist(true)}}>
+                            <View style={{ alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
+                                <FontAwesome5 
+                                    name='palette'
+                                    size={artist ? 14 : 12}
+                                    color={artist ? '#fff' : '#ffffffa5'}
+                                    style={{ marginHorizontal: 3, alignSelf: 'center'}}
+                                />
+                                <Text style={styles.userId}>
+                                    {User?.authored.items ? User?.authored.items.length : 0}
+                                </Text> 
+                            </View> 
+                        </TouchableWithoutFeedback>
+                    ) : null}
+                </View>
+            </Animated.View>
 
-</View>
-    );}
+            <Animated.View style={{opacity: animatedOpacity}}>
+                <View style={{ alignItems: 'center', marginHorizontal: 20, marginVertical: 10}}>
+                    {publisher ? (
+                        <Text style={{ color: '#ffffffa5', fontSize: 14, textAlign: 'center'}}>
+                            {User?.bio}
+                        </Text>
+                    ) : null}
+                    {narrator ? (
+                        <Text style={{ color: '#ffffffa5', fontSize: 14, textAlign: 'center'}}>
+                            {User?.narratorText}
+                        </Text>
+                    ) : null}
+                    {artist ? (
+                        <Text style={{ color: '#ffffffa5', fontSize: 14, textAlign: 'center'}}>
+                            {User?.artistText}
+                        </Text>
+                    ) : null}             
+                </View>
+            </Animated.View>
+        </Animated.View>
+    </View>
+);}
 
 const styles = StyleSheet.create({
     container: {
