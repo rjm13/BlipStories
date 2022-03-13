@@ -387,7 +387,7 @@ const Publisher = ({navigation} : any) => {
 
                     {isPublisher === true ? (
                         <View>
-                            <TouchableWithoutFeedback onPress={ () => navigation.navigate('Following')}>
+                            <TouchableWithoutFeedback >
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
                                     <Text style={{ color: '#fff', fontSize: 16}}>
                                         Followers

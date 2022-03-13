@@ -108,7 +108,7 @@ const ProfileScreen = ({navigation} : any) => {
                         </View>
                     </TouchableWithoutFeedback>
                     <Text style={styles.header}>
-                        Account
+                        {user?.name}
                     </Text>
                 </View>
                 
@@ -150,12 +150,6 @@ const ProfileScreen = ({navigation} : any) => {
                                 
                         </View>
                     </TouchableWithoutFeedback>
-
-                    <View>
-                        <Text style={styles.header}>
-                        {user?.name}
-                        </Text>
-                    </View>
 
                     <TouchableWithoutFeedback onPress={ () => navigation.navigate('PlanScreen')}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
@@ -235,7 +229,7 @@ const ProfileScreen = ({navigation} : any) => {
                     <TouchableWithoutFeedback onPress={ () => navigation.navigate('NotificationSetting')}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
                             <Text style={{ color: '#fff', fontSize: 16}}>
-                                App Settings
+                                Settings
                             </Text>
                             <FontAwesome5 
                                 name='chevron-right'

@@ -1341,6 +1341,7 @@ const UploadAudio = ({navigation} : any) => {
                             multiline={true}
                             numberOfLines={5}
                             onChangeText={val => setData({...data, summary: val})}
+                            textAlignVertical='top'
                         />
                         <FontAwesome5 
                             name='check-circle'
@@ -1355,11 +1356,12 @@ const UploadAudio = ({navigation} : any) => {
                     <View style={styles.inputfield}>
                         <TextInput
                             placeholder='Max 1500 characters'
-                                placeholderTextColor='#ffffffa5'
+                            placeholderTextColor='#ffffffa5'
                             style={[styles.textInput, { height: 120 }]}
                             maxLength={1500}
                             multiline={true}
                             numberOfLines={10}
+                            textAlignVertical='top'
                             onChangeText={val => setData({...data, description: val})}
                         />
                         <FontAwesome5 
