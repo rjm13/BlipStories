@@ -31,17 +31,9 @@ export default {
           
         },
       },
-      RecordAudio: '*',
-      AudioPlayer: '*',
-      UserScreen: '*',
-      SignUp: '*',
-      SignIn: '*',
-      ForgotPassword: '*',
-      ForgotPasswordCon: '*',
-      ConfirmEmail: '*',
-      UploadAudio: '*',
       StoryScreen: {
-        path: 'storyscreen/:id?',
+        path: 'storyscreen/ : id?',
+        //path: 'storyscreen/:id?',
         parse: {
           id: (id: String) => `${id}`,
         },

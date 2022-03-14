@@ -11,6 +11,7 @@ import Navigation from './navigation'
 import { navigationRef } from './navigation/RootNavigation';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
+import { format, parseISO } from "date-fns";
 
 import Amplify from '@aws-amplify/core';
 import config from './src/aws-exports';
@@ -18,7 +19,7 @@ Amplify.configure(config);
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { getUser } from './src/graphql/queries';
 import { createUser } from './src/graphql/mutations';
-import Linking from 'expo-linking';
+import * as Linking from 'expo-linking';
 
 import { AppContext } from './AppContext';
 
@@ -45,37 +46,14 @@ export default function App() {
 
   const [isRootScreen, setIsRootScreen] = useState<boolean|null>(null);
 
+  const [nsfwOn, setNSFWOn] = useState<boolean|null>(false);
+
+  const [deepLink, setDeepLink] = useState(null);
+
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-  const URLlistener = useRef();
-
-  const [deepLink, setDeepLink] = useState(null)
-
-  const handleDeepLink = (event : any) => {
-    let data = Linking.parse(event.url);
-    setDeepLink(data);
-  }
-
-  useEffect(() => {
-
-    async function getInitialURL() {
-      const initialURL = await Linking.getInitialURL();
-      
-      if (initialURL)  {
-        let response = Linking.parse(initialURL)
-        setDeepLink(response)
-      }
-    }
-
-    //Linking.addEventListener('url', handleDeepLink);
-    if (!deepLink) {getInitialURL}
-
-    return (() => {
-      //Linking.removeEventListener('url', handleDeepLink);
-    })
-  }, [])
 
 
   useEffect(() => {
@@ -164,8 +142,13 @@ export default function App() {
 
 
         if (userData.data.getUser) {
-          console.log(userData.data.getUser);
-          setUserID(userData.data.getUser)
+          console.log(userInfo.attributes);
+          setUserID(userData.data.getUser);
+
+
+
+
+
           return;
         } else {
           setUserID(null);
@@ -206,7 +189,11 @@ export default function App() {
           userID,
           setUserID: (user: {}) => setUserID(user),
           isRootScreen,
-          setIsRootScreen: (val: boolean) => setIsRootScreen(val)
+          setIsRootScreen: (val: boolean) => setIsRootScreen(val),
+          deepLink,
+          setDeepLink: (link: {}) => setDeepLink(link),
+          nsfwOn,
+          setNSFWOn: (val: boolean) => setNSFWOn(val),
 
         }}>
           <Navigation 

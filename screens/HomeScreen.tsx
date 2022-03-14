@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { StyleSheet, ScrollView, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { Text, View } from '../components/Themed';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {LinearGradient} from 'expo-linear-gradient';
+import * as Linking from 'expo-linking'
+
+import { AppContext } from '../AppContext';
 
 import Trending from '../components/HorizList/Trending';
 import ShortSweet from '../components/HorizList/ShortSweet';
@@ -16,6 +19,77 @@ import { Auth, graphqlOperation, API } from 'aws-amplify';
 import {getUser} from '../src/graphql/queries';
 
 const AudioStoryHome = ({navigation} : any) => {
+
+    useEffect(() => {
+
+        const handler = async (event : any) => {
+            if(!event.uri) return;
+
+            const initialURL = await Linking.getInitialURL();
+        }
+
+        async function getInitialURL(params : any) {
+    
+          if(!params) return;
+    
+          const initialURL = await Linking.getInitialURL();
+          
+          if (initialURL)  {
+            let response = Linking.parse(initialURL)
+            setDeepLink(response)
+            console.log(response)
+          }
+          if (params) {
+            let response = Linking.parse(params)
+                //console.log(response)
+              setDeepLink(response)
+          }
+        }
+    
+      // listen for new url events coming from Expo
+      Linking.addEventListener('url', event => {
+          getInitialURL(event.url);
+      });
+    
+        // //Linking.addEventListener('url', handleDeepLink);
+        // if (!deepLink) {getInitialURL}
+    
+        return (() => {
+          Linking.removeEventListener('url', event => {
+            getInitialURL(event.url);
+            
+        });
+        })
+      }, [])
+
+    const { deepLink } = useContext(AppContext);
+    const { setDeepLink } = useContext(AppContext);
+
+    useEffect(() => {
+        if (!deepLink) return;
+        let GoToLink = () => {
+            navigation.navigate('StoryScreen', {storyID: deepLink.queryParams.id})
+            
+        }
+        if (deepLink) GoToLink();
+    } , [deepLink])
+
+    // function urlRedirect(url) {
+    //     if(!url) return;
+    //     // parse and redirect to new url
+    //     let { path, queryParams } = Linking.parse(url);
+    //     console.log(`Linked to app with path: ${path} and data: ${JSON.stringify(queryParams)}`);
+    //     navigation.replace(path, queryParams);
+    // }
+    
+    // // listen for new url events coming from Expo
+    // Linking.addEventListener('url', event => {
+    //     urlRedirect(event.url);
+    // });
+
+// useEffect(() => {
+//     Linking.getInitialURL().then(urlRedirect)
+// }, [])
 
     const [user, setUser] = useState()
 

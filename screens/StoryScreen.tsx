@@ -71,9 +71,10 @@ const StoryScreen  = ({navigation} : any) => {
 
   const handleShareWithLinking = async () => {
 
-    let deepUri = Linking.createURL('storyscreen', {
-            queryParams: { id: Story?.id },
-    });    
+    let deepUri = Linking.createURL('storyscreen/', { queryParams: {id: Story?.id } } )
+    // {
+    //         queryParams: { id: Story?.id },
+    // });    
 
     try {
       const result = await Share.share({

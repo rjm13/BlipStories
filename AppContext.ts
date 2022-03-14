@@ -8,7 +8,13 @@ const context = {
     setIsRootScreen: (val: boolean | null) => {},
 
     userID: null,
-    setUserID: (id: string | null) => {}
+    setUserID: (id: string | null) => {},
+
+    deepLink: null,
+    setDeepLink: () => {},
+
+    nsfwOn: false,
+    setNSFWOn: (val: boolean | null) => {},
 }
 
 export const AppContext = React.createContext(context);

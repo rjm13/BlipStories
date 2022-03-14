@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { View, StyleSheet, Text, Dimensions, Switch, ScrollView, TouchableWithoutFeedback } from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -13,14 +13,14 @@ const Settings = ({navigation} : any) => {
     const { nsfwOn } = useContext(AppContext);
 
     useEffect(() => {
-        if (nsfwOn === false) {
-            () => setIsSwitchOn(true)
-        }
+        // if (nsfwOn === false) {
+        //     () => setIsSwitchOn(true)
+        // }
         console.log(nsfwOn)
     }, [nsfwOn])
 
 //explicit content switch
-    const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+    const [isSwitchOn, setIsSwitchOn] = useState(!nsfwOn);
 
     const onToggleSwitch = () => {setIsSwitchOn(!isSwitchOn); setNSFWOn(!nsfwOn);}
 
@@ -91,7 +91,7 @@ const Settings = ({navigation} : any) => {
                     />
                 </View>
 
-                <View style={styles.optionsitem}>
+                {/* <View style={styles.optionsitem}>
                     <View style={styles.subblock}>
                         <Text style={styles.paragraph}>
                             Autoplay
@@ -108,18 +108,18 @@ const Settings = ({navigation} : any) => {
                         onValueChange={onAutoplaySwitch}
                         value={isAutoplayOn}
                     />
-                </View>
+                </View> */}
 
             </View>
 
-            <View style={{ marginHorizontal: 20, marginVertical: 20}}>
+            {/* <View style={{ marginHorizontal: 20, marginVertical: 20}}>
                 <Text style={styles.header}>
                     Notifications
                 </Text>
-            </View>
+            </View> */}
 
             <View style={styles.optionslist}>
-                <View style={styles.optionsitem}>
+                {/* <View style={styles.optionsitem}>
                     <View style={styles.subblock}>
                         <Text style={styles.paragraph}>
                             Turn Off All
@@ -136,9 +136,9 @@ const Settings = ({navigation} : any) => {
                         onValueChange={onNotesSwitch}
                         value={isNotesOn}
                     />
-                </View>
+                </View> */}
 
-                <View style={styles.optionsitem}>
+                {/* <View style={styles.optionsitem}>
                     <View style={styles.subblock}>
                         <Text style={styles.paragraph}>
                             Subscriptions
@@ -155,9 +155,9 @@ const Settings = ({navigation} : any) => {
                         onValueChange={onSubsSwitch}
                         value={isSubsOn}
                     />
-                </View>
+                </View> */}
 
-                <View style={styles.optionsitem}>
+                {/* <View style={styles.optionsitem}>
                     <View style={styles.subblock}>
                         <Text style={styles.paragraph}>
                             Reccomendations
@@ -174,16 +174,16 @@ const Settings = ({navigation} : any) => {
                         onValueChange={onRecsSwitch}
                         value={isRecsOn}
                     />
-                </View>
+                </View> */}
             </View>
 
-            <View style={{ marginHorizontal: 20, marginVertical: 20}}>
+            {/* <View style={{ marginHorizontal: 20, marginVertical: 20}}>
                 <Text style={styles.header}>
                     Storage
                 </Text>
-            </View>
+            </View> */}
 
-            <View style={styles.optionslist}>
+            {/* <View style={styles.optionslist}>
                 <View style={styles.optionsitem}>
                     <View style={styles.subblock}>
                         <Text style={styles.paragraph}>
@@ -194,7 +194,7 @@ const Settings = ({navigation} : any) => {
                         </Text>
                     </View>
                 </View>
-            </View>
+            </View> */}
         </ScrollView>
         </View>
     );
