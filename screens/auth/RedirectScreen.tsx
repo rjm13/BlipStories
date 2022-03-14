@@ -21,6 +21,9 @@ const Redirect = ({route, navigation} : any) => {
     const { userID } = useContext(AppContext);
     const { setUserID } = useContext(AppContext);
 
+    const { nsfwOn } = useContext(AppContext);
+    const { setNSFWOn } = useContext(AppContext);
+
     useEffect(() => {
 
         const fetchUser = async () => {
@@ -31,17 +34,33 @@ const Redirect = ({route, navigation} : any) => {
             { bypassCache: true }
           )
           .catch(err=>err)
-          console.log('this ran')
+          
+
           //console.log(userInfo)
           if (userInfo === 'The user is not authenticated') {
                 navigation.navigate('SignIn')
           }
           else {
-              
+
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const day = date.getDate();
+            const c = new Date(year - 18, month, day).toISOString();
+            const bd3 = new Date(userInfo.attributes.birthdate).toISOString()
+            
+            if (bd3 > c) {
+                () => setNSFWOn(false);
+            } 
+            if (bd3 < c) {
+                () => setNSFWOn(true);
+            } 
+
             const userData = await API.graphql(graphqlOperation(getUser,{ id: userInfo.attributes.sub}))
       
                 if (userData.data.getUser) {
-                    console.log(userData.data.getUser);
+                 
+
                     setUserID(userData.data.getUser);
                     navigation.reset({
                         //index: 0,

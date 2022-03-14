@@ -62,6 +62,7 @@ const Publisher = ({navigation} : any) => {
             const year = date.getFullYear();
             const month = date.getMonth();
             const day = date.getDate();
+            
         
             //const c = new Date(year + 1, month, day).toISOString() // PLUS 1 YEAR
             //const newdate = new Date(year, month - 1, day).toISOString() // PLUS 1 MONTH

@@ -1,16 +1,28 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import { View, StyleSheet, Text, Dimensions, Switch, ScrollView, TouchableWithoutFeedback } from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 //import { Switch } from 'react-native-paper';
 //import ToggleSwitch from 'toggle-switch-react-native'
 
+import {AppContext} from '../AppContext';
+
 const Settings = ({navigation} : any) => {
+
+    const { setNSFWOn } = useContext(AppContext);
+    const { nsfwOn } = useContext(AppContext);
+
+    useEffect(() => {
+        if (nsfwOn === false) {
+            () => setIsSwitchOn(true)
+        }
+        console.log(nsfwOn)
+    }, [nsfwOn])
 
 //explicit content switch
     const [isSwitchOn, setIsSwitchOn] = React.useState(false);
 
-    const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+    const onToggleSwitch = () => {setIsSwitchOn(!isSwitchOn); setNSFWOn(!nsfwOn);}
 
 //autoplay switch
     const [isAutoplayOn, setIsAutoplayOn] = React.useState(false);
