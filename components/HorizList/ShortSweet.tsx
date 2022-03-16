@@ -24,6 +24,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import { format } from "date-fns";
 
 import { AppContext } from '../../AppContext';
+import HorzStoryTile from '../HorzStoryTile';
 
 import { listPinnedStories } from '../../src/customGraphql/customQueries';
 import { listStories, storiesByDate } from '../../src/graphql/queries';
@@ -217,7 +218,7 @@ const ShortSweet = ({genreid} : any) => {
         }
         
         return (
-        <Item 
+        <HorzStoryTile 
           title={item.title}
           imageUri={item.imageUri}
           genreName={genreName}

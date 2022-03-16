@@ -32,6 +32,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import * as Animatable from 'react-native-animatable';
 import { format, parseISO } from "date-fns";
+import ShareStory from '../components/functions/ShareStory';
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 import { getStory, getUser, listComments, listPinnedStories, listRatings, listStoryTags, listFinishedStories } from '../src/graphql/queries';
@@ -857,7 +858,7 @@ const StoryScreen  = ({navigation} : any) => {
                                             style={{marginRight: 10}}
                                         />
                                         <Text style={{color: '#fff'}}>
-                                            {Story?.artistName}
+                                            {Story?.artist.artistPseudo}
                                         </Text>
                                     </View> 
                                 </TouchableOpacity>
@@ -930,7 +931,7 @@ const StoryScreen  = ({navigation} : any) => {
                                                 name='share'
                                                 size={20}
                                                 color='white'
-                                                onPress={handleShareWithLinking}
+                                                onPress={() => ShareStory({id: Story?.id, title: Story?.title})}
                                                 style={{ }}
                                             />
                                         </View>
@@ -947,7 +948,7 @@ const StoryScreen  = ({navigation} : any) => {
                                             />
                                             <Text style={{textAlign: 'center', color: '#e0e0e0', fontSize: 17}}>
                                                 {/* {AverageUserRating}% */}
-                                                {Story?.ratingAvg}
+                                                {(Story?.ratingAvg/10).toFixed(1)}
                                             </Text>
                                         </View>
                                     </TouchableWithoutFeedback>

@@ -1022,7 +1022,7 @@ const UploadAudio = ({navigation} : any) => {
         const SetImage = () => {
             setLocalImageUri(imageU);
             setIsLocalImage(false);
-            setData({...data, artistID: sharedUserID, imageUri: imageUri, artistName: sharedUserName})
+            setData({...data, artistID: userID, imageUri: imageUri, artistName: userName})
             hideArtModal();
         }
         
@@ -1037,7 +1037,7 @@ const UploadAudio = ({navigation} : any) => {
                         {title}
                     </Text>
                     <Text style={{color: '#00ffffa5'}}>
-                        Shared by {sharedUserName}
+                        Shared by {userName}
                     </Text>
                 </View>
             </TouchableWithoutFeedback>
@@ -1054,9 +1054,9 @@ const UploadAudio = ({navigation} : any) => {
                 imageUri={item.imageUri}
                 isSample={item.isSample}
                 userID={item.userID}
-                userName={item.user.pseudonym}
+                userName={item.user.artistPseudo}
                 sharedUserID={item.sharedUserID}
-                sharedUserName={item.sharedUser.artistPseudo}
+                sharedUserName={item.sharedUser.pseudonym}
                 createdAt={item.createdAt}
             />
         )

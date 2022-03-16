@@ -22,6 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import PinStory from '../components/functions/PinStory';
 import unPinStory from '../components/functions/UnPinStory';
+import ShareStory from '../components/functions/ShareStory';
 
 import { AppContext } from '../AppContext';
 
@@ -252,7 +253,7 @@ useEffect(() => {
                                         name='share'
                                         size={20}
                                         color='white'
-                                        onPress={onLikePress}
+                                        onPress={() => ShareStory({id: id, title: title})}
                                     />
                                 </View>
                             </View>

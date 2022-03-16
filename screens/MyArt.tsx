@@ -218,7 +218,7 @@ const MyArt = ({navigation} : any) => {
                 id={item.id}
                 index={index}
                 sharedUserID={item.sharedUserID}
-                sharedUserName={item.user?.pseudonym}
+                sharedUserName={item.sharedUser?.pseudonym}
             />
         )
     };
@@ -326,7 +326,7 @@ const MyArt = ({navigation} : any) => {
 
         return (
             <TouchableWithoutFeedback onPress={() => {setData({...data, sharedUserID: id, sharedUserName: pseudonym}); showConfirmModal();}}>
-                <View style={{width: Dimensions.get('window').width - 60}}>
+                <View style={{width: Dimensions.get('window').width - 60, paddingVertical: 10}}>
                     <View style={{flexDirection: 'row'}}>
                         <Image 
                             source={{uri: imageU}}
@@ -385,7 +385,7 @@ const MyArt = ({navigation} : any) => {
                             {data.sharedUserID !== null ? (
                                 <View>
                                     <Text style={{color: '#00ffffa5'}}>
-                                        Shrared with {data.sharedUserName}
+                                        Shared with {data.sharedUserName}
                                     </Text>
                                 </View>
                             ) : (

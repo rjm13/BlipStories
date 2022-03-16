@@ -26,6 +26,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import { AppContext } from '../../AppContext';
+import HorzStoryTile from '../HorzStoryTile';
 
 import { listPinnedStories, listStories } from '../../src/customGraphql/customQueries';
 import { listStoryTags } from '../../src/graphql/queries';
@@ -177,7 +178,7 @@ const PopTagStories = ({genreid, tag, tagID} : any) => {
         }
         
         return (
-        <Item 
+        <HorzStoryTile 
           title={item.title}
           imageUri={item.imageUri}
           genreName={genreName}

@@ -22,6 +22,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import { AppContext } from '../../AppContext';
+import HorzStoryTile from '../HorzStoryTile';
 
 import { listPinnedStories, finishedStoriesByDate } from '../../src/customGraphql/customQueries';
 import { listStories } from '../../src/graphql/queries';
@@ -234,7 +235,7 @@ const Trending = () => {
         }
         
         return (
-        <Item 
+        <HorzStoryTile 
           title={item.title}
           imageUri={item.imageUri}
           genreName={genreName}
