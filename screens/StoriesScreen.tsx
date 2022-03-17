@@ -18,7 +18,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 import {useNavigation} from '@react-navigation/native'
 
-import { listTags, listGenres } from '../src/graphql/queries';
+import { listTags, listGenres, tagsByUpdated } from '../src/graphql/queries';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 
@@ -89,15 +89,19 @@ const AudioStoryHome = ({navigation} : any) => {
 
     const fetchTags = async () => {
       
-      const result = await API.graphql(graphqlOperation(listTags, {
-        filter: {
-          nsfw: {
-            eq: false
+      const result = await API.graphql(graphqlOperation(
+        tagsByUpdated, {
+          type: 'Tag',
+          sortDirection: 'DESC',
+          limit: 12,
+          filter: {
+            nsfw: {
+              eq: false
+            }
           }
-        }
       }))
 
-      if (result) {setTags(result.data.listTags.items)}
+      if (result) {setTags(result.data.tagsByUpdated.items)}
     }
     fetchTags();
   }, [])

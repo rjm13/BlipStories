@@ -251,13 +251,14 @@ export type StoryTag = {
 export type Tag = {
   __typename: "Tag",
   id: string,
+  type?: string | null,
   tagName: string,
   nsfw?: boolean | null,
   genreID?: string | null,
   genre?: Genre | null,
   stories?: ModelStoryTagConnection | null,
-  createdAt: string,
-  updatedAt: string,
+  updatedAt?: string | null,
+  createdAt?: string | null,
 };
 
 export type Genre = {
@@ -839,15 +840,21 @@ export type DeleteCommentInput = {
 
 export type CreateTagInput = {
   id?: string | null,
+  type?: string | null,
   tagName: string,
   nsfw?: boolean | null,
   genreID?: string | null,
+  updatedAt?: string | null,
+  createdAt?: string | null,
 };
 
 export type ModelTagConditionInput = {
+  type?: ModelStringInput | null,
   tagName?: ModelStringInput | null,
   nsfw?: ModelBooleanInput | null,
   genreID?: ModelIDInput | null,
+  updatedAt?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelTagConditionInput | null > | null,
   or?: Array< ModelTagConditionInput | null > | null,
   not?: ModelTagConditionInput | null,
@@ -855,9 +862,12 @@ export type ModelTagConditionInput = {
 
 export type UpdateTagInput = {
   id: string,
+  type?: string | null,
   tagName?: string | null,
   nsfw?: boolean | null,
   genreID?: string | null,
+  updatedAt?: string | null,
+  createdAt?: string | null,
 };
 
 export type DeleteTagInput = {
@@ -909,7 +919,8 @@ export type CreateMessageInput = {
   userID?: string | null,
   otherUserID?: string | null,
   createdAt?: string | null,
-  isRead?: boolean | null,
+  isReadbyRec?: boolean | null,
+  isReadBySender?: boolean | null,
   docID?: string | null,
 };
 
@@ -921,7 +932,8 @@ export type ModelMessageConditionInput = {
   userID?: ModelIDInput | null,
   otherUserID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
-  isRead?: ModelBooleanInput | null,
+  isReadbyRec?: ModelBooleanInput | null,
+  isReadBySender?: ModelBooleanInput | null,
   docID?: ModelIDInput | null,
   and?: Array< ModelMessageConditionInput | null > | null,
   or?: Array< ModelMessageConditionInput | null > | null,
@@ -940,7 +952,8 @@ export type Message = {
   otherUserID?: string | null,
   otherUser?: User | null,
   createdAt?: string | null,
-  isRead?: boolean | null,
+  isReadbyRec?: boolean | null,
+  isReadBySender?: boolean | null,
   replies?: ModelReplyConnection | null,
   docID?: string | null,
   doc?: DocumentAsset | null,
@@ -976,7 +989,8 @@ export type UpdateMessageInput = {
   userID?: string | null,
   otherUserID?: string | null,
   createdAt?: string | null,
-  isRead?: boolean | null,
+  isReadbyRec?: boolean | null,
+  isReadBySender?: boolean | null,
   docID?: string | null,
 };
 
@@ -1244,9 +1258,12 @@ export type ModelCommentFilterInput = {
 
 export type ModelTagFilterInput = {
   id?: ModelIDInput | null,
+  type?: ModelStringInput | null,
   tagName?: ModelStringInput | null,
   nsfw?: ModelBooleanInput | null,
   genreID?: ModelIDInput | null,
+  updatedAt?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelTagFilterInput | null > | null,
   or?: Array< ModelTagFilterInput | null > | null,
   not?: ModelTagFilterInput | null,
@@ -1280,7 +1297,8 @@ export type ModelMessageFilterInput = {
   userID?: ModelIDInput | null,
   otherUserID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
-  isRead?: ModelBooleanInput | null,
+  isReadbyRec?: ModelBooleanInput | null,
+  isReadBySender?: ModelBooleanInput | null,
   docID?: ModelIDInput | null,
   and?: Array< ModelMessageFilterInput | null > | null,
   or?: Array< ModelMessageFilterInput | null > | null,
@@ -7088,6 +7106,7 @@ export type CreateTagMutation = {
   createTag?:  {
     __typename: "Tag",
     id: string,
+    type?: string | null,
     tagName: string,
     nsfw?: boolean | null,
     genreID?: string | null,
@@ -7114,8 +7133,8 @@ export type CreateTagMutation = {
       } | null >,
       nextToken?: string | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
+    updatedAt?: string | null,
+    createdAt?: string | null,
   } | null,
 };
 
@@ -7128,6 +7147,7 @@ export type UpdateTagMutation = {
   updateTag?:  {
     __typename: "Tag",
     id: string,
+    type?: string | null,
     tagName: string,
     nsfw?: boolean | null,
     genreID?: string | null,
@@ -7154,8 +7174,8 @@ export type UpdateTagMutation = {
       } | null >,
       nextToken?: string | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
+    updatedAt?: string | null,
+    createdAt?: string | null,
   } | null,
 };
 
@@ -7168,6 +7188,7 @@ export type DeleteTagMutation = {
   deleteTag?:  {
     __typename: "Tag",
     id: string,
+    type?: string | null,
     tagName: string,
     nsfw?: boolean | null,
     genreID?: string | null,
@@ -7194,8 +7215,8 @@ export type DeleteTagMutation = {
       } | null >,
       nextToken?: string | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
+    updatedAt?: string | null,
+    createdAt?: string | null,
   } | null,
 };
 
@@ -8021,7 +8042,8 @@ export type CreateMessageMutation = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
-    isRead?: boolean | null,
+    isReadbyRec?: boolean | null,
+    isReadBySender?: boolean | null,
     replies?:  {
       __typename: "ModelReplyConnection",
       items:  Array< {
@@ -8249,7 +8271,8 @@ export type UpdateMessageMutation = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
-    isRead?: boolean | null,
+    isReadbyRec?: boolean | null,
+    isReadBySender?: boolean | null,
     replies?:  {
       __typename: "ModelReplyConnection",
       items:  Array< {
@@ -8477,7 +8500,8 @@ export type DeleteMessageMutation = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
-    isRead?: boolean | null,
+    isReadbyRec?: boolean | null,
+    isReadBySender?: boolean | null,
     replies?:  {
       __typename: "ModelReplyConnection",
       items:  Array< {
@@ -8649,7 +8673,8 @@ export type CreateReplyMutation = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isRead?: boolean | null,
+      isReadbyRec?: boolean | null,
+      isReadBySender?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
@@ -8816,7 +8841,8 @@ export type UpdateReplyMutation = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isRead?: boolean | null,
+      isReadbyRec?: boolean | null,
+      isReadBySender?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
@@ -8983,7 +9009,8 @@ export type DeleteReplyMutation = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isRead?: boolean | null,
+      isReadbyRec?: boolean | null,
+      isReadBySender?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
@@ -9219,6 +9246,7 @@ export type CreateStoryTagMutation = {
     tag:  {
       __typename: "Tag",
       id: string,
+      type?: string | null,
       tagName: string,
       nsfw?: boolean | null,
       genreID?: string | null,
@@ -9237,8 +9265,8 @@ export type CreateStoryTagMutation = {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
       } | null,
-      createdAt: string,
-      updatedAt: string,
+      updatedAt?: string | null,
+      createdAt?: string | null,
     },
     createdAt: string,
     updatedAt: string,
@@ -9396,6 +9424,7 @@ export type UpdateStoryTagMutation = {
     tag:  {
       __typename: "Tag",
       id: string,
+      type?: string | null,
       tagName: string,
       nsfw?: boolean | null,
       genreID?: string | null,
@@ -9414,8 +9443,8 @@ export type UpdateStoryTagMutation = {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
       } | null,
-      createdAt: string,
-      updatedAt: string,
+      updatedAt?: string | null,
+      createdAt?: string | null,
     },
     createdAt: string,
     updatedAt: string,
@@ -9573,6 +9602,7 @@ export type DeleteStoryTagMutation = {
     tag:  {
       __typename: "Tag",
       id: string,
+      type?: string | null,
       tagName: string,
       nsfw?: boolean | null,
       genreID?: string | null,
@@ -9591,8 +9621,8 @@ export type DeleteStoryTagMutation = {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
       } | null,
-      createdAt: string,
-      updatedAt: string,
+      updatedAt?: string | null,
+      createdAt?: string | null,
     },
     createdAt: string,
     updatedAt: string,
@@ -12402,6 +12432,7 @@ export type GetTagQuery = {
   getTag?:  {
     __typename: "Tag",
     id: string,
+    type?: string | null,
     tagName: string,
     nsfw?: boolean | null,
     genreID?: string | null,
@@ -12428,8 +12459,8 @@ export type GetTagQuery = {
       } | null >,
       nextToken?: string | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
+    updatedAt?: string | null,
+    createdAt?: string | null,
   } | null,
 };
 
@@ -12445,6 +12476,7 @@ export type ListTagsQuery = {
     items:  Array< {
       __typename: "Tag",
       id: string,
+      type?: string | null,
       tagName: string,
       nsfw?: boolean | null,
       genreID?: string | null,
@@ -12463,8 +12495,8 @@ export type ListTagsQuery = {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
       } | null,
-      createdAt: string,
-      updatedAt: string,
+      updatedAt?: string | null,
+      createdAt?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -12925,7 +12957,8 @@ export type GetMessageQuery = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
-    isRead?: boolean | null,
+    isReadbyRec?: boolean | null,
+    isReadBySender?: boolean | null,
     replies?:  {
       __typename: "ModelReplyConnection",
       items:  Array< {
@@ -13092,7 +13125,8 @@ export type ListMessagesQuery = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isRead?: boolean | null,
+      isReadbyRec?: boolean | null,
+      isReadBySender?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
@@ -13196,7 +13230,8 @@ export type GetReplyQuery = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isRead?: boolean | null,
+      isReadbyRec?: boolean | null,
+      isReadBySender?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
@@ -13308,7 +13343,8 @@ export type ListRepliesQuery = {
         userID?: string | null,
         otherUserID?: string | null,
         createdAt?: string | null,
-        isRead?: boolean | null,
+        isReadbyRec?: boolean | null,
+        isReadBySender?: boolean | null,
         docID?: string | null,
         updatedAt: string,
       } | null,
@@ -13498,6 +13534,7 @@ export type GetStoryTagQuery = {
     tag:  {
       __typename: "Tag",
       id: string,
+      type?: string | null,
       tagName: string,
       nsfw?: boolean | null,
       genreID?: string | null,
@@ -13516,8 +13553,8 @@ export type GetStoryTagQuery = {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
       } | null,
-      createdAt: string,
-      updatedAt: string,
+      updatedAt?: string | null,
+      createdAt?: string | null,
     },
     createdAt: string,
     updatedAt: string,
@@ -13568,11 +13605,12 @@ export type ListStoryTagsQuery = {
       tag:  {
         __typename: "Tag",
         id: string,
+        type?: string | null,
         tagName: string,
         nsfw?: boolean | null,
         genreID?: string | null,
-        createdAt: string,
-        updatedAt: string,
+        updatedAt?: string | null,
+        createdAt?: string | null,
       },
       createdAt: string,
       updatedAt: string,
@@ -14473,6 +14511,88 @@ export type CommentsByDateQuery = {
   } | null,
 };
 
+export type TagsByCreatedQueryVariables = {
+  type: string,
+  createdAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelTagFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type TagsByCreatedQuery = {
+  tagsByCreated?:  {
+    __typename: "ModelTagConnection",
+    items:  Array< {
+      __typename: "Tag",
+      id: string,
+      type?: string | null,
+      tagName: string,
+      nsfw?: boolean | null,
+      genreID?: string | null,
+      genre?:  {
+        __typename: "Genre",
+        id: string,
+        genre: string,
+        icon?: string | null,
+        PrimaryColor?: string | null,
+        SecondaryColor?: string | null,
+        imageUri?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      stories?:  {
+        __typename: "ModelStoryTagConnection",
+        nextToken?: string | null,
+      } | null,
+      updatedAt?: string | null,
+      createdAt?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type TagsByUpdatedQueryVariables = {
+  type: string,
+  updatedAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelTagFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type TagsByUpdatedQuery = {
+  tagsByUpdated?:  {
+    __typename: "ModelTagConnection",
+    items:  Array< {
+      __typename: "Tag",
+      id: string,
+      type?: string | null,
+      tagName: string,
+      nsfw?: boolean | null,
+      genreID?: string | null,
+      genre?:  {
+        __typename: "Genre",
+        id: string,
+        genre: string,
+        icon?: string | null,
+        PrimaryColor?: string | null,
+        SecondaryColor?: string | null,
+        imageUri?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      stories?:  {
+        __typename: "ModelStoryTagConnection",
+        nextToken?: string | null,
+      } | null,
+      updatedAt?: string | null,
+      createdAt?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type RatingsByDateQueryVariables = {
   type: string,
   createdAt?: ModelStringKeyConditionInput | null,
@@ -14647,7 +14767,8 @@ export type MessagesByDateQuery = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isRead?: boolean | null,
+      isReadbyRec?: boolean | null,
+      isReadBySender?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
@@ -14700,7 +14821,8 @@ export type RepliesByDateQuery = {
         userID?: string | null,
         otherUserID?: string | null,
         createdAt?: string | null,
-        isRead?: boolean | null,
+        isReadbyRec?: boolean | null,
+        isReadBySender?: boolean | null,
         docID?: string | null,
         updatedAt: string,
       } | null,
@@ -20327,6 +20449,7 @@ export type OnCreateTagSubscription = {
   onCreateTag?:  {
     __typename: "Tag",
     id: string,
+    type?: string | null,
     tagName: string,
     nsfw?: boolean | null,
     genreID?: string | null,
@@ -20353,8 +20476,8 @@ export type OnCreateTagSubscription = {
       } | null >,
       nextToken?: string | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
+    updatedAt?: string | null,
+    createdAt?: string | null,
   } | null,
 };
 
@@ -20362,6 +20485,7 @@ export type OnUpdateTagSubscription = {
   onUpdateTag?:  {
     __typename: "Tag",
     id: string,
+    type?: string | null,
     tagName: string,
     nsfw?: boolean | null,
     genreID?: string | null,
@@ -20388,8 +20512,8 @@ export type OnUpdateTagSubscription = {
       } | null >,
       nextToken?: string | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
+    updatedAt?: string | null,
+    createdAt?: string | null,
   } | null,
 };
 
@@ -20397,6 +20521,7 @@ export type OnDeleteTagSubscription = {
   onDeleteTag?:  {
     __typename: "Tag",
     id: string,
+    type?: string | null,
     tagName: string,
     nsfw?: boolean | null,
     genreID?: string | null,
@@ -20423,8 +20548,8 @@ export type OnDeleteTagSubscription = {
       } | null >,
       nextToken?: string | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
+    updatedAt?: string | null,
+    createdAt?: string | null,
   } | null,
 };
 
@@ -21230,7 +21355,8 @@ export type OnCreateMessageSubscription = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
-    isRead?: boolean | null,
+    isReadbyRec?: boolean | null,
+    isReadBySender?: boolean | null,
     replies?:  {
       __typename: "ModelReplyConnection",
       items:  Array< {
@@ -21453,7 +21579,8 @@ export type OnUpdateMessageSubscription = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
-    isRead?: boolean | null,
+    isReadbyRec?: boolean | null,
+    isReadBySender?: boolean | null,
     replies?:  {
       __typename: "ModelReplyConnection",
       items:  Array< {
@@ -21676,7 +21803,8 @@ export type OnDeleteMessageSubscription = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
-    isRead?: boolean | null,
+    isReadbyRec?: boolean | null,
+    isReadBySender?: boolean | null,
     replies?:  {
       __typename: "ModelReplyConnection",
       items:  Array< {
@@ -21843,7 +21971,8 @@ export type OnCreateReplySubscription = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isRead?: boolean | null,
+      isReadbyRec?: boolean | null,
+      isReadBySender?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
@@ -22005,7 +22134,8 @@ export type OnUpdateReplySubscription = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isRead?: boolean | null,
+      isReadbyRec?: boolean | null,
+      isReadBySender?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
@@ -22167,7 +22297,8 @@ export type OnDeleteReplySubscription = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isRead?: boolean | null,
+      isReadbyRec?: boolean | null,
+      isReadBySender?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
@@ -22398,6 +22529,7 @@ export type OnCreateStoryTagSubscription = {
     tag:  {
       __typename: "Tag",
       id: string,
+      type?: string | null,
       tagName: string,
       nsfw?: boolean | null,
       genreID?: string | null,
@@ -22416,8 +22548,8 @@ export type OnCreateStoryTagSubscription = {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
       } | null,
-      createdAt: string,
-      updatedAt: string,
+      updatedAt?: string | null,
+      createdAt?: string | null,
     },
     createdAt: string,
     updatedAt: string,
@@ -22570,6 +22702,7 @@ export type OnUpdateStoryTagSubscription = {
     tag:  {
       __typename: "Tag",
       id: string,
+      type?: string | null,
       tagName: string,
       nsfw?: boolean | null,
       genreID?: string | null,
@@ -22588,8 +22721,8 @@ export type OnUpdateStoryTagSubscription = {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
       } | null,
-      createdAt: string,
-      updatedAt: string,
+      updatedAt?: string | null,
+      createdAt?: string | null,
     },
     createdAt: string,
     updatedAt: string,
@@ -22742,6 +22875,7 @@ export type OnDeleteStoryTagSubscription = {
     tag:  {
       __typename: "Tag",
       id: string,
+      type?: string | null,
       tagName: string,
       nsfw?: boolean | null,
       genreID?: string | null,
@@ -22760,8 +22894,8 @@ export type OnDeleteStoryTagSubscription = {
         __typename: "ModelStoryTagConnection",
         nextToken?: string | null,
       } | null,
-      createdAt: string,
-      updatedAt: string,
+      updatedAt?: string | null,
+      createdAt?: string | null,
     },
     createdAt: string,
     updatedAt: string,

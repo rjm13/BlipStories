@@ -31,7 +31,7 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import uuid from 'react-native-uuid';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { createStory, createStoryTag, createTag, updateUser } from '../src/graphql/mutations';
+import { createStory, createStoryTag, createTag, updateUser, updateTag } from '../src/graphql/mutations';
 import { listTags, getUser, listGenres, listAudioAssets, audioAssetsByDate, imageAssetsByDate } from '../src/graphql/queries';
 import { getStory, listStoryTags } from '../src/graphql/queries';
 
@@ -220,11 +220,15 @@ const UploadAudio = ({navigation} : any) => {
                             let addTag = await API.graphql(graphqlOperation(
                                 createStoryTag, {input: {tagID: tagCheck.data.listTags.items[0].id, storyID: result.data.createStory.id, }}
                             ))
+                            let updateATag = await API.graphql(graphqlOperation(
+                                updateTag, {id: tagCheck.data.listTags.items[0].id, updatedAt: new Date()}
+                            ))
                             console.log(addTag)
+                            console.log(updateATag)
                 //if the tag does not exist, create the tag and then the StoryTag with the tagID and storyID
                         } else if (tagCheck.data.listTags.items.length === 0) {
                             let newTag = await API.graphql(graphqlOperation(
-                                createTag, {input: {tagName: TagsArray[i].name.toLowerCase(), genreID: data.genreID, nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false}}
+                                createTag, {input: {createdAt: new Date(), type: 'Tag', tagName: TagsArray[i].name.toLowerCase(), genreID: data.genreID, nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false}}
                             ))
                             if (newTag) {
                                 let makeStoryTag = await API.graphql(graphqlOperation(
@@ -309,11 +313,15 @@ const UploadAudio = ({navigation} : any) => {
                             let addTag = await API.graphql(graphqlOperation(
                                 createStoryTag, {input: {tagID: tagCheck.data.listTags.items[0].id, storyID: result.data.createStory.id, }}
                             ))
+                            let updateATag = await API.graphql(graphqlOperation(
+                                updateTag, {id: tagCheck.data.listTags.items[0].id, updatedAt: new Date()}
+                            ))
                             console.log(addTag)
+                            console.log(updateATag);
                 //if the tag does not exist, create the tag and then the StoryTag with the tagID and storyID
                         } else if (tagCheck.data.listTags.items.length === 0) {
                             let newTag = await API.graphql(graphqlOperation(
-                                createTag, {input: {tagName: TagsArray[i].name.toLowerCase(), genreID: data.genreID, nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false}}
+                                createTag, {input: {createdAt: new Date(), type: 'Tag', tagName: TagsArray[i].name.toLowerCase(), genreID: data.genreID, nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false}}
                             ))
                             if (newTag) {
                                 let makeStoryTag = await API.graphql(graphqlOperation(
@@ -398,11 +406,15 @@ const UploadAudio = ({navigation} : any) => {
                             let addTag = await API.graphql(graphqlOperation(
                                 createStoryTag, {input: {tagID: tagCheck.data.listTags.items[0].id, storyID: result.data.createStory.id, }}
                             ))
-                            console.log(addTag)
+                            let updateATag = await API.graphql(graphqlOperation(
+                                updateTag, {id: tagCheck.data.listTags.items[0].id, updatedAt: new Date()}
+                            ))
+                            console.log(addTag);
+                            console.log(updateATag);
                 //if the tag does not exist, create the tag and then the StoryTag with the tagID and storyID
                         } else if (tagCheck.data.listTags.items.length === 0) {
                             let newTag = await API.graphql(graphqlOperation(
-                                createTag, {input: {tagName: TagsArray[i].name.toLowerCase(), genreID: data.genreID, nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false}}
+                                createTag, {input: {createdAt: new Date(), type: 'Tag', tagName: TagsArray[i].name.toLowerCase(), genreID: data.genreID, nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false}}
                             ))
                             if (newTag) {
                                 let makeStoryTag = await API.graphql(graphqlOperation(
@@ -487,11 +499,15 @@ const UploadAudio = ({navigation} : any) => {
                             let addTag = await API.graphql(graphqlOperation(
                                 createStoryTag, {input: {tagID: tagCheck.data.listTags.items[0].id, storyID: result.data.createStory.id, }}
                             ))
+                            let updateATag = await API.graphql(graphqlOperation(
+                                updateTag, {id: tagCheck.data.listTags.items[0].id, updatedAt: new Date()}
+                            ))
                             console.log(addTag)
+                            console.log(updateATag);
                 //if the tag does not exist, create the tag and then the StoryTag with the tagID and storyID
                         } else if (tagCheck.data.listTags.items.length === 0) {
                             let newTag = await API.graphql(graphqlOperation(
-                                createTag, {input: {tagName: TagsArray[i].name.toLowerCase(), genreID: data.genreID, nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false}}
+                                createTag, {input: {createdAt: new Date(), type: 'Tag', tagName: TagsArray[i].name.toLowerCase(), genreID: data.genreID, nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false}}
                             ))
                             if (newTag) {
                                 let makeStoryTag = await API.graphql(graphqlOperation(

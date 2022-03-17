@@ -24,7 +24,7 @@ import { Modal, Portal, Provider } from 'react-native-paper';
 import uuid from 'react-native-uuid';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { createTag, updateStory, createStoryTag } from '../src/graphql/mutations';
+import { createTag, updateStory, createStoryTag, updateTag } from '../src/graphql/mutations';
 import { listTags, getStory, listStoryTags } from '../src/graphql/queries';
 
 
@@ -179,11 +179,15 @@ const [localImageUri, setLocalImageUri] = useState('');
                     let addTag = await API.graphql(graphqlOperation(
                         createStoryTag, {input: {tagID: tagCheck.data.listTags.items[0].id, storyID: storyID, }}
                     ))
-                    console.log(addTag)
+                    let updateATag = await API.graphql(graphqlOperation(
+                        updateTag, {id: tagCheck.data.listTags.items[0].id, updatedAt: new Date()}
+                    ))
+                    console.log(addTag);
+                    console.log(updateATag)
         //if the tag does not exist, create the tag and then the StoryTag with the tagID and storyID
                 } else if (tagCheck.data.listTags.items.length === 0) {
                     let newTag = await API.graphql(graphqlOperation(
-                        createTag, {input: {tagName: TagsArray[i].name.toLowerCase(), genreID: Story?.genreID, nsfw: Story?.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false}}
+                        createTag, {input: {type: 'Tag', createdAt: new Date(), updatedAt: new Date(), tagName: TagsArray[i].name.toLowerCase(), genreID: Story?.genreID, nsfw: Story?.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false}}
                     ))
                     if (newTag) {
                         let makeStoryTag = await API.graphql(graphqlOperation(

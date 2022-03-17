@@ -2503,6 +2503,7 @@ export const getTag = /* GraphQL */ `
   query GetTag($id: ID!) {
     getTag(id: $id) {
       id
+      type
       tagName
       nsfw
       genreID
@@ -2526,8 +2527,8 @@ export const getTag = /* GraphQL */ `
         }
         nextToken
       }
-      createdAt
       updatedAt
+      createdAt
     }
   }
 `;
@@ -2540,6 +2541,7 @@ export const listTags = /* GraphQL */ `
     listTags(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        type
         tagName
         nsfw
         genreID
@@ -2556,8 +2558,8 @@ export const listTags = /* GraphQL */ `
         stories {
           nextToken
         }
-        createdAt
         updatedAt
+        createdAt
       }
       nextToken
     }
@@ -2968,7 +2970,8 @@ export const getMessage = /* GraphQL */ `
         updatedAt
       }
       createdAt
-      isRead
+      isReadbyRec
+      isReadBySender
       replies {
         items {
           id
@@ -3125,7 +3128,8 @@ export const listMessages = /* GraphQL */ `
           updatedAt
         }
         createdAt
-        isRead
+        isReadbyRec
+        isReadBySender
         replies {
           nextToken
         }
@@ -3220,7 +3224,8 @@ export const getReply = /* GraphQL */ `
           updatedAt
         }
         createdAt
-        isRead
+        isReadbyRec
+        isReadBySender
         replies {
           nextToken
         }
@@ -3317,7 +3322,8 @@ export const listReplies = /* GraphQL */ `
           userID
           otherUserID
           createdAt
-          isRead
+          isReadbyRec
+          isReadBySender
           docID
           updatedAt
         }
@@ -3493,6 +3499,7 @@ export const getStoryTag = /* GraphQL */ `
       }
       tag {
         id
+        type
         tagName
         nsfw
         genreID
@@ -3509,8 +3516,8 @@ export const getStoryTag = /* GraphQL */ `
         stories {
           nextToken
         }
-        createdAt
         updatedAt
+        createdAt
       }
       createdAt
       updatedAt
@@ -3556,11 +3563,12 @@ export const listStoryTags = /* GraphQL */ `
         }
         tag {
           id
+          type
           tagName
           nsfw
           genreID
-          createdAt
           updatedAt
+          createdAt
         }
         createdAt
         updatedAt
@@ -3870,14 +3878,6 @@ export const pinnedStoryByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
-          genre {
-            id
-            genre
-            icon
-            PrimaryColor
-            SecondaryColor
-            imageUri
-          }
           hidden
           approved
           createdAt
@@ -3960,14 +3960,6 @@ export const finishedStoriesByDate = /* GraphQL */ `
           nsfw
           ratingAvg
           ratingAmt
-          genre {
-            id
-            genre
-            icon
-            PrimaryColor
-            SecondaryColor
-            imageUri
-          }
           genreID
           hidden
           approved
@@ -4480,6 +4472,92 @@ export const commentsByDate = /* GraphQL */ `
     }
   }
 `;
+export const tagsByCreated = /* GraphQL */ `
+  query TagsByCreated(
+    $type: String!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelTagFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    tagsByCreated(
+      type: $type
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        tagName
+        nsfw
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+        }
+        stories {
+          nextToken
+        }
+        updatedAt
+        createdAt
+      }
+      nextToken
+    }
+  }
+`;
+export const tagsByUpdated = /* GraphQL */ `
+  query TagsByUpdated(
+    $type: String!
+    $updatedAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelTagFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    tagsByUpdated(
+      type: $type
+      updatedAt: $updatedAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        tagName
+        nsfw
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+        }
+        stories {
+          nextToken
+        }
+        updatedAt
+        createdAt
+      }
+      nextToken
+    }
+  }
+`;
 export const ratingsByDate = /* GraphQL */ `
   query RatingsByDate(
     $type: String!
@@ -4521,14 +4599,6 @@ export const ratingsByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
-          genre {
-            id
-            genre
-            icon
-            PrimaryColor
-            SecondaryColor
-            imageUri
-          }
           hidden
           approved
           createdAt
@@ -4665,7 +4735,8 @@ export const messagesByDate = /* GraphQL */ `
           updatedAt
         }
         createdAt
-        isRead
+        isReadbyRec
+        isReadBySender
         replies {
           nextToken
         }
@@ -4719,7 +4790,8 @@ export const repliesByDate = /* GraphQL */ `
           userID
           otherUserID
           createdAt
-          isRead
+          isReadbyRec
+          isReadBySender
           docID
           updatedAt
         }

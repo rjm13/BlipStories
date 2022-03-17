@@ -5121,6 +5121,7 @@ export const createTag = /* GraphQL */ `
   ) {
     createTag(input: $input, condition: $condition) {
       id
+      type
       tagName
       nsfw
       genreID
@@ -5144,8 +5145,8 @@ export const createTag = /* GraphQL */ `
         }
         nextToken
       }
-      createdAt
       updatedAt
+      createdAt
     }
   }
 `;
@@ -5156,6 +5157,7 @@ export const updateTag = /* GraphQL */ `
   ) {
     updateTag(input: $input, condition: $condition) {
       id
+      type
       tagName
       nsfw
       genreID
@@ -5179,8 +5181,8 @@ export const updateTag = /* GraphQL */ `
         }
         nextToken
       }
-      createdAt
       updatedAt
+      createdAt
     }
   }
 `;
@@ -5191,6 +5193,7 @@ export const deleteTag = /* GraphQL */ `
   ) {
     deleteTag(input: $input, condition: $condition) {
       id
+      type
       tagName
       nsfw
       genreID
@@ -5214,8 +5217,8 @@ export const deleteTag = /* GraphQL */ `
         }
         nextToken
       }
-      createdAt
       updatedAt
+      createdAt
     }
   }
 `;
@@ -5961,7 +5964,8 @@ export const createMessage = /* GraphQL */ `
         updatedAt
       }
       createdAt
-      isRead
+      isReadbyRec
+      isReadBySender
       replies {
         items {
           id
@@ -6164,7 +6168,8 @@ export const updateMessage = /* GraphQL */ `
         updatedAt
       }
       createdAt
-      isRead
+      isReadbyRec
+      isReadBySender
       replies {
         items {
           id
@@ -6367,7 +6372,8 @@ export const deleteMessage = /* GraphQL */ `
         updatedAt
       }
       createdAt
-      isRead
+      isReadbyRec
+      isReadBySender
       replies {
         items {
           id
@@ -6529,7 +6535,8 @@ export const createReply = /* GraphQL */ `
           updatedAt
         }
         createdAt
-        isRead
+        isReadbyRec
+        isReadBySender
         replies {
           nextToken
         }
@@ -6680,7 +6687,8 @@ export const updateReply = /* GraphQL */ `
           updatedAt
         }
         createdAt
-        isRead
+        isReadbyRec
+        isReadBySender
         replies {
           nextToken
         }
@@ -6831,7 +6839,8 @@ export const deleteReply = /* GraphQL */ `
           updatedAt
         }
         createdAt
-        isRead
+        isReadbyRec
+        isReadBySender
         replies {
           nextToken
         }
@@ -7045,6 +7054,7 @@ export const createStoryTag = /* GraphQL */ `
       }
       tag {
         id
+        type
         tagName
         nsfw
         genreID
@@ -7061,8 +7071,8 @@ export const createStoryTag = /* GraphQL */ `
         stories {
           nextToken
         }
-        createdAt
         updatedAt
+        createdAt
       }
       createdAt
       updatedAt
@@ -7209,6 +7219,7 @@ export const updateStoryTag = /* GraphQL */ `
       }
       tag {
         id
+        type
         tagName
         nsfw
         genreID
@@ -7225,8 +7236,8 @@ export const updateStoryTag = /* GraphQL */ `
         stories {
           nextToken
         }
-        createdAt
         updatedAt
+        createdAt
       }
       createdAt
       updatedAt
@@ -7373,6 +7384,7 @@ export const deleteStoryTag = /* GraphQL */ `
       }
       tag {
         id
+        type
         tagName
         nsfw
         genreID
@@ -7389,8 +7401,8 @@ export const deleteStoryTag = /* GraphQL */ `
         stories {
           nextToken
         }
-        createdAt
         updatedAt
+        createdAt
       }
       createdAt
       updatedAt
