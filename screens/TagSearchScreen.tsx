@@ -30,8 +30,8 @@ import { useRoute } from '@react-navigation/native';
 import { AppContext } from '../AppContext';
 import StoryTile from '../components/StoryTile';
 
-import { listStoryTags } from '../src/customGraphql/customQueries';
-import { listPinnedStories, listRatings, listTags, listStories } from '../src/graphql/queries';
+//import { listStoryTags } from '../src/customGraphql/customQueries';
+import { listPinnedStories, listRatings, listTags, listStories, listStoryTags } from '../src/graphql/queries';
 import { deletePinnedStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
@@ -315,7 +315,8 @@ const TagSearchScreen = ({navigation} : any) => {
             try {
 
                 const searchResults = await API.graphql(graphqlOperation(
-                    listStoryTags, {filter: {
+                    listStoryTags, {
+                        filter: {
                             tagID: {
                                 eq: mainTag
                             },
@@ -334,12 +335,10 @@ const TagSearchScreen = ({navigation} : any) => {
                     for(let i = 0; i < searchResults.data.listStoryTags.items.length; i++) {
                         if (searchResults.data.listStoryTags.items[i].story.approved === true && searchResults.data.listStoryTags.items[i].story.hidden === false) {
                             stories.push(searchResults.data.listStoryTags.items[i].story)
-                        }
+                        } else {return}
                         
                     }
                 }
-            
-                //console.log(searchResults.data.listStoryTags.items)
 
                 setSearchedStories(stories)
 
@@ -378,6 +377,8 @@ const TagSearchScreen = ({navigation} : any) => {
             narrator={item.narrator}
             time={item.time}
             id={item.id}
+            ratingAvg={item.ratingAvg}
+            ratingAmt={item.ratingAmt}
       />
     );}
 
@@ -419,7 +420,7 @@ const TagSearchScreen = ({navigation} : any) => {
               <FlatList 
                 data={searchedStories}
                 renderItem={renderItem}
-                keyExtractor={(item) => item}
+                keyExtractor={(item) => item.id}
                 extraData={searchedStories}
                 // refreshControl={
                 //     <RefreshControl
@@ -428,7 +429,7 @@ const TagSearchScreen = ({navigation} : any) => {
                 //     />
                 // }
                 showsVerticalScrollIndicator={false}   
-                initialNumToRender={12}
+                initialNumToRender={20}
                 maxToRenderPerBatch={10} 
                 ListFooterComponent={ () => {
                     return (
@@ -450,6 +451,7 @@ const TagSearchScreen = ({navigation} : any) => {
                     return (
                         <View style={{ height:  70, alignItems: 'center'}}>
                             <Text style={{ color: 'white', margin: 20,}}>
+                                There are no stories for this tag.
                             </Text>
                         </View>
                 );}}

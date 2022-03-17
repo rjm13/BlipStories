@@ -64,20 +64,11 @@ const NewGenreStories = ({genreid} : any) => {
                                     genreID: {
                                         eq: genreid
                                     },
-                                    hidden: {
-                                        eq: false
-                                    },
-                                    approved: {
-                                        eq: true
-                                    },
-                                    // tags: {
-                                    //     contains: tag
-                                    // }
                                 }
                             } 
                         )
                     )
-                    setTagStories(response.data.listStories.items.splice(0,9));
+                    setTagStories(response.data.storiesByDate.items.splice(0,9));
                 } catch (e) {
                     console.log(e);}
             }
@@ -85,7 +76,7 @@ const NewGenreStories = ({genreid} : any) => {
 
         fetchStorys();
 
-    },[didUpdate])
+    },[didUpdate, genreid])
 
 //item for the flatlist carousel
     const Item = ({primary, title, ratingAvg, genreName, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {

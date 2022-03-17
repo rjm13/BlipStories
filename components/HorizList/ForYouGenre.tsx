@@ -22,6 +22,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import { AppContext } from '../../AppContext';
+import HorzStoryTile from '../HorzStoryTile';
 
 import { listPinnedStories } from '../../src/customGraphql/customQueries';
 import { listStories, getGenre, storiesByDate, ratingsByDate } from '../../src/graphql/queries';
@@ -212,7 +213,7 @@ const ForYouGenre = ({genreid} : any) => {
         }
         
         return (
-        <Item 
+        <HorzStoryTile 
           title={item.title}
           imageUri={item.imageUri}
           genreName={genreName}
@@ -225,6 +226,7 @@ const ForYouGenre = ({genreid} : any) => {
           time={item.time}
           id={item.id}
           ratingAvg={item.ratingAvg}
+          ratingAmt={item.ratingAmt}
           //liked={item.liked}
           //rating={item.rating}
         />

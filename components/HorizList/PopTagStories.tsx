@@ -31,7 +31,7 @@ import HorzStoryTile from '../HorzStoryTile';
 import { listPinnedStories, listStories } from '../../src/customGraphql/customQueries';
 import { listStoryTags } from '../../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
-import {graphqlOperation, API, Auth} from 'aws-amplify';
+import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 
 
 const PopTagStories = ({genreid, tag, tagID} : any) => {
@@ -60,6 +60,8 @@ const PopTagStories = ({genreid, tag, tagID} : any) => {
         let StoryTags = []
 
         const fetchStorys = async () => {
+
+            //console.log(tagID)
                 
             //if (tagID) {
                 try {
@@ -75,17 +77,20 @@ const PopTagStories = ({genreid, tag, tagID} : any) => {
                         )
                     )
                     for (let i = 0; i < response.data.listStoryTags.items.length; i++) {
-                        StoryTags.push(response.data.listStoryTags.items[i].story)
+                        if (response.data.listStoryTags.items[i].story.approved === true && response.data.listStoryTags.items[i].story.hidden === false && response.data.listStoryTags.items[i].story.genreID === genreid ) {
+                            StoryTags.push(response.data.listStoryTags.items[i].story)
+                        } else {return}
                     }
+                    //console.log(response)
                     setTagStories(StoryTags);
                 } catch (e) {
                     console.log(e);}
             //}
         }
-
+        
         fetchStorys();
 
-    },[didUpdate])
+    },[didUpdate, tagID])
 
 //item for the flatlist carousel
     const Item = ({primary, title, ratingAvg, genreName, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
