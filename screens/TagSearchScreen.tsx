@@ -28,6 +28,7 @@ import SearchStoriesList from '../components/SearchStoriesList';
 import { useRoute } from '@react-navigation/native';
 
 import { AppContext } from '../AppContext';
+import StoryTile from '../components/StoryTile';
 
 import { listStoryTags } from '../src/customGraphql/customQueries';
 import { listPinnedStories, listRatings, listTags, listStories } from '../src/graphql/queries';
@@ -318,24 +319,27 @@ const TagSearchScreen = ({navigation} : any) => {
                             tagID: {
                                 eq: mainTag
                             },
-                            story: {
-                                approved: {
-                                    eq: true,
-                                },
-                                hidden: {
-                                    eq: false
-                                }
-                            }
+                            // story: {
+                            //     approved: {
+                            //         eq: true,
+                            //     },
+                            //     hidden: {
+                            //         eq: false
+                            //     }
+                            // }
                         }
                     }))
 
                 if (searchResults.data.listStoryTags.items.length > 0) {
                     for(let i = 0; i < searchResults.data.listStoryTags.items.length; i++) {
-                        stories.push(searchResults.data.listStoryTags.items[i].story)
+                        if (searchResults.data.listStoryTags.items[i].story.approved === true && searchResults.data.listStoryTags.items[i].story.hidden === false) {
+                            stories.push(searchResults.data.listStoryTags.items[i].story)
+                        }
+                        
                     }
                 }
             
-                console.log(searchResults.data.listStoryTags.items)
+                //console.log(searchResults.data.listStoryTags.items)
 
                 setSearchedStories(stories)
 
@@ -362,7 +366,7 @@ const TagSearchScreen = ({navigation} : any) => {
 
         return (
 
-      <Item 
+      <StoryTile 
             title={item.title}
             imageUri={item.imageUri}
             genreName={genreName}
