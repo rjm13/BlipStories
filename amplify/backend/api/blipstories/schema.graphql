@@ -223,7 +223,8 @@ type Message @model @auth(rules: [{ allow: private, operations: [create, delete,
     otherUserID: ID
     otherUser: User @hasOne (fields: ["otherUserID"])
     createdAt: String
-    isRead: Boolean
+    isReadbyRec: Boolean
+    isReadBySender: Boolean
     replies: [Reply] @hasMany(indexName: "byMessage", fields: ["id"])
     docID: ID
     doc: DocumentAsset @hasOne (fields: ["docID"])
