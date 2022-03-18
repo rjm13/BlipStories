@@ -107,9 +107,16 @@ const ForYouGenre = ({genreid} : any) => {
                             } 
                         )
                     )
-                    for(let i = 0; i < response.data.ratingsByDate.items.length; i++) {
-                        genreArr.push(response.data.ratingsByDate.items[i].story)
+                    if (response.data.ratingsByDate.items.length < 11) {
+                        for (let i = 0; i < response.data.ratingsByDate.items.length; i++) {
+                            genreArr.push(response.data.ratingsByDate.items[i].story)
+                        }
+                    } else {
+                        for (let i = 0; i < 11; i++) {
+                            genreArr.push(response.data.ratingsByDate.items[i].story)
+                        }
                     }
+                    
                     setTagStories(genreArr);
        
                 } catch (e) {
@@ -216,7 +223,7 @@ const ForYouGenre = ({genreid} : any) => {
         <HorzStoryTile 
           title={item.title}
           imageUri={item.imageUri}
-          genreName={genreName}
+          genreName={null}
           icon={icon}
           primary={primary}
           audioUri={item.audioUri}

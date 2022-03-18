@@ -213,7 +213,7 @@ const UploadAudio = ({navigation} : any) => {
                 if (TagsArray.length > 0) {
                     for (let i = 0; i < TagsArray.length; i++) {
                         let tagCheck = await API.graphql(graphqlOperation(
-                            listTags, {filter: {tagName: {eq: TagsArray[i].name}}}
+                            listTags, {filter: {tagName: {eq: TagsArray[i].name.toLowerCase()}}}
                         ))
                 //if the tag exists, create a StoryTag with the tagID and storyID
                         if (tagCheck.data.listTags.items.length === 1) {
@@ -776,10 +776,10 @@ const UploadAudio = ({navigation} : any) => {
 
         let Tags = []
 
-        if (tagText.includes('#') || tagText === '') {
+        if (tagText.includes('#')) {
             return;
         } else {
-            Tags.push(...TagsArray, {id: TagsArray.length + 1, name: tagText});
+            Tags.push(...TagsArray, {id: TagsArray.length + 1, name: tagText.replace(/ /g, '')});
             setTagsArray(Tags);
             clear.current.clear();
         }

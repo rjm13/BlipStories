@@ -76,7 +76,7 @@ const NewList = () => {
                             } 
                         )
                     )
-                    setStories(response.data.storiesByDate.items);
+                    setStories(response.data.storiesByDate.items.splice(0, 9));
                 } catch (e) {
                     console.log(e);}
         }

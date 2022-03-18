@@ -4599,6 +4599,16 @@ export const ratingsByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
+          genre {
+            id
+            genre
+            icon
+            PrimaryColor
+            SecondaryColor
+            imageUri
+            createdAt
+            updatedAt
+          }
           hidden
           approved
           createdAt

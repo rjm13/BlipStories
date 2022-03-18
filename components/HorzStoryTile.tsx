@@ -194,16 +194,20 @@ useEffect(() => {
             >
                 <View style={{backgroundColor: '#000000a5', borderBottomLeftRadius: 15, borderBottomRightRadius: 15, paddingHorizontal: 10, paddingVertical: 6}}> 
                     <View style={{marginBottom: 0}}>
-                        <Text style={{width: '80%', color: '#fff', fontSize: 12, fontWeight: 'bold'}}>
+                        <Text style={{width: '95%', color: '#fff', fontSize: 12, fontWeight: 'bold'}}>
                             {title}
                         </Text>
                     </View>
                     <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <View>
-                            <Text style={{color: '#ffffffa5', fontSize: 12, textTransform: 'capitalize'}}>
-                            {genreName}
-                            </Text>
-                        </View>
+                        {genreName !== null ? (
+                            <View>
+                                <Text style={{color: '#ffffffa5', fontSize: 12, textTransform: 'capitalize'}}>
+                                {genreName}
+                                </Text>
+                            </View> 
+                        ) : null    
+                        }
+                       
                         <View style={{alignItems: 'center', flexDirection: 'row'}}>
                             <FontAwesome 
                                 name={isRated === true ? 'star' : 'star-o'}

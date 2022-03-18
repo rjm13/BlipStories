@@ -101,7 +101,7 @@ const ShortSweet = ({genreid} : any) => {
                         )
                     )
 
-                setStories(response.data.storiesByDate.items);
+                setStories(response.data.storiesByDate.items.splice(0, 9));
 
             //     let newArr = response.data.storiesByDate.items
 

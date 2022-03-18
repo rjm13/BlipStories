@@ -301,7 +301,6 @@ const ForYouCarousel = () => {
                     graphqlOperation(
                         
                         listStories, {
-                            limit: 100,
                             filter: {
                                 approved: {
                                     eq: true

@@ -69,7 +69,7 @@ const GenreCarousel = ({genreid} : any) => {
                             } 
                         )
                     )
-                    setCarouselStories(response.data.listStories.items);
+                    setCarouselStories(response.data.listStories.items.splice(0, 9));
                 } catch (e) {
                     console.log(e);}
             }

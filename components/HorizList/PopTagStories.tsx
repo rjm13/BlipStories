@@ -76,11 +76,20 @@ const PopTagStories = ({genreid, tag, tagID} : any) => {
                             } 
                         )
                     )
-                    for (let i = 0; i < response.data.listStoryTags.items.length; i++) {
-                        if (response.data.listStoryTags.items[i].story.approved === true && response.data.listStoryTags.items[i].story.hidden === false && response.data.listStoryTags.items[i].story.genreID === genreid ) {
-                            StoryTags.push(response.data.listStoryTags.items[i].story)
-                        } else {return}
+                    if (response.data.listStoryTags.items.length < 11) {
+                        for (let i = 0; i < response.data.listStoryTags.items.length; i++) {
+                            if (response.data.listStoryTags.items[i].story.approved === true && response.data.listStoryTags.items[i].story.hidden === false && response.data.listStoryTags.items[i].story.genreID === genreid ) {
+                                StoryTags.push(response.data.listStoryTags.items[i].story)
+                            } else {return}
+                        }
+                    } else {
+                        for (let i = 0; i < 11; i++) {
+                            if (response.data.listStoryTags.items[i].story.approved === true && response.data.listStoryTags.items[i].story.hidden === false && response.data.listStoryTags.items[i].story.genreID === genreid ) {
+                                StoryTags.push(response.data.listStoryTags.items[i].story)
+                            } else {return}
+                        }
                     }
+                    
                     //console.log(response)
                     setTagStories(StoryTags);
                 } catch (e) {
