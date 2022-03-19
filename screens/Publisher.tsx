@@ -260,9 +260,11 @@ const Publisher = ({navigation} : any) => {
                                 {statusRoute === 'narrator' ? 'Narrator' : statusRoute === 'artist' ? 'Artist' : null} Status
                             </Text>
 
-                            <Text style={{width: Dimensions.get('window').width, padding: 20, fontSize: 16, marginTop: 0, fontWeight: 'bold', textAlign: 'center', color: '#fff'}}>
-                                Last Charged on {statusRoute === 'narrator' ? format(parseISO(user?.narratorActiveAt), "MMM do yyyy") : statusRoute === 'artist' ? format(parseISO(user?.artistActiveAt), "MMM do yyyy") : null}
-                            </Text>
+                            {user?.narratorActiveAt || user?.artistActiveAt ? (
+                                <Text style={{width: Dimensions.get('window').width, padding: 20, fontSize: 16, marginTop: 0, fontWeight: 'bold', textAlign: 'center', color: '#fff'}}>
+                                    Last Charged on {statusRoute === 'narrator' ? format(parseISO(user?.narratorActiveAt), "MMM do yyyy") : statusRoute === 'artist' ? format(parseISO(user?.artistActiveAt), "MMM do yyyy") : null}
+                                </Text>
+                            ) : null}
                             
                         </View>
                     </TouchableWithoutFeedback>

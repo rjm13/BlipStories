@@ -19,20 +19,18 @@ import { useNavigation } from '@react-navigation/native';
 
 import { listPinnedStories, listStories } from '../../src/graphql/queries';
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
-import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
 
 import { AppContext } from '../../AppContext';
 import PinStory from '../functions/PinStory';
 import unPinStory from '../functions/UnPinStory';
-
-
+import TimeConversion from '../functions/TimeConversion';
 
 
 const ForYouCarousel = () => {
 
     const Item = ({primary, title, userID, genreName, icon, summary, imageUri, audioUri, author, narrator, artistID, narratorID, time, id} : any) => {
 
-        const [imageU, setImageU] = useState()
+        const [imageU, setImageU] = useState('');
         
         useEffect(() => {
             const fetchImage = async () => {
@@ -45,60 +43,11 @@ const ForYouCarousel = () => {
         //navigation hook
         const navigation = useNavigation();
 
-        //add a story to the pinned playlist function
-        // const PinStory = async () => {
-
-        //     let userInfo = await Auth.currentAuthenticatedUser();
-        
-        //     let createPin = await API.graphql(graphqlOperation(
-        //         createPinnedStory, {input: {userID: userInfo.attributes.sub, storyID: id}}
-        //     ))
-        //     console.log(createPin)
-        // }
-
-        //unpin a story
-        // const unPinStory = async () => {
-
-        //     let userInfo = await Auth.currentAuthenticatedUser();
-        
-        //     let getPin = await API.graphql(graphqlOperation(
-        //         listPinnedStories, {
-        //             filter: {
-        //                 userID: {
-        //                     eq: userInfo.attributes.sub
-        //                 },
-        //                 storyID: {
-        //                     eq: id
-        //                 }
-        //             }
-        //         }
-        //     ))
-        //     console.log(getPin)
-            
-        //     let connectionID = getPin.data.listPinnedStories.items[0].id
-        //     console.log(connectionID)
-
-        //     let deleteConnection = await API.graphql(graphqlOperation(
-        //         deletePinnedStory, {input: {"id": connectionID}}
-        //     ))
-        //     console.log(deleteConnection)
-
-        //     setDidUpdate(!didUpdate)
-        // }
-
         //set the gloabal context for the storyID
         const { setStoryID } = useContext(AppContext);
-
         const onPlay = () => {setStoryID(id);}
 
-        //convert time to formatted string
-        function millisToMinutesAndSeconds () {
-            let minutes = Math.floor(time / 60000);
-            let seconds = Math.floor((time % 60000) / 1000);
-            return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
-        }  
-
-    //determine to show the extra story info or not
+        //determine to show the extra story info or not
         const [isVisible, setIsVisible] = useState(false);
         
         const onShow = () => {
@@ -110,7 +59,7 @@ const ForYouCarousel = () => {
             }  
         };
 
-    //queueing the item
+        //queueing the item
         const [isQ, setQd] = useState(false);
         
         const onQPress = () => {
@@ -262,7 +211,7 @@ const ForYouCarousel = () => {
                                                         color: '#ffffffCC',
                                                     
                                                     }}>
-                                                        {millisToMinutesAndSeconds()}
+                                                        {TimeConversion(time)}
                                                     </Text> 
                                             </View>
                                         </TouchableOpacity>
@@ -295,6 +244,9 @@ const ForYouCarousel = () => {
 
     //get the data for the flatlist
     useEffect( () => {
+
+        const RandomStories = []
+
         const fetchStorys = async () => {
             try {
                 const response = await API.graphql(
@@ -324,21 +276,21 @@ const ForYouCarousel = () => {
                         }
                     )
                 )
-                setStorys(response.data.listStories.items.splice(0,9));
+                if (response) {
+                    for (let i = 0; i < 9; i++) {
+                        let x = Math.floor(Math.random() * response.data.listStories.items.length)
+                        RandomStories.push(response.data.listStories.items[x])
+                    }
+                }
+
+
+                setStorys(RandomStories);
             } catch (e) {
                 console.log(e);
             }
         }
         fetchStorys();
     },[didUpdate])
-
-    const onRefresh = () => {
-        setIsFetching(true);
-        setDidUpdate(!didUpdate);
-        setTimeout(() => {
-          setIsFetching(false);
-        }, 2000);
-      }
 
     const renderItem = ({ item }: any) => {
 
@@ -378,12 +330,6 @@ const ForYouCarousel = () => {
               data={Storys}
               renderItem={renderItem}
               extraData={true}
-              refreshControl={
-                <RefreshControl
-                 refreshing={isFetching}
-                 onRefresh={onRefresh}
-                />
-              }
               sliderWidth={Dimensions.get('window').width}
               itemWidth={300}
               layout={'default'} 

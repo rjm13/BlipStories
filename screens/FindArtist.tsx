@@ -62,7 +62,7 @@ const FindArtist = ({navigation} : any) => {
         }, [])
 
         return (
-            <View style={{backgroundColor: '#363636', borderRadius: 15, paddingTop: 10, paddingBottom: 18, paddingHorizontal: 20, marginHorizontal: 20}}>
+            <View style={{marginTop: 20, backgroundColor: '#363636', borderRadius: 15, paddingTop: 10, paddingBottom: 18, paddingHorizontal: 20, marginHorizontal: 20}}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Image 
                         source={{uri: imageU}}

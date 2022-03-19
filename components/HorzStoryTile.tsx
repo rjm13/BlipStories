@@ -57,68 +57,68 @@ const HorzStoryTile = ({
 //navigation hook
     const navigation = useNavigation();
 
-//expanding list item
-    const [isVisible, setIsVisible] = useState(false);
+// //expanding list item
+//     const [isVisible, setIsVisible] = useState(false);
 
 //liking the item state
-    const [isLiked, setIsLiked] = useState(false);
+    // const [isLiked, setIsLiked] = useState(false);
     
-    const onLikePress = () => {
-        if ( isLiked === false ) {
-            setIsLiked(true);
-        }
-        if ( isLiked === true ) {
-            setIsLiked(false);
-        }  
-    };
+    // const onLikePress = () => {
+    //     if ( isLiked === false ) {
+    //         setIsLiked(true);
+    //     }
+    //     if ( isLiked === true ) {
+    //         setIsLiked(false);
+    //     }  
+    // };
 
 //queueing the item state when pressed
-const [isQ, setQd] = useState(false);
+// const [isQ, setQd] = useState(false);
         
-const onQPress = () => {
-    if ( isQ === false ) {
-        setQd(true);
-        PinStory({storyID: id})
-    }
-    if ( isQ === true ) {
-        setQd(false);
-        unPinStory({storyID: id});
-    }  
-};
+// const onQPress = () => {
+//     if ( isQ === false ) {
+//         setQd(true);
+//         PinStory({storyID: id})
+//     }
+//     if ( isQ === true ) {
+//         setQd(false);
+//         unPinStory({storyID: id});
+//     }  
+// };
 
 //on render, determine if the story in alraedy pinned or not
-useEffect(() => {
-    const fetchPin = async () => {
+// useEffect(() => {
+//     const fetchPin = async () => {
 
-        const userInfo = await Auth.currentAuthenticatedUser();
+//         const userInfo = await Auth.currentAuthenticatedUser();
 
-        try {
-            let getPin = await API.graphql(graphqlOperation(
-                listPinnedStories, {
-                    filter: {
-                        userID: {
-                            eq: userInfo.attributes.sub
-                        },
-                        storyID: {
-                            eq: id
-                        }
-                    }
-                }
-            ))
+//         try {
+//             let getPin = await API.graphql(graphqlOperation(
+//                 listPinnedStories, {
+//                     filter: {
+//                         userID: {
+//                             eq: userInfo.attributes.sub
+//                         },
+//                         storyID: {
+//                             eq: id
+//                         }
+//                     }
+//                 }
+//             ))
 
-            if (getPin.data.listPinnedStories.items.length === 1) {
-                setQd(true);
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    fetchPin();
-}, [])
+//             if (getPin.data.listPinnedStories.items.length === 1) {
+//                 setQd(true);
+//             }
+//         } catch (error) {
+//             console.log(error)
+//         }
+//     }
+//     fetchPin();
+// }, [])
 
 //play the audio story by setting the global context to the story id
-    const { setStoryID } = useContext(AppContext);
-    const onPlay = () => {setStoryID(id);}
+    //const { setStoryID } = useContext(AppContext);
+    //const onPlay = () => {setStoryID(id);}
 
     //determine if this user has rated this story or not. If rated, the star will appear gold
     const [isRated, setIsRated] = useState(false);
@@ -168,13 +168,6 @@ useEffect(() => {
         fetchRating();
     }, [])
 
-//convert time to formatted string
-        function millisToMinutesAndSeconds () {
-            let minutes = Math.floor(time / 60000);
-            let seconds = Math.floor((time % 60000) / 1000);
-            return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
-        } 
-
     return (
         <View style={styles.container}>
   
@@ -192,9 +185,9 @@ useEffect(() => {
                 style={{marginBottom: 12, backgroundColor: '#ffffffa5', width: 200, height: 180, justifyContent: 'flex-end', borderRadius: 15}}
                 imageStyle={{borderRadius: 15,}}
             >
-                <View style={{backgroundColor: '#000000a5', borderBottomLeftRadius: 15, borderBottomRightRadius: 15, paddingHorizontal: 10, paddingVertical: 6}}> 
+                <View style={{ flexDirection: genreName !== null ? 'column' : 'row', justifyContent: genreName !== null ? 'flex-start' : 'space-between', backgroundColor: '#000000a5', borderBottomLeftRadius: 15, borderBottomRightRadius: 15, paddingHorizontal: 10, paddingVertical: 6}}> 
                     <View style={{marginBottom: 0}}>
-                        <Text style={{width: '95%', color: '#fff', fontSize: 12, fontWeight: 'bold'}}>
+                        <Text style={{width: 140, color: '#fff', fontSize: 12, fontWeight: 'bold'}}>
                             {title}
                         </Text>
                     </View>
@@ -208,12 +201,12 @@ useEffect(() => {
                         ) : null    
                         }
                        
-                        <View style={{alignItems: 'center', flexDirection: 'row'}}>
+                        <View style={{ alignItems: 'center', flexDirection: 'row'}}>
                             <FontAwesome 
                                 name={isRated === true ? 'star' : 'star-o'}
                                 size={12}
                                 color={isRated === true || isFinished === true ? 'gold' : 'white'}
-                                style={{marginHorizontal: 6 }}
+                                style={{marginRight: 6 }}
                             />
                             <Text style={{color: '#fff', fontSize: 12}}>
                                 {(ratingAvg/10).toFixed(1)}

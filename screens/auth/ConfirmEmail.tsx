@@ -56,6 +56,8 @@ const ConfirmEmail = ({navigation, route} : {navigation: any, route : any}) => {
         
                 const newUser = {
                     id: userInfo.attributes.sub,
+                    type: 'User',
+                    createdAt: new Date (),
                     name: userInfo.attributes.name,
                     imageUri: userInfo.attributes.imageUri,
                     email: userInfo.attributes.email,

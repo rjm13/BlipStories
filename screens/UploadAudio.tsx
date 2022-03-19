@@ -942,7 +942,7 @@ const UploadAudio = ({navigation} : any) => {
         const SetAudio = () => {
             setLocalAudioUri(audioUri);
             setAudioName(title);
-            setData({...data, time: time, narratorID: sharedUserID, narrator: sharedUserName, audioUri: audioUri})
+            setData({...data, time: time, narratorID: userID, narrator: userName, audioUri: audioUri})
             hideNarratorModal();
             setIsLocalAudio(false);
         }
@@ -969,7 +969,7 @@ const UploadAudio = ({navigation} : any) => {
                     </TouchableOpacity>
                 </View>
                 <Text style={{color: '#ffffffa5', marginTop: 2, marginLeft: 5}}>
-                    Shared by {sharedUserName}
+                    Shared by {userName}
                 </Text>
             </View>
         )
@@ -985,10 +985,10 @@ const UploadAudio = ({navigation} : any) => {
                 isSample={item.isSample}
                 time={item.time}
                 userID={item.userID}
-                userName={item.user.pseudonym}
+                userName={item.user.narratorPseudo}
                 sharedUserID={item.sharedUserID}
                 createdAt={item.createdAt}
-                sharedUserName={item.sharedUser.narratorPseudo}
+                sharedUserName={item.sharedUser.pseudonym}
             />
         )
     }

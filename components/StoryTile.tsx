@@ -25,6 +25,7 @@ import unPinStory from '../components/functions/UnPinStory';
 import ShareStory from '../components/functions/ShareStory';
 
 import { AppContext } from '../AppContext';
+import TimeConversion from './functions/TimeConversion';
 
 const StoryTile = ({
     title, 
@@ -168,13 +169,6 @@ useEffect(() => {
         fetchRating();
     }, [])
 
-//convert time to formatted string
-        function millisToMinutesAndSeconds () {
-            let minutes = Math.floor(time / 60000);
-            let seconds = Math.floor((time % 60000) / 1000);
-            return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
-        } 
-
     return (
         <View>
             <TouchableWithoutFeedback onPress={() => setIsVisible(!isVisible)}>
@@ -225,7 +219,7 @@ useEffect(() => {
                                         size={10}
                                     />
                                     <Text style={styles.time}>
-                                        {millisToMinutesAndSeconds()}
+                                        {TimeConversion(time)}
                                     </Text> 
                                 </View>
                             </TouchableOpacity>
