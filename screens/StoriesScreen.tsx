@@ -14,12 +14,8 @@ from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {LinearGradient} from 'expo-linear-gradient';
 
-//import genres  from '../data/dummygenre';
-
-import {useNavigation} from '@react-navigation/native'
-
-import { listTags, listGenres, tagsByUpdated } from '../src/graphql/queries';
-import {graphqlOperation, API, Auth} from 'aws-amplify';
+import { listGenres, tagsByUpdated } from '../src/graphql/queries';
+import {graphqlOperation, API} from 'aws-amplify';
 
 
 const AudioStoryHome = ({navigation} : any) => {
@@ -47,8 +43,6 @@ const AudioStoryHome = ({navigation} : any) => {
   }, [])
 
   const Item = ({genre, icon, id, PrimaryColor, imageUri} : any) => {
-
-    //const navigation = useNavigation()
 
     return (
       <TouchableWithoutFeedback onPress = {() => navigation.navigate('GenreHome', {genreRoute: id})}>
@@ -84,7 +78,7 @@ const AudioStoryHome = ({navigation} : any) => {
 
   const [tags, setTags] = useState([])
 
-//list the most popular tags
+//list the most popular tags by the order they were last updated
   useEffect(() => {
 
     const fetchTags = async () => {
@@ -93,7 +87,7 @@ const AudioStoryHome = ({navigation} : any) => {
         tagsByUpdated, {
           type: 'Tag',
           sortDirection: 'DESC',
-          limit: 12,
+          limit: 15,
           filter: {
             nsfw: {
               eq: false
@@ -175,27 +169,14 @@ const AudioStoryHome = ({navigation} : any) => {
                                   <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 20}}>
 
                                       <TouchableWithoutFeedback onPress={() => navigation.navigate('BrowseAuthor')}>
-                                          <View style={[styles.box, { backgroundColor: '#15c7ca'}]}>
+                                          <View style={[styles.box, { backgroundColor: '#15c7ca', flexDirection: 'row', paddingLeft: 20}]}>
                                               <FontAwesome5 
-                                              name='book-reader'
+                                              name='book-open'
                                               color='#000000'
-                                              size={30}
+                                              size={22}
                                               />
-                                              <Text style={styles.title}>
-                                                  Browse
-                                              </Text>
-                                          </View>
-                                      </TouchableWithoutFeedback>
-
-                                      <TouchableWithoutFeedback onPress={() => navigation.navigate('BrowseNarrator')}>
-                                          <View style={[styles.box, { backgroundColor: 'pink'}]}>
-                                              <FontAwesome5 
-                                                  name='book-reader'
-                                                  color='#000000'
-                                                  size={30}
-                                              />
-                                              <Text style={styles.title}>
-                                              Featured
+                                              <Text style={{color: '#000', fontSize: 18, fontWeight: 'bold', marginLeft: 20}}>
+                                                  Browse Publishers
                                               </Text>
                                           </View>
                                       </TouchableWithoutFeedback>
@@ -230,9 +211,7 @@ const AudioStoryHome = ({navigation} : any) => {
                     }}
                     ListFooterComponent={ () => {
                         return (
-                        <View style={{ height:  70, alignItems: 'center'}}>
-                            
-                        </View>
+                        <View style={{ height:  70, alignItems: 'center'}}/>
                         );
                     }}
                 />
@@ -265,12 +244,11 @@ genre: {
     fontWeight: 'bold',
 },
 box: {
-    height: 100,
-    width: 140,
+    height: 60,
+    width: Dimensions.get('window').width - 40,
     borderRadius: 15,
     marginVertical: 10,
     padding: 10,
-    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   tagbox: {
