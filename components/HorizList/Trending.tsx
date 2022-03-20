@@ -59,49 +59,36 @@ const Trending = () => {
                         )
                     )
 
-                
-                    //get all of the unique stories in the list
+                    //get all of the unique stories in the list, slice 10
+                    // for(let i = 0; i < response.data.finishedStoriesByDate.items.length; i++) {
+                    //     trendingids.push(response.data.finishedStoriesByDate.items[i].story)     
+                    // }
+                    // let pp = trendingids.filter( (ele, ind) => ind === trendingids.findIndex( elem => elem.id === ele.id)).slice(0,10)
+                    // setStories(pp)
+
                     for(let i = 0; i < response.data.finishedStoriesByDate.items.length; i++) {
-                        // if (trendingids.includes(response.data.finishedStoriesByDate.items[i].story.id)) {
-                           
-                        // }  
-                            //trendingids.push(response.data.finishedStoriesByDate.items[i].story.id)
-                            trendingids.push(response.data.finishedStoriesByDate.items[i].story.id)
-                        
+                        trendingids.push(response.data.finishedStoriesByDate.items[i].story.id)     
                     }
-                    //console.log(trendingids)
-                    //console.log(trendingStories)
+                    let pp = trendingids.filter( (ele, ind) => ind === trendingids.findIndex( elem => elem === ele))
 
-                    function onlyUnique(value, index, self) {
-                        return self.indexOf(value) === index;
-                      }
+                    for(let i = 0; i < pp.length; i++) {
+                        count.push({
+                            count: trendingids.filter(x => x==pp[i]).length,
+                            story: pp[i]
+                        })
+                    }
 
-                    var unique = trendingids.filter(onlyUnique);
+                    let sortarr = count.sort((a, b) => a.count < b.count ? 1 : -1).slice(0,10)
                     
-                    
-
-                    //count the number of unique ids in the original list
-                    // for (let i = 0; i < trendingStories.length; i++) {
-                    //     count.push({
-                    //         count: [response.data.finishedStoriesByDate.items].filter(x => x==trendingStories[i]).length,
-                    //         story: trendingStories[i]
-                    //     })
-                    // }
-
-                    //sort by count
-                    //let sortedArr = count.sort((a, b) => (a.count - b.count)).slice(0,10)
-
                     //filter the top 8 and add them to the array
-                    // for(let i = 0; i < sortedArr.length; i++) {
-                    //     if (i >= sortedArr.length) {
-                    //         return
-                    //     } else {
-                    //         finalTrends.push(sortedArr[i].story)
-                    //     }
-                        
-                    // }
+                    for (let i = 0; i < sortarr.length; i++) {
+                        let final = response.data.finishedStoriesByDate.items.find((element) => {
+                            return element.storyID === sortarr[i].story;
+                        })
+                        finalTrends.push(final.story)
+                    }
 
-                    //setStories(finalTrends);
+                    setStories(finalTrends);
                   
                 } catch (e) {
                     console.log(e);}
