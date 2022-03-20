@@ -5,39 +5,14 @@ import {
     Text, 
     FlatList, 
     Dimensions, 
-    RefreshControl, 
-    TouchableWithoutFeedback, 
-    TouchableOpacity, 
-    Image,
+    RefreshControl,
     ActivityIndicator 
 } from 'react-native';
-
-import {useNavigation} from '@react-navigation/native'
-
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-
-import { AppContext } from '../AppContext';
-
-import dummyaudio from '../data/dummyaudio';
-
-//import { listPinnedStories } from '../src/customGraphql/customQueries';
-import { listRatings, listStories, pinnedStoryByDate } from '../src/graphql/queries';
-import { deletePinnedStory } from '../src/graphql/mutations';
+import { pinnedStoryByDate } from '../src/graphql/queries';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 import UnPinStory from './functions/UnPinStory';
 import StoryTile from './StoryTile';
-
-import { ItemParamList } from '../types';
-
-
-
-
-
-
 
 const AudioStoryList = () => {
 
