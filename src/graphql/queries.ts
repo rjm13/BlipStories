@@ -36,8 +36,8 @@ export const getUser = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         nextToken
       }
@@ -65,8 +65,8 @@ export const getUser = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         nextToken
       }
@@ -109,8 +109,8 @@ export const getUser = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         nextToken
       }
@@ -621,8 +621,8 @@ export const getPinnedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       createdAt
       updatedAt
@@ -692,8 +692,8 @@ export const listPinnedStories = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         createdAt
         updatedAt
@@ -887,8 +887,8 @@ export const getFinishedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       createdAt
       updatedAt
@@ -958,8 +958,8 @@ export const listFinishedStories = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         createdAt
         updatedAt
@@ -1194,8 +1194,8 @@ export const getStory = /* GraphQL */ `
       hidden
       approved
       createdAt
-      numListens
       updatedAt
+      numListens
     }
   }
 `;
@@ -1332,8 +1332,8 @@ export const listStories = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       nextToken
     }
@@ -2096,8 +2096,8 @@ export const getFlag = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       flagTypes
       user {
@@ -2191,8 +2191,8 @@ export const listFlags = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         flagTypes
         user {
@@ -2363,8 +2363,8 @@ export const getComment = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       content
       user {
@@ -2459,8 +2459,8 @@ export const listComments = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         content
         user {
@@ -2697,8 +2697,8 @@ export const getRating = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       userID
       user {
@@ -2804,8 +2804,8 @@ export const listRatings = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         userID
         user {
@@ -3494,8 +3494,8 @@ export const getStoryTag = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       tag {
         id
@@ -3558,8 +3558,8 @@ export const listStoryTags = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         tag {
           id
@@ -3881,8 +3881,8 @@ export const pinnedStoryByDate = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         createdAt
         updatedAt
@@ -3974,8 +3974,8 @@ export const finishedStoriesByDate = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         createdAt
         updatedAt
@@ -4127,8 +4127,158 @@ export const storiesByDate = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
+      }
+      nextToken
+    }
+  }
+`;
+export const storiesByUpdated = /* GraphQL */ `
+  query StoriesByUpdated(
+    $type: String!
+    $updatedAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelStoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    storiesByUpdated(
+      type: $type
+      updatedAt: $updatedAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        title
+        imageUri
+        audioUri
+        user {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        userID
+        author
+        authorID
+        narrator
+        narratorUser {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        narratorID
+        artistName
+        artist {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        artistID
+        time
+        summary
+        description
+        nsfw
+        comments {
+          nextToken
+        }
+        tags {
+          nextToken
+        }
+        ratingAvg
+        ratingAmt
+        rated {
+          nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+        }
+        hidden
+        approved
+        createdAt
+        updatedAt
+        numListens
       }
       nextToken
     }
@@ -4442,8 +4592,8 @@ export const commentsByDate = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         content
         user {
@@ -4609,21 +4759,11 @@ export const ratingsByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
-          genre {
-            id
-            genre
-            icon
-            PrimaryColor
-            SecondaryColor
-            imageUri
-            createdAt
-            updatedAt
-          }
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         userID
         user {

@@ -277,9 +277,14 @@ const ForYouCarousel = () => {
                     )
                 )
                 if (response) {
-                    for (let i = 0; i < 9; i++) {
+                    let randomarr = []
+                    for (let i = 0; i < 10; i++) {
                         let x = Math.floor(Math.random() * response.data.listStories.items.length)
-                        RandomStories.push(response.data.listStories.items[x])
+                        if (randomarr.includes(x) === false) {
+                            randomarr.push(x)
+                            RandomStories.push(response.data.listStories.items[x])
+                        }
+                        
                     }
                 }
 

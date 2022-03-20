@@ -14,7 +14,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import HorzStoryTile from '../HorzStoryTile';
 
-import { getGenre, ratingsByDate } from '../../src/graphql/queries';
+import { getGenre, storiesByUpdated } from '../../src/graphql/queries';
 import {graphqlOperation, API} from 'aws-amplify';
 
 
@@ -66,6 +66,8 @@ const ForYouGenre = ({genreid} : any) => {
         //const f = new Date(year, month, day  + 1) // PLUS 1 DAY
 
         let genreArr = []
+
+        let genreIds = []
             
 //gets the most recently rated stories in a genre with a rating over 6, sorts by the most recently created
         const fetchStorys = async () => {
@@ -74,18 +76,21 @@ const ForYouGenre = ({genreid} : any) => {
                 try {
                     const response = await API.graphql(
                         graphqlOperation(
-                            ratingsByDate, {
-                                type: 'Rating',
+                            storiesByUpdated, {
+                                type: 'Story',
                                 sortDirection: 'DESC',
-                                createdAt: {
-                                    gt: newdate
-                                },
                                 filter: {
-                                    rating: {
+                                    ratingAvg: {
                                         gt: 6
                                     },
                                     genreID: {
                                         eq: genreid
+                                    },
+                                    approved: {
+                                        eq: true
+                                    },
+                                    hidden: {
+                                        eq: false
                                     }
                                     // tags: {
                                     //     contains: tag
@@ -94,16 +99,16 @@ const ForYouGenre = ({genreid} : any) => {
                             } 
                         )
                     )
-                    if (response.data.ratingsByDate.items.length < 11) {
-                        for (let i = 0; i < response.data.ratingsByDate.items.length; i++) {
-                            genreArr.push(response.data.ratingsByDate.items[i].story)
+                    if (response.data.storiesByUpdated.items.length < 11) {
+                        for (let i = 0; i < response.data.storiesByUpdated.items.length; i++) {
+                            genreArr.push(response.data.storiesByUpdated.items[i])
                         }
                     } else {
                         for (let i = 0; i < 11; i++) {
-                            genreArr.push(response.data.ratingsByDate.items[i].story)
+                            genreArr.push(response.data.storiesByUpdated.items[i])
                         }
                     }
-                    
+                    //console.log(response.data.storiesByUpdated.items)
                     setTagStories(genreArr);
        
                 } catch (e) {

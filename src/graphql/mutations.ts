@@ -39,8 +39,8 @@ export const createUser = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         nextToken
       }
@@ -68,8 +68,8 @@ export const createUser = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         nextToken
       }
@@ -112,8 +112,8 @@ export const createUser = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         nextToken
       }
@@ -222,8 +222,8 @@ export const updateUser = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         nextToken
       }
@@ -251,8 +251,8 @@ export const updateUser = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         nextToken
       }
@@ -295,8 +295,8 @@ export const updateUser = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         nextToken
       }
@@ -405,8 +405,8 @@ export const deleteUser = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         nextToken
       }
@@ -434,8 +434,8 @@ export const deleteUser = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         nextToken
       }
@@ -478,8 +478,8 @@ export const deleteUser = /* GraphQL */ `
           hidden
           approved
           createdAt
-          numListens
           updatedAt
+          numListens
         }
         nextToken
       }
@@ -1096,8 +1096,8 @@ export const createPinnedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       createdAt
       updatedAt
@@ -1292,8 +1292,8 @@ export const updatePinnedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       createdAt
       updatedAt
@@ -1488,8 +1488,8 @@ export const deletePinnedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       createdAt
       updatedAt
@@ -1684,8 +1684,8 @@ export const createFinishedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       createdAt
       updatedAt
@@ -1880,8 +1880,8 @@ export const updateFinishedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       createdAt
       updatedAt
@@ -2076,8 +2076,8 @@ export const deleteFinishedStory = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       createdAt
       updatedAt
@@ -2313,8 +2313,8 @@ export const createStory = /* GraphQL */ `
       hidden
       approved
       createdAt
-      numListens
       updatedAt
+      numListens
     }
   }
 `;
@@ -2547,8 +2547,8 @@ export const updateStory = /* GraphQL */ `
       hidden
       approved
       createdAt
-      numListens
       updatedAt
+      numListens
     }
   }
 `;
@@ -2781,8 +2781,8 @@ export const deleteStory = /* GraphQL */ `
       hidden
       approved
       createdAt
-      numListens
       updatedAt
+      numListens
     }
   }
 `;
@@ -4069,8 +4069,8 @@ export const createFlag = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       flagTypes
       user {
@@ -4265,8 +4265,8 @@ export const updateFlag = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       flagTypes
       user {
@@ -4461,8 +4461,8 @@ export const deleteFlag = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       flagTypes
       user {
@@ -4658,8 +4658,8 @@ export const createComment = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       content
       user {
@@ -4855,8 +4855,8 @@ export const updateComment = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       content
       user {
@@ -5052,8 +5052,8 @@ export const deleteComment = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       content
       user {
@@ -5357,8 +5357,8 @@ export const createRating = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       userID
       user {
@@ -5565,8 +5565,8 @@ export const updateRating = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       userID
       user {
@@ -5773,8 +5773,8 @@ export const deleteRating = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       userID
       user {
@@ -7049,8 +7049,8 @@ export const createStoryTag = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       tag {
         id
@@ -7214,8 +7214,8 @@ export const updateStoryTag = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       tag {
         id
@@ -7379,8 +7379,8 @@ export const deleteStoryTag = /* GraphQL */ `
         hidden
         approved
         createdAt
-        numListens
         updatedAt
+        numListens
       }
       tag {
         id

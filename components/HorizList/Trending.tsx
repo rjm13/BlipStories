@@ -24,6 +24,8 @@ const Trending = () => {
 
         let trendingStories = []
 
+        let trendingids = []
+
         let count = []
 
         let finalTrends = []
@@ -42,6 +44,8 @@ const Trending = () => {
             const newdate = new Date(year, month - 1, day).toISOString() // PLUS 1 MONTH
             //const f = new Date(year, month, day  + 1) // PLUS 1 DAY
                 
+
+            //get all of the finished stories for the last month, in order of most recent
                 try {
                     const response = await API.graphql(
                         graphqlOperation(
@@ -54,38 +58,50 @@ const Trending = () => {
                             } 
                         )
                     )
-                    
-                    //get all of the unique ids in the list
+
+                
+                    //get all of the unique stories in the list
                     for(let i = 0; i < response.data.finishedStoriesByDate.items.length; i++) {
-                        if (trendingStories.includes(response.data.finishedStoriesByDate.items[i].story)) {
-                            return;
-                        } else {
-                            trendingStories.push(response.data.finishedStoriesByDate.items[i].story)
-                        }
-                    }
-
-                    //count the number of unique ids in the original list
-                    for (let i = 0; i < trendingStories.length; i++) {
-                        count.push({
-                            count: [response.data.finishedStoriesByDate.items].filter(x => x==trendingStories[i]).length,
-                            story: trendingStories[i]
-                        })
-                    }
-
-                    //sort by count
-                    let sortedArr = count.sort((a, b) => (a.count - b.count)).slice(0,10)
-
-                    //filter the top 8 and add them to the array
-                    for(let i = 0; i < sortedArr.length; i++) {
-                        if (i >= sortedArr.length) {
-                            return
-                        } else {
-                            finalTrends.push(sortedArr[i].story)
-                        }
+                        // if (trendingids.includes(response.data.finishedStoriesByDate.items[i].story.id)) {
+                           
+                        // }  
+                            //trendingids.push(response.data.finishedStoriesByDate.items[i].story.id)
+                            trendingids.push(response.data.finishedStoriesByDate.items[i].story.id)
                         
                     }
+                    //console.log(trendingids)
+                    //console.log(trendingStories)
 
-                    setStories(finalTrends);
+                    function onlyUnique(value, index, self) {
+                        return self.indexOf(value) === index;
+                      }
+
+                    var unique = trendingids.filter(onlyUnique);
+                    
+                    
+
+                    //count the number of unique ids in the original list
+                    // for (let i = 0; i < trendingStories.length; i++) {
+                    //     count.push({
+                    //         count: [response.data.finishedStoriesByDate.items].filter(x => x==trendingStories[i]).length,
+                    //         story: trendingStories[i]
+                    //     })
+                    // }
+
+                    //sort by count
+                    //let sortedArr = count.sort((a, b) => (a.count - b.count)).slice(0,10)
+
+                    //filter the top 8 and add them to the array
+                    // for(let i = 0; i < sortedArr.length; i++) {
+                    //     if (i >= sortedArr.length) {
+                    //         return
+                    //     } else {
+                    //         finalTrends.push(sortedArr[i].story)
+                    //     }
+                        
+                    // }
+
+                    //setStories(finalTrends);
                   
                 } catch (e) {
                     console.log(e);}

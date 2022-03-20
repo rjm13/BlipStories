@@ -75,7 +75,9 @@ type FinishedStory @model @auth( rules: [{ allow: private, operations: [create, 
 type Story @model @auth(rules: [{ allow: private, operations: [create, delete, update, read]}])
 {
   id: ID!
-  type: String @index(name: "storiesByDate", queryField: "storiesByDate", sortKeyFields: ["createdAt"]  )
+  type: String 
+    @index(name: "storiesByDate", queryField: "storiesByDate", sortKeyFields: ["createdAt"]  )
+    @index(name: "storiesByUpdated", queryField: "storiesByUpdated", sortKeyFields: ["updatedAt"]  )
   title: String!
   imageUri: String
   audioUri: String!
@@ -105,6 +107,7 @@ type Story @model @auth(rules: [{ allow: private, operations: [create, delete, u
   hidden: Boolean
   approved: Boolean
   createdAt: String
+  updatedAt: String
   numListens: Int
   }
 
