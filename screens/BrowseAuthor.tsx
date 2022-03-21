@@ -24,7 +24,7 @@ import { listFollowingConns, listUsers } from '../src/graphql/queries';
 import { createFollowingConn, deleteFollowingConn } from '../src/graphql/mutations';
 
 
-const FollowingScreen = ({navigation} : any) => {
+const BrowseAuthor = ({navigation} : any) => {
 
     const [ users, setUsers ] = useState([]);
 
@@ -36,15 +36,6 @@ const FollowingScreen = ({navigation} : any) => {
 
     const [searchQ, setSearchQ] = useState('');
 
-    //function is not called
-    // const fetchUsers = async () => {
-    //     let Following = []
-    //     const followData = await API.graphql(graphqlOperation(
-    //         listFollowingConns, {
-    //             filter: {followerID: {eq: user.id}}}))
-    //         for (let i = 0; i < followData.data.listFollowingConns.items.length; i++) {
-    //             Following.push(followData.data.listFollowingConns.items[i].author) 
-    //         setUsers(Following);}}
 
     //refresh function, does not work yet
     const onRefresh = () => {
@@ -86,10 +77,9 @@ const FollowingScreen = ({navigation} : any) => {
                         }
                 }))
 
-                // for (let i = 0; i < followData.data.listFollowingConns.items.length; i++) {
-                //     Following.push(followData.data.listFollowingConns.items[i].author) 
-
+                
                 setUsers(followData.data.listUsers.items);
+                
             } catch (e) {
             console.log(e);
           }
@@ -131,7 +121,7 @@ const FollowingScreen = ({navigation} : any) => {
       };
 
     //legacy function for selected the state toggle between followers and following
-    const [SelectedId, setSelectedId] = useState(1);
+    //const [SelectedId, setSelectedId] = useState(1);
 
     //title item for the flatlist that displays the authors the user following
     const Item = ({ numAuthored, pseudonym, imageUri, id, bio } : any) => {
@@ -147,7 +137,7 @@ const FollowingScreen = ({navigation} : any) => {
         }, [])
 
         //on item render, determine if the user is following them or not
-        const [isFollowing, setIsFollowing] = useState(true)
+       const [isFollowing, setIsFollowing] = useState(true)
 
         //show the options menu modal on the author tile
         const [ShowModalThing, setShowModalThing] = useState(false);
@@ -174,41 +164,41 @@ const FollowingScreen = ({navigation} : any) => {
         
         
 //follow a user function
-        const FollowUser = async () => {
+        // const FollowUser = async () => {
     
-            let createConnection = await API.graphql(graphqlOperation(
-                createFollowingConn, {input: {followerID: user.id, authorID: id}}
-            ))
-            console.log(createConnection)
-        }
+        //     let createConnection = await API.graphql(graphqlOperation(
+        //         createFollowingConn, {input: {followerID: user.id, authorID: id}}
+        //     ))
+        //     console.log(createConnection)
+        // }
     
 //unfollow a user
-        const unFollowUser = async () => {
+        // const unFollowUser = async () => {
     
-            let getConnection = await API.graphql(graphqlOperation(
-                listFollowingConns, {
-                    filter: {
-                        authorID: {
-                            eq: id
-                        },
-                        followerID: {
-                            eq: user.id
-                        }
-                    }
-                }
-            ))
-            console.log(getConnection)
+        //     let getConnection = await API.graphql(graphqlOperation(
+        //         listFollowingConns, {
+        //             filter: {
+        //                 authorID: {
+        //                     eq: id
+        //                 },
+        //                 followerID: {
+        //                     eq: user.id
+        //                 }
+        //             }
+        //         }
+        //     ))
+        //     console.log(getConnection)
             
-            let connectionID = getConnection.data.listFollowingConns.items[0].id
-            console.log(connectionID)
+        //     let connectionID = getConnection.data.listFollowingConns.items[0].id
+        //     console.log(connectionID)
     
-            let deleteConnection = await API.graphql(graphqlOperation(
-                deleteFollowingConn, {input: {"id": connectionID}}
-            ))
-            console.log(deleteConnection)
+        //     let deleteConnection = await API.graphql(graphqlOperation(
+        //         deleteFollowingConn, {input: {"id": connectionID}}
+        //     ))
+        //     console.log(deleteConnection)
 
-            setDidUpdate(!didUpdate)
-        }
+        //     setDidUpdate(!didUpdate)
+        // }
 
         
     
@@ -244,7 +234,7 @@ const FollowingScreen = ({navigation} : any) => {
                                         0
                                     </Text>   */}
                                     <FontAwesome5 
-                                        name='book-reader'
+                                        name='book-open'
                                         size={12}
                                         color='#ffffffa5'
                                         style={{ marginRight: 5}}
@@ -257,7 +247,7 @@ const FollowingScreen = ({navigation} : any) => {
                         </View>
                     </TouchableWithoutFeedback>    
     
-                    <TouchableWithoutFeedback onPress={fetchInfo}>
+                    {/* <TouchableWithoutFeedback onPress={fetchInfo}>
                         <View style={{ backgroundColor: 'transparent', padding: 30, margin: -30, alignItems: 'flex-end' }}>
                             <AntDesign
                                 name={'ellipsis1'}
@@ -265,7 +255,7 @@ const FollowingScreen = ({navigation} : any) => {
                                 color='white'
                             />
                         </View>
-                    </TouchableWithoutFeedback>
+                    </TouchableWithoutFeedback> */}
                 </View>    
     
                 <View style={{marginTop: 10, marginHorizontal: 5}}>
@@ -274,7 +264,7 @@ const FollowingScreen = ({navigation} : any) => {
                     </Text>
                 </View>
     
-                {ShowModalThing === true ? (
+                {/* {ShowModalThing === true ? (
                         
                         <View style={{ backgroundColor: '#484848', borderColor: 'black', borderRadius: 5, borderWidth: 0, position: 'absolute', right: 40, top: 30, alignSelf: 'flex-end'}}>
                             <TouchableOpacity onPress={isFollowing === true ? unFollowUser : FollowUser} >
@@ -289,26 +279,34 @@ const FollowingScreen = ({navigation} : any) => {
                             </TouchableOpacity>
                         </View>
                     
-                ) : null}
+                ) : null} */}
                
             </View>
         );
     }
     
-    const renderItem = ({ item } : any) => (
+    const renderItem = ({ item } : any) => {
+
+       
+        
+
+        return (
+            <Item 
+                author={item}
+                name={item.name}
+                id={item.id}
+                pseudonym={item.pseudonym}
+                imageUri={item.imageUri}
+                bio={item.bio}
+                following={item.following}
+                isPublisher={item.isPublisher}
+                numAuthored={item.numAuthored}
+            />
+        )   
+    }
     
-        <Item 
-            author={item}
-            name={item.name}
-            id={item.id}
-            pseudonym={item.pseudonym}
-            imageUri={item.imageUri}
-            bio={item.bio}
-            following={item.following}
-            isPublisher={item.isPublisher}
-            numAuthored={item.numAuthored}
-        />
-      );
+        
+      
 
     return (
     <View >
@@ -352,16 +350,14 @@ const FollowingScreen = ({navigation} : any) => {
                             return (
                                 <View style={{margin: 40, alignItems: 'center', justifyContent: 'center'}}>
                                     <Text style={{color: '#fff'}}>
-                                        There is nothing here. Check your connection.
+                                        There is nothing here. Check your internet connection.
                                     </Text>
                                 </View>
                             )
                         }}
                         ListFooterComponent={() => {
                             return (
-                                <View style={{margin: 40, alignItems: 'center', justifyContent: 'center'}}>
-                                    
-                                </View>
+                                <View style={{height: 70}} />
                             )
                         }}
                     />
@@ -428,4 +424,4 @@ const styles = StyleSheet.create({
      },
 });
 
-export default FollowingScreen;
+export default BrowseAuthor;

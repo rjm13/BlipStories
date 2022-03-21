@@ -12,18 +12,9 @@ import {
     ActivityIndicator 
 } from 'react-native';
 
-import {useNavigation} from '@react-navigation/native'
-
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-
-import { AppContext } from '../AppContext';
 import StoryTile from '../components/StoryTile';
 
-import { listFinishedStories } from '../src/customGraphql/customQueries';
-import { listPinnedStories, finishedStoriesByDate } from '../src/graphql/queries';
-import { deletePinnedStory } from '../src/graphql/mutations';
+import { finishedStoriesByDate } from '../src/graphql/queries';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 
