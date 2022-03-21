@@ -19,16 +19,19 @@ import { LinearGradient } from 'expo-linear-gradient';
 import {StatusBar} from 'expo-status-bar';
 import { StorageAccessFramework } from 'expo-file-system';
 import * as FileSystem from 'expo-file-system';
+import * as DocumentPicker from 'expo-document-picker';
 import * as Sharing from 'expo-sharing';
 import * as Permissions from 'expo-permissions'
 import * as MediaLibrary from 'expo-media-library';
 import { format, formatRelative, parseISO } from "date-fns";
+import { Modal, Portal, Provider } from 'react-native-paper';
+import uuid from 'react-native-uuid';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { getMessage, repliesByDate } from '../src/graphql/queries';
-import { updateMessage, createReply } from '../src/graphql/mutations';
+import { updateMessage, createReply, createDocumentAsset } from '../src/graphql/mutations';
 import * as Notifications from 'expo-notifications';
 import {
     AndroidImportance,
@@ -93,6 +96,10 @@ const ViewMessage = ({navigation} : any) => {
 
     const [user, setUser] = useState('')
 
+    const [didUpdate, setDidUpdate] = useState(false);
+
+    const [didPDFupdate, setDidPDFupdate] = useState(false);
+
     useEffect(() => {
         const markRead = async () => {
 
@@ -140,9 +147,7 @@ const ViewMessage = ({navigation} : any) => {
             
         }
         markRead();
-    }, [])
-
-    const [didUpdate, setDidUpdate] = useState(false);
+    }, [didPDFupdate])
 
     const [replies, setReplies] = useState([]);
 
@@ -321,6 +326,71 @@ const ViewMessage = ({navigation} : any) => {
       }
 
       const [isDownloading, setIsDownloading] = useState(false);
+
+      //shareModal
+    const [visible, setVisible] = useState(false);
+    const showModal = () => setVisible(true);
+    const hideModal = () => setVisible(false);
+    const containerStyle = {
+        backgroundColor: '#363636', 
+        padding: 20,
+        margin: 20,
+        borderRadius: 15,
+    };
+
+    const [document, setDocument] = useState('');
+    const [documentName, setDocumentName] = useState('')
+
+    const pickDocument = async () => {
+        let result = await DocumentPicker.getDocumentAsync({
+        type: 'application/pdf',
+        copyToCacheDirectory: false,
+        });
+
+        console.log(result);
+
+        if (result) {
+        setDocument(result.uri);
+        setDocumentName(result.name);
+        showModal();
+        }
+    };
+
+    const UploadPDF = async () => {
+        setIsDownloading(true);
+        if (document !== '') {
+            const docresponse = await fetch(document);
+            const blob = await docresponse.blob();
+            const filename = uuid.v4().toString();
+            const s3Response = await Storage.put(filename, blob);
+
+            let documentasset = await API.graphql(graphqlOperation(
+                createDocumentAsset, {input: {
+                    type: 'Document',
+                    createdAt: new Date(),
+                    userID: message?.userID,
+                    sharedUserID: message?.otherUserID,
+                    title: documentName,
+                    docUri: s3Response.key,
+                }}
+            ))
+
+            if (documentasset) {
+                let updatethemessage = await API.graphql(graphqlOperation(
+                    updateMessage, {input: {
+                        id: message?.id,
+                        updatedAt: new Date(),
+                        docID: documentasset.data.createDocumentAsset.id,
+                        isReadByOtherUser: false,
+                    }}
+                ))
+                console.log(updatethemessage)
+                setDidPDFupdate(!didPDFupdate);
+            }
+        }
+        setIsDownloading(false);
+        hideModal();
+    }
       
 
     const DownloadDocument2 = async () => {
@@ -366,6 +436,32 @@ const ViewMessage = ({navigation} : any) => {
 
 
     return (
+        <Provider>
+            <Portal>
+                <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                    <View style={{ alignItems: 'center'}}>
+                        <Text style={{
+                            fontSize: 16,
+                            paddingVertical: 16,
+                            color: '#fff'
+                        }}>
+                            Share {documentName}?
+                        </Text>
+                        
+                        <View style={styles.button}>
+                            <TouchableOpacity onPress={UploadPDF}>
+                                <View style={{justifyContent: 'center', alignItems: 'center'}} >
+                                    {isDownloading ? (
+                                        <ActivityIndicator size="small" color="cyan"/>
+                                    ) : 
+                                        <Text style={{borderRadius: 30, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Share PDF</Text> 
+                                    } 
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+            </Portal>
         <View >
             <LinearGradient
                 colors={['#363636a5', '#363636a5', 'black']}
@@ -436,7 +532,21 @@ const ViewMessage = ({navigation} : any) => {
                                             </TouchableWithoutFeedback>
                                         ) : message?.docID !== null && isDownloading === true ? (
                                             <ActivityIndicator size='small' color='cyan'/>
-                                        ) : null}
+                                        ) : message?.userID === user && message?.docID === null ? (
+                                                <TouchableWithoutFeedback onPress={pickDocument}>
+                                                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                                        <FontAwesome5 
+                                                            name='upload'
+                                                            size={14}
+                                                            color='#00ffff'
+                                                            style={{paddingRight: 6}}
+                                                        />
+                                                        <Text style={{color: '#00ffff', }}>
+                                                            PDF
+                                                        </Text>
+                                                    </View>
+                                            </TouchableWithoutFeedback>
+                                            ) : null}
                                     </View>
                                     
                                 </View>
@@ -503,6 +613,7 @@ const ViewMessage = ({navigation} : any) => {
                 
             </LinearGradient>
         </View>
+        </Provider>
     );
 }
 
@@ -523,7 +634,12 @@ const styles = StyleSheet.create ({
         justifyContent: 'space-between', 
         marginHorizontal: 40, 
         marginVertical: 20
-    }
+    },
+    button: {
+        alignItems: 'center',
+        marginVertical: 30,
+    },
+   
 });
 
 export default ViewMessage;
