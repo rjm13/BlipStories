@@ -197,9 +197,7 @@ const ViewMessage = ({navigation} : any) => {
                 userID={item.userID}
                 userName={
                     message?.subtitle === 'artist' && message?.userID !== user ? item.user.artistPseudo : 
-                    message?.subtitle === 'artist' && message?.userID === user ? item.user.artistPseudo : 
                     message?.subtitle === 'narrator' && message?.userID !== user ? item.user.narratorPseudo : 
-                    message?.subtitle === 'narrator' && message?.userID === user ? item.user.narratorPseudo : 
                     item.user.pseudonym}
                 otherUserName={
                     message?.subtitle === 'artist' && message?.userID !== user ? item.user.artistPseudo : 
