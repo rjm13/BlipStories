@@ -98,26 +98,11 @@ const EditProfile = ({navigation} : any) => {
         fetchUser();
       }, [update])
 
-//sign out function
-    async function signOut() {
-        try {
-            await Auth.signOut()
-            .then(() => navigation.navigate('SignIn'))
-        } catch (error) {
-            console.log('error signing out: ', error);
-            alert("error signing out")
-        }
-    }
-
 //PhotoModal
     const [visible, setVisible] = useState(false);
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
 
-//SignOutModal
-    const [visible2, setVisible2] = useState(false);
-    const showSignOutModal = () => setVisible2(true);
-    const hideSignOutModal = () => setVisible2(false);
     const containerStyle = {
         backgroundColor: '#363636', 
         padding: 20,
@@ -173,13 +158,9 @@ const hideStylesModal = () => setVisible9(false);
 
 //Attribute states
 const [ voiceState, setVoiceState ] = useState('');
-const [ Email, setEmail ] = useState('');
 const [ Bio, setBio ] = useState('');
 const [ narratorBio, setNarratorBio ] = useState('');
 const [ artistBio, setArtistBio ] = useState('');
-const [ confirmCode, setConfirmCode] = useState('');
-const [ Password, setPassword] = useState('');
-const [ oldPassword, setOldPassword] = useState('');
 const [image, setImage] = useState('');
 const [Pseudonym, setPseudonym] = useState('');
 const [ArtistPseudonym, setArtistPseudonym] = useState('');
@@ -194,8 +175,6 @@ const PublishAvatar = async () => {
 
     setIsUploading(true);
 
-    //await handleUpdateImage();
-
     const response = await fetch(image);
 
         const blob = await response.blob();
@@ -203,10 +182,6 @@ const PublishAvatar = async () => {
         const filename =  uuid.v4().toString();
 
         const s3Response = await Storage.put(filename, blob);
-
-    //if ( avatarKey !== '' ) {
-
-        //const getresponse = await Storage.get(s3Response.key);
   
         const updatedUser = { id: user.id, imageUri: s3Response.key }
   
@@ -214,8 +189,7 @@ const PublishAvatar = async () => {
             updateUser, { input: updatedUser }
             ))
         console.log(result);
-        
-        //}
+
     setIsUploading(false);
     hideModal();
 };
@@ -378,6 +352,7 @@ const handleUpdateNarratorBio = async () => {
     const [stylesData, setStylesData] = useState([]);
 
     const SubmitAccents = async () => {
+        setIsUploading(true);
         let response = await API.graphql(graphqlOperation(
             updateUser, {input: {
                 id: user?.id,
@@ -385,21 +360,26 @@ const handleUpdateNarratorBio = async () => {
             }}
         ))
         console.log(response);
+        setIsUploading(false);
         hideAccentsModal();
     }
 
     const SubmitStyles = async () => {
+        setIsUploading(true);
+
         let response = await API.graphql(graphqlOperation(
             updateUser, {input: {
                 id: user?.id,
-                styles: stylesData
+                artStyles: stylesData
             }}
         ))
         console.log(response);
+        setIsUploading(false);
         hideStylesModal();
     }
 
     const SubmitVoice = async () => {
+        setIsUploading(true)
         let response = await API.graphql(graphqlOperation(
             updateUser, {input: {
                 id: user?.id,
@@ -407,6 +387,8 @@ const handleUpdateNarratorBio = async () => {
             }}
         ))
         console.log(response);
+        didUpdate(!update);
+        setIsUploading(false);
         hideVoiceModal();
     }
 
@@ -462,9 +444,9 @@ const handleUpdateNarratorBio = async () => {
                             onPress={SubmitVoice}>
                             <View style={styles.savebutton} >
                                 {isUploading ? (
-                                     <ActivityIndicator size="small" color="#0000ff"/>
+                                     <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
-                                    <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
+                                    <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
                                 } 
                             </View>
                         </TouchableOpacity>
@@ -497,9 +479,9 @@ const handleUpdateNarratorBio = async () => {
                             onPress={handleUpdateArtistPseudonym}>
                             <View style={styles.savebutton} >
                                 {isUploading ? (
-                                     <ActivityIndicator size="small" color="#0000ff"/>
+                                     <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
-                                    <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
+                                    <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
                                 } 
                             </View>
                         </TouchableOpacity>
@@ -532,9 +514,9 @@ const handleUpdateNarratorBio = async () => {
                             onPress={handleUpdateNarratorPseudonym}>
                             <View style={styles.savebutton} >
                                 {isUploading ? (
-                                     <ActivityIndicator size="small" color="#0000ff"/>
+                                     <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
-                                    <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
+                                    <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
                                 } 
                             </View>
                         </TouchableOpacity>
@@ -567,9 +549,9 @@ const handleUpdateNarratorBio = async () => {
                             onPress={handleUpdatePseudonym}>
                             <View style={styles.savebutton} >
                                 {isUploading ? (
-                                     <ActivityIndicator size="small" color="#0000ff"/>
+                                     <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
-                                    <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
+                                    <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
                                 } 
                             </View>
                         </TouchableOpacity>
@@ -606,9 +588,9 @@ const handleUpdateNarratorBio = async () => {
                             onPress={handleUpdateBio}>
                             <View style={styles.savebutton} >
                                 {isUploading ? (
-                                    <ActivityIndicator size="small" color="#0000ff"/>
+                                    <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
-                                    <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
+                                    <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
                                 } 
                             </View>
                         </TouchableWithoutFeedback>
@@ -645,9 +627,9 @@ const handleUpdateNarratorBio = async () => {
                             onPress={handleUpdateNarratorBio}>
                             <View style={styles.savebutton} >
                                 {isUploading ? (
-                                    <ActivityIndicator size="small" color="#0000ff"/>
+                                    <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
-                                    <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
+                                    <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
                                 } 
                             </View>
                         </TouchableWithoutFeedback>
@@ -684,9 +666,9 @@ const handleUpdateNarratorBio = async () => {
                             onPress={handleUpdateArtistBio}>
                             <View style={styles.savebutton} >
                                 {isUploading ? (
-                                    <ActivityIndicator size="small" color="#0000ff"/>
+                                    <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
-                                    <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
+                                    <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
                                 } 
                             </View>
                         </TouchableWithoutFeedback>
@@ -713,10 +695,10 @@ const handleUpdateNarratorBio = async () => {
                     <View style={styles.button}>
                             <View style={styles.savebutton} >
                                 {isUploading ? (
-                                    <ActivityIndicator size="small" color="#0000ff"/>
+                                    <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
                                     <TouchableOpacity onPress={PublishAvatar}>
-                                        <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>
+                                        <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>
                                             Submit
                                         </Text>
                                     </TouchableOpacity> 
@@ -774,14 +756,18 @@ const handleUpdateNarratorBio = async () => {
                             )
                         }
                         </ScrollView>
-                        <TouchableWithoutFeedback onPress={SubmitAccents}>
-                            <View style={{marginTop: 10, borderRadius: 20, paddingVertical: 6, paddingHorizontal: 20, alignSelf: 'center', backgroundColor: 'cyan'}}>
-                                <Text style={{color: '#000'}}>
-                                    Done
-                                </Text>
-                            </View>
-                        </TouchableWithoutFeedback>
                         
+                            {isUploading === true ? (
+                                <ActivityIndicator size='small' color='cyan'/>
+                            ) : (
+                                <TouchableWithoutFeedback onPress={SubmitAccents}>
+                                    <View style={{marginTop: 10, borderRadius: 20, paddingVertical: 6, paddingHorizontal: 20, alignSelf: 'center', backgroundColor: 'cyan'}}>
+                                        <Text style={{color: '#000'}}>
+                                            Done
+                                        </Text>
+                                    </View>
+                                </TouchableWithoutFeedback>    
+                            )}
                     </View> 
             </Modal>
 {/* //Styles modal */}
@@ -832,13 +818,17 @@ const handleUpdateNarratorBio = async () => {
                             )
                         }
                         </ScrollView>
-                        <TouchableWithoutFeedback onPress={SubmitStyles}>
-                            <View style={{marginTop: 10, borderRadius: 20, paddingVertical: 6, paddingHorizontal: 20, alignSelf: 'center', backgroundColor: 'cyan'}}>
-                                <Text style={{color: '#000'}}>
-                                    Done
-                                </Text>
-                            </View>
-                        </TouchableWithoutFeedback>
+                        {isUploading === true ? (
+                                <ActivityIndicator size='small' color='cyan'/>
+                            ) : (
+                                <TouchableWithoutFeedback onPress={SubmitStyles}>
+                                    <View style={{marginTop: 10, borderRadius: 20, paddingVertical: 6, paddingHorizontal: 20, alignSelf: 'center', backgroundColor: 'cyan'}}>
+                                        <Text style={{color: '#000'}}>
+                                            Done
+                                        </Text>
+                                    </View>
+                                </TouchableWithoutFeedback>    
+                            )}
                         
                     </View>
                 </Modal>
@@ -1126,8 +1116,6 @@ const styles = StyleSheet.create({
     savebutton: {
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 30,
-        backgroundColor: 'cyan'
     },
     savewords: {
         fontSize: 14,
