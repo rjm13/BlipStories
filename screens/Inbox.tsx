@@ -3,9 +3,7 @@ import {
     View, 
     Text, 
     StyleSheet,
-    ScrollView, 
     TouchableWithoutFeedback,  
-    Image,
     FlatList,
     Dimensions,
     RefreshControl
@@ -18,7 +16,7 @@ import { format, parseISO } from "date-fns";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, messagesByDate } from '../src/graphql/queries';
+import { getUser, messagesByUpdatedDate } from '../src/graphql/queries';
 
 
 const Inbox = ({navigation} : any) => {
@@ -27,13 +25,17 @@ const Inbox = ({navigation} : any) => {
 
     const [didUpdate, setDidUpdate] = useState(false);
 
+    const [currentUserID, setCurrentUserID] = useState()
+
     useEffect(() => {
         let getMessages = async () => {
 
             const userInfo = await Auth.currentAuthenticatedUser();
 
+            setCurrentUserID(userInfo.attributes.sub)
+
             const response = await API.graphql(graphqlOperation(
-                messagesByDate, {
+                messagesByUpdatedDate, {
                     type: 'Message',
                     sortDirection: 'DESC',
                     limit: 100,
@@ -54,29 +56,29 @@ const Inbox = ({navigation} : any) => {
                     }
                 }
             ))
-            setMessages(response.data.messagesByDate.items)
+            setMessages(response.data.messagesByUpdatedDate.items)
         }
         getMessages();
     }, [didUpdate])
 
-    const Item = ({index, id, title, content, subtitle, uersID, otherUserID, createdAt, isRead} : any) => {
+    const Item = ({index, id, title, content, narrPseudo, publisherPseudo, request, artistPseudo, subtitle, userID, otherUserID, createdAt, isReadbyUser, isReadByOtherUser} : any) => {
 
-        const [user, setUser] = useState({})
+        // const [user, setUser] = useState({})
 
-        useEffect(() => {
-            const fetchUser = async () => {
-                let response = await API.graphql(graphqlOperation(
-                    getUser, {id: otherUserID}
-                ))
-            setUser(response.data.getUser)    
-            }
-            fetchUser();
-        }, [])
+        // useEffect(() => {
+        //     const fetchUser = async () => {
+        //         let response = await API.graphql(graphqlOperation(
+        //             getUser, {id: otherUserID}
+        //         ))
+        //     setUser(response.data.getUser)    
+        //     }
+        //     fetchUser();
+        // }, [])
 
         return (
             <TouchableWithoutFeedback onPress={() => navigation.navigate('ViewMessage', {messageid: id})}>
                 <View style={{backgroundColor: index%2 === 0 ? '#303030a5' : 'transparent', alignItems: 'center', paddingVertical: 6, flexDirection: 'row', justifyContent: 'space-between'}}>
-                    {isRead === true ? null : (
+                    {isReadbyUser === true && currentUserID === userID ? null : isReadbyUser === false && currentUserID === userID ? (
                         <View style={{}}>
                             <FontAwesome5 
                                 name='hand-point-right'
@@ -85,12 +87,21 @@ const Inbox = ({navigation} : any) => {
                                 style={{marginLeft: 20, marginRight: 0, alignSelf: 'center'}}
                             />
                         </View>
-                    )}
+                    ) : isReadByOtherUser === true && currentUserID !== userID ? null : isReadByOtherUser === false && currentUserID !== userID ? (
+                            <View style={{}}>
+                                <FontAwesome5 
+                                    name='hand-point-right'
+                                    size={20}
+                                    color='#00ffffa5'
+                                    style={{marginLeft: 20, marginRight: 0, alignSelf: 'center'}}
+                                />
+                        </View>
+                    ) : null}
                     
-                    <View style={{marginRight: 20, marginVertical: 10, paddingHorizontal: 20, width: isRead === true ? Dimensions.get('window').width : Dimensions.get('window').width - 40 }}>
+                    <View style={{marginRight: 20, marginVertical: 10, paddingHorizontal: 20, width: isReadbyUser === true && currentUserID === userID ? Dimensions.get('window').width : isReadbyUser === false && currentUserID === userID ? Dimensions.get('window').width - 40 : isReadByOtherUser === true && currentUserID !== userID ? Dimensions.get('window').width : isReadByOtherUser === false && currentUserID !== userID ? Dimensions.get('window').width - 40 : Dimensions.get('window').width}}>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                             <Text style={{color: '#fff', fontWeight: 'bold'}}>
-                                {user?.pseudonym}
+                                {request === 'art' && currentUserID === userID ? artistPseudo : request === 'narration' && currentUserID === userID ? narrPseudo : publisherPseudo}
                             </Text>
                             <Text style={{color: '#fff', fontSize: 12}}>
                                 {format(parseISO(createdAt), "MMM do")}
@@ -110,6 +121,19 @@ const Inbox = ({navigation} : any) => {
     }
 
     const renderItem = ({item, index}: any) => {
+
+        let narratorPseudo = ''
+        let artistPseudo = ''
+        let pseudonym = ''
+
+        if (item.user) {
+            pseudonym = item.user.pseudonym
+        }
+        if (item.otherUser) {
+            narratorPseudo = item.otherUser.narratorPseudo
+            artistPseudo = item.otherUser.artistPseudo
+        }
+
         return (
             <Item 
                 id={item.id}
@@ -119,8 +143,13 @@ const Inbox = ({navigation} : any) => {
                 userID={item.userID}
                 otherUserID={item.otherUserID}
                 createdAt={item.createdAt}
-                isRead={item.isRead}
+                isReadbyUser={item.isReadbyUser}
+                isReadByOtherUser={item.isReadByOtherUser}
                 index={index}
+                narrPseudo={narratorPseudo}
+                artistPseudo={artistPseudo}
+                request={item.request}
+                publisherPseudo={pseudonym}
             />
         )
     }

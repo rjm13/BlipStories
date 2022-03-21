@@ -45,6 +45,8 @@ const CreateMessage = ({navigation} : any) => {
         content: '',
         title: type === 'artist' ? 'Request for Cover Art' : type === 'narrator' ? 'Request for Narration' : 'Request',
         subtitle: '',
+        request: type === 'artist' ? 'art' : type === 'narrator' ? 'narration' : null
+
     });
 
     //document picker
@@ -127,18 +129,22 @@ const CreateMessage = ({navigation} : any) => {
                 }}
             ))
 
-
+//when creating a message request, the user will always be the publisher and theotheruser will always be an artist or narrator
+//the publisher (user) always creates the message
             let response = await API.graphql(graphqlOperation(
                 createMessage, {input: {
                     type: 'Message',
                     createdAt: new Date(),
+                    updatedAt: new Date(),
                     userID: data.userID,
                     otherUserID: data.otherUserID,
                     content: data.content,
                     title: data.title,
                     subtitle: type,
-                    isRead: false,
-                    docID: documentasset.data.createDocumentAsset.id
+                    isReadbyUser: true,
+                    isReadByOtherUser: false,
+                    docID: documentasset.data.createDocumentAsset.id,
+                    request: data.request,
                 }}
             ));
             console.log(response);
@@ -150,12 +156,16 @@ const CreateMessage = ({navigation} : any) => {
                 createMessage, {input: {
                     type: 'Message',
                     createdAt: new Date(),
+                    updatedAt: new Date(),
                     userID: data.userID,
                     otherUserID: data.otherUserID,
                     content: data.content,
                     title: data.title,
                     subtitle: type,
-                    isRead: false,
+                    isReadbyUser: true,
+                    isReadByOtherUser: false,
+                    docID: null, 
+                    request: data.request,
                 }}
             ));
             console.log(response);

@@ -98,23 +98,45 @@ const ViewMessage = ({navigation} : any) => {
 
             const userInfo = await Auth.currentAuthenticatedUser();
             setUser(userInfo.attributes.sub);
-
-            let response = await API.graphql(graphqlOperation(
-                updateMessage, {input: {
-                    id: messageid,
-                    isRead: true,
-                }}
-            ))
-            console.log(response);
             
 
             let messageresponse = await API.graphql(graphqlOperation(
                 getMessage, {id: messageid}
             ))
-            let imageresponse = await Storage.get(messageresponse.data.getMessage.otherUser.imageUri)
+
+            if (messageresponse.data.getMessage.userID === userInfo.attributes.sub) {
+                let imageresponse = await Storage.get(messageresponse.data.getMessage.otherUser.imageUri)
+                setImageU(imageresponse)
+            }
+
+            if (messageresponse.data.getMessage.otherUserID === userInfo.attributes.sub) {
+                let imageresponse = await Storage.get(messageresponse.data.getMessage.user.imageUri)
+                setImageU(imageresponse)
+            }
+            
             setMessage(messageresponse.data.getMessage);
-            setImageU(imageresponse)
             setMessageDate(format(parseISO(messageresponse.data.getMessage.createdAt), "MMM do yyyy"))
+
+            if (messageresponse.data.getMessage.userID === userInfo.attributes.sub) {
+               let response = await API.graphql(graphqlOperation(
+                    updateMessage, {input: {
+                        id: messageid,
+                        isReadbyUser: true,
+                    }}
+                ))
+                console.log(response); 
+            }
+
+            if (messageresponse.data.getMessage.otherUserID === userInfo.attributes.sub) {
+                let response = await API.graphql(graphqlOperation(
+                     updateMessage, {input: {
+                         id: messageid,
+                         isReadByOtherUser: true,
+                     }}
+                 ))
+                 console.log(response); 
+             }
+            
             
         }
         markRead();
@@ -173,13 +195,24 @@ const ViewMessage = ({navigation} : any) => {
                 createdAt={item.createdAt}
                 isRead={item.isRead}
                 userID={item.userID}
-                userName={item.user.pseudonym}
-                otherUserName={item.user.pseudonym}
+                userName={
+                    message?.subtitle === 'artist' && message?.userID !== user ? item.user.artistPseudo : 
+                    message?.subtitle === 'artist' && message?.userID === user ? item.user.artistPseudo : 
+                    message?.subtitle === 'narrator' && message?.userID !== user ? item.user.narratorPseudo : 
+                    message?.subtitle === 'narrator' && message?.userID === user ? item.user.narratorPseudo : 
+                    item.user.pseudonym}
+                otherUserName={
+                    message?.subtitle === 'artist' && message?.userID !== user ? item.user.artistPseudo : 
+                    message?.subtitle === 'artist' && message?.userID === user ? item.user.artistPseudo : 
+                    message?.subtitle === 'narrator' && message?.userID !== user ? item.user.narratorPseudo : 
+                    message?.subtitle === 'narrator' && message?.userID === user ? item.user.narratorPseudo : 
+                    item.user.pseudonym}
             />
         )
     }
 
     const SubmitReply = async () => {
+
         if (reply !== '') {
             let response = await API.graphql(graphqlOperation(
                 createReply, {input: {
@@ -191,7 +224,16 @@ const ViewMessage = ({navigation} : any) => {
                     userID: user
                 }}
             ))
+            let response2 = await API.graphql(graphqlOperation(
+                updateMessage, {input: {
+                    id: message?.id,
+                    updatedAt: new Date (),
+                    isReadbyUser: message?.userID === user ? true : false,
+                    isReadByOtherUser: message?.otherUserID === user ? true : false,
+                }}
+            ))
             console.log(response)
+            console.log(response2)
             setDidUpdate(!didUpdate);
             setReply('');
             clear.current.clear()
@@ -351,7 +393,7 @@ const ViewMessage = ({navigation} : any) => {
                                 style={{height: 40, width: 40, borderRadius: 25, marginLeft: 40}}
                             />
                             <Text style={styles.header}>
-                                {message?.user === user && message?.subtitle === 'artist' ? message?.otherUser?.artistPseudo : message?.user === user && message?.subtitle === 'narrator' ? message?.otherUser?.narratorPseudo : message?.user?.pseudonym}
+                                {message?.user?.id === user && message?.subtitle === 'artist' ? message?.otherUser?.artistPseudo : message?.user?.id === user && message?.subtitle === 'narrator' ? message?.otherUser?.narratorPseudo : message?.user?.pseudonym}
                             </Text>
                         </View>
 
@@ -429,7 +471,12 @@ const ViewMessage = ({navigation} : any) => {
 {/* Footer */}
                     <View style={{position: 'absolute', bottom: isKeyboardVisible ? 300 : 0, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 30, width: SCREEN_WIDTH, height: 80, backgroundColor: '#303030'}}>
                         <TextInput
-                            placeholder={'Reply to ' + (message?.user === user && message?.subtitle === 'artist' ? message?.otherUser?.artistPseudo : message?.user === user && message?.subtitle === 'narrator' ? message?.otherUser?.narratorPseudo : message?.user?.pseudonym)}
+                            placeholder={'Reply to ' + (
+                                message?.userID === user && message?.subtitle === 'artist' ? 
+                                message?.otherUser?.artistPseudo : 
+                                message?.userID === user && message?.subtitle === 'narrator' ?
+                                message?.otherUser?.narratorPseudo : 
+                                message?.user?.pseudonym)}
                             placeholderTextColor='#ffffffa5'
                             style={{color: '#fff', padding: 10, width: SCREEN_WIDTH - 60}}
                             maxLength={1000}

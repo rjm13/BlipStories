@@ -48,8 +48,8 @@ const ProfileScreen = ({navigation} : any) => {
             const getFollowers = await API.graphql(graphqlOperation(
                 listFollowingConns, {
                     filter: {
-                        authorID: {
-                            eq: userData.data.getUser.id
+                        followerID: {
+                            eq: userInfo.attributes.sub
                         }
                     }
                 }
@@ -74,12 +74,25 @@ const ProfileScreen = ({navigation} : any) => {
             let response = await API.graphql(graphqlOperation(
                 listMessages, {
                     filter: {
-                        userID: {
-                            eq: userInfo.attributes.sub,
-                        },
-                        isRead: {
-                            eq: false
-                        }
+                        or: [
+                           {
+                                userID: {
+                                    eq: userInfo.attributes.sub
+                                }, 
+                                isReadbyUser: {
+                                    eq: false,
+                                }
+                            },
+                            {
+                                otherUserID: {
+                                    eq: userInfo.attributes.sub
+                                },
+                                isReadByOtherUser: {
+                                    eq: false
+                                }
+                            },
+                        ]
+                        
                     }
                 }
             ))
@@ -130,7 +143,7 @@ const ProfileScreen = ({navigation} : any) => {
                         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                                 <View style={{ alignItems: 'center', margin: 20}}>
                                     <Text style={{ color: 'cyan', opacity: .5}}>
-                                        {user?.followers.items.length}
+                                        {numFollowers}
                                     </Text>
                                     <Text style={{ color: '#ffffffa5', fontWeight: 'bold'}}>
                                         Following
@@ -140,7 +153,7 @@ const ProfileScreen = ({navigation} : any) => {
                                 {user?.isPublisher === true ? (
                                     <View style={{ alignItems: 'center', margin: 20}}>
                                         <Text style={{ color: 'cyan', opacity: .5}}>
-                                            {numFollowers}
+                                            {user?.followers.items.length}
                                         </Text>
                                         <Text style={{ color: '#ffffffa5', fontWeight: 'bold'}}>
                                             Followers
@@ -170,11 +183,11 @@ const ProfileScreen = ({navigation} : any) => {
                                 <Text style={{ color: '#fff', fontSize: 16}}>
                                     Inbox
                                 </Text>
-                                {newMessages.length > 0 ? (
+                                {newMessages > 0 ? (
                                     <Text style={{fontWeight: 'bold', textAlign: 'center', paddingHorizontal: 8, backgroundColor: '#00ffff', borderRadius: 15, height: 20, marginLeft: 10}}>
                                         {newMessages}
                                     </Text>
-                                ) : null}
+                                   ) : null}
                             </View>
                             
                             <FontAwesome5 

@@ -2970,8 +2970,8 @@ export const getMessage = /* GraphQL */ `
         updatedAt
       }
       createdAt
-      isReadbyRec
-      isReadBySender
+      isReadbyUser
+      isReadByOtherUser
       replies {
         items {
           id
@@ -2985,6 +2985,7 @@ export const getMessage = /* GraphQL */ `
         }
         nextToken
       }
+      request
       docID
       doc {
         id
@@ -3128,11 +3129,12 @@ export const listMessages = /* GraphQL */ `
           updatedAt
         }
         createdAt
-        isReadbyRec
-        isReadBySender
+        isReadbyUser
+        isReadByOtherUser
         replies {
           nextToken
         }
+        request
         docID
         doc {
           id
@@ -3224,11 +3226,12 @@ export const getReply = /* GraphQL */ `
           updatedAt
         }
         createdAt
-        isReadbyRec
-        isReadBySender
+        isReadbyUser
+        isReadByOtherUser
         replies {
           nextToken
         }
+        request
         docID
         doc {
           id
@@ -3322,8 +3325,9 @@ export const listReplies = /* GraphQL */ `
           userID
           otherUserID
           createdAt
-          isReadbyRec
-          isReadBySender
+          isReadbyUser
+          isReadByOtherUser
+          request
           docID
           updatedAt
         }
@@ -3878,16 +3882,6 @@ export const pinnedStoryByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
-          genre {
-            id
-            genre
-            icon
-            PrimaryColor
-            SecondaryColor
-            imageUri
-            createdAt
-            updatedAt
-          }
           hidden
           approved
           createdAt
@@ -3971,16 +3965,6 @@ export const finishedStoriesByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
-          genre {
-            id
-            genre
-            icon
-            PrimaryColor
-            SecondaryColor
-            imageUri
-            createdAt
-            updatedAt
-          }
           hidden
           approved
           createdAt
@@ -4769,16 +4753,6 @@ export const ratingsByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
-          genre {
-            id
-            genre
-            icon
-            PrimaryColor
-            SecondaryColor
-            imageUri
-            createdAt
-            updatedAt
-          }
           hidden
           approved
           createdAt
@@ -4915,11 +4889,117 @@ export const messagesByDate = /* GraphQL */ `
           updatedAt
         }
         createdAt
-        isReadbyRec
-        isReadBySender
+        isReadbyUser
+        isReadByOtherUser
         replies {
           nextToken
         }
+        request
+        docID
+        doc {
+          id
+          type
+          title
+          docUri
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
+        }
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const messagesByUpdatedDate = /* GraphQL */ `
+  query MessagesByUpdatedDate(
+    $type: String!
+    $updatedAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    messagesByUpdatedDate(
+      type: $type
+      updatedAt: $updatedAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        title
+        subtitle
+        content
+        user {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        userID
+        otherUserID
+        otherUser {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          following
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          createdAt
+          updatedAt
+        }
+        createdAt
+        isReadbyUser
+        isReadByOtherUser
+        replies {
+          nextToken
+        }
+        request
         docID
         doc {
           id
@@ -4970,8 +5050,9 @@ export const repliesByDate = /* GraphQL */ `
           userID
           otherUserID
           createdAt
-          isReadbyRec
-          isReadBySender
+          isReadbyUser
+          isReadByOtherUser
+          request
           docID
           updatedAt
         }

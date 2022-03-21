@@ -5964,8 +5964,8 @@ export const createMessage = /* GraphQL */ `
         updatedAt
       }
       createdAt
-      isReadbyRec
-      isReadBySender
+      isReadbyUser
+      isReadByOtherUser
       replies {
         items {
           id
@@ -5979,6 +5979,7 @@ export const createMessage = /* GraphQL */ `
         }
         nextToken
       }
+      request
       docID
       doc {
         id
@@ -6168,8 +6169,8 @@ export const updateMessage = /* GraphQL */ `
         updatedAt
       }
       createdAt
-      isReadbyRec
-      isReadBySender
+      isReadbyUser
+      isReadByOtherUser
       replies {
         items {
           id
@@ -6183,6 +6184,7 @@ export const updateMessage = /* GraphQL */ `
         }
         nextToken
       }
+      request
       docID
       doc {
         id
@@ -6372,8 +6374,8 @@ export const deleteMessage = /* GraphQL */ `
         updatedAt
       }
       createdAt
-      isReadbyRec
-      isReadBySender
+      isReadbyUser
+      isReadByOtherUser
       replies {
         items {
           id
@@ -6387,6 +6389,7 @@ export const deleteMessage = /* GraphQL */ `
         }
         nextToken
       }
+      request
       docID
       doc {
         id
@@ -6535,11 +6538,12 @@ export const createReply = /* GraphQL */ `
           updatedAt
         }
         createdAt
-        isReadbyRec
-        isReadBySender
+        isReadbyUser
+        isReadByOtherUser
         replies {
           nextToken
         }
+        request
         docID
         doc {
           id
@@ -6687,11 +6691,12 @@ export const updateReply = /* GraphQL */ `
           updatedAt
         }
         createdAt
-        isReadbyRec
-        isReadBySender
+        isReadbyUser
+        isReadByOtherUser
         replies {
           nextToken
         }
+        request
         docID
         doc {
           id
@@ -6839,11 +6844,12 @@ export const deleteReply = /* GraphQL */ `
           updatedAt
         }
         createdAt
-        isReadbyRec
-        isReadBySender
+        isReadbyUser
+        isReadByOtherUser
         replies {
           nextToken
         }
+        request
         docID
         doc {
           id

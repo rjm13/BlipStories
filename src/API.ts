@@ -922,9 +922,11 @@ export type CreateMessageInput = {
   userID?: string | null,
   otherUserID?: string | null,
   createdAt?: string | null,
-  isReadbyRec?: boolean | null,
-  isReadBySender?: boolean | null,
+  isReadbyUser?: boolean | null,
+  isReadByOtherUser?: boolean | null,
+  request?: string | null,
   docID?: string | null,
+  updatedAt?: string | null,
 };
 
 export type ModelMessageConditionInput = {
@@ -935,9 +937,11 @@ export type ModelMessageConditionInput = {
   userID?: ModelIDInput | null,
   otherUserID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
-  isReadbyRec?: ModelBooleanInput | null,
-  isReadBySender?: ModelBooleanInput | null,
+  isReadbyUser?: ModelBooleanInput | null,
+  isReadByOtherUser?: ModelBooleanInput | null,
+  request?: ModelStringInput | null,
   docID?: ModelIDInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelMessageConditionInput | null > | null,
   or?: Array< ModelMessageConditionInput | null > | null,
   not?: ModelMessageConditionInput | null,
@@ -955,12 +959,13 @@ export type Message = {
   otherUserID?: string | null,
   otherUser?: User | null,
   createdAt?: string | null,
-  isReadbyRec?: boolean | null,
-  isReadBySender?: boolean | null,
+  isReadbyUser?: boolean | null,
+  isReadByOtherUser?: boolean | null,
   replies?: ModelReplyConnection | null,
+  request?: string | null,
   docID?: string | null,
   doc?: DocumentAsset | null,
-  updatedAt: string,
+  updatedAt?: string | null,
 };
 
 export type ModelReplyConnection = {
@@ -992,9 +997,11 @@ export type UpdateMessageInput = {
   userID?: string | null,
   otherUserID?: string | null,
   createdAt?: string | null,
-  isReadbyRec?: boolean | null,
-  isReadBySender?: boolean | null,
+  isReadbyUser?: boolean | null,
+  isReadByOtherUser?: boolean | null,
+  request?: string | null,
   docID?: string | null,
+  updatedAt?: string | null,
 };
 
 export type DeleteMessageInput = {
@@ -1301,9 +1308,11 @@ export type ModelMessageFilterInput = {
   userID?: ModelIDInput | null,
   otherUserID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
-  isReadbyRec?: ModelBooleanInput | null,
-  isReadBySender?: ModelBooleanInput | null,
+  isReadbyUser?: ModelBooleanInput | null,
+  isReadByOtherUser?: ModelBooleanInput | null,
+  request?: ModelStringInput | null,
   docID?: ModelIDInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelMessageFilterInput | null > | null,
   or?: Array< ModelMessageFilterInput | null > | null,
   not?: ModelMessageFilterInput | null,
@@ -8046,8 +8055,8 @@ export type CreateMessageMutation = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
-    isReadbyRec?: boolean | null,
-    isReadBySender?: boolean | null,
+    isReadbyUser?: boolean | null,
+    isReadByOtherUser?: boolean | null,
     replies?:  {
       __typename: "ModelReplyConnection",
       items:  Array< {
@@ -8063,6 +8072,7 @@ export type CreateMessageMutation = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    request?: string | null,
     docID?: string | null,
     doc?:  {
       __typename: "DocumentAsset",
@@ -8133,7 +8143,7 @@ export type CreateMessageMutation = {
       createdAt?: string | null,
       updatedAt: string,
     } | null,
-    updatedAt: string,
+    updatedAt?: string | null,
   } | null,
 };
 
@@ -8275,8 +8285,8 @@ export type UpdateMessageMutation = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
-    isReadbyRec?: boolean | null,
-    isReadBySender?: boolean | null,
+    isReadbyUser?: boolean | null,
+    isReadByOtherUser?: boolean | null,
     replies?:  {
       __typename: "ModelReplyConnection",
       items:  Array< {
@@ -8292,6 +8302,7 @@ export type UpdateMessageMutation = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    request?: string | null,
     docID?: string | null,
     doc?:  {
       __typename: "DocumentAsset",
@@ -8362,7 +8373,7 @@ export type UpdateMessageMutation = {
       createdAt?: string | null,
       updatedAt: string,
     } | null,
-    updatedAt: string,
+    updatedAt?: string | null,
   } | null,
 };
 
@@ -8504,8 +8515,8 @@ export type DeleteMessageMutation = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
-    isReadbyRec?: boolean | null,
-    isReadBySender?: boolean | null,
+    isReadbyUser?: boolean | null,
+    isReadByOtherUser?: boolean | null,
     replies?:  {
       __typename: "ModelReplyConnection",
       items:  Array< {
@@ -8521,6 +8532,7 @@ export type DeleteMessageMutation = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    request?: string | null,
     docID?: string | null,
     doc?:  {
       __typename: "DocumentAsset",
@@ -8591,7 +8603,7 @@ export type DeleteMessageMutation = {
       createdAt?: string | null,
       updatedAt: string,
     } | null,
-    updatedAt: string,
+    updatedAt?: string | null,
   } | null,
 };
 
@@ -8677,12 +8689,13 @@ export type CreateReplyMutation = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isReadbyRec?: boolean | null,
-      isReadBySender?: boolean | null,
+      isReadbyUser?: boolean | null,
+      isReadByOtherUser?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
       } | null,
+      request?: string | null,
       docID?: string | null,
       doc?:  {
         __typename: "DocumentAsset",
@@ -8695,7 +8708,7 @@ export type CreateReplyMutation = {
         createdAt?: string | null,
         updatedAt: string,
       } | null,
-      updatedAt: string,
+      updatedAt?: string | null,
     } | null,
     user?:  {
       __typename: "User",
@@ -8845,12 +8858,13 @@ export type UpdateReplyMutation = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isReadbyRec?: boolean | null,
-      isReadBySender?: boolean | null,
+      isReadbyUser?: boolean | null,
+      isReadByOtherUser?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
       } | null,
+      request?: string | null,
       docID?: string | null,
       doc?:  {
         __typename: "DocumentAsset",
@@ -8863,7 +8877,7 @@ export type UpdateReplyMutation = {
         createdAt?: string | null,
         updatedAt: string,
       } | null,
-      updatedAt: string,
+      updatedAt?: string | null,
     } | null,
     user?:  {
       __typename: "User",
@@ -9013,12 +9027,13 @@ export type DeleteReplyMutation = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isReadbyRec?: boolean | null,
-      isReadBySender?: boolean | null,
+      isReadbyUser?: boolean | null,
+      isReadByOtherUser?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
       } | null,
+      request?: string | null,
       docID?: string | null,
       doc?:  {
         __typename: "DocumentAsset",
@@ -9031,7 +9046,7 @@ export type DeleteReplyMutation = {
         createdAt?: string | null,
         updatedAt: string,
       } | null,
-      updatedAt: string,
+      updatedAt?: string | null,
     } | null,
     user?:  {
       __typename: "User",
@@ -12961,8 +12976,8 @@ export type GetMessageQuery = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
-    isReadbyRec?: boolean | null,
-    isReadBySender?: boolean | null,
+    isReadbyUser?: boolean | null,
+    isReadByOtherUser?: boolean | null,
     replies?:  {
       __typename: "ModelReplyConnection",
       items:  Array< {
@@ -12978,6 +12993,7 @@ export type GetMessageQuery = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    request?: string | null,
     docID?: string | null,
     doc?:  {
       __typename: "DocumentAsset",
@@ -13048,7 +13064,7 @@ export type GetMessageQuery = {
       createdAt?: string | null,
       updatedAt: string,
     } | null,
-    updatedAt: string,
+    updatedAt?: string | null,
   } | null,
 };
 
@@ -13129,12 +13145,13 @@ export type ListMessagesQuery = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isReadbyRec?: boolean | null,
-      isReadBySender?: boolean | null,
+      isReadbyUser?: boolean | null,
+      isReadByOtherUser?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
       } | null,
+      request?: string | null,
       docID?: string | null,
       doc?:  {
         __typename: "DocumentAsset",
@@ -13147,7 +13164,7 @@ export type ListMessagesQuery = {
         createdAt?: string | null,
         updatedAt: string,
       } | null,
-      updatedAt: string,
+      updatedAt?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -13234,12 +13251,13 @@ export type GetReplyQuery = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isReadbyRec?: boolean | null,
-      isReadBySender?: boolean | null,
+      isReadbyUser?: boolean | null,
+      isReadByOtherUser?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
       } | null,
+      request?: string | null,
       docID?: string | null,
       doc?:  {
         __typename: "DocumentAsset",
@@ -13252,7 +13270,7 @@ export type GetReplyQuery = {
         createdAt?: string | null,
         updatedAt: string,
       } | null,
-      updatedAt: string,
+      updatedAt?: string | null,
     } | null,
     user?:  {
       __typename: "User",
@@ -13347,10 +13365,11 @@ export type ListRepliesQuery = {
         userID?: string | null,
         otherUserID?: string | null,
         createdAt?: string | null,
-        isReadbyRec?: boolean | null,
-        isReadBySender?: boolean | null,
+        isReadbyUser?: boolean | null,
+        isReadByOtherUser?: boolean | null,
+        request?: string | null,
         docID?: string | null,
-        updatedAt: string,
+        updatedAt?: string | null,
       } | null,
       user?:  {
         __typename: "User",
@@ -14924,12 +14943,13 @@ export type MessagesByDateQuery = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isReadbyRec?: boolean | null,
-      isReadBySender?: boolean | null,
+      isReadbyUser?: boolean | null,
+      isReadByOtherUser?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
       } | null,
+      request?: string | null,
       docID?: string | null,
       doc?:  {
         __typename: "DocumentAsset",
@@ -14942,7 +14962,112 @@ export type MessagesByDateQuery = {
         createdAt?: string | null,
         updatedAt: string,
       } | null,
-      updatedAt: string,
+      updatedAt?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type MessagesByUpdatedDateQueryVariables = {
+  type: string,
+  updatedAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelMessageFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type MessagesByUpdatedDateQuery = {
+  messagesByUpdatedDate?:  {
+    __typename: "ModelMessageConnection",
+    items:  Array< {
+      __typename: "Message",
+      id: string,
+      type?: string | null,
+      title?: string | null,
+      subtitle?: string | null,
+      content?: string | null,
+      user?:  {
+        __typename: "User",
+        type?: string | null,
+        id: string,
+        name?: string | null,
+        email?: string | null,
+        imageUri?: string | null,
+        bio?: string | null,
+        following?: Array< string | null > | null,
+        numAuthored?: number | null,
+        pseudonym?: string | null,
+        narratorPseudo?: string | null,
+        artistPseudo?: string | null,
+        birthdate?: string | null,
+        isPublisher?: boolean | null,
+        isNarrator?: boolean | null,
+        isArtist?: boolean | null,
+        topthree?: Array< string | null > | null,
+        sampleUri?: string | null,
+        narratorText?: string | null,
+        accents?: Array< string | null > | null,
+        voice?: string | null,
+        artistText?: string | null,
+        artStyles?: Array< string | null > | null,
+        narratorActiveAt?: string | null,
+        artistActiveAt?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      userID?: string | null,
+      otherUserID?: string | null,
+      otherUser?:  {
+        __typename: "User",
+        type?: string | null,
+        id: string,
+        name?: string | null,
+        email?: string | null,
+        imageUri?: string | null,
+        bio?: string | null,
+        following?: Array< string | null > | null,
+        numAuthored?: number | null,
+        pseudonym?: string | null,
+        narratorPseudo?: string | null,
+        artistPseudo?: string | null,
+        birthdate?: string | null,
+        isPublisher?: boolean | null,
+        isNarrator?: boolean | null,
+        isArtist?: boolean | null,
+        topthree?: Array< string | null > | null,
+        sampleUri?: string | null,
+        narratorText?: string | null,
+        accents?: Array< string | null > | null,
+        voice?: string | null,
+        artistText?: string | null,
+        artStyles?: Array< string | null > | null,
+        narratorActiveAt?: string | null,
+        artistActiveAt?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      createdAt?: string | null,
+      isReadbyUser?: boolean | null,
+      isReadByOtherUser?: boolean | null,
+      replies?:  {
+        __typename: "ModelReplyConnection",
+        nextToken?: string | null,
+      } | null,
+      request?: string | null,
+      docID?: string | null,
+      doc?:  {
+        __typename: "DocumentAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        docUri?: string | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null,
+      updatedAt?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -14978,10 +15103,11 @@ export type RepliesByDateQuery = {
         userID?: string | null,
         otherUserID?: string | null,
         createdAt?: string | null,
-        isReadbyRec?: boolean | null,
-        isReadBySender?: boolean | null,
+        isReadbyUser?: boolean | null,
+        isReadByOtherUser?: boolean | null,
+        request?: string | null,
         docID?: string | null,
-        updatedAt: string,
+        updatedAt?: string | null,
       } | null,
       user?:  {
         __typename: "User",
@@ -21512,8 +21638,8 @@ export type OnCreateMessageSubscription = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
-    isReadbyRec?: boolean | null,
-    isReadBySender?: boolean | null,
+    isReadbyUser?: boolean | null,
+    isReadByOtherUser?: boolean | null,
     replies?:  {
       __typename: "ModelReplyConnection",
       items:  Array< {
@@ -21529,6 +21655,7 @@ export type OnCreateMessageSubscription = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    request?: string | null,
     docID?: string | null,
     doc?:  {
       __typename: "DocumentAsset",
@@ -21599,7 +21726,7 @@ export type OnCreateMessageSubscription = {
       createdAt?: string | null,
       updatedAt: string,
     } | null,
-    updatedAt: string,
+    updatedAt?: string | null,
   } | null,
 };
 
@@ -21736,8 +21863,8 @@ export type OnUpdateMessageSubscription = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
-    isReadbyRec?: boolean | null,
-    isReadBySender?: boolean | null,
+    isReadbyUser?: boolean | null,
+    isReadByOtherUser?: boolean | null,
     replies?:  {
       __typename: "ModelReplyConnection",
       items:  Array< {
@@ -21753,6 +21880,7 @@ export type OnUpdateMessageSubscription = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    request?: string | null,
     docID?: string | null,
     doc?:  {
       __typename: "DocumentAsset",
@@ -21823,7 +21951,7 @@ export type OnUpdateMessageSubscription = {
       createdAt?: string | null,
       updatedAt: string,
     } | null,
-    updatedAt: string,
+    updatedAt?: string | null,
   } | null,
 };
 
@@ -21960,8 +22088,8 @@ export type OnDeleteMessageSubscription = {
       updatedAt: string,
     } | null,
     createdAt?: string | null,
-    isReadbyRec?: boolean | null,
-    isReadBySender?: boolean | null,
+    isReadbyUser?: boolean | null,
+    isReadByOtherUser?: boolean | null,
     replies?:  {
       __typename: "ModelReplyConnection",
       items:  Array< {
@@ -21977,6 +22105,7 @@ export type OnDeleteMessageSubscription = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    request?: string | null,
     docID?: string | null,
     doc?:  {
       __typename: "DocumentAsset",
@@ -22047,7 +22176,7 @@ export type OnDeleteMessageSubscription = {
       createdAt?: string | null,
       updatedAt: string,
     } | null,
-    updatedAt: string,
+    updatedAt?: string | null,
   } | null,
 };
 
@@ -22128,12 +22257,13 @@ export type OnCreateReplySubscription = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isReadbyRec?: boolean | null,
-      isReadBySender?: boolean | null,
+      isReadbyUser?: boolean | null,
+      isReadByOtherUser?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
       } | null,
+      request?: string | null,
       docID?: string | null,
       doc?:  {
         __typename: "DocumentAsset",
@@ -22146,7 +22276,7 @@ export type OnCreateReplySubscription = {
         createdAt?: string | null,
         updatedAt: string,
       } | null,
-      updatedAt: string,
+      updatedAt?: string | null,
     } | null,
     user?:  {
       __typename: "User",
@@ -22291,12 +22421,13 @@ export type OnUpdateReplySubscription = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isReadbyRec?: boolean | null,
-      isReadBySender?: boolean | null,
+      isReadbyUser?: boolean | null,
+      isReadByOtherUser?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
       } | null,
+      request?: string | null,
       docID?: string | null,
       doc?:  {
         __typename: "DocumentAsset",
@@ -22309,7 +22440,7 @@ export type OnUpdateReplySubscription = {
         createdAt?: string | null,
         updatedAt: string,
       } | null,
-      updatedAt: string,
+      updatedAt?: string | null,
     } | null,
     user?:  {
       __typename: "User",
@@ -22454,12 +22585,13 @@ export type OnDeleteReplySubscription = {
         updatedAt: string,
       } | null,
       createdAt?: string | null,
-      isReadbyRec?: boolean | null,
-      isReadBySender?: boolean | null,
+      isReadbyUser?: boolean | null,
+      isReadByOtherUser?: boolean | null,
       replies?:  {
         __typename: "ModelReplyConnection",
         nextToken?: string | null,
       } | null,
+      request?: string | null,
       docID?: string | null,
       doc?:  {
         __typename: "DocumentAsset",
@@ -22472,7 +22604,7 @@ export type OnDeleteReplySubscription = {
         createdAt?: string | null,
         updatedAt: string,
       } | null,
-      updatedAt: string,
+      updatedAt?: string | null,
     } | null,
     user?:  {
       __typename: "User",

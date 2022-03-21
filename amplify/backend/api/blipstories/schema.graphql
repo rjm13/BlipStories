@@ -217,7 +217,9 @@ type Tag @model @auth(rules: [{ allow: private, operations: [create, delete, upd
 type Message @model @auth(rules: [{ allow: private, operations: [create, delete, update, read]}])
   {
     id: ID!
-    type: String @index(name: "messagesByDate", queryField: "messagesByDate", sortKeyFields: ["createdAt"]  )
+    type: String 
+      @index(name: "messagesByDate", queryField: "messagesByDate", sortKeyFields: ["createdAt"]  )
+      @index(name: "messagesByUpdatedDate", queryField: "messagesByUpdatedDate", sortKeyFields: ["updatedAt"]  )
     title: String
     subtitle: String
     content: String
@@ -226,11 +228,13 @@ type Message @model @auth(rules: [{ allow: private, operations: [create, delete,
     otherUserID: ID
     otherUser: User @hasOne (fields: ["otherUserID"])
     createdAt: String
-    isReadbyRec: Boolean
-    isReadBySender: Boolean
+    isReadbyUser: Boolean
+    isReadByOtherUser: Boolean
     replies: [Reply] @hasMany(indexName: "byMessage", fields: ["id"])
+    request: String
     docID: ID
     doc: DocumentAsset @hasOne (fields: ["docID"])
+    updatedAt: String
 }
 
 type Reply @model @auth(rules: [{ allow: private, operations: [create, delete, update, read]}])
