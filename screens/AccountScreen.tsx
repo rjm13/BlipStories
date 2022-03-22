@@ -3,11 +3,9 @@ import {
     View, 
     Text, 
     StyleSheet, 
-    Dimensions, 
     ScrollView, 
     TouchableWithoutFeedback, 
     TouchableOpacity,  
-    Image,
     TextInput,
     ActivityIndicator
 } from 'react-native';
@@ -20,14 +18,10 @@ import { API, graphqlOperation, Auth } from "aws-amplify";
 import { getUser } from '../src/graphql/queries';
 import { updateUser } from '../src/graphql/mutations';
 
-import { useNavigation, useRoute } from '@react-navigation/native';
 import { Modal, Portal, Provider } from 'react-native-paper';
 
-const ProfileScreen = ({navigation} : any) => {
+const AccountScreen = ({navigation} : any) => {
 
-//set the current user's id via route params
-    //const route = useRoute();
-    //const {User} = route.params
 
 //Attribute states
     const [ Name, setName ] = useState('');
@@ -36,7 +30,10 @@ const ProfileScreen = ({navigation} : any) => {
     const [ Password, setPassword] = useState('');
     const [ oldPassword, setOldPassword] = useState('');
 
-//if true, s3 is performing an action. also used to determine if anything is updating
+    const [passVisible, setPassVisible] = useState(true);
+    const [oldPassVisible, setOldPassVisible] = useState(true);
+
+    //uploading state
     const [isUploading, setIsUploading ] = useState(false);
 
 //update the users name
@@ -61,6 +58,7 @@ const handleUpdateName = async () => {
 
 //the current authenticated user object
     const [user, setUser] = useState()
+    const [authUser, setAuthUser] = useState()
 
 //determines if the user object updated. If it did, pull the info
     const [update, didUpdate] = useState(false);
@@ -68,7 +66,10 @@ const handleUpdateName = async () => {
 //when didUpdate is called, pull the user attributes from AWS
     useEffect(() => {
         const fetchUser = async () => {
-        const userInfo = await Auth.currentAuthenticatedUser();
+        
+            const userInfo = await Auth.currentAuthenticatedUser();
+
+            setAuthUser(userInfo);
 
             if (!userInfo) {return;}
 
@@ -123,20 +124,22 @@ const handleUpdateName = async () => {
 
         setIsUploading(true);
 
-    if ( Email.length !== 0 ) {
-        
-        const userInfo = await Auth.currentAuthenticatedUser();
+        if ( Email.length !== 0 ) {
 
-        if (userInfo) {
-            let result = await Auth.updateUserAttributes(userInfo, {'email': Email})
-            console.log(result);
-        } else {
-            alert('Error: Please enter a different email or try again later.')
+            let emailaddress = Email.replace(/ /g,'')
+            
+            const userInfo = await Auth.currentAuthenticatedUser();
+
+            if (userInfo) {
+                let result = await Auth.updateUserAttributes(userInfo, {'email': emailaddress})
+                console.log(result);
+            } else {
+                alert('Error: Please enter a different email or try again later.')
+            }
         }
+        didUpdate(!update);
+        setIsUploading(false);
     }
-
-  setIsUploading(false);
-}
 
 //update the users password
     const handleUpdatePassword = async () => {
@@ -194,7 +197,7 @@ const handleUpdateName = async () => {
                                 placeholder={user?.name}
                                 placeholderTextColor='gray'
                                 style={styles.nametext}
-                                maxLength={20}
+                                maxLength={30}
                                 multiline={false}
                                 onChangeText={val => setName(val)}
                                 //defaultValue={user?.name}
@@ -205,9 +208,9 @@ const handleUpdateName = async () => {
                                 onPress={handleUpdateName}>
                                 <View style={styles.savebutton} >
                                     {isUploading ? (
-                                        <ActivityIndicator size="small" color="#0000ff"/>
+                                        <ActivityIndicator size="small" color="#00ffff"/>
                                     ) : 
-                                        <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text> 
+                                        <Text style={{borderRadius: 30, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text> 
                                     } 
                                 </View>
                             </TouchableOpacity>
@@ -227,7 +230,7 @@ const handleUpdateName = async () => {
                         </Text>
                         <View style={{ borderWidth: 0.3, borderColor: '#ffffffa5', width: '100%', alignItems: 'center', borderRadius: 8}}>
                             <TextInput
-                                placeholder={user?.email}
+                                placeholder={authUser?.attributes.email}
                                 placeholderTextColor='gray'
                                 style={styles.nametext}
                                 maxLength={40}
@@ -240,9 +243,9 @@ const handleUpdateName = async () => {
                             <TouchableOpacity onPress={handleUpdateEmail} >
                                 <View style={styles.savebutton} >
                                     {isUploading ? (
-                                        <ActivityIndicator size="small" color="#0000ff"/>
+                                        <ActivityIndicator size="small" color="#00ffff"/>
                                     ) : 
-                                        <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Send Code</Text>
+                                        <Text style={{borderRadius: 30, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Send Code</Text>
                                     } 
                                 </View>
                             </TouchableOpacity>
@@ -270,9 +273,9 @@ const handleUpdateName = async () => {
                             <TouchableOpacity onPress={handleConfirmCode} >
                                 <View style={styles.savebutton} >
                                     {isUploading ? (
-                                        <ActivityIndicator size="small" color="#0000ff"/>
+                                        <ActivityIndicator size="small" color="#00ffff"/>
                                     ) : 
-                                        <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
+                                        <Text style={{borderRadius: 30, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
                                     } 
                                 </View>
                             </TouchableOpacity>
@@ -295,9 +298,9 @@ const handleUpdateName = async () => {
                             <TouchableOpacity onPress={signOut}>
                                 <View style={styles.savebutton} >
                                     {isUploading ? (
-                                        <ActivityIndicator size="small" color="#0000ff"/>
+                                        <ActivityIndicator size="small" color="#00ffff"/>
                                     ) : 
-                                        <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Log Out</Text> 
+                                        <Text style={{borderRadius: 30, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Log Out</Text> 
                                     } 
                                 </View>
                             </TouchableOpacity>
@@ -316,15 +319,21 @@ const handleUpdateName = async () => {
                             Enter new password
                         </Text>
 
-                        <View style={{ borderWidth: 0.3, borderColor: '#ffffffa5', width: '100%', alignItems: 'center', borderRadius: 8}}>  
+                        <View style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', borderColor: '#ffffffa5', width: '100%', alignItems: 'center', borderRadius: 8, borderWidth: 0.3, paddingVertical: 4}}>  
                             <TextInput
-                                placeholder='Minimum 8 of characters'
+                                placeholder=''
                                 placeholderTextColor='#00ffffa5'
-                                style={styles.nametext}
-                                maxLength={16}
+                                style={[styles.nametext, {width: '80%'}]}
+                                maxLength={18}
                                 onChangeText={val => setPassword(val)}
-                                secureTextEntry={true}
+                                secureTextEntry={passVisible === true ? true : false}
                                 //defaultValue={user?.name}
+                            />
+                            <FontAwesome5 
+                                name={passVisible === true ? 'eye-slash' : 'eye'}
+                                color='#fff'
+                                size={14}
+                                onPress={() => setPassVisible(!passVisible)}
                             />
                         </View>
 
@@ -336,14 +345,20 @@ const handleUpdateName = async () => {
                             Enter old password
                         </Text>
 
-                        <View style={{ borderWidth: 0.3, borderColor: '#ffffffa5', width: '100%', alignItems: 'center', borderRadius: 8}}>  
+                        <View style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 4, borderWidth: 0.3, borderColor: '#ffffffa5', width: '100%', alignItems: 'center', borderRadius: 8}}>  
                             <TextInput
                                 placeholder=''
                                 placeholderTextColor='gray'
-                                style={styles.nametext}
-                                maxLength={16}
+                                style={[styles.nametext, {width: '80%'}]}
+                                maxLength={18}
                                 onChangeText={val => setOldPassword(val)}
-                                secureTextEntry={true}
+                                secureTextEntry={oldPassVisible === true ? true : false}
+                            />
+                            <FontAwesome5 
+                                name={oldPassVisible === true ? 'eye-slash' : 'eye'}
+                                color='#fff'
+                                size={14}
+                                onPress={() => setOldPassVisible(!oldPassVisible)}
                             />
                         </View>
 
@@ -351,9 +366,9 @@ const handleUpdateName = async () => {
                             <TouchableOpacity onPress={handleUpdatePassword}>
                                 <View style={styles.savebutton} >
                                     {isUploading ? (
-                                        <ActivityIndicator size="small" color="#0000ff"/>
+                                        <ActivityIndicator size="small" color="#00ffff"/>
                                     ) :
-                                            <Text style={{color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>                               
+                                        <Text style={{borderRadius: 30, backgroundColor: 'cyan',color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>                               
                                     } 
                                 </View>
                             </TouchableOpacity>
@@ -411,7 +426,7 @@ const handleUpdateName = async () => {
                         <TouchableWithoutFeedback onPress={showEmailModal}>
                             <View style={styles.emailcontainer }> 
                                 <Text style={ styles.words }>Email</Text>
-                                <Text style={ styles.placeholdertext }>{user?.email}</Text>
+                                <Text style={ styles.placeholdertext }>{authUser?.attributes.email}</Text>
                             </View>
                         </TouchableWithoutFeedback>
 
@@ -490,13 +505,11 @@ const styles = StyleSheet.create ({
     savebutton: {
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 30,
-        backgroundColor: 'cyan'
     },
     nametext: {
         fontSize: 16,
         color: '#00FFFF',
-        textAlign: 'right',
+        //textAlign: 'center',
     },
     smallcontainer: {
         flexDirection: 'row',
@@ -508,4 +521,4 @@ const styles = StyleSheet.create ({
     },
 });
 
-export default ProfileScreen;
+export default AccountScreen;

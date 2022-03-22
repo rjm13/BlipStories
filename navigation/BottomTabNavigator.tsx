@@ -14,7 +14,7 @@ import Narrations from '../screens/NarrationsScreen';
 import History from '../screens/HistoryScreen';
 import Following from '../screens/FollowingScreen';
 import AboutScreen from '../screens/About';
-import PlanScreen from '../screens/Plan';
+import AccountScreen from '../screens/AccountScreen';
 import Inbox from '../screens/Inbox';
 import CreateMessage from '../screens/CreateMessage';
 import ViewMessage from '../screens/ViewMessage';
@@ -128,8 +128,8 @@ function HomeNavigator() {
         options={{ headerShown: false }}
       />
       <HomeStack.Screen
-        name="PlanScreen"
-        component={PlanScreen}
+        name="AccountScreen"
+        component={AccountScreen}
         options={{ headerShown: false }}
       />
       <HomeStack.Screen

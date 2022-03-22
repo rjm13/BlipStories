@@ -32,7 +32,7 @@ export type TabOneParamList = {
   History: undefined;
   Following: undefined;
   AboutScreen: undefined;
-  PlanScreen: undefined;
+  AccountScreen: undefined;
   Publishing: undefined;
   PublisherSetup: undefined;
   Publisher: undefined;
