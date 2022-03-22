@@ -58,6 +58,9 @@ const PublishingSetup = ({navigation} : any) => {
     const handleUpdateAttributes = async () => {
 
         if ( data.pseudonym.length !== 0 ) {
+
+        setPublishing(true);
+
           const userInfo = await Auth.currentAuthenticatedUser();
   
             const updatedUser = { 
@@ -73,7 +76,7 @@ const PublishingSetup = ({navigation} : any) => {
             
             console.log(result);
 
-          if (result) {navigation.navigate('Publisher')}
+          if (result) {navigation.navigate('Publisher', {update: 'pub'})}
           setPublishing(false);
           }
       } else {
@@ -83,7 +86,7 @@ const PublishingSetup = ({navigation} : any) => {
 
   const updateAsPublisher = async () => {
     if (agree === true) {
-        setPublishing(true);
+        
         handleUpdateAttributes();
     }
     else {

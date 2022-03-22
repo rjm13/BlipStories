@@ -180,7 +180,7 @@ const ArtistSetup = ({navigation} : any) => {
             
         console.log(result);
 
-          if (result) {navigation.navigate('Publisher')}
+          if (result) {navigation.navigate('Publisher', {update: 'art'})}
           setPublishing(false);
           }
       } else {

@@ -387,13 +387,21 @@ const FindArtist = ({navigation} : any) => {
                             </View> */}
                         </View>  
                     </View>
-                    <View style={{marginTop: 40}}>
+                    <View style={{height: '85%'}}>
                         <FlatList
                             data={artists}
                             keyExtractor={item => item.id}
                             renderItem={renderItem}
                             showsVerticalScrollIndicator={false}
-                            maxToRenderPerBatch={10}
+                            maxToRenderPerBatch={20}
+                            extraData={artists}
+                            style={{marginTop: 10}}
+                            ListHeaderComponent={
+                                <View style={{height: 30}}/>
+                            }
+                            ListFooterComponent={
+                                <View style={{height: 70}}/>
+                            }
                         /> 
                     </View>
                 </LinearGradient>

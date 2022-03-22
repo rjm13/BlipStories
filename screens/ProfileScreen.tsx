@@ -225,7 +225,7 @@ const ProfileScreen = ({navigation} : any) => {
                     </TouchableWithoutFeedback>
 
                     <TouchableWithoutFeedback 
-                        onPress={ () => navigation.navigate( user?.isPublisher === true || user?.isNarrator === true || user?.isArtist === true ? 'Publisher' : 'BecomeSomething', {user: user})}
+                        onPress={ () => navigation.navigate( user?.isPublisher === true || user?.isNarrator === true || user?.isArtist === true ? 'Publisher' : 'BecomeSomething', {update: null})}
                     >
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 40, paddingVertical: 20}}>
                             <Text style={{ color: '#fff', fontSize: 16}}>

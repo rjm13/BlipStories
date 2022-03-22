@@ -5,8 +5,7 @@ import {
     StyleSheet, 
     Dimensions, 
     ScrollView, 
-    TouchableWithoutFeedback, 
-    Linking, 
+    TouchableWithoutFeedback,
     TouchableOpacity,  
     Image,
     FlatList
@@ -412,13 +411,20 @@ const FindNarrator = ({navigation} : any) => {
                             </View>
                         </View>  
                     </View>
-                    <View style={{marginTop: 40}}>
+                    <View style={{height: '85%'}}>
                         <FlatList
                             data={narrators}
                             keyExtractor={item => item.id}
                             renderItem={renderItem}
                             showsVerticalScrollIndicator={false}
-                            maxToRenderPerBatch={10}
+                            maxToRenderPerBatch={20}
+                            style={{marginTop: 10}}
+                            ListHeaderComponent={
+                                <View style={{height: 30}}/>
+                            }
+                            ListFooterComponent={
+                                <View style={{height: 70}}/>
+                            }
                         /> 
                     </View>
                 </LinearGradient>

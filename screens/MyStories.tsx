@@ -25,6 +25,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import { AppContext } from '../AppContext';
 
+import StoryTile from '../components/StoryTile';
+
 
 
 
@@ -68,89 +70,89 @@ const MyStories = ({navigation} : any) => {
     }
 
 
-    const Item = ({id, title, genreName, author, narrator} : any) => {
+    // const Item = ({id, title, genreName, author, narrator} : any) => {
 
-    //arrow state
-    const [optionsVisible, setOptionsVisible] = useState(false)
+    // //arrow state
+    // const [optionsVisible, setOptionsVisible] = useState(false)
 
-    return (
-        <View>
-            <View style={styles.tile}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <View style={{ width: '78%'}}>
-                        <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
-                            <View>
-                                <Text style={styles.name}>
-                                    {title}
-                                </Text> 
-                                <View style={{flexDirection: 'row'}}>
-                                    <Text style={[styles.category]}>
-                                        {genreName}
-                                    </Text>
-                                </View>
-                            </View>
-                        </TouchableWithoutFeedback>
+    // return (
+    //     <View>
+    //         <View style={styles.tile}>
+    //             <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+    //                 <View style={{ width: '78%'}}>
+    //                     <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
+    //                         <View>
+    //                             <Text style={styles.name}>
+    //                                 {title}
+    //                             </Text> 
+    //                             <View style={{flexDirection: 'row'}}>
+    //                                 <Text style={[styles.category]}>
+    //                                     {genreName}
+    //                                 </Text>
+    //                             </View>
+    //                         </View>
+    //                     </TouchableWithoutFeedback>
                         
-                        <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>
-                            <FontAwesome5 
-                                name='book-open'
-                                size={12}
-                                color='#ffffffa5'
-                            />
-                            <Text style={styles.userId}>
-                                {author}
-                            </Text>  
-                            <FontAwesome5 
-                                name='book-reader'
-                                size={12}
-                                color='#ffffffa5'
-                            />
-                            <Text style={styles.userId}>
-                                {narrator}
-                            </Text> 
-                        </View>
-                    </View>
+    //                     <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>
+    //                         <FontAwesome5 
+    //                             name='book-open'
+    //                             size={12}
+    //                             color='#ffffffa5'
+    //                         />
+    //                         <Text style={styles.userId}>
+    //                             {author}
+    //                         </Text>  
+    //                         <FontAwesome5 
+    //                             name='book-reader'
+    //                             size={12}
+    //                             color='#ffffffa5'
+    //                         />
+    //                         <Text style={styles.userId}>
+    //                             {narrator}
+    //                         </Text> 
+    //                     </View>
+    //                 </View>
 
-                    <View style={{alignSelf: 'center'}}>
-                        <TouchableWithoutFeedback onPress={() => setOptionsVisible(!optionsVisible)}>
-                            <View style={{alignItems: 'center', borderRadius: 20, height: 40,
-                                width: 40, justifyContent: 'center',
-                            }}>
-                                <FontAwesome5 
-                                    name={optionsVisible === true ? 'chevron-down' : 'chevron-right'}
-                                    color='#ffffff'
-                                    size={20}
-                                />
-                            </View>
-                        </TouchableWithoutFeedback>
-                    </View>
+    //                 <View style={{alignSelf: 'center'}}>
+    //                     <TouchableWithoutFeedback onPress={() => setOptionsVisible(!optionsVisible)}>
+    //                         <View style={{alignItems: 'center', borderRadius: 20, height: 40,
+    //                             width: 40, justifyContent: 'center',
+    //                         }}>
+    //                             <FontAwesome5 
+    //                                 name={optionsVisible === true ? 'chevron-down' : 'chevron-right'}
+    //                                 color='#ffffff'
+    //                                 size={20}
+    //                             />
+    //                         </View>
+    //                     </TouchableWithoutFeedback>
+    //                 </View>
                     
-                </View> 
+    //             </View> 
                 
-                {optionsVisible === true ? (
-                    <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around'}}>
-                        <TouchableWithoutFeedback onPress={() => {showModal(); setDeleteID(id)}}>
-                            <View style={{alignItems: 'center', marginTop: 20, width: 80, paddingVertical: 6, borderRadius: 20, backgroundColor: 'gray'}}>
-                                <Text style={{color: '#000'}}>
-                                    Delete
-                                </Text> 
-                            </View>
-                        </TouchableWithoutFeedback>
+    //             {optionsVisible === true ? (
+    //                 <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around'}}>
+    //                     <TouchableWithoutFeedback onPress={() => {showModal(); setDeleteID(id)}}>
+    //                         <View style={{alignItems: 'center', marginTop: 20, width: 80, paddingVertical: 6, borderRadius: 20, backgroundColor: 'gray'}}>
+    //                             <Text style={{color: '#000'}}>
+    //                                 Delete
+    //                             </Text> 
+    //                         </View>
+    //                     </TouchableWithoutFeedback>
 
-                        <TouchableWithoutFeedback onPress={() => navigation.navigate('EditAudioStory', {storyID: id})}>
-                            <View style={{alignItems: 'center', marginTop: 20, width: 80, paddingVertical: 6, borderRadius: 20, backgroundColor: '#00ffffa5'}}>
-                                <Text style={{color: '#000'}}>
-                                    Edit
-                                </Text> 
-                            </View>
-                        </TouchableWithoutFeedback>
-                    </View>
-                ) : null}
+    //                     <TouchableWithoutFeedback onPress={() => navigation.navigate('EditAudioStory', {storyID: id})}>
+    //                         <View style={{alignItems: 'center', marginTop: 20, width: 80, paddingVertical: 6, borderRadius: 20, backgroundColor: '#00ffffa5'}}>
+    //                             <Text style={{color: '#000'}}>
+    //                                 Edit
+    //                             </Text> 
+    //                         </View>
+    //                     </TouchableWithoutFeedback>
+    //                 </View>
+    //             ) : null}
                 
-            </View>
-        </View>
-        )
-    }
+    //         </View>
+    //     </View>
+    //     )
+    // }
 
     const renderItem = ({ item }: any) => {
 
@@ -165,7 +167,7 @@ const MyStories = ({navigation} : any) => {
         }
         
         return (
-        <Item 
+        <StoryTile 
           title={item.title}
           imageUri={item.imageUri}
           genreName={genreName}
@@ -310,6 +312,7 @@ const MyStories = ({navigation} : any) => {
                             renderItem={renderItem}
                             keyExtractor={item => item.id}
                             extraData={Stories}
+                            maxToRenderPerBatch={20}
                             refreshControl={
                                 <RefreshControl
                                 refreshing={isFetching}
@@ -319,9 +322,7 @@ const MyStories = ({navigation} : any) => {
                             showsVerticalScrollIndicator={false}    
                             ListFooterComponent={ () => {
                                 return (
-                                    <View style={{ height:  70, alignItems: 'center'}}>
-                                        
-                                    </View>
+                                    <View style={{ height:  70, alignItems: 'center'}}/>
                             );}}
                             ListEmptyComponent={ () => {
                                 return (

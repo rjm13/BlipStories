@@ -152,6 +152,7 @@ const MyNarrations = ({navigation} : any) => {
                             renderItem={renderItem}
                             keyExtractor={item => item.id}
                             extraData={Stories}
+                            maxToRenderPerBatch={20}
                             refreshControl={
                                 <RefreshControl
                                 refreshing={isFetching}

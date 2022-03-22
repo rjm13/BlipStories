@@ -9,7 +9,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-//import { useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -28,8 +28,8 @@ const Publisher = ({navigation} : any) => {
 
     const [user, setUser] = useState({})
 
-    //const route = useRoute();
-    //const {User} = route.params
+    const route = useRoute();
+    const {update} = route.params
 
     const [narActive, setNarActive] = useState('0%');
     const [artActive, setArtActive] = useState('0%');
@@ -126,7 +126,7 @@ const Publisher = ({navigation} : any) => {
           }
         }
         fetchUser();
-      }, [didUpdate])
+      }, [didUpdate, update])
 
       const [isNarrator, setIsNarrator] = useState(false);
 
@@ -180,6 +180,7 @@ const Publisher = ({navigation} : any) => {
         if (user?.isNarrator === true) {
           setIsNarrator(true);
           setStatusRoute('narrator');
+          console.log(user?.narratorActiveAt)
           showModal();
         } else {
           setIsNarrator(false);
@@ -256,15 +257,17 @@ const Publisher = ({navigation} : any) => {
                                 </View>
                             </TouchableOpacity>
 
-                            <Text style={{width: Dimensions.get('window').width, padding: 10, fontSize: 16, marginTop: 20, fontWeight: 'bold', textAlign: 'center', color: '#fff'}}>
-                                {statusRoute === 'narrator' ? 'Narrator' : statusRoute === 'artist' ? 'Artist' : null} Status
-                            </Text>
+                            {statusRoute === 'narrator' && user?.narratorActiveAt === null || statusRoute === 'artist' && user?.artistActiveAt === null ? null : (
+                                <Text style={{width: Dimensions.get('window').width, padding: 10, fontSize: 16, marginTop: 20, fontWeight: 'bold', textAlign: 'center', color: '#fff'}}>
+                                    {statusRoute === 'narrator' ? 'Narrator' : statusRoute === 'artist' ? 'Artist' : null} Status
+                                </Text>
+                            ) }
 
-                            {user?.narratorActiveAt || user?.artistActiveAt ? (
+                            {statusRoute === 'narrator' && user?.narratorActiveAt === null || statusRoute === 'artist' && user?.artistActiveAt === null ? null : (
                                 <Text style={{width: Dimensions.get('window').width, padding: 20, fontSize: 16, marginTop: 0, fontWeight: 'bold', textAlign: 'center', color: '#fff'}}>
                                     Last Charged on {statusRoute === 'narrator' ? format(parseISO(user?.narratorActiveAt), "MMM do yyyy") : statusRoute === 'artist' ? format(parseISO(user?.artistActiveAt), "MMM do yyyy") : null}
                                 </Text>
-                            ) : null}
+                            ) }
                             
                         </View>
                     </TouchableWithoutFeedback>

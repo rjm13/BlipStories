@@ -107,7 +107,7 @@ const NarratorSetup = ({navigation} : any) => {
             
             console.log(result);
 
-          if (result) {navigation.navigate('Publisher')}
+          if (result) {navigation.navigate('Publisher', {update: 'narr'})}
           setPublishing(false);
           }
       } else {

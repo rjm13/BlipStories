@@ -607,7 +607,7 @@ const SharedAssets = ({navigation} : any) => {
             <View style={{marginBottom: 10, padding: 10, width: '100%', backgroundColor: '#232323', alignSelf: 'center', borderRadius: 10}}>
                     <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
                         <TouchableOpacity onPress={SetAudio}>
-                            <View style={{width: '80%', flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <View style={{width: '90%', flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <View>
                                    <Text style={{color: '#fff', fontWeight: 'bold', marginBottom: 2}}>
                                         {itemState.title}
@@ -616,9 +616,9 @@ const SharedAssets = ({navigation} : any) => {
                                         {format(itemState.created, "MMM do yyyy")}
                                     </Text> 
                                 </View>
-                                    <Text style={{color: '#fff', fontSize: 12}}>
-                                        {millisToMinutesAndSeconds()}
-                                    </Text>
+                                <Text style={{color: '#fff', fontSize: 12}}>
+                                    {millisToMinutesAndSeconds()}
+                                </Text>
                             </View>
                         </TouchableOpacity>
                     </View>
