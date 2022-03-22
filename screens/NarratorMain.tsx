@@ -59,7 +59,7 @@ const PublishingMain = ({navigation} : any) => {
 
                     <View style={{alignSelf: 'center', justifyContent: 'center', alignContent: 'center', marginHorizontal: 20, marginVertical: 40}}>
                         <Text style={{ textAlign: 'center', color: '#fff', fontSize: 20, fontWeight: 'bold'}}>
-                            Publish your audio shorts on Blip!
+                            Narrate Short Stories on Blip!
                         </Text>
                     </View>
 
@@ -72,7 +72,7 @@ const PublishingMain = ({navigation} : any) => {
                                 style={{marginRight: 20, alignSelf: 'center'}}
                             />
                             <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14}}>
-                                Earn money for your stories
+                                Earn money for your narrations
                             </Text>
                         </View>
 
@@ -84,7 +84,7 @@ const PublishingMain = ({navigation} : any) => {
                                 style={{marginRight: 20, alignSelf: 'center'}}
                             />
                             <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14}}>
-                                Hire a credited narrator and cover artist
+                                Create a profile and connect with authors
                             </Text>
                         </View>
 
@@ -96,7 +96,7 @@ const PublishingMain = ({navigation} : any) => {
                                 style={{marginRight: 20, alignSelf: 'center'}}
                             />
                             <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14}}>
-                                Share your short stories around the world!
+                                Share your voice around the world!
                             </Text>
                         </View>
                         

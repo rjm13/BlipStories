@@ -8,8 +8,11 @@ import {
     Dimensions, 
     TouchableOpacity, 
     TextInput, 
-    ScrollView
+    ScrollView,
+    Platform
 } from 'react-native';
+
+import PublishingTerms from '../components/PublishingTerms';
 
 import { useRoute } from '@react-navigation/native';
 
@@ -36,33 +39,6 @@ const PublishingSetup = ({navigation} : any) => {
         publisher: false, 
     });
 
-    //const [update, didUpdate] = useState(false);
-
-    // useEffect(() => {
-    //     setUser(User);
-    // }, [])
-
-    // useEffect(() => {
-    //     const fetchUser = async () => {
-    //       const userInfo = await Auth.currentAuthenticatedUser();
-    //         if (!userInfo) {
-    //           return;
-    //         } setUserID(userInfo.attributes.sub)
-    //     //   try {
-    //     //     const userData = await API.graphql(graphqlOperation(
-    //     //       getUser, {id: userInfo.attributes.sub}))
-    //     //       if (userData) {
-    //     //         setUser(userData.data.getUser);
-    //     //       }
-    //     //       console.log(userData.data.getUser);
-    //     //   } catch (e) {
-    //     //     console.log(e);
-    //     //   }
-    //     }
-    //     fetchUser();
-    //   }, [])
-
-    //const delay = ms => new Promise(res => setTimeout(res, ms));
 
 //function for the text input
     const textInputChange = (val : any) => {
@@ -84,7 +60,11 @@ const PublishingSetup = ({navigation} : any) => {
         if ( data.pseudonym.length !== 0 ) {
           const userInfo = await Auth.currentAuthenticatedUser();
   
-            const updatedUser = { id: userInfo.attributes.sub, pseudonym: data.pseudonym, isPublisher: true }
+            const updatedUser = { 
+                id: userInfo.attributes.sub, 
+                pseudonym: data.pseudonym, 
+                bio: Bio,
+                isPublisher: true }
   
           if (userInfo) {
             let result = await API.graphql(
@@ -96,6 +76,8 @@ const PublishingSetup = ({navigation} : any) => {
           if (result) {navigation.navigate('Publisher')}
           setPublishing(false);
           }
+      } else {
+          alert ('Please input a pseudonym')
       }
   }
 
@@ -108,13 +90,17 @@ const PublishingSetup = ({navigation} : any) => {
         alert('You must agree to the Publishing Terms and Conditions to continue.')
     }
     
-}
+    }
+
+    const [ Bio, setBio ] = useState('');
+
+
 
     return(
-        <View>
+        <ScrollView>
             <View style={{marginHorizontal: 20, marginTop: 50}}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
                             <View style={{padding: 30, margin: -30}}>
                                 <FontAwesome5 
@@ -143,22 +129,37 @@ const PublishingSetup = ({navigation} : any) => {
                             style={styles.textInputTitle}
                             maxLength={30}
                             onChangeText={(val) => textInputChange(val)}
-                            autoCapitalize='none'
+                            autoCapitalize='words'
                         />
                     </View>
                 </View>
 
-                <View style={{marginTop: 40}}>
+                <View style={{ marginTop: 40}}>
                     <Text style={styles.inputheader}>
-                        Publishing Terms and Conditions
+                        Publisher Blurb
                     </Text>
-                    <ScrollView style={{width: '90%', height: 260, borderRadius: 10, alignSelf: 'center', marginTop: 10, backgroundColor: '#363636a5'}}>
-                        <Text style={{color: '#ffffffa5', margin: 20}}>
-                            i. I agree that as a publisher, I am handing over all rights to Blip. I am their slave and master and will submit to Blip's every command. Blip maintains the right to enforce this servitude indefinitely. This is a binding contract that cannot be ammended. Upon agreeing to terms, the signee will liquidate and forfiet all assets in the signee's name. 
-                            i. I agree that as a publisher, I am handing over all rights to Blip. I am their slave and master and will submit to Blip's every command. Blip maintains the right to enforce this servitude indefinitely. This is a binding contract that cannot be ammended. Upon agreeing to terms, the signee will liquidate and forfiet all assets in the signee's name. 
-                            i. I agree that as a publisher, I am handing over all rights to Blip. I am their slave and master and will submit to Blip's every command. Blip maintains the right to enforce this servitude indefinitely. This is a binding contract that cannot be ammended. Upon agreeing to terms, the signee will liquidate and forfiet all assets in the signee's name.                        
-                        </Text>
-                    </ScrollView>
+                    <View style={{ alignSelf: 'center', marginTop: 0, borderWidth: 0.2, borderColor: '#363636a5', width: '90%', alignItems: 'center', borderRadius: 8}}>
+                        <View style={styles.statuscontainermodal }> 
+                            <TextInput 
+                                placeholder={'Say something about yourself'}
+                                placeholderTextColor='#ffFFFFa5'
+                                style={styles.textInput}
+                                maxLength={250}
+                                multiline={true}
+                                numberOfLines={8}
+                                textAlignVertical='top'
+                                onChangeText={val => setBio(val)}
+                                autoCapitalize='sentences'
+                                //defaultValue={user?.bio || ''}
+                            />
+                        </View>
+                    </View>
+                </View>
+
+                <View style={{marginTop: 40}}>
+                    
+                    <PublishingTerms />
+                
                     <TouchableWithoutFeedback onPress={() => setAgree(!agree)}>
                         <View style={{flexDirection: 'row', marginTop: 20, alignSelf: 'center'}}>
                             <FontAwesome 
@@ -186,7 +187,7 @@ const PublishingSetup = ({navigation} : any) => {
                     
                 </View>
 
-        </View>
+        </ScrollView>
     
     )
 };
@@ -231,8 +232,21 @@ const styles = StyleSheet.create({
          borderRadius: 20,
          paddingVertical: 10,
          paddingHorizontal: 20,
- 
      },
+     textInput: {
+        //flex: 1,
+        marginTop: Platform.OS === 'ios' ? 0 : -12,
+        color: '#ffffffa5',
+        fontSize: 14,
+        paddingVertical: 20
+     },
+     statuscontainermodal: {
+        backgroundColor: '#303030',
+        padding: 10, 
+        width: '100%',
+        alignSelf: 'center',
+        borderRadius: 15,
+    },
 });
 
 export default PublishingSetup;

@@ -27,7 +27,7 @@ const PublishingMain = ({navigation} : any) => {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-                <View style={{marginHorizontal: 20, marginTop: 50}}>
+                <View style={{marginHorizontal: 20, marginTop: 60}}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
@@ -40,10 +40,6 @@ const PublishingMain = ({navigation} : any) => {
                                     />
                                 </View>
                             </TouchableWithoutFeedback>
-                            
-                            <Text style={styles.header}>
-                                
-                            </Text>
                         </View>
                     </View>  
                 </View>
@@ -51,7 +47,7 @@ const PublishingMain = ({navigation} : any) => {
                 <View style={styles.container}>
 
                     <FontAwesome5 
-                        name='book-reader'
+                        name='book-open'
                         color='#fff'
                         size={30}
                         style={{alignSelf: 'center', marginTop: 40}}
@@ -84,7 +80,7 @@ const PublishingMain = ({navigation} : any) => {
                                 style={{marginRight: 20, alignSelf: 'center'}}
                             />
                             <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14}}>
-                                Hire a credited narrator and cover artist
+                                Connect with narrators and cover artists
                             </Text>
                         </View>
 
