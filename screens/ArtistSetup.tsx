@@ -27,6 +27,8 @@ import { Modal, Portal, Provider } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
 
+import PublishingTerms from '../components/PublishingTerms';
+
 const ArtistSetup = ({navigation} : any) => {
 
     //on render, request permission for camera roll
@@ -138,6 +140,7 @@ const ArtistSetup = ({navigation} : any) => {
     const handleUpdateAttributes = async () => {
 
         if ( data.artistPseudo.length !== 0 ) {
+            setPublishing(true);
           const userInfo = await Auth.currentAuthenticatedUser();
   
             const updatedUser = { 
@@ -165,7 +168,8 @@ const ArtistSetup = ({navigation} : any) => {
                         createImageAsset, {input: {
                             userID: userInfo.attributes.sub,
                             imageUri: s3Response.key,
-                            title: imageData[i].imageTitle
+                            title: imageData[i].imageTitle,
+                            isSample: true
                         }}
                     ))
                     console.log(imageResult)
@@ -179,12 +183,13 @@ const ArtistSetup = ({navigation} : any) => {
           if (result) {navigation.navigate('Publisher')}
           setPublishing(false);
           }
+      } else {
+          alert('Please input a pseudonym')
       }
   }
 
   const updateAsPublisher = async () => {
     if (agree === true) {
-        setPublishing(true);
         handleUpdateAttributes();
     }
     else {
@@ -352,7 +357,7 @@ const ArtistSetup = ({navigation} : any) => {
                             style={styles.textInputTitle}
                             maxLength={30}
                             onChangeText={(val) => textInputChange(val)}
-                            autoCapitalize='none'
+                            autoCapitalize='words'
                         />
                     </View>
                 </View>
@@ -382,19 +387,21 @@ const ArtistSetup = ({navigation} : any) => {
 
                 <View style={{marginTop: 40}}>
                     <Text style={styles.inputheader}>
-                        About Yourself
+                        Artist Blurb
                     </Text>
                     <TouchableWithoutFeedback onPress={FocusInput}>
                         <View style={[styles.inputfield, {height: 120}]}>
                             <TextInput 
-                                placeholder='....'
+                                placeholder='Say something about yourself'
                                 placeholderTextColor='#ffffffa5'
                                 style={styles.textInputTitle}
-                                maxLength={200}
+                                maxLength={250}
                                 onChangeText={(val) => aboutInputChange(val)}
                                 autoCapitalize='none'
                                 ref={textRef}
                                 multiline={true}
+                                numberOfLines={8}
+                                textAlignVertical='top'
                             />
                         </View>
                     </TouchableWithoutFeedback>
@@ -448,16 +455,9 @@ const ArtistSetup = ({navigation} : any) => {
                 
 
                 <View style={{marginVertical: 40}}>
-                    {/* <Text style={styles.inputheader}>
-                        Publishing Terms and Conditions
-                    </Text>
-                    <ScrollView style={{width: '90%', height: 260, borderRadius: 10, alignSelf: 'center', marginTop: 10, backgroundColor: '#363636a5'}}>
-                        <Text style={{color: '#ffffffa5', margin: 20}}>
-                            i. I agree that as a publisher, I am handing over all rights to Blip. I am their slave and master and will submit to Blip's every command. Blip maintains the right to enforce this servitude indefinitely. This is a binding contract that cannot be ammended. Upon agreeing to terms, the signee will liquidate and forfiet all assets in the signee's name. 
-                            i. I agree that as a publisher, I am handing over all rights to Blip. I am their slave and master and will submit to Blip's every command. Blip maintains the right to enforce this servitude indefinitely. This is a binding contract that cannot be ammended. Upon agreeing to terms, the signee will liquidate and forfiet all assets in the signee's name. 
-                            i. I agree that as a publisher, I am handing over all rights to Blip. I am their slave and master and will submit to Blip's every command. Blip maintains the right to enforce this servitude indefinitely. This is a binding contract that cannot be ammended. Upon agreeing to terms, the signee will liquidate and forfiet all assets in the signee's name.                        
-                        </Text>
-                    </ScrollView> */}
+                    
+                    <PublishingTerms />
+
                     <TouchableWithoutFeedback onPress={() => setAgree(!agree)}>
                         <View style={{flexDirection: 'row', margin: 40, alignSelf: 'center'}}>
                             <FontAwesome 

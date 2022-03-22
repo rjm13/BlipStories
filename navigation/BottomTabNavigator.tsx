@@ -11,6 +11,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import NotificationSetting from '../screens/NotificationSetting';
 import Narrations from '../screens/NarrationsScreen';
+import CoverArt from '../screens/CoverArt';
 import History from '../screens/HistoryScreen';
 import Following from '../screens/FollowingScreen';
 import AboutScreen from '../screens/About';
@@ -165,6 +166,11 @@ function HomeNavigator() {
       <HomeStack.Screen
         name="Narrations"
         component={Narrations}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name="CoverArt"
+        component={CoverArt}
         options={{ headerShown: false }}
       />
       <HomeStack.Screen

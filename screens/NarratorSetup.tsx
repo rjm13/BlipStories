@@ -22,6 +22,7 @@ import { updateUser } from '../src/graphql/mutations';
 import { getUser } from '../src/graphql/queries';
 
 import { Modal, Portal, Provider } from 'react-native-paper';
+import PublishingTerms from '../components/PublishingTerms';
 
 const NarratorSetup = ({navigation} : any) => {
 
@@ -87,6 +88,7 @@ const NarratorSetup = ({navigation} : any) => {
     const handleUpdateAttributes = async () => {
 
         if ( data.narratorPseudo.length !== 0 ) {
+            setPublishing(true);
           const userInfo = await Auth.currentAuthenticatedUser();
   
             const updatedUser = { 
@@ -108,12 +110,14 @@ const NarratorSetup = ({navigation} : any) => {
           if (result) {navigation.navigate('Publisher')}
           setPublishing(false);
           }
+      } else {
+          alert('Please input a narrator pseudonym')
       }
+
   }
 
   const updateAsPublisher = async () => {
     if (agree === true) {
-        setPublishing(true);
         handleUpdateAttributes();
     }
     else {
@@ -124,9 +128,9 @@ const NarratorSetup = ({navigation} : any) => {
 
     //accent list
     const accents = [
-        {id: 0, accent: 'Other'},
+        {id: 0, accent: 'American'},
         {id: 1, accent: 'British'},
-        {id: 2, accent: 'Southern Twang'},
+        {id: 2, accent: 'Southern'},
         {id: 3, accent: 'Minnesota'},
         {id: 4, accent: 'Boston'},
         {id: 5, accent: 'New York'},
@@ -134,7 +138,9 @@ const NarratorSetup = ({navigation} : any) => {
         {id: 7, accent: 'Scottish'},
         {id: 8, accent: 'African'},
         {id: 9, accent: 'Russian'},
-        {id: 10, accent: 'British'},
+        {id: 10, accent: 'Latin'},
+        {id: 11, accent: 'Arabic'},
+        
     ];
 
     const textRef = useRef();
@@ -188,6 +194,7 @@ const NarratorSetup = ({navigation} : any) => {
                             )
                         }
                         </ScrollView>
+
                         <TouchableWithoutFeedback onPress={hideAccentModal}>
                             <View style={{marginTop: 10, borderRadius: 20, paddingVertical: 6, paddingHorizontal: 20, alignSelf: 'center', backgroundColor: 'cyan'}}>
                                 <Text style={{color: '#000'}}>
@@ -201,25 +208,26 @@ const NarratorSetup = ({navigation} : any) => {
             </Portal>
 
             <ScrollView>
-            <View style={{marginHorizontal: 20, marginTop: 50}}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <View style={{flexDirection: 'row'}}>
-                        <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-                            <View style={{padding: 30, margin: -30}}>
-                                <FontAwesome5 
-                                    name='chevron-left'  
-                                    color="#fff"
-                                    size={20}
-                                    style={{alignSelf: 'center'}}
-                                />
-                            </View>
-                        </TouchableWithoutFeedback>
-                        <Text style={styles.header}>
-                            Narrator Setup
-                        </Text>
-                    </View>
-                </View>  
-            </View>
+
+                <View style={{marginHorizontal: 20, marginTop: 50}}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                            <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+                                <View style={{padding: 30, margin: -30}}>
+                                    <FontAwesome5 
+                                        name='chevron-left'  
+                                        color="#fff"
+                                        size={20}
+                                        style={{alignSelf: 'center'}}
+                                    />
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <Text style={styles.header}>
+                                Narrator Setup
+                            </Text>
+                        </View>
+                    </View>  
+                </View>
 
                 <View style={{marginTop: 40}}>
                     <Text style={styles.inputheader}>
@@ -232,7 +240,7 @@ const NarratorSetup = ({navigation} : any) => {
                             style={styles.textInputTitle}
                             maxLength={30}
                             onChangeText={(val) => textInputChange(val)}
-                            autoCapitalize='none'
+                            autoCapitalize='words'
                         />
                     </View>
                 </View>
@@ -295,19 +303,21 @@ const NarratorSetup = ({navigation} : any) => {
 
                 <View style={{marginTop: 40}}>
                     <Text style={styles.inputheader}>
-                        About Yourself
+                        Narrator Blurb
                     </Text>
                     <TouchableWithoutFeedback onPress={FocusInput}>
                         <View style={[styles.inputfield, {height: 120}]}>
                             <TextInput 
-                                placeholder='....'
+                                placeholder='Say something about yourself'
                                 placeholderTextColor='#ffffffa5'
                                 style={styles.textInputTitle}
-                                maxLength={200}
+                                maxLength={250}
+                                numberOfLines={8}
                                 onChangeText={(val) => aboutInputChange(val)}
                                 autoCapitalize='none'
                                 ref={textRef}
                                 multiline={true}
+                                textAlignVertical='top'
                             />
                         </View>
                     </TouchableWithoutFeedback>
@@ -316,16 +326,9 @@ const NarratorSetup = ({navigation} : any) => {
                 
 
                 <View style={{marginVertical: 40}}>
-                    {/* <Text style={styles.inputheader}>
-                        Publishing Terms and Conditions
-                    </Text>
-                    <ScrollView style={{width: '90%', height: 260, borderRadius: 10, alignSelf: 'center', marginTop: 10, backgroundColor: '#363636a5'}}>
-                        <Text style={{color: '#ffffffa5', margin: 20}}>
-                            i. I agree that as a publisher, I am handing over all rights to Blip. I am their slave and master and will submit to Blip's every command. Blip maintains the right to enforce this servitude indefinitely. This is a binding contract that cannot be ammended. Upon agreeing to terms, the signee will liquidate and forfiet all assets in the signee's name. 
-                            i. I agree that as a publisher, I am handing over all rights to Blip. I am their slave and master and will submit to Blip's every command. Blip maintains the right to enforce this servitude indefinitely. This is a binding contract that cannot be ammended. Upon agreeing to terms, the signee will liquidate and forfiet all assets in the signee's name. 
-                            i. I agree that as a publisher, I am handing over all rights to Blip. I am their slave and master and will submit to Blip's every command. Blip maintains the right to enforce this servitude indefinitely. This is a binding contract that cannot be ammended. Upon agreeing to terms, the signee will liquidate and forfiet all assets in the signee's name.                        
-                        </Text>
-                    </ScrollView> */}
+                    
+                    <PublishingTerms />
+
                     <TouchableWithoutFeedback onPress={() => setAgree(!agree)}>
                         <View style={{flexDirection: 'row', margin: 40, alignSelf: 'center'}}>
                             <FontAwesome 

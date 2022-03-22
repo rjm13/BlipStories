@@ -56,6 +56,7 @@ export type TabOneParamList = {
   Inbox: undefined;
   ViewMessage: undefined;
   CreateMessage: undefined;
+  CoverArt: undefined;
 };
 
 export type TabTwoParamList = {

@@ -335,58 +335,6 @@ const Publisher = ({navigation} : any) => {
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
-                    
-
-                    {/* {isPublisher === true ? (
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
-                            <View>
-                                <Text style={{ color: '#fff', fontSize: 16}}>
-                                    Pseudonym
-                                </Text>
-                                <Text style={{ color: 'gray', fontSize: 12}}>
-                                    Author
-                                </Text>
-                            </View>
-                            <Text style={styles.textcounter}>
-                                {user?.pseudonym}
-                            </Text>
-                        </View>
-                    ) : null} */}
-                    
-
-                    {/* {isNarrator === true ? (
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
-                            <View>
-                                <Text style={{ color: '#fff', fontSize: 16}}>
-                                    Pseudonym
-                                </Text>
-                                <Text style={{ color: 'gray', fontSize: 12}}>
-                                    Narrator
-                                </Text>
-                            </View>
-                            <Text style={styles.textcounter}>
-                                {user?.narratorPseudo}
-                            </Text>
-                        </View>
-                    ) : null} */}
-                    
-                    {/* {isArtist === true ? (
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
-                            <View>
-                                <Text style={{ color: '#fff', fontSize: 16}}>
-                                    Pseudonym
-                                </Text>
-                                <Text style={{ color: 'gray', fontSize: 12}}>
-                                    Artist
-                                </Text>
-                            </View>
-                            
-                            <Text style={styles.textcounter}>
-                                {user?.artistPseudo}
-                            </Text>
-                        </View>
-                    ) : null} */}
-                    
 
                     {isPublisher === true ? (
                         <View>
@@ -416,30 +364,43 @@ const Publisher = ({navigation} : any) => {
                     ) : null}
 
                     {isNarrator === true ? (
-                    
-                        <TouchableWithoutFeedback onPress={ () => navigation.navigate('Narrations')}>
+                        <View>
+                            <TouchableWithoutFeedback onPress={ () => navigation.navigate('Narrations')}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                                    <Text style={{ color: '#fff', fontSize: 16}}>
+                                        Narrated Stories
+                                    </Text>
+                                    <Text style={styles.textcounter}>
+                                        {user?.narrated?.items.length}
+                                    </Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+
+                            <TouchableWithoutFeedback onPress={ () => navigation.navigate('Recordings', {user: user})}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                                    <Text style={{ color: '#fff', fontSize: 16}}>
+                                        Recording Studio
+                                    </Text>
+                                    <Text style={styles.textcounter}>
+                                        {SavedAudio.length}
+                                    </Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </View>
+                    ) : null}    
+
+                    {isArtist === true ? (
+                        <TouchableWithoutFeedback onPress={ () => navigation.navigate('CoverArt')}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
                                 <Text style={{ color: '#fff', fontSize: 16}}>
-                                    Narrated Stories
+                                    Cover Art
                                 </Text>
                                 <Text style={styles.textcounter}>
-                                    {user?.narrated?.items.length}
+                                    {user?.art?.items.length}
                                 </Text>
                             </View>
                         </TouchableWithoutFeedback>
-
                     ) : null}
-
-                        <TouchableWithoutFeedback onPress={ () => navigation.navigate('Recordings', {user: user})}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
-                                <Text style={{ color: '#fff', fontSize: 16}}>
-                                    Recording Studio
-                                </Text>
-                                <Text style={styles.textcounter}>
-                                    {SavedAudio.length}
-                                </Text>
-                            </View>
-                        </TouchableWithoutFeedback>
                         
                     {isArtist === true ? (
                         <TouchableWithoutFeedback onPress={ () => navigation.navigate('MyArt')}>
@@ -454,16 +415,18 @@ const Publisher = ({navigation} : any) => {
                         </TouchableWithoutFeedback>
                     ) : null}
 
-                    <TouchableWithoutFeedback onPress={ () => navigation.navigate('SharedAssets')}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
-                            <Text style={{ color: '#fff', fontSize: 16}}>
-                                My Narrations
-                            </Text>
-                            <Text style={styles.textcounter}>
-                            {user?.sharedAssets?.items.length}
-                            </Text>
-                        </View>
-                    </TouchableWithoutFeedback>
+                    {isNarrator === true ? (
+                        <TouchableWithoutFeedback onPress={ () => navigation.navigate('SharedAssets')}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                                <Text style={{ color: '#fff', fontSize: 16}}>
+                                    My Narrations
+                                </Text>
+                                <Text style={styles.textcounter}>
+                                {user?.sharedAssets?.items.length}
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    ) : null}
 
 {/* line break */}
                     <View style={{marginVertical: 20, alignSelf: 'center', width: '80%', height: 1, borderColor: '#fff', borderWidth: 0.5}}>
