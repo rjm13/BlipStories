@@ -22,8 +22,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { deleteImageAsset, createImageAsset, updateImageAsset } from '../src/graphql/mutations';
-import { listImageAssets, listUsers } from '../src/graphql/queries';
+import { deleteImageAsset, createImageAsset, updateImageAsset, createMessage } from '../src/graphql/mutations';
+import { listImageAssets, listUsers, getUser } from '../src/graphql/queries';
 
 const MyArt = ({navigation} : any) => {
 
@@ -57,6 +57,8 @@ const MyArt = ({navigation} : any) => {
 
     const UpdateAsset = async () => {
 
+        setIsUploading(true);
+
         let response = await API.graphql(graphqlOperation(
             updateImageAsset, {input: {
                 id: data.id,
@@ -64,7 +66,35 @@ const MyArt = ({navigation} : any) => {
             }}
         ))
 
-        console.log(response);
+        if (response) {
+
+            const userInfo = await Auth.currentAuthenticatedUser();
+
+            const user = await API.graphql(graphqlOperation(
+                getUser, {id: userInfo.attributes.sub}
+            ))
+
+            let message = await API.graphql(graphqlOperation(
+                createMessage, {input: {
+                    type: 'Message',
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    userID: data.sharedUserID,
+                    otherUserID: userInfo.attributes.sub,
+                    content: 'You have new shared art work to use as cover art for your short story.' + 
+                    ' This art is to be used for this purpose only and any other use will be considered copywrite infringement in which you may be held liable. ' +
+                    'To view this art or add this art to a story, simply open the Shared Art list on the Publish a Story Screen.',
+                    title: user.data.getUser.artistPseudo + ' shared art with you!',
+                    subtitle: 'artist',
+                    isReadbyUser: false,
+                    isReadByOtherUser: true,
+                    docID: null,
+                    request: 'art',
+                }}
+            ));
+            console.log(message)
+        }
+
         setDidUpdate(!didUpdate);
         setData({
             imageUri: '',
@@ -74,6 +104,7 @@ const MyArt = ({navigation} : any) => {
             sharedUserID: '',
             sharedUserName: '', 
         })
+        setIsUploading(false);
         hideConfirmModal();
         hideUserListModal();
         hideImageModal();
@@ -521,11 +552,16 @@ const MyArt = ({navigation} : any) => {
                         <Text style={{marginBottom: 20, fontWeight: 'bold', textAlign: 'center', color: '#fff', alignSelf: 'center'}}>
                             Share with {data.sharedUserName}?
                         </Text>
-                       <TouchableOpacity onPress={UpdateAsset}>
-                           <Text style={{marginTop: 10, alignSelf: 'center', textAlign: 'center', paddingVertical: 6, paddingHorizontal: 15, borderRadius: 15, backgroundColor: 'cyan'}}>
-                               Confirm Share
-                           </Text>
-                       </TouchableOpacity>
+                        {isUploading === true ? (
+                            <ActivityIndicator size='small' color='cyan'/>
+                        ) : (
+                            <TouchableOpacity onPress={UpdateAsset}>
+                                <Text style={{marginTop: 10, alignSelf: 'center', textAlign: 'center', paddingVertical: 6, paddingHorizontal: 15, borderRadius: 15, backgroundColor: 'cyan'}}>
+                                    Confirm Share
+                                </Text>
+                            </TouchableOpacity>
+                        )}
+                       
                     
                     </View>
                 </Modal>
