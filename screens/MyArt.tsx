@@ -81,9 +81,7 @@ const MyArt = ({navigation} : any) => {
                     updatedAt: new Date(),
                     userID: data.sharedUserID,
                     otherUserID: userInfo.attributes.sub,
-                    content: 'You have new shared art work to use as cover art for your short story.' + 
-                    ' This art is to be used for this purpose only and any other use will be considered copywrite infringement in which you may be held liable. ' +
-                    'To view this art or add this art to a story, simply open the Shared Art list on the Publish a Story Screen.',
+                    content: 'You have new shared art work to use as cover art for your short story. \n This art is to be used for this purpose only and any other use will be considered copywrite infringement in which you may be held liable. \n To view this art or add this art to a story, simply open the Shared Art list on the Publish a Story Screen.',
                     title: user.data.getUser.artistPseudo + ' shared art with you!',
                     subtitle: 'artist',
                     isReadbyUser: false,

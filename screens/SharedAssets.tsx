@@ -28,7 +28,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { getUser, listAudioAssets, listUsers } from '../src/graphql/queries';
-import { updateAudioAsset, createAudioAsset, deleteAudioAsset } from '../src/graphql/mutations';
+import { updateAudioAsset, createAudioAsset, deleteAudioAsset, createMessage } from '../src/graphql/mutations';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -71,16 +71,34 @@ const SharedAssets = ({navigation} : any) => {
                         <Text style={styles.name}>
                             {title}
                         </Text>
-                    </View>
-                    
-                    <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>
-                        <Text style={{color: '#fff'}}>
+                        <Text style={{color: '#ffffffa5', marginTop: 2}}>
                             {millisToMinutesAndSeconds()}
                         </Text>
                     </View>
+                    
+                    <View style={{ flexDirection: 'row', }}>
+                        <TouchableWithoutFeedback onPress={() => {showDeleteModal(); setDeleteId(id)}}>
+                            <View style={{alignItems: 'center', paddingRight: 10}}>
+                                <FontAwesome5 
+                                    name='trash'
+                                    size={18}
+                                    color='#fff'
+                                />
+                            </View>
+                        </TouchableWithoutFeedback>
+                        <TouchableOpacity onPress={() => navigation.navigate('SimpleAudioPlayer', {item: null, cloudItem: id})}>
+                            <View style={{alignItems: 'center', paddingHorizontal: 20}}>
+                                <FontAwesome5 
+                                    name='play'
+                                    size={18}
+                                    color='#fff'
+                                />
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 </View> 
                 
-                <View style={{flexDirection: 'row', width: '100%'}}>
+                <View style={{flexDirection: 'row', width: '100%', marginTop: 4}}>
                     {sharedUserID ? (
                         <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: sharedUserID})}>
                             <View style={{marginTop: 10}}>
@@ -533,6 +551,8 @@ const SharedAssets = ({navigation} : any) => {
 
     const UpdateAsset = async () => {
 
+        setIsPublishing(true);
+
         let response = await API.graphql(graphqlOperation(
             updateAudioAsset, {input: {
                 id: updateAssetState,
@@ -540,7 +560,34 @@ const SharedAssets = ({navigation} : any) => {
             }}
         ))
 
-        console.log(response);
+        if (response) {
+
+            const userInfo = await Auth.currentAuthenticatedUser();
+
+            const user = await API.graphql(graphqlOperation(
+                getUser, {id: userInfo.attributes.sub}
+            ))
+
+            let message = await API.graphql(graphqlOperation(
+                createMessage, {input: {
+                    type: 'Message',
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    userID: data.sharedUserID,
+                    otherUserID: userInfo.attributes.sub,
+                    content: 'You have a new shared narration for your short story. \n\nThis audio is to be used for this purpose only and any other use will be considered copywrite infringement in which you may be held liable. \n\n To view this narration or add this narration to a story, simply open the Shared Audio list on the Publish a Story Screen.',
+                    title: user.data.getUser.narratorPseudo + ' shared a narration with you!',
+                    subtitle: 'narrator',
+                    isReadbyUser: false,
+                    isReadByOtherUser: true,
+                    docID: null,
+                    request: 'narration',
+                }}
+            ));
+            console.log(message)
+        }
+
+        setIsPublishing(false);
         setDidUpdate(!didUpdate);
         setUpdateAssetState(null);
         hideShareModal();
@@ -677,6 +724,14 @@ const SharedAssets = ({navigation} : any) => {
                                         <View style={[styles.textinput, {justifyContent: 'center'}]}>
                                             <Text style={{color: '#fff'}}>
                                                 Select Audio File
+                                            </Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+
+                                    <TouchableWithoutFeedback onPress={showLocalAudioModal}>
+                                        <View style={[styles.textinput, {justifyContent: 'center'}]}>
+                                            <Text style={{color: '#fff'}}>
+                                                Select Blip Recording
                                             </Text>
                                         </View>
                                     </TouchableWithoutFeedback>
@@ -858,14 +913,17 @@ const SharedAssets = ({navigation} : any) => {
                                     <Text style={{textAlign: 'center', color: '#00ffffa5'}}>
                                         {data.sharedUserName}
                                     </Text>
-                                    <TouchableOpacity onPress={() => UpdateAsset()}>
-                                        <View style={{ marginTop: 20, borderRadius: 15, backgroundColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
-                                            <Text>
-                                            Confirm Share 
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                    
+                                    {isPublishing === true ? (
+                                        <ActivityIndicator size='small' color='cyan'/>
+                                    ) : (
+                                        <TouchableOpacity onPress={() => UpdateAsset()}>
+                                            <View style={{ marginTop: 20, borderRadius: 15, backgroundColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
+                                                <Text>
+                                                Confirm Share 
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    )}
                                 </View>
                                 
                             ) : null}
@@ -876,7 +934,7 @@ const SharedAssets = ({navigation} : any) => {
                 <Modal visible={visible5} onDismiss={() => {hideDeleteModal()}} contentContainerStyle={containerStyle}>
                     <View style={{paddingHorizontal: 20, paddingVertical: 40, alignItems: 'center' }}>
                         <Text style={{fontWeight: 'bold', fontSize: 14, marginBottom: 20, textAlign: 'center', color: '#fff'}}>
-                            Delete Sample from Profile
+                            Delete from Profile?
                         </Text>
                         <TouchableOpacity onPress={DeleteSample}>
                             <View style={[styles.textinput, {justifyContent: 'center', backgroundColor: '#ff0000a5', paddingHorizontal: 20}]}>
@@ -927,7 +985,7 @@ const SharedAssets = ({navigation} : any) => {
                         </TouchableWithoutFeedback>
                         
                         <Text style={styles.header}>
-                            Audio Assets
+                            My Narrations
                         </Text>
                     </View>
 
