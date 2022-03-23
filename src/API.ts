@@ -146,6 +146,8 @@ export type User = {
   narrated?: ModelStoryConnection | null,
   sharedAssets?: ModelAudioAssetConnection | null,
   sharedImageAssets?: ModelImageAssetConnection | null,
+  sharedWithAssets?: ModelAudioAssetConnection | null,
+  sharedWithImageAssets?: ModelImageAssetConnection | null,
   art?: ModelStoryConnection | null,
   numAuthored?: number | null,
   pseudonym?: string | null,
@@ -1473,6 +1475,39 @@ export type CreateUserMutation = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    sharedWithAssets?:  {
+      __typename: "ModelAudioAssetConnection",
+      items:  Array< {
+        __typename: "AudioAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        audioUri?: string | null,
+        time?: string | null,
+        isSample?: boolean | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    sharedWithImageAssets?:  {
+      __typename: "ModelImageAssetConnection",
+      items:  Array< {
+        __typename: "ImageAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        imageUri?: string | null,
+        isSample?: boolean | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     art?:  {
       __typename: "ModelStoryConnection",
       items:  Array< {
@@ -1675,6 +1710,39 @@ export type UpdateUserMutation = {
       nextToken?: string | null,
     } | null,
     sharedImageAssets?:  {
+      __typename: "ModelImageAssetConnection",
+      items:  Array< {
+        __typename: "ImageAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        imageUri?: string | null,
+        isSample?: boolean | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    sharedWithAssets?:  {
+      __typename: "ModelAudioAssetConnection",
+      items:  Array< {
+        __typename: "AudioAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        audioUri?: string | null,
+        time?: string | null,
+        isSample?: boolean | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    sharedWithImageAssets?:  {
       __typename: "ModelImageAssetConnection",
       items:  Array< {
         __typename: "ImageAsset",
@@ -1907,6 +1975,39 @@ export type DeleteUserMutation = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    sharedWithAssets?:  {
+      __typename: "ModelAudioAssetConnection",
+      items:  Array< {
+        __typename: "AudioAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        audioUri?: string | null,
+        time?: string | null,
+        isSample?: boolean | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    sharedWithImageAssets?:  {
+      __typename: "ModelImageAssetConnection",
+      items:  Array< {
+        __typename: "ImageAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        imageUri?: string | null,
+        isSample?: boolean | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     art?:  {
       __typename: "ModelStoryConnection",
       items:  Array< {
@@ -2051,6 +2152,14 @@ export type CreateFollowingConnMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -2113,6 +2222,14 @@ export type CreateFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -2198,6 +2315,14 @@ export type UpdateFollowingConnMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -2260,6 +2385,14 @@ export type UpdateFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -2345,6 +2478,14 @@ export type DeleteFollowingConnMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -2407,6 +2548,14 @@ export type DeleteFollowingConnMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -2488,6 +2637,14 @@ export type CreatePinnedStoryMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -2710,6 +2867,14 @@ export type UpdatePinnedStoryMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -2926,6 +3091,14 @@ export type DeletePinnedStoryMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -3148,6 +3321,14 @@ export type CreateFinishedStoryMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -3367,6 +3548,14 @@ export type UpdateFinishedStoryMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -3583,6 +3772,14 @@ export type DeleteFinishedStoryMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -3807,6 +4004,14 @@ export type CreateStoryMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -3876,6 +4081,14 @@ export type CreateStoryMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -3940,6 +4153,14 @@ export type CreateStoryMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -4089,6 +4310,14 @@ export type UpdateStoryMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4158,6 +4387,14 @@ export type UpdateStoryMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4222,6 +4459,14 @@ export type UpdateStoryMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -4371,6 +4616,14 @@ export type DeleteStoryMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4440,6 +4693,14 @@ export type DeleteStoryMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4504,6 +4765,14 @@ export type DeleteStoryMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -4710,6 +4979,14 @@ export type CreateImageAssetMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4774,6 +5051,14 @@ export type CreateImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -4860,6 +5145,14 @@ export type UpdateImageAssetMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4924,6 +5217,14 @@ export type UpdateImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -5010,6 +5311,14 @@ export type DeleteImageAssetMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5074,6 +5383,14 @@ export type DeleteImageAssetMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -5159,6 +5476,14 @@ export type CreateDocumentAssetMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5223,6 +5548,14 @@ export type CreateDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -5308,6 +5641,14 @@ export type UpdateDocumentAssetMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5372,6 +5713,14 @@ export type UpdateDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -5457,6 +5806,14 @@ export type DeleteDocumentAssetMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5521,6 +5878,14 @@ export type DeleteDocumentAssetMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -5608,6 +5973,14 @@ export type CreateAudioAssetMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5672,6 +6045,14 @@ export type CreateAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -5759,6 +6140,14 @@ export type UpdateAudioAssetMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5823,6 +6212,14 @@ export type UpdateAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -5910,6 +6307,14 @@ export type DeleteAudioAssetMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5974,6 +6379,14 @@ export type DeleteAudioAssetMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -6192,6 +6605,14 @@ export type CreateFlagMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -6414,6 +6835,14 @@ export type UpdateFlagMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -6630,6 +7059,14 @@ export type DeleteFlagMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -6853,6 +7290,14 @@ export type CreateCommentMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -7073,6 +7518,14 @@ export type UpdateCommentMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -7290,6 +7743,14 @@ export type DeleteCommentMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -7636,6 +8097,14 @@ export type CreateRatingMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -7865,6 +8334,14 @@ export type UpdateRatingMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -8100,6 +8577,14 @@ export type DeleteRatingMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -8196,6 +8681,14 @@ export type CreateMessageMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -8260,6 +8753,14 @@ export type CreateMessageMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -8434,6 +8935,14 @@ export type UpdateMessageMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -8498,6 +9007,14 @@ export type UpdateMessageMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -8672,6 +9189,14 @@ export type DeleteMessageMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -8736,6 +9261,14 @@ export type DeleteMessageMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -9000,6 +9533,14 @@ export type CreateReplyMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -9173,6 +9714,14 @@ export type UpdateReplyMutation = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -9343,6 +9892,14 @@ export type DeleteReplyMutation = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -10034,6 +10591,39 @@ export type GetUserQuery = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    sharedWithAssets?:  {
+      __typename: "ModelAudioAssetConnection",
+      items:  Array< {
+        __typename: "AudioAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        audioUri?: string | null,
+        time?: string | null,
+        isSample?: boolean | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    sharedWithImageAssets?:  {
+      __typename: "ModelImageAssetConnection",
+      items:  Array< {
+        __typename: "ImageAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        imageUri?: string | null,
+        isSample?: boolean | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     art?:  {
       __typename: "ModelStoryConnection",
       items:  Array< {
@@ -10175,6 +10765,14 @@ export type ListUsersQuery = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -10255,6 +10853,14 @@ export type GetFollowingConnQuery = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -10317,6 +10923,14 @@ export type GetFollowingConnQuery = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -10477,6 +11091,14 @@ export type GetPinnedStoryQuery = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -10773,6 +11395,14 @@ export type GetFinishedStoryQuery = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -11074,6 +11704,14 @@ export type GetStoryQuery = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -11143,6 +11781,14 @@ export type GetStoryQuery = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -11207,6 +11853,14 @@ export type GetStoryQuery = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -11547,6 +12201,14 @@ export type GetImageAssetQuery = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -11611,6 +12273,14 @@ export type GetImageAssetQuery = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -11778,6 +12448,14 @@ export type GetDocumentAssetQuery = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -11842,6 +12520,14 @@ export type GetDocumentAssetQuery = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -12010,6 +12696,14 @@ export type GetAudioAssetQuery = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -12074,6 +12768,14 @@ export type GetAudioAssetQuery = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -12378,6 +13080,14 @@ export type GetFlagQuery = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -12672,6 +13382,14 @@ export type GetCommentQuery = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -13051,6 +13769,14 @@ export type GetRatingQuery = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -13237,6 +13963,14 @@ export type GetMessageQuery = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -13301,6 +14035,14 @@ export type GetMessageQuery = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -13663,6 +14405,14 @@ export type GetReplyQuery = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -14052,6 +14802,14 @@ export type UsersByNarratorActiveAtQuery = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -14130,6 +14888,14 @@ export type UsersByArtistActiveAtQuery = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -15631,6 +16397,39 @@ export type OnCreateUserSubscription = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    sharedWithAssets?:  {
+      __typename: "ModelAudioAssetConnection",
+      items:  Array< {
+        __typename: "AudioAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        audioUri?: string | null,
+        time?: string | null,
+        isSample?: boolean | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    sharedWithImageAssets?:  {
+      __typename: "ModelImageAssetConnection",
+      items:  Array< {
+        __typename: "ImageAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        imageUri?: string | null,
+        isSample?: boolean | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     art?:  {
       __typename: "ModelStoryConnection",
       items:  Array< {
@@ -15828,6 +16627,39 @@ export type OnUpdateUserSubscription = {
       nextToken?: string | null,
     } | null,
     sharedImageAssets?:  {
+      __typename: "ModelImageAssetConnection",
+      items:  Array< {
+        __typename: "ImageAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        imageUri?: string | null,
+        isSample?: boolean | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    sharedWithAssets?:  {
+      __typename: "ModelAudioAssetConnection",
+      items:  Array< {
+        __typename: "AudioAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        audioUri?: string | null,
+        time?: string | null,
+        isSample?: boolean | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    sharedWithImageAssets?:  {
       __typename: "ModelImageAssetConnection",
       items:  Array< {
         __typename: "ImageAsset",
@@ -16055,6 +16887,39 @@ export type OnDeleteUserSubscription = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    sharedWithAssets?:  {
+      __typename: "ModelAudioAssetConnection",
+      items:  Array< {
+        __typename: "AudioAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        audioUri?: string | null,
+        time?: string | null,
+        isSample?: boolean | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    sharedWithImageAssets?:  {
+      __typename: "ModelImageAssetConnection",
+      items:  Array< {
+        __typename: "ImageAsset",
+        id: string,
+        type?: string | null,
+        title?: string | null,
+        imageUri?: string | null,
+        isSample?: boolean | null,
+        userID?: string | null,
+        sharedUserID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     art?:  {
       __typename: "ModelStoryConnection",
       items:  Array< {
@@ -16194,6 +17059,14 @@ export type OnCreateFollowingConnSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -16256,6 +17129,14 @@ export type OnCreateFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -16336,6 +17217,14 @@ export type OnUpdateFollowingConnSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -16398,6 +17287,14 @@ export type OnUpdateFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -16478,6 +17375,14 @@ export type OnDeleteFollowingConnSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -16540,6 +17445,14 @@ export type OnDeleteFollowingConnSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -16616,6 +17529,14 @@ export type OnCreatePinnedStorySubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -16833,6 +17754,14 @@ export type OnUpdatePinnedStorySubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -17044,6 +17973,14 @@ export type OnDeletePinnedStorySubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -17261,6 +18198,14 @@ export type OnCreateFinishedStorySubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -17475,6 +18420,14 @@ export type OnUpdateFinishedStorySubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -17686,6 +18639,14 @@ export type OnDeleteFinishedStorySubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -17905,6 +18866,14 @@ export type OnCreateStorySubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -17974,6 +18943,14 @@ export type OnCreateStorySubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -18038,6 +19015,14 @@ export type OnCreateStorySubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -18182,6 +19167,14 @@ export type OnUpdateStorySubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -18251,6 +19244,14 @@ export type OnUpdateStorySubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -18315,6 +19316,14 @@ export type OnUpdateStorySubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -18459,6 +19468,14 @@ export type OnDeleteStorySubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -18528,6 +19545,14 @@ export type OnDeleteStorySubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -18592,6 +19617,14 @@ export type OnDeleteStorySubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -18778,6 +19811,14 @@ export type OnCreateImageAssetSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -18842,6 +19883,14 @@ export type OnCreateImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -18923,6 +19972,14 @@ export type OnUpdateImageAssetSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -18987,6 +20044,14 @@ export type OnUpdateImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -19068,6 +20133,14 @@ export type OnDeleteImageAssetSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19132,6 +20205,14 @@ export type OnDeleteImageAssetSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -19212,6 +20293,14 @@ export type OnCreateDocumentAssetSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19276,6 +20365,14 @@ export type OnCreateDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -19356,6 +20453,14 @@ export type OnUpdateDocumentAssetSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19420,6 +20525,14 @@ export type OnUpdateDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -19500,6 +20613,14 @@ export type OnDeleteDocumentAssetSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19564,6 +20685,14 @@ export type OnDeleteDocumentAssetSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -19646,6 +20775,14 @@ export type OnCreateAudioAssetSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19710,6 +20847,14 @@ export type OnCreateAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -19792,6 +20937,14 @@ export type OnUpdateAudioAssetSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19856,6 +21009,14 @@ export type OnUpdateAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -19938,6 +21099,14 @@ export type OnDeleteAudioAssetSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20002,6 +21171,14 @@ export type OnDeleteAudioAssetSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -20215,6 +21392,14 @@ export type OnCreateFlagSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -20432,6 +21617,14 @@ export type OnUpdateFlagSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20643,6 +21836,14 @@ export type OnDeleteFlagSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -20861,6 +22062,14 @@ export type OnCreateCommentSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -21076,6 +22285,14 @@ export type OnUpdateCommentSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -21288,6 +22505,14 @@ export type OnDeleteCommentSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -21614,6 +22839,14 @@ export type OnCreateRatingSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -21838,6 +23071,14 @@ export type OnUpdateRatingSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -22068,6 +23309,14 @@ export type OnDeleteRatingSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -22159,6 +23408,14 @@ export type OnCreateMessageSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -22223,6 +23480,14 @@ export type OnCreateMessageSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -22392,6 +23657,14 @@ export type OnUpdateMessageSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -22456,6 +23729,14 @@ export type OnUpdateMessageSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -22625,6 +23906,14 @@ export type OnDeleteMessageSubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -22689,6 +23978,14 @@ export type OnDeleteMessageSubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
@@ -22948,6 +24245,14 @@ export type OnCreateReplySubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -23116,6 +24421,14 @@ export type OnUpdateReplySubscription = {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
       art?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -23281,6 +24594,14 @@ export type OnDeleteReplySubscription = {
         nextToken?: string | null,
       } | null,
       sharedImageAssets?:  {
+        __typename: "ModelImageAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithAssets?:  {
+        __typename: "ModelAudioAssetConnection",
+        nextToken?: string | null,
+      } | null,
+      sharedWithImageAssets?:  {
         __typename: "ModelImageAssetConnection",
         nextToken?: string | null,
       } | null,

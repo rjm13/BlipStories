@@ -99,6 +99,35 @@ export const onCreateUser = /* GraphQL */ `
         }
         nextToken
       }
+      sharedWithAssets {
+        items {
+          id
+          type
+          title
+          audioUri
+          time
+          isSample
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      sharedWithImageAssets {
+        items {
+          id
+          type
+          title
+          imageUri
+          isSample
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       art {
         items {
           id
@@ -280,6 +309,35 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
       }
       sharedImageAssets {
+        items {
+          id
+          type
+          title
+          imageUri
+          isSample
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      sharedWithAssets {
+        items {
+          id
+          type
+          title
+          audioUri
+          time
+          isSample
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      sharedWithImageAssets {
         items {
           id
           type
@@ -487,6 +545,35 @@ export const onDeleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      sharedWithAssets {
+        items {
+          id
+          type
+          title
+          audioUri
+          time
+          isSample
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      sharedWithImageAssets {
+        items {
+          id
+          type
+          title
+          imageUri
+          isSample
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       art {
         items {
           id
@@ -611,6 +698,12 @@ export const onCreateFollowingConn = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -664,6 +757,12 @@ export const onCreateFollowingConn = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -733,6 +832,12 @@ export const onUpdateFollowingConn = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -786,6 +891,12 @@ export const onUpdateFollowingConn = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -855,6 +966,12 @@ export const onDeleteFollowingConn = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -908,6 +1025,12 @@ export const onDeleteFollowingConn = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -974,6 +1097,12 @@ export const onCreatePinnedStory = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -1172,6 +1301,12 @@ export const onUpdatePinnedStory = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1366,6 +1501,12 @@ export const onDeletePinnedStory = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -1564,6 +1705,12 @@ export const onCreateFinishedStory = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1760,6 +1907,12 @@ export const onUpdateFinishedStory = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1954,6 +2107,12 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -2154,6 +2313,12 @@ export const onCreateStory = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2213,6 +2378,12 @@ export const onCreateStory = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2268,6 +2439,12 @@ export const onCreateStory = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -2394,6 +2571,12 @@ export const onUpdateStory = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2453,6 +2636,12 @@ export const onUpdateStory = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2508,6 +2697,12 @@ export const onUpdateStory = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -2634,6 +2829,12 @@ export const onDeleteStory = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2693,6 +2894,12 @@ export const onDeleteStory = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2748,6 +2955,12 @@ export const onDeleteStory = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -2916,6 +3129,12 @@ export const onCreateImageAsset = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2971,6 +3190,12 @@ export const onCreateImageAsset = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -3041,6 +3266,12 @@ export const onUpdateImageAsset = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -3096,6 +3327,12 @@ export const onUpdateImageAsset = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -3166,6 +3403,12 @@ export const onDeleteImageAsset = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -3221,6 +3464,12 @@ export const onDeleteImageAsset = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -3290,6 +3539,12 @@ export const onCreateDocumentAsset = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -3345,6 +3600,12 @@ export const onCreateDocumentAsset = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -3414,6 +3675,12 @@ export const onUpdateDocumentAsset = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -3469,6 +3736,12 @@ export const onUpdateDocumentAsset = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -3538,6 +3811,12 @@ export const onDeleteDocumentAsset = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -3593,6 +3872,12 @@ export const onDeleteDocumentAsset = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -3664,6 +3949,12 @@ export const onCreateAudioAsset = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -3719,6 +4010,12 @@ export const onCreateAudioAsset = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -3790,6 +4087,12 @@ export const onUpdateAudioAsset = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -3845,6 +4148,12 @@ export const onUpdateAudioAsset = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -3916,6 +4225,12 @@ export const onDeleteAudioAsset = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -3971,6 +4286,12 @@ export const onDeleteAudioAsset = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -4166,6 +4487,12 @@ export const onCreateFlag = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -4364,6 +4691,12 @@ export const onUpdateFlag = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -4558,6 +4891,12 @@ export const onDeleteFlag = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -4757,6 +5096,12 @@ export const onCreateComment = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -4954,6 +5299,12 @@ export const onUpdateComment = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -5149,6 +5500,12 @@ export const onDeleteComment = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -5447,6 +5804,12 @@ export const onCreateRating = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -5653,6 +6016,12 @@ export const onUpdateRating = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -5863,6 +6232,12 @@ export const onDeleteRating = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -5943,6 +6318,12 @@ export const onCreateMessage = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -5998,6 +6379,12 @@ export const onCreateMessage = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -6151,6 +6538,12 @@ export const onUpdateMessage = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -6206,6 +6599,12 @@ export const onUpdateMessage = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -6359,6 +6758,12 @@ export const onDeleteMessage = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -6414,6 +6819,12 @@ export const onDeleteMessage = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {
@@ -6652,6 +7063,12 @@ export const onCreateReply = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -6805,6 +7222,12 @@ export const onUpdateReply = /* GraphQL */ `
         sharedImageAssets {
           nextToken
         }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -6956,6 +7379,12 @@ export const onDeleteReply = /* GraphQL */ `
           nextToken
         }
         sharedImageAssets {
+          nextToken
+        }
+        sharedWithAssets {
+          nextToken
+        }
+        sharedWithImageAssets {
           nextToken
         }
         art {

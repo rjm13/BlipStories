@@ -438,7 +438,7 @@ const Publisher = ({navigation} : any) => {
                                     Shared Assets
                                 </Text>
                                 <Text style={styles.textcounter}>
-                                {user?.sharedAssets?.items.length + user?.sharedImageAssets?.items.length}
+                                {user?.sharedWithAssets?.items.length + user?.sharedWithImageAssets?.items.length}
                                 </Text>
                             </View>
                         </TouchableWithoutFeedback>

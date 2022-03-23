@@ -16,6 +16,8 @@ type User @model @auth(rules: [{ allow: private, operations: [create, delete, up
   narrated: [Story] @hasMany(indexName: "byNarratorUser", fields: "id")
   sharedAssets: [AudioAsset] @hasMany(indexName: "byUser", fields: "id")
   sharedImageAssets: [ImageAsset] @hasMany(indexName: "byUser", fields: "id")
+  sharedWithAssets: [AudioAsset] @hasMany(indexName: "bySharedUser", fields: "id")
+  sharedWithImageAssets: [ImageAsset] @hasMany(indexName: "bySharedUser", fields: "id")
   art: [Story] @hasMany(indexName: "byArtist", fields: "id")
   numAuthored: Int
   pseudonym: String
@@ -131,7 +133,7 @@ type ImageAsset @model @auth(rules: [{ allow: private, operations: [create, dele
     isSample: Boolean
     user: User @hasOne (fields: ["userID"])
     userID: ID @index(name: "byUser", sortKeyFields: ["id"])
-    sharedUserID: ID
+    sharedUserID: ID @index(name: "bySharedUser", sortKeyFields: ["id"])
     sharedUser: User @hasOne (fields: ["sharedUserID"])
     createdAt: String
 }
@@ -144,7 +146,7 @@ type DocumentAsset @model @auth(rules: [{ allow: private, operations: [create, d
     docUri: String
     user: User @hasOne (fields: ["userID"])
     userID: ID @index(name: "byUser", sortKeyFields: ["id"])
-    sharedUserID: ID
+    sharedUserID: ID @index(name: "bySharedUser", sortKeyFields: ["id"])
     sharedUser: User @hasOne (fields: ["sharedUserID"])
     createdAt: String
 }
@@ -159,7 +161,7 @@ type AudioAsset @model @auth(rules: [{ allow: private, operations: [create, dele
     isSample: Boolean
     user: User @hasOne (fields: ["userID"])
     userID: ID @index(name: "byUser", sortKeyFields: ["id"])
-    sharedUserID: ID
+    sharedUserID: ID @index(name: "bySharedUser", sortKeyFields: ["id"])
     sharedUser: User @hasOne (fields: ["sharedUserID"])
     createdAt: String
 }
