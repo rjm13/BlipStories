@@ -57,6 +57,7 @@ export type TabOneParamList = {
   ViewMessage: undefined;
   CreateMessage: undefined;
   CoverArt: undefined;
+  AllSharedAssets: undefined;
 };
 
 export type TabTwoParamList = {

@@ -366,6 +366,19 @@ const Publisher = ({navigation} : any) => {
                     </View>
                     ) : null}
 
+                    {isArtist === true ? (
+                        <TouchableWithoutFeedback onPress={ () => navigation.navigate('CoverArt')}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                                <Text style={{ color: '#fff', fontSize: 16}}>
+                                    Illustrated Stories
+                                </Text>
+                                <Text style={styles.textcounter}>
+                                    {user?.art?.items.length}
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    ) : null}
+
                     {isNarrator === true ? (
                         <View>
                             <TouchableWithoutFeedback onPress={ () => navigation.navigate('Narrations')}>
@@ -390,20 +403,7 @@ const Publisher = ({navigation} : any) => {
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>
-                    ) : null}    
-
-                    {isArtist === true ? (
-                        <TouchableWithoutFeedback onPress={ () => navigation.navigate('CoverArt')}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
-                                <Text style={{ color: '#fff', fontSize: 16}}>
-                                    Cover Art
-                                </Text>
-                                <Text style={styles.textcounter}>
-                                    {user?.art?.items.length}
-                                </Text>
-                            </View>
-                        </TouchableWithoutFeedback>
-                    ) : null}
+                    ) : null}   
                         
                     {isArtist === true ? (
                         <TouchableWithoutFeedback onPress={ () => navigation.navigate('MyArt')}>
@@ -426,6 +426,19 @@ const Publisher = ({navigation} : any) => {
                                 </Text>
                                 <Text style={styles.textcounter}>
                                 {user?.sharedAssets?.items.length}
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    ) : null}
+
+                    {isPublisher === true ? (
+                        <TouchableWithoutFeedback onPress={ () => navigation.navigate('AllSharedAssets')}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 40, marginVertical: 20}}>
+                                <Text style={{ color: '#fff', fontSize: 16}}>
+                                    Shared Assets
+                                </Text>
+                                <Text style={styles.textcounter}>
+                                {user?.sharedAssets?.items.length + user?.sharedImageAssets?.items.length}
                                 </Text>
                             </View>
                         </TouchableWithoutFeedback>

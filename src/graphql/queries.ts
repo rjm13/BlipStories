@@ -85,6 +85,20 @@ export const getUser = /* GraphQL */ `
         }
         nextToken
       }
+      sharedImageAssets {
+        items {
+          id
+          type
+          title
+          imageUri
+          isSample
+          userID
+          sharedUserID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       art {
         items {
           id
@@ -206,6 +220,9 @@ export const listUsers = /* GraphQL */ `
         sharedAssets {
           nextToken
         }
+        sharedImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -269,6 +286,9 @@ export const getFollowingConn = /* GraphQL */ `
         sharedAssets {
           nextToken
         }
+        sharedImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -319,6 +339,9 @@ export const getFollowingConn = /* GraphQL */ `
           nextToken
         }
         sharedAssets {
+          nextToken
+        }
+        sharedImageAssets {
           nextToken
         }
         art {
@@ -457,6 +480,9 @@ export const getPinnedStory = /* GraphQL */ `
           nextToken
         }
         sharedAssets {
+          nextToken
+        }
+        sharedImageAssets {
           nextToken
         }
         art {
@@ -723,6 +749,9 @@ export const getFinishedStory = /* GraphQL */ `
           nextToken
         }
         sharedAssets {
+          nextToken
+        }
+        sharedImageAssets {
           nextToken
         }
         art {
@@ -993,6 +1022,9 @@ export const getStory = /* GraphQL */ `
         sharedAssets {
           nextToken
         }
+        sharedImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1049,6 +1081,9 @@ export const getStory = /* GraphQL */ `
         sharedAssets {
           nextToken
         }
+        sharedImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1101,6 +1136,9 @@ export const getStory = /* GraphQL */ `
           nextToken
         }
         sharedAssets {
+          nextToken
+        }
+        sharedImageAssets {
           nextToken
         }
         art {
@@ -1399,6 +1437,9 @@ export const getImageAsset = /* GraphQL */ `
         sharedAssets {
           nextToken
         }
+        sharedImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1451,6 +1492,9 @@ export const getImageAsset = /* GraphQL */ `
           nextToken
         }
         sharedAssets {
+          nextToken
+        }
+        sharedImageAssets {
           nextToken
         }
         art {
@@ -1595,6 +1639,9 @@ export const getDocumentAsset = /* GraphQL */ `
         sharedAssets {
           nextToken
         }
+        sharedImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1647,6 +1694,9 @@ export const getDocumentAsset = /* GraphQL */ `
           nextToken
         }
         sharedAssets {
+          nextToken
+        }
+        sharedImageAssets {
           nextToken
         }
         art {
@@ -1792,6 +1842,9 @@ export const getAudioAsset = /* GraphQL */ `
         sharedAssets {
           nextToken
         }
+        sharedImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -1844,6 +1897,9 @@ export const getAudioAsset = /* GraphQL */ `
           nextToken
         }
         sharedAssets {
+          nextToken
+        }
+        sharedImageAssets {
           nextToken
         }
         art {
@@ -2117,6 +2173,9 @@ export const getFlag = /* GraphQL */ `
         sharedAssets {
           nextToken
         }
+        sharedImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2382,6 +2441,9 @@ export const getComment = /* GraphQL */ `
           nextToken
         }
         sharedAssets {
+          nextToken
+        }
+        sharedImageAssets {
           nextToken
         }
         art {
@@ -2718,6 +2780,9 @@ export const getRating = /* GraphQL */ `
         sharedAssets {
           nextToken
         }
+        sharedImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2880,6 +2945,9 @@ export const getMessage = /* GraphQL */ `
         sharedAssets {
           nextToken
         }
+        sharedImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -2932,6 +3000,9 @@ export const getMessage = /* GraphQL */ `
           nextToken
         }
         sharedAssets {
+          nextToken
+        }
+        sharedImageAssets {
           nextToken
         }
         art {
@@ -3260,6 +3331,9 @@ export const getReply = /* GraphQL */ `
           nextToken
         }
         sharedAssets {
+          nextToken
+        }
+        sharedImageAssets {
           nextToken
         }
         art {
@@ -3615,6 +3689,9 @@ export const usersByNarratorActiveAt = /* GraphQL */ `
         sharedAssets {
           nextToken
         }
+        sharedImageAssets {
+          nextToken
+        }
         art {
           nextToken
         }
@@ -3686,6 +3763,9 @@ export const usersByArtistActiveAt = /* GraphQL */ `
           nextToken
         }
         sharedAssets {
+          nextToken
+        }
+        sharedImageAssets {
           nextToken
         }
         art {

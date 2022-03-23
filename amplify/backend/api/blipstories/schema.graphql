@@ -15,6 +15,7 @@ type User @model @auth(rules: [{ allow: private, operations: [create, delete, up
   authored: [Story] @hasMany(indexName: "byUser", fields: "id")
   narrated: [Story] @hasMany(indexName: "byNarratorUser", fields: "id")
   sharedAssets: [AudioAsset] @hasMany(indexName: "byUser", fields: "id")
+  sharedImageAssets: [ImageAsset] @hasMany(indexName: "byUser", fields: "id")
   art: [Story] @hasMany(indexName: "byArtist", fields: "id")
   numAuthored: Int
   pseudonym: String

@@ -964,14 +964,12 @@ const SharedAssets = ({navigation} : any) => {
                 
             </Portal>
             <View>
-                
                 <LinearGradient
                     colors={['#363636a5', '#363636a5', 'black']}
                     //style={styles.container}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }}
                 >
-                    
                     <View style={{ flexDirection: 'row', marginTop: 30, marginLeft: 20, alignItems: 'center'}}>
                         <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
                             <View style={{padding: 30, margin: -30}}>
