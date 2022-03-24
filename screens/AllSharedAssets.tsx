@@ -338,7 +338,7 @@ const AllSharedAssets = ({navigation} : any) => {
                                             </View>
                                             ) : (
                                             <Text style={{ color: 'white', margin: 20,}}>
-                                                There is nothing here! No narrations have been shared with you.
+                                                There is nothing here! No illustrations have been shared with you.
                                             </Text>
                                             )}
                                         </View>
@@ -365,14 +365,14 @@ const AllSharedAssets = ({navigation} : any) => {
                                 );}}
                                 ListEmptyComponent={ () => {
                                     return (
-                                        <View style={{ height:  300, alignItems: 'center', justifyContent: 'center'}}>
+                                        <View style={{ alignItems: 'center', justifyContent: 'center'}}>
                                             {isLoading === true ? (
                                             <View style={{margin: 30}}>
                                                 <ActivityIndicator size='small' color='cyan' />
                                             </View>
                                             ) : (
                                             <Text style={{ color: 'white', margin: 20,}}>
-                                                There is nothing here. No artwork has been shared with you.
+                                                There is nothing here. No narrations have been shared with you.
                                             </Text>
                                             )}
                                         </View>

@@ -27,7 +27,7 @@ import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, listAudioAssets, listUsers } from '../src/graphql/queries';
+import { getUser, listAudioAssets, listUsers, messagesByUpdatedDate } from '../src/graphql/queries';
 import { updateAudioAsset, createAudioAsset, deleteAudioAsset, createMessage } from '../src/graphql/mutations';
 
 import { useNavigation } from '@react-navigation/native';
@@ -420,19 +420,33 @@ const SharedAssets = ({navigation} : any) => {
 
     useEffect(() => {
         const fetchPublishers = async () => {
+
+            let requests = []
+
+            const userInfo = await Auth.currentAuthenticatedUser();
+
             const response = await API.graphql(graphqlOperation(
-                listUsers, {
+                messagesByUpdatedDate, {
+                    type: 'Message',
+                    sortDirection: 'DESC',
                     filter: {
-                        isPublisher: {
-                            eq: true
+                        otherUserID: {
+                            eq: userInfo.attributes.sub
+                        },
+                        request: {
+                            eq: 'narration'
                         }
                     }
                 }
             ))
-            setPublishers(response.data.listUsers.items)
+
+            for (let i = 0; i < response.data.messagesByUpdatedDate.items.length; i++) {
+                requests.push(response.data.messagesByUpdatedDate.items[i].user)
+            }
+            setPublishers(requests)
         }
         fetchPublishers();
-    }, [])
+    }, []);
 
     const PublishItem = ({id, pseudonym, imageUri} : any) => {
 
@@ -449,7 +463,7 @@ const SharedAssets = ({navigation} : any) => {
 
         return (
             <TouchableWithoutFeedback onPress={() => {setData({...data, sharedUserID: id, sharedUserName: pseudonym}); hideModal();}}>
-                <View style={{width: Dimensions.get('window').width - 60}}>
+                <View style={{marginBottom: 20, width: Dimensions.get('window').width - 60}}>
                     <View style={{flexDirection: 'row'}}>
                         <Image 
                             source={{uri: imageU}}
@@ -461,7 +475,7 @@ const SharedAssets = ({navigation} : any) => {
                             </Text>
                             <View style={{flexDirection: 'row', marginLeft: 10, marginTop: 6}}>
                                 <FontAwesome5 
-                                    name='book-reader'
+                                    name='book-open'
                                     color='#ffffffa5'
                                     style={{alignSelf: 'center'}}
                                 />
@@ -482,10 +496,12 @@ const SharedAssets = ({navigation} : any) => {
 //get the list of publishers to share with
     const renderPublishers = ({item} : any) => {
 
+        
+
 
         return(
             <PublishItem 
-                id={item.id}
+                //id={item.id}
                 pseudonym={item.pseudonym}
                 imageUri={item.imageUri}
             />
@@ -954,8 +970,9 @@ const SharedAssets = ({navigation} : any) => {
                         <View style={{marginTop: 40}}>
                             <FlatList 
                                 data={publishers}
-                                keyExtractor={item => item}
+                                keyExtractor={item => item.id}
                                 renderItem={renderPublishers}
+                                showsVerticalScrollIndicator={false}
                             />
                         </View>
                     </View>

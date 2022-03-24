@@ -23,7 +23,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { deleteImageAsset, createImageAsset, updateImageAsset, createMessage } from '../src/graphql/mutations';
-import { listImageAssets, listUsers, getUser } from '../src/graphql/queries';
+import { listImageAssets, listUsers, getUser, listMessages } from '../src/graphql/queries';
 
 const MyArt = ({navigation} : any) => {
 
@@ -324,18 +324,46 @@ const MyArt = ({navigation} : any) => {
 
     const [publishers, setPublishers] = useState([]);
 
+    // useEffect(() => {
+    //     const fetchPublishers = async () => {
+    //         const response = await API.graphql(graphqlOperation(
+    //             listUsers, {
+    //                 filter: {
+    //                     isPublisher: {
+    //                         eq: true
+    //                     }
+    //                 }
+    //             }
+    //         ))
+    //         setPublishers(response.data.listUsers.items)
+    //     }
+    //     fetchPublishers();
+    // }, []);
+
     useEffect(() => {
         const fetchPublishers = async () => {
+
+            let requests = []
+
+            const userInfo = await Auth.currentAuthenticatedUser();
+
             const response = await API.graphql(graphqlOperation(
-                listUsers, {
+                listMessages, {
                     filter: {
-                        isPublisher: {
-                            eq: true
+                        sharedUserID: {
+                            eq: userInfo.attributes.sub
+                        },
+                        request: {
+                            eq: 'art'
                         }
                     }
                 }
             ))
-            setPublishers(response.data.listUsers.items)
+
+            for (let i = 0; i < response.data.listMessages.items.length; i++) {
+                requests.push(response.data.listMessages.items[i].user)
+            }
+            setPublishers(requests)
         }
         fetchPublishers();
     }, []);
@@ -367,7 +395,7 @@ const MyArt = ({navigation} : any) => {
                             </Text>
                             <View style={{flexDirection: 'row', marginLeft: 10, marginTop: 6}}>
                                 <FontAwesome5 
-                                    name='book-reader'
+                                    name='book-open'
                                     color='#ffffffa5'
                                     style={{alignSelf: 'center'}}
                                 />
@@ -539,7 +567,13 @@ const MyArt = ({navigation} : any) => {
                             keyExtractor={item => item.id}
                             renderItem={renderPublishers}
                             showsVerticalScrollIndicator={false}
-                            
+                            ListEmptyComponent={
+                                <View>
+                                    <Text style={{color: '#fff', textAlign: 'center'}}>
+                                        There is nothing here. A publisher must request your services before you can share.
+                                    </Text>
+                                </View>
+                            }
                         />
                         
                     </View>
