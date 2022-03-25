@@ -22,7 +22,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { deleteImageAsset, createImageAsset, updateImageAsset, createMessage } from '../src/graphql/mutations';
+import { deleteImageAsset, createImageAsset, updateImageAsset, createMessage, updateMessage } from '../src/graphql/mutations';
 import { imageAssetsByDate, listUsers, getUser, messagesByUpdatedDate } from '../src/graphql/queries';
 
 import { format, parseISO } from "date-fns";
@@ -55,6 +55,7 @@ const MyArt = ({navigation} : any) => {
         id: '',
         sharedUserID: '',
         sharedUserName: '',
+        messageid: null,
     })
 
     const UpdateAsset = async () => {
@@ -93,6 +94,16 @@ const MyArt = ({navigation} : any) => {
                 }}
             ));
             console.log(message)
+
+            let messup = await API.graphql(graphqlOperation(
+                updateMessage, {
+                    input: {
+                        id: data.messageid,
+                        status: 'complete'
+                    }
+                }
+            ))
+            console.log(messup)
         }
 
         setDidUpdate(!didUpdate);
@@ -103,6 +114,7 @@ const MyArt = ({navigation} : any) => {
             id: '',
             sharedUserID: '',
             sharedUserName: '', 
+            messageid: null
         })
         setIsUploading(false);
         hideConfirmModal();
@@ -331,6 +343,7 @@ const MyArt = ({navigation} : any) => {
             id: '',
             sharedUserID: '',
             sharedUserName: '', 
+            messageid: null
         })
         hideDeleteModal();
         hideImageModal();
@@ -369,8 +382,11 @@ const MyArt = ({navigation} : any) => {
                         otherUserID: {
                             eq: userInfo.attributes.sub
                         },
-                        request: {
-                            eq: 'art'
+                        status: {
+                            eq: 'requested'
+                        },
+                        subtitle: {
+                            eq: 'artist'
                         }
                     }
                 }
@@ -384,7 +400,7 @@ const MyArt = ({navigation} : any) => {
         fetchPublishers();
     }, []);
 
-    const PublishItem = ({id, pseudonym, imageUri, createdAt} : any) => {
+    const PublishItem = ({id, pseudonym, imageUri, createdAt, messageid} : any) => {
 
         const [imageU, setImageU] = useState('')
         
@@ -398,7 +414,7 @@ const MyArt = ({navigation} : any) => {
 
 
         return (
-            <TouchableWithoutFeedback onPress={() => {setData({...data, sharedUserID: id, sharedUserName: pseudonym}); showConfirmModal();}}>
+            <TouchableWithoutFeedback onPress={() => {setData({...data, sharedUserID: id, sharedUserName: pseudonym, messageid: messageid}); showConfirmModal();}}>
                 <View style={{width: Dimensions.get('window').width - 60, paddingVertical: 10}}>
                     <View style={{flexDirection: 'row'}}>
                         <Image 
@@ -445,6 +461,7 @@ const MyArt = ({navigation} : any) => {
         return(
             <PublishItem 
                 id={id}
+                messageid={item.id}
                 pseudonym={pseudonym}
                 imageUri={imageUri}
                 createdAt={item.createdAt}

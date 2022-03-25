@@ -28,7 +28,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { getUser, listAudioAssets, listUsers, messagesByUpdatedDate } from '../src/graphql/queries';
-import { updateAudioAsset, createAudioAsset, deleteAudioAsset, createMessage } from '../src/graphql/mutations';
+import { updateAudioAsset, createAudioAsset, deleteAudioAsset, createMessage, updateMessage } from '../src/graphql/mutations';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -308,6 +308,7 @@ const SharedAssets = ({navigation} : any) => {
         sharedUserID: null,
         sharedUserName: '',
         createdAt: new Date(),
+        messageid: null,
 })
 
 //audio picker
@@ -433,8 +434,11 @@ const SharedAssets = ({navigation} : any) => {
                         otherUserID: {
                             eq: userInfo.attributes.sub
                         },
-                        request: {
-                            eq: 'narration'
+                        status: {
+                            eq: 'requested'
+                        },
+                        subtitle: {
+                            eq: 'narrator'
                         }
                     }
                 }
@@ -448,7 +452,7 @@ const SharedAssets = ({navigation} : any) => {
         fetchPublishers();
     }, []);
 
-    const PublishItem = ({id, pseudonym, imageUri, createdAt} : any) => {
+    const PublishItem = ({id, pseudonym, imageUri, createdAt, messageid} : any) => {
 
         const [imageU, setImageU] = useState('')
         
@@ -462,7 +466,7 @@ const SharedAssets = ({navigation} : any) => {
 
 
         return (
-            <TouchableWithoutFeedback onPress={() => {setData({...data, sharedUserID: id, sharedUserName: pseudonym}); hideModal();}}>
+            <TouchableWithoutFeedback onPress={() => {setData({...data, sharedUserID: id, sharedUserName: pseudonym, messageid: messageid}); hideModal();}}>
                 <View style={{marginBottom: 20, width: Dimensions.get('window').width - 60}}>
                     <View style={{flexDirection: 'row'}}>
                         <Image 
@@ -500,6 +504,7 @@ const SharedAssets = ({navigation} : any) => {
 
         return(
             <PublishItem 
+                messageid={item.id}
                 id={item.user.id}
                 createdAt={item.createdAt}
                 pseudonym={item.user.pseudonym}
@@ -516,6 +521,8 @@ const SharedAssets = ({navigation} : any) => {
     const [isPublishing, setIsPublishing] = useState(false);
 
     const [isSample, setIsSample] = useState(false);
+
+    const [messUpdate, setMessUpdate] = useState()
 
     const UploadAsset = async () => {
 
@@ -559,6 +566,7 @@ const SharedAssets = ({navigation} : any) => {
                 sharedUserID: null,
                 sharedUserName: '',
                 createdAt: new Date(),
+                messageid: null,
             })
         } catch (e) {
             console.log(e)
@@ -602,11 +610,22 @@ const SharedAssets = ({navigation} : any) => {
                 }}
             ));
             console.log(message)
+
+            let messup = await API.graphql(graphqlOperation(
+                updateMessage, {
+                    input: {
+                        id: data.messageid,
+                        requested: 'complete'
+                    }
+                }
+            ))
+            console.log(messup);
         }
 
         setIsPublishing(false);
         setDidUpdate(!didUpdate);
         setUpdateAssetState(null);
+        setData({...data, messageid: null})
         hideShareModal();
     }
 
