@@ -89,7 +89,7 @@ const MyArt = ({navigation} : any) => {
                     isReadbyUser: false,
                     isReadByOtherUser: true,
                     docID: null,
-                    request: 'art',
+                    request: null,
                 }}
             ));
             console.log(message)

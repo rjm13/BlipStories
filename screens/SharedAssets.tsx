@@ -598,7 +598,7 @@ const SharedAssets = ({navigation} : any) => {
                     isReadbyUser: false,
                     isReadByOtherUser: true,
                     docID: null,
-                    request: 'narration',
+                    request: null,
                 }}
             ));
             console.log(message)
