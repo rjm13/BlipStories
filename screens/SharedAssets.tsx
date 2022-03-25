@@ -601,7 +601,7 @@ const SharedAssets = ({navigation} : any) => {
                     createdAt: new Date(),
                     updatedAt: new Date(),
                     userID: data.sharedUserID,
-                    otherUserID: userInfo.attributes.sub,
+                    //otherUserID: userInfo.attributes.sub,
                     content: 'You have a new shared narration for your short story. \n\nThis audio is to be used for this purpose only and any other use will be considered copywrite infringement in which you may be held liable. \n\nTo view this narration, open the Shared Assets list from your Publisher account.\n\n To add this narration to your story, select from Shared Audio on the Publish a Story Screen',
                     title: user.data.getUser.narratorPseudo + ' shared a narration with you!',
                     subtitle: 'narrator',
@@ -617,7 +617,7 @@ const SharedAssets = ({navigation} : any) => {
                 updateMessage, {
                     input: {
                         id: data.messageid,
-                        requested: 'complete'
+                        status: 'complete'
                     }
                 }
             ))
