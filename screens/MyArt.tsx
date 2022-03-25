@@ -25,6 +25,8 @@ import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { deleteImageAsset, createImageAsset, updateImageAsset, createMessage } from '../src/graphql/mutations';
 import { listImageAssets, listUsers, getUser, listMessages } from '../src/graphql/queries';
 
+import { format, parseISO } from "date-fns";
+
 const MyArt = ({navigation} : any) => {
 
     //on render, request permission for camera roll
@@ -361,14 +363,14 @@ const MyArt = ({navigation} : any) => {
             ))
 
             for (let i = 0; i < response.data.listMessages.items.length; i++) {
-                requests.push(response.data.listMessages.items[i].user)
+                requests.push(response.data.listMessages.items[i])
             }
             setPublishers(requests)
         }
         fetchPublishers();
     }, []);
 
-    const PublishItem = ({id, pseudonym, imageUri} : any) => {
+    const PublishItem = ({id, pseudonym, imageUri, createdAt} : any) => {
 
         const [imageU, setImageU] = useState('')
         
@@ -389,24 +391,24 @@ const MyArt = ({navigation} : any) => {
                             source={{uri: imageU}}
                             style={{width: 50, height: 50, borderRadius: 25, backgroundColor: 'gray'}}
                         />
-                        <View style={{alignSelf: 'center'}}>
-                            <Text style={{fontWeight: 'bold', color: '#fff', marginLeft: 10}}>
-                                {pseudonym}
-                            </Text>
+                        <View>
                             <View style={{flexDirection: 'row', marginLeft: 10, marginTop: 6}}>
                                 <FontAwesome5 
                                     name='book-open'
                                     color='#ffffffa5'
                                     style={{alignSelf: 'center'}}
                                 />
-                                {/* <Text style={{color: '#fff', marginLeft: 10}}>
-                                    {authored}
-                                </Text>  */}
+                                <Text style={{fontWeight: 'bold', color: '#fff', marginLeft: 10}}>
+                                    {pseudonym}
+                                </Text>
+                            </View>
+                            <View>
+                                <Text style={{color: '#00ffffa5', marginLeft: 10, fontSize: 12}}>
+                                    Illustration requested on {format(parseISO(createdAt), "MMM do")}
+                                </Text>
                             </View>
                         </View>
-                        
                     </View>
-                    
                 </View>
             </TouchableWithoutFeedback>
             
@@ -420,8 +422,9 @@ const MyArt = ({navigation} : any) => {
         return(
             <PublishItem 
                 id={item.id}
-                pseudonym={item.pseudonym}
-                imageUri={item.imageUri}
+                pseudonym={item.user.pseudonym}
+                imageUri={item.user.imageUri}
+                createdAt={item.createdAt}
             />
         )
     }

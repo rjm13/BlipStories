@@ -441,14 +441,14 @@ const SharedAssets = ({navigation} : any) => {
             ))
 
             for (let i = 0; i < response.data.messagesByUpdatedDate.items.length; i++) {
-                requests.push(response.data.messagesByUpdatedDate.items[i].user)
+                requests.push(response.data.messagesByUpdatedDate.items[i])
             }
             setPublishers(requests)
         }
         fetchPublishers();
     }, []);
 
-    const PublishItem = ({id, pseudonym, imageUri} : any) => {
+    const PublishItem = ({id, pseudonym, imageUri, createdAt} : any) => {
 
         const [imageU, setImageU] = useState('')
         
@@ -469,19 +469,21 @@ const SharedAssets = ({navigation} : any) => {
                             source={{uri: imageU}}
                             style={{width: 50, height: 50, borderRadius: 25, backgroundColor: 'gray'}}
                         />
-                        <View style={{alignSelf: 'center'}}>
-                            <Text style={{fontWeight: 'bold', color: '#fff', marginLeft: 10}}>
-                                {pseudonym}
-                            </Text>
+                        <View>
                             <View style={{flexDirection: 'row', marginLeft: 10, marginTop: 6}}>
                                 <FontAwesome5 
                                     name='book-open'
                                     color='#ffffffa5'
                                     style={{alignSelf: 'center'}}
                                 />
-                                {/* <Text style={{color: '#fff', marginLeft: 10}}>
-                                    {authored}
-                                </Text>  */}
+                                <Text style={{fontWeight: 'bold', color: '#fff', marginLeft: 10}}>
+                                    {pseudonym}
+                                </Text>
+                            </View>
+                            <View>
+                                <Text style={{color: '#00ffffa5', marginLeft: 10, fontSize: 12}}>
+                                    Narration requested on {format(parseISO(createdAt), "MMM do")}
+                                </Text>
                             </View>
                         </View>
                         
@@ -496,14 +498,12 @@ const SharedAssets = ({navigation} : any) => {
 //get the list of publishers to share with
     const renderPublishers = ({item} : any) => {
 
-        
-
-
         return(
             <PublishItem 
-                //id={item.id}
-                pseudonym={item.pseudonym}
-                imageUri={item.imageUri}
+                id={item.id}
+                createdAt={item.createdAt}
+                pseudonym={item.user.pseudonym}
+                imageUri={item.user.imageUri}
             />
         )
     }

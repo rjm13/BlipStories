@@ -238,6 +238,7 @@ type Message @model @auth(rules: [{ allow: private, operations: [create, delete,
     docID: ID
     doc: DocumentAsset @hasOne (fields: ["docID"])
     updatedAt: String
+    status: String
 }
 
 type Reply @model @auth(rules: [{ allow: private, operations: [create, delete, update, read]}])
