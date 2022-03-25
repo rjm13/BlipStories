@@ -6507,6 +6507,7 @@ export const onCreateMessage = /* GraphQL */ `
         updatedAt
       }
       updatedAt
+      status
     }
   }
 `;
@@ -6727,6 +6728,7 @@ export const onUpdateMessage = /* GraphQL */ `
         updatedAt
       }
       updatedAt
+      status
     }
   }
 `;
@@ -6947,6 +6949,7 @@ export const onDeleteMessage = /* GraphQL */ `
         updatedAt
       }
       updatedAt
+      status
     }
   }
 `;
@@ -7042,6 +7045,7 @@ export const onCreateReply = /* GraphQL */ `
           updatedAt
         }
         updatedAt
+        status
       }
       user {
         type
@@ -7201,6 +7205,7 @@ export const onUpdateReply = /* GraphQL */ `
           updatedAt
         }
         updatedAt
+        status
       }
       user {
         type
@@ -7360,6 +7365,7 @@ export const onDeleteReply = /* GraphQL */ `
           updatedAt
         }
         updatedAt
+        status
       }
       user {
         type

@@ -936,6 +936,7 @@ export type CreateMessageInput = {
   request?: string | null,
   docID?: string | null,
   updatedAt?: string | null,
+  status?: string | null,
 };
 
 export type ModelMessageConditionInput = {
@@ -951,6 +952,7 @@ export type ModelMessageConditionInput = {
   request?: ModelStringInput | null,
   docID?: ModelIDInput | null,
   updatedAt?: ModelStringInput | null,
+  status?: ModelStringInput | null,
   and?: Array< ModelMessageConditionInput | null > | null,
   or?: Array< ModelMessageConditionInput | null > | null,
   not?: ModelMessageConditionInput | null,
@@ -975,6 +977,7 @@ export type Message = {
   docID?: string | null,
   doc?: DocumentAsset | null,
   updatedAt?: string | null,
+  status?: string | null,
 };
 
 export type ModelReplyConnection = {
@@ -1011,6 +1014,7 @@ export type UpdateMessageInput = {
   request?: string | null,
   docID?: string | null,
   updatedAt?: string | null,
+  status?: string | null,
 };
 
 export type DeleteMessageInput = {
@@ -1316,6 +1320,7 @@ export type ModelMessageFilterInput = {
   request?: ModelStringInput | null,
   docID?: ModelIDInput | null,
   updatedAt?: ModelStringInput | null,
+  status?: ModelStringInput | null,
   and?: Array< ModelMessageFilterInput | null > | null,
   or?: Array< ModelMessageFilterInput | null > | null,
   not?: ModelMessageFilterInput | null,
@@ -8894,6 +8899,7 @@ export type CreateMessageMutation = {
       updatedAt: string,
     } | null,
     updatedAt?: string | null,
+    status?: string | null,
   } | null,
 };
 
@@ -9148,6 +9154,7 @@ export type UpdateMessageMutation = {
       updatedAt: string,
     } | null,
     updatedAt?: string | null,
+    status?: string | null,
   } | null,
 };
 
@@ -9402,6 +9409,7 @@ export type DeleteMessageMutation = {
       updatedAt: string,
     } | null,
     updatedAt?: string | null,
+    status?: string | null,
   } | null,
 };
 
@@ -9507,6 +9515,7 @@ export type CreateReplyMutation = {
         updatedAt: string,
       } | null,
       updatedAt?: string | null,
+      status?: string | null,
     } | null,
     user?:  {
       __typename: "User",
@@ -9688,6 +9697,7 @@ export type UpdateReplyMutation = {
         updatedAt: string,
       } | null,
       updatedAt?: string | null,
+      status?: string | null,
     } | null,
     user?:  {
       __typename: "User",
@@ -9869,6 +9879,7 @@ export type DeleteReplyMutation = {
         updatedAt: string,
       } | null,
       updatedAt?: string | null,
+      status?: string | null,
     } | null,
     user?:  {
       __typename: "User",
@@ -14176,6 +14187,7 @@ export type GetMessageQuery = {
       updatedAt: string,
     } | null,
     updatedAt?: string | null,
+    status?: string | null,
   } | null,
 };
 
@@ -14276,6 +14288,7 @@ export type ListMessagesQuery = {
         updatedAt: string,
       } | null,
       updatedAt?: string | null,
+      status?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -14382,6 +14395,7 @@ export type GetReplyQuery = {
         updatedAt: string,
       } | null,
       updatedAt?: string | null,
+      status?: string | null,
     } | null,
     user?:  {
       __typename: "User",
@@ -14493,6 +14507,7 @@ export type ListRepliesQuery = {
         request?: string | null,
         docID?: string | null,
         updatedAt?: string | null,
+        status?: string | null,
       } | null,
       user?:  {
         __typename: "User",
@@ -16110,6 +16125,7 @@ export type MessagesByDateQuery = {
         updatedAt: string,
       } | null,
       updatedAt?: string | null,
+      status?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -16215,6 +16231,7 @@ export type MessagesByUpdatedDateQuery = {
         updatedAt: string,
       } | null,
       updatedAt?: string | null,
+      status?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -16255,6 +16272,7 @@ export type RepliesByDateQuery = {
         request?: string | null,
         docID?: string | null,
         updatedAt?: string | null,
+        status?: string | null,
       } | null,
       user?:  {
         __typename: "User",
@@ -23621,6 +23639,7 @@ export type OnCreateMessageSubscription = {
       updatedAt: string,
     } | null,
     updatedAt?: string | null,
+    status?: string | null,
   } | null,
 };
 
@@ -23870,6 +23889,7 @@ export type OnUpdateMessageSubscription = {
       updatedAt: string,
     } | null,
     updatedAt?: string | null,
+    status?: string | null,
   } | null,
 };
 
@@ -24119,6 +24139,7 @@ export type OnDeleteMessageSubscription = {
       updatedAt: string,
     } | null,
     updatedAt?: string | null,
+    status?: string | null,
   } | null,
 };
 
@@ -24219,6 +24240,7 @@ export type OnCreateReplySubscription = {
         updatedAt: string,
       } | null,
       updatedAt?: string | null,
+      status?: string | null,
     } | null,
     user?:  {
       __typename: "User",
@@ -24395,6 +24417,7 @@ export type OnUpdateReplySubscription = {
         updatedAt: string,
       } | null,
       updatedAt?: string | null,
+      status?: string | null,
     } | null,
     user?:  {
       __typename: "User",
@@ -24571,6 +24594,7 @@ export type OnDeleteReplySubscription = {
         updatedAt: string,
       } | null,
       updatedAt?: string | null,
+      status?: string | null,
     } | null,
     user?:  {
       __typename: "User",

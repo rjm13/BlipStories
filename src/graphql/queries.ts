@@ -3268,6 +3268,7 @@ export const getMessage = /* GraphQL */ `
         updatedAt
       }
       updatedAt
+      status
     }
   }
 `;
@@ -3361,6 +3362,7 @@ export const listMessages = /* GraphQL */ `
           updatedAt
         }
         updatedAt
+        status
       }
       nextToken
     }
@@ -3458,6 +3460,7 @@ export const getReply = /* GraphQL */ `
           updatedAt
         }
         updatedAt
+        status
       }
       user {
         type
@@ -3553,6 +3556,7 @@ export const listReplies = /* GraphQL */ `
           request
           docID
           updatedAt
+          status
         }
         user {
           type
@@ -5148,6 +5152,7 @@ export const messagesByDate = /* GraphQL */ `
           updatedAt
         }
         updatedAt
+        status
       }
       nextToken
     }
@@ -5253,6 +5258,7 @@ export const messagesByUpdatedDate = /* GraphQL */ `
           updatedAt
         }
         updatedAt
+        status
       }
       nextToken
     }
@@ -5296,6 +5302,7 @@ export const repliesByDate = /* GraphQL */ `
           request
           docID
           updatedAt
+          status
         }
         user {
           type
