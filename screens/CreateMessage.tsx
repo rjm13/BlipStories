@@ -146,6 +146,7 @@ const CreateMessage = ({navigation} : any) => {
                     isReadByOtherUser: false,
                     docID: documentasset.data.createDocumentAsset.id,
                     request: data.request,
+                    status: data.status
                 }}
             ));
             console.log(response);
@@ -167,6 +168,7 @@ const CreateMessage = ({navigation} : any) => {
                     isReadByOtherUser: false,
                     docID: null, 
                     request: data.request,
+                    status: data.status
                 }}
             ));
             console.log(response);

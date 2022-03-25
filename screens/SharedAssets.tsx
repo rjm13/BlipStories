@@ -502,6 +502,8 @@ const SharedAssets = ({navigation} : any) => {
 //get the list of publishers to share with
     const renderPublishers = ({item} : any) => {
 
+
+
         return(
             <PublishItem 
                 messageid={item.id}
@@ -550,7 +552,7 @@ const SharedAssets = ({navigation} : any) => {
                     isSample: isSample,
                     time: data.time,
                     userID: userInfo.attributes.sub,
-                    sharedUserID: data.sharedUserID,
+                    //sharedUserID: data.sharedUserID,
                     createdAt: new Date(),
 
                 }}
@@ -779,7 +781,7 @@ const SharedAssets = ({navigation} : any) => {
                                     ) : null}
                                 </View>
 
-                                <View style={{marginTop: 20}}>
+                                {/* <View style={{marginTop: 20}}>
                                     <Text style={{color: '#fff', fontWeight: 'bold'}}>
                                         Share With
                                     </Text>
@@ -796,7 +798,7 @@ const SharedAssets = ({navigation} : any) => {
                                         </Text>
                                     </View>
 
-                                </View>
+                                </View> */}
                             </View>
                             {isPublishing === true ?  (
                                 <View style={{marginBottom: 20}}>
