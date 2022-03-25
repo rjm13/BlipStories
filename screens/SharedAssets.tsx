@@ -500,7 +500,7 @@ const SharedAssets = ({navigation} : any) => {
 
         return(
             <PublishItem 
-                id={item.id}
+                id={item.user.id}
                 createdAt={item.createdAt}
                 pseudonym={item.user.pseudonym}
                 imageUri={item.user.imageUri}
@@ -575,6 +575,7 @@ const SharedAssets = ({navigation} : any) => {
                 sharedUserID: data.sharedUserID
             }}
         ))
+
 
         if (response) {
 

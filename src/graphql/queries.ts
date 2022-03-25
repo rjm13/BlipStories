@@ -1559,7 +1559,6 @@ export const getImageAsset = /* GraphQL */ `
         updatedAt
       }
       userID
-      sharedUserID
       sharedUser {
         type
         id
@@ -1621,6 +1620,7 @@ export const getImageAsset = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      sharedUserID
       createdAt
       updatedAt
     }
@@ -1668,7 +1668,6 @@ export const listImageAssets = /* GraphQL */ `
           updatedAt
         }
         userID
-        sharedUserID
         sharedUser {
           type
           id
@@ -1697,6 +1696,7 @@ export const listImageAssets = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        sharedUserID
         createdAt
         updatedAt
       }
@@ -4575,7 +4575,6 @@ export const imageAssetsByDate = /* GraphQL */ `
           updatedAt
         }
         userID
-        sharedUserID
         sharedUser {
           type
           id
@@ -4604,6 +4603,7 @@ export const imageAssetsByDate = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        sharedUserID
         createdAt
         updatedAt
       }

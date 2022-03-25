@@ -133,8 +133,8 @@ type ImageAsset @model @auth(rules: [{ allow: private, operations: [create, dele
     isSample: Boolean
     user: User @hasOne (fields: ["userID"])
     userID: ID @index(name: "byUser", sortKeyFields: ["id"])
-    sharedUserID: ID @index(name: "bySharedUser", sortKeyFields: ["id"])
     sharedUser: User @hasOne (fields: ["sharedUserID"])
+    sharedUserID: ID @index(name: "bySharedUser", sortKeyFields: ["id"])
     createdAt: String
 }
 

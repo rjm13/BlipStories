@@ -3228,7 +3228,6 @@ export const createImageAsset = /* GraphQL */ `
         updatedAt
       }
       userID
-      sharedUserID
       sharedUser {
         type
         id
@@ -3290,6 +3289,7 @@ export const createImageAsset = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      sharedUserID
       createdAt
       updatedAt
     }
@@ -3368,7 +3368,6 @@ export const updateImageAsset = /* GraphQL */ `
         updatedAt
       }
       userID
-      sharedUserID
       sharedUser {
         type
         id
@@ -3430,6 +3429,7 @@ export const updateImageAsset = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      sharedUserID
       createdAt
       updatedAt
     }
@@ -3508,7 +3508,6 @@ export const deleteImageAsset = /* GraphQL */ `
         updatedAt
       }
       userID
-      sharedUserID
       sharedUser {
         type
         id
@@ -3570,6 +3569,7 @@ export const deleteImageAsset = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      sharedUserID
       createdAt
       updatedAt
     }

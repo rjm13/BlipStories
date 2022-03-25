@@ -23,7 +23,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { deleteImageAsset, createImageAsset, updateImageAsset, createMessage } from '../src/graphql/mutations';
-import { listImageAssets, listUsers, getUser, listMessages } from '../src/graphql/queries';
+import { imageAssetsByDate, listUsers, getUser, messagesByUpdatedDate } from '../src/graphql/queries';
 
 import { format, parseISO } from "date-fns";
 
@@ -119,6 +119,8 @@ const MyArt = ({navigation} : any) => {
     //art styles modal
     const [visible, setVisible] = useState(false);
     const showImageModal = ({title, imageUri, id, index, sharedUserID, sharedUserName} : any) => {
+        console.log(sharedUserID)
+        console.log(sharedUserName)
         setVisible(true);
         setData({...data, imageUri: imageUri, title: title, index: index, id: id, sharedUserID: sharedUserID, sharedUserName: sharedUserName})
 
@@ -161,7 +163,7 @@ const MyArt = ({navigation} : any) => {
 
 
     //data form AWS image asset table
-    const [imageData, setImageData] = useState();
+    const [imageData, setImageData] = useState([]);
 
     const [sampleImages, setSampleImages] = useState([]);
 
@@ -187,7 +189,9 @@ const MyArt = ({navigation} : any) => {
             const userInfo = await Auth.currentAuthenticatedUser();
 
             let result = await API.graphql(graphqlOperation(
-                listImageAssets, { 
+                imageAssetsByDate, { 
+                    type: "ImageAsset",
+                    sortDirection: 'DESC',
                     filter: {
                         userID: {
                             eq: userInfo.attributes.sub
@@ -197,7 +201,7 @@ const MyArt = ({navigation} : any) => {
             ))
             //setImageData(result.data.listImageAssets.items)
 
-            let newArr = result.data.listImageAssets.items.filter((item : any) => item.isSample === false);
+            let newArr = result.data.imageAssetsByDate.items.filter((item : any) => item.isSample === false);
 
             for (let i = 0; i < newArr.length; i++) {
             
@@ -205,10 +209,10 @@ const MyArt = ({navigation} : any) => {
 
                 newArr[i].imageUri = getUri
             }
-            console.log(newArr)
+            //console.log(newArr)
             setImageData(newArr)
 
-            let sampleArr = result.data.listImageAssets.items.filter((item : any) => item.isSample === true);
+            let sampleArr = result.data.imageAssetsByDate.items.filter((item : any) => item.isSample === true);
 
             for (let i = 0; i < sampleArr.length; i++) {
             
@@ -242,6 +246,13 @@ const MyArt = ({navigation} : any) => {
     }
 
     const renderItem = ({item, index} : any) => {
+
+        let pseudonym = ''
+
+        if (item.sharedUser) {
+            pseudonym = item.sharedUser.pseudonym
+        }
+
         return(
             <Item 
                 title={item.title}
@@ -249,7 +260,7 @@ const MyArt = ({navigation} : any) => {
                 id={item.id}
                 index={index}
                 sharedUserID={item.sharedUserID}
-                sharedUserName={item.sharedUser?.pseudonym}
+                sharedUserName={pseudonym}
             />
         )
     };
@@ -266,7 +277,7 @@ const MyArt = ({navigation} : any) => {
             if (!result.cancelled) {
                     setData({...data, imageUri: result.uri});
                     }
-            console.log(result); 
+            //console.log(result); 
       };
 
     const UploadToS3 = async () => {
@@ -274,8 +285,8 @@ const MyArt = ({navigation} : any) => {
         if (sampleImages.length === 4 && sampleState === true) {
             alert('You are only allowed a maximum of 4 sample images for your profile. Please remove one to continue.');
         } else {
-            console.log(sampleImages)
-            console.log('state is' + sampleState)
+            //console.log(sampleImages)
+            //console.log('state is' + sampleState)
             setIsUploading(true);
 
             let userInfo = await Auth.currentAuthenticatedUser();
@@ -288,6 +299,7 @@ const MyArt = ({navigation} : any) => {
             let result = await API.graphql(graphqlOperation(
                 createImageAsset, {input: {
                     userID: userInfo.attributes.sub,
+                    //sharedUserID: '680b9005-1b13-46b4-a6e2-41103a851613',
                     title: textChange,
                     imageUri: s3Response.key,
                     isSample: sampleState,
@@ -350,9 +362,11 @@ const MyArt = ({navigation} : any) => {
             const userInfo = await Auth.currentAuthenticatedUser();
 
             const response = await API.graphql(graphqlOperation(
-                listMessages, {
+                messagesByUpdatedDate, {
+                    type: "Message",
+                    sortDirection: 'DESC',
                     filter: {
-                        sharedUserID: {
+                        otherUserID: {
                             eq: userInfo.attributes.sub
                         },
                         request: {
@@ -362,8 +376,8 @@ const MyArt = ({navigation} : any) => {
                 }
             ))
 
-            for (let i = 0; i < response.data.listMessages.items.length; i++) {
-                requests.push(response.data.listMessages.items[i])
+            for (let i = 0; i < response.data.messagesByUpdatedDate.items.length; i++) {
+                requests.push(response.data.messagesByUpdatedDate.items[i])
             }
             setPublishers(requests)
         }
@@ -418,12 +432,21 @@ const MyArt = ({navigation} : any) => {
 //get the list of publishers to share with
     const renderPublishers = ({item} : any) => {
 
+        let pseudonym = ''
+        let imageUri = ''
+        let id = ''
+
+        if (item.user !== null) {
+            pseudonym=item.user.pseudonym
+            imageUri=item.user.imageUri
+            id=item.user.id
+        }
 
         return(
             <PublishItem 
-                id={item.id}
-                pseudonym={item.user.pseudonym}
-                imageUri={item.user.imageUri}
+                id={id}
+                pseudonym={pseudonym}
+                imageUri={imageUri}
                 createdAt={item.createdAt}
             />
         )
