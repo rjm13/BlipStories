@@ -41,7 +41,7 @@ import {
     NotificationContentInput,
   } from "expo-notifications";
 
-import { useRoute } from '@react-navigation/native';
+import { DarkTheme, useRoute } from '@react-navigation/native';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -98,6 +98,8 @@ const ViewMessage = ({navigation} : any) => {
 
     const [didUpdate, setDidUpdate] = useState(false);
 
+    const [didMessageUpdate, setDidMessageUpdate] = useState(false);
+
     const [didPDFupdate, setDidPDFupdate] = useState(false);
 
     useEffect(() => {
@@ -122,7 +124,7 @@ const ViewMessage = ({navigation} : any) => {
             }
             
             setMessage(messageresponse.data.getMessage);
-            setMessageDate(format(parseISO(messageresponse.data.getMessage.createdAt), "MMM do yyyy"))
+            setMessageDate(formatRelative(parseISO(messageresponse.data.getMessage.createdAt), new Date()))
 
             if (messageresponse.data.getMessage.userID === userInfo.attributes.sub) {
                let response = await API.graphql(graphqlOperation(
@@ -147,7 +149,7 @@ const ViewMessage = ({navigation} : any) => {
             
         }
         markRead();
-    }, [didPDFupdate])
+    }, [didPDFupdate, didMessageUpdate])
 
     const [replies, setReplies] = useState([]);
 
@@ -433,27 +435,63 @@ const ViewMessage = ({navigation} : any) => {
         }
     }
 
-    const AcceptRequest = () => {
+    const AcceptRequest = async () => {
         let response = await API.graphql(graphqlOperation(
-            updateMessage: {
+            updateMessage, {
                 input: {
                     id: message?.id,
-                    status: 'accepted'
+                    status: 'accepted',
+                    isReadbyUser: false,
+                    updatedAt: new Date(),
                 }
             }
         ))
+        if (response) {
+            await API.graphql(graphqlOperation(
+                createReply, {
+                    input: {
+                        content: 'Your request has been accepted!',
+                        createdAt: new Date(),
+                        isRead: false,
+                        type: 'Reply',
+                        messageID: message?.id,
+                        userID: user
+                    }
+                }
+            ))
+        }
+        setDidUpdate(!didUpdate)
+        setDidMessageUpdate(!didMessageUpdate)
         console.log(response)
     }
 
-    const DeclineRequest = () => {
+    const DeclineRequest = async () => {
         let response = await API.graphql(graphqlOperation(
-            updateMessage: {
+            updateMessage, {
                 input: {
                     id: message?.id,
-                    status: 'declined'
+                    status: 'declined',
+                    isReadbyUser: false,
+                    updatedAt: new Date(),
                 }
             }
         ))
+        if (response) {
+            await API.graphql(graphqlOperation(
+                createReply, {
+                    input: {
+                        content: 'Your request has been declined.',
+                        createdAt: new Date(),
+                        isRead: false,
+                        type: 'Reply',
+                        messageID: message?.id,
+                        userID: user
+                    }
+                }
+            ))
+        }
+        setDidUpdate(!didUpdate)
+        setDidMessageUpdate(!didMessageUpdate)
         console.log(response)
     }
 
@@ -518,9 +556,15 @@ const ViewMessage = ({navigation} : any) => {
                         <View style={{marginTop: 0, borderRadius: 15, alignSelf: 'center', backgroundColor: '#303030', padding: 20, width: Dimensions.get('window').width - 40}}>
                                                 
                             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                                <Text style={{color: '#fff', fontWeight: 'bold'}}>
-                                    {message?.title}
-                                </Text>
+                                <View>
+                                    <Text style={{color: '#fff', fontWeight: 'bold'}}>
+                                        {message?.title}
+                                    </Text>
+                                    <Text style={{color: 'gold', textTransform: 'capitalize', fontSize: 12}}>
+                                        {message?.status}
+                                    </Text>
+                                </View>
+                                
                               
                                 <FontAwesome5 
                                     name={isExpanded === true ? 'chevron-up' : 'chevron-down'}
@@ -537,7 +581,7 @@ const ViewMessage = ({navigation} : any) => {
                                         {message?.content}
                                     </Text>
                                     <View style={{flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between'}}>
-                                        <Text style={{color: '#00ffffa5', fontSize: 12, marginTop: 20}}>
+                                        <Text style={{color: '#00ffffa5', fontSize: 12, marginTop: 20, textTransform: 'capitalize'}}>
                                             {messageDate}
                                         </Text>
                                         {message?.docID !== null && isDownloading === false ? (
@@ -577,23 +621,6 @@ const ViewMessage = ({navigation} : any) => {
                             ) : null}
                             
                         </View>
-
-                        {message?.status === 'new' ? (
-                            <View style={{backgroundColor: '#363636', padding: 20, margin: 20, borderRadius: 15}}>
-                                <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                    <TouchableOpacity onPress={AcceptRequest}>
-                                        <Text style={{backgroundColor: '#00ffff', color: '#000', borderRadius: 15, borderWidth: 0.5, borderColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
-                                            Accept
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity onPress={DeclineRequest}>
-                                        <Text style={{color: 'cyan', borderRadius: 15, borderWidth: 0.5, borderColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
-                                            Decline
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        ) : null}
 
                     </View>
 
@@ -650,7 +677,22 @@ const ViewMessage = ({navigation} : any) => {
 
                 </View>
                 
-                
+                 {message?.status === 'new' && user === message?.otherUserID ? (
+                    <View style={{top: isExpanded === true ? 250 : 180, alignSelf: 'center', position: 'absolute', width: Dimensions.get('window').width - 40, backgroundColor: '#363636', padding: 20, margin: 20, borderRadius: 15}}>
+                                <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around'}}>
+                                    <TouchableOpacity onPress={AcceptRequest}>
+                                        <Text style={{backgroundColor: '#00ffff', color: '#000', borderRadius: 15, borderWidth: 0.5, borderColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
+                                            Accept
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={DeclineRequest}>
+                                        <Text style={{color: 'cyan', borderRadius: 15, borderWidth: 0.5, borderColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
+                                            Decline
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        ) : null}
                 
             </LinearGradient>
         </View>
