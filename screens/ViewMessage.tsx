@@ -433,6 +433,30 @@ const ViewMessage = ({navigation} : any) => {
         }
     }
 
+    const AcceptRequest = () => {
+        let response = await API.graphql(graphqlOperation(
+            updateMessage: {
+                input: {
+                    id: message?.id,
+                    status: 'accepted'
+                }
+            }
+        ))
+        console.log(response)
+    }
+
+    const DeclineRequest = () => {
+        let response = await API.graphql(graphqlOperation(
+            updateMessage: {
+                input: {
+                    id: message?.id,
+                    status: 'declined'
+                }
+            }
+        ))
+        console.log(response)
+    }
+
 
 
     return (
@@ -553,6 +577,23 @@ const ViewMessage = ({navigation} : any) => {
                             ) : null}
                             
                         </View>
+
+                        {message?.status === 'new' ? (
+                            <View style={{backgroundColor: '#363636', padding: 20, margin: 20, borderRadius: 15}}>
+                                <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around'}}>
+                                    <TouchableOpacity onPress={AcceptRequest}>
+                                        <Text style={{backgroundColor: '#00ffff', color: '#000', borderRadius: 15, borderWidth: 0.5, borderColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
+                                            Accept
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={DeclineRequest}>
+                                        <Text style={{color: 'cyan', borderRadius: 15, borderWidth: 0.5, borderColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
+                                            Decline
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        ) : null}
 
                     </View>
 

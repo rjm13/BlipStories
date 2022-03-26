@@ -46,7 +46,7 @@ const CreateMessage = ({navigation} : any) => {
         title: type === 'artist' ? 'Request for Cover Art' : type === 'narrator' ? 'Request for Narration' : 'Request',
         subtitle: '',
         request: type === 'artist' ? 'art' : type === 'narrator' ? 'narration' : null,
-        status: 'requested',
+        status: 'new',
 
     });
 
