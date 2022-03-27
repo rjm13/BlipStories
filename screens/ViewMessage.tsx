@@ -553,7 +553,64 @@ const ViewMessage = ({navigation} : any) => {
                             </Text>
                         </View>
 
-                        <View style={{marginTop: 0, borderRadius: 15, alignSelf: 'center', backgroundColor: '#303030', padding: 20, width: Dimensions.get('window').width - 40}}>
+                        
+
+                    </View>
+
+                    <View style={{marginBottom: 120, height: '59%'}}>
+                        <FlatList 
+                            data={replies}
+                            keyExtractor={item => item.id}
+                            renderItem={renderReplies}
+                            showsVerticalScrollIndicator={false}
+                            maxToRenderPerBatch={20}
+                            extraData={replies}
+                            inverted
+                            ListFooterComponent={() => {
+                                return(
+                                    <View style={{height: 20}}/>
+                                )
+                                
+                            }}
+                        />
+                    </View>
+
+
+
+{/* Footer */}
+                    <View style={{position: 'absolute', bottom: isKeyboardVisible ? 300 : 0, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 30, width: SCREEN_WIDTH, height: 80, backgroundColor: '#303030'}}>
+                        <TextInput
+                            placeholder={'Reply to ' + (
+                                message?.userID === user && message?.subtitle === 'artist' ? 
+                                message?.otherUser?.artistPseudo : 
+                                message?.userID === user && message?.subtitle === 'narrator' ?
+                                message?.otherUser?.narratorPseudo : 
+                                message?.user?.pseudonym)}
+                            placeholderTextColor='#ffffffa5'
+                            style={{color: '#fff', padding: 10, width: SCREEN_WIDTH - 60}}
+                            maxLength={1000}
+                            multiline={true}
+                            onChangeText={val => setReply(val)}
+                            textAlignVertical='top'
+                            ref={clear}
+                        />
+                       
+                            <View style={{justifyContent: 'center'}}>
+                                <TouchableOpacity onPress={SubmitReply}>
+                                    <FontAwesome5 
+                                        name='arrow-right'
+                                        color='#fff'
+                                        size={20}
+                                        style={{paddingHorizontal: 20}}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                    </View>
+                    
+
+                </View>
+
+                <View style={{alignSelf: 'center', position: 'absolute', top: 120, borderRadius: 15, alignSelf: 'center', backgroundColor: '#303030', padding: 20, width: Dimensions.get('window').width - 40}}>
                                                 
                             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                                 <View>
@@ -621,61 +678,6 @@ const ViewMessage = ({navigation} : any) => {
                             ) : null}
                             
                         </View>
-
-                    </View>
-
-                    <View style={{marginBottom: 120, height: isExpanded === true ? '49%' : '59%'}}>
-                        <FlatList 
-                            data={replies}
-                            keyExtractor={item => item.id}
-                            renderItem={renderReplies}
-                            showsVerticalScrollIndicator={false}
-                            maxToRenderPerBatch={20}
-                            extraData={replies}
-                            inverted
-                            ListFooterComponent={() => {
-                                return(
-                                    <View style={{height: 20}}/>
-                                )
-                                
-                            }}
-                        />
-                    </View>
-
-
-
-{/* Footer */}
-                    <View style={{position: 'absolute', bottom: isKeyboardVisible ? 300 : 0, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 30, width: SCREEN_WIDTH, height: 80, backgroundColor: '#303030'}}>
-                        <TextInput
-                            placeholder={'Reply to ' + (
-                                message?.userID === user && message?.subtitle === 'artist' ? 
-                                message?.otherUser?.artistPseudo : 
-                                message?.userID === user && message?.subtitle === 'narrator' ?
-                                message?.otherUser?.narratorPseudo : 
-                                message?.user?.pseudonym)}
-                            placeholderTextColor='#ffffffa5'
-                            style={{color: '#fff', padding: 10, width: SCREEN_WIDTH - 60}}
-                            maxLength={1000}
-                            multiline={true}
-                            onChangeText={val => setReply(val)}
-                            textAlignVertical='top'
-                            ref={clear}
-                        />
-                       
-                            <View style={{justifyContent: 'center'}}>
-                                <TouchableOpacity onPress={SubmitReply}>
-                                    <FontAwesome5 
-                                        name='arrow-right'
-                                        color='#fff'
-                                        size={20}
-                                        style={{paddingHorizontal: 20}}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                    </View>
-                    
-
-                </View>
                 
                  {message?.status === 'new' && user === message?.otherUserID ? (
                     <View style={{top: isExpanded === true ? 250 : 180, alignSelf: 'center', position: 'absolute', width: Dimensions.get('window').width - 40, backgroundColor: '#363636', padding: 20, margin: 20, borderRadius: 15}}>
