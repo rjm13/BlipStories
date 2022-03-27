@@ -24,18 +24,16 @@ import * as Linking from 'expo-linking';
 import { StatusBar } from 'expo-status-bar';
 import { Modal, Portal, Provider } from 'react-native-paper';
 
-import Comments from '../components/Comments';
-
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import * as Animatable from 'react-native-animatable';
-import { format, parseISO } from "date-fns";
+import { formatRelative, parseISO } from "date-fns";
 import ShareStory from '../components/functions/ShareStory';
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
-import { getStory, getUser, listComments, listPinnedStories, listRatings, listStoryTags, listFinishedStories } from '../src/graphql/queries';
+import { getStory, getUser, commentsByDate, listPinnedStories, listRatings, listStoryTags, listFinishedStories } from '../src/graphql/queries';
 import { createComment, createFlag, createRating, updateRating, updateStory } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
@@ -50,6 +48,8 @@ const StoryScreen  = ({navigation} : any) => {
     const scrollRef = useRef();
     const [viewPosition, setViewPosition] = useState(0);
 
+
+    //anchor to comments section
     const scrollToView = () => {
         scrollRef.current?.scrollTo({y: viewPosition + 220, animated: true});
       }
@@ -58,11 +58,11 @@ const StoryScreen  = ({navigation} : any) => {
     const route = useRoute();
     const {storyID} = route.params;
 
-    const [storyUri, setStoryUri] = useState(null);
+    //const [storyUri, setStoryUri] = useState(null);
 
 //use storyID to retrieve Story from AWS
     const [Story, setStory] = useState();
-    const [AudioUri, setAudioUri] = useState('');
+    //const [AudioUri, setAudioUri] = useState('');
 
     //share the story
 // const handleShareWithLinking = () => {
@@ -70,32 +70,32 @@ const StoryScreen  = ({navigation} : any) => {
 //       //Linking.openURL(deepUri);
 //   };
 
-  const handleShareWithLinking = async () => {
+//   const handleShareWithLinking = async () => {
 
-    let deepUri = Linking.createURL('storyscreen/', { queryParams: {id: Story?.id } } )
-    // {
-    //         queryParams: { id: Story?.id },
-    // });    
+//     let deepUri = Linking.createURL('storyscreen/', { queryParams: {id: Story?.id } } )
+//     // {
+//     //         queryParams: { id: Story?.id },
+//     // });    
 
-    try {
-      const result = await Share.share({
-        message: Story?.title + ', : ' + deepUri,
-        url: deepUri,
-        title: 'Check out this short story on Blip!'
-      });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      //alert(error.message);
-    }
-}
+//     try {
+//       const result = await Share.share({
+//         message: Story?.title + ', : ' + deepUri,
+//         url: deepUri,
+//         title: 'Check out this short story on Blip!'
+//       });
+//       if (result.action === Share.sharedAction) {
+//         if (result.activityType) {
+//           // shared with activity type of result.activityType
+//         } else {
+//           // shared
+//         }
+//       } else if (result.action === Share.dismissedAction) {
+//         // dismissed
+//       }
+//     } catch (error) {
+//       //alert(error.message);
+//     }
+// }
 
 //   useEffect(() => {
     
@@ -521,13 +521,26 @@ const StoryScreen  = ({navigation} : any) => {
 
     const Item = ({content, createdAt, userName, userImageUri}: any) => {
 
+        const [imageU, setImageU] = useState('');
+
+        useEffect(() => {
+            const fetchImage = async () => {
+                let response = await Storage.get(userImageUri)
+                if (response) {
+                    setImageU(response)
+                }
+
+            }
+            fetchImage();
+        }, [])
+
         return (
             <View style={{ marginVertical: 10, backgroundColor: '#132F35', borderRadius: 15}}>
     
                 <View style={{ margin: 10, flexDirection: 'row'}}>
                     <View>
                        <Image 
-                                source={ userImageUri ? { uri: userImageUri} : require('../assets/images/blankprofile.png')}
+                                source={ userImageUri ? { uri: imageU} : require('../assets/images/blankprofile.png')}
                                 style={{ width: 50, height: 50, borderRadius: 25, backgroundColor: 'lightgray'}}
                         /> 
                     </View>
@@ -535,8 +548,8 @@ const StoryScreen  = ({navigation} : any) => {
                         <Text style={{fontSize: 16, color: '#fff', fontWeight: 'bold'}}>
                             {userName}
                         </Text>
-                        <Text style={{color: '#ffffffa5', fontSize: 12}}>
-                            {format(parseISO(createdAt), 'MMM Do yyyy')}
+                        <Text style={{color: '#ffffffa5', fontSize: 12, textTransform: 'capitalize'}}>
+                            {formatRelative(parseISO(createdAt), new Date())}
                         </Text>
                     </View>
                 </View>
@@ -560,7 +573,7 @@ const StoryScreen  = ({navigation} : any) => {
                     try {
                         const response = await API.graphql(
                             graphqlOperation(
-                                listComments, {
+                                commentsByDate, {
                                     filter: {
                                         storyID: {
                                             eq: storyID
@@ -569,8 +582,8 @@ const StoryScreen  = ({navigation} : any) => {
                                 } 
                             )
                         )
-                        setCommentList(response.data.listComments.items);
-                        console.log(response.data.listComments.items)
+                        setCommentList(response.data.commentsByDate.items);
+                        console.log(response.data.commentsByDate.items)
                     } catch (e) {
                         console.log(e);}  
             }
@@ -955,7 +968,13 @@ const StoryScreen  = ({navigation} : any) => {
                                     
                                 </View>
 
-                                <View style={{marginTop: 16, height: 80}}>
+                                <View>
+                                    <Text style={{textAlign: 'center', color: '#fff', fontSize: 14, marginTop: 32, marginBottom: 16}}>
+                                        {Story?.summary}
+                                    </Text>
+                                </View>
+
+                                <View style={{height: 80}}>
 
                                     <FlatList
                                         data={Tags}
