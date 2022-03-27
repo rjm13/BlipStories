@@ -574,6 +574,8 @@ const StoryScreen  = ({navigation} : any) => {
                         const response = await API.graphql(
                             graphqlOperation(
                                 commentsByDate, {
+                                    type: 'Comment',
+                                    sortDirection: 'DESC',
                                     filter: {
                                         storyID: {
                                             eq: storyID
@@ -598,22 +600,27 @@ const StoryScreen  = ({navigation} : any) => {
         const { setUserID } = useContext(AppContext);
     
         const [user, setUser] = useState();
+        const [userImage, setUserImage] = useState('')
     
         useEffect(() => {
             const fetchUser = async () => {
     
-                // const userInfo = await Auth.currentAuthenticatedUser(
-                //     { bypassCache: true }
-                //   );
+                const userInfo = await Auth.currentAuthenticatedUser(
+                    { bypassCache: true }
+                  );
     
                 const userData = await API.graphql(
                     graphqlOperation(
                     getUser, 
-                    { id: userID,
+                    { id: userInfo.attributes.sub,
                     }
                     )
                 )
                 setUser(userData.data.getUser);
+                
+                const UserImage = await Storage.get(userData.data.getUser.imageUri)
+                setUserImage(UserImage)
+                console.log('image' + UserImage)
             }
         fetchUser();
         }, [])
@@ -640,6 +647,8 @@ const StoryScreen  = ({navigation} : any) => {
                     let result = await API.graphql(
                             graphqlOperation(createComment, { input: 
                                 {
+                                    type: 'Comment',
+                                    createdAt: new Date(),
                                     storyID: storyID,
                                     content: comment,
                                     userID: poster.attributes.sub
@@ -831,13 +840,13 @@ const StoryScreen  = ({navigation} : any) => {
                             </View>
                         </TouchableWithoutFeedback>
                         
-                        <Animated.Text style={{ fontSize: 18, color: '#fff', fontWeight: 'bold', opacity: animatedOpacity}}>
+                        <Animated.Text numberOfLines={1} style={{ width: '80%', marginRight: -30, fontSize: 18, color: '#fff', fontWeight: 'bold', opacity: animatedOpacity}}>
                             {Story?.title}
                         </Animated.Text>
                     </View>
 
                     <TouchableOpacity onPress={onPlay}>
-                        <Animated.View style={{marginHorizontal: 20, height: 30, width: 30, alignItems: 'center', justifyContent: 'center', backgroundColor: '#00ffff', borderRadius: 15, opacity: animatedOpacity}}>
+                        <Animated.View style={{marginRight: 20,  height: 30, width: 30, alignItems: 'center', justifyContent: 'center', backgroundColor: '#00ffff', borderRadius: 15, opacity: animatedOpacity}}>
                             <FontAwesome5 
                                 name='play'
                                 size={16}
@@ -1057,7 +1066,7 @@ const StoryScreen  = ({navigation} : any) => {
                                         <View style={{backgroundColor: '#363636', padding: 20, marginVertical: 10, borderRadius: 15, }}>
                                             <View style={{ flexDirection: 'row', }}>
                                                 <Image 
-                                                        source={ user?.imageUri ? { uri: user?.imageUri} : require('../assets/images/blankprofile.png')}
+                                                        source={ user?.imageUri ? { uri: userImage} : require('../assets/images/blankprofile.png')}
                                                         style={{ width: 40, height: 40, borderRadius: 25, backgroundColor: 'gray'}}
                                                     />
                                                 <TextInput 
@@ -1099,7 +1108,7 @@ const StoryScreen  = ({navigation} : any) => {
                                             scrollEnabled={false}
                                             extraData={commentList}
                                             initialNumToRender={10}
-                                            maxToRenderPerBatch={10}
+                                            maxToRenderPerBatch={20}
                                             ListFooterComponent={ () => {
                                                 return (
                                                     <View style={{height:  300}}>
