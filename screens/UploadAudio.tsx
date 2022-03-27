@@ -201,7 +201,9 @@ const UploadAudio = ({navigation} : any) => {
 
             console.log(result);
                 } catch (e) {
-                        console.error(e);
+                    alert('Connection error. Please try again.')
+                    setIsPublishing(false);
+                    console.error(e);
         }
         } else if (isLocalImage === true && isLocalAudio === false) {
             try {
@@ -283,7 +285,9 @@ const UploadAudio = ({navigation} : any) => {
 
             console.log(result);
                 } catch (e) {
-                        console.error(e);
+                    alert('Connection error. Please try again.')
+                    setIsPublishing(false);
+                    console.error(e);
         }
         } else if (isLocalImage === false && isLocalAudio === true) {
             try {
@@ -372,7 +376,9 @@ const UploadAudio = ({navigation} : any) => {
 
             console.log(result);
                 } catch (e) {
-                        console.error(e);
+                    alert('Connection error. Please try again.')
+                    setIsPublishing(false);
+                    console.error(e);
         }
         } else if (isLocalImage === false && isLocalAudio === false) {
             try {
@@ -450,7 +456,9 @@ const UploadAudio = ({navigation} : any) => {
 
             console.log(result);
                 } catch (e) {
-                        console.error(e);
+                    alert('Connection error. Please try again.')
+                    setIsPublishing(false);
+                    console.error(e);
         }
         }
     }
@@ -605,7 +613,8 @@ const UploadAudio = ({navigation} : any) => {
         if (tagText.includes('#')) {
             return;
         } else {
-            Tags.push(...TagsArray, {id: uuid.v4().toString(), name: tagText.replace(/ /g, '')});
+            Tags.push(...TagsArray, {id: uuid.v4().toString(), name: tagText.replace(/ /g, '')})
+            //.replace(/[`~0-9!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')});
             setTagsArray(Tags);
             clear.current.clear();
         }
@@ -1360,20 +1369,25 @@ const UploadAudio = ({navigation} : any) => {
                     <Text style={styles.inputheader}>
                         Cover Art
                     </Text>
-                        <TouchableWithoutFeedback onPress={pickImage}>
-                            <View style={{ marginHorizontal: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
-                                <Text style={{ color: '#ffffffa5'}}>
-                                    Select local image
-                                </Text>
-                            </View>
-                        </TouchableWithoutFeedback>
+                        
                         <TouchableWithoutFeedback onPress={showArtModal}>
-                            <View style={{ marginTop: 20, marginHorizontal: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
+                            <View style={{ marginTop: 0, marginHorizontal: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
                                 <Text style={{ color: '#ffffffa5'}}>
                                     Select from shared art
                                 </Text>
                             </View>
                         </TouchableWithoutFeedback>
+
+                        {user?.isArtist === true ? (
+                        <TouchableWithoutFeedback onPress={pickImage}>
+                            <View style={{ marginTop: 20, marginHorizontal: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
+                                <Text style={{ color: '#ffffffa5'}}>
+                                    Select local image
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                        ) : null}
+
                         {localImageUri !== '' ? (
                             <Image 
                                 source={{uri: localImageUri}}
@@ -1395,27 +1409,29 @@ const UploadAudio = ({navigation} : any) => {
                         </TouchableWithoutFeedback>
                     </View>
 
-                    <View style={{width: '100%', justifyContent: 'space-between', marginTop: 20, flexDirection: 'row', alignItems: 'center'}}>
-                        <View style={{ width: '48%'}}>
-                            <TouchableWithoutFeedback onPress={pickAudio}>
-                                <View style={{ marginLeft: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
-                                    <Text style={{ textAlign: 'center', color: '#ffffffa5'}}>
-                                        {'Select local audio'}
-                                    </Text>
-                                </View>
-                            </TouchableWithoutFeedback>
-                        </View>
+                    {user?.isNarrator === true ? (
+                        <View style={{width: '100%', justifyContent: 'space-between', marginTop: 20, flexDirection: 'row', alignItems: 'center'}}>
+                            <View style={{ width: '48%'}}>
+                                <TouchableWithoutFeedback onPress={pickAudio}>
+                                    <View style={{ marginLeft: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
+                                        <Text style={{ textAlign: 'center', color: '#ffffffa5'}}>
+                                            {'Select local audio'}
+                                        </Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
 
-                        <View style={{ width: '48%'}}>
-                            <TouchableWithoutFeedback onPress={showLocalAudioModal}>
-                                <View style={{ marginRight: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
-                                    <Text style={{ textAlign: 'center', color: '#ffffffa5'}}>
-                                        {'Select Blip recording'}
-                                    </Text>
-                                </View>
-                            </TouchableWithoutFeedback>
+                            <View style={{ width: '48%'}}>
+                                <TouchableWithoutFeedback onPress={showLocalAudioModal}>
+                                    <View style={{ marginRight: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
+                                        <Text style={{ textAlign: 'center', color: '#ffffffa5'}}>
+                                            {'Select Blip recording'}
+                                        </Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
                         </View>
-                    </View>
+                    ) : null}
                     
 
                     {audioName !== '' ? (
