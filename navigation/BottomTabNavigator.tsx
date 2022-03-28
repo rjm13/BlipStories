@@ -17,7 +17,6 @@ import Following from '../screens/FollowingScreen';
 import AboutScreen from '../screens/About';
 import AccountScreen from '../screens/AccountScreen';
 import Inbox from '../screens/Inbox';
-import CreateMessage from '../screens/CreateMessage';
 import ViewMessage from '../screens/ViewMessage';
 
 import PublishingMainScreen from '../screens/PublishingMain';
@@ -272,11 +271,6 @@ function HomeNavigator() {
       <HomeStack.Screen 
         name="Inbox" 
         component={Inbox} 
-        options={{ headerShown: false }} 
-      />
-      <HomeStack.Screen 
-        name="CreateMessage" 
-        component={CreateMessage} 
         options={{ headerShown: false }} 
       />
       <HomeStack.Screen 

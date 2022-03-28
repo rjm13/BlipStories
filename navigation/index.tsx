@@ -22,6 +22,7 @@ import ForgotPasswordScreen from '../screens/auth/ForgotPassword';
 import ForgotPasswordConScreen from '../screens/auth/ForgotPasswordCon';
 import ConfirmEmailScreen from '../screens/auth/ConfirmEmail';
 import SplashCarousel from '../screens/auth/SplashCarousel';
+import CreateMessage from '../screens/CreateMessage';
 
 
 import ModalNavigator from '../navigation/ModalNavigator';
@@ -101,6 +102,8 @@ function RootNavigator() {
       <Stack.Screen name="Redirect" component={RedirectScreen} />
       <Stack.Screen name="TagSearchScreen" component={TagSearchScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="SplashCarousel" component={SplashCarousel} />
+      <Stack.Screen name="CreateMessage" component={CreateMessage} options={{ headerShown: false }} />
+
 
       {/* <Stack.Screen name="Drawer" component={DrawerNavigator} options={{ title: 'Oops!' }} /> */}
 

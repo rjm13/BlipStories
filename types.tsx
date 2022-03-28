@@ -14,6 +14,7 @@ export type RootStackParamList = {
   SimpleAudioPlayer: undefined;
   TagSearchScreen: undefined;
   SplashCarousel: undefined;
+  CreateMessage: undefined;
   
 };
 
@@ -55,7 +56,6 @@ export type TabOneParamList = {
   FindArtist: undefined;
   Inbox: undefined;
   ViewMessage: undefined;
-  CreateMessage: undefined;
   CoverArt: undefined;
   AllSharedAssets: undefined;
 };

@@ -382,7 +382,8 @@ const StoryScreen  = ({navigation} : any) => {
             let Rate = await API.graphql(graphqlOperation(
                 updateRating, {input: {
                     id: ratingID,
-                    rating: ratingNum
+                    rating: ratingNum,
+                    updatedAt: new Date()
                 }}
             ))
             console.log(Rate)
@@ -395,6 +396,7 @@ const StoryScreen  = ({navigation} : any) => {
                     genreID: Story?.genreID,
                     type: 'Rating',
                     createdAt: new Date(),
+                    updatedAt: new Date(),
                 }}
             ))
         console.log(Rate)
