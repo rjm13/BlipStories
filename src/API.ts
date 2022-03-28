@@ -9,7 +9,6 @@ export type CreateUserInput = {
   email?: string | null,
   imageUri?: string | null,
   bio?: string | null,
-  following?: Array< string | null > | null,
   numAuthored?: number | null,
   pseudonym?: string | null,
   narratorPseudo?: string | null,
@@ -35,7 +34,6 @@ export type ModelUserConditionInput = {
   email?: ModelStringInput | null,
   imageUri?: ModelStringInput | null,
   bio?: ModelStringInput | null,
-  following?: ModelIDInput | null,
   numAuthored?: ModelIntInput | null,
   pseudonym?: ModelStringInput | null,
   narratorPseudo?: ModelStringInput | null,
@@ -98,22 +96,6 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
-};
-
 export type ModelIntInput = {
   ne?: number | null,
   eq?: number | null,
@@ -141,7 +123,6 @@ export type User = {
   email?: string | null,
   imageUri?: string | null,
   bio?: string | null,
-  following?: Array< string | null > | null,
   authored?: ModelStoryConnection | null,
   narrated?: ModelStoryConnection | null,
   sharedAssets?: ModelAudioAssetConnection | null,
@@ -158,6 +139,7 @@ export type User = {
   isNarrator?: boolean | null,
   isArtist?: boolean | null,
   topthree?: Array< string | null > | null,
+  following?: ModelFollowingConnConnection | null,
   followers?: ModelFollowingConnConnection | null,
   Pinned?: ModelPinnedStoryConnection | null,
   Rated?: ModelRatingConnection | null,
@@ -401,7 +383,6 @@ export type UpdateUserInput = {
   email?: string | null,
   imageUri?: string | null,
   bio?: string | null,
-  following?: Array< string | null > | null,
   numAuthored?: number | null,
   pseudonym?: string | null,
   narratorPseudo?: string | null,
@@ -441,6 +422,22 @@ export type ModelFollowingConnConditionInput = {
   and?: Array< ModelFollowingConnConditionInput | null > | null,
   or?: Array< ModelFollowingConnConditionInput | null > | null,
   not?: ModelFollowingConnConditionInput | null,
+};
+
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
 };
 
 export type UpdateFollowingConnInput = {
@@ -1088,7 +1085,6 @@ export type ModelUserFilterInput = {
   email?: ModelStringInput | null,
   imageUri?: ModelStringInput | null,
   bio?: ModelStringInput | null,
-  following?: ModelIDInput | null,
   numAuthored?: ModelIntInput | null,
   pseudonym?: ModelStringInput | null,
   narratorPseudo?: ModelStringInput | null,
@@ -1384,7 +1380,6 @@ export type CreateUserMutation = {
     email?: string | null,
     imageUri?: string | null,
     bio?: string | null,
-    following?: Array< string | null > | null,
     authored?:  {
       __typename: "ModelStoryConnection",
       items:  Array< {
@@ -1553,6 +1548,19 @@ export type CreateUserMutation = {
     isNarrator?: boolean | null,
     isArtist?: boolean | null,
     topthree?: Array< string | null > | null,
+    following?:  {
+      __typename: "ModelFollowingConnConnection",
+      items:  Array< {
+        __typename: "FollowingConn",
+        id: string,
+        type?: string | null,
+        followerID?: string | null,
+        authorID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     followers?:  {
       __typename: "ModelFollowingConnConnection",
       items:  Array< {
@@ -1634,7 +1642,6 @@ export type UpdateUserMutation = {
     email?: string | null,
     imageUri?: string | null,
     bio?: string | null,
-    following?: Array< string | null > | null,
     authored?:  {
       __typename: "ModelStoryConnection",
       items:  Array< {
@@ -1803,6 +1810,19 @@ export type UpdateUserMutation = {
     isNarrator?: boolean | null,
     isArtist?: boolean | null,
     topthree?: Array< string | null > | null,
+    following?:  {
+      __typename: "ModelFollowingConnConnection",
+      items:  Array< {
+        __typename: "FollowingConn",
+        id: string,
+        type?: string | null,
+        followerID?: string | null,
+        authorID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     followers?:  {
       __typename: "ModelFollowingConnConnection",
       items:  Array< {
@@ -1884,7 +1904,6 @@ export type DeleteUserMutation = {
     email?: string | null,
     imageUri?: string | null,
     bio?: string | null,
-    following?: Array< string | null > | null,
     authored?:  {
       __typename: "ModelStoryConnection",
       items:  Array< {
@@ -2053,6 +2072,19 @@ export type DeleteUserMutation = {
     isNarrator?: boolean | null,
     isArtist?: boolean | null,
     topthree?: Array< string | null > | null,
+    following?:  {
+      __typename: "ModelFollowingConnConnection",
+      items:  Array< {
+        __typename: "FollowingConn",
+        id: string,
+        type?: string | null,
+        followerID?: string | null,
+        authorID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     followers?:  {
       __typename: "ModelFollowingConnConnection",
       items:  Array< {
@@ -2140,7 +2172,6 @@ export type CreateFollowingConnMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -2178,6 +2209,10 @@ export type CreateFollowingConnMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -2213,7 +2248,6 @@ export type CreateFollowingConnMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -2251,6 +2285,10 @@ export type CreateFollowingConnMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -2303,7 +2341,6 @@ export type UpdateFollowingConnMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -2341,6 +2378,10 @@ export type UpdateFollowingConnMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -2376,7 +2417,6 @@ export type UpdateFollowingConnMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -2414,6 +2454,10 @@ export type UpdateFollowingConnMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -2466,7 +2510,6 @@ export type DeleteFollowingConnMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -2504,6 +2547,10 @@ export type DeleteFollowingConnMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -2539,7 +2586,6 @@ export type DeleteFollowingConnMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -2577,6 +2623,10 @@ export type DeleteFollowingConnMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -2628,7 +2678,6 @@ export type CreatePinnedStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -2666,6 +2715,10 @@ export type CreatePinnedStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -2709,7 +2762,6 @@ export type CreatePinnedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -2742,7 +2794,6 @@ export type CreatePinnedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -2773,7 +2824,6 @@ export type CreatePinnedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -2855,7 +2905,6 @@ export type UpdatePinnedStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -2893,6 +2942,10 @@ export type UpdatePinnedStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -2936,7 +2989,6 @@ export type UpdatePinnedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -2969,7 +3021,6 @@ export type UpdatePinnedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -3000,7 +3051,6 @@ export type UpdatePinnedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -3082,7 +3132,6 @@ export type DeletePinnedStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -3120,6 +3169,10 @@ export type DeletePinnedStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -3163,7 +3216,6 @@ export type DeletePinnedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -3196,7 +3248,6 @@ export type DeletePinnedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -3227,7 +3278,6 @@ export type DeletePinnedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -3309,7 +3359,6 @@ export type CreateFinishedStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -3347,6 +3396,10 @@ export type CreateFinishedStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -3390,7 +3443,6 @@ export type CreateFinishedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -3423,7 +3475,6 @@ export type CreateFinishedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -3454,7 +3505,6 @@ export type CreateFinishedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -3536,7 +3586,6 @@ export type UpdateFinishedStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -3574,6 +3623,10 @@ export type UpdateFinishedStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -3617,7 +3670,6 @@ export type UpdateFinishedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -3650,7 +3702,6 @@ export type UpdateFinishedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -3681,7 +3732,6 @@ export type UpdateFinishedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -3763,7 +3813,6 @@ export type DeleteFinishedStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -3801,6 +3850,10 @@ export type DeleteFinishedStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -3844,7 +3897,6 @@ export type DeleteFinishedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -3877,7 +3929,6 @@ export type DeleteFinishedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -3908,7 +3959,6 @@ export type DeleteFinishedStoryMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -3992,7 +4042,6 @@ export type CreateStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4030,6 +4079,10 @@ export type CreateStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -4069,7 +4122,6 @@ export type CreateStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4107,6 +4159,10 @@ export type CreateStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -4144,7 +4200,6 @@ export type CreateStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4182,6 +4237,10 @@ export type CreateStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -4298,7 +4357,6 @@ export type UpdateStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4336,6 +4394,10 @@ export type UpdateStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -4375,7 +4437,6 @@ export type UpdateStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4413,6 +4474,10 @@ export type UpdateStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -4450,7 +4515,6 @@ export type UpdateStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4488,6 +4552,10 @@ export type UpdateStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -4604,7 +4672,6 @@ export type DeleteStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4642,6 +4709,10 @@ export type DeleteStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -4681,7 +4752,6 @@ export type DeleteStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4719,6 +4789,10 @@ export type DeleteStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -4756,7 +4830,6 @@ export type DeleteStoryMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -4794,6 +4867,10 @@ export type DeleteStoryMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -4967,7 +5044,6 @@ export type CreateImageAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5005,6 +5081,10 @@ export type CreateImageAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -5041,7 +5121,6 @@ export type CreateImageAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5079,6 +5158,10 @@ export type CreateImageAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -5133,7 +5216,6 @@ export type UpdateImageAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5171,6 +5253,10 @@ export type UpdateImageAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -5207,7 +5293,6 @@ export type UpdateImageAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5245,6 +5330,10 @@ export type UpdateImageAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -5299,7 +5388,6 @@ export type DeleteImageAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5337,6 +5425,10 @@ export type DeleteImageAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -5373,7 +5465,6 @@ export type DeleteImageAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5411,6 +5502,10 @@ export type DeleteImageAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -5464,7 +5559,6 @@ export type CreateDocumentAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5502,6 +5596,10 @@ export type CreateDocumentAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -5539,7 +5637,6 @@ export type CreateDocumentAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5577,6 +5674,10 @@ export type CreateDocumentAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -5629,7 +5730,6 @@ export type UpdateDocumentAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5667,6 +5767,10 @@ export type UpdateDocumentAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -5704,7 +5808,6 @@ export type UpdateDocumentAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5742,6 +5845,10 @@ export type UpdateDocumentAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -5794,7 +5901,6 @@ export type DeleteDocumentAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5832,6 +5938,10 @@ export type DeleteDocumentAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -5869,7 +5979,6 @@ export type DeleteDocumentAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5907,6 +6016,10 @@ export type DeleteDocumentAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -5961,7 +6074,6 @@ export type CreateAudioAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -5999,6 +6111,10 @@ export type CreateAudioAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -6036,7 +6152,6 @@ export type CreateAudioAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -6074,6 +6189,10 @@ export type CreateAudioAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -6128,7 +6247,6 @@ export type UpdateAudioAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -6166,6 +6284,10 @@ export type UpdateAudioAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -6203,7 +6325,6 @@ export type UpdateAudioAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -6241,6 +6362,10 @@ export type UpdateAudioAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -6295,7 +6420,6 @@ export type DeleteAudioAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -6333,6 +6457,10 @@ export type DeleteAudioAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -6370,7 +6498,6 @@ export type DeleteAudioAssetMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -6408,6 +6535,10 @@ export type DeleteAudioAssetMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -6465,7 +6596,6 @@ export type CreateFlagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -6498,7 +6628,6 @@ export type CreateFlagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -6529,7 +6658,6 @@ export type CreateFlagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -6596,7 +6724,6 @@ export type CreateFlagMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -6634,6 +6761,10 @@ export type CreateFlagMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -6692,7 +6823,6 @@ export type UpdateFlagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -6725,7 +6855,6 @@ export type UpdateFlagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -6756,7 +6885,6 @@ export type UpdateFlagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -6823,7 +6951,6 @@ export type UpdateFlagMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -6861,6 +6988,10 @@ export type UpdateFlagMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -6919,7 +7050,6 @@ export type DeleteFlagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -6952,7 +7082,6 @@ export type DeleteFlagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -6983,7 +7112,6 @@ export type DeleteFlagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -7050,7 +7178,6 @@ export type DeleteFlagMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -7088,6 +7215,10 @@ export type DeleteFlagMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -7147,7 +7278,6 @@ export type CreateCommentMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -7180,7 +7310,6 @@ export type CreateCommentMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -7211,7 +7340,6 @@ export type CreateCommentMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -7278,7 +7406,6 @@ export type CreateCommentMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -7316,6 +7443,10 @@ export type CreateCommentMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -7375,7 +7506,6 @@ export type UpdateCommentMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -7408,7 +7538,6 @@ export type UpdateCommentMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -7439,7 +7568,6 @@ export type UpdateCommentMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -7506,7 +7634,6 @@ export type UpdateCommentMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -7544,6 +7671,10 @@ export type UpdateCommentMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -7603,7 +7734,6 @@ export type DeleteCommentMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -7636,7 +7766,6 @@ export type DeleteCommentMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -7667,7 +7796,6 @@ export type DeleteCommentMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -7734,7 +7862,6 @@ export type DeleteCommentMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -7772,6 +7899,10 @@ export type DeleteCommentMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -7954,7 +8085,6 @@ export type CreateRatingMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -7987,7 +8117,6 @@ export type CreateRatingMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -8018,7 +8147,6 @@ export type CreateRatingMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -8085,7 +8213,6 @@ export type CreateRatingMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -8123,6 +8250,10 @@ export type CreateRatingMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -8194,7 +8325,6 @@ export type UpdateRatingMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -8227,7 +8357,6 @@ export type UpdateRatingMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -8258,7 +8387,6 @@ export type UpdateRatingMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -8325,7 +8453,6 @@ export type UpdateRatingMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -8363,6 +8490,10 @@ export type UpdateRatingMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -8434,7 +8565,6 @@ export type DeleteRatingMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -8467,7 +8597,6 @@ export type DeleteRatingMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -8498,7 +8627,6 @@ export type DeleteRatingMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -8565,7 +8693,6 @@ export type DeleteRatingMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -8603,6 +8730,10 @@ export type DeleteRatingMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -8669,7 +8800,6 @@ export type CreateMessageMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -8707,6 +8837,10 @@ export type CreateMessageMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -8744,7 +8878,6 @@ export type CreateMessageMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -8782,6 +8915,10 @@ export type CreateMessageMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -8843,7 +8980,6 @@ export type CreateMessageMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -8874,7 +9010,6 @@ export type CreateMessageMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -8924,7 +9059,6 @@ export type UpdateMessageMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -8962,6 +9096,10 @@ export type UpdateMessageMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -8999,7 +9137,6 @@ export type UpdateMessageMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -9037,6 +9174,10 @@ export type UpdateMessageMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -9098,7 +9239,6 @@ export type UpdateMessageMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -9129,7 +9269,6 @@ export type UpdateMessageMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -9179,7 +9318,6 @@ export type DeleteMessageMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -9217,6 +9355,10 @@ export type DeleteMessageMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -9254,7 +9396,6 @@ export type DeleteMessageMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -9292,6 +9433,10 @@ export type DeleteMessageMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -9353,7 +9498,6 @@ export type DeleteMessageMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -9384,7 +9528,6 @@ export type DeleteMessageMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -9442,7 +9585,6 @@ export type CreateReplyMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -9473,7 +9615,6 @@ export type CreateReplyMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -9525,7 +9666,6 @@ export type CreateReplyMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -9563,6 +9703,10 @@ export type CreateReplyMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -9624,7 +9768,6 @@ export type UpdateReplyMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -9655,7 +9798,6 @@ export type UpdateReplyMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -9707,7 +9849,6 @@ export type UpdateReplyMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -9745,6 +9886,10 @@ export type UpdateReplyMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -9806,7 +9951,6 @@ export type DeleteReplyMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -9837,7 +9981,6 @@ export type DeleteReplyMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -9889,7 +10032,6 @@ export type DeleteReplyMutation = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -9927,6 +10069,10 @@ export type DeleteReplyMutation = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -9985,7 +10131,6 @@ export type CreateStoryTagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -10018,7 +10163,6 @@ export type CreateStoryTagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -10049,7 +10193,6 @@ export type CreateStoryTagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -10163,7 +10306,6 @@ export type UpdateStoryTagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -10196,7 +10338,6 @@ export type UpdateStoryTagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -10227,7 +10368,6 @@ export type UpdateStoryTagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -10341,7 +10481,6 @@ export type DeleteStoryTagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -10374,7 +10513,6 @@ export type DeleteStoryTagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -10405,7 +10543,6 @@ export type DeleteStoryTagMutation = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -10506,7 +10643,6 @@ export type GetUserQuery = {
     email?: string | null,
     imageUri?: string | null,
     bio?: string | null,
-    following?: Array< string | null > | null,
     authored?:  {
       __typename: "ModelStoryConnection",
       items:  Array< {
@@ -10675,6 +10811,19 @@ export type GetUserQuery = {
     isNarrator?: boolean | null,
     isArtist?: boolean | null,
     topthree?: Array< string | null > | null,
+    following?:  {
+      __typename: "ModelFollowingConnConnection",
+      items:  Array< {
+        __typename: "FollowingConn",
+        id: string,
+        type?: string | null,
+        followerID?: string | null,
+        authorID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     followers?:  {
       __typename: "ModelFollowingConnConnection",
       items:  Array< {
@@ -10759,7 +10908,6 @@ export type ListUsersQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -10797,6 +10945,10 @@ export type ListUsersQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -10847,7 +10999,6 @@ export type GetFollowingConnQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -10885,6 +11036,10 @@ export type GetFollowingConnQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -10920,7 +11075,6 @@ export type GetFollowingConnQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -10958,6 +11112,10 @@ export type GetFollowingConnQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -11013,7 +11171,6 @@ export type ListFollowingConnsQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -11042,7 +11199,6 @@ export type ListFollowingConnsQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -11088,7 +11244,6 @@ export type GetPinnedStoryQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -11126,6 +11281,10 @@ export type GetPinnedStoryQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -11169,7 +11328,6 @@ export type GetPinnedStoryQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -11202,7 +11360,6 @@ export type GetPinnedStoryQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -11233,7 +11390,6 @@ export type GetPinnedStoryQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -11318,7 +11474,6 @@ export type ListPinnedStoriesQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -11392,7 +11547,6 @@ export type GetFinishedStoryQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -11430,6 +11584,10 @@ export type GetFinishedStoryQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -11473,7 +11631,6 @@ export type GetFinishedStoryQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -11506,7 +11663,6 @@ export type GetFinishedStoryQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -11537,7 +11693,6 @@ export type GetFinishedStoryQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -11622,7 +11777,6 @@ export type ListFinishedStoriesQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -11698,7 +11852,6 @@ export type GetStoryQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -11736,6 +11889,10 @@ export type GetStoryQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -11775,7 +11932,6 @@ export type GetStoryQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -11813,6 +11969,10 @@ export type GetStoryQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -11850,7 +12010,6 @@ export type GetStoryQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -11888,6 +12047,10 @@ export type GetStoryQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -12007,7 +12170,6 @@ export type ListStoriesQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -12040,7 +12202,6 @@ export type ListStoriesQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -12071,7 +12232,6 @@ export type ListStoriesQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -12195,7 +12355,6 @@ export type GetImageAssetQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -12233,6 +12392,10 @@ export type GetImageAssetQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -12269,7 +12432,6 @@ export type GetImageAssetQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -12307,6 +12469,10 @@ export type GetImageAssetQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -12364,7 +12530,6 @@ export type ListImageAssetsQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -12394,7 +12559,6 @@ export type ListImageAssetsQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -12442,7 +12606,6 @@ export type GetDocumentAssetQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -12480,6 +12643,10 @@ export type GetDocumentAssetQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -12517,7 +12684,6 @@ export type GetDocumentAssetQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -12555,6 +12721,10 @@ export type GetDocumentAssetQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -12610,7 +12780,6 @@ export type ListDocumentAssetsQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -12641,7 +12810,6 @@ export type ListDocumentAssetsQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -12690,7 +12858,6 @@ export type GetAudioAssetQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -12728,6 +12895,10 @@ export type GetAudioAssetQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -12765,7 +12936,6 @@ export type GetAudioAssetQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -12803,6 +12973,10 @@ export type GetAudioAssetQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -12860,7 +13034,6 @@ export type ListAudioAssetsQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -12891,7 +13064,6 @@ export type ListAudioAssetsQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -12943,7 +13115,6 @@ export type GetFlagQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -12976,7 +13147,6 @@ export type GetFlagQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -13007,7 +13177,6 @@ export type GetFlagQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -13074,7 +13243,6 @@ export type GetFlagQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -13112,6 +13280,10 @@ export type GetFlagQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -13194,7 +13366,6 @@ export type ListFlagsQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -13248,7 +13419,6 @@ export type GetCommentQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -13281,7 +13451,6 @@ export type GetCommentQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -13312,7 +13481,6 @@ export type GetCommentQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -13379,7 +13547,6 @@ export type GetCommentQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -13417,6 +13584,10 @@ export type GetCommentQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -13500,7 +13671,6 @@ export type ListCommentsQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -13632,7 +13802,6 @@ export type GetRatingQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -13665,7 +13834,6 @@ export type GetRatingQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -13696,7 +13864,6 @@ export type GetRatingQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -13763,7 +13930,6 @@ export type GetRatingQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -13801,6 +13967,10 @@ export type GetRatingQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -13896,7 +14066,6 @@ export type ListRatingsQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -13957,7 +14126,6 @@ export type GetMessageQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -13995,6 +14163,10 @@ export type GetMessageQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -14032,7 +14204,6 @@ export type GetMessageQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -14070,6 +14241,10 @@ export type GetMessageQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -14131,7 +14306,6 @@ export type GetMessageQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -14162,7 +14336,6 @@ export type GetMessageQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -14215,7 +14388,6 @@ export type ListMessagesQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -14246,7 +14418,6 @@ export type ListMessagesQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -14322,7 +14493,6 @@ export type GetReplyQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -14353,7 +14523,6 @@ export type GetReplyQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -14405,7 +14574,6 @@ export type GetReplyQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -14443,6 +14611,10 @@ export type GetReplyQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -14517,7 +14689,6 @@ export type ListRepliesQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -14570,7 +14741,6 @@ export type GetStoryTagQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -14603,7 +14773,6 @@ export type GetStoryTagQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -14634,7 +14803,6 @@ export type GetStoryTagQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -14800,7 +14968,6 @@ export type UsersByNarratorActiveAtQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -14838,6 +15005,10 @@ export type UsersByNarratorActiveAtQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -14889,7 +15060,6 @@ export type UsersByArtistActiveAtQuery = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -14927,6 +15097,10 @@ export type UsersByArtistActiveAtQuery = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -14984,7 +15158,6 @@ export type FollowingByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15013,7 +15186,6 @@ export type FollowingByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15066,7 +15238,6 @@ export type PinnedStoryByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15147,7 +15318,6 @@ export type FinishedStoriesByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15230,7 +15400,6 @@ export type StoriesByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15263,7 +15432,6 @@ export type StoriesByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15294,7 +15462,6 @@ export type StoriesByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15383,7 +15550,6 @@ export type StoriesByUpdatedQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15416,7 +15582,6 @@ export type StoriesByUpdatedQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15447,7 +15612,6 @@ export type StoriesByUpdatedQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15536,7 +15700,6 @@ export type ImageAssetsByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15566,7 +15729,6 @@ export type ImageAssetsByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15621,7 +15783,6 @@ export type DocumentsByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15652,7 +15813,6 @@ export type DocumentsByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15708,7 +15868,6 @@ export type AudioAssetsByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15739,7 +15898,6 @@ export type AudioAssetsByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15820,7 +15978,6 @@ export type CommentsByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -15984,7 +16141,6 @@ export type RatingsByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -16052,7 +16208,6 @@ export type MessagesByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -16083,7 +16238,6 @@ export type MessagesByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -16158,7 +16312,6 @@ export type MessagesByUpdatedDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -16189,7 +16342,6 @@ export type MessagesByUpdatedDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -16282,7 +16434,6 @@ export type RepliesByDateQuery = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -16319,7 +16470,6 @@ export type OnCreateUserSubscription = {
     email?: string | null,
     imageUri?: string | null,
     bio?: string | null,
-    following?: Array< string | null > | null,
     authored?:  {
       __typename: "ModelStoryConnection",
       items:  Array< {
@@ -16488,6 +16638,19 @@ export type OnCreateUserSubscription = {
     isNarrator?: boolean | null,
     isArtist?: boolean | null,
     topthree?: Array< string | null > | null,
+    following?:  {
+      __typename: "ModelFollowingConnConnection",
+      items:  Array< {
+        __typename: "FollowingConn",
+        id: string,
+        type?: string | null,
+        followerID?: string | null,
+        authorID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     followers?:  {
       __typename: "ModelFollowingConnConnection",
       items:  Array< {
@@ -16564,7 +16727,6 @@ export type OnUpdateUserSubscription = {
     email?: string | null,
     imageUri?: string | null,
     bio?: string | null,
-    following?: Array< string | null > | null,
     authored?:  {
       __typename: "ModelStoryConnection",
       items:  Array< {
@@ -16733,6 +16895,19 @@ export type OnUpdateUserSubscription = {
     isNarrator?: boolean | null,
     isArtist?: boolean | null,
     topthree?: Array< string | null > | null,
+    following?:  {
+      __typename: "ModelFollowingConnConnection",
+      items:  Array< {
+        __typename: "FollowingConn",
+        id: string,
+        type?: string | null,
+        followerID?: string | null,
+        authorID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     followers?:  {
       __typename: "ModelFollowingConnConnection",
       items:  Array< {
@@ -16809,7 +16984,6 @@ export type OnDeleteUserSubscription = {
     email?: string | null,
     imageUri?: string | null,
     bio?: string | null,
-    following?: Array< string | null > | null,
     authored?:  {
       __typename: "ModelStoryConnection",
       items:  Array< {
@@ -16978,6 +17152,19 @@ export type OnDeleteUserSubscription = {
     isNarrator?: boolean | null,
     isArtist?: boolean | null,
     topthree?: Array< string | null > | null,
+    following?:  {
+      __typename: "ModelFollowingConnConnection",
+      items:  Array< {
+        __typename: "FollowingConn",
+        id: string,
+        type?: string | null,
+        followerID?: string | null,
+        authorID?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     followers?:  {
       __typename: "ModelFollowingConnConnection",
       items:  Array< {
@@ -17060,7 +17247,6 @@ export type OnCreateFollowingConnSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -17098,6 +17284,10 @@ export type OnCreateFollowingConnSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -17133,7 +17323,6 @@ export type OnCreateFollowingConnSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -17171,6 +17360,10 @@ export type OnCreateFollowingConnSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -17218,7 +17411,6 @@ export type OnUpdateFollowingConnSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -17256,6 +17448,10 @@ export type OnUpdateFollowingConnSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -17291,7 +17487,6 @@ export type OnUpdateFollowingConnSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -17329,6 +17524,10 @@ export type OnUpdateFollowingConnSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -17376,7 +17575,6 @@ export type OnDeleteFollowingConnSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -17414,6 +17612,10 @@ export type OnDeleteFollowingConnSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -17449,7 +17651,6 @@ export type OnDeleteFollowingConnSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -17487,6 +17688,10 @@ export type OnDeleteFollowingConnSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -17533,7 +17738,6 @@ export type OnCreatePinnedStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -17571,6 +17775,10 @@ export type OnCreatePinnedStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -17614,7 +17822,6 @@ export type OnCreatePinnedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -17647,7 +17854,6 @@ export type OnCreatePinnedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -17678,7 +17884,6 @@ export type OnCreatePinnedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -17755,7 +17960,6 @@ export type OnUpdatePinnedStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -17793,6 +17997,10 @@ export type OnUpdatePinnedStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -17836,7 +18044,6 @@ export type OnUpdatePinnedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -17869,7 +18076,6 @@ export type OnUpdatePinnedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -17900,7 +18106,6 @@ export type OnUpdatePinnedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -17977,7 +18182,6 @@ export type OnDeletePinnedStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -18015,6 +18219,10 @@ export type OnDeletePinnedStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -18058,7 +18266,6 @@ export type OnDeletePinnedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -18091,7 +18298,6 @@ export type OnDeletePinnedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -18122,7 +18328,6 @@ export type OnDeletePinnedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -18199,7 +18404,6 @@ export type OnCreateFinishedStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -18237,6 +18441,10 @@ export type OnCreateFinishedStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -18280,7 +18488,6 @@ export type OnCreateFinishedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -18313,7 +18520,6 @@ export type OnCreateFinishedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -18344,7 +18550,6 @@ export type OnCreateFinishedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -18421,7 +18626,6 @@ export type OnUpdateFinishedStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -18459,6 +18663,10 @@ export type OnUpdateFinishedStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -18502,7 +18710,6 @@ export type OnUpdateFinishedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -18535,7 +18742,6 @@ export type OnUpdateFinishedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -18566,7 +18772,6 @@ export type OnUpdateFinishedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -18643,7 +18848,6 @@ export type OnDeleteFinishedStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -18681,6 +18885,10 @@ export type OnDeleteFinishedStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -18724,7 +18932,6 @@ export type OnDeleteFinishedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -18757,7 +18964,6 @@ export type OnDeleteFinishedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -18788,7 +18994,6 @@ export type OnDeleteFinishedStorySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -18867,7 +19072,6 @@ export type OnCreateStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -18905,6 +19109,10 @@ export type OnCreateStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -18944,7 +19152,6 @@ export type OnCreateStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -18982,6 +19189,10 @@ export type OnCreateStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -19019,7 +19230,6 @@ export type OnCreateStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19057,6 +19267,10 @@ export type OnCreateStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -19168,7 +19382,6 @@ export type OnUpdateStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19206,6 +19419,10 @@ export type OnUpdateStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -19245,7 +19462,6 @@ export type OnUpdateStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19283,6 +19499,10 @@ export type OnUpdateStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -19320,7 +19540,6 @@ export type OnUpdateStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19358,6 +19577,10 @@ export type OnUpdateStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -19469,7 +19692,6 @@ export type OnDeleteStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19507,6 +19729,10 @@ export type OnDeleteStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -19546,7 +19772,6 @@ export type OnDeleteStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19584,6 +19809,10 @@ export type OnDeleteStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -19621,7 +19850,6 @@ export type OnDeleteStorySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19659,6 +19887,10 @@ export type OnDeleteStorySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -19812,7 +20044,6 @@ export type OnCreateImageAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19850,6 +20081,10 @@ export type OnCreateImageAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -19886,7 +20121,6 @@ export type OnCreateImageAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -19924,6 +20158,10 @@ export type OnCreateImageAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -19973,7 +20211,6 @@ export type OnUpdateImageAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20011,6 +20248,10 @@ export type OnUpdateImageAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -20047,7 +20288,6 @@ export type OnUpdateImageAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20085,6 +20325,10 @@ export type OnUpdateImageAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -20134,7 +20378,6 @@ export type OnDeleteImageAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20172,6 +20415,10 @@ export type OnDeleteImageAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -20208,7 +20455,6 @@ export type OnDeleteImageAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20246,6 +20492,10 @@ export type OnDeleteImageAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -20294,7 +20544,6 @@ export type OnCreateDocumentAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20332,6 +20581,10 @@ export type OnCreateDocumentAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -20369,7 +20622,6 @@ export type OnCreateDocumentAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20407,6 +20659,10 @@ export type OnCreateDocumentAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -20454,7 +20710,6 @@ export type OnUpdateDocumentAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20492,6 +20747,10 @@ export type OnUpdateDocumentAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -20529,7 +20788,6 @@ export type OnUpdateDocumentAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20567,6 +20825,10 @@ export type OnUpdateDocumentAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -20614,7 +20876,6 @@ export type OnDeleteDocumentAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20652,6 +20913,10 @@ export type OnDeleteDocumentAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -20689,7 +20954,6 @@ export type OnDeleteDocumentAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20727,6 +20991,10 @@ export type OnDeleteDocumentAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -20776,7 +21044,6 @@ export type OnCreateAudioAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20814,6 +21081,10 @@ export type OnCreateAudioAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -20851,7 +21122,6 @@ export type OnCreateAudioAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20889,6 +21159,10 @@ export type OnCreateAudioAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -20938,7 +21212,6 @@ export type OnUpdateAudioAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -20976,6 +21249,10 @@ export type OnUpdateAudioAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -21013,7 +21290,6 @@ export type OnUpdateAudioAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -21051,6 +21327,10 @@ export type OnUpdateAudioAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -21100,7 +21380,6 @@ export type OnDeleteAudioAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -21138,6 +21417,10 @@ export type OnDeleteAudioAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -21175,7 +21458,6 @@ export type OnDeleteAudioAssetSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -21213,6 +21495,10 @@ export type OnDeleteAudioAssetSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -21265,7 +21551,6 @@ export type OnCreateFlagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -21298,7 +21583,6 @@ export type OnCreateFlagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -21329,7 +21613,6 @@ export type OnCreateFlagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -21396,7 +21679,6 @@ export type OnCreateFlagSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -21434,6 +21716,10 @@ export type OnCreateFlagSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -21487,7 +21773,6 @@ export type OnUpdateFlagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -21520,7 +21805,6 @@ export type OnUpdateFlagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -21551,7 +21835,6 @@ export type OnUpdateFlagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -21618,7 +21901,6 @@ export type OnUpdateFlagSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -21656,6 +21938,10 @@ export type OnUpdateFlagSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -21709,7 +21995,6 @@ export type OnDeleteFlagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -21742,7 +22027,6 @@ export type OnDeleteFlagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -21773,7 +22057,6 @@ export type OnDeleteFlagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -21840,7 +22123,6 @@ export type OnDeleteFlagSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -21878,6 +22160,10 @@ export type OnDeleteFlagSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -21932,7 +22218,6 @@ export type OnCreateCommentSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -21965,7 +22250,6 @@ export type OnCreateCommentSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -21996,7 +22280,6 @@ export type OnCreateCommentSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -22063,7 +22346,6 @@ export type OnCreateCommentSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -22101,6 +22383,10 @@ export type OnCreateCommentSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -22155,7 +22441,6 @@ export type OnUpdateCommentSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -22188,7 +22473,6 @@ export type OnUpdateCommentSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -22219,7 +22503,6 @@ export type OnUpdateCommentSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -22286,7 +22569,6 @@ export type OnUpdateCommentSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -22324,6 +22606,10 @@ export type OnUpdateCommentSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -22378,7 +22664,6 @@ export type OnDeleteCommentSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -22411,7 +22696,6 @@ export type OnDeleteCommentSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -22442,7 +22726,6 @@ export type OnDeleteCommentSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -22509,7 +22792,6 @@ export type OnDeleteCommentSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -22547,6 +22829,10 @@ export type OnDeleteCommentSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -22709,7 +22995,6 @@ export type OnCreateRatingSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -22742,7 +23027,6 @@ export type OnCreateRatingSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -22773,7 +23057,6 @@ export type OnCreateRatingSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -22840,7 +23123,6 @@ export type OnCreateRatingSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -22878,6 +23160,10 @@ export type OnCreateRatingSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -22944,7 +23230,6 @@ export type OnUpdateRatingSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -22977,7 +23262,6 @@ export type OnUpdateRatingSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -23008,7 +23292,6 @@ export type OnUpdateRatingSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -23075,7 +23358,6 @@ export type OnUpdateRatingSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -23113,6 +23395,10 @@ export type OnUpdateRatingSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -23179,7 +23465,6 @@ export type OnDeleteRatingSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -23212,7 +23497,6 @@ export type OnDeleteRatingSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -23243,7 +23527,6 @@ export type OnDeleteRatingSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -23310,7 +23593,6 @@ export type OnDeleteRatingSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -23348,6 +23630,10 @@ export type OnDeleteRatingSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -23409,7 +23695,6 @@ export type OnCreateMessageSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -23447,6 +23732,10 @@ export type OnCreateMessageSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -23484,7 +23773,6 @@ export type OnCreateMessageSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -23522,6 +23810,10 @@ export type OnCreateMessageSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -23583,7 +23875,6 @@ export type OnCreateMessageSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -23614,7 +23905,6 @@ export type OnCreateMessageSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -23659,7 +23949,6 @@ export type OnUpdateMessageSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -23697,6 +23986,10 @@ export type OnUpdateMessageSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -23734,7 +24027,6 @@ export type OnUpdateMessageSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -23772,6 +24064,10 @@ export type OnUpdateMessageSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -23833,7 +24129,6 @@ export type OnUpdateMessageSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -23864,7 +24159,6 @@ export type OnUpdateMessageSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -23909,7 +24203,6 @@ export type OnDeleteMessageSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -23947,6 +24240,10 @@ export type OnDeleteMessageSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -23984,7 +24281,6 @@ export type OnDeleteMessageSubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -24022,6 +24318,10 @@ export type OnDeleteMessageSubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -24083,7 +24383,6 @@ export type OnDeleteMessageSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -24114,7 +24413,6 @@ export type OnDeleteMessageSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -24167,7 +24465,6 @@ export type OnCreateReplySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -24198,7 +24495,6 @@ export type OnCreateReplySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -24250,7 +24546,6 @@ export type OnCreateReplySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -24288,6 +24583,10 @@ export type OnCreateReplySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -24344,7 +24643,6 @@ export type OnUpdateReplySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -24375,7 +24673,6 @@ export type OnUpdateReplySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -24427,7 +24724,6 @@ export type OnUpdateReplySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -24465,6 +24761,10 @@ export type OnUpdateReplySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -24521,7 +24821,6 @@ export type OnDeleteReplySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -24552,7 +24851,6 @@ export type OnDeleteReplySubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -24604,7 +24902,6 @@ export type OnDeleteReplySubscription = {
       email?: string | null,
       imageUri?: string | null,
       bio?: string | null,
-      following?: Array< string | null > | null,
       authored?:  {
         __typename: "ModelStoryConnection",
         nextToken?: string | null,
@@ -24642,6 +24939,10 @@ export type OnDeleteReplySubscription = {
       isNarrator?: boolean | null,
       isArtist?: boolean | null,
       topthree?: Array< string | null > | null,
+      following?:  {
+        __typename: "ModelFollowingConnConnection",
+        nextToken?: string | null,
+      } | null,
       followers?:  {
         __typename: "ModelFollowingConnConnection",
         nextToken?: string | null,
@@ -24695,7 +24996,6 @@ export type OnCreateStoryTagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -24728,7 +25028,6 @@ export type OnCreateStoryTagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -24759,7 +25058,6 @@ export type OnCreateStoryTagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -24868,7 +25166,6 @@ export type OnUpdateStoryTagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -24901,7 +25198,6 @@ export type OnUpdateStoryTagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -24932,7 +25228,6 @@ export type OnUpdateStoryTagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -25041,7 +25336,6 @@ export type OnDeleteStoryTagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -25074,7 +25368,6 @@ export type OnDeleteStoryTagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,
@@ -25105,7 +25398,6 @@ export type OnDeleteStoryTagSubscription = {
         email?: string | null,
         imageUri?: string | null,
         bio?: string | null,
-        following?: Array< string | null > | null,
         numAuthored?: number | null,
         pseudonym?: string | null,
         narratorPseudo?: string | null,

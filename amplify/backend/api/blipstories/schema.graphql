@@ -11,7 +11,6 @@ type User @model @auth(rules: [{ allow: private, operations: [create, delete, up
   email: String
   imageUri: String
   bio: String
-  following: [ID]
   authored: [Story] @hasMany(indexName: "byUser", fields: "id")
   narrated: [Story] @hasMany(indexName: "byNarratorUser", fields: "id")
   sharedAssets: [AudioAsset] @hasMany(indexName: "byUser", fields: "id")
@@ -28,7 +27,8 @@ type User @model @auth(rules: [{ allow: private, operations: [create, delete, up
   isNarrator: Boolean
   isArtist: Boolean
   topthree: [String]
-  followers: [FollowingConn] @hasMany(indexName: "byFollower", fields: "id")
+  following: [FollowingConn] @hasMany(indexName: "byFollower", fields: "id")
+  followers: [FollowingConn] @hasMany(indexName: "byAuthor", fields: "id")
   Pinned: [PinnedStory] @hasMany(indexName: "byUser", fields: "id")
   Rated: [Rating] @hasMany (indexName: "byUser", fields: "id")
   Finished: [FinishedStory] @hasMany (indexName: "byUser", fields: "id")

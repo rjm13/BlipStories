@@ -14,7 +14,6 @@ export const createUser = /* GraphQL */ `
       email
       imageUri
       bio
-      following
       authored {
         items {
           id
@@ -169,6 +168,17 @@ export const createUser = /* GraphQL */ `
       isNarrator
       isArtist
       topthree
+      following {
+        items {
+          id
+          type
+          followerID
+          authorID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       followers {
         items {
           id
@@ -240,7 +250,6 @@ export const updateUser = /* GraphQL */ `
       email
       imageUri
       bio
-      following
       authored {
         items {
           id
@@ -395,6 +404,17 @@ export const updateUser = /* GraphQL */ `
       isNarrator
       isArtist
       topthree
+      following {
+        items {
+          id
+          type
+          followerID
+          authorID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       followers {
         items {
           id
@@ -466,7 +486,6 @@ export const deleteUser = /* GraphQL */ `
       email
       imageUri
       bio
-      following
       authored {
         items {
           id
@@ -621,6 +640,17 @@ export const deleteUser = /* GraphQL */ `
       isNarrator
       isArtist
       topthree
+      following {
+        items {
+          id
+          type
+          followerID
+          authorID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       followers {
         items {
           id
@@ -697,7 +727,6 @@ export const createFollowingConn = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -728,6 +757,9 @@ export const createFollowingConn = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -758,7 +790,6 @@ export const createFollowingConn = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -789,6 +820,9 @@ export const createFollowingConn = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -834,7 +868,6 @@ export const updateFollowingConn = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -865,6 +898,9 @@ export const updateFollowingConn = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -895,7 +931,6 @@ export const updateFollowingConn = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -926,6 +961,9 @@ export const updateFollowingConn = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -971,7 +1009,6 @@ export const deleteFollowingConn = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1002,6 +1039,9 @@ export const deleteFollowingConn = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1032,7 +1072,6 @@ export const deleteFollowingConn = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1063,6 +1102,9 @@ export const deleteFollowingConn = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1107,7 +1149,6 @@ export const createPinnedStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1138,6 +1179,9 @@ export const createPinnedStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1175,7 +1219,6 @@ export const createPinnedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1207,7 +1250,6 @@ export const createPinnedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1237,7 +1279,6 @@ export const createPinnedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1312,7 +1353,6 @@ export const updatePinnedStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1343,6 +1383,9 @@ export const updatePinnedStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1380,7 +1423,6 @@ export const updatePinnedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1412,7 +1454,6 @@ export const updatePinnedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1442,7 +1483,6 @@ export const updatePinnedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1517,7 +1557,6 @@ export const deletePinnedStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1548,6 +1587,9 @@ export const deletePinnedStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1585,7 +1627,6 @@ export const deletePinnedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1617,7 +1658,6 @@ export const deletePinnedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1647,7 +1687,6 @@ export const deletePinnedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1722,7 +1761,6 @@ export const createFinishedStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1753,6 +1791,9 @@ export const createFinishedStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1790,7 +1831,6 @@ export const createFinishedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1822,7 +1862,6 @@ export const createFinishedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1852,7 +1891,6 @@ export const createFinishedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1927,7 +1965,6 @@ export const updateFinishedStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1958,6 +1995,9 @@ export const updateFinishedStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1995,7 +2035,6 @@ export const updateFinishedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2027,7 +2066,6 @@ export const updateFinishedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2057,7 +2095,6 @@ export const updateFinishedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2132,7 +2169,6 @@ export const deleteFinishedStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -2163,6 +2199,9 @@ export const deleteFinishedStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -2200,7 +2239,6 @@ export const deleteFinishedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2232,7 +2270,6 @@ export const deleteFinishedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2262,7 +2299,6 @@ export const deleteFinishedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2339,7 +2375,6 @@ export const createStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -2370,6 +2405,9 @@ export const createStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -2404,7 +2442,6 @@ export const createStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -2435,6 +2472,9 @@ export const createStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -2467,7 +2507,6 @@ export const createStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -2498,6 +2537,9 @@ export const createStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -2600,7 +2642,6 @@ export const updateStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -2631,6 +2672,9 @@ export const updateStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -2665,7 +2709,6 @@ export const updateStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -2696,6 +2739,9 @@ export const updateStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -2728,7 +2774,6 @@ export const updateStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -2759,6 +2804,9 @@ export const updateStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -2861,7 +2909,6 @@ export const deleteStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -2892,6 +2939,9 @@ export const deleteStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -2926,7 +2976,6 @@ export const deleteStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -2957,6 +3006,9 @@ export const deleteStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -2989,7 +3041,6 @@ export const deleteStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3020,6 +3071,9 @@ export const deleteStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3173,7 +3227,6 @@ export const createImageAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3204,6 +3257,9 @@ export const createImageAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3235,7 +3291,6 @@ export const createImageAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3266,6 +3321,9 @@ export const createImageAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3313,7 +3371,6 @@ export const updateImageAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3344,6 +3401,9 @@ export const updateImageAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3375,7 +3435,6 @@ export const updateImageAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3406,6 +3465,9 @@ export const updateImageAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3453,7 +3515,6 @@ export const deleteImageAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3484,6 +3545,9 @@ export const deleteImageAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3515,7 +3579,6 @@ export const deleteImageAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3546,6 +3609,9 @@ export const deleteImageAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3592,7 +3658,6 @@ export const createDocumentAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3623,6 +3688,9 @@ export const createDocumentAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3655,7 +3723,6 @@ export const createDocumentAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3686,6 +3753,9 @@ export const createDocumentAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3731,7 +3801,6 @@ export const updateDocumentAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3762,6 +3831,9 @@ export const updateDocumentAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3794,7 +3866,6 @@ export const updateDocumentAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3825,6 +3896,9 @@ export const updateDocumentAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3870,7 +3944,6 @@ export const deleteDocumentAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3901,6 +3974,9 @@ export const deleteDocumentAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3933,7 +4009,6 @@ export const deleteDocumentAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3964,6 +4039,9 @@ export const deleteDocumentAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -4011,7 +4089,6 @@ export const createAudioAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -4042,6 +4119,9 @@ export const createAudioAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -4074,7 +4154,6 @@ export const createAudioAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -4105,6 +4184,9 @@ export const createAudioAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -4152,7 +4234,6 @@ export const updateAudioAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -4183,6 +4264,9 @@ export const updateAudioAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -4215,7 +4299,6 @@ export const updateAudioAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -4246,6 +4329,9 @@ export const updateAudioAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -4293,7 +4379,6 @@ export const deleteAudioAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -4324,6 +4409,9 @@ export const deleteAudioAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -4356,7 +4444,6 @@ export const deleteAudioAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -4387,6 +4474,9 @@ export const deleteAudioAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -4436,7 +4526,6 @@ export const createFlag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4468,7 +4557,6 @@ export const createFlag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4498,7 +4586,6 @@ export const createFlag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4560,7 +4647,6 @@ export const createFlag = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -4591,6 +4677,9 @@ export const createFlag = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -4641,7 +4730,6 @@ export const updateFlag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4673,7 +4761,6 @@ export const updateFlag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4703,7 +4790,6 @@ export const updateFlag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4765,7 +4851,6 @@ export const updateFlag = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -4796,6 +4881,9 @@ export const updateFlag = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -4846,7 +4934,6 @@ export const deleteFlag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4878,7 +4965,6 @@ export const deleteFlag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4908,7 +4994,6 @@ export const deleteFlag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4970,7 +5055,6 @@ export const deleteFlag = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -5001,6 +5085,9 @@ export const deleteFlag = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -5052,7 +5139,6 @@ export const createComment = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5084,7 +5170,6 @@ export const createComment = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5114,7 +5199,6 @@ export const createComment = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5176,7 +5260,6 @@ export const createComment = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -5207,6 +5290,9 @@ export const createComment = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -5258,7 +5344,6 @@ export const updateComment = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5290,7 +5375,6 @@ export const updateComment = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5320,7 +5404,6 @@ export const updateComment = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5382,7 +5465,6 @@ export const updateComment = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -5413,6 +5495,9 @@ export const updateComment = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -5464,7 +5549,6 @@ export const deleteComment = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5496,7 +5580,6 @@ export const deleteComment = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5526,7 +5609,6 @@ export const deleteComment = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5588,7 +5670,6 @@ export const deleteComment = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -5619,6 +5700,9 @@ export const deleteComment = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -5778,7 +5862,6 @@ export const createRating = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5810,7 +5893,6 @@ export const createRating = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5840,7 +5922,6 @@ export const createRating = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5902,7 +5983,6 @@ export const createRating = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -5933,6 +6013,9 @@ export const createRating = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -5995,7 +6078,6 @@ export const updateRating = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -6027,7 +6109,6 @@ export const updateRating = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -6057,7 +6138,6 @@ export const updateRating = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -6119,7 +6199,6 @@ export const updateRating = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -6150,6 +6229,9 @@ export const updateRating = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -6212,7 +6294,6 @@ export const deleteRating = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -6244,7 +6325,6 @@ export const deleteRating = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -6274,7 +6354,6 @@ export const deleteRating = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -6336,7 +6415,6 @@ export const deleteRating = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -6367,6 +6445,9 @@ export const deleteRating = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -6425,7 +6506,6 @@ export const createMessage = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -6456,6 +6536,9 @@ export const createMessage = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -6488,7 +6571,6 @@ export const createMessage = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -6519,6 +6601,9 @@ export const createMessage = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -6572,7 +6657,6 @@ export const createMessage = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -6602,7 +6686,6 @@ export const createMessage = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -6649,7 +6732,6 @@ export const updateMessage = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -6680,6 +6762,9 @@ export const updateMessage = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -6712,7 +6797,6 @@ export const updateMessage = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -6743,6 +6827,9 @@ export const updateMessage = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -6796,7 +6883,6 @@ export const updateMessage = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -6826,7 +6912,6 @@ export const updateMessage = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -6873,7 +6958,6 @@ export const deleteMessage = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -6904,6 +6988,9 @@ export const deleteMessage = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -6936,7 +7023,6 @@ export const deleteMessage = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -6967,6 +7053,9 @@ export const deleteMessage = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -7020,7 +7109,6 @@ export const deleteMessage = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7050,7 +7138,6 @@ export const deleteMessage = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7104,7 +7191,6 @@ export const createReply = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7134,7 +7220,6 @@ export const createReply = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7183,7 +7268,6 @@ export const createReply = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -7214,6 +7298,9 @@ export const createReply = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -7267,7 +7354,6 @@ export const updateReply = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7297,7 +7383,6 @@ export const updateReply = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7346,7 +7431,6 @@ export const updateReply = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -7377,6 +7461,9 @@ export const updateReply = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -7430,7 +7517,6 @@ export const deleteReply = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7460,7 +7546,6 @@ export const deleteReply = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7509,7 +7594,6 @@ export const deleteReply = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -7540,6 +7624,9 @@ export const deleteReply = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -7590,7 +7677,6 @@ export const createStoryTag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7622,7 +7708,6 @@ export const createStoryTag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7652,7 +7737,6 @@ export const createStoryTag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7755,7 +7839,6 @@ export const updateStoryTag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7787,7 +7870,6 @@ export const updateStoryTag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7817,7 +7899,6 @@ export const updateStoryTag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7920,7 +8001,6 @@ export const deleteStoryTag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7952,7 +8032,6 @@ export const deleteStoryTag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -7982,7 +8061,6 @@ export const deleteStoryTag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo

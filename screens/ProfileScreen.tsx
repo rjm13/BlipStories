@@ -48,7 +48,7 @@ const ProfileScreen = ({navigation} : any) => {
             const getFollowers = await API.graphql(graphqlOperation(
                 listFollowingConns, {
                     filter: {
-                        followerID: {
+                        authorID: {
                             eq: userInfo.attributes.sub
                         }
                     }
@@ -143,7 +143,7 @@ const ProfileScreen = ({navigation} : any) => {
                         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                                 <View style={{ alignItems: 'center', margin: 20}}>
                                     <Text style={{ color: 'cyan', opacity: .5}}>
-                                        {numFollowers}
+                                        {user?.following.items.length}
                                     </Text>
                                     <Text style={{ color: '#ffffffa5', fontWeight: 'bold'}}>
                                         Following

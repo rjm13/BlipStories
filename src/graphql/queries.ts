@@ -11,7 +11,6 @@ export const getUser = /* GraphQL */ `
       email
       imageUri
       bio
-      following
       authored {
         items {
           id
@@ -166,6 +165,17 @@ export const getUser = /* GraphQL */ `
       isNarrator
       isArtist
       topthree
+      following {
+        items {
+          id
+          type
+          followerID
+          authorID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       followers {
         items {
           id
@@ -239,7 +249,6 @@ export const listUsers = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -270,6 +279,9 @@ export const listUsers = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -311,7 +323,6 @@ export const getFollowingConn = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -342,6 +353,9 @@ export const getFollowingConn = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -372,7 +386,6 @@ export const getFollowingConn = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -403,6 +416,9 @@ export const getFollowingConn = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -450,7 +466,6 @@ export const listFollowingConns = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -478,7 +493,6 @@ export const listFollowingConns = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -519,7 +533,6 @@ export const getPinnedStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -550,6 +563,9 @@ export const getPinnedStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -587,7 +603,6 @@ export const getPinnedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -619,7 +634,6 @@ export const getPinnedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -649,7 +663,6 @@ export const getPinnedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -726,7 +739,6 @@ export const listPinnedStories = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -794,7 +806,6 @@ export const getFinishedStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -825,6 +836,9 @@ export const getFinishedStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -862,7 +876,6 @@ export const getFinishedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -894,7 +907,6 @@ export const getFinishedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -924,7 +936,6 @@ export const getFinishedStory = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1001,7 +1012,6 @@ export const listFinishedStories = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1071,7 +1081,6 @@ export const getStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1102,6 +1111,9 @@ export const getStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1136,7 +1148,6 @@ export const getStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1167,6 +1178,9 @@ export const getStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1199,7 +1213,6 @@ export const getStory = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1230,6 +1243,9 @@ export const getStory = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1334,7 +1350,6 @@ export const listStories = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1366,7 +1381,6 @@ export const listStories = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1396,7 +1410,6 @@ export const listStories = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1504,7 +1517,6 @@ export const getImageAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1535,6 +1547,9 @@ export const getImageAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1566,7 +1581,6 @@ export const getImageAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1597,6 +1611,9 @@ export const getImageAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1646,7 +1663,6 @@ export const listImageAssets = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1675,7 +1691,6 @@ export const listImageAssets = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1718,7 +1733,6 @@ export const getDocumentAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1749,6 +1763,9 @@ export const getDocumentAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1781,7 +1798,6 @@ export const getDocumentAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1812,6 +1828,9 @@ export const getDocumentAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1859,7 +1878,6 @@ export const listDocumentAssets = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1889,7 +1907,6 @@ export const listDocumentAssets = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -1933,7 +1950,6 @@ export const getAudioAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -1964,6 +1980,9 @@ export const getAudioAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -1996,7 +2015,6 @@ export const getAudioAsset = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -2027,6 +2045,9 @@ export const getAudioAsset = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -2076,7 +2097,6 @@ export const listAudioAssets = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2106,7 +2126,6 @@ export const listAudioAssets = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2152,7 +2171,6 @@ export const getFlag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2184,7 +2202,6 @@ export const getFlag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2214,7 +2231,6 @@ export const getFlag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2276,7 +2292,6 @@ export const getFlag = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -2307,6 +2322,9 @@ export const getFlag = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -2380,7 +2398,6 @@ export const listFlags = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2428,7 +2445,6 @@ export const getComment = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2460,7 +2476,6 @@ export const getComment = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2490,7 +2505,6 @@ export const getComment = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2552,7 +2566,6 @@ export const getComment = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -2583,6 +2596,9 @@ export const getComment = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -2657,7 +2673,6 @@ export const listComments = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2771,7 +2786,6 @@ export const getRating = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2803,7 +2817,6 @@ export const getRating = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2833,7 +2846,6 @@ export const getRating = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -2895,7 +2907,6 @@ export const getRating = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -2926,6 +2937,9 @@ export const getRating = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3011,7 +3025,6 @@ export const listRatings = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -3066,7 +3079,6 @@ export const getMessage = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3097,6 +3109,9 @@ export const getMessage = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3129,7 +3144,6 @@ export const getMessage = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3160,6 +3174,9 @@ export const getMessage = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3213,7 +3230,6 @@ export const getMessage = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -3243,7 +3259,6 @@ export const getMessage = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -3292,7 +3307,6 @@ export const listMessages = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -3322,7 +3336,6 @@ export const listMessages = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -3390,7 +3403,6 @@ export const getReply = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -3420,7 +3432,6 @@ export const getReply = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -3469,7 +3480,6 @@ export const getReply = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3500,6 +3510,9 @@ export const getReply = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3565,7 +3578,6 @@ export const listReplies = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -3612,7 +3624,6 @@ export const getStoryTag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -3644,7 +3655,6 @@ export const getStoryTag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -3674,7 +3684,6 @@ export const getStoryTag = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -3832,7 +3841,6 @@ export const usersByNarratorActiveAt = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3863,6 +3871,9 @@ export const usersByNarratorActiveAt = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -3914,7 +3925,6 @@ export const usersByArtistActiveAt = /* GraphQL */ `
         email
         imageUri
         bio
-        following
         authored {
           nextToken
         }
@@ -3945,6 +3955,9 @@ export const usersByArtistActiveAt = /* GraphQL */ `
         isNarrator
         isArtist
         topthree
+        following {
+          nextToken
+        }
         followers {
           nextToken
         }
@@ -4001,7 +4014,6 @@ export const followingByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4029,7 +4041,6 @@ export const followingByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4085,7 +4096,6 @@ export const pinnedStoryByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4168,7 +4178,6 @@ export const finishedStoriesByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4253,7 +4262,6 @@ export const storiesByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4285,7 +4293,6 @@ export const storiesByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4315,7 +4322,6 @@ export const storiesByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4403,7 +4409,6 @@ export const storiesByUpdated = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4435,7 +4440,6 @@ export const storiesByUpdated = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4465,7 +4469,6 @@ export const storiesByUpdated = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4553,7 +4556,6 @@ export const imageAssetsByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4582,7 +4584,6 @@ export const imageAssetsByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4640,7 +4641,6 @@ export const documentsByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4670,7 +4670,6 @@ export const documentsByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4729,7 +4728,6 @@ export const audioAssetsByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4759,7 +4757,6 @@ export const audioAssetsByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -4842,7 +4839,6 @@ export const commentsByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5012,7 +5008,6 @@ export const ratingsByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5082,7 +5077,6 @@ export const messagesByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5112,7 +5106,6 @@ export const messagesByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5188,7 +5181,6 @@ export const messagesByUpdatedDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5218,7 +5210,6 @@ export const messagesByUpdatedDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo
@@ -5311,7 +5302,6 @@ export const repliesByDate = /* GraphQL */ `
           email
           imageUri
           bio
-          following
           numAuthored
           pseudonym
           narratorPseudo

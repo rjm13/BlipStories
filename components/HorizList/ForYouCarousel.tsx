@@ -157,21 +157,21 @@ const ForYouCarousel = () => {
                                                 size={12}
                                                 color='#ffffffa5'
                                             />
-                                            <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: userID})}>
+                                            {/* <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: userID})}> */}
                                                 <Text style={styles.userId}>
                                                     {author}
                                                 </Text>  
-                                            </TouchableOpacity>
+                                            {/* </TouchableOpacity> */}
                                             <FontAwesome5 
                                                 name='book-reader'
                                                 size={12}
                                                 color='#ffffffa5'
                                             />
-                                            <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: narratorID})}>
+                                            {/* <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: narratorID})}> */}
                                                 <Text style={styles.userId}>
                                                     {narrator}
                                                 </Text> 
-                                            </TouchableOpacity>
+                                            {/* </TouchableOpacity> */}
                                         </View>
                                     </View>
                                 </View>

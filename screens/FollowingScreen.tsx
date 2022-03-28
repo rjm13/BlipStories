@@ -15,7 +15,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {LinearGradient} from 'expo-linear-gradient';
 
-import { API, graphqlOperation, Auth } from "aws-amplify";
+import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { getUser } from '../src/graphql/queries';
 import { listFollowingConns } from '../src/graphql/queries';
 import { createFollowingConn, deleteFollowingConn } from '../src/graphql/mutations';
@@ -86,69 +86,81 @@ const FollowingScreen = ({navigation} : any) => {
     //title item for the flatlist that displays the authors the user following
     const Item = ({ numAuthored, pseudonym, imageUri, id, bio } : any) => {
 
-        //on item render, determine if the user is following them or not
-        const [isFollowing, setIsFollowing] = useState(true)
+        const [imageU, setImageU] = useState('')
 
-        //show the options menu modal on the author tile
-        const [ShowModalThing, setShowModalThing] = useState(false);
+        useEffect(() => {
+            const fetchImage = async () => {
+                let response = await Storage.get(imageUri);
+                if (response) {
+                    setImageU(response)
+                }
+            }
+            fetchImage();
+        }, [])
+
+        //on item render, determine if the user is following them or not
+        // const [isFollowing, setIsFollowing] = useState(true)
+
+        // //show the options menu modal on the author tile
+        // const [ShowModalThing, setShowModalThing] = useState(false);
         
         //list the following connections that contain the current user and the selected author to determine if there is a following connection
-        const fetchInfo = async () => {
-            const getConnection = await API.graphql(graphqlOperation(
-                listFollowingConns, {
-                    filter: {
-                        authorID: {
-                            eq: id
-                        },
-                        followerID: {
-                            eq: user.id
-                        }
-                    }
-                }
-            ))
+        // const fetchInfo = async () => {
+        //     const getConnection = await API.graphql(graphqlOperation(
+        //         listFollowingConns, {
+        //             filter: {
+        //                 authorID: {
+        //                     eq: id
+        //                 },
+        //                 followerID: {
+        //                     eq: user.id
+        //                 }
+        //             }
+        //         }
+        //     ))
            
-            if (getConnection.data.listFollowingConns.items.length !== 1) {setIsFollowing(false)};
+        //     if (getConnection.data.listFollowingConns.items.length !== 1) {setIsFollowing(false)};
 
-            setShowModalThing(!ShowModalThing)
-        }
+        //     setShowModalThing(!ShowModalThing)
+        // }
         
         
 //follow a user function
-        const FollowUser = async () => {
+        // const FollowUser = async () => {
     
-            let createConnection = await API.graphql(graphqlOperation(
-                createFollowingConn, {input: {followerID: user.id, authorID: id}}
-            ))
-            console.log(createConnection)
-        }
+        //     let createConnection = await API.graphql(graphqlOperation(
+        //         createFollowingConn, {input: {followerID: user.id, authorID: id}}
+        //     ))
+        //     console.log(createConnection)
+        // }
     
-//unfollow a user
-        const unFollowUser = async () => {
+// //unfollow a user
+//         const unFollowUser = async () => {
     
-            let getConnection = await API.graphql(graphqlOperation(
-                listFollowingConns, {
-                    filter: {
-                        authorID: {
-                            eq: id
-                        },
-                        followerID: {
-                            eq: user.id
-                        }
-                    }
-                }
-            ))
-            console.log(getConnection)
+//             let getConnection = await API.graphql(graphqlOperation(
+//                 listFollowingConns, {
+//                     filter: {
+//                         authorID: {
+//                             eq: id
+//                         },
+//                         followerID: {
+//                             eq: user.id
+//                         }
+//                     }
+//                 }
+//             ))
+//             console.log(getConnection)
             
-            let connectionID = getConnection.data.listFollowingConns.items[0].id
-            console.log(connectionID)
+//             let connectionID = getConnection.data.listFollowingConns.items[0].id
+//             console.log(connectionID)
     
-            let deleteConnection = await API.graphql(graphqlOperation(
-                deleteFollowingConn, {input: {"id": connectionID}}
-            ))
-            console.log(deleteConnection)
+//             let deleteConnection = await API.graphql(graphqlOperation(
+//                 deleteFollowingConn, {input: {"id": connectionID}}
+//             ))
+//             console.log(deleteConnection)
 
-            setDidUpdate(!didUpdate)
-        }
+//             setDidUpdate(!didUpdate)
+//         }
     
         return (
             <View style={styles.tile}>
@@ -156,7 +168,7 @@ const FollowingScreen = ({navigation} : any) => {
                     <TouchableWithoutFeedback onPress={() => navigation.navigate('UserScreen', {userID: id})}>
                         <View style={{ flexDirection: 'row'}}>
                             <Image 
-                                source={ imageUri ? { uri: imageUri} : require('../assets/images/blankprofile.png')}
+                                source={ imageUri ? { uri: imageU} : require('../assets/images/blankprofile.png')}
                                 style={{
                                     width: 50,
                                     height: 50,
@@ -186,7 +198,7 @@ const FollowingScreen = ({navigation} : any) => {
                         </View>
                     </TouchableWithoutFeedback>    
     
-                    <TouchableWithoutFeedback onPress={fetchInfo}>
+                    {/* <TouchableWithoutFeedback onPress={fetchInfo}>
                         <View style={{ backgroundColor: 'transparent', padding: 30, margin: -30, alignItems: 'flex-end' }}>
                             <AntDesign
                                 name={'ellipsis1'}
@@ -194,7 +206,7 @@ const FollowingScreen = ({navigation} : any) => {
                                 color='white'
                             />
                         </View>
-                    </TouchableWithoutFeedback>
+                    </TouchableWithoutFeedback> */}
                 </View>    
     
                 <View style={{marginTop: 10, marginHorizontal: 5}}>
@@ -203,7 +215,7 @@ const FollowingScreen = ({navigation} : any) => {
                     </Text>
                 </View>
     
-                {ShowModalThing === true ? (
+                {/* {ShowModalThing === true ? (
                         
                         <View style={{ backgroundColor: '#484848', borderColor: 'black', borderRadius: 5, borderWidth: 0, position: 'absolute', right: 40, top: 30, alignSelf: 'flex-end'}}>
                             <TouchableOpacity onPress={isFollowing === true ? unFollowUser : FollowUser} >
@@ -218,7 +230,7 @@ const FollowingScreen = ({navigation} : any) => {
                             </TouchableOpacity>
                         </View>
                     
-                ) : null}
+                ) : null} */}
                
             </View>
         );
@@ -294,7 +306,9 @@ const FollowingScreen = ({navigation} : any) => {
                         extraData={users}
                         renderItem={renderItem}
                         keyExtractor={(item) => item.id}
+                        maxToRenderPerBatch={20}
                         initialNumToRender={20}
+                        showsVerticalScrollIndicator={false}
                         refreshControl={
                             <RefreshControl
                                 refreshing={isFetching}

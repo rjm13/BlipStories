@@ -14,7 +14,10 @@ import {
     Image,
     TextInput,
     ActivityIndicator,
-    Share
+    Share,
+    Keyboard,
+    Platform,
+    KeyboardAvoidingView
 } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
@@ -48,10 +51,16 @@ const StoryScreen  = ({navigation} : any) => {
     const scrollRef = useRef();
     const [viewPosition, setViewPosition] = useState(0);
 
+    //focus to the comment box
+    const focus = useRef(null)
+
+
 
     //anchor to comments section
     const scrollToView = () => {
-        scrollRef.current?.scrollTo({y: viewPosition + 220, animated: true});
+        scrollRef.current?.scrollTo({y: viewPosition + 1400, animated: true});
+        focus.current.focus()
+        
       }
 
 //recieve story ID as props
@@ -1061,11 +1070,16 @@ const StoryScreen  = ({navigation} : any) => {
                                             onPress={showFlagModal}
                                         />
                                     </View>
+                                    
                                     <View onLayout={e => setViewPosition(e.nativeEvent.layout.y)}>
                                         {/* <Comments storyId={Story?.id} /> */}
-                                        <View style={{backgroundColor: '#363636', padding: 20, marginVertical: 10, borderRadius: 15, }}>
-                                            <View style={{ flexDirection: 'row', }}>
-                                                <Image 
+                                        <KeyboardAvoidingView
+                                            behavior={Platform.OS === "ios" ? "padding" : "height"}
+                                            style={{flex: 1}}
+                                        >
+                                            <View style={{backgroundColor: '#363636', padding: 20, marginVertical: 10, borderRadius: 15, }}>
+                                                <View style={{ flexDirection: 'row', }}>
+                                                    <Image 
                                                         source={ user?.imageUri ? { uri: userImage} : require('../assets/images/blankprofile.png')}
                                                         style={{ width: 40, height: 40, borderRadius: 25, backgroundColor: 'gray'}}
                                                     />
@@ -1083,6 +1097,7 @@ const StoryScreen  = ({navigation} : any) => {
                                                     numberOfLines={2}
                                                     onChangeText={comment => setComment(comment)}
                                                     value={comment}
+                                                    ref={focus}
                                                 />
                                             </View>
                                                 {comment.length > 0 ? (
@@ -1099,6 +1114,7 @@ const StoryScreen  = ({navigation} : any) => {
                                                     </View>
                                                 ) : null}
                                         </View>
+                                        </KeyboardAvoidingView>
 
                                         <FlatList 
                                             data={commentList}
