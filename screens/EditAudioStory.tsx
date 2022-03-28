@@ -24,8 +24,8 @@ import { Modal, Portal, Provider } from 'react-native-paper';
 import uuid from 'react-native-uuid';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { createTag, updateStory, createStoryTag, updateTag } from '../src/graphql/mutations';
-import { listTags, getStory, listStoryTags } from '../src/graphql/queries';
+import { createTag, updateStory, createStoryTag, updateTag, deleteStoryTag } from '../src/graphql/mutations';
+import { listTags, getStory, listStoryTags, getStoryTag } from '../src/graphql/queries';
 
 
 const EditAudio = ({navigation} : any) => {  
@@ -74,6 +74,12 @@ const [localImageUri, setLocalImageUri] = useState('');
 
     const [tagText, setTagText] = useState('')
 
+    const [initialLength, setInitialLength] = useState(0)
+
+    const [currentStoryTags, setCurrentStoryTags] = useState([])
+
+    const [toRemove, setToRemove] = useState([])
+
 //get the current tags for the story
     useEffect(() => {
 
@@ -97,24 +103,14 @@ const [localImageUri, setLocalImageUri] = useState('');
                       tags.push(result.data.listStoryTags.items[i].tag)
                   }
                 setCurrentTags(tags)
+                setCurrentStoryTags(result.data.listStoryTags.items)
+                setInitialLength(tags.length)
               }
             }
             fetchTags();
     }, [storyID])
 
-//add a new tag to the array
-    const AddToTagArray = () => {
 
-        let Tags = []
-
-        if (tagText.includes('#') || tagText === '') {
-            return;
-        } else {
-            Tags.push(...TagsArray, {id: TagsArray.length + 1, name: tagText});
-            setTagsArray(Tags);
-            clear.current.clear();
-        }
-    }
 
 //update attributes for story
     const [isPublishing, setIsPublishing] = useState(false);
@@ -143,16 +139,16 @@ const [localImageUri, setLocalImageUri] = useState('');
         if (newImageData === true) {
             Object.assign(UpdateObject, {description: data.imageUri})
         }
-        if (localImageUri !== '') {
+        // if (localImageUri !== '') {
         
-            const response = await fetch(localImageUri);
-            const blob = await response.blob();
-            const filename = uuid.v4().toString();
-            const s3ResponseImage = await Storage.put(filename, blob);
-            const result = await Storage.get(s3ResponseImage.key);
-            Object.assign(UpdateObject, {imageUri: result})
+        //     const response = await fetch(localImageUri);
+        //     const blob = await response.blob();
+        //     const filename = uuid.v4().toString();
+        //     const s3ResponseImage = await Storage.put(filename, blob);
+        //     const result = await Storage.get(s3ResponseImage.key);
+        //     Object.assign(UpdateObject, {imageUri: result})
     
-        }
+        // }
 
 
         try {
@@ -163,16 +159,42 @@ const [localImageUri, setLocalImageUri] = useState('');
                     hideModal();
                     navigation.navigate("MyStories")
                 }
-                        console.log(result);
+                        //console.log(result);
                 } catch (e) {
                         console.error(e);
         }
 
+        // if (toRemove.length > 0) {
+        //     for (let i = 0; i < toRemove.length; i++) {
+        //         const deletethis = await API.graphql(graphqlOperation(
+        //             deleteStoryTag, {input: {
+        //                 id: toRemove[i].id
+        //                 } 
+        //             }
+        //         ))
+        //         console.log(deletethis)
+        //     }
+        // }
+
         //for each tag, check and see if the tag alreadyt exists
-        if (TagsArray.length > 0) {
+        //if (TagsArray.length > 0) {
+            try {
+                for (let i = 0; i < toRemove.length; i++) {
+                    await API.graphql(graphqlOperation(
+                        deleteStoryTag, {input: {
+                            id: toRemove[i].id
+                            } 
+                        }
+                    ))
+                }
+            } catch {
+                
+            }
+            
+
             for (let i = 0; i < TagsArray.length; i++) {
                 let tagCheck = await API.graphql(graphqlOperation(
-                    listTags, {filter: {tagName: {eq: TagsArray[i].name}}}
+                    listTags, {filter: {tagName: {eq: TagsArray[i].name.toLowerCase()}}}
                 ))
         //if the tag exists, create a StoryTag with the tagID and storyID
                 if (tagCheck.data.listTags.items.length === 1) {
@@ -198,39 +220,39 @@ const [localImageUri, setLocalImageUri] = useState('');
                 }
 
             }
-        }
+        //}
         setIsPublishing(false);
     }
 
 
 //request permission to access camera roll
-    useEffect(() => {
-        (async () => {
-          if (Platform.OS !== 'web') {
-            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-            if (status !== 'granted') {
-              alert('Sorry, we need camera roll permissions to make this work!');
-            }
-          }
-        })();
-      }, []);
+    // useEffect(() => {
+    //     (async () => {
+    //       if (Platform.OS !== 'web') {
+    //         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    //         if (status !== 'granted') {
+    //           alert('Sorry, we need camera roll permissions to make this work!');
+    //         }
+    //       }
+    //     })();
+    //   }, []);
 
 
 //image picker
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-        });
+    // const pickImage = async () => {
+    //     let result = await ImagePicker.launchImageLibraryAsync({
+    //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //     allowsEditing: true,
+    //     aspect: [4, 3],
+    //     quality: 1,
+    //     });
 
-        console.log(result);
+    //     console.log(result);
 
-        if (!result.cancelled) {
-        setLocalImageUri(result.uri);
-        }
-    };
+    //     if (!result.cancelled) {
+    //     setLocalImageUri(result.uri);
+    //     }
+    // };
   
   
 //Modal
@@ -265,7 +287,44 @@ const [localImageUri, setLocalImageUri] = useState('');
     const [newDescData, setNewDescData] = useState(false);
     const [newImageData, setNewImageData] = useState(false);
 
+//add a new tag to the array, filter out spaces
+    const AddToTagArray = () => {
 
+        let Tags = []
+
+        if (tagText.includes('#')) {
+            return;
+        } else {
+            Tags.push(...TagsArray, {id: uuid.v4().toString(), name: tagText.replace(/ /g, '')})
+            //.replace(/[`~0-9!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')});
+            setTagsArray(Tags);
+            clear.current.clear();
+        }
+    }
+
+    //remove a tag from the tag array
+    const RemoveFromTagArray = (index : any) => {
+
+        let Tags = [...TagsArray]
+
+        Tags.splice(index, 1);
+        setTagsArray(Tags)
+    }
+
+       //remove a tag from the tag array
+       const RemoveFromCurrentTagArray = (index : any) => {
+
+        let Tags = [...currentTags]
+        let StoryTags = [...currentStoryTags]
+        let Remove = [...toRemove]
+
+        Tags.splice(index, 1);
+        StoryTags.splice(index, 1)
+        Remove.push(currentStoryTags[index])
+        setCurrentTags(Tags);
+        setCurrentStoryTags(StoryTags)
+        setToRemove(Remove)
+    }
 
   return (
     <Provider>
@@ -274,8 +333,8 @@ const [localImageUri, setLocalImageUri] = useState('');
 
             <Portal>
                 <Modal visible={visible} onDismiss={() => {hideModal(); setConfirmUpdate(false)}} contentContainerStyle={containerStyle}>
-                    <ScrollView style={{  height: 610, paddingHorizontal: 10,  backgroundColor: '#363636', borderRadius: 15}}>
-                        <View style={{height: 540, marginTop: 40, justifyContent: 'space-between'}}>
+                    <ScrollView style={{  paddingHorizontal: 10,  backgroundColor: '#363636', borderRadius: 15}}>
+                        <View style={{marginTop: 40, justifyContent: 'space-between'}}>
                             <View>
                                 {data.title !== '' ? (
                                     <View style={{marginBottom: 20,}}>
@@ -310,15 +369,29 @@ const [localImageUri, setLocalImageUri] = useState('');
                                     </View>
                                 ) : null}
 
-                                {TagsArray.length > 0 ? (
+                                
                                 <View style={{marginBottom: 20}}>
                                     <Text style={styles.inputheadermodal}>
                                         Tags
                                     </Text>
 
                                     <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                                        {TagsArray.map(({ index, name } : any) => (
-                                            <View key={index} style={{marginTop: 10, marginRight: 10}}>
+                                        {currentTags.map(({ id, tagName } : any, index) => (
+                                            <View key={id} style={{marginTop: 10, marginRight: 10}}>
+                                                <TouchableOpacity>
+                                                    <View style={{}}>
+                                                        <Text style={styles.tagtext}>
+                                                            #{tagName}
+                                                        </Text>
+                                                    </View>
+                                                </TouchableOpacity>
+                                            </View>
+                                        ))}
+                                    </ScrollView>
+
+                                    <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                                        {TagsArray.map(({ id, name } : any, index) => (
+                                            <View key={id} style={{marginTop: 10, marginRight: 10}}>
                                                 <TouchableOpacity>
                                                     <View style={{}}>
                                                         <Text style={styles.tagtext}>
@@ -330,9 +403,8 @@ const [localImageUri, setLocalImageUri] = useState('');
                                         ))}
                                     </ScrollView>
                                 </View>
-                                ) : null}
 
-                                {localImageUri !== '' ? (
+                                {/* {localImageUri !== '' ? (
                                     <View style={{marginBottom: 20}}>
                                         <Text style={styles.inputheadermodal}>
                                             Cover Art
@@ -347,7 +419,7 @@ const [localImageUri, setLocalImageUri] = useState('');
                                             }} 
                                             />
                                     </View>
-                                ) : null}
+                                ) : null} */}
                             </View>
                             
                             <View style={{width: '100%', alignItems: 'center'}}>
@@ -452,12 +524,13 @@ const [localImageUri, setLocalImageUri] = useState('');
                         <TextInput
                             //placeholder={Story?.description}
                             placeholderTextColor='#ffffffa5'
-                            style={[styles.textInput, { height: 200 }]}
+                            style={[styles.textInput, {  }]}
                             maxLength={1500}
                             multiline={true}
-                            numberOfLines={40}
+                            numberOfLines={30}
                             onChangeText={val => {setData({...data, description: val}); setNewDescData(true)}}
                             defaultValue={Story?.description}
+                            textAlignVertical='top'
                         />
                         <FontAwesome5 
                             name='check-circle'
@@ -466,14 +539,20 @@ const [localImageUri, setLocalImageUri] = useState('');
                         />
                     </View>
 
-                    <Text style={styles.inputheader}>
-                        Tags
-                    </Text>
+                    <View style={{flexDirection: 'row', alignSelf: 'flex-start', alignItems: 'center'}}>
+                        <Text style={styles.inputheader}>
+                            Tags
+                        </Text>
+                        <Text style={{color: 'gray', marginBottom: 10, fontSize: 11, marginLeft: 10}}>
+                            (hold to remove)
+                        </Text>
+                    </View>
+                    
 
                     <ScrollView style={{width: Dimensions.get('window').width - 20, marginLeft: 10, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                        {currentTags.map(({ index, tagName } : any) => (
-                            <View key={index} style={{marginTop: 10, marginRight: 10}}>
-                                <TouchableOpacity>
+                        {currentTags.map(({ id, tagName } : any, index) => (
+                            <View key={id} style={{marginTop: 10, marginRight: 10}}>
+                                <TouchableOpacity onLongPress={() => RemoveFromCurrentTagArray(index)}>
                                     <View style={{}}>
                                         <Text style={styles.currenttagtext}>
                                             #{tagName}
@@ -485,9 +564,9 @@ const [localImageUri, setLocalImageUri] = useState('');
                     </ScrollView>
 
                     <ScrollView style={{width: Dimensions.get('window').width - 20, marginLeft: 10, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                        {TagsArray.map(({ index, name } : any) => (
-                            <View key={index} style={{marginTop: 10, marginRight: 10}}>
-                                <TouchableOpacity>
+                        {TagsArray.map(({ id, name } : any, index) => (
+                            <View key={id} style={{marginTop: 10, marginRight: 10}}>
+                                <TouchableOpacity onLongPress={() => RemoveFromTagArray(index)}>
                                     <View style={{}}>
                                         <Text style={styles.tagtext}>
                                             #{name}
@@ -505,7 +584,7 @@ const [localImageUri, setLocalImageUri] = useState('');
                                     placeholder='#'
                                     placeholderTextColor='#ffffffa5'
                                     style={styles.textInputTitle}
-                                    maxLength={20}
+                                    maxLength={50}
                                     multiline={false}
                                     numberOfLines={1}
                                     ref={clear}
@@ -524,16 +603,16 @@ const [localImageUri, setLocalImageUri] = useState('');
                         </TouchableOpacity>
                     </View>
 
-                    <Image 
+                    {/* <Image 
                         source={{uri: localImageUri === '' ? Story?.imageUri : localImageUri}}
                         style={{backgroundColor: 'gray', marginVertical: 20, borderRadius: 15, width: Dimensions.get('window').width - 40, height: 200}}
                     />
 
                     <Text style={styles.inputheader}>
                         Cover Art
-                    </Text>
+                    </Text> */}
 
-                    <View style={{ width: '100%', marginBottom: 20, marginTop: 0, }}>
+                    {/* <View style={{ width: '100%', marginBottom: 20, marginTop: 0, }}>
                         <TouchableOpacity onPress={pickImage}>
                             <View style={{ marginHorizontal: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
                                 <Text style={{ color: '#ffffffa5'}}>
@@ -541,7 +620,7 @@ const [localImageUri, setLocalImageUri] = useState('');
                                 </Text>
                             </View>
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
 
                     <View style={{ margin: 40, flexDirection: 'row'}}>
                         <FontAwesome5 
