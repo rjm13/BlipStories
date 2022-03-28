@@ -443,7 +443,10 @@ const [localImageUri, setLocalImageUri] = useState('');
                                                 </Text>
                                             </View>
                                         </TouchableOpacity>
-                                ) : <ActivityIndicator size="large" color="#ffffff"/> }
+                                ) : 
+                                <View style={{marginBottom: 20}}>
+                                    <ActivityIndicator size="small" color="cyan"/> 
+                                </View>}
                             </View>
                         </View>
                     </ScrollView>

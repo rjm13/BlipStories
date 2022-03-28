@@ -46,6 +46,9 @@ import unPinStory from '../components/functions/UnPinStory';
 
 const StoryScreen  = ({navigation} : any) => {
 
+//recieve story ID as props
+    const route = useRoute();
+    const {storyID, path} = route.params;
 
 //ref to scroll to comment section
     const scrollRef = useRef();
@@ -63,11 +66,6 @@ const StoryScreen  = ({navigation} : any) => {
         
       }
 
-//recieve story ID as props
-    const route = useRoute();
-    const {storyID} = route.params;
-
-    //const [storyUri, setStoryUri] = useState(null);
 
 //use storyID to retrieve Story from AWS
     const [Story, setStory] = useState();
@@ -438,7 +436,6 @@ const StoryScreen  = ({navigation} : any) => {
 
     useEffect(() => {
 
-
         const fetchRating = async () => {
 
             let userInfo = await Auth.currentAuthenticatedUser();
@@ -634,6 +631,7 @@ const StoryScreen  = ({navigation} : any) => {
                 console.log('image' + UserImage)
             }
         fetchUser();
+        
         }, [])
         
         const renderItem = ({ item } : any) => (
@@ -673,6 +671,8 @@ const StoryScreen  = ({navigation} : any) => {
                 setCommentUpdated(!commentUpdated)
             }
         }
+
+      
 
     return (
         <Provider>
@@ -905,7 +905,7 @@ const StoryScreen  = ({navigation} : any) => {
                         >
                             <View style={{  }}>
                                 <View style={{ margin: 20, alignItems: 'center'}}>
-                                    <Text style={styles.name}>
+                                    <Text style={[styles.name, {textAlign: 'center'}]}>
                                         {Story?.title}
                                     </Text>
 

@@ -30,6 +30,7 @@ import { createPinnedStory, deletePinnedStory, createFinishedStory, updateStory 
 import { AppContext } from '../AppContext';
 import * as RootNavigation from '../navigation/RootNavigation';
 import { useCardAnimation } from '@react-navigation/stack';
+import ShareStory from '../components/functions/ShareStory';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -196,22 +197,7 @@ const AudioPlayer  = () => {
 
     }, [storyID])
 
-//background colors for the genre indicator
-    const Colors = {
-        color: 
-            Story?.genre === 'adventure' ? '#27d995' :
-            Story?.genre === 'comedy' ? '#ff9ce6' :
-            Story?.genre === 'crime' ? '#cac715' : 
-            Story?.genre === 'fan fiction' ? '#c92ad1' :
-            Story?.genre === 'fantasy' ? '#15ca54' :
-            Story?.genre === 'horror' ? '#1579ca' :
-            Story?.genre === 'life' ? '#15b8ca' :
-            Story?.genre === 'love' ? '#f05161' :
-            Story?.genre === 'mystery' ? '#ff6f00' :
-            Story?.genre === 'science fiction' ? '#c97f8b' :
-            Story?.genre === 'after dark' ? '#7081ff' : 
-            '#ffffff',
-        }
+
 
 //audio player
     const [sound, setSound] = useState();
@@ -329,16 +315,19 @@ const AudioPlayer  = () => {
 //the rating average
     const [ratingNum, setRatingNum] = useState(0);
 
+
+
 //check if the story is rated or not
     const [isRated, setIsRated] = useState(false);
 
-useEffect(() => {
+    //if item is finished state
+    const [isFinished, setIsFinished] = useState(false);
 
-    let Average = []
+    useEffect(() => {
 
-    const fetchRating = async () => {
+        const fetchRating = async () => {
 
-        let userInfo = await Auth.currentAuthenticatedUser();
+            let userInfo = await Auth.currentAuthenticatedUser();
 
             let Rating = await API.graphql(graphqlOperation(
                 listRatings, {filter: {
@@ -353,30 +342,32 @@ useEffect(() => {
             if (Rating.data.listRatings.items.length === 1) {
                 setRatingNum(Rating.data.listRatings.items[0].rating);
                 setIsRated(true);
+                //setRatingID(Rating.data.listRatings.items[0].id);
             } else {
                 setRatingNum(0);
                 setIsRated(false);
             }
 
-        let RatingAvg = await API.graphql(graphqlOperation(
-            listRatings, {filter: {
-                storyID: {
-                    eq: storyID
+            let storyCheck = await API.graphql(graphqlOperation(
+                listFinishedStories, {filter: {
+                    userID: {
+                        eq: userInfo.attributes.sub
+                        },
+                    storyID: {
+                        eq: storyID
+                    }
+                    }
                 }
-            }}
-        ))
+            ));
 
-        if (RatingAvg.data.listRatings.items.length > 0) {
-            for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
-                Average.push(RatingAvg.data.listRatings.items[i].rating) 
+            if (storyCheck.data.listFinishedStories.items.length === 1) {
+                setIsFinished(true);
             }
-            setAverageUserRating(
-                Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
-            )
+
+           
         }
-    }
-    fetchRating();
-}, [storyID])
+        fetchRating();
+    }, [storyID])
 
 //add the story to the history list when finished by creating a new history item
 const AddToHistory = async () => {
@@ -505,16 +496,11 @@ const AddToHistory = async () => {
     }
 
 
+
     return (
 
         <View>
-            <Animated.View
-                style={{
-                height: animatedImageHeight,
-                width: animatedImageWidth,
-                position: 'absolute',
-                bottom: 460,
-                }}>
+            <Animated.View style={{height: animatedImageHeight, width: animatedImageWidth, position: 'absolute', bottom: 460,}}>
                 <ImageBackground
                     style={{
                         flex: 1,
@@ -562,11 +548,13 @@ const AddToHistory = async () => {
                         <View>
                             
                             <Animated.View style={ [styles.button, {right: -20}]}>
-                                <AntDesign 
-                                    name={isQ ? 'pushpin' : 'pushpino'}
+                                <FontAwesome 
+                                    name='commenting-o'
                                     size={22}
-                                    color={isQ ? 'cyan' : 'white'}
-                                    onPress={onQPress}
+                                    color='#fff'
+                                    onPress={() => {RootNavigation.navigate('StoryScreen', { storyID: storyID, path: 'commenting' });
+                                        onChangeHandler();}
+                                    }
                                     style={{ }}
                                 />
                             </Animated.View>
@@ -576,7 +564,7 @@ const AddToHistory = async () => {
                                     name='share'
                                     size={22}
                                     color='white'
-                                    //onPress={}
+                                    onPress={() => ShareStory({id: Story?.id, title: Story?.title})}
                                     style={{ }}
                                 />
                             </Animated.View>
@@ -600,7 +588,7 @@ const AddToHistory = async () => {
                     },
                 ]}>
                     <LinearGradient 
-                        colors={[isExpanded ? '#171c2b' : '#3b4b80', isExpanded ? '#171c2b' : '#000', isExpanded ? '#171c2bD9' : '#000']}
+                        colors={[isExpanded ? '#165C5C' : '#3B6980', isExpanded ? '#165C5C' : '#000', isExpanded ? '#165C5C' : '#000']}
                         style={{ borderTopRightRadius: 15, borderTopLeftRadius: 15, flex: 1}}
                         start={{ x: 0, y: 1 }}
                         end={{ x: 0, y: 0 }}
@@ -611,17 +599,19 @@ const AddToHistory = async () => {
                                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
                                     
                                         <Animated.Text
+                                            numberOfLines={1}
                                             style={{
                                                 opacity: animatedSongTitleOpacity,
                                                 fontSize: 18,
                                                 paddingLeft: 20,
                                                 color: '#fff',
+                                                width: '75%'
                                         }}>
                                             {Story?.title}
                                         </Animated.Text>
                                     
                                         <TouchableOpacity onPress={PlayPause}>
-                                            <Animated.View style={{opacity: animatedSongTitleOpacity,}}>
+                                            <Animated.View style={{opacity: animatedSongTitleOpacity, }}>
                                                 <FontAwesome5 
                                                     name={isPlaying === true ? 'pause' : 'play'}
                                                     color='#ffffffCC'
@@ -651,11 +641,11 @@ const AddToHistory = async () => {
                                         onChangeHandler();}
                                     }>
                                     <View style={{ alignItems: 'center',  marginHorizontal: 40, marginVertical: 20, }}>
-                                        <Text style={{ fontWeight: 'bold', fontSize: 22, color: '#fff' }}>
+                                        <Text style={{ fontWeight: 'bold', fontSize: 22, color: '#fff', textAlign: 'center' }}>
                                             {Story?.title}
                                         </Text>
 
-                                        <View style={{ width: '100%', flexDirection: 'row', marginTop: 10,justifyContent: 'space-between'}}>
+                                        <View style={{ width: Dimensions.get('window').width - 40, flexDirection: 'row', marginVertical: 10, justifyContent: 'space-between'}}>
                                             <View style={{ flexDirection: 'row', alignItems: 'center'}}>
                                                 <FontAwesome5 
                                                     name='book-open'
@@ -679,32 +669,41 @@ const AddToHistory = async () => {
                                                     {Story?.narrator}
                                                 </Text>
                                             </View>
-                                        </View>
+                                    </View>
                                     </View>  
                                 </TouchableWithoutFeedback>
 
                                 <View style={{ alignItems: 'center', marginHorizontal: 20}}>
-                                    <View style={{marginTop: 10,}}>
-                                        <View style={[{flexDirection: 'row', justifyContent: 'space-between', width: 300}]}>
-                                            <Text style={[Colors, { fontSize: 16, textTransform: 'capitalize' }]}>
-                                                {Story?.genre?.genre}
-                                            </Text>
+                                    <View style={{marginTop: 0,}}>
+                                        <View style={[{flexDirection: 'row', justifyContent: 'space-between', width: Dimensions.get('window').width - 80}]}>
+                                            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                                <FontAwesome5 
+                                                    name={Story?.genre?.icon}
+                                                    color='#ffffffa5'
+                                                    size={15}
+                                                    style={{marginRight: 10}}
+                                                />
+                                                <Text style={[ { color: Story?.genre?.PrimaryColor, fontSize: 16, textTransform: 'capitalize' }]}>
+                                                    {Story?.genre?.genre} 
+                                                </Text>
+                                            </View>
+                                            
                                             <View style={{justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center'}}>
                                                 <FontAwesome 
-                                                    name={ratingNum > 0 ? 'star' : 'star-o'}
-                                                    size={20}
-                                                    color={ratingNum > 0 ? 'gold' : 'white'}
+                                                    name={isRated === true ? 'star' : 'star-o'}
+                                                    size={17}
+                                                    color={isRated === true || isFinished === true ? 'gold' : 'white'}
                                                     onPress={onLikePress}
                                                     style={{marginHorizontal: 6 }}
                                                 />
-                                                <Text style={{textAlign: 'center', color: '#e0e0e0', fontSize: 19}}>
-                                                    {AverageUserRating}
-                                                </Text>
+                                                <Text style={{textAlign: 'center', color: '#e0e0e0', fontSize: 17}}>
+                                                    {(Story?.ratingAvg/10).toFixed(1)}
+                                            </Text>
                                         </View>
                                         </View>
                                     </View>
-                                    <View style={{ height: 100, marginTop: 30 }}>
-                                        <Text style={styles.highlight}>
+                                    <View style={{ height: 120, marginTop: 20, marginHorizontal: -20 }}>
+                                        <Text style={[styles.highlight, {textAlign: 'center'}]}>
                                             {Story?.summary}
                                         </Text>
                                     </View>
@@ -782,7 +781,7 @@ const styles = StyleSheet.create ({
         fontSize: 14,
         borderRadius: 15,
         padding: 10,
-        backgroundColor: '#363636CC',
+        //backgroundColor: '#363636CC',
     },
    
 });
