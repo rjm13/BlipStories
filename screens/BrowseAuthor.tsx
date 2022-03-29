@@ -137,71 +137,28 @@ const BrowseAuthor = ({navigation} : any) => {
         }, [])
 
         //on item render, determine if the user is following them or not
-       const [isFollowing, setIsFollowing] = useState(true)
-
-        //show the options menu modal on the author tile
-        const [ShowModalThing, setShowModalThing] = useState(false);
+       const [isFollowing, setIsFollowing] = useState(false)
         
         //list the following connections that contain the current user and the selected author to determine if there is a following connection
-        const fetchInfo = async () => {
-            const getConnection = await API.graphql(graphqlOperation(
-                listFollowingConns, {
-                    filter: {
-                        authorID: {
-                            eq: id
-                        },
-                        followerID: {
-                            eq: user.id
+        useEffect(() => {
+            const fetchInfo = async () => {
+                const getConnection = await API.graphql(graphqlOperation(
+                    listFollowingConns, {
+                        filter: {
+                            authorID: {
+                                eq: id
+                            },
+                            followerID: {
+                                eq: user?.id
+                            }
                         }
                     }
-                }
-            ))
-           
-            if (getConnection.data.listFollowingConns.items.length !== 1) {setIsFollowing(false)};
-
-            setShowModalThing(!ShowModalThing)
-        }
+                ))
+            if (getConnection.data.listFollowingConns.items.length === 1) {setIsFollowing(true)};    
+            }
+            fetchInfo();
+        }, [])
         
-        
-//follow a user function
-        // const FollowUser = async () => {
-    
-        //     let createConnection = await API.graphql(graphqlOperation(
-        //         createFollowingConn, {input: {followerID: user.id, authorID: id}}
-        //     ))
-        //     console.log(createConnection)
-        // }
-    
-//unfollow a user
-        // const unFollowUser = async () => {
-    
-        //     let getConnection = await API.graphql(graphqlOperation(
-        //         listFollowingConns, {
-        //             filter: {
-        //                 authorID: {
-        //                     eq: id
-        //                 },
-        //                 followerID: {
-        //                     eq: user.id
-        //                 }
-        //             }
-        //         }
-        //     ))
-        //     console.log(getConnection)
-            
-        //     let connectionID = getConnection.data.listFollowingConns.items[0].id
-        //     console.log(connectionID)
-    
-        //     let deleteConnection = await API.graphql(graphqlOperation(
-        //         deleteFollowingConn, {input: {"id": connectionID}}
-        //     ))
-        //     console.log(deleteConnection)
-
-        //     setDidUpdate(!didUpdate)
-        // }
-
-        
-    
         return (
             <View style={styles.tile}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -217,10 +174,22 @@ const BrowseAuthor = ({navigation} : any) => {
                                 }}
                             />
                         
-                            <View style={{ marginHorizontal: 10}}>
-                                <Text style={styles.name}>
-                                    {pseudonym}
-                                </Text> 
+                            <View style={{ marginHorizontal: 10, width: '78%'}}>
+                                <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                    <Text style={styles.name}>
+                                        {pseudonym}
+                                    </Text> 
+                                    {isFollowing === true ? (
+                                        <FontAwesome5 
+                                            name='check-double'
+                                            size={12}
+                                            color='cyan'
+                                            style={{ marginRight: 0}}
+                                        />
+                                    ) : null}
+                                    
+                                </View>
+                                
                                 
                                 
                                 <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>

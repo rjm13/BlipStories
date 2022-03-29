@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, TextInput, Linking } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppContext } from '../../AppContext';
 import { ActivityIndicator } from 'react-native-paper';
@@ -24,6 +24,7 @@ const SignIn = ({navigation} : any) => {
 
     const [trigger, setTrigger] = useState(false);
 
+
     const CreateUser = async () => {
     
         const userInfo = await Auth.currentAuthenticatedUser(
@@ -44,7 +45,6 @@ const SignIn = ({navigation} : any) => {
               )
             )
     
-    
             if (userData.data.getUser) {
                 //console.log("User is already registered in database");
                 setUserID(userData.data.getUser);
@@ -53,22 +53,6 @@ const SignIn = ({navigation} : any) => {
                 navigation.navigate('Redirect', {trigger: Math.random()});
                 return;
             };
-    
-            // const newUser = {
-            //   id: userInfo.attributes.sub,
-            //   name: userInfo.attributes.name,
-            //   imageUri: userInfo.attributes.imageUri,
-            //   email: userInfo.attributes.email,
-            //   bio: userInfo.attributes.bio,
-            // }
-    
-          //if there is no user in DB with the id, then create one
-            // await API.graphql(
-            //   graphqlOperation(
-            //     createUser,
-            //     { input: newUser }
-            //   )
-            // )
           }
         }
 
@@ -95,13 +79,12 @@ const SignIn = ({navigation} : any) => {
         setSigningIn(true);
         const {username, password} = data;
         try {
-            await Auth.signIn(username, password)
-            .then (CreateUser)     
-            //.then(userID !== null ? navigation.navigate('Redirect') : null)
+            await Auth.signIn(username.replace(/ /g, ''), password)
+            .then (CreateUser)
         } 
         catch (error) {
             console.log('error signing in', error)
-            //alert(error.message)
+            //alert('Error signing in. Check your connection and try again.')
             setIsErr(true)
         }
         setSigningIn(false);
@@ -110,10 +93,10 @@ const SignIn = ({navigation} : any) => {
     return (
         <View style={styles.container}>
             <LinearGradient
-                colors={['cyan','#2f2179', '#000']}
+                colors={['#00ffffa5','#000', '#000', '#000']}
                 style={styles.container}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
+                start={{ x: 1, y: 0 }}
+                end={{ x: 0, y: 1 }}
             >
                 <View style={{ margin: 20}}>
                     {isErr ? (
@@ -132,7 +115,7 @@ const SignIn = ({navigation} : any) => {
                                 placeholder='....'
                                 placeholderTextColor='#ffffffa5'
                                 style={styles.textInputTitle}
-                                maxLength={30}
+                                maxLength={40}
                                 onChangeText={handleUsername}
                                 autoCapitalize='none'
                             />
@@ -147,7 +130,7 @@ const SignIn = ({navigation} : any) => {
                             <TextInput 
                                 placeholder='....'
                                 placeholderTextColor='#ffffffa5'
-                                style={styles.textInputTitle}
+                                style={[styles.textInputTitle, {width: '80%'}]}
                                 maxLength={30}
                                 secureTextEntry={seePass === true ? false : true}
                                 onChangeText={handlePassword}
@@ -172,10 +155,10 @@ const SignIn = ({navigation} : any) => {
                             </View>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => navigation.navigate('Root')}>
+                        <TouchableOpacity onPress={() => Linking.openURL('mailto:martianspidermedia@gmail.com') }>
                             <View style={{ }}>
                                 <Text style={{ fontSize: 14, color: '#ffffffa5', alignSelf: 'center'}}>
-                                    Continue logged out
+                                    Contact us
                                 </Text>
                             </View>
                         </TouchableOpacity>

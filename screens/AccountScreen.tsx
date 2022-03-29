@@ -172,7 +172,7 @@ const handleUpdateName = async () => {
     async function signOut() {
         try {
             await Auth.signOut()
-            .then(() => navigation.navigate('SignIn'))
+            .then(() => navigation.replace('SignIn'))
         } catch (error) {
             console.log('error signing out: ', error);
             alert("error signing out")
