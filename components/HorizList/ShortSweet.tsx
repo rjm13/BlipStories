@@ -85,15 +85,15 @@ const ShortSweet = ({genreid} : any) => {
                                         //under 30 minutes
                                         lt: 1800000
                                     },
-                                    nsfw: {
-                                        eq: false
-                                    },
                                     imageUri: {
                                         attributeExists: true
                                     },
                                     ratingAvg: {
                                         gt: 6
                                     },
+                                    genreID: {
+                                        ne: '1108a619-1c0e-4064-8fce-41f1f6262070'
+                                    }
                                     // ratingAmt: {
                                     //     gt: 5,
                                     // }

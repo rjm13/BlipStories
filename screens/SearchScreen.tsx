@@ -21,11 +21,15 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {LinearGradient} from 'expo-linear-gradient';
 
 import StoryTile from '../components/StoryTile';
+import { AppContext } from '../AppContext';
 
 import {listStories, listTags } from '../src/graphql/queries';
 import {graphqlOperation, API} from 'aws-amplify';
 
 const SearchScreen = ({navigation} : any) => {
+
+  //nsfw global app context
+    const { nsfwOn } = useContext(AppContext);
 
   //search function states
     const [newSearch, setNewSearch] = useState();
@@ -87,6 +91,8 @@ const SearchScreen = ({navigation} : any) => {
 
     useEffect(() => {
 
+      let genre = nsfwOn === false ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
+
         if (newSearch !== '') {
             const fetchTags = async () => {
                 const tagResults = await API.graphql(graphqlOperation(
@@ -94,6 +100,9 @@ const SearchScreen = ({navigation} : any) => {
                         filter: {
                             tagName: {
                                 contains: newSearch.toLowerCase()
+                            },
+                            genreID: {
+                              ne: genre
                             }
                         }
                     }
@@ -106,6 +115,8 @@ const SearchScreen = ({navigation} : any) => {
 
     //on render, get the user and then list the following connections for that user
     useEffect(() => {
+
+      let genre = nsfwOn === false ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
 
       const fetchStories = async () => {
 
@@ -127,7 +138,7 @@ const SearchScreen = ({navigation} : any) => {
                               eq: false
                           },
                           genreID: {
-                            ne: '1108a619-1c0e-4064-8fce-41f1f6262070'
+                            ne: genre
                         },
                         },
                           {summary: {
@@ -244,11 +255,18 @@ const SearchScreen = ({navigation} : any) => {
                                     </Text>
                                     <View>
                                         <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                                            {TagsArray.slice(0, 16).map(({ index, tagName, id } : any) => (
-                                                <View key={index} style={{marginTop: 10, marginRight: 10}}>
+                                            {TagsArray.slice(0, 16).map(({ tagName, id, genreID } : any, index) => (
+                                                <View key={id} style={{marginTop: 10, marginRight: 10}}>
                                                     <TouchableOpacity onPress={() => navigation.navigate('TagSearchStack', {mainTag: id, tagName: tagName})}>
                                                         <View style={{}}>
-                                                            <Text style={styles.tagtext}>
+                                                            <Text style={{color: genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? 'red' : 'cyan',
+                                                              fontSize: 14,
+                                                              backgroundColor: genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? '#371111a5' :'#1A4851a5',
+                                                              borderColor: genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? '#ff0000a5' : '#00ffffa5',
+                                                              borderWidth: 0.5,
+                                                              paddingHorizontal: 16,
+                                                              paddingVertical: 6,
+                                                              borderRadius: 20}}>
                                                                 #{tagName}
                                                             </Text>
                                                         </View>

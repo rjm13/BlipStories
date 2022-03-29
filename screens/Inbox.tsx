@@ -122,7 +122,7 @@ const Inbox = ({navigation} : any) => {
 
     const renderItem = ({item, index}: any) => {
 
-        let narratorPseudo = ''
+        let narratorPseudo = 'test'
         let artistPseudo = ''
         let pseudonym = ''
 

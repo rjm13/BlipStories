@@ -383,7 +383,7 @@ const MyArt = ({navigation} : any) => {
                             eq: userInfo.attributes.sub
                         },
                         status: {
-                            eq: 'requested'
+                            eq: 'accepted'
                         },
                         subtitle: {
                             eq: 'artist'

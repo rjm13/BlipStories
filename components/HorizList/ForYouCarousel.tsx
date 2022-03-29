@@ -236,13 +236,10 @@ const ForYouCarousel = () => {
     //determines if something needs to rerender
     const [didUpdate, setDidUpdate] = useState(false);
 
-    //refreshes the flatlist
-    const [isFetching, setIsFetching] = useState(false);
-
     //data for the flatlist. 
     const [Storys, setStorys] = useState([]);
 
-    //get the data for the flatlist
+    //get the data for the flatlist. Must have: image, not be hidden, be approved, not after dark
     useEffect( () => {
 
         const RandomStories = []

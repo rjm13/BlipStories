@@ -73,6 +73,8 @@ type FinishedStory @model @auth( rules: [{ allow: private, operations: [create, 
   storyID: ID
   story: Story @hasOne (fields: ["storyID"])
   createdAt: String
+  genreID: ID @index(name: "byGenre", sortKeyFields: ["id"])
+  genre: Genre @hasOne (fields: ["genreID"])
 }
 
 type Story @model @auth(rules: [{ allow: private, operations: [create, delete, update, read]}])

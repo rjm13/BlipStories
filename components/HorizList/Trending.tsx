@@ -55,16 +55,14 @@ const Trending = () => {
                                 },
                                 type: 'FinishedStory',
                                 sortDirection: 'DESC',
+                                filter: {
+                                    genreID: {
+                                        ne: '1108a619-1c0e-4064-8fce-41f1f6262070'
+                                    }
+                                }
                             } 
                         )
                     )
-
-                    //get all of the unique stories in the list, slice 10
-                    // for(let i = 0; i < response.data.finishedStoriesByDate.items.length; i++) {
-                    //     trendingids.push(response.data.finishedStoriesByDate.items[i].story)     
-                    // }
-                    // let pp = trendingids.filter( (ele, ind) => ind === trendingids.findIndex( elem => elem.id === ele.id)).slice(0,10)
-                    // setStories(pp)
 
                     for(let i = 0; i < response.data.finishedStoriesByDate.items.length; i++) {
                         trendingids.push(response.data.finishedStoriesByDate.items[i].story.id)     

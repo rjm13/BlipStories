@@ -218,6 +218,7 @@ export const onCreateUser = /* GraphQL */ `
           userID
           storyID
           createdAt
+          genreID
           updatedAt
         }
         nextToken
@@ -451,6 +452,7 @@ export const onUpdateUser = /* GraphQL */ `
           userID
           storyID
           createdAt
+          genreID
           updatedAt
         }
         nextToken
@@ -684,6 +686,7 @@ export const onDeleteUser = /* GraphQL */ `
           userID
           storyID
           createdAt
+          genreID
           updatedAt
         }
         nextToken
@@ -1915,6 +1918,17 @@ export const onCreateFinishedStory = /* GraphQL */ `
         numListens
       }
       createdAt
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+      }
       updatedAt
     }
   }
@@ -2116,6 +2130,17 @@ export const onUpdateFinishedStory = /* GraphQL */ `
         numListens
       }
       createdAt
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+      }
       updatedAt
     }
   }
@@ -2317,6 +2342,17 @@ export const onDeleteFinishedStory = /* GraphQL */ `
         numListens
       }
       createdAt
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+      }
       updatedAt
     }
   }

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { 
   StyleSheet, 
   Dimensions, 
@@ -16,9 +16,13 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 import { listGenres, tagsByUpdated } from '../src/graphql/queries';
 import {graphqlOperation, API} from 'aws-amplify';
+import { AppContext } from '../AppContext';
 
 
 const AudioStoryHome = ({navigation} : any) => {
+
+  //nsfw global app context
+  const { nsfwOn } = useContext(AppContext);
 
 //genre array state
   const[genres, setGenres] = useState([]);
@@ -44,9 +48,18 @@ const AudioStoryHome = ({navigation} : any) => {
 
   const Item = ({genre, icon, id, PrimaryColor, imageUri} : any) => {
 
+    const [locked, setIsLocked] = useState(false);
+
+    useEffect(() => {
+      if (nsfwOn === false && id === '1108a619-1c0e-4064-8fce-41f1f6262070') {
+        setIsLocked(true)
+      }
+    }, [nsfwOn])
+
     return (
-      <TouchableWithoutFeedback onPress = {() => navigation.navigate('GenreHome', {genreRoute: id})}>
-        <View style={[styles.genrebox, {flexDirection: 'row', }]}>
+      <TouchableWithoutFeedback onPress = {() => locked === false ? (navigation.navigate('GenreHome', {genreRoute: id})) : null}>
+        <View style={{
+          flexDirection: 'row', height: 60, borderRadius: 15, alignItems: 'center', marginVertical: 10, width: '100%'}}>
             <Image
               source={{ uri: imageUri}}
               style={{width: '40%', height: '100%', borderRadius: 15, position: 'absolute', backgroundColor: 'gray', left: 192}}
@@ -57,9 +70,20 @@ const AudioStoryHome = ({navigation} : any) => {
                 end={{ x: 1, y: 0 }}
                 style={[styles.genrebox]}
               >
-                <Text style={styles.genre}>
-                  {genre}
-                </Text>
+                <View style={{justifyContent: 'center', backgroundColor: locked === true ? '#363636a5' : 'transparent', width: '100%', height: '100%'}}>
+                  <Text style={styles.genre}>
+                    {genre}
+                  </Text>
+                  {locked === true ? (
+                    <FontAwesome5 
+                      name='lock'
+                      size={20}
+                      color='gray'
+                      style={{alignSelf: 'center', position: 'absolute'}}
+                    />
+                  ) : null}
+                  
+                </View>
               </LinearGradient>
           </View>
         </TouchableWithoutFeedback>
@@ -89,9 +113,9 @@ const AudioStoryHome = ({navigation} : any) => {
           sortDirection: 'DESC',
           limit: 15,
           filter: {
-            nsfw: {
-              eq: false
-            }
+            genreID: {
+              ne: '1108a619-1c0e-4064-8fce-41f1f6262070'
+            },
           }
       }))
 

@@ -75,10 +75,10 @@ const Settings = ({navigation} : any) => {
                 <View style={styles.optionsitem}>
                     <View style={styles.subblock}>
                         <Text style={styles.paragraph}>
-                            Allow Explicit Content
+                            Block Explicit Content
                         </Text>
                         <Text style={styles.subparagraph}>
-                            Turn on to listen to adult or explicit content
+                            Turn on to block adult or explicit content
                         </Text>
                     </View>
                     

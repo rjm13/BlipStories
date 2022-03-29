@@ -218,6 +218,7 @@ export const getUser = /* GraphQL */ `
           userID
           storyID
           createdAt
+          genreID
           updatedAt
         }
         nextToken
@@ -990,6 +991,17 @@ export const getFinishedStory = /* GraphQL */ `
         numListens
       }
       createdAt
+      genreID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        createdAt
+        updatedAt
+      }
       updatedAt
     }
   }
@@ -1060,6 +1072,17 @@ export const listFinishedStories = /* GraphQL */ `
           numListens
         }
         createdAt
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+        }
         updatedAt
       }
       nextToken
@@ -4226,6 +4249,17 @@ export const finishedStoriesByDate = /* GraphQL */ `
           numListens
         }
         createdAt
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+        }
         updatedAt
       }
       nextToken

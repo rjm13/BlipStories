@@ -169,7 +169,8 @@ const ArtistSetup = ({navigation} : any) => {
                             userID: userInfo.attributes.sub,
                             imageUri: s3Response.key,
                             title: imageData[i].imageTitle,
-                            isSample: true
+                            isSample: true,
+                            type: 'ImageAsset'
                         }}
                     ))
                     console.log(imageResult)
