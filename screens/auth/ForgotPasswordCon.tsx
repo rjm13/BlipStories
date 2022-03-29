@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, Dimensions, TextInput, TouchableOpacity} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import {Auth} from '@aws-amplify/auth'
+import Feather from 'react-native-vector-icons/Feather';
 
 //import {useNavigation} from '@react-navigation/native'
 //import {Auth} from '@aws-amplify/auth'
@@ -9,6 +10,10 @@ import {Auth} from '@aws-amplify/auth'
 const ForgotPassword = ({navigation, route} : {navigation : any, route : any}) => {
 
     const {email} = route.params
+
+    const [newPassVis, setNewPassVis] = useState(false);
+
+    const [conPassVis, setConPassVis] = useState(false);
 
     const [updatePass, setUpdatePass] = useState({
         username: email,
@@ -28,7 +33,7 @@ const ForgotPassword = ({navigation, route} : {navigation : any, route : any}) =
 
             console.log(result);
 
-            if(result !== null) {
+            if(result) {
                 navigation.navigate('SignIn');
             }
         } catch (e) {
@@ -38,16 +43,23 @@ const ForgotPassword = ({navigation, route} : {navigation : any, route : any}) =
         }
     }
 
+    const ResendCode = async () => {
+        
+    }
+
     return (
         <View style={styles.container}>
             <LinearGradient
-                colors={['cyan','#2f2179', '#000']}
+                colors={['#00ffffa5','#000', '#000']}
                 style={styles.container}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
 
-<View style={{ margin: 20}}>
+                <View style={{ margin: 20}}>
+                    <Text style={{marginHorizontal: 20, color: '#fff', textAlign: 'center', marginBottom: 40, fontSize: 12}}>
+                        Please check your email for the confirmation code to reset your password.
+                    </Text>
                     <View>
                         <Text style={styles.header}>
                             Confirmation Code
@@ -57,7 +69,7 @@ const ForgotPassword = ({navigation, route} : {navigation : any, route : any}) =
                                 placeholder='Check email for code'
                                 placeholderTextColor='#ffffffa5'
                                 style={styles.textInputTitle}
-                                maxLength={30}
+                                maxLength={40}
                                 autoCapitalize='none'
                                 onChangeText={val => setUpdatePass({...updatePass, code: val})}
                             />
@@ -70,14 +82,22 @@ const ForgotPassword = ({navigation, route} : {navigation : any, route : any}) =
                         <Text style={styles.header}>
                             New Password
                         </Text>
-                        <View style={styles.inputfield}>
+                        <View style={[styles.inputfield, {flexDirection: 'row', justifyContent: 'space-between'}]}>
                             <TextInput 
                                 placeholder='...'
                                 placeholderTextColor='#ffffffa5'
-                                style={styles.textInputTitle}
+                                style={[styles.textInputTitle, {width: '80%'}]}
                                 maxLength={30}
                                 autoCapitalize='none'
+                                secureTextEntry={newPassVis === true ? false : true}
                                 onChangeText={val => setUpdatePass({...updatePass, password: val})}
+                            />
+                            <Feather 
+                                name={newPassVis === true ? 'eye' : 'eye-off'}
+                                color='#fff'
+                                size={18}
+                                style={{marginRight: 10, alignSelf: 'center'}}
+                                onPress={() => setNewPassVis(!newPassVis)}
                             />
                         </View>
                     </View>
@@ -88,14 +108,22 @@ const ForgotPassword = ({navigation, route} : {navigation : any, route : any}) =
                         <Text style={styles.header}>
                             Confirm New Password
                         </Text>
-                        <View style={styles.inputfield}>
+                        <View style={[styles.inputfield, {flexDirection: 'row', justifyContent: 'space-between'}]}>
                             <TextInput 
                                 placeholder='...'
                                 placeholderTextColor='#ffffffa5'
-                                style={styles.textInputTitle}
+                                style={[styles.textInputTitle, {width: '80%'}]}
                                 maxLength={30}
                                 autoCapitalize='none'
+                                secureTextEntry={conPassVis === true ? false : true}
                                 onChangeText={val => setUpdatePass({...updatePass, confirmPass: val})}
+                            />
+                            <Feather 
+                                name={conPassVis === true ? 'eye' : 'eye-off'}
+                                color='#fff'
+                                size={18}
+                                style={{marginRight: 10, alignSelf: 'center'}}
+                                onPress={() => setConPassVis(!conPassVis)}
                             />
                         </View>
                     </View>
@@ -110,7 +138,7 @@ const ForgotPassword = ({navigation, route} : {navigation : any, route : any}) =
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => navigation.goBack() }>
-                    <Text style={{fontSize: 14, color: '#fff', alignSelf: 'center', margin: 5}}>
+                    <Text style={{fontSize: 14, color: '#fff', alignSelf: 'center', margin: 20}}>
                         Go Back
                     </Text>
                 </TouchableOpacity>
@@ -141,7 +169,7 @@ const styles = StyleSheet.create({
     inputfield: {
         width: '90%',
         height: 40,
-        backgroundColor: '#363636a5',
+        backgroundColor: '#363636',
         padding: 10,
         borderRadius: 10,
         alignSelf: 'center',

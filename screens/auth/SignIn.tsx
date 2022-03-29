@@ -215,7 +215,7 @@ const styles = StyleSheet.create ({
     inputfield: {
         width: '90%',
         height: 40,
-        backgroundColor: '#363636a5',
+        backgroundColor: '#363636',
         padding: 10,
         borderRadius: 10,
         alignSelf: 'center',

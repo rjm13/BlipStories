@@ -132,18 +132,18 @@ const CreateUser = async () => {
         });
     }
 
-    const updateSecureTextEntry = () => {
-        setData({
-            ... data,
-            secureTextEntry: !data.secureTextEntry
-        })
-    }
-    const updateConfirmSecureTextEntry = () => {
-        setData({
-            ... data,
-            confirm_secureTextEntry: !data.confirm_secureTextEntry
-        })
-    }
+    // const updateSecureTextEntry = () => {
+    //     setData({
+    //         ... data,
+    //         secureTextEntry: !data.secureTextEntry
+    //     })
+    // }
+    // const updateConfirmSecureTextEntry = () => {
+    //     setData({
+    //         ... data,
+    //         confirm_secureTextEntry: !data.confirm_secureTextEntry
+    //     })
+    // }
 
     const handleSignUp = () => {
 
@@ -178,7 +178,7 @@ const CreateUser = async () => {
     return (
         <View style={{ flex: 1 }}>
             <LinearGradient
-                colors={['cyan','#2f2179', '#000']}
+                colors={['#00ffffa5','#000', '#000']}
                 style={styles.container}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
@@ -221,7 +221,7 @@ const CreateUser = async () => {
                                 placeholder='...'
                                 placeholderTextColor='#ffffffa5'
                                 style={styles.textInputTitle}
-                                maxLength={30}
+                                maxLength={40}
                                 onChangeText={(val) => handleNameChange(val)}
                             />
                         </View>
@@ -236,7 +236,7 @@ const CreateUser = async () => {
                                 placeholder='....'
                                 placeholderTextColor='#ffffffa5'
                                 style={styles.textInputTitle}
-                                maxLength={30}
+                                maxLength={40}
                                 onChangeText={(val) => textInputChange(val)}
                                 autoCapitalize='none'
                             />
@@ -278,7 +278,7 @@ const CreateUser = async () => {
                             <TextInput 
                                 placeholder='....'
                                 placeholderTextColor='#ffffffa5'
-                                style={styles.textInputTitle}
+                                style={[styles.textInputTitle, {width: '80%'}]}
                                 maxLength={20}
                                 autoCapitalize='none'
                                 secureTextEntry={seePass === true ? true : false }
@@ -302,7 +302,7 @@ const CreateUser = async () => {
                             <TextInput 
                                 placeholder='....'
                                 placeholderTextColor='#ffffffa5'
-                                style={styles.textInputTitle}
+                                style={[styles.textInputTitle, {width: '80%'}]}
                                 maxLength={20}
                                 autoCapitalize='none'
                                 secureTextEntry={seeConPass === true ? true : false }
@@ -364,7 +364,7 @@ const styles = StyleSheet.create ({
     inputfield: {
         width: '90%',
         height: 40,
-        backgroundColor: '#363636a5',
+        backgroundColor: '#363636',
         padding: 10,
         borderRadius: 10,
         alignSelf: 'center',

@@ -7,18 +7,22 @@ const ForgotPassword = ({navigation} : any) => {
 
     const [email, setEmail] = useState('');
 
-    const handleForgotPassword = () => {
-        Auth.forgotPassword(
-            email,
-        )
-        .then(navigation.navigate('ForgotPasswordCon', {email: email}))
-        .catch(err => console.log(err));
+    const handleForgotPassword = async () => {
+        try {
+            await Auth.forgotPassword(
+                email.replace(/ /g, ''),
+            )
+            .then(navigation.navigate('ForgotPasswordCon', {email: email.replace(/ /g, '')}))
+
+        } catch {
+            alert('Error. Please try again.')
+        }
       }
 
     return (
         <View style={styles.container}>
             <LinearGradient
-                colors={['cyan','#2f2179', '#000']}
+                colors={['#00ffffa5','#000', '#000']}
                 style={styles.container}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
@@ -33,7 +37,7 @@ const ForgotPassword = ({navigation} : any) => {
                                 placeholder='....'
                                 placeholderTextColor='#ffffffa5'
                                 style={styles.textInputTitle}
-                                maxLength={30}
+                                maxLength={40}
                                 onChangeText={val => setEmail(val)}
                             />
                         </View>
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
     inputfield: {
         width: '90%',
         height: 40,
-        backgroundColor: '#363636a5',
+        backgroundColor: '#363636',
         padding: 10,
         borderRadius: 10,
         alignSelf: 'center',
