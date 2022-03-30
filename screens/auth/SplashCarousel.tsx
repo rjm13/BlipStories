@@ -7,6 +7,7 @@ import {
     TouchableWithoutFeedback,
     Dimensions,
     FlatList,
+    ScrollView
 } from 'react-native';
 
 import {Auth, API, graphqlOperation} from 'aws-amplify';
@@ -19,13 +20,19 @@ const SplashCarousel = ({navigation} : any) => {
     const [genres, setGenres] = useState([]);
 
     const TopThree = [];
+    
+    const [top3, setTop3] = useState([])
 
     useEffect(() => {
 
         const fetchGenres = async () => {
 
             const genreInfo = await API.graphql(graphqlOperation(
-                listGenres
+                listGenres, {filter: {
+                    id: {
+                        ne: '1108a619-1c0e-4064-8fce-41f1f6262070'
+                    }
+                }}
             ))
             setGenres(genreInfo.data.listGenres.items);
         }
@@ -37,23 +44,28 @@ const SplashCarousel = ({navigation} : any) => {
 
     const AddRemoveGenre = (id : any) => {
 
-        if (TopThree.includes(id)) {
-            TopThree.splice(id);
-        } else if (TopThree.length < 2) {
-            TopThree.push(id);
-        } else if (TopThree.length === 2 ) {
-            TopThree.push(id);
-        } else {null}
+        if (TopThree.length === 3) {
+            if (TopThree.includes(id)) {
+                TopThree.splice(id);
+            } else { return }
+        } 
+
+        else if (TopThree.length < 3) {
+            if (TopThree.includes(id)) {
+                TopThree.splice(id);
+            } else {TopThree.push(id)}
+        } 
+        console.log(TopThree)
     }
 
     const UpdateThree = async () => {
 
-        if (TopThree.length === 3) {
+        if (top3.length === 3) {
             try {
                 const userInfo = await Auth.currentAuthenticatedUser();
 
             const update = await API.graphql(graphqlOperation(
-                updateUser, {input: {id: userInfo.attributes.sub, topthree: TopThree}}
+                updateUser, {input: {id: userInfo.attributes.sub, topthree: top3}}
             ))
             console.log(update.data.updateUser.topthree)
             navigation.navigate('Redirect', {trigger: Math.random()})
@@ -66,41 +78,35 @@ const SplashCarousel = ({navigation} : any) => {
         }
     }
 
-    const GenreItem = ({id, genre} : any) => {
+    // const GenreItem = ({id, genre, index} : any) => {
 
-        const [isSelected, setIsSelected] = useState(false);
+    //     const [isSelected, setIsSelected] = useState(false);
 
-        return (
-            <TouchableOpacity onPress={() => {
-                if (TopThree.length < 3) {
-                    AddRemoveGenre(id); setIsSelected(!isSelected)
-                } else if (TopThree.length > 2 && TopThree.includes(id)) {
-                    TopThree.splice(id);
-                    setIsSelected(!isSelected)
-                } else {null}
-            }}
-            >
-                <View style={{margin: 10, paddingVertical: 6, paddingHorizontal: 10, borderWidth: 0.5, borderRadius: 30,
-                    borderColor: isSelected ? 'cyan' : '#fff', 
-                    backgroundColor: isSelected ? 'cyan' : 'transparent',
-                }}>
-                    <Text style={{textTransform: 'capitalize', color: isSelected ? '#000' : '#fff'}}>
-                        {genre}
-                    </Text>
-                </View>
-            </TouchableOpacity>
+    //     return (
+    //         <TouchableOpacity 
+    //         >
+    //             <View style={{margin: 10, paddingVertical: 6, paddingHorizontal: 10, borderWidth: 0.5, borderRadius: 30,
+    //                 borderColor: isSelected ? 'cyan' : '#fff', 
+    //                 backgroundColor: isSelected ? 'cyan' : 'transparent',
+    //             }}>
+    //                 <Text style={{textTransform: 'capitalize', color: isSelected ? '#000' : '#fff'}}>
+    //                     {genre}
+    //                 </Text>
+    //             </View>
+    //         </TouchableOpacity>
             
-        )
-    }
+    //     )
+    // }
 
-    const RenderItem = ({item} : any) => {
-        return (
-            <GenreItem 
-                id={item.id}
-                genre={item.genre}
-            />
-        )
-    }
+    // const RenderItem = ({item, index} : any) => {
+    //     return (
+    //         <GenreItem 
+    //             id={item.id}
+    //             genre={item.genre}
+    //             index={index}
+    //         />
+    //     )
+    // }
 
     return (
         <View>
@@ -116,16 +122,44 @@ const SplashCarousel = ({navigation} : any) => {
 
             </View>
 
-            <FlatList 
+            <ScrollView scrollEnabled={false} contentContainerStyle={{justifyContent: 'center', flexDirection: 'row',flexWrap: 'wrap'}}>
+                {genres.map(({genre, id}, index) => {
+
+                const AddToTop3 = ({genreid} : any) => {
+
+                    if (top3.includes(genreid)) {
+                        setTop3(top3.filter(item => item !== genreid))
+                    
+                    } 
+                    if (top3.length < 3) {
+                        setTop3([...top3,genreid])
+                    }
+                }
+
+                return (
+                    <TouchableOpacity style={{width: '48%'}} onPress={() => AddToTop3({genreid: id})}>
+                        <View style={{margin: 10, paddingVertical: 6, paddingHorizontal: 10, borderWidth: 0.5, borderRadius: 30,
+                            borderColor: top3.includes(id) === true ? 'cyan' : '#fff', 
+                            backgroundColor: top3.includes(id) === true ? 'cyan' : 'transparent',
+                        }}>
+                            <Text style={{textAlign: 'center', textTransform: 'capitalize', color: top3.includes(id) === true ? '#000' : '#fff'}}>
+                                {genre}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                )})}
+            </ScrollView>
+
+            {/* <FlatList 
                 data={genres}
                 keyExtractor={item => item.id}
                 renderItem={RenderItem}
                 numColumns={3}
                 style={{alignSelf: 'center'}}
-            />
+            /> */}
 
             <TouchableWithoutFeedback onPress={UpdateThree}>
-                <View style={{alignSelf: 'center', width: 80, paddingVertical: 6, paddingHorizontal: 20, borderRadius: 30, borderWidth: 0.5, margin: 80, 
+                <View style={{alignSelf: 'center', width: 80, paddingVertical: 6, paddingHorizontal: 20, borderRadius: 30, borderWidth: 0.5, margin: 40, 
                     borderColor: 'cyan',
                     backgroundColor: 'cyan',
                 }}>

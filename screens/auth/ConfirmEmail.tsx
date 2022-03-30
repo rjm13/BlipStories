@@ -29,71 +29,99 @@ const ConfirmEmail = ({navigation, route} : {navigation: any, route : any}) => {
         setLoggingIn(true);
         
         try {
-        console.log(username, code, password);
-          let result = await Auth.confirmSignUp(username, code);
 
-          if (result) {
-            await Auth.signIn (username, password)
+            let result = await Auth.confirmSignUp(username, code);
 
-            const userInfo = await Auth.currentAuthenticatedUser({ bypassCache: true })
+            if (result) {
+                let signin = await Auth.signIn (username, password)
 
-            if (userInfo) {
-                //get the user from Backend with the user SUB from Auth
-                  const userData = await API.graphql(
-                    graphqlOperation(
-                      getUser, 
-                      { id: userInfo.attributes.sub,
-                      }
-                    )
-                  )
-          
-          
-                if (userData.data.getUser) {
-                console.log("User is already registered in database");
-                navigation.navigate('Redirect', {trigger: Math.random()}) 
-                return;
-                };
-        
-                const newUser = {
-                    id: userInfo.attributes.sub,
-                    type: 'User',
-                    createdAt: new Date (),
-                    name: userInfo.attributes.name,
-                    imageUri: userInfo.attributes.imageUri,
-                    email: userInfo.attributes.email,
-                    birthdate: userInfo.attributes.birthdate,
-                    //isLiked: [],
+                if (signin) {
+                    const userInfo = await Auth.currentAuthenticatedUser({ bypassCache: true })
+
+                    if (userInfo) {
+
+                        const newUser = {
+                            id: userInfo.attributes.sub,
+                            type: 'User',
+                            name: userInfo.attributes.name,
+                            birthdate: userInfo.attributes.birthdate,
+                        }
+
+                        const createdUser = await API.graphql(
+                            graphqlOperation(
+                            createUser,
+                            { input: newUser }
+                            )
+                        )
+                        if (createdUser) {
+                            navigation.navigate('SplashCarousel')
+                        }
+                    }
                 }
-          
-                //if there is no user in DB with the id, then create one
-                const createdUser = await API.graphql(
-                    graphqlOperation(
-                    createUser,
-                    { input: newUser }
-                    )
-                )
-                if (createdUser) {
-                    navigation.navigate('SplashCarousel')
-                    //navigation.navigate('Redirect', {trigger: Math.random()}) 
-                }
-            } 
-        }
-    }
-            // On failure, display error in console      
-        catch (error) {
+            }
+        } catch (error) {
             console.log('error confirming sign up', error);
             alert('Error confirming account. Please try again.')
         }
         setLoggingIn(false);
     }
 
+            
+
+            // if (userInfo) {
+            //       const userData = await API.graphql(
+            //         graphqlOperation(
+            //           getUser, 
+            //           { id: userInfo.attributes.sub,
+            //           }
+            //         )
+            //       )
+          
+          
+                // if (userData.data.getUser) {
+                // console.log("User is already registered in database");
+                // navigation.navigate('Redirect', {trigger: Math.random()}) 
+                // return;
+                // };
+        
+    //             const newUser = {
+    //                 id: userInfo.attributes.sub,
+    //                 type: 'User',
+    //                 //createdAt: new Date(),
+    //                 name: userInfo.attributes.name,
+    //                 birthdate: userInfo.attributes.birthdate,
+    //             }
+          
+    //             //if there is no user in DB with the id, then create one
+    //             const createdUser = await API.graphql(
+    //                 graphqlOperation(
+    //                 createUser,
+    //                 { input: newUser }
+    //                 )
+    //             )
+    //             if (createdUser) {
+    //                 navigation.navigate('SplashCarousel')
+    //                 //navigation.navigate('Redirect', {trigger: Math.random()}) 
+    //             }
+    //         } 
+    //     }
+    // }
+            // On failure, display error in console      
+        // catch (error) {
+        //     console.log('error confirming sign up', error);
+        //     alert('Error confirming account. Please try again.')
+        // }
+        // setLoggingIn(false);
+    //}
+
     async function resendConfirmationCode() {
-        const {username} = data;
+        //const {username} = username;
         try {
             await Auth.resendSignUp(username);
             alert('Confirmation code resent. Please check your email.');
         } catch (err) {
             console.log('error resending code: ', err);
+            alert('Error sending code.')
         }
     }
 
@@ -108,7 +136,7 @@ const ConfirmEmail = ({navigation, route} : {navigation: any, route : any}) => {
     return (
         <View style={styles.container}>
             <LinearGradient
-                colors={['cyan','#2f2179', '#000']}
+                colors={['#00ffffa5','#000', '#000']}
                 style={styles.container}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
@@ -183,7 +211,7 @@ const styles = StyleSheet.create({
     inputfield: {
         width: '90%',
         height: 40,
-        backgroundColor: '#363636a5',
+        backgroundColor: '#363636',
         padding: 10,
         borderRadius: 10,
         alignSelf: 'center',

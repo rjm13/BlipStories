@@ -83,7 +83,7 @@ const CreateUser = async () => {
                     'custom:membership': membership
                 },
             });
-            console.log(user);
+            //console.log(user);
 
             if (user) {
                 navigation.navigate('ConfirmEmail', {username, password})
@@ -163,10 +163,16 @@ const CreateUser = async () => {
             setNoMatch(true);
             setUserExist(false);
             return;
-        }
+        } if (data.name.length < 3) {
+            setShortPass(false);
+            setIsErr(true);
+            setNoMatch(false);
+            setUserExist(false);
+            return;
+        } 
         // Make sure passwords match
         if (password === confirm_password && password.length > 5) {
-            setSigningUp(true);
+            setIsErr(false);
             setShortPass(false);
             setNoMatch(false);
             CreateUser()
