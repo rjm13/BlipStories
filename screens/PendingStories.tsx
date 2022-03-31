@@ -102,7 +102,7 @@ const PendingStories = ({navigation} : any) => {
                         userID: userID,
                         otherUserID: authorID,
                         content: 'Your story has been approved and is now live in the app!\n\nTo view your story, go to Publisher Home >> Published Stories',
-                        title: 'Your story,' + title + ' has been approved!',
+                        title: 'Your story, ' + title + ' has been approved!',
                         subtitle: 'approval',
                         isReadbyUser: true,
                         isReadByOtherUser: false,
@@ -159,10 +159,11 @@ const PendingStories = ({navigation} : any) => {
 
         try {
 
+            console.log(rejectedAuthor)
             let response = await API.graphql(graphqlOperation(
-                deleteStory, {
+                deleteStory, {input: {
                     id: rejectedID
-                }
+                }}
             ))
             if (response) {
                 let sendmessage = await API.graphql(graphqlOperation(
@@ -173,7 +174,7 @@ const PendingStories = ({navigation} : any) => {
                         userID: userID,
                         otherUserID: rejectedAuthor,
                         content: 'Your story is not approved.\n\nReason:\n\n' + reasonsArr + '\n\n' + reason + '\nPlease correct and resubmit your story.',
-                        title: 'Your story,' + rejectedTitle + ' has been rejected.',
+                        title: 'Your story, ' + rejectedTitle + ' has been rejected.',
                         subtitle: 'approval',
                         isReadbyUser: true,
                         isReadByOtherUser: false,
@@ -183,6 +184,7 @@ const PendingStories = ({navigation} : any) => {
 
                     }}
                 ))
+                console.log(sendmessage)
                 if (sendmessage) {
                     setPending(false)
                     alert ('Story rejected!')
@@ -325,7 +327,7 @@ const PendingStories = ({navigation} : any) => {
                             {pending === true ? (
                                 <ActivityIndicator color='cyan' size='small'/>
                             ) :(
-                                <TouchableOpacity onPress={() => showModal({authorID, id, title})}>
+                                <TouchableOpacity onPress={() => showModal({id, title, authorID})}>
                                     <Text style={{color: 'cyan', backgroundColor: 'transparent', borderWidth: 0.5, borderColor: 'cyan', borderRadius: 15, paddingHorizontal: 20, paddingVertical: 6}}>
                                         Reject
                                     </Text>
@@ -357,7 +359,7 @@ const PendingStories = ({navigation} : any) => {
         return  (
             <Item 
                 title={item.title}
-                authorID={item.authorID}
+                authorID={item.userID}
                 imageUri={item.imageUri}
                 genreName={genreName}
                 icon={icon}
@@ -375,7 +377,8 @@ const PendingStories = ({navigation} : any) => {
     }
 
     const reasons = [
-        {id: 1, reason: 'Insufficent Audio Quality. \n'},
+        {id: 0, reason: 'Insufficent Audio Quality. \n'},
+        {id: 1, reason: 'Story Exceeds Time Limit. \n'},
         {id: 2, reason: 'Story Contains Inappropriate/Banned Content.\n'},
         {id: 3, reason: 'Story Violates Copyright Laws.\n'},
         {id: 4, reason: 'Technical Issue.\n'},
