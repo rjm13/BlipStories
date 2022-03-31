@@ -2609,6 +2609,7 @@ export const onCreateStory = /* GraphQL */ `
           content
           userID
           createdAt
+          approved
           updatedAt
         }
         nextToken
@@ -2876,6 +2877,7 @@ export const onUpdateStory = /* GraphQL */ `
           content
           userID
           createdAt
+          approved
           updatedAt
         }
         nextToken
@@ -3143,6 +3145,7 @@ export const onDeleteStory = /* GraphQL */ `
           content
           userID
           createdAt
+          approved
           updatedAt
         }
         nextToken
@@ -5337,6 +5340,7 @@ export const onCreateComment = /* GraphQL */ `
       }
       userID
       createdAt
+      approved
       updatedAt
     }
   }
@@ -5543,6 +5547,7 @@ export const onUpdateComment = /* GraphQL */ `
       }
       userID
       createdAt
+      approved
       updatedAt
     }
   }
@@ -5749,6 +5754,7 @@ export const onDeleteComment = /* GraphQL */ `
       }
       userID
       createdAt
+      approved
       updatedAt
     }
   }

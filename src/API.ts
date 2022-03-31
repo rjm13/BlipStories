@@ -216,6 +216,7 @@ export type Comment = {
   user?: User | null,
   userID?: string | null,
   createdAt?: string | null,
+  approved?: boolean | null,
   updatedAt: string,
 };
 
@@ -830,6 +831,7 @@ export type CreateCommentInput = {
   content: string,
   userID?: string | null,
   createdAt?: string | null,
+  approved?: boolean | null,
 };
 
 export type ModelCommentConditionInput = {
@@ -838,6 +840,7 @@ export type ModelCommentConditionInput = {
   content?: ModelStringInput | null,
   userID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
+  approved?: ModelBooleanInput | null,
   and?: Array< ModelCommentConditionInput | null > | null,
   or?: Array< ModelCommentConditionInput | null > | null,
   not?: ModelCommentConditionInput | null,
@@ -850,6 +853,7 @@ export type UpdateCommentInput = {
   content?: string | null,
   userID?: string | null,
   createdAt?: string | null,
+  approved?: boolean | null,
 };
 
 export type DeleteCommentInput = {
@@ -1276,6 +1280,7 @@ export type ModelCommentFilterInput = {
   content?: ModelStringInput | null,
   userID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
+  approved?: ModelBooleanInput | null,
   and?: Array< ModelCommentFilterInput | null > | null,
   or?: Array< ModelCommentFilterInput | null > | null,
   not?: ModelCommentFilterInput | null,
@@ -4369,6 +4374,7 @@ export type CreateStoryMutation = {
         content: string,
         userID?: string | null,
         createdAt?: string | null,
+        approved?: boolean | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -4687,6 +4693,7 @@ export type UpdateStoryMutation = {
         content: string,
         userID?: string | null,
         createdAt?: string | null,
+        approved?: boolean | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -5005,6 +5012,7 @@ export type DeleteStoryMutation = {
         content: string,
         userID?: string | null,
         createdAt?: string | null,
+        approved?: boolean | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -7602,6 +7610,7 @@ export type CreateCommentMutation = {
     } | null,
     userID?: string | null,
     createdAt?: string | null,
+    approved?: boolean | null,
     updatedAt: string,
   } | null,
 };
@@ -7834,6 +7843,7 @@ export type UpdateCommentMutation = {
     } | null,
     userID?: string | null,
     createdAt?: string | null,
+    approved?: boolean | null,
     updatedAt: string,
   } | null,
 };
@@ -8066,6 +8076,7 @@ export type DeleteCommentMutation = {
     } | null,
     userID?: string | null,
     createdAt?: string | null,
+    approved?: boolean | null,
     updatedAt: string,
   } | null,
 };
@@ -12313,6 +12324,7 @@ export type GetStoryQuery = {
         content: string,
         userID?: string | null,
         createdAt?: string | null,
+        approved?: boolean | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -13861,6 +13873,7 @@ export type GetCommentQuery = {
     } | null,
     userID?: string | null,
     createdAt?: string | null,
+    approved?: boolean | null,
     updatedAt: string,
   } | null,
 };
@@ -13938,6 +13951,7 @@ export type ListCommentsQuery = {
       } | null,
       userID?: string | null,
       createdAt?: string | null,
+      approved?: boolean | null,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -16294,6 +16308,7 @@ export type CommentsByDateQuery = {
       } | null,
       userID?: string | null,
       createdAt?: string | null,
+      approved?: boolean | null,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -19688,6 +19703,7 @@ export type OnCreateStorySubscription = {
         content: string,
         userID?: string | null,
         createdAt?: string | null,
+        approved?: boolean | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -20001,6 +20017,7 @@ export type OnUpdateStorySubscription = {
         content: string,
         userID?: string | null,
         createdAt?: string | null,
+        approved?: boolean | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -20314,6 +20331,7 @@ export type OnDeleteStorySubscription = {
         content: string,
         userID?: string | null,
         createdAt?: string | null,
+        approved?: boolean | null,
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
@@ -22831,6 +22849,7 @@ export type OnCreateCommentSubscription = {
     } | null,
     userID?: string | null,
     createdAt?: string | null,
+    approved?: boolean | null,
     updatedAt: string,
   } | null,
 };
@@ -23058,6 +23077,7 @@ export type OnUpdateCommentSubscription = {
     } | null,
     userID?: string | null,
     createdAt?: string | null,
+    approved?: boolean | null,
     updatedAt: string,
   } | null,
 };
@@ -23285,6 +23305,7 @@ export type OnDeleteCommentSubscription = {
     } | null,
     userID?: string | null,
     createdAt?: string | null,
+    approved?: boolean | null,
     updatedAt: string,
   } | null,
 };

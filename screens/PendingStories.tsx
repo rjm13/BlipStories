@@ -21,7 +21,7 @@ import {useNavigation} from '@react-navigation/native'
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { storiesByDate } from '../src/graphql/queries';
-import { updateStory, createMessage } from '../src/graphql/mutations';
+import { updateStory, createMessage, deleteStory } from '../src/graphql/mutations';
 import TimeConversion from '../components/functions/TimeConversion';
 
 const PendingStories = ({navigation} : any) => {
@@ -33,6 +33,8 @@ const PendingStories = ({navigation} : any) => {
     const [userID, setUserID] = useState('')
 
     const [reason, setReason] = useState('')
+
+    const [reasonsArr, setReasonsArr] = useState([])
 
     //refresh state of the flatlist
     const [isFetching, setIsFetching] = useState(false);
@@ -124,10 +126,27 @@ const PendingStories = ({navigation} : any) => {
         
     }
 
+    const [rejectedAuthor, setRejectedAuthor] = useState('');
+    const [rejectedID, setRejectedID] = useState('');
+    const [rejectedTitle, setRejectedTitle] = useState('');
+
     //Reject Modal
         const [visible, setVisible] = useState(false);
-        const showModal = () => setVisible(true);
-        const hideModal = () => setVisible(false);
+        const showModal = ({id, title, authorID} : any) => {
+            setVisible(true);
+            setRejectedAuthor(authorID);
+            setRejectedID(id);
+            setRejectedTitle(title);
+        }
+        const hideModal = () => {
+            setVisible(false); 
+            setRejectedAuthor('');
+            setRejectedID('');
+            setRejectedTitle('');
+            setReasonsArr([]);
+            setReason('');
+        }
+        
         const containerStyle = {
             backgroundColor: '#363636', 
             padding: 20,
@@ -135,8 +154,46 @@ const PendingStories = ({navigation} : any) => {
             borderRadius: 15,
         };
 
-    const RejectStory = () => {
+    const RejectStory = async () => {
+        setPending(true)
 
+        try {
+
+            let response = await API.graphql(graphqlOperation(
+                deleteStory, {
+                    id: rejectedID
+                }
+            ))
+            if (response) {
+                let sendmessage = await API.graphql(graphqlOperation(
+                    createMessage, {input: {
+                        type: 'Message',
+                        createdAt: new Date(),
+                        updatedAt: new Date(),
+                        userID: userID,
+                        otherUserID: rejectedAuthor,
+                        content: 'Your story is not approved.\n\nReason:\n\n' + reasonsArr + '\n\n' + reason + '\nPlease correct and resubmit your story.',
+                        title: 'Your story,' + rejectedTitle + ' has been rejected.',
+                        subtitle: 'approval',
+                        isReadbyUser: true,
+                        isReadByOtherUser: false,
+                        docID: null, 
+                        request: null,
+                        status: null
+
+                    }}
+                ))
+                if (sendmessage) {
+                    setPending(false)
+                    alert ('Story rejected!')
+                    setDidUpdate(!didUpdate)
+                    hideModal();
+                }
+            }
+        } catch {
+            alert ('Error')
+            setPending(false)
+        }
     }
 
     
@@ -265,12 +322,16 @@ const PendingStories = ({navigation} : any) => {
                                 </TouchableOpacity>
                             )}
                             
+                            {pending === true ? (
+                                <ActivityIndicator color='cyan' size='small'/>
+                            ) :(
+                                <TouchableOpacity onPress={() => showModal({authorID, id, title})}>
+                                    <Text style={{color: 'cyan', backgroundColor: 'transparent', borderWidth: 0.5, borderColor: 'cyan', borderRadius: 15, paddingHorizontal: 20, paddingVertical: 6}}>
+                                        Reject
+                                    </Text>
+                                </TouchableOpacity>
+                            )}
                             
-                            <TouchableOpacity onPress={() => showModal()}>
-                                <Text style={{color: 'cyan', backgroundColor: 'transparent', borderWidth: 0.5, borderColor: 'cyan', borderRadius: 15, paddingHorizontal: 20, paddingVertical: 6}}>
-                                    Reject
-                                </Text>
-                            </TouchableOpacity>
                             
                         </View>
                     </View>
@@ -313,6 +374,16 @@ const PendingStories = ({navigation} : any) => {
         )
     }
 
+    const reasons = [
+        {id: 1, reason: 'Insufficent Audio Quality. \n'},
+        {id: 2, reason: 'Story Contains Inappropriate/Banned Content.\n'},
+        {id: 3, reason: 'Story Violates Copyright Laws.\n'},
+        {id: 4, reason: 'Technical Issue.\n'},
+        {id: 5, reason: 'Story Does Not Meet Quality Standards.\n'},
+        {id: 6, reason: 'Narration Does Not Meet Quality Standards.\n'},
+        {id: 7, reason: 'Inappropriate Cover Art.\n'},
+    ]
+
     return (
         <Provider>
             <Portal>
@@ -321,10 +392,27 @@ const PendingStories = ({navigation} : any) => {
                         <Text style={{color: '#fff', fontWeight: 'bold'}}>
                             Reason for Rejection
                         </Text>
-                        <ScrollView>
-                            <Text style={{color: '#fff'}}>
-                                Audio sucks
-                            </Text>
+                        <ScrollView style={{marginTop : 20}}>
+                            {reasons.map(({id, reason}, index) => {
+
+                                const AddToReasons = ({reason} : any) => {
+
+                                    if (reasonsArr.includes(reason)) {
+                                        setReasonsArr(reasonsArr.filter(item => item !== reason))
+                                    
+                                    } 
+                                    else {
+                                        setReasonsArr([...reasonsArr, reason])
+                                    }
+                                }
+
+                            return (
+                                <TouchableWithoutFeedback onPress={() => AddToReasons({reason: reason})}>
+                                    <Text style={{textAlign: 'center', paddingVertical: 0, color: reasonsArr.includes(reason) === true ? 'cyan' : '#fff',}}>
+                                        {reason}
+                                    </Text> 
+                                </TouchableWithoutFeedback>
+                            )})}
                         </ScrollView>
                         <TextInput
                             placeholder='....'

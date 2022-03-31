@@ -1324,6 +1324,7 @@ export const getStory = /* GraphQL */ `
           content
           userID
           createdAt
+          approved
           updatedAt
         }
         nextToken
@@ -2690,6 +2691,7 @@ export const getComment = /* GraphQL */ `
       }
       userID
       createdAt
+      approved
       updatedAt
     }
   }
@@ -2762,6 +2764,7 @@ export const listComments = /* GraphQL */ `
         }
         userID
         createdAt
+        approved
         updatedAt
       }
       nextToken
@@ -4976,6 +4979,7 @@ export const commentsByDate = /* GraphQL */ `
         }
         userID
         createdAt
+        approved
         updatedAt
       }
       nextToken

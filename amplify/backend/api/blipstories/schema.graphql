@@ -189,6 +189,7 @@ type Comment @model @auth(rules: [{ allow: private, operations: [create, delete,
     user: User @hasOne (fields: ["userID"])
     userID: ID 
     createdAt: String
+    approved: Boolean
 }
 
 type Tag @model @auth(rules: [{ allow: private, operations: [create, delete, update, read]}])
