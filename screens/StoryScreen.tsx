@@ -972,6 +972,9 @@ const StoryScreen  = ({navigation} : any) => {
 
                                     <TouchableWithoutFeedback onPress={showRatingModal}>
                                         <View style={{justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'center'}}>
+                                            <Text style={{textAlign: 'center', color: '#e0e0e0a5', fontSize: 12}}>
+                                                ({Story?.ratingAmt})
+                                            </Text>
                                             <FontAwesome 
                                                 name={isRated === true ? 'star' : 'star-o'}
                                                 size={17}
@@ -980,7 +983,6 @@ const StoryScreen  = ({navigation} : any) => {
                                                 style={{marginHorizontal: 6 }}
                                             />
                                             <Text style={{textAlign: 'center', color: '#e0e0e0', fontSize: 17}}>
-                                                {/* {AverageUserRating}% */}
                                                 {(Story?.ratingAvg/10).toFixed(1)}
                                             </Text>
                                         </View>

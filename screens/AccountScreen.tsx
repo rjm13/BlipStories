@@ -411,7 +411,7 @@ const handleUpdateName = async () => {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, marginVertical: 20}}>
                             <View style={styles.subblock}>
                                 <Text style={[styles.paragraph, {textTransform: 'capitalize'}]}>
-                                   Basic
+                                   {user?.plan}
                                 </Text>
                                 <Text style={styles.subparagraph}>
                                     Change your plan

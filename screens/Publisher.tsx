@@ -234,6 +234,32 @@ const Publisher = ({navigation} : any) => {
         //paddingHorizontal: 20
     };
 
+    const ModSection = () => {
+
+            const [isMod, setIsMod] = useState()
+
+            useEffect(() => {
+                const response = async () => {
+                    let user = await Auth.currentAuthenticatedUser();
+                    if (user) {setIsMod(user)}
+                }
+                response()
+            }, [])
+
+            return (
+                <View>
+                  {isMod?.attributes.email === 'martianspidermedia@gmail.com' ? (
+                     <FontAwesome5 
+                        name='toilet-paper'
+                        color='#fff'
+                        size={17}
+                        style={{padding: 20, margin: -20}}
+                        onPress={() => navigation.navigate('ModSection')}
+                    /> 
+                  ) : null}  
+                </View>
+            )
+        }
 
     return (
         <Provider>
@@ -282,7 +308,7 @@ const Publisher = ({navigation} : any) => {
                 end={{ x: 1, y: 1 }}
             >
                 <View style={{marginHorizontal: 20, marginTop: 50}}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <View style={{ alignItems:'center', flexDirection: 'row', justifyContent: 'space-between'}}>
                             <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                 <TouchableWithoutFeedback onPress={() => navigation.navigate('ProfileScreen')}>
                                     <View style={{padding: 30, margin: -30}}>
@@ -298,7 +324,10 @@ const Publisher = ({navigation} : any) => {
                                 <Text style={styles.header}>
                                     Publisher Home
                                 </Text>
+                                
                             </View>
+                            <ModSection />
+                            
                         </View>  
                     </View>
 

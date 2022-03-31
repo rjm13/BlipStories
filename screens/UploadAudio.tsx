@@ -142,7 +142,7 @@ const UploadAudio = ({navigation} : any) => {
                         narratorID: data.narratorID,
                         artistID: data.artistID,
                         time: data.time,
-                        approved: true,
+                        approved: false,
                         hidden: false,
                         imageUri: s3ResponseImage.key,
                         audioUri: s3ResponseAudio.key,

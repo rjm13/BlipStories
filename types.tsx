@@ -15,7 +15,7 @@ export type RootStackParamList = {
   TagSearchScreen: undefined;
   SplashCarousel: undefined;
   CreateMessage: undefined;
-  
+
 };
 
 export type BottomTabParamList = {
@@ -58,6 +58,10 @@ export type TabOneParamList = {
   ViewMessage: undefined;
   CoverArt: undefined;
   AllSharedAssets: undefined;
+  ModSection: undefined;
+  PendingStories: undefined;
+  FlaggedStories: undefined;
+  NewComments: undefined;
 };
 
 export type TabTwoParamList = {

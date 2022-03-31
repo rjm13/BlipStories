@@ -677,24 +677,25 @@ const ViewMessage = ({navigation} : any) => {
                                 </View>
                             ) : null}
                             
+                            {message?.status === 'new' && user === message?.otherUserID ? (
+                                <View style={{alignSelf: 'center',  width: Dimensions.get('window').width - 40, marginTop: 20}}>
+                                            <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around'}}>
+                                                <TouchableOpacity onPress={AcceptRequest}>
+                                                    <Text style={{backgroundColor: '#00ffff', color: '#000', borderRadius: 15, borderWidth: 0.5, borderColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
+                                                        Accept
+                                                    </Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={DeclineRequest}>
+                                                    <Text style={{color: 'cyan', borderRadius: 15, borderWidth: 0.5, borderColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
+                                                        Decline
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                            ) : null}
                         </View>
                 
-                 {message?.status === 'new' && user === message?.otherUserID ? (
-                    <View style={{top: isExpanded === true ? 250 : 180, alignSelf: 'center', position: 'absolute', width: Dimensions.get('window').width - 40, backgroundColor: '#363636', padding: 20, margin: 20, borderRadius: 15}}>
-                                <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around'}}>
-                                    <TouchableOpacity onPress={AcceptRequest}>
-                                        <Text style={{backgroundColor: '#00ffff', color: '#000', borderRadius: 15, borderWidth: 0.5, borderColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
-                                            Accept
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity onPress={DeclineRequest}>
-                                        <Text style={{color: 'cyan', borderRadius: 15, borderWidth: 0.5, borderColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
-                                            Decline
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        ) : null}
+                 
                 
             </LinearGradient>
         </View>

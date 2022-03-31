@@ -14,7 +14,7 @@ import { format, parseISO } from "date-fns";
 import { useRoute } from '@react-navigation/native';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, getAudioAsset } from '../src/graphql/queries';
+import { getUser, getAudioAsset, getStory } from '../src/graphql/queries';
 
 import { AppContext } from '../AppContext';
 
@@ -53,7 +53,7 @@ const SimpleAudioPlayer = ({navigation} : any) => {
     const [SavedAudio, setSavedAudio] = useState()
 
     const route = useRoute();
-    const {item, cloudItem} = route.params
+    const {item, cloudItem, storyID} = route.params
 
     // useEffect(() => {
     //     setSavedAudio(item)
@@ -104,7 +104,9 @@ const SimpleAudioPlayer = ({navigation} : any) => {
             return () => {
             componentMounted = false;
             }
-        } else if (cloudItem !== null) {
+        }  
+        
+        if (cloudItem !== null) {
             const fetchCloudAudio = async () => {
 
                 let getAsset = await API.graphql(graphqlOperation(
@@ -120,6 +122,24 @@ const SimpleAudioPlayer = ({navigation} : any) => {
                 })
             }
             fetchCloudAudio();
+        }  
+        
+        if (storyID !== null) {
+            const fetchAudio = async () => {
+
+                let getTheStory = await API.graphql(graphqlOperation(
+                    getStory, {id: storyID}
+                ))
+
+                let response = await Storage.get(getTheStory.data.getStory.audioUri);
+                
+                setPlayItem({
+                    title: getTheStory.data.getStory.title,
+                    time: getTheStory.data.getStory.time,
+                    audioUri: response
+                })
+            }
+            fetchAudio();
         }
     }, []);
 

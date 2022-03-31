@@ -19,6 +19,11 @@ import AccountScreen from '../screens/AccountScreen';
 import Inbox from '../screens/Inbox';
 import ViewMessage from '../screens/ViewMessage';
 
+import ModSection from '../screens/ModSection';
+import PendingStories from '../screens/PendingStories';
+import FlaggedStories from '../screens/FlaggedStories';
+import NewComments from '../screens/NewComments';
+
 import PublishingMainScreen from '../screens/PublishingMain';
 import NarratorMain from '../screens/NarratorMain';
 import ArtistMain from '../screens/ArtistMain';
@@ -276,6 +281,26 @@ function HomeNavigator() {
       <HomeStack.Screen 
         name="ViewMessage" 
         component={ViewMessage} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="ModSection" 
+        component={ModSection} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="PendingStories" 
+        component={PendingStories} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="FlaggedStories" 
+        component={FlaggedStories} 
+        options={{ headerShown: false }} 
+      />
+      <HomeStack.Screen 
+        name="NewComments" 
+        component={NewComments} 
         options={{ headerShown: false }} 
       />
 

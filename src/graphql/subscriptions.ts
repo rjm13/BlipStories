@@ -231,6 +231,7 @@ export const onCreateUser = /* GraphQL */ `
       artStyles
       narratorActiveAt
       artistActiveAt
+      plan
       createdAt
       updatedAt
     }
@@ -465,6 +466,7 @@ export const onUpdateUser = /* GraphQL */ `
       artStyles
       narratorActiveAt
       artistActiveAt
+      plan
       createdAt
       updatedAt
     }
@@ -699,6 +701,7 @@ export const onDeleteUser = /* GraphQL */ `
       artStyles
       narratorActiveAt
       artistActiveAt
+      plan
       createdAt
       updatedAt
     }
@@ -771,6 +774,7 @@ export const onCreateFollowingConn = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -834,6 +838,7 @@ export const onCreateFollowingConn = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -909,6 +914,7 @@ export const onUpdateFollowingConn = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -972,6 +978,7 @@ export const onUpdateFollowingConn = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -1047,6 +1054,7 @@ export const onDeleteFollowingConn = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -1110,6 +1118,7 @@ export const onDeleteFollowingConn = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -1184,6 +1193,7 @@ export const onCreatePinnedStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -1218,6 +1228,7 @@ export const onCreatePinnedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -1249,6 +1260,7 @@ export const onCreatePinnedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -1278,6 +1290,7 @@ export const onCreatePinnedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -1385,6 +1398,7 @@ export const onUpdatePinnedStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -1419,6 +1433,7 @@ export const onUpdatePinnedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -1450,6 +1465,7 @@ export const onUpdatePinnedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -1479,6 +1495,7 @@ export const onUpdatePinnedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -1586,6 +1603,7 @@ export const onDeletePinnedStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -1620,6 +1638,7 @@ export const onDeletePinnedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -1651,6 +1670,7 @@ export const onDeletePinnedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -1680,6 +1700,7 @@ export const onDeletePinnedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -1787,6 +1808,7 @@ export const onCreateFinishedStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -1821,6 +1843,7 @@ export const onCreateFinishedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -1852,6 +1875,7 @@ export const onCreateFinishedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -1881,6 +1905,7 @@ export const onCreateFinishedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -1999,6 +2024,7 @@ export const onUpdateFinishedStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -2033,6 +2059,7 @@ export const onUpdateFinishedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -2064,6 +2091,7 @@ export const onUpdateFinishedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -2093,6 +2121,7 @@ export const onUpdateFinishedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -2211,6 +2240,7 @@ export const onDeleteFinishedStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -2245,6 +2275,7 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -2276,6 +2307,7 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -2305,6 +2337,7 @@ export const onDeleteFinishedStory = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -2425,6 +2458,7 @@ export const onCreateStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -2492,6 +2526,7 @@ export const onCreateStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -2557,6 +2592,7 @@ export const onCreateStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -2689,6 +2725,7 @@ export const onUpdateStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -2756,6 +2793,7 @@ export const onUpdateStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -2821,6 +2859,7 @@ export const onUpdateStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -2953,6 +2992,7 @@ export const onDeleteStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -3020,6 +3060,7 @@ export const onDeleteStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -3085,6 +3126,7 @@ export const onDeleteStory = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -3259,6 +3301,7 @@ export const onCreateImageAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -3323,6 +3366,7 @@ export const onCreateImageAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -3400,6 +3444,7 @@ export const onUpdateImageAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -3464,6 +3509,7 @@ export const onUpdateImageAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -3541,6 +3587,7 @@ export const onDeleteImageAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -3605,6 +3652,7 @@ export const onDeleteImageAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -3681,6 +3729,7 @@ export const onCreateDocumentAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -3746,6 +3795,7 @@ export const onCreateDocumentAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -3821,6 +3871,7 @@ export const onUpdateDocumentAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -3886,6 +3937,7 @@ export const onUpdateDocumentAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -3961,6 +4013,7 @@ export const onDeleteDocumentAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -4026,6 +4079,7 @@ export const onDeleteDocumentAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -4103,6 +4157,7 @@ export const onCreateAudioAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -4168,6 +4223,7 @@ export const onCreateAudioAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -4245,6 +4301,7 @@ export const onUpdateAudioAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -4310,6 +4367,7 @@ export const onUpdateAudioAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -4387,6 +4445,7 @@ export const onDeleteAudioAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -4452,6 +4511,7 @@ export const onDeleteAudioAsset = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -4495,6 +4555,7 @@ export const onCreateFlag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -4526,6 +4587,7 @@ export const onCreateFlag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -4555,6 +4617,7 @@ export const onCreateFlag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -4652,6 +4715,7 @@ export const onCreateFlag = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -4696,6 +4760,7 @@ export const onUpdateFlag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -4727,6 +4792,7 @@ export const onUpdateFlag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -4756,6 +4822,7 @@ export const onUpdateFlag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -4853,6 +4920,7 @@ export const onUpdateFlag = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -4897,6 +4965,7 @@ export const onDeleteFlag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -4928,6 +4997,7 @@ export const onDeleteFlag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -4957,6 +5027,7 @@ export const onDeleteFlag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -5054,6 +5125,7 @@ export const onDeleteFlag = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -5099,6 +5171,7 @@ export const onCreateComment = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -5130,6 +5203,7 @@ export const onCreateComment = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -5159,6 +5233,7 @@ export const onCreateComment = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -5256,6 +5331,7 @@ export const onCreateComment = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -5301,6 +5377,7 @@ export const onUpdateComment = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -5332,6 +5409,7 @@ export const onUpdateComment = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -5361,6 +5439,7 @@ export const onUpdateComment = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -5458,6 +5537,7 @@ export const onUpdateComment = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -5503,6 +5583,7 @@ export const onDeleteComment = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -5534,6 +5615,7 @@ export const onDeleteComment = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -5563,6 +5645,7 @@ export const onDeleteComment = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -5660,6 +5743,7 @@ export const onDeleteComment = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -5804,6 +5888,7 @@ export const onCreateRating = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -5835,6 +5920,7 @@ export const onCreateRating = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -5864,6 +5950,7 @@ export const onCreateRating = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -5961,6 +6048,7 @@ export const onCreateRating = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -6017,6 +6105,7 @@ export const onUpdateRating = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -6048,6 +6137,7 @@ export const onUpdateRating = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -6077,6 +6167,7 @@ export const onUpdateRating = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -6174,6 +6265,7 @@ export const onUpdateRating = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -6230,6 +6322,7 @@ export const onDeleteRating = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -6261,6 +6354,7 @@ export const onDeleteRating = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -6290,6 +6384,7 @@ export const onDeleteRating = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -6387,6 +6482,7 @@ export const onDeleteRating = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -6475,6 +6571,7 @@ export const onCreateMessage = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -6540,6 +6637,7 @@ export const onCreateMessage = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -6590,6 +6688,7 @@ export const onCreateMessage = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -6619,6 +6718,7 @@ export const onCreateMessage = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -6698,6 +6798,7 @@ export const onUpdateMessage = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -6763,6 +6864,7 @@ export const onUpdateMessage = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -6813,6 +6915,7 @@ export const onUpdateMessage = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -6842,6 +6945,7 @@ export const onUpdateMessage = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -6921,6 +7025,7 @@ export const onDeleteMessage = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -6986,6 +7091,7 @@ export const onDeleteMessage = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -7036,6 +7142,7 @@ export const onDeleteMessage = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7065,6 +7172,7 @@ export const onDeleteMessage = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7115,6 +7223,7 @@ export const onCreateReply = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7144,6 +7253,7 @@ export const onCreateReply = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7228,6 +7338,7 @@ export const onCreateReply = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -7275,6 +7386,7 @@ export const onUpdateReply = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7304,6 +7416,7 @@ export const onUpdateReply = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7388,6 +7501,7 @@ export const onUpdateReply = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -7435,6 +7549,7 @@ export const onDeleteReply = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7464,6 +7579,7 @@ export const onDeleteReply = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7548,6 +7664,7 @@ export const onDeleteReply = /* GraphQL */ `
         artStyles
         narratorActiveAt
         artistActiveAt
+        plan
         createdAt
         updatedAt
       }
@@ -7592,6 +7709,7 @@ export const onCreateStoryTag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7623,6 +7741,7 @@ export const onCreateStoryTag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7652,6 +7771,7 @@ export const onCreateStoryTag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7751,6 +7871,7 @@ export const onUpdateStoryTag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7782,6 +7903,7 @@ export const onUpdateStoryTag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7811,6 +7933,7 @@ export const onUpdateStoryTag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7910,6 +8033,7 @@ export const onDeleteStoryTag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7941,6 +8065,7 @@ export const onDeleteStoryTag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
@@ -7970,6 +8095,7 @@ export const onDeleteStoryTag = /* GraphQL */ `
           artStyles
           narratorActiveAt
           artistActiveAt
+          plan
           createdAt
           updatedAt
         }
