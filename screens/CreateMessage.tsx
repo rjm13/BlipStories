@@ -41,7 +41,7 @@ const CreateMessage = ({navigation} : any) => {
 
     const [data, setData] = useState({
         userID: '',
-        otherUserID: otherUserID,
+        otherUserID: '',
         content: '',
         title: type === 'artist' ? 'Request for Cover Art' : type === 'narrator' ? 'Request for Narration' : 'Request',
         subtitle: '',
@@ -85,26 +85,23 @@ const CreateMessage = ({navigation} : any) => {
         fetchUser();
     }, [])
 
-        useEffect(() => {
-            const fetchOtherUser = async () => {
-                                
-                let response = await API.graphql(graphqlOperation(
-                    getUser, {id: otherUserID}
-                ))
-                let imageResponse = await Storage.get(response.data.getUser.imageUri);
-                setImageU2(imageResponse);
-                setData({...data, otherUserID: otherUserID})
-                setOtherUser(response.data.getUser);
-            }
-            fetchOtherUser();
-        }, [otherUserID])
-        
+    useEffect(() => {
+        const fetchOtherUser = async () => {
+                            
+            let response = await API.graphql(graphqlOperation(
+                getUser, {id: otherUserID}
+            ))
+            let imageResponse = await Storage.get(response.data.getUser.imageUri);
+            setImageU2(imageResponse);
+            setData({...data, otherUserID: response.data.getUser.id})
+            setOtherUser(response.data.getUser);
+        }
+        fetchOtherUser();
+    }, [])
+      
 
-    
 
     const SendMessage = async () => {
-
-        console.log(data)
 
         if (data.userID === '' || data.otherUserID === '' || data.content === '') {
             alert('Error. Please try again.')

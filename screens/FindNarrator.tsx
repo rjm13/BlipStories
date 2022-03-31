@@ -95,20 +95,26 @@ const FindNarrator = ({navigation} : any) => {
                 <View style={{marginTop: 30, flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{flexDirection: 'row'}}>
                         {newdate < narratorActiveAt ? (
+                            <View style={{flexDirection: 'row'}}>
+
                             <FontAwesome5 
                                 name='bolt'
                                 color='gold'
                                 size={12}
                                 style={{alignSelf: 'center', marginRight: 6}}
                             />
+                            <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>
+                            Active
+                        </Text>
+                        </View>
                         ) : null}
                         
-                        <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>
+                        {/* <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>
                             Avg delivery:
                         </Text>
                         <Text style={{ color: '#ffffffa5', fontSize: 12, marginLeft: 6}}>
                             7 days 
-                        </Text>
+                        </Text> */}
                     </View>
                     
                     <TouchableWithoutFeedback onPress={() => navigation.navigate('UserScreen', {userID: id, status: 'narrator'})}>

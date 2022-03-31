@@ -894,8 +894,8 @@ const AudioListByAuthor = ({user, status} : any) => {
             
 
         <Animated.View style={[ {backgroundColor: animatedColor, height: animatedHeaderHeight, width: Dimensions.get('window').width, position: 'absolute', flex: 1}]}>              
-            <View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'space-between', marginHorizontal: 20, alignItems: 'center'}}>
-                <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'space-between',  width: Dimensions.get('window').width -40, marginHorizontal: 20, alignItems: 'center'}}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', width: '50%' }}>
                     <AntDesign 
                         name='close'
                         size={25}
@@ -903,7 +903,7 @@ const AudioListByAuthor = ({user, status} : any) => {
                         style={{paddingTop: 0, paddingRight: 10}}
                         onPress={() => navigation.goBack() }
                     />
-                    <Animated.Text style={[styles.name, { opacity: animatedAppearOpacity}]}>
+                    <Animated.Text numberOfLines={1} style={[styles.name, { opacity: animatedAppearOpacity, width: '78%'}]}>
                         {publisher === true ? User?.pseudonym : narrator === true ? User?.narratorPseudo : artist === true ? User?.artistPseudo : null}
                     </Animated.Text>
                 </View>
@@ -1016,7 +1016,7 @@ const AudioListByAuthor = ({user, status} : any) => {
                                     style={{ marginHorizontal: 3, alignSelf: 'center'}}
                                 />
                                 <Text style={styles.userId}>
-                                    {User?.authored.items ? User?.authored.items.length : 0}
+                                    {User?.art.items ? User?.art.items.length : 0}
                                 </Text> 
                             </View> 
                         </TouchableWithoutFeedback>

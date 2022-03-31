@@ -30,6 +30,8 @@ const AccountScreen = ({navigation} : any) => {
     const [ Password, setPassword] = useState('');
     const [ oldPassword, setOldPassword] = useState('');
 
+
+
     const [passVisible, setPassVisible] = useState(true);
     const [oldPassVisible, setOldPassVisible] = useState(true);
 
@@ -69,6 +71,8 @@ const handleUpdateName = async () => {
         
             const userInfo = await Auth.currentAuthenticatedUser();
 
+            console.log(userInfo.attributes)
+
             setAuthUser(userInfo);
 
             if (!userInfo) {return;}
@@ -82,7 +86,6 @@ const handleUpdateName = async () => {
                     setUser(userData.data.getUser);
                 }
 
-                console.log(userData.data.getUser);
 
             } catch (e) {
                 console.log(e);
@@ -407,8 +410,8 @@ const handleUpdateName = async () => {
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, marginVertical: 20}}>
                             <View style={styles.subblock}>
-                                <Text style={styles.paragraph}>
-                                    Individual Premium Plan
+                                <Text style={[styles.paragraph, {textTransform: 'capitalize'}]}>
+                                   Basic
                                 </Text>
                                 <Text style={styles.subparagraph}>
                                     Change your plan
