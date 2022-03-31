@@ -18,8 +18,6 @@ import { navigationRef } from '../../navigation/RootNavigation';
 const SplashCarousel = ({navigation} : any) => {
 
     const [genres, setGenres] = useState([]);
-
-    const TopThree = [];
     
     const [top3, setTop3] = useState([])
 
@@ -39,24 +37,6 @@ const SplashCarousel = ({navigation} : any) => {
         fetchGenres();
 
     }, []);
-
-
-
-    const AddRemoveGenre = (id : any) => {
-
-        if (TopThree.length === 3) {
-            if (TopThree.includes(id)) {
-                TopThree.splice(id);
-            } else { return }
-        } 
-
-        else if (TopThree.length < 3) {
-            if (TopThree.includes(id)) {
-                TopThree.splice(id);
-            } else {TopThree.push(id)}
-        } 
-        console.log(TopThree)
-    }
 
     const UpdateThree = async () => {
 
@@ -78,35 +58,6 @@ const SplashCarousel = ({navigation} : any) => {
         }
     }
 
-    // const GenreItem = ({id, genre, index} : any) => {
-
-    //     const [isSelected, setIsSelected] = useState(false);
-
-    //     return (
-    //         <TouchableOpacity 
-    //         >
-    //             <View style={{margin: 10, paddingVertical: 6, paddingHorizontal: 10, borderWidth: 0.5, borderRadius: 30,
-    //                 borderColor: isSelected ? 'cyan' : '#fff', 
-    //                 backgroundColor: isSelected ? 'cyan' : 'transparent',
-    //             }}>
-    //                 <Text style={{textTransform: 'capitalize', color: isSelected ? '#000' : '#fff'}}>
-    //                     {genre}
-    //                 </Text>
-    //             </View>
-    //         </TouchableOpacity>
-            
-    //     )
-    // }
-
-    // const RenderItem = ({item, index} : any) => {
-    //     return (
-    //         <GenreItem 
-    //             id={item.id}
-    //             genre={item.genre}
-    //             index={index}
-    //         />
-    //     )
-    // }
 
     return (
         <View>
@@ -149,14 +100,6 @@ const SplashCarousel = ({navigation} : any) => {
                     </TouchableOpacity>
                 )})}
             </ScrollView>
-
-            {/* <FlatList 
-                data={genres}
-                keyExtractor={item => item.id}
-                renderItem={RenderItem}
-                numColumns={3}
-                style={{alignSelf: 'center'}}
-            /> */}
 
             <TouchableWithoutFeedback onPress={UpdateThree}>
                 <View style={{alignSelf: 'center', width: 80, paddingVertical: 6, paddingHorizontal: 20, borderRadius: 30, borderWidth: 0.5, margin: 40, 

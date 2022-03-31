@@ -26,84 +26,59 @@ const Redirect = ({route, navigation} : any) => {
 
     useEffect(() => {
 
+        setIsLoading(true);
+
         const fetchUser = async () => {
 
-            setIsLoading(true);
+            try {
+                const userInfo = await Auth.currentAuthenticatedUser({ bypassCache: true }).catch(err=>err)
 
-            const userInfo = await Auth.currentAuthenticatedUser(
-            { bypassCache: true }
-          )
-          .catch(err=>err)
-          
-
-          //console.log(userInfo)
-          if (userInfo === 'The user is not authenticated') {
-                navigation.navigate('SignIn')
-          }
-          else {
-
-            const date = new Date();
-            const year = date.getFullYear();
-            const month = date.getMonth();
-            const day = date.getDate();
-            const c = new Date(year - 18, month, day).toISOString();
-            const bd3 = new Date(userInfo.attributes.birthdate).toISOString()
-            
-            if (bd3 > c) {
-                () => setNSFWOn(false);
-            } 
-            if (bd3 < c) {
-                () => setNSFWOn(true);
-            } 
-
-            const userData = await API.graphql(graphqlOperation(getUser,{ id: userInfo.attributes.sub}))
-      
-                if (userData.data.getUser) {
-                 
-
-                    setUserID(userData.data.getUser);
-                    navigation.reset({
-                        //index: 0,
-                        routes: [{ name: 'Root' }],
-                    });
-                    //navigation.navigate('HomeDrawer')
-                    
-                } else {
-                    setUserID(null);
-                    navigation.reset({
-                        //index: 0,
-                        routes: [{ name: 'SignIn' }],
-                    });
-                    //navigation.navigate('HomeDrawer')
+                if (userInfo === 'The user is not authenticated') {
+                    navigation.navigate('SignIn')
                 }
-          }
-          setIsLoading(false);
+
+                else {
+
+                    const date = new Date();
+                    const year = date.getFullYear();
+                    const month = date.getMonth();
+                    const day = date.getDate();
+                    const c = new Date(year - 18, month, day).toISOString();
+                    const bd3 = new Date(userInfo.attributes.birthdate).toISOString()
+                
+                    if (bd3 > c) {
+                        () => setNSFWOn(true);
+                    } 
+                    if (bd3 < c) {
+                        () => setNSFWOn(false);
+                    } 
+
+                    const userData = await API.graphql(graphqlOperation(
+                        getUser,{ id: userInfo.attributes.sub}))
+        
+                    if (userData.data.getUser) {
+                        setUserID(userData.data.getUser);
+                        navigation.reset({
+                            //index: 0,
+                            routes: [{ name: 'Root' }],
+                        });
+                    
+                    } else {
+                        setUserID(null);
+                        navigation.reset({
+                            //index: 0,
+                            routes: [{ name: 'SignIn' }],
+                        });
+                    }
+                }
+            } catch {
+                setIsLoading(false);
+            }
         }
         fetchUser();
         
     }, [trigger, tryAgain])
 
-    // const { userID } = useContext(AppContext);
-
-    // const newUser = () => {
-    //     userID === null ? navigation.navigate('SignIn') : navigation.navigate("HomeDrawer")
-    //     console.log('this is my user object')
-    //     console.log(userID)
-    // }
-
-    // useEffect(() => {
-    //     newUser();
-    // }, [])
-
-    
-
-    // useEffect(() => {
-    //     if (userID === null) {
-    //         navigation.navigate('SignIn')
-    //     } else {
-    //         navigation.navigate("HomeDrawer")
-    //     }
-    // }, [])
 
     return (
         <View style={{alignContent: 'center', justifyContent: 'center', width: SCREEN_WIDTH, height: SCREEN_HEIGHT + 30, backgroundColor: '#363636'}}>
