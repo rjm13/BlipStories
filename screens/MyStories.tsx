@@ -212,6 +212,9 @@ const MyStories = ({navigation} : any) => {
                             hidden: {
                                 eq: false
                             },
+                            approved: {
+                                eq: 'approved'
+                            }
                         }
                 }))
 

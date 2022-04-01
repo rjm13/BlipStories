@@ -69,7 +69,7 @@ const PendingStories = ({navigation} : any) => {
                     type: 'Story',
                     filter: {
                         approved: {
-                            eq: false
+                            eq: 'pending'
                         }
                     }
                 }
@@ -90,7 +90,7 @@ const PendingStories = ({navigation} : any) => {
             let response = await API.graphql(graphqlOperation(
                 updateStory, {input: {
                     id: id,
-                    approved: true
+                    approved: 'approved'
                 }}
             ))
             if (response) {
@@ -161,8 +161,10 @@ const PendingStories = ({navigation} : any) => {
 
             console.log(rejectedAuthor)
             let response = await API.graphql(graphqlOperation(
-                deleteStory, {input: {
-                    id: rejectedID
+                updateStory, {input: {
+                    id: rejectedID,
+                    approved: 'rejected'
+
                 }}
             ))
             if (response) {
@@ -450,7 +452,7 @@ const PendingStories = ({navigation} : any) => {
                 </Text>
             </View>
 
-            <View>
+            <View style={{height: '84%'}}>
                 <FlatList 
                     data={stories}
                     keyExtractor={item => item.id}
@@ -469,6 +471,11 @@ const PendingStories = ({navigation} : any) => {
                                     <Text style={{ color: 'white', margin: 20,}}>
                                         No pending stories.
                                     </Text>
+                            </View>
+                    );}}
+                    ListFooterComponent={ () => {
+                        return (
+                            <View style={{ height: 100}}>
                             </View>
                     );}}
                 />

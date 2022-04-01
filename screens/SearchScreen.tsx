@@ -132,7 +132,7 @@ const SearchScreen = ({navigation} : any) => {
                               contains: newSearch
                           },
                           approved: {
-                              eq: true
+                              eq: 'approved'
                           },
                           hidden: {
                               eq: false
@@ -145,13 +145,13 @@ const SearchScreen = ({navigation} : any) => {
                             contains: newSearch
                             },
                             approved: {
-                                eq: true
+                                eq: 'approved'
                             },
                             hidden: {
                                 eq: false
                             },
                             genreID: {
-                              ne: '1108a619-1c0e-4064-8fce-41f1f6262070'
+                              ne: nsfwOn === false ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
                           },
                         }
                         ]

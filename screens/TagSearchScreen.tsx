@@ -333,7 +333,7 @@ const TagSearchScreen = ({navigation} : any) => {
 
                 if (searchResults.data.listStoryTags.items.length > 0) {
                     for(let i = 0; i < searchResults.data.listStoryTags.items.length; i++) {
-                        if (searchResults.data.listStoryTags.items[i].story.approved === true && searchResults.data.listStoryTags.items[i].story.hidden === false) {
+                        if (searchResults.data.listStoryTags.items[i].story.approved === 'approved' && searchResults.data.listStoryTags.items[i].story.hidden === false) {
                             stories.push(searchResults.data.listStoryTags.items[i].story)
                         } else {return}
                         

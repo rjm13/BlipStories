@@ -64,6 +64,13 @@ const NewGenreStories = ({genreid} : any) => {
                                     genreID: {
                                         eq: genreid
                                     },
+                                    approved: {
+                                        eq: 'approved'
+                                    },
+                                    hidden: {
+                                        eq: false
+                                    }
+                                    
                                 }
                             } 
                         )

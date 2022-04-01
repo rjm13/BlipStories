@@ -90,6 +90,9 @@ const CoverArt = ({navigation} : any) => {
                             hidden: {
                                 eq: false
                             },
+                            approved: {
+                                eq: 'approved'
+                            }
                             
                         }
                 }))

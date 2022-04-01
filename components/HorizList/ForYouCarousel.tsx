@@ -252,7 +252,7 @@ const ForYouCarousel = () => {
                         listStories, {
                             filter: {
                                 approved: {
-                                    eq: true
+                                    eq: 'approved'
                                 },
                                 hidden: {
                                     eq: false

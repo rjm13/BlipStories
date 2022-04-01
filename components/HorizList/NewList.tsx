@@ -64,7 +64,7 @@ const NewList = () => {
                                         eq: false
                                     },
                                     approved: {
-                                        eq: true
+                                        eq: 'approved'
                                     },
                                     genreID: {
                                         ne: '1108a619-1c0e-4064-8fce-41f1f6262070'

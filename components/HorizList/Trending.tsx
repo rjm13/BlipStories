@@ -65,6 +65,7 @@ const Trending = () => {
                     )
 
                     for(let i = 0; i < response.data.finishedStoriesByDate.items.length; i++) {
+                        if (response.data.finishedStoriesByDate.items[i].story.approved === 'approved' && response.data.finishedStoriesByDate.items[i].story.hidden === false)
                         trendingids.push(response.data.finishedStoriesByDate.items[i].story.id)     
                     }
                     let pp = trendingids.filter( (ele, ind) => ind === trendingids.findIndex( elem => elem === ele))

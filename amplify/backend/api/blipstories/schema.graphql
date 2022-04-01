@@ -111,7 +111,7 @@ type Story @model @auth(rules: [{ allow: private, operations: [create, delete, u
   genreID: ID @index(name: "byGenre", sortKeyFields: ["id"])
   genre: Genre @hasOne (fields: ["genreID"])
   hidden: Boolean
-  approved: Boolean
+  approved: String
   createdAt: String
   updatedAt: String
   numListens: Int

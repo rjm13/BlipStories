@@ -133,7 +133,7 @@ const AudioListByAuthor = ({user, status} : any) => {
                                         eq: false
                                     },
                                     approved: {
-                                        eq: true
+                                        eq: 'approved'
                                     }
                                 }
                             } 
@@ -157,7 +157,7 @@ const AudioListByAuthor = ({user, status} : any) => {
                                     eq: false
                                 },
                                 approved: {
-                                    eq: true
+                                    eq: 'approved'
                                 }
                             }
                         } 
@@ -181,7 +181,7 @@ const AudioListByAuthor = ({user, status} : any) => {
                                     eq: false
                                 },
                                 approved: {
-                                    eq: true
+                                    eq: 'approved'
                                 }
                             }
                         } 

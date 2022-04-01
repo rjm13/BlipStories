@@ -39,7 +39,7 @@ const ModSection = ({navigation} : any) => {
                 listStories, {
                     filter: {
                         approved: {
-                            eq: false
+                            eq: 'pending'
                         }
                     }
                 }

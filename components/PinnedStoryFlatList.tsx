@@ -53,7 +53,7 @@ const AudioStoryList = () => {
                 //console.log(pinnedData)
                 if (pinnedData.data.PinnedStoryByDate.items.length > 0) {
                     for (let i = 0; i < pinnedData.data.PinnedStoryByDate.items.length; i++) {
-                        if (pinnedData.data.PinnedStoryByDate.items[i].story.hidden === false) {
+                        if (pinnedData.data.PinnedStoryByDate.items[i].story.hidden === false && pinnedData.data.PinnedStoryByDate.items[i].story.approved === 'approved') {
                             Pinned.push(pinnedData.data.PinnedStoryByDate.items[i].story)
                         } else {return;}
                     }

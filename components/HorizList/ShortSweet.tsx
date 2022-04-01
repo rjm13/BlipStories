@@ -79,7 +79,7 @@ const ShortSweet = ({genreid} : any) => {
                                         eq: false
                                     },
                                     approved: {
-                                        eq: true
+                                        eq: 'approved'
                                     },
                                     time: {
                                         //under 30 minutes

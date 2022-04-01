@@ -75,7 +75,7 @@ const AudioStoryList = ({genreID} : any) => {
                                 eq: false
                             },
                             approved: {
-                                eq: true
+                                eq: 'approved'
                             }
                         }
                 }))

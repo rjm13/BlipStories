@@ -28,7 +28,10 @@ import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 const SearchStoriesList = ({search} : any) => {
 
+    const { nsfwOn } = useContext(AppContext);
+
     const Item = ({title, genreName, icon, Primary, summary, imageUri, nsfw, audioUri, author, narrator, time, id} : any) => {
+        
         
 
         const navigation = useNavigation();
@@ -92,7 +95,7 @@ const SearchStoriesList = ({search} : any) => {
         };
 
 
-
+        
 
         //play the audio story
         const { setStoryID } = useContext(AppContext);
@@ -312,7 +315,10 @@ const SearchStoriesList = ({search} : any) => {
                                 eq: false,
                             },
                             approved: {
-                                eq: true
+                                eq: 'approved'
+                            },
+                            genreID: {
+                                ne: nsfwOn === true ? '' : '1108a619-1c0e-4064-8fce-41f1f6262070'
                             }
                         }
                 }))

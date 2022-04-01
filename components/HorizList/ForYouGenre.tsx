@@ -87,7 +87,7 @@ const ForYouGenre = ({genreid} : any) => {
                                         eq: genreid
                                     },
                                     approved: {
-                                        eq: true
+                                        eq: 'approved'
                                     },
                                     hidden: {
                                         eq: false

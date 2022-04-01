@@ -53,7 +53,7 @@ const AudioStoryList = () => {
 
                 if (favedData.data.ratingsByDate.items.length > 0) {
                     for (let i = 0; i < favedData.data.ratingsByDate.items.length; i++) {
-                        if (favedData.data.ratingsByDate.items[i].story.hidden === false) {
+                        if (favedData.data.ratingsByDate.items[i].story.hidden === false && favedData.data.ratingsByDate.items[i].story.approved === 'approved') {
                             Faved.push(favedData.data.ratingsByDate.items[i].story) 
                         } else {return;}
                     } 

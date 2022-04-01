@@ -62,6 +62,8 @@ const MyNarrations = ({navigation} : any) => {
             />
       );}
 
+      const { nsfwOn } = useContext(AppContext)
+
     
     //update trigger for fetching the stories
     const [didUpdate, setDidUpdate] = useState(false);
@@ -90,6 +92,12 @@ const MyNarrations = ({navigation} : any) => {
                             hidden: {
                                 eq: false
                             },
+                            approved: {
+                                eq: 'approved'
+                            },
+                            genreID: {
+                                ne: nsfwOn === false ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
+                            }
                         }
                 }))
 

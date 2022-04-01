@@ -63,7 +63,7 @@ const GenreCarousel = ({genreid} : any) => {
                                         eq: false
                                     },
                                     approved: {
-                                        eq: true
+                                        eq: 'approved'
                                     }
                                 }
                             } 
