@@ -1326,6 +1326,9 @@ export const onCreatePinnedStory = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       createdAt
       updatedAt
@@ -1531,6 +1534,9 @@ export const onUpdatePinnedStory = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       createdAt
       updatedAt
@@ -1736,6 +1742,9 @@ export const onDeletePinnedStory = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       createdAt
       updatedAt
@@ -1941,6 +1950,9 @@ export const onCreateFinishedStory = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       createdAt
       genreID
@@ -2157,6 +2169,9 @@ export const onUpdateFinishedStory = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       createdAt
       genreID
@@ -2373,6 +2388,9 @@ export const onDeleteFinishedStory = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       createdAt
       genreID
@@ -2655,6 +2673,19 @@ export const onCreateStory = /* GraphQL */ `
       createdAt
       updatedAt
       numListens
+      flag {
+        items {
+          id
+          type
+          storyID
+          flagTypes
+          userID
+          Status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -2923,6 +2954,19 @@ export const onUpdateStory = /* GraphQL */ `
       createdAt
       updatedAt
       numListens
+      flag {
+        items {
+          id
+          type
+          storyID
+          flagTypes
+          userID
+          Status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -3191,6 +3235,19 @@ export const onDeleteStory = /* GraphQL */ `
       createdAt
       updatedAt
       numListens
+      flag {
+        items {
+          id
+          type
+          storyID
+          flagTypes
+          userID
+          Status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -4527,6 +4584,7 @@ export const onCreateFlag = /* GraphQL */ `
   subscription OnCreateFlag {
     onCreateFlag {
       id
+      type
       storyID
       story {
         id
@@ -4656,6 +4714,9 @@ export const onCreateFlag = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       flagTypes
       user {
@@ -4723,6 +4784,7 @@ export const onCreateFlag = /* GraphQL */ `
         updatedAt
       }
       userID
+      Status
       createdAt
       updatedAt
     }
@@ -4732,6 +4794,7 @@ export const onUpdateFlag = /* GraphQL */ `
   subscription OnUpdateFlag {
     onUpdateFlag {
       id
+      type
       storyID
       story {
         id
@@ -4861,6 +4924,9 @@ export const onUpdateFlag = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       flagTypes
       user {
@@ -4928,6 +4994,7 @@ export const onUpdateFlag = /* GraphQL */ `
         updatedAt
       }
       userID
+      Status
       createdAt
       updatedAt
     }
@@ -4937,6 +5004,7 @@ export const onDeleteFlag = /* GraphQL */ `
   subscription OnDeleteFlag {
     onDeleteFlag {
       id
+      type
       storyID
       story {
         id
@@ -5066,6 +5134,9 @@ export const onDeleteFlag = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       flagTypes
       user {
@@ -5133,6 +5204,7 @@ export const onDeleteFlag = /* GraphQL */ `
         updatedAt
       }
       userID
+      Status
       createdAt
       updatedAt
     }
@@ -5272,6 +5344,9 @@ export const onCreateComment = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       content
       user {
@@ -5479,6 +5554,9 @@ export const onUpdateComment = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       content
       user {
@@ -5686,6 +5764,9 @@ export const onDeleteComment = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       content
       user {
@@ -5992,6 +6073,9 @@ export const onCreateRating = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       userID
       user {
@@ -6209,6 +6293,9 @@ export const onUpdateRating = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       userID
       user {
@@ -6426,6 +6513,9 @@ export const onDeleteRating = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       userID
       user {
@@ -7813,6 +7903,9 @@ export const onCreateStoryTag = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       tag {
         id
@@ -7975,6 +8068,9 @@ export const onUpdateStoryTag = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       tag {
         id
@@ -8137,6 +8233,9 @@ export const onDeleteStoryTag = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       tag {
         id

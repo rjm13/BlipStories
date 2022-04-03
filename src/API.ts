@@ -198,6 +198,7 @@ export type Story = {
   createdAt?: string | null,
   updatedAt?: string | null,
   numListens?: number | null,
+  flag?: ModelFlagConnection | null,
 };
 
 export type ModelCommentConnection = {
@@ -279,6 +280,26 @@ export type Rating = {
   rating?: number | null,
   genreID?: string | null,
   genre?: Genre | null,
+  createdAt?: string | null,
+  updatedAt: string,
+};
+
+export type ModelFlagConnection = {
+  __typename: "ModelFlagConnection",
+  items:  Array<Flag | null >,
+  nextToken?: string | null,
+};
+
+export type Flag = {
+  __typename: "Flag",
+  id: string,
+  type?: string | null,
+  storyID: string,
+  story?: Story | null,
+  flagTypes?: Array< string | null > | null,
+  user?: User | null,
+  userID?: string | null,
+  Status?: string | null,
   createdAt?: string | null,
   updatedAt: string,
 };
@@ -787,37 +808,34 @@ export type DeleteAudioAssetInput = {
 
 export type CreateFlagInput = {
   id?: string | null,
+  type?: string | null,
   storyID: string,
   flagTypes?: Array< string | null > | null,
   userID?: string | null,
+  Status?: string | null,
+  createdAt?: string | null,
 };
 
 export type ModelFlagConditionInput = {
+  type?: ModelStringInput | null,
   storyID?: ModelIDInput | null,
   flagTypes?: ModelStringInput | null,
   userID?: ModelIDInput | null,
+  Status?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelFlagConditionInput | null > | null,
   or?: Array< ModelFlagConditionInput | null > | null,
   not?: ModelFlagConditionInput | null,
 };
 
-export type Flag = {
-  __typename: "Flag",
-  id: string,
-  storyID: string,
-  story?: Story | null,
-  flagTypes?: Array< string | null > | null,
-  user?: User | null,
-  userID?: string | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
 export type UpdateFlagInput = {
   id: string,
+  type?: string | null,
   storyID?: string | null,
   flagTypes?: Array< string | null > | null,
   userID?: string | null,
+  Status?: string | null,
+  createdAt?: string | null,
 };
 
 export type DeleteFlagInput = {
@@ -1259,18 +1277,15 @@ export type ModelAudioAssetFilterInput = {
 
 export type ModelFlagFilterInput = {
   id?: ModelIDInput | null,
+  type?: ModelStringInput | null,
   storyID?: ModelIDInput | null,
   flagTypes?: ModelStringInput | null,
   userID?: ModelIDInput | null,
+  Status?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelFlagFilterInput | null > | null,
   or?: Array< ModelFlagFilterInput | null > | null,
   not?: ModelFlagFilterInput | null,
-};
-
-export type ModelFlagConnection = {
-  __typename: "ModelFlagConnection",
-  items:  Array<Flag | null >,
-  nextToken?: string | null,
 };
 
 export type ModelCommentFilterInput = {
@@ -2912,6 +2927,10 @@ export type CreatePinnedStoryMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     createdAt?: string | null,
     updatedAt: string,
@@ -3143,6 +3162,10 @@ export type UpdatePinnedStoryMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     createdAt?: string | null,
     updatedAt: string,
@@ -3374,6 +3397,10 @@ export type DeletePinnedStoryMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     createdAt?: string | null,
     updatedAt: string,
@@ -3605,6 +3632,10 @@ export type CreateFinishedStoryMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     createdAt?: string | null,
     genreID?: string | null,
@@ -3848,6 +3879,10 @@ export type UpdateFinishedStoryMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     createdAt?: string | null,
     genreID?: string | null,
@@ -4091,6 +4126,10 @@ export type DeleteFinishedStoryMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     createdAt?: string | null,
     genreID?: string | null,
@@ -4425,6 +4464,21 @@ export type CreateStoryMutation = {
     createdAt?: string | null,
     updatedAt?: string | null,
     numListens?: number | null,
+    flag?:  {
+      __typename: "ModelFlagConnection",
+      items:  Array< {
+        __typename: "Flag",
+        id: string,
+        type?: string | null,
+        storyID: string,
+        flagTypes?: Array< string | null > | null,
+        userID?: string | null,
+        Status?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -4744,6 +4798,21 @@ export type UpdateStoryMutation = {
     createdAt?: string | null,
     updatedAt?: string | null,
     numListens?: number | null,
+    flag?:  {
+      __typename: "ModelFlagConnection",
+      items:  Array< {
+        __typename: "Flag",
+        id: string,
+        type?: string | null,
+        storyID: string,
+        flagTypes?: Array< string | null > | null,
+        userID?: string | null,
+        Status?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -5063,6 +5132,21 @@ export type DeleteStoryMutation = {
     createdAt?: string | null,
     updatedAt?: string | null,
     numListens?: number | null,
+    flag?:  {
+      __typename: "ModelFlagConnection",
+      items:  Array< {
+        __typename: "Flag",
+        id: string,
+        type?: string | null,
+        storyID: string,
+        flagTypes?: Array< string | null > | null,
+        userID?: string | null,
+        Status?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -6698,6 +6782,7 @@ export type CreateFlagMutation = {
   createFlag?:  {
     __typename: "Flag",
     id: string,
+    type?: string | null,
     storyID: string,
     story?:  {
       __typename: "Story",
@@ -6835,6 +6920,10 @@ export type CreateFlagMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     flagTypes?: Array< string | null > | null,
     user?:  {
@@ -6915,7 +7004,8 @@ export type CreateFlagMutation = {
       updatedAt: string,
     } | null,
     userID?: string | null,
-    createdAt: string,
+    Status?: string | null,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -6929,6 +7019,7 @@ export type UpdateFlagMutation = {
   updateFlag?:  {
     __typename: "Flag",
     id: string,
+    type?: string | null,
     storyID: string,
     story?:  {
       __typename: "Story",
@@ -7066,6 +7157,10 @@ export type UpdateFlagMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     flagTypes?: Array< string | null > | null,
     user?:  {
@@ -7146,7 +7241,8 @@ export type UpdateFlagMutation = {
       updatedAt: string,
     } | null,
     userID?: string | null,
-    createdAt: string,
+    Status?: string | null,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -7160,6 +7256,7 @@ export type DeleteFlagMutation = {
   deleteFlag?:  {
     __typename: "Flag",
     id: string,
+    type?: string | null,
     storyID: string,
     story?:  {
       __typename: "Story",
@@ -7297,6 +7394,10 @@ export type DeleteFlagMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     flagTypes?: Array< string | null > | null,
     user?:  {
@@ -7377,7 +7478,8 @@ export type DeleteFlagMutation = {
       updatedAt: string,
     } | null,
     userID?: string | null,
-    createdAt: string,
+    Status?: string | null,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -7529,6 +7631,10 @@ export type CreateCommentMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     content: string,
     user?:  {
@@ -7762,6 +7868,10 @@ export type UpdateCommentMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     content: string,
     user?:  {
@@ -7995,6 +8105,10 @@ export type DeleteCommentMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     content: string,
     user?:  {
@@ -8351,6 +8465,10 @@ export type CreateRatingMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     userID: string,
     user?:  {
@@ -8595,6 +8713,10 @@ export type UpdateRatingMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     userID: string,
     user?:  {
@@ -8839,6 +8961,10 @@ export type DeleteRatingMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     userID: string,
     user?:  {
@@ -10430,6 +10556,10 @@ export type CreateStoryTagMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     },
     tag:  {
       __typename: "Tag",
@@ -10608,6 +10738,10 @@ export type UpdateStoryTagMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     },
     tag:  {
       __typename: "Tag",
@@ -10786,6 +10920,10 @@ export type DeleteStoryTagMutation = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     },
     tag:  {
       __typename: "Tag",
@@ -11644,6 +11782,10 @@ export type GetPinnedStoryQuery = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     createdAt?: string | null,
     updatedAt: string,
@@ -11952,6 +12094,10 @@ export type GetFinishedStoryQuery = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     createdAt?: string | null,
     genreID?: string | null,
@@ -12375,6 +12521,21 @@ export type GetStoryQuery = {
     createdAt?: string | null,
     updatedAt?: string | null,
     numListens?: number | null,
+    flag?:  {
+      __typename: "ModelFlagConnection",
+      items:  Array< {
+        __typename: "Flag",
+        id: string,
+        type?: string | null,
+        storyID: string,
+        flagTypes?: Array< string | null > | null,
+        userID?: string | null,
+        Status?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -12523,6 +12684,10 @@ export type ListStoriesQuery = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -13346,6 +13511,7 @@ export type GetFlagQuery = {
   getFlag?:  {
     __typename: "Flag",
     id: string,
+    type?: string | null,
     storyID: string,
     story?:  {
       __typename: "Story",
@@ -13483,6 +13649,10 @@ export type GetFlagQuery = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     flagTypes?: Array< string | null > | null,
     user?:  {
@@ -13563,7 +13733,8 @@ export type GetFlagQuery = {
       updatedAt: string,
     } | null,
     userID?: string | null,
-    createdAt: string,
+    Status?: string | null,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -13580,6 +13751,7 @@ export type ListFlagsQuery = {
     items:  Array< {
       __typename: "Flag",
       id: string,
+      type?: string | null,
       storyID: string,
       story?:  {
         __typename: "Story",
@@ -13639,7 +13811,8 @@ export type ListFlagsQuery = {
         updatedAt: string,
       } | null,
       userID?: string | null,
-      createdAt: string,
+      Status?: string | null,
+      createdAt?: string | null,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -13792,6 +13965,10 @@ export type GetCommentQuery = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     content: string,
     user?:  {
@@ -14182,6 +14359,10 @@ export type GetRatingQuery = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     userID: string,
     user?:  {
@@ -15136,6 +15317,10 @@ export type GetStoryTagQuery = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     },
     tag:  {
       __typename: "Tag",
@@ -15816,6 +16001,10 @@ export type StoriesByDateQuery = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -15969,6 +16158,10 @@ export type StoriesByUpdatedQuery = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -16225,6 +16418,89 @@ export type AudioAssetsByDateQuery = {
         createdAt: string,
         updatedAt: string,
       } | null,
+      createdAt?: string | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type FlagsByDateQueryVariables = {
+  type: string,
+  createdAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelFlagFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type FlagsByDateQuery = {
+  flagsByDate?:  {
+    __typename: "ModelFlagConnection",
+    items:  Array< {
+      __typename: "Flag",
+      id: string,
+      type?: string | null,
+      storyID: string,
+      story?:  {
+        __typename: "Story",
+        id: string,
+        type?: string | null,
+        title: string,
+        imageUri?: string | null,
+        audioUri: string,
+        userID?: string | null,
+        author?: string | null,
+        authorID?: string | null,
+        narrator?: string | null,
+        narratorID?: string | null,
+        artistName?: string | null,
+        artistID?: string | null,
+        time?: number | null,
+        summary?: string | null,
+        description?: string | null,
+        nsfw?: boolean | null,
+        ratingAvg?: number | null,
+        ratingAmt?: number | null,
+        genreID?: string | null,
+        hidden?: boolean | null,
+        approved?: string | null,
+        createdAt?: string | null,
+        updatedAt?: string | null,
+        numListens?: number | null,
+      } | null,
+      flagTypes?: Array< string | null > | null,
+      user?:  {
+        __typename: "User",
+        type?: string | null,
+        id: string,
+        name?: string | null,
+        email?: string | null,
+        imageUri?: string | null,
+        bio?: string | null,
+        numAuthored?: number | null,
+        pseudonym?: string | null,
+        narratorPseudo?: string | null,
+        artistPseudo?: string | null,
+        birthdate?: string | null,
+        isPublisher?: boolean | null,
+        isNarrator?: boolean | null,
+        isArtist?: boolean | null,
+        topthree?: Array< string | null > | null,
+        sampleUri?: string | null,
+        narratorText?: string | null,
+        accents?: Array< string | null > | null,
+        voice?: string | null,
+        artistText?: string | null,
+        artStyles?: Array< string | null > | null,
+        narratorActiveAt?: string | null,
+        artistActiveAt?: string | null,
+        plan?: string | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      userID?: string | null,
+      Status?: string | null,
       createdAt?: string | null,
       updatedAt: string,
     } | null >,
@@ -18271,6 +18547,10 @@ export type OnCreatePinnedStorySubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     createdAt?: string | null,
     updatedAt: string,
@@ -18497,6 +18777,10 @@ export type OnUpdatePinnedStorySubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     createdAt?: string | null,
     updatedAt: string,
@@ -18723,6 +19007,10 @@ export type OnDeletePinnedStorySubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     createdAt?: string | null,
     updatedAt: string,
@@ -18949,6 +19237,10 @@ export type OnCreateFinishedStorySubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     createdAt?: string | null,
     genreID?: string | null,
@@ -19187,6 +19479,10 @@ export type OnUpdateFinishedStorySubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     createdAt?: string | null,
     genreID?: string | null,
@@ -19425,6 +19721,10 @@ export type OnDeleteFinishedStorySubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     createdAt?: string | null,
     genreID?: string | null,
@@ -19754,6 +20054,21 @@ export type OnCreateStorySubscription = {
     createdAt?: string | null,
     updatedAt?: string | null,
     numListens?: number | null,
+    flag?:  {
+      __typename: "ModelFlagConnection",
+      items:  Array< {
+        __typename: "Flag",
+        id: string,
+        type?: string | null,
+        storyID: string,
+        flagTypes?: Array< string | null > | null,
+        userID?: string | null,
+        Status?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -20068,6 +20383,21 @@ export type OnUpdateStorySubscription = {
     createdAt?: string | null,
     updatedAt?: string | null,
     numListens?: number | null,
+    flag?:  {
+      __typename: "ModelFlagConnection",
+      items:  Array< {
+        __typename: "Flag",
+        id: string,
+        type?: string | null,
+        storyID: string,
+        flagTypes?: Array< string | null > | null,
+        userID?: string | null,
+        Status?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -20382,6 +20712,21 @@ export type OnDeleteStorySubscription = {
     createdAt?: string | null,
     updatedAt?: string | null,
     numListens?: number | null,
+    flag?:  {
+      __typename: "ModelFlagConnection",
+      items:  Array< {
+        __typename: "Flag",
+        id: string,
+        type?: string | null,
+        storyID: string,
+        flagTypes?: Array< string | null > | null,
+        userID?: string | null,
+        Status?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -21952,6 +22297,7 @@ export type OnCreateFlagSubscription = {
   onCreateFlag?:  {
     __typename: "Flag",
     id: string,
+    type?: string | null,
     storyID: string,
     story?:  {
       __typename: "Story",
@@ -22089,6 +22435,10 @@ export type OnCreateFlagSubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     flagTypes?: Array< string | null > | null,
     user?:  {
@@ -22169,7 +22519,8 @@ export type OnCreateFlagSubscription = {
       updatedAt: string,
     } | null,
     userID?: string | null,
-    createdAt: string,
+    Status?: string | null,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -22178,6 +22529,7 @@ export type OnUpdateFlagSubscription = {
   onUpdateFlag?:  {
     __typename: "Flag",
     id: string,
+    type?: string | null,
     storyID: string,
     story?:  {
       __typename: "Story",
@@ -22315,6 +22667,10 @@ export type OnUpdateFlagSubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     flagTypes?: Array< string | null > | null,
     user?:  {
@@ -22395,7 +22751,8 @@ export type OnUpdateFlagSubscription = {
       updatedAt: string,
     } | null,
     userID?: string | null,
-    createdAt: string,
+    Status?: string | null,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -22404,6 +22761,7 @@ export type OnDeleteFlagSubscription = {
   onDeleteFlag?:  {
     __typename: "Flag",
     id: string,
+    type?: string | null,
     storyID: string,
     story?:  {
       __typename: "Story",
@@ -22541,6 +22899,10 @@ export type OnDeleteFlagSubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     flagTypes?: Array< string | null > | null,
     user?:  {
@@ -22621,7 +22983,8 @@ export type OnDeleteFlagSubscription = {
       updatedAt: string,
     } | null,
     userID?: string | null,
-    createdAt: string,
+    Status?: string | null,
+    createdAt?: string | null,
     updatedAt: string,
   } | null,
 };
@@ -22768,6 +23131,10 @@ export type OnCreateCommentSubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     content: string,
     user?:  {
@@ -22996,6 +23363,10 @@ export type OnUpdateCommentSubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     content: string,
     user?:  {
@@ -23224,6 +23595,10 @@ export type OnDeleteCommentSubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     content: string,
     user?:  {
@@ -23560,6 +23935,10 @@ export type OnCreateRatingSubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     userID: string,
     user?:  {
@@ -23799,6 +24178,10 @@ export type OnUpdateRatingSubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     userID: string,
     user?:  {
@@ -24038,6 +24421,10 @@ export type OnDeleteRatingSubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     } | null,
     userID: string,
     user?:  {
@@ -25594,6 +25981,10 @@ export type OnCreateStoryTagSubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     },
     tag:  {
       __typename: "Tag",
@@ -25767,6 +26158,10 @@ export type OnUpdateStoryTagSubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     },
     tag:  {
       __typename: "Tag",
@@ -25940,6 +26335,10 @@ export type OnDeleteStoryTagSubscription = {
       createdAt?: string | null,
       updatedAt?: string | null,
       numListens?: number | null,
+      flag?:  {
+        __typename: "ModelFlagConnection",
+        nextToken?: string | null,
+      } | null,
     },
     tag:  {
       __typename: "Tag",

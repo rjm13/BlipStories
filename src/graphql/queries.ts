@@ -726,6 +726,9 @@ export const getPinnedStory = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       createdAt
       updatedAt
@@ -1004,6 +1007,9 @@ export const getFinishedStory = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       createdAt
       genreID
@@ -1370,6 +1376,19 @@ export const getStory = /* GraphQL */ `
       createdAt
       updatedAt
       numListens
+      flag {
+        items {
+          id
+          type
+          storyID
+          flagTypes
+          userID
+          Status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -1508,6 +1527,9 @@ export const listStories = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       nextToken
     }
@@ -2215,6 +2237,7 @@ export const getFlag = /* GraphQL */ `
   query GetFlag($id: ID!) {
     getFlag(id: $id) {
       id
+      type
       storyID
       story {
         id
@@ -2344,6 +2367,9 @@ export const getFlag = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       flagTypes
       user {
@@ -2411,6 +2437,7 @@ export const getFlag = /* GraphQL */ `
         updatedAt
       }
       userID
+      Status
       createdAt
       updatedAt
     }
@@ -2425,6 +2452,7 @@ export const listFlags = /* GraphQL */ `
     listFlags(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        type
         storyID
         story {
           id
@@ -2482,6 +2510,7 @@ export const listFlags = /* GraphQL */ `
           updatedAt
         }
         userID
+        Status
         createdAt
         updatedAt
       }
@@ -2623,6 +2652,9 @@ export const getComment = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       content
       user {
@@ -2971,6 +3003,9 @@ export const getRating = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       userID
       user {
@@ -3824,6 +3859,9 @@ export const getStoryTag = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       tag {
         id
@@ -4482,6 +4520,9 @@ export const storiesByDate = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       nextToken
     }
@@ -4632,6 +4673,9 @@ export const storiesByUpdated = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       nextToken
     }
@@ -4894,6 +4938,91 @@ export const audioAssetsByDate = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const flagsByDate = /* GraphQL */ `
+  query FlagsByDate(
+    $type: String!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelFlagFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    flagsByDate(
+      type: $type
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        storyID
+        story {
+          id
+          type
+          title
+          imageUri
+          audioUri
+          userID
+          author
+          authorID
+          narrator
+          narratorID
+          artistName
+          artistID
+          time
+          summary
+          description
+          nsfw
+          ratingAvg
+          ratingAmt
+          genreID
+          hidden
+          approved
+          createdAt
+          updatedAt
+          numListens
+        }
+        flagTypes
+        user {
+          type
+          id
+          name
+          email
+          imageUri
+          bio
+          numAuthored
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          birthdate
+          isPublisher
+          isNarrator
+          isArtist
+          topthree
+          sampleUri
+          narratorText
+          accents
+          voice
+          artistText
+          artStyles
+          narratorActiveAt
+          artistActiveAt
+          plan
+          createdAt
+          updatedAt
+        }
+        userID
+        Status
         createdAt
         updatedAt
       }

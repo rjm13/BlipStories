@@ -21,7 +21,7 @@ import {useNavigation} from '@react-navigation/native'
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { listFlags } from '../src/graphql/queries';
-import { updateStory, createMessage, deleteFlag } from '../src/graphql/mutations';
+import { updateStory, createMessage, updateFlag } from '../src/graphql/mutations';
 import TimeConversion from '../components/functions/TimeConversion';
 import { setNotificationChannelGroupAsync } from 'expo-notifications';
 
@@ -72,16 +72,12 @@ const FlaggedStories = ({navigation} : any) => {
             let response = await API.graphql(graphqlOperation(
                 listFlags, {
                     filter: {
-                        
+                        Status: {
+                            eq: 'active'
+                        }
                     }
                 }
             ))
-            // for (let i = 0; i < response.data.listFlags.items.length; i++) {
-            //     arr.push(
-            //         response.data.listFlags.items[i].story
-            //         )
-            // }
-            // setStories(arr)
             setFlags(response.data.listFlags.items)
         }
         getStories();
@@ -89,50 +85,6 @@ const FlaggedStories = ({navigation} : any) => {
 
     const [pending, setPending] = useState(false)
 
-    const ApproveStory = async ({id, authorID, title} : any) => {
-
-        setPending(true)
-
-        try {
-
-            let response = await API.graphql(graphqlOperation(
-                updateStory, {input: {
-                    id: id,
-                    approved: 'approved'
-                }}
-            ))
-            if (response) {
-                let sendmessage = await API.graphql(graphqlOperation(
-                    createMessage, {input: {
-                        type: 'Message',
-                        createdAt: new Date(),
-                        updatedAt: new Date(),
-                        userID: userID,
-                        otherUserID: authorID,
-                        content: 'Your story has been approved and is now live in the app!\n\nTo view your story, go to Publisher Home >> Published Stories',
-                        title: 'Your story, ' + title + ' has been approved!',
-                        subtitle: 'approval',
-                        isReadbyUser: true,
-                        isReadByOtherUser: false,
-                        docID: null, 
-                        request: null,
-                        status: null
-
-                    }}
-                ))
-                if (sendmessage) {
-                    setPending(false)
-                    alert ('Story approved!')
-                    setDidUpdate(!didUpdate)
-                    
-                }
-            }
-        } catch {
-            alert ('Error')
-            setPending(false)
-        }
-        
-    }
 
     const [rejectedAuthor, setRejectedAuthor] = useState('');
     const [rejectedID, setRejectedID] = useState('');
@@ -210,189 +162,16 @@ const FlaggedStories = ({navigation} : any) => {
 
     
 
-    const Item = ({title, genreName, summary, imageUri, nsfw, audioUri, author, authorID, narrator, time, id,ratingAvg,ratingAmt,icon} : any) => {
-
-        //temporary signed image uri
-        const [imageU, setImageU] = useState('')
-      
-        //push the s3 image key to get the signed uri
-        useEffect(() => {
-            const fetchImage = async () => {
-                let response = await Storage.get(imageUri);
-                setImageU(response);
-            }
-            fetchImage()
-        }, [])    
-    
-    //navigation hook
-        const navigation = useNavigation();
-    
-    //expanding list item
-        const [isVisible, setIsVisible] = useState(false);
-
-
-    
-        return (
-            <View>
-                <TouchableWithoutFeedback onPress={() => setIsVisible(!isVisible)}>
-                    <View style={styles.tile}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                            <View style={{ width: '78%'}}>
-                                    <Text style={styles.name}>
-                                        {title}
-                                    </Text> 
-                                
-                                <View style={{flexDirection: 'row'}}>
-                                    <Text style={[styles.category]}>
-                                        {genreName}
-                                    </Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>
-                                    <FontAwesome5 
-                                        name='book-open'
-                                        size={12}
-                                        color='#ffffffa5'
-                                    />
-                                    <Text style={styles.userId}>
-                                        {author}
-                                    </Text>  
-                                    <FontAwesome5 
-                                        name='book-reader'
-                                        size={12}
-                                        color='#ffffffa5'
-                                    />
-                                    <Text style={styles.userId}>
-                                        {narrator}
-                                    </Text> 
-                                </View>
-                            </View>
-                            <View>
-                                <TouchableOpacity onPress={() => navigation.navigate('SimpleAudioPlayer', {item: null, clouditem: null, storyID: id,})}>
-                                    <View style={{ 
-                                        flexDirection: 'row', 
-                                        alignItems: 'center', 
-                                        borderRadius: 30,
-                                        paddingVertical: 2,
-                                        paddingHorizontal: 8,
-                                        backgroundColor: '#ffffff33',
-                                    }}>
-                                        <FontAwesome5 
-                                            name='play'
-                                            color='#ffffff'
-                                            size={10}
-                                        />
-                                        <Text style={styles.time}>
-                                            {TimeConversion(time)}
-                                        </Text> 
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                            
-                        </View> 
-                
-                { isVisible ? (
-                    <View style={styles.popupblock}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end'}}>
-                            <View style={{alignItems: 'center', width: '100%',flexDirection: 'row', justifyContent: 'space-between'}}>
-                                
-                        
-                            </View>  
-                        </View>
-    
-                        <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
-                            <View>
-                                <View style={{ position: 'absolute', alignSelf: 'center', top: 80}}>
-                                    <FontAwesome5 
-                                        name={icon}
-                                        color='#ffffff'
-                                        size={50}
-                                    />
-                                </View>
-                                <Image 
-                                    source={{uri: imageU}}
-                                    style={{
-                                        height: imageU ? 200 : 0,
-                                        borderRadius: 15,
-                                        marginVertical: 15,
-                                        marginHorizontal: -10,
-                                        backgroundColor: '#ffffffa5'
-                                    }}
-                                />
-                            </View>
-                        </TouchableWithoutFeedback>
-                        <Text style={styles.paragraph}>
-                            {summary}
-                        </Text>
-                        <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 20}}>
-                            {pending===true ? (
-                                <ActivityIndicator size='small' color='cyan'/>
-                            ) : (
-                                <TouchableOpacity onLongPress={() => ApproveStory({id, title, authorID})}>
-                                    <Text style={{color: '#000', backgroundColor: 'cyan', borderRadius: 15, paddingHorizontal: 20, paddingVertical: 6}}>
-                                        Approve
-                                    </Text>
-                                </TouchableOpacity>
-                            )}
-                            
-                            {pending === true ? (
-                                <ActivityIndicator color='cyan' size='small'/>
-                            ) :(
-                                <TouchableOpacity onPress={() => showModal({id, title, authorID})}>
-                                    <Text style={{color: 'cyan', backgroundColor: 'transparent', borderWidth: 0.5, borderColor: 'cyan', borderRadius: 15, paddingHorizontal: 20, paddingVertical: 6}}>
-                                        Reject
-                                    </Text>
-                                </TouchableOpacity>
-                            )}
-                            
-                            
-                        </View>
-                    </View>
-                ) : false }  
-                    </View>
-                </TouchableWithoutFeedback>
-            </View>
-        );
-    }
-
-    const renderItem = ({item} : any) => {
-
-        let icon = ''
-        let genreName = ''
-        let primary = ''
-
-        if (item.genre) {
-            icon = item.genre.icon
-            genreName = item.genre.genre
-            primary = item.genre.PrimaryColor
-        }
-
-        return  (
-            <Item 
-                title={item.title}
-                authorID={item.userID}
-                imageUri={item.imageUri}
-                genreName={genreName}
-                icon={icon}
-                primary={primary}
-                audioUri={item.audioUri}
-                summary={item.summary}
-                author={item.author}
-                narrator={item.narrator}
-                time={item.time}
-                id={item.id}
-                ratingAvg={item.ratingAvg}
-                ratingAmt={item.ratingAmt}
-            />
-        )
-    }
+ 
 
     const Flag = ({flag, title, flag2, flag3, flag4, id, storyID} : any) => {
 
         const DeleteFlag = async () => {
             try {
                 await API.graphql(graphqlOperation(
-                    deleteFlag, {input: {
-                        id: id
+                    updateFlag, {input: {
+                        id: id,
+                        Status: 'dismissed'
                     }}
                 ))
                 setDidUpdate(!didUpdate)
@@ -407,6 +186,12 @@ const FlaggedStories = ({navigation} : any) => {
                     updateStory, {input: {
                         id: storyID,
                         approved: 'pending'
+                    }}
+                ))
+                await API.graphql(graphqlOperation(
+                    updateFlag, {input: {
+                        id: id,
+                        Status: 'dismissed'
                     }}
                 ))
                 setDidUpdate(!didUpdate)

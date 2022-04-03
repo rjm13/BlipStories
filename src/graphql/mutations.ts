@@ -1347,6 +1347,9 @@ export const createPinnedStory = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       createdAt
       updatedAt
@@ -1555,6 +1558,9 @@ export const updatePinnedStory = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       createdAt
       updatedAt
@@ -1763,6 +1769,9 @@ export const deletePinnedStory = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       createdAt
       updatedAt
@@ -1971,6 +1980,9 @@ export const createFinishedStory = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       createdAt
       genreID
@@ -2190,6 +2202,9 @@ export const updateFinishedStory = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       createdAt
       genreID
@@ -2409,6 +2424,9 @@ export const deleteFinishedStory = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       createdAt
       genreID
@@ -2694,6 +2712,19 @@ export const createStory = /* GraphQL */ `
       createdAt
       updatedAt
       numListens
+      flag {
+        items {
+          id
+          type
+          storyID
+          flagTypes
+          userID
+          Status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -2965,6 +2996,19 @@ export const updateStory = /* GraphQL */ `
       createdAt
       updatedAt
       numListens
+      flag {
+        items {
+          id
+          type
+          storyID
+          flagTypes
+          userID
+          Status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -3236,6 +3280,19 @@ export const deleteStory = /* GraphQL */ `
       createdAt
       updatedAt
       numListens
+      flag {
+        items {
+          id
+          type
+          storyID
+          flagTypes
+          userID
+          Status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;
@@ -4611,6 +4668,7 @@ export const createFlag = /* GraphQL */ `
   ) {
     createFlag(input: $input, condition: $condition) {
       id
+      type
       storyID
       story {
         id
@@ -4740,6 +4798,9 @@ export const createFlag = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       flagTypes
       user {
@@ -4807,6 +4868,7 @@ export const createFlag = /* GraphQL */ `
         updatedAt
       }
       userID
+      Status
       createdAt
       updatedAt
     }
@@ -4819,6 +4881,7 @@ export const updateFlag = /* GraphQL */ `
   ) {
     updateFlag(input: $input, condition: $condition) {
       id
+      type
       storyID
       story {
         id
@@ -4948,6 +5011,9 @@ export const updateFlag = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       flagTypes
       user {
@@ -5015,6 +5081,7 @@ export const updateFlag = /* GraphQL */ `
         updatedAt
       }
       userID
+      Status
       createdAt
       updatedAt
     }
@@ -5027,6 +5094,7 @@ export const deleteFlag = /* GraphQL */ `
   ) {
     deleteFlag(input: $input, condition: $condition) {
       id
+      type
       storyID
       story {
         id
@@ -5156,6 +5224,9 @@ export const deleteFlag = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       flagTypes
       user {
@@ -5223,6 +5294,7 @@ export const deleteFlag = /* GraphQL */ `
         updatedAt
       }
       userID
+      Status
       createdAt
       updatedAt
     }
@@ -5365,6 +5437,9 @@ export const createComment = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       content
       user {
@@ -5575,6 +5650,9 @@ export const updateComment = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       content
       user {
@@ -5785,6 +5863,9 @@ export const deleteComment = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       content
       user {
@@ -6103,6 +6184,9 @@ export const createRating = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       userID
       user {
@@ -6323,6 +6407,9 @@ export const updateRating = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       userID
       user {
@@ -6543,6 +6630,9 @@ export const deleteRating = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       userID
       user {
@@ -7951,6 +8041,9 @@ export const createStoryTag = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       tag {
         id
@@ -8116,6 +8209,9 @@ export const updateStoryTag = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       tag {
         id
@@ -8281,6 +8377,9 @@ export const deleteStoryTag = /* GraphQL */ `
         createdAt
         updatedAt
         numListens
+        flag {
+          nextToken
+        }
       }
       tag {
         id

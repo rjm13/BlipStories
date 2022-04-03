@@ -179,6 +179,7 @@ type Flag @model @auth(rules: [{ allow: private, operations: [create, delete, up
     flagTypes: [String]
     user: User @hasOne (fields: ["userID"])
     userID: ID 
+    Status: String
     createdAt: String
 }
 

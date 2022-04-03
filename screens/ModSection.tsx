@@ -14,12 +14,14 @@ import { useRoute } from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { API, graphqlOperation, Auth } from "aws-amplify";
-import { listStories, listFollowingConns, listImageAssets } from '../src/graphql/queries';
+import { listStories, listComments, listFlags } from '../src/graphql/queries';
 import { updateUser } from '../src/graphql/mutations';
 
 const ModSection = ({navigation} : any) => {
 
     const [stories, setStories] = useState(0)
+    const [flags, setFlags] = useState(0)
+    const [comments, setComments] = useState(0)
 
     useEffect(() => {
         const getUser = async () => {
@@ -47,6 +49,32 @@ const ModSection = ({navigation} : any) => {
             setStories(response.data.listStories.items.length)
         }
         fetchStories();
+        const fetchFlags = async () => {
+            let response = await API.graphql(graphqlOperation(
+                listFlags, {
+                    filter: {
+                        Status: {
+                            eq: 'active'
+                        }
+                    }
+                }
+            ))
+            setFlags(response.data.listFlags.items.length)
+        }
+        fetchFlags();
+        const fetchComments = async () => {
+            let response = await API.graphql(graphqlOperation(
+                listComments, {
+                    filter: {
+                        approved: {
+                            eq: false
+                        }
+                    }
+                }
+            ))
+            setComments(response.data.listComments.items.length)
+        }
+        fetchComments();
     }, [])
 
 

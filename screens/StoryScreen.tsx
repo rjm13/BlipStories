@@ -516,6 +516,7 @@ const StoryScreen  = ({navigation} : any) => {
                     storyID: storyID,
                     userID: userInfo.attributes.sub,
                     flagTypes: flags,
+                    Status: 'active',
                 }}
           ))
           console.log(report)
@@ -660,7 +661,8 @@ const StoryScreen  = ({navigation} : any) => {
                                     createdAt: new Date(),
                                     storyID: storyID,
                                     content: comment,
-                                    userID: poster.attributes.sub
+                                    userID: poster.attributes.sub,
+                                    comment: false
                                 }
                             }))
                                 console.log(result);
