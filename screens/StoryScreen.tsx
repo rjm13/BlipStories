@@ -662,7 +662,7 @@ const StoryScreen  = ({navigation} : any) => {
                                     storyID: storyID,
                                     content: comment,
                                     userID: poster.attributes.sub,
-                                    comment: false
+                                    approved: false
                                 }
                             }))
                                 console.log(result);

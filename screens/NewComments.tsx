@@ -69,6 +69,34 @@ const ModSection = ({navigation} : any) => {
     }, [didUpdate])
 
     const Comment = ({createdAt, id, username, storytitle, content, userID, storyID} : any) => {
+
+        const Delete = async () => {
+            try {
+                await API.graphql(graphqlOperation(
+                    deleteComment, {input: {
+                        id: id,
+                    }}
+                ))
+            } catch {
+                alert ('CommentDeleted')
+            }
+            setDidUpdate(!didUpdate)
+        }
+    
+        const Approve =  async () => {
+            try {
+                await API.graphql(graphqlOperation(
+                    updateComment, {input: {
+                        id: id,
+                        approved: true
+                    }}
+                ))
+            } catch {
+                alert ('Could not update comment')
+            }
+            setDidUpdate(!didUpdate)
+        }
+        
         return (
             <TouchableWithoutFeedback onPress={Approve} onLongPress={Delete}>
                 <View style={{backgroundColor: '#132F35', margin: 20, padding: 10, borderRadius: 15}}>
@@ -109,32 +137,7 @@ const ModSection = ({navigation} : any) => {
         )
     }
 
-    const Delete = async () => {
-        try {
-            await API.graphql(graphqlOperation(
-                deleteComment, {input: {
-                    id: id,
-                }}
-            ))
-        } catch {
-            alert ('CommentDeleted')
-        }
-        setDidUpdate(!didUpdate)
-    }
 
-    const Approve =  async () => {
-        try {
-            await API.graphql(graphqlOperation(
-                updateComment, {input: {
-                    id: id,
-                    approved: true
-                }}
-            ))
-        } catch {
-            alert ('Could not update comment')
-        }
-        setDidUpdate(!didUpdate)
-    }
 
 
     return (

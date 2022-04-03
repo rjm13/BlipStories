@@ -202,7 +202,7 @@ const PendingStories = ({navigation} : any) => {
 
     
 
-    const Item = ({title, genreName, summary, imageUri, flags, nsfw, audioUri, author, authorID, narrator, time, id,ratingAvg,ratingAmt,icon} : any) => {
+    const Item = ({title, genreName, summary, imageUri, nsfw, audioUri, author, authorID, narrator, time, id,ratingAvg,ratingAmt,icon} : any) => {
 
         //temporary signed image uri
         const [imageU, setImageU] = useState('')
@@ -315,14 +315,14 @@ const PendingStories = ({navigation} : any) => {
                         <Text style={styles.paragraph}>
                             {summary}
                         </Text>
-                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Text style={{color: '#fff'}}>
                                 Flags:
                             </Text>
                             <Text style={{color: '#fff'}}>
                                 {flags}
                             </Text>
-                        </View>
+                        </View> */}
                         <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 20}}>
                             {pending===true ? (
                                 <ActivityIndicator size='small' color='cyan'/>
@@ -359,7 +359,7 @@ const PendingStories = ({navigation} : any) => {
         let icon = ''
         let genreName = ''
         let primary = ''
-        let flags = item.flags.items.length
+        //let flags = item.flag?.items.length
 
         if (item.genre) {
             icon = item.genre.icon
@@ -383,7 +383,7 @@ const PendingStories = ({navigation} : any) => {
                 id={item.id}
                 ratingAvg={item.ratingAvg}
                 ratingAmt={item.ratingAmt}
-                flags={flags}
+                //flags={flags}
             />
         )
     }

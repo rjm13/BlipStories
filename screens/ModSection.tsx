@@ -111,7 +111,7 @@ const ModSection = ({navigation} : any) => {
                         Flagged Stories
                     </Text>
                     <Text style={{color: '#fff', fontWeight: 'bold'}}>
-                        0
+                        {flags}
                     </Text>
                 </View>
             </TouchableWithoutFeedback>
@@ -122,7 +122,7 @@ const ModSection = ({navigation} : any) => {
                         New Comments
                     </Text>
                     <Text style={{color: '#fff', fontWeight: 'bold'}}>
-                        0
+                        {comments}
                     </Text>
                 </View>
             </TouchableWithoutFeedback>
