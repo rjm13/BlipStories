@@ -21,6 +21,7 @@ import ForgotPasswordScreen from '../screens/auth/ForgotPassword';
 import ForgotPasswordConScreen from '../screens/auth/ForgotPasswordCon';
 import ConfirmEmailScreen from '../screens/auth/ConfirmEmail';
 import SplashCarousel from '../screens/auth/SplashCarousel';
+import Welcome from '../screens/auth/Welcome';
 import CreateMessage from '../screens/CreateMessage';
 
 import { navigationRef } from './RootNavigation';
@@ -68,6 +69,7 @@ function RootNavigator() {
       <Stack.Screen name="Redirect" component={RedirectScreen} />
       <Stack.Screen name="TagSearchScreen" component={TagSearchScreen} />
       <Stack.Screen name="SplashCarousel" component={SplashCarousel} />
+      <Stack.Screen name="Welcome" component={Welcome} />
       <Stack.Screen name="CreateMessage" component={CreateMessage} />
     </Stack.Navigator>
   );

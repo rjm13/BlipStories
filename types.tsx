@@ -15,6 +15,7 @@ export type RootStackParamList = {
   TagSearchScreen: undefined;
   SplashCarousel: undefined;
   CreateMessage: undefined;
+  Welcome: undefined;
 
 };
 

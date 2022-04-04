@@ -55,7 +55,7 @@ const ConfirmEmail = ({navigation, route} : {navigation: any, route : any}) => {
                             )
                         )
                         if (createdUser) {
-                            navigation.navigate('SplashCarousel')
+                            navigation.navigate('Welcome')
                         }
                     }
                 }

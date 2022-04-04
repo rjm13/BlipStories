@@ -64,7 +64,7 @@ const SplashCarousel = ({navigation} : any) => {
 
             <View style={{margin: 40, alignSelf: 'center'}}>
                 <Text style={styles.header}>
-                    Welcome to Blip!
+                    Let's Get Started!
                 </Text>
 
                 <Text style={{fontSize: 16, marginTop: 20, color: '#fff'}}>
