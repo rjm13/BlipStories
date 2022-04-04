@@ -35,7 +35,6 @@ import ShareStory from '../components/functions/ShareStory';
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-
 //custom hook for setting the time on the slider
     function useInterval(callback, delay) {
         const savedCallback = useRef();
@@ -56,6 +55,8 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 
 
 const AudioPlayer  = () => {
+
+
 
 //get the global page state for the audio player
     const { isRootScreen } = useContext(AppContext);
@@ -466,7 +467,7 @@ const AddToHistory = async () => {
             await sound.playAsync(); 
             setIsPlaying(true);
             await sound.setPositionAsync(position);
-        } 
+        }
         if (isPlaying === true) {
             await sound.pauseAsync();
             setIsPlaying (false);     
@@ -493,7 +494,9 @@ const AddToHistory = async () => {
         return sound
         ? () => {
             console.log('Unloading Sound');
-            sound.unloadAsync(); }
+            sound.unloadAsync();
+        }
+            
         : undefined;
     }, [sound]);
 

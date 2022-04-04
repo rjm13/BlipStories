@@ -108,7 +108,7 @@ const PendingStories = ({navigation} : any) => {
                         isReadByOtherUser: false,
                         docID: null, 
                         request: null,
-                        status: null
+                        status: 'noreply'
 
                     }}
                 ))
@@ -182,7 +182,7 @@ const PendingStories = ({navigation} : any) => {
                         isReadByOtherUser: false,
                         docID: null, 
                         request: null,
-                        status: null
+                        status: 'noreply'
 
                     }}
                 ))

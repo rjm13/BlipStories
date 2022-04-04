@@ -1,12 +1,43 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Dimensions, TextInput, TouchableOpacity} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+
+import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
+import { createMessage } from '../../src/graphql/mutations';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const Welcome = ({navigation} : any) => {
 
     const SCREEN_HEIGHT = Dimensions.get('window').height
+
+    useEffect(() => {
+        const sendMessage = async () => {
+
+            const userInfo = await Auth.currentAuthenticatedUser()
+
+            await API.graphql(graphqlOperation(
+                createMessage, {
+                    input: {
+                    type: 'Message',
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    userID: userInfo.attributes.sub,
+                    otherUserID: null,
+                    content: 'Welcome to Blip!\n\nYour home for audio short stories.\n\nBlip curates stories, but also allows authors to share their own. Sign up as an author, narrator, or illustrator\n\nWe hope you enjoy using Blip! Happy listening!',
+                    title: 'Welcome to Blip!',
+                    subtitle: null,
+                    isReadbyUser: false,
+                    isReadByOtherUser: true,
+                    docID: null,
+                    request: null,
+                    status: 'noreply'
+                    }
+                }
+            ))
+
+        }
+        sendMessage();
+    }, [])
     
     return (
         <View style={{justifyContent: 'space-between', height: SCREEN_HEIGHT}}>

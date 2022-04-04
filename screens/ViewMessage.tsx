@@ -114,12 +114,12 @@ const ViewMessage = ({navigation} : any) => {
             ))
 
             if (messageresponse.data.getMessage.userID === userInfo.attributes.sub) {
-                let imageresponse = await Storage.get(messageresponse.data.getMessage.otherUser.imageUri)
+                let imageresponse = await Storage.get(messageresponse.data.getMessage.otherUser?.imageUri)
                 setImageU(imageresponse)
             }
 
-            if (messageresponse.data.getMessage.otherUserID === userInfo.attributes.sub) {
-                let imageresponse = await Storage.get(messageresponse.data.getMessage.user.imageUri)
+            if (messageresponse.data.getMessage?.otherUserID === userInfo.attributes.sub) {
+                let imageresponse = await Storage.get(messageresponse.data.getMessage.user?.imageUri)
                 setImageU(imageresponse)
             }
             
@@ -544,13 +544,22 @@ const ViewMessage = ({navigation} : any) => {
                                 </View>
                             </TouchableWithoutFeedback>
                             
-                            <Image 
-                                source={{uri: imageU}}
-                                style={{height: 40, width: 40, borderRadius: 25, marginLeft: 40}}
-                            />
-                            <Text style={styles.header}>
-                                {message?.user?.id === user && message?.subtitle === 'artist' ? message?.otherUser?.artistPseudo : message?.user?.id === user && message?.subtitle === 'narrator' ? message?.otherUser?.narratorPseudo : message?.user?.pseudonym}
-                            </Text>
+                            {message?.status === 'noreply' ? null : (
+                                <Image 
+                                    source={{uri: imageU}}
+                                    style={{height: 40, width: 40, borderRadius: 25, marginLeft: 40}}
+                                />
+                            )}
+                            {message?.status === 'noreply' ? (
+                                <Text style={[styles.header, {marginLeft: 20}]}>
+                                    Blip Stories
+                                </Text>
+                            ) :
+                                <Text style={styles.header}>
+                                    {message?.user?.id === user && message?.subtitle === 'artist' ? message?.otherUser?.artistPseudo : message?.user?.id === user && message?.subtitle === 'narrator' ? message?.otherUser?.narratorPseudo : message?.user?.pseudonym}
+                                </Text>
+                            }
+                            
                         </View>
 
                         
@@ -578,6 +587,7 @@ const ViewMessage = ({navigation} : any) => {
 
 
 {/* Footer */}
+                {message?.status === 'noreply' ? null : (
                     <View style={{position: 'absolute', bottom: isKeyboardVisible ? 300 : 0, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 30, width: SCREEN_WIDTH, height: 80, backgroundColor: '#303030'}}>
                         <TextInput
                             placeholder={'Reply to ' + (
@@ -606,7 +616,7 @@ const ViewMessage = ({navigation} : any) => {
                                 </TouchableOpacity>
                             </View>
                     </View>
-                    
+                )}
 
                 </View>
 
@@ -618,7 +628,7 @@ const ViewMessage = ({navigation} : any) => {
                                         {message?.title}
                                     </Text>
                                     <Text style={{color: 'gold', textTransform: 'capitalize', fontSize: 12}}>
-                                        {message?.status}
+                                        {message?.status === 'noreply' ? null : message?.status}
                                     </Text>
                                 </View>
                                 
@@ -641,7 +651,7 @@ const ViewMessage = ({navigation} : any) => {
                                         <Text style={{color: '#00ffffa5', fontSize: 12, marginTop: 20, textTransform: 'capitalize'}}>
                                             {messageDate}
                                         </Text>
-                                        {message?.docID !== null && isDownloading === false ? (
+                                        {message?.status === 'noreply' ? null : message?.docID !== null && isDownloading === false ? (
                                             <TouchableWithoutFeedback onPress={DownloadDocument2}>
                                                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                                         <FontAwesome5 
