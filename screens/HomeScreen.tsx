@@ -66,7 +66,7 @@ const AudioStoryHome = ({navigation} : any) => {
     const { setDeepLink } = useContext(AppContext);
 
     useEffect(() => {
-        if (!deepLink) return;
+        if (deepLink.path === null) return;
         let GoToLink = () => {
             navigation.navigate('StoryScreen', {storyID: deepLink.queryParams.id})
             
