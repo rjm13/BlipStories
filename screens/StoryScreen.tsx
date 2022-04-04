@@ -394,7 +394,6 @@ const StoryScreen  = ({navigation} : any) => {
                     genreID: Story?.genreID,
                     type: 'Rating',
                     createdAt: new Date(),
-                    updatedAt: new Date(),
                 }}
             ))
         console.log(Rate)
