@@ -42,6 +42,7 @@ const AudioStoryHome = ({navigation} : any) => {
           if (params) {
             let response = Linking.parse(params)
                 //console.log(response)
+                
               setDeepLink(response)
           }
         }
@@ -66,12 +67,14 @@ const AudioStoryHome = ({navigation} : any) => {
     const { setDeepLink } = useContext(AppContext);
 
     useEffect(() => {
-        if (deepLink.path === null) return;
-        let GoToLink = () => {
-            navigation.navigate('StoryScreen', {storyID: deepLink.queryParams.id})
-            
+
+        if (deepLink?.queryParams?.id) {
+            navigation.navigate('StoryScreen', {storyID: deepLink?.queryParams.id})
         }
-        if (deepLink) GoToLink();
+        else {
+            return
+        }
+       
     } , [deepLink])
 
     // function urlRedirect(url) {

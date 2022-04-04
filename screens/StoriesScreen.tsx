@@ -217,9 +217,9 @@ const AudioStoryHome = ({navigation} : any) => {
                                       renderItem={renderTag}
                                       keyExtractor={(item) => item.id}
                                       scrollEnabled={false}
-                                      maxToRenderPerBatch={9}
+                                      maxToRenderPerBatch={15}
                                       showsVerticalScrollIndicator={false}
-                                      style={{flexDirection: 'row', flexWrap: 'wrap', width: Dimensions.get('window').width - 20, marginBottom: 20}}
+                                      style={{flexDirection: 'row', flexWrap: 'wrap', width: Dimensions.get('window').width - 25, marginBottom: 20}}
                                     />
                                   </View>
                                 </View>
