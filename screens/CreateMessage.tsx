@@ -41,7 +41,7 @@ const CreateMessage = ({navigation} : any) => {
 
     const [data, setData] = useState({
         userID: '',
-        otherUserID: '',
+        otherUserID: otherUserID,
         content: '',
         title: type === 'artist' ? 'Request for Cover Art' : type === 'narrator' ? 'Request for Narration' : 'Request',
         subtitle: '',
@@ -73,38 +73,38 @@ const CreateMessage = ({navigation} : any) => {
         const fetchUser = async () => {
 
             let userInfo = await Auth.currentAuthenticatedUser(); 
-                      
+                    
             let response = await API.graphql(graphqlOperation(
                 getUser, {id: userInfo.attributes.sub}
             ))
-            let imageResponse = await Storage.get(response.data.getUser.imageUri);
-            setImageU(imageResponse);
-            setData({...data, userID: userInfo.attributes.sub});
-            setUser(response.data.getUser);
-        }
-        fetchUser();
-    }, [])
 
-    useEffect(() => {
-        const fetchOtherUser = async () => {
-                            
-            let response = await API.graphql(graphqlOperation(
+            let otherresponse = await API.graphql(graphqlOperation(
                 getUser, {id: otherUserID}
             ))
+
             let imageResponse = await Storage.get(response.data.getUser.imageUri);
-            setImageU2(imageResponse);
-            setData({...data, otherUserID: response.data.getUser.id})
+            setImageU(imageResponse);
+            
+            let otherimageResponse = await Storage.get(otherresponse.data.getUser.imageUri);
+            setImageU2(otherimageResponse);
+
+            setData({...data, otherUserID: otherresponse.data.getUser.id, userID: response.data.getUser.id})
+            setUser(response.data.getUser);
             setOtherUser(response.data.getUser);
         }
-        fetchOtherUser();
-    }, [])
+        fetchUser();
+    }, [otherUserID])
+
+  
+
+ 
       
 
 
     const SendMessage = async () => {
 
         if (data.userID === '' || data.otherUserID === '' || data.content === '') {
-            alert('Error. Please try again.')
+            alert('userid is' + data.userID + 'otherUserID is' + data.otherUserID + 'content is' + data.content)
             return;
         }
 

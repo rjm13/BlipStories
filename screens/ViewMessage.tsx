@@ -691,6 +691,7 @@ const ViewMessage = ({navigation} : any) => {
                                                     </Text>
                                                 </TouchableOpacity>
                                             </View>
+
                                         </View>
                             ) : null}
                         </View>
