@@ -194,7 +194,7 @@ const [localImageUri, setLocalImageUri] = useState('');
 
             for (let i = 0; i < TagsArray.length; i++) {
                 let tagCheck = await API.graphql(graphqlOperation(
-                    listTags, {filter: {tagName: {eq: TagsArray[i].name.toLowerCase()}}}
+                    listTags, {filter: {tagName: {eq: TagsArray[i].name.toLowerCase().replace(/ /g, '')}}}
                 ))
         //if the tag exists, create a StoryTag with the tagID and storyID
                 if (tagCheck.data.listTags.items.length === 1) {
@@ -202,14 +202,14 @@ const [localImageUri, setLocalImageUri] = useState('');
                         createStoryTag, {input: {tagID: tagCheck.data.listTags.items[0].id, storyID: storyID, }}
                     ))
                     let updateATag = await API.graphql(graphqlOperation(
-                        updateTag, {id: tagCheck.data.listTags.items[0].id, updatedAt: new Date()}
+                        updateTag, {id: tagCheck.data.listTags.items[0].id, updatedAt: new Date(), count: tagCheck.data.listTags.items[0].count + 1}
                     ))
                     console.log(addTag);
                     console.log(updateATag)
         //if the tag does not exist, create the tag and then the StoryTag with the tagID and storyID
                 } else if (tagCheck.data.listTags.items.length === 0) {
                     let newTag = await API.graphql(graphqlOperation(
-                        createTag, {input: {type: 'Tag', createdAt: new Date(), updatedAt: new Date(), tagName: TagsArray[i].name.toLowerCase(), genreID: Story?.genreID, nsfw: Story?.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false}}
+                        createTag, {input: {type: 'Tag', createdAt: new Date(), count: 1, updatedAt: new Date(), tagName: TagsArray[i].name.toLowerCase().replace(/ /g, ''), genreID: Story?.genreID, nsfw: Story?.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false}}
                     ))
                     if (newTag) {
                         let makeStoryTag = await API.graphql(graphqlOperation(

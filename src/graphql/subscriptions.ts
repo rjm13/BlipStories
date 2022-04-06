@@ -5868,6 +5868,7 @@ export const onCreateTag = /* GraphQL */ `
         }
         nextToken
       }
+      count
       updatedAt
       createdAt
     }
@@ -5901,6 +5902,7 @@ export const onUpdateTag = /* GraphQL */ `
         }
         nextToken
       }
+      count
       updatedAt
       createdAt
     }
@@ -5934,6 +5936,7 @@ export const onDeleteTag = /* GraphQL */ `
         }
         nextToken
       }
+      count
       updatedAt
       createdAt
     }
@@ -7926,6 +7929,7 @@ export const onCreateStoryTag = /* GraphQL */ `
         stories {
           nextToken
         }
+        count
         updatedAt
         createdAt
       }
@@ -8091,6 +8095,7 @@ export const onUpdateStoryTag = /* GraphQL */ `
         stories {
           nextToken
         }
+        count
         updatedAt
         createdAt
       }
@@ -8256,6 +8261,7 @@ export const onDeleteStoryTag = /* GraphQL */ `
         stories {
           nextToken
         }
+        count
         updatedAt
         createdAt
       }

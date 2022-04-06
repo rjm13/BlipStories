@@ -119,7 +119,7 @@ const AudioStoryHome = ({navigation} : any) => {
           }
       }))
 
-      if (result) {setTags(result.data.tagsByUpdated.items)}
+      setTags(result.data.tagsByUpdated.items)
     }
     fetchTags();
   }, [])

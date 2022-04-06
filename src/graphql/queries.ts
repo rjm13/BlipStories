@@ -2831,6 +2831,7 @@ export const getTag = /* GraphQL */ `
         }
         nextToken
       }
+      count
       updatedAt
       createdAt
     }
@@ -2862,6 +2863,7 @@ export const listTags = /* GraphQL */ `
         stories {
           nextToken
         }
+        count
         updatedAt
         createdAt
       }
@@ -3882,6 +3884,7 @@ export const getStoryTag = /* GraphQL */ `
         stories {
           nextToken
         }
+        count
         updatedAt
         createdAt
       }
@@ -3933,6 +3936,7 @@ export const listStoryTags = /* GraphQL */ `
           tagName
           nsfw
           genreID
+          count
           updatedAt
           createdAt
         }
@@ -5151,6 +5155,7 @@ export const tagsByCreated = /* GraphQL */ `
         stories {
           nextToken
         }
+        count
         updatedAt
         createdAt
       }
@@ -5194,6 +5199,7 @@ export const tagsByUpdated = /* GraphQL */ `
         stories {
           nextToken
         }
+        count
         updatedAt
         createdAt
       }

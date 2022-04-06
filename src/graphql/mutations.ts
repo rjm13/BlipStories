@@ -5970,6 +5970,7 @@ export const createTag = /* GraphQL */ `
         }
         nextToken
       }
+      count
       updatedAt
       createdAt
     }
@@ -6006,6 +6007,7 @@ export const updateTag = /* GraphQL */ `
         }
         nextToken
       }
+      count
       updatedAt
       createdAt
     }
@@ -6042,6 +6044,7 @@ export const deleteTag = /* GraphQL */ `
         }
         nextToken
       }
+      count
       updatedAt
       createdAt
     }
@@ -8064,6 +8067,7 @@ export const createStoryTag = /* GraphQL */ `
         stories {
           nextToken
         }
+        count
         updatedAt
         createdAt
       }
@@ -8232,6 +8236,7 @@ export const updateStoryTag = /* GraphQL */ `
         stories {
           nextToken
         }
+        count
         updatedAt
         createdAt
       }
@@ -8400,6 +8405,7 @@ export const deleteStoryTag = /* GraphQL */ `
         stories {
           nextToken
         }
+        count
         updatedAt
         createdAt
       }

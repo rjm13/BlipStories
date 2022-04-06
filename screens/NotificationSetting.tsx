@@ -20,7 +20,7 @@ const Settings = ({navigation} : any) => {
     }, [nsfwOn])
 
 //explicit content switch
-    const [isSwitchOn, setIsSwitchOn] = useState(!nsfwOn);
+    const [isSwitchOn, setIsSwitchOn] = useState(nsfwOn);
 
     const onToggleSwitch = () => {setIsSwitchOn(!isSwitchOn); setNSFWOn(!nsfwOn);}
 

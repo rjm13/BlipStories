@@ -207,6 +207,7 @@ type Tag @model @auth(rules: [{ allow: private, operations: [create, delete, upd
     genreID: ID @index(name: "byGenre", sortKeyFields: ["id"])
     genre: Genre @hasOne (fields: ["genreID"])
     stories: [Story] @manyToMany(relationName: "StoryTag")
+    count: Int
     updatedAt: String
     createdAt: String
   }
