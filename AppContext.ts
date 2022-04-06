@@ -15,6 +15,9 @@ const context = {
 
     nsfwOn: false,
     setNSFWOn: (val: boolean | null) => {},
+
+    ADon: false,
+    setADon: (val: boolean | null) => {},
 }
 
 export const AppContext = React.createContext(context);

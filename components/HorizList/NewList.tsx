@@ -32,6 +32,8 @@ import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 
 const NewList = () => {
 
+    const { nsfwOn } = useContext(AppContext);
+
     //update list state
     const [didUpdate, setDidUpdate] = useState(false);
 
@@ -71,6 +73,9 @@ const NewList = () => {
                                     },
                                     imageUri: {
                                         attributeExists: true
+                                    },
+                                    nsfw: {
+                                        ne: nsfwOn === true ? true : null
                                     }
                                 }
                             } 

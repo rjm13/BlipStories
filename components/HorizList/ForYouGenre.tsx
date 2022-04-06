@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { 
     View, 
     StyleSheet, 
@@ -13,12 +13,15 @@ import {useNavigation} from '@react-navigation/native'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import HorzStoryTile from '../HorzStoryTile';
+import { AppContext } from '../../AppContext';
 
 import { getGenre, storiesByUpdated } from '../../src/graphql/queries';
 import {graphqlOperation, API} from 'aws-amplify';
 
 
 const ForYouGenre = ({genreid} : any) => {
+
+    const { nsfwOn } = useContext(AppContext);
 
     const navigation = useNavigation();
 
@@ -91,6 +94,9 @@ const ForYouGenre = ({genreid} : any) => {
                                     },
                                     hidden: {
                                         eq: false
+                                    },
+                                    nsfw: {
+                                        ne: nsfwOn === true ? true : null
                                     }
                                     // tags: {
                                     //     contains: tag

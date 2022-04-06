@@ -28,6 +28,8 @@ import TimeConversion from '../functions/TimeConversion';
 
 const ForYouCarousel = () => {
 
+    const { nsfwOn } = useContext(AppContext);
+
     const Item = ({primary, title, userID, genreName, icon, summary, imageUri, audioUri, author, narrator, artistID, narratorID, time, id} : any) => {
 
         const [imageU, setImageU] = useState('');
@@ -263,6 +265,9 @@ const ForYouCarousel = () => {
                                 genreID: {
                                     ne: '1108a619-1c0e-4064-8fce-41f1f6262070'
                                 },
+                                nsfw: {
+                                    ne: nsfwOn === true ? true : null
+                                }
                                 // ratingAvg: {
                                 //     gt: 6
                                 // },

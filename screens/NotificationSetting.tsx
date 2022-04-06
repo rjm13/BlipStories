@@ -12,12 +12,9 @@ const Settings = ({navigation} : any) => {
     const { setNSFWOn } = useContext(AppContext);
     const { nsfwOn } = useContext(AppContext);
 
-    useEffect(() => {
-        // if (nsfwOn === false) {
-        //     () => setIsSwitchOn(true)
-        // }
-        console.log(nsfwOn)
-    }, [nsfwOn])
+    const { setADon } = useContext(AppContext);
+    const { ADon } = useContext(AppContext);
+
 
 //explicit content switch
     const [isSwitchOn, setIsSwitchOn] = useState(nsfwOn);
@@ -25,9 +22,9 @@ const Settings = ({navigation} : any) => {
     const onToggleSwitch = () => {setIsSwitchOn(!isSwitchOn); setNSFWOn(!nsfwOn);}
 
 //autoplay switch
-    const [isAutoplayOn, setIsAutoplayOn] = React.useState(false);
+    const [isAfterDarkOn, setIsAfterDarkOn] = React.useState(ADon);
 
-    const onAutoplaySwitch = () => setIsAutoplayOn(!isAutoplayOn);
+    const onAfterDarkSwitch = () => {setIsAfterDarkOn(!isAfterDarkOn); setADon(!ADon);}
 
     //subscription notifications on/off switch
     const [isSubsOn, setIsSubsOn] = React.useState(false);
@@ -91,24 +88,26 @@ const Settings = ({navigation} : any) => {
                     />
                 </View>
 
-                {/* <View style={styles.optionsitem}>
+                
+
+                <View style={styles.optionsitem}>
                     <View style={styles.subblock}>
                         <Text style={styles.paragraph}>
-                            Autoplay
+                            Lock Erotic Content
                         </Text>
                         <Text style={styles.subparagraph}>
-                            Automatically play the next track in your playlist
+                            Turn on to lock content from the After Dark genre
                         </Text>
                     </View>
                     
                     <Switch
                         trackColor={{ false: "#219a9ca5", true: "#219a9ca5" }}
-                        thumbColor={isAutoplayOn ? "cyan" : "gray"}
+                        thumbColor={isAfterDarkOn ? "cyan" : "gray"}
                         ios_backgroundColor="cyan"
-                        onValueChange={onAutoplaySwitch}
-                        value={isAutoplayOn}
+                        onValueChange={onAfterDarkSwitch}
+                        value={isAfterDarkOn}
                     />
-                </View> */}
+                </View>
 
             </View>
 

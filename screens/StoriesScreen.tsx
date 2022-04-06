@@ -8,13 +8,16 @@ import {
   Text, 
   Image,
   FlatList,
-  ScrollView } 
+  ScrollView,
+  ActivityIndicator
+} 
 from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {LinearGradient} from 'expo-linear-gradient';
 
-import { listGenres, tagsByUpdated } from '../src/graphql/queries';
+import { listGenres, tagsByUpdated, listTags } from '../src/graphql/queries';
+import { updateTag } from '../src/graphql/mutations';
 import {graphqlOperation, API} from 'aws-amplify';
 import { AppContext } from '../AppContext';
 
@@ -116,6 +119,9 @@ const AudioStoryHome = ({navigation} : any) => {
             genreID: {
               ne: '1108a619-1c0e-4064-8fce-41f1f6262070'
             },
+            count: {
+              gt: 0
+            }
           }
       }))
 
@@ -240,6 +246,8 @@ const AudioStoryHome = ({navigation} : any) => {
                     }}
                 />
               </View>
+            </View>
+            <View>
             </View>
           </ScrollView>
         </LinearGradient>
