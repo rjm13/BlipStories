@@ -135,8 +135,17 @@ const StoryScreen  = ({navigation} : any) => {
 //get the story attributes using the storyID
     useEffect(() => {
         const fetchStory = async () => {
+            
+            let tagarr = []
+
             try {
                 const storyData = await API.graphql(graphqlOperation(getStory, {id: storyID}))
+
+                for(let i = 0; i < storyData.data.getStory.tags.items.length; i++) {
+                    tagarr.push({id: storyData.data.getStory.tags.items[i].tag.id, tagName: storyData.data.getStory.tags.items[i].tag.tagName})
+                }
+                setTags(tagarr)
+                console.log(tagarr)
 
                 if (storyData) {
                     setStory(storyData.data.getStory);
@@ -199,34 +208,38 @@ const StoryScreen  = ({navigation} : any) => {
 
       const [Tags, setTags] = useState([])
 
-      useEffect(() => {
 
-        const fetchTags = async () => {
+      
 
-        let storytag = storyID
+    //list story tags
+    //   useEffect(() => {
 
-        let tags = []
+    //     const fetchTags = async () => {
+
+    //     let storytag = storyID
+
+    //     let tags = []
     
-        const result = await API.graphql(graphqlOperation(
-            listStoryTags, {
-                filter: {
-                    storyID: {
-                        eq: storytag
-                    }
-                },
-                //limit: 12
-            }
-          ))
+    //     const result = await API.graphql(graphqlOperation(
+    //         listStoryTags, {
+    //             filter: {
+    //                 storyID: {
+    //                     eq: storytag
+    //                 }
+    //             },
+    //             //limit: 12
+    //         }
+    //       ))
     
-          if (result) {
-              for (let i = 0; i < result.data.listStoryTags.items.length; i++) {
-                  tags.push(result.data.listStoryTags.items[i].tag)
-              }
-            setTags(tags)
-          }
-        }
-        fetchTags();
-      }, [storyID])
+    //       if (result) {
+    //           for (let i = 0; i < result.data.listStoryTags.items.length; i++) {
+    //               tags.push(result.data.listStoryTags.items[i].tag)
+    //           }
+    //         setTags(tags)
+    //       }
+    //     }
+    //     fetchTags();
+    //   }, [storyID])
     
       const Tag = ({id, tag}: any) => {
         return (

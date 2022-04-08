@@ -1340,6 +1340,10 @@ export const getStory = /* GraphQL */ `
           id
           storyID
           tagID
+          tag {
+            id
+            tagName
+          }
           createdAt
           updatedAt
         }
@@ -2825,6 +2829,79 @@ export const getTag = /* GraphQL */ `
         items {
           id
           storyID
+          story {
+            id
+            type
+            title
+            imageUri
+            audioUri
+            user {
+              type
+              id
+              pseudonym
+              narratorPseudo
+              artistPseudo
+              isPublisher
+              isNarrator
+              isArtist
+              createdAt
+              updatedAt
+            }
+            userID
+            author
+            authorID
+            narrator
+            narratorUser {
+              type
+              id
+              pseudonym
+              narratorPseudo
+              artistPseudo
+              isPublisher
+              isNarrator
+              isArtist
+              createdAt
+              updatedAt
+            }
+            narratorID
+            artistName
+            artist {
+              type
+              id
+              numAuthored
+              pseudonym
+              narratorPseudo
+              artistPseudo
+              isPublisher
+              isNarrator
+              isArtist
+              createdAt
+              updatedAt
+            }
+            artistID
+            time
+            summary
+            description
+            nsfw
+            ratingAvg
+            ratingAmt
+            genreID
+            genre {
+              id
+              genre
+              icon
+              PrimaryColor
+              SecondaryColor
+              imageUri
+              createdAt
+              updatedAt
+            }
+            hidden
+            approved
+            createdAt
+            updatedAt
+            numListens
+          }
           tagID
           createdAt
           updatedAt
@@ -4272,6 +4349,16 @@ export const pinnedStoryByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
+          genre {
+              id
+              genre
+              icon
+              PrimaryColor
+              SecondaryColor
+              imageUri
+              createdAt
+              updatedAt
+            }
           hidden
           approved
           createdAt
@@ -4355,6 +4442,16 @@ export const finishedStoriesByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
+          genre {
+              id
+              genre
+              icon
+              PrimaryColor
+              SecondaryColor
+              imageUri
+              createdAt
+              updatedAt
+            }
           hidden
           approved
           createdAt
@@ -5248,6 +5345,16 @@ export const ratingsByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
+          genre {
+              id
+              genre
+              icon
+              PrimaryColor
+              SecondaryColor
+              imageUri
+              createdAt
+              updatedAt
+            }
           hidden
           approved
           createdAt
