@@ -55,6 +55,7 @@ import SearchScreen from '../screens/SearchScreen';
 import TagSearchStack from '../screens/TagSearchScreen';
 import UserScreenStack from '../screens/UserScreen';
 import BrowseGenre from '../screens/BrowseGenre';
+import ViewGenreTags from '../screens/ViewGenreTags';
 
 
 
@@ -303,6 +304,7 @@ function HomeNavigator() {
         component={NewComments} 
         options={{ headerShown: false }} 
       />
+      
 
     </HomeStack.Navigator>
   );
@@ -352,6 +354,11 @@ function StoriesNavigator() {
         name="BrowseGenre"
         component={BrowseGenre}
         options={{ headerShown: false }}
+      />
+      <HomeStack.Screen 
+        name="ViewGenreTags" 
+        component={ViewGenreTags} 
+        options={{ headerShown: false }} 
       />
     </StoriesStack.Navigator>
   );

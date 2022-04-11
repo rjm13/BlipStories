@@ -126,6 +126,7 @@ type Genre @model @auth(rules: [{ allow: private, operations: [create, delete, u
     PrimaryColor: String
     SecondaryColor: String
     imageUri: String
+    tags: [Tag] @manyToMany (relationName: "GenreTag")
 }
 
 type ImageAsset @model @auth(rules: [{ allow: private, operations: [create, delete, update, read]}])
@@ -204,8 +205,7 @@ type Tag @model @auth(rules: [{ allow: private, operations: [create, delete, upd
       @index(name: "tagsByUpdated", queryField: "tagsByUpdated", sortKeyFields: ["updatedAt"])
     tagName: String!
     nsfw: Boolean
-    genreID: ID @index(name: "byGenre", sortKeyFields: ["id"])
-    genre: Genre @hasOne (fields: ["genreID"])
+    genre: [Genre] @manyToMany (relationName: "GenreTag")
     stories: [Story] @manyToMany(relationName: "StoryTag")
     count: Int
     updatedAt: String

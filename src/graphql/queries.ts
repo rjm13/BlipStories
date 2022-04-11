@@ -1020,6 +1020,9 @@ export const getFinishedStory = /* GraphQL */ `
         PrimaryColor
         SecondaryColor
         imageUri
+        tags {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1342,7 +1345,12 @@ export const getStory = /* GraphQL */ `
           tagID
           tag {
             id
+            type
             tagName
+            nsfw
+            count
+            updatedAt
+            createdAt
           }
           createdAt
           updatedAt
@@ -1372,6 +1380,9 @@ export const getStory = /* GraphQL */ `
         PrimaryColor
         SecondaryColor
         imageUri
+        tags {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1548,6 +1559,25 @@ export const getGenre = /* GraphQL */ `
       PrimaryColor
       SecondaryColor
       imageUri
+      tags {
+        items {
+          id
+          genreID
+          tagID
+          tag {
+            id
+            type
+            tagName
+            nsfw
+            count
+            updatedAt
+            createdAt
+          }
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -1567,6 +1597,9 @@ export const listGenres = /* GraphQL */ `
         PrimaryColor
         SecondaryColor
         imageUri
+        tags {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2814,94 +2847,95 @@ export const getTag = /* GraphQL */ `
       type
       tagName
       nsfw
-      genreID
       genre {
-        id
-        genre
-        icon
-        PrimaryColor
-        SecondaryColor
-        imageUri
-        createdAt
-        updatedAt
+        items {
+          id
+          genreID
+          tagID
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       stories {
         items {
           id
           storyID
           story {
-            id
-            type
-            title
-            imageUri
-            audioUri
-            user {
-              type
-              id
-              pseudonym
-              narratorPseudo
-              artistPseudo
-              isPublisher
-              isNarrator
-              isArtist
-              createdAt
-              updatedAt
-            }
-            userID
-            author
-            authorID
-            narrator
-            narratorUser {
-              type
-              id
-              pseudonym
-              narratorPseudo
-              artistPseudo
-              isPublisher
-              isNarrator
-              isArtist
-              createdAt
-              updatedAt
-            }
-            narratorID
-            artistName
-            artist {
-              type
-              id
-              numAuthored
-              pseudonym
-              narratorPseudo
-              artistPseudo
-              isPublisher
-              isNarrator
-              isArtist
-              createdAt
-              updatedAt
-            }
-            artistID
-            time
-            summary
-            description
-            nsfw
-            ratingAvg
-            ratingAmt
-            genreID
-            genre {
-              id
-              genre
-              icon
-              PrimaryColor
-              SecondaryColor
-              imageUri
-              createdAt
-              updatedAt
-            }
-            hidden
-            approved
-            createdAt
-            updatedAt
-            numListens
-          }
+        id
+        type
+        title
+        imageUri
+        audioUri
+        user {
+          type
+          id
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          isPublisher
+          isNarrator
+          isArtist
+          createdAt
+          updatedAt
+        }
+        userID
+        author
+        authorID
+        narrator
+        narratorUser {
+          type
+          id
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          isPublisher
+          isNarrator
+          isArtist
+          createdAt
+          updatedAt
+        }
+        narratorID
+        artistName
+        artist {
+          type
+          id
+          pseudonym
+          narratorPseudo
+          artistPseudo
+          isPublisher
+          isNarrator
+          isArtist
+          createdAt
+          updatedAt
+        }
+        artistID
+        time
+        summary
+        description
+        nsfw
+        ratingAvg
+        ratingAmt
+        rated {
+          nextToken
+        }
+        genreID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+        }
+        hidden
+        approved
+        createdAt
+        updatedAt
+        numListens
+      }
           tagID
           createdAt
           updatedAt
@@ -2926,16 +2960,8 @@ export const listTags = /* GraphQL */ `
         type
         tagName
         nsfw
-        genreID
         genre {
-          id
-          genre
-          icon
-          PrimaryColor
-          SecondaryColor
-          imageUri
-          createdAt
-          updatedAt
+          nextToken
         }
         stories {
           nextToken
@@ -3160,6 +3186,9 @@ export const getRating = /* GraphQL */ `
         PrimaryColor
         SecondaryColor
         imageUri
+        tags {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3947,16 +3976,8 @@ export const getStoryTag = /* GraphQL */ `
         type
         tagName
         nsfw
-        genreID
         genre {
-          id
-          genre
-          icon
-          PrimaryColor
-          SecondaryColor
-          imageUri
-          createdAt
-          updatedAt
+          nextToken
         }
         stories {
           nextToken
@@ -4012,7 +4033,82 @@ export const listStoryTags = /* GraphQL */ `
           type
           tagName
           nsfw
-          genreID
+          count
+          updatedAt
+          createdAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getGenreTag = /* GraphQL */ `
+  query GetGenreTag($id: ID!) {
+    getGenreTag(id: $id) {
+      id
+      genreID
+      tagID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        tags {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tag {
+        id
+        type
+        tagName
+        nsfw
+        genre {
+          nextToken
+        }
+        stories {
+          nextToken
+        }
+        count
+        updatedAt
+        createdAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listGenreTags = /* GraphQL */ `
+  query ListGenreTags(
+    $filter: ModelGenreTagFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listGenreTags(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        genreID
+        tagID
+        genre {
+          id
+          genre
+          icon
+          PrimaryColor
+          SecondaryColor
+          imageUri
+          createdAt
+          updatedAt
+        }
+        tag {
+          id
+          type
+          tagName
+          nsfw
           count
           updatedAt
           createdAt
@@ -4349,16 +4445,6 @@ export const pinnedStoryByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
-          genre {
-              id
-              genre
-              icon
-              PrimaryColor
-              SecondaryColor
-              imageUri
-              createdAt
-              updatedAt
-            }
           hidden
           approved
           createdAt
@@ -4442,16 +4528,6 @@ export const finishedStoriesByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
-          genre {
-              id
-              genre
-              icon
-              PrimaryColor
-              SecondaryColor
-              imageUri
-              createdAt
-              updatedAt
-            }
           hidden
           approved
           createdAt
@@ -5238,16 +5314,8 @@ export const tagsByCreated = /* GraphQL */ `
         type
         tagName
         nsfw
-        genreID
         genre {
-          id
-          genre
-          icon
-          PrimaryColor
-          SecondaryColor
-          imageUri
-          createdAt
-          updatedAt
+          nextToken
         }
         stories {
           nextToken
@@ -5282,16 +5350,8 @@ export const tagsByUpdated = /* GraphQL */ `
         type
         tagName
         nsfw
-        genreID
         genre {
-          id
-          genre
-          icon
-          PrimaryColor
-          SecondaryColor
-          imageUri
-          createdAt
-          updatedAt
+          nextToken
         }
         stories {
           nextToken
@@ -5345,16 +5405,6 @@ export const ratingsByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
-          genre {
-              id
-              genre
-              icon
-              PrimaryColor
-              SecondaryColor
-              imageUri
-              createdAt
-              updatedAt
-            }
           hidden
           approved
           createdAt

@@ -1963,6 +1963,9 @@ export const onCreateFinishedStory = /* GraphQL */ `
         PrimaryColor
         SecondaryColor
         imageUri
+        tags {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2182,6 +2185,9 @@ export const onUpdateFinishedStory = /* GraphQL */ `
         PrimaryColor
         SecondaryColor
         imageUri
+        tags {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2401,6 +2407,9 @@ export const onDeleteFinishedStory = /* GraphQL */ `
         PrimaryColor
         SecondaryColor
         imageUri
+        tags {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2665,6 +2674,9 @@ export const onCreateStory = /* GraphQL */ `
         PrimaryColor
         SecondaryColor
         imageUri
+        tags {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2946,6 +2958,9 @@ export const onUpdateStory = /* GraphQL */ `
         PrimaryColor
         SecondaryColor
         imageUri
+        tags {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3227,6 +3242,9 @@ export const onDeleteStory = /* GraphQL */ `
         PrimaryColor
         SecondaryColor
         imageUri
+        tags {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3260,6 +3278,16 @@ export const onCreateGenre = /* GraphQL */ `
       PrimaryColor
       SecondaryColor
       imageUri
+      tags {
+        items {
+          id
+          genreID
+          tagID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -3274,6 +3302,16 @@ export const onUpdateGenre = /* GraphQL */ `
       PrimaryColor
       SecondaryColor
       imageUri
+      tags {
+        items {
+          id
+          genreID
+          tagID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -3288,6 +3326,16 @@ export const onDeleteGenre = /* GraphQL */ `
       PrimaryColor
       SecondaryColor
       imageUri
+      tags {
+        items {
+          id
+          genreID
+          tagID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -5847,16 +5895,15 @@ export const onCreateTag = /* GraphQL */ `
       type
       tagName
       nsfw
-      genreID
       genre {
-        id
-        genre
-        icon
-        PrimaryColor
-        SecondaryColor
-        imageUri
-        createdAt
-        updatedAt
+        items {
+          id
+          genreID
+          tagID
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       stories {
         items {
@@ -5881,16 +5928,15 @@ export const onUpdateTag = /* GraphQL */ `
       type
       tagName
       nsfw
-      genreID
       genre {
-        id
-        genre
-        icon
-        PrimaryColor
-        SecondaryColor
-        imageUri
-        createdAt
-        updatedAt
+        items {
+          id
+          genreID
+          tagID
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       stories {
         items {
@@ -5915,16 +5961,15 @@ export const onDeleteTag = /* GraphQL */ `
       type
       tagName
       nsfw
-      genreID
       genre {
-        id
-        genre
-        icon
-        PrimaryColor
-        SecondaryColor
-        imageUri
-        createdAt
-        updatedAt
+        items {
+          id
+          genreID
+          tagID
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       stories {
         items {
@@ -6154,6 +6199,9 @@ export const onCreateRating = /* GraphQL */ `
         PrimaryColor
         SecondaryColor
         imageUri
+        tags {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -6374,6 +6422,9 @@ export const onUpdateRating = /* GraphQL */ `
         PrimaryColor
         SecondaryColor
         imageUri
+        tags {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -6594,6 +6645,9 @@ export const onDeleteRating = /* GraphQL */ `
         PrimaryColor
         SecondaryColor
         imageUri
+        tags {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -7915,16 +7969,8 @@ export const onCreateStoryTag = /* GraphQL */ `
         type
         tagName
         nsfw
-        genreID
         genre {
-          id
-          genre
-          icon
-          PrimaryColor
-          SecondaryColor
-          imageUri
-          createdAt
-          updatedAt
+          nextToken
         }
         stories {
           nextToken
@@ -8081,16 +8127,8 @@ export const onUpdateStoryTag = /* GraphQL */ `
         type
         tagName
         nsfw
-        genreID
         genre {
-          id
-          genre
-          icon
-          PrimaryColor
-          SecondaryColor
-          imageUri
-          createdAt
-          updatedAt
+          nextToken
         }
         stories {
           nextToken
@@ -8247,16 +8285,125 @@ export const onDeleteStoryTag = /* GraphQL */ `
         type
         tagName
         nsfw
-        genreID
         genre {
-          id
-          genre
-          icon
-          PrimaryColor
-          SecondaryColor
-          imageUri
-          createdAt
-          updatedAt
+          nextToken
+        }
+        stories {
+          nextToken
+        }
+        count
+        updatedAt
+        createdAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateGenreTag = /* GraphQL */ `
+  subscription OnCreateGenreTag {
+    onCreateGenreTag {
+      id
+      genreID
+      tagID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        tags {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tag {
+        id
+        type
+        tagName
+        nsfw
+        genre {
+          nextToken
+        }
+        stories {
+          nextToken
+        }
+        count
+        updatedAt
+        createdAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateGenreTag = /* GraphQL */ `
+  subscription OnUpdateGenreTag {
+    onUpdateGenreTag {
+      id
+      genreID
+      tagID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        tags {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tag {
+        id
+        type
+        tagName
+        nsfw
+        genre {
+          nextToken
+        }
+        stories {
+          nextToken
+        }
+        count
+        updatedAt
+        createdAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteGenreTag = /* GraphQL */ `
+  subscription OnDeleteGenreTag {
+    onDeleteGenreTag {
+      id
+      genreID
+      tagID
+      genre {
+        id
+        genre
+        icon
+        PrimaryColor
+        SecondaryColor
+        imageUri
+        tags {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tag {
+        id
+        type
+        tagName
+        nsfw
+        genre {
+          nextToken
         }
         stories {
           nextToken

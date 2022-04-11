@@ -4,7 +4,10 @@ import {
     StyleSheet, 
     Text, 
     TouchableWithoutFeedback, 
-    ScrollView
+    ScrollView,
+    FlatList,
+    Dimensions,
+    Image
 } from 'react-native';
 
 import {useRoute} from '@react-navigation/native'
@@ -13,11 +16,12 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import { listTags, getGenre } from '../src/graphql/queries';
-import {graphqlOperation, API, Auth} from 'aws-amplify';
+import { listTags, getGenre, listStoryTags } from '../src/graphql/queries';
+import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 
 import GenreCarousel from '../components/HorizList/GenreCarousel';
 import PopTagStories from '../components/HorizList/PopTagStories';
+import GenreTrending from '../components/HorizList/GenreTrending';
 import NewGenreStories from '../components/HorizList/NewGenreStories';
 
 const GenreHome = ({navigation} : any) => {
@@ -36,9 +40,12 @@ const GenreHome = ({navigation} : any) => {
         imageUri: null,
     });
 
-
+//get 2 trending tags in the genre
+const [trendingTags, setTrendingTags] = useState([]);
 
     useEffect(() => {
+
+        let Tags = []
 
         const fetchGenre = async () => {
             
@@ -51,49 +58,124 @@ const GenreHome = ({navigation} : any) => {
                         )
                     )
                     setGenreInfo(response.data.getGenre);
+
+                    for (let i = 0; i < response.data.getGenre.tags.items.length; i++) {
+                        if (Tags[0]?.id !== response.data.getGenre.tags.items[i].tag.id && Tags[1]?.id !== response.data.getGenre.tags.items[i].tag.id && Tags[2]?.id !== response.data.getGenre.tags.items[i].tag.id && Tags.length < 4) {
+                            if (response.data.getGenre.tags.items[i].tag.count > 0) {
+                                Tags.push(response.data.getGenre.tags.items[i].tag)
+                            }
+                        }
+                    }
+                    setTrendingTags(Tags);
                 } catch (e) {
                     console.log(e);}
             
         }
         fetchGenre();
-    }, [])
+    }, [genreRoute])
 
-//get 2 trending tags in the genre
-    const [trendingTags, setTrendingTags] = useState([]);
 
-    useEffect(() => {
+    const GenreTag = ({id, tagName} : any) => {
 
-        let TopTags = []
+        const [imageU, setImageU] = useState('')
+        const [imageU2, setImageU2] = useState('')
 
-        const fetchTags = async () => {
-            
-            try {
-                const response = await API.graphql(
-                    graphqlOperation(
-                        listTags, {filter: {
-                            genreID: {
-                                eq: genreRoute
-                                }
-                            },  
-                        } 
-                    )
-                )
-                for (let i = 0; i < 3; i++) {
-                    TopTags.push(response.data.listTags.items[i])
-                }
-                if (response) {
-                    setTrendingTags(TopTags);
-                    console.log('top tags are...')
-                    console.log(genreRoute)
-                    console.log(TopTags)
+        useEffect(() => {
+            const fetchImages = async () => {
+                let response = await API.graphql(graphqlOperation(
+                    listStoryTags, {
+                        filter: {
+                            tagID: {
+                                eq: id
+                            }
+                        }
+                    }
+                )) 
+                for (let i = 0; i < response.data.listStoryTags.items.length; i++) {
+                    if (imageU === '') {
+                        if (response.data.listStoryTags.items[i]?.story.approved === 'approved') {
+                            let im = await Storage.get(response.data.listStoryTags.items[i]?.story.imageUri)
+                            setImageU(im)
+                        }
+                    }
+                    else if (imageU2 === '') {
+                        if (response.data.listStoryTags.items[i]?.story.approved === 'approved') {
+                            let im2 = await Storage.get(response.data.listStoryTags.items[i]?.story.imageUri)
+                            setImageU2(im2)
+                        }
+                    }
                 }
                 
-            } catch (e) {
-                console.log(e);}
-        
+                
+                
+            }
+            fetchImages()
+        }, [])
+
+        return (
+            <TouchableWithoutFeedback onPress={() => navigation.navigate('TagSearchScreen', {mainTag: id, tagName: tagName})}>
+                <View style={{width: '48%', backgroundColor: '#1A4851a5', borderRadius: 15, paddingHorizontal: 10, paddingVertical: 10, marginVertical: 10, marginRight: 10}}>
+                    <Text style={{color: '#00ffff'}}>
+                        #{tagName}
+                    </Text>
+                    <View style={{marginTop: 6, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Image 
+                            source={{uri: imageU}}
+                            style={{width: 60, height: 45, borderRadius: 8}}
+                        />
+                        <Image 
+                            source={{uri: imageU2}}
+                            style={{width: 60, height: 45, borderRadius: 8}}
+                        />
+
+                    </View>
+                </View>
+            </TouchableWithoutFeedback>
+        )
     }
-    fetchTags();
-    },[genreRoute])
+
+    const renderGenreTag = ({item}: any) => {
+        return (
+            <GenreTag 
+                id={item.id}
+                tagName={item.tagName}
+            />
+        )
+    }
+
+    // useEffect(() => {
+
+    //     let TopTags = []
+
+    //     const fetchTags = async () => {
+            
+    //         try {
+    //             const response = await API.graphql(
+    //                 graphqlOperation(
+    //                     listTags, {filter: {
+    //                         genreID: {
+    //                             eq: genreRoute
+    //                             }
+    //                         },  
+    //                     } 
+    //                 )
+    //             )
+    //             for (let i = 0; i < 3; i++) {
+    //                 TopTags.push(response.data.listTags.items[i])
+    //             }
+    //             if (response) {
+    //                 setTrendingTags(TopTags);
+    //                 console.log('top tags are...')
+    //                 console.log(genreRoute)
+    //                 console.log(TopTags)
+    //             }
+                
+    //         } catch (e) {
+    //             console.log(e);}
+        
+    // }
+    // fetchTags();
+    // },[genreRoute])
 
 
     return (
@@ -132,15 +214,54 @@ const GenreHome = ({navigation} : any) => {
                         <GenreCarousel genreid={genreRoute}/>
                     </View>
 
-                    <View style={{ marginTop: 20}}>
+                    <View style={{marginTop: 20}}>
+                        
+                        <View style={{}}>
+                            <FlatList 
+                                data={trendingTags}
+                                keyExtractor={item => item.id}
+                                renderItem={renderGenreTag}
+                                scrollEnabled={false}
+                                numColumns={2}
+                                contentContainerStyle={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, }}
+                                ListHeaderComponent={() => {
+                                    return (
+                                        <View style={{marginBottom: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }}>
+                                            <View style={{marginBottom: 0, flexDirection: 'row', alignItems: 'center'}}>
+                                                <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 18, }}>
+                                                    Popular Tags in 
+                                                </Text>
+                                                <Text style={{ marginLeft: 6, color: '#fff', fontWeight: 'bold', fontSize: 18, textTransform: 'capitalize'}}>
+                                                    {GenreInfo.genre}
+                                                </Text>
+                                            </View>
+                                            <FontAwesome5 
+                                                name='chevron-right'
+                                                color='#fff'
+                                                size={17}
+                                                style={{padding: 10, }}
+                                                onPress={() => navigation.navigate('ViewGenreTags', {genreRoute: genreRoute, genreName: GenreInfo.genre})}
+                                            />
+                                        </View>
+                                    )
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    {/* <View style={{ marginTop: 20}}>
                         <PopTagStories genreid={genreRoute} tag={trendingTags[0]?.tagName} tagID={trendingTags[0]?.id}/>
-                    </View>
+                    </View> */}
 
-                    <View style={{ marginTop: 20}}>
+                    {/* <View style={{ marginTop: 20}}>
                         <PopTagStories genreid={genreRoute} tag={trendingTags[1]?.tagName} tagID={trendingTags[1]?.id}/>
-                    </View>
+                    </View> */}
 
                     <View style={{ marginTop: 20}}>
+                        <GenreTrending genreid={genreRoute}/>
+                    </View>
+
+                    <View style={{ marginTop: 0}}>
                         <NewGenreStories genreid={genreRoute}/>
                     </View>
 
