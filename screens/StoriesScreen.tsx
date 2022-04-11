@@ -116,8 +116,8 @@ const AudioStoryHome = ({navigation} : any) => {
           sortDirection: 'DESC',
           limit: 15,
           filter: {
-            genreID: {
-              ne: '1108a619-1c0e-4064-8fce-41f1f6262070'
+            nsfw: {
+              eq: false
             },
             count: {
               gt: 1

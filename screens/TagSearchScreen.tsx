@@ -39,7 +39,8 @@ const TagSearchScreen = ({navigation} : any) => {
 
 //set the position of the audio player if the screen is full page
     // const { setIsRootScreen } = useContext(AppContext);
-    // const { isRootScreen } = useContext(AppContext);
+    const { nsfwOn } = useContext(AppContext);
+    const { ADon } = useContext(AppContext);
 
     // useEffect(() => {
     //     setIsRootScreen(true)
@@ -118,7 +119,19 @@ const TagSearchScreen = ({navigation} : any) => {
             if (response.data.getTag.stories.items.length > 0) {
                 for(let i = 0; i < response.data.getTag.stories.items.length; i++) {
                     if (response.data.getTag.stories.items[i].story.approved === 'approved' && response.data.getTag.stories.items[i].story.hidden === false) {
-                        stories.push(response.data.getTag.stories.items[i].story)
+                        if (nsfwOn === false) {
+                            if (ADon === false) {
+                                stories.push(response.data.getTag.stories.items[i].story)
+                            }
+                            if (ADon === true && response.data.getTag.stories.items[i].story.genreID !== '1108a619-1c0e-4064-8fce-41f1f6262070') {
+                                stories.push(response.data.getTag.stories.items[i].story)
+                            }
+                            
+                        }
+                        if (nsfwOn === true && response.data.getTag.stories.items[i].story.nsfw === false) {
+                            stories.push(response.data.getTag.stories.items[i].story)
+                        }
+                            
                     } 
                     
                 }
