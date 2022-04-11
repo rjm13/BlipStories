@@ -20,8 +20,8 @@ import { Modal, Portal, Provider } from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native'
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { storiesByDate } from '../src/graphql/queries';
-import { updateStory, createMessage, deleteStory } from '../src/graphql/mutations';
+import { storiesByDate, getStory } from '../src/graphql/queries';
+import { updateStory, createMessage, deleteStory, updateTag } from '../src/graphql/mutations';
 import TimeConversion from '../components/functions/TimeConversion';
 
 const PendingStories = ({navigation} : any) => {
@@ -93,6 +93,20 @@ const PendingStories = ({navigation} : any) => {
                     approved: 'approved'
                 }}
             ))
+
+            let storyresponse = await API.graphql(graphqlOperation(
+                getStory, {id : id}
+            ))
+
+            for (let i = 0; i < storyresponse.data.getStory.tags.items.length; i++) {
+                await API.graphql(graphqlOperation(
+                    updateTag, {input: {
+                        id: storyresponse.data.getStory.tags.items[i].tag.id,
+                        count: storyresponse.data.getStory.tags.items[i].tag.count + 1
+                    }}
+                ))
+            }
+
             if (response) {
                 let sendmessage = await API.graphql(graphqlOperation(
                     createMessage, {input: {
