@@ -42,7 +42,8 @@ import { forceTouchGestureHandlerProps } from 'react-native-gesture-handler/lib/
 
 const AudioListByAuthor = ({user, status} : any) => {
 
-
+    const { nsfwOn } = useContext(AppContext);
+    const { ADon } = useContext(AppContext);
 
     const navigation = useNavigation();
 
@@ -134,7 +135,13 @@ const AudioListByAuthor = ({user, status} : any) => {
                                     },
                                     approved: {
                                         eq: 'approved'
-                                    }
+                                    },
+                                    genreID: {
+                                        ne: ADon === true ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
+                                    },
+                                    nsfw: {
+                                        ne: nsfwOn === true ? true : null
+                                    },
                                 }
                             } 
                         )
@@ -158,7 +165,13 @@ const AudioListByAuthor = ({user, status} : any) => {
                                 },
                                 approved: {
                                     eq: 'approved'
-                                }
+                                },
+                                genreID: {
+                                    ne: ADon === true ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
+                                },
+                                nsfw: {
+                                    ne: nsfwOn === true ? true : null
+                                },
                             }
                         } 
                     )
@@ -182,7 +195,13 @@ const AudioListByAuthor = ({user, status} : any) => {
                                 },
                                 approved: {
                                     eq: 'approved'
-                                }
+                                },
+                                genreID: {
+                                    ne: ADon === true ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
+                                },
+                                nsfw: {
+                                    ne: nsfwOn === true ? true : null
+                                },
                             }
                         } 
                     )

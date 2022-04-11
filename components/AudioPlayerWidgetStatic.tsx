@@ -396,7 +396,8 @@ const AddToHistory = async () => {
                     storyID: storyID, 
                     type: 'FinishedStory', 
                     createdAt: new Date(),
-                    genreID: Story?.genreID
+                    genreID: Story?.genreID,
+                    nsfw: Story?.nsfw
                 }}
             ))
         console.log(FinishedStory)

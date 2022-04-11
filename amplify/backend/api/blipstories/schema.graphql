@@ -74,6 +74,7 @@ type FinishedStory @model @auth( rules: [{ allow: private, operations: [create, 
   storyID: ID
   story: Story @hasOne (fields: ["storyID"])
   createdAt: String
+  nsfw: Boolean
   genreID: ID @index(name: "byGenre", sortKeyFields: ["id"])
   genre: Genre @hasOne (fields: ["genreID"])
 }
@@ -221,6 +222,7 @@ type Tag @model @auth(rules: [{ allow: private, operations: [create, delete, upd
     userID: ID! @index(name: "byUser", sortKeyFields: ["storyID"])
     user: User @hasOne (fields: ["userID"])
     rating: Int
+    nsfw: Boolean
     genreID: ID @index(name: "byGenre", sortKeyFields: ["id"])
     genre: Genre @hasOne (fields: ["genreID"])
     createdAt: String

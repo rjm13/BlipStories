@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { 
     View, 
     StyleSheet, 
@@ -7,12 +7,15 @@ import {
 } from 'react-native';
 
 import HorzStoryTile from '../HorzStoryTile';
+import { AppContext } from '../../AppContext';
 
 import { finishedStoriesByDate } from '../../src/graphql/queries';
 import {graphqlOperation, API} from 'aws-amplify';
 
 
 const Trending = () => {
+
+    const { nsfwOn } = useContext(AppContext);
 
     //update list state
     const [didUpdate, setDidUpdate] = useState(false);
@@ -58,6 +61,9 @@ const Trending = () => {
                                 filter: {
                                     genreID: {
                                         ne: '1108a619-1c0e-4064-8fce-41f1f6262070'
+                                    },
+                                    nsfw: {
+                                        ne: nsfwOn === true ? true : null
                                     }
                                 }
                             } 
@@ -95,7 +101,7 @@ const Trending = () => {
 
         fetchStorys();
 
-    },[])
+    },[nsfwOn])
 
     const renderItem = ({ item }: any) => {
 

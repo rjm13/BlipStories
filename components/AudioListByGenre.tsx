@@ -35,6 +35,8 @@ import { ItemParamList } from '../types';
 
 const AudioStoryList = ({genreID} : any) => {
 
+    const { nsfwOn } = useContext(AppContext);
+
     const flatListRef = useRef();
 
     const ScrollToThisThing = ({letter, id}: any) => {
@@ -76,7 +78,10 @@ const AudioStoryList = ({genreID} : any) => {
                             },
                             approved: {
                                 eq: 'approved'
-                            }
+                            },
+                            nsfw: {
+                                ne: nsfwOn === true ? true : null
+                            },
                         }
                 }))
                 setGenreStories(genreData.data.listStories.items)

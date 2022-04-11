@@ -30,6 +30,7 @@ const SearchScreen = ({navigation} : any) => {
 
   //nsfw global app context
     const { nsfwOn } = useContext(AppContext);
+    const { ADon } = useContext(AppContext);
 
   //search function states
     const [newSearch, setNewSearch] = useState();
@@ -91,8 +92,6 @@ const SearchScreen = ({navigation} : any) => {
 
     useEffect(() => {
 
-      let genre = nsfwOn === false ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
-
         if (newSearch !== '') {
             const fetchTags = async () => {
                 const tagResults = await API.graphql(graphqlOperation(
@@ -101,9 +100,9 @@ const SearchScreen = ({navigation} : any) => {
                             tagName: {
                                 contains: newSearch.toLowerCase()
                             },
-                            genreID: {
-                              ne: genre
-                            }
+                            nsfw: {
+                              ne: ADon === true ? true : null
+                            } 
                         }
                     }
                 ))
@@ -115,8 +114,6 @@ const SearchScreen = ({navigation} : any) => {
 
     //on render, get the user and then list the following connections for that user
     useEffect(() => {
-
-      let genre = nsfwOn === false ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
 
       const fetchStories = async () => {
 
@@ -138,8 +135,11 @@ const SearchScreen = ({navigation} : any) => {
                               eq: false
                           },
                           genreID: {
-                            ne: genre
-                        },
+                            ne: ADon === true ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
+                          },
+                          nsfw: {
+                            ne: nsfwOn === true ? true : null
+                          }
                         },
                           {summary: {
                             contains: newSearch
@@ -151,8 +151,11 @@ const SearchScreen = ({navigation} : any) => {
                                 eq: false
                             },
                             genreID: {
-                              ne: nsfwOn === false ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
-                          },
+                              ne: ADon === true ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
+                            },
+                            nsfw: {
+                              ne: nsfwOn === true ? true : null
+                            }
                         }
                         ]
                       }
@@ -255,14 +258,14 @@ const SearchScreen = ({navigation} : any) => {
                                     </Text>
                                     <View>
                                         <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                                            {TagsArray.slice(0, 16).map(({ tagName, id, genreID } : any, index) => (
+                                            {TagsArray.slice(0, 16).map(({ tagName, id, genreID, nsfw } : any, index) => (
                                                 <View key={id} style={{marginTop: 10, marginRight: 10}}>
                                                     <TouchableOpacity onPress={() => navigation.navigate('TagSearchStack', {mainTag: id, tagName: tagName})}>
                                                         <View style={{}}>
-                                                            <Text style={{color: genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? 'red' : 'cyan',
+                                                            <Text style={{color: nsfw === true ? 'red' : 'cyan',
                                                               fontSize: 14,
-                                                              backgroundColor: genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? '#371111a5' :'#1A4851a5',
-                                                              borderColor: genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? '#ff0000a5' : '#00ffffa5',
+                                                              backgroundColor: nsfw === true ? '#371111a5' :'#1A4851a5',
+                                                              borderColor: nsfw === true ? '#ff0000a5' : '#00ffffa5',
                                                               borderWidth: 0.5,
                                                               paddingHorizontal: 16,
                                                               paddingVertical: 6,

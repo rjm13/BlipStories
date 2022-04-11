@@ -32,6 +32,8 @@ import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 
 const NewGenreStories = ({genreid} : any) => {
 
+    const { nsfwOn } = useContext(AppContext);
+
     //update list state
     const [didUpdate, setDidUpdate] = useState(false);
 
@@ -69,6 +71,9 @@ const NewGenreStories = ({genreid} : any) => {
                                     },
                                     hidden: {
                                         eq: false
+                                    },
+                                    nsfw: {
+                                        ne: nsfwOn === true ? true : null
                                     }
                                     
                                 }
@@ -179,7 +184,7 @@ const NewGenreStories = ({genreid} : any) => {
         <HorzStoryTile 
           title={item.title}
           imageUri={item.imageUri}
-          genreName={genreName}
+          genreName={null}
           icon={icon}
           primary={primary}
           audioUri={item.audioUri}

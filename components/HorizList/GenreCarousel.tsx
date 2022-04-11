@@ -28,6 +28,8 @@ import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 
 const GenreCarousel = ({genreid} : any) => {
 
+    const { nsfwOn } = useContext(AppContext);
+
     //update list state
     const [didUpdate, setDidUpdate] = useState(false);
 
@@ -64,6 +66,12 @@ const GenreCarousel = ({genreid} : any) => {
                                     },
                                     approved: {
                                         eq: 'approved'
+                                    },
+                                    nsfw: {
+                                        ne: nsfwOn === true ? true : null
+                                    },
+                                    imageUri: {
+                                        attributeExists: true
                                     }
                                 }
                             } 

@@ -58,14 +58,28 @@ const [trendingTags, setTrendingTags] = useState([]);
                         )
                     )
                     setGenreInfo(response.data.getGenre);
+                    console.log(response.data.getGenre.tags.items)
 
-                    for (let i = 0; i < response.data.getGenre.tags.items.length; i++) {
-                        if (Tags[0]?.id !== response.data.getGenre.tags.items[i].tag.id && Tags[1]?.id !== response.data.getGenre.tags.items[i].tag.id && Tags[2]?.id !== response.data.getGenre.tags.items[i].tag.id && Tags.length < 4) {
-                            if (response.data.getGenre.tags.items[i].tag.count > 0) {
-                                Tags.push(response.data.getGenre.tags.items[i].tag)
+                    if (genreRoute !== '1108a619-1c0e-4064-8fce-41f1f6262070') {
+                        for (let i = 0; i < response.data.getGenre.tags.items.length; i++) {
+                            if (Tags[0]?.id !== response.data.getGenre.tags.items[i].tag.id && Tags[1]?.id !== response.data.getGenre.tags.items[i].tag.id && Tags[2]?.id !== response.data.getGenre.tags.items[i].tag.id && Tags.length < 4 && response.data.getGenre.tags.items[i].tag.nsfw === false) {
+                                if (response.data.getGenre.tags.items[i].tag.count > 0) {
+                                    Tags.push(response.data.getGenre.tags.items[i].tag)
+                                }
                             }
                         }
                     }
+
+                    if (genreRoute === '1108a619-1c0e-4064-8fce-41f1f6262070') {
+                        for (let i = 0; i < response.data.getGenre.tags.items.length; i++) {
+                            if (Tags[0]?.id !== response.data.getGenre.tags.items[i].tag.id && Tags[1]?.id !== response.data.getGenre.tags.items[i].tag.id && Tags[2]?.id !== response.data.getGenre.tags.items[i].tag.id && Tags.length < 4) {
+                                if (response.data.getGenre.tags.items[i].tag.count > 0) {
+                                    Tags.push(response.data.getGenre.tags.items[i].tag)
+                                }
+                            }
+                        }
+                    }
+                    
                     setTrendingTags(Tags);
                 } catch (e) {
                     console.log(e);}

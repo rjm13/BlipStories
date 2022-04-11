@@ -58,7 +58,7 @@ const HistoryList = () => {
                     for (let i = 0; i < historyData.data.finishedStoriesByDate.items.length; i++) {
                         if (historyData.data.finishedStoriesByDate.items[i].story.hidden === false && historyData.data.finishedStoriesByDate.items[i].story.approved === 'approved') {
                             History.push(historyData.data.finishedStoriesByDate.items[i].story)
-                        } else {return;}
+                        }
                     } 
                 }
                    

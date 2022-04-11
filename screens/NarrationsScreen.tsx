@@ -95,9 +95,6 @@ const MyNarrations = ({navigation} : any) => {
                             approved: {
                                 eq: 'approved'
                             },
-                            genreID: {
-                                ne: nsfwOn === false ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
-                            }
                         }
                 }))
 

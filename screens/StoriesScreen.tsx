@@ -26,6 +26,7 @@ const AudioStoryHome = ({navigation} : any) => {
 
   //nsfw global app context
   const { nsfwOn } = useContext(AppContext);
+  const { ADon } = useContext(AppContext);
 
 //genre array state
   const[genres, setGenres] = useState([]);
@@ -54,10 +55,13 @@ const AudioStoryHome = ({navigation} : any) => {
     const [locked, setIsLocked] = useState(false);
 
     useEffect(() => {
-      if (nsfwOn === false && id === '1108a619-1c0e-4064-8fce-41f1f6262070') {
+      if (ADon === true && id === '1108a619-1c0e-4064-8fce-41f1f6262070') {
         setIsLocked(true)
       }
-    }, [nsfwOn])
+      if (nsfwOn === true && id === '1108a619-1c0e-4064-8fce-41f1f6262070') {
+        setIsLocked(true)
+      }
+    }, [nsfwOn, ADon])
 
     return (
       <TouchableWithoutFeedback onPress = {() => locked === false ? (navigation.navigate('GenreHome', {genreRoute: id})) : null}>

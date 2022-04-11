@@ -205,6 +205,7 @@ export const getUser = /* GraphQL */ `
           storyID
           userID
           rating
+          nsfw
           genreID
           createdAt
           updatedAt
@@ -218,6 +219,7 @@ export const getUser = /* GraphQL */ `
           userID
           storyID
           createdAt
+          nsfw
           genreID
           updatedAt
         }
@@ -1012,6 +1014,7 @@ export const getFinishedStory = /* GraphQL */ `
         }
       }
       createdAt
+      nsfw
       genreID
       genre {
         id
@@ -1097,6 +1100,7 @@ export const listFinishedStories = /* GraphQL */ `
           numListens
         }
         createdAt
+        nsfw
         genreID
         genre {
           id
@@ -1345,12 +1349,9 @@ export const getStory = /* GraphQL */ `
           tagID
           tag {
             id
-            type
             tagName
             nsfw
             count
-            updatedAt
-            createdAt
           }
           createdAt
           updatedAt
@@ -1366,6 +1367,7 @@ export const getStory = /* GraphQL */ `
           storyID
           userID
           rating
+          nsfw
           genreID
           createdAt
           updatedAt
@@ -1566,12 +1568,9 @@ export const getGenre = /* GraphQL */ `
           tagID
           tag {
             id
-            type
             tagName
             nsfw
             count
-            updatedAt
-            createdAt
           }
           createdAt
           updatedAt
@@ -2862,80 +2861,35 @@ export const getTag = /* GraphQL */ `
           id
           storyID
           story {
-        id
-        type
-        title
-        imageUri
-        audioUri
-        user {
-          type
-          id
-          pseudonym
-          narratorPseudo
-          artistPseudo
-          isPublisher
-          isNarrator
-          isArtist
-          createdAt
-          updatedAt
-        }
-        userID
-        author
-        authorID
-        narrator
-        narratorUser {
-          type
-          id
-          pseudonym
-          narratorPseudo
-          artistPseudo
-          isPublisher
-          isNarrator
-          isArtist
-          createdAt
-          updatedAt
-        }
-        narratorID
-        artistName
-        artist {
-          type
-          id
-          pseudonym
-          narratorPseudo
-          artistPseudo
-          isPublisher
-          isNarrator
-          isArtist
-          createdAt
-          updatedAt
-        }
-        artistID
-        time
-        summary
-        description
-        nsfw
-        ratingAvg
-        ratingAmt
-        rated {
-          nextToken
-        }
-        genreID
-        genre {
-          id
-          genre
-          icon
-          PrimaryColor
-          SecondaryColor
-          imageUri
-          createdAt
-          updatedAt
-        }
-        hidden
-        approved
-        createdAt
-        updatedAt
-        numListens
-      }
+            id
+            type
+            title
+            imageUri
+            audioUri
+            userID
+            author
+            authorID
+            narrator
+            narratorID
+            artistName
+            artistID
+            time
+            summary
+            description
+            nsfw
+            ratingAvg
+            ratingAmt
+            genreID
+            genre {
+              id
+              genre
+            }
+            hidden
+            approved
+            createdAt
+            updatedAt
+            numListens
+          }
           tagID
           createdAt
           updatedAt
@@ -3178,6 +3132,7 @@ export const getRating = /* GraphQL */ `
         updatedAt
       }
       rating
+      nsfw
       genreID
       genre {
         id
@@ -3264,6 +3219,7 @@ export const listRatings = /* GraphQL */ `
           updatedAt
         }
         rating
+        nsfw
         genreID
         genre {
           id
@@ -3944,7 +3900,15 @@ export const getStoryTag = /* GraphQL */ `
           nextToken
         }
         tags {
-          nextToken
+          items{
+            tagID
+            tag {
+              id
+              tagName
+              nsfw
+              count
+            }
+          }
         }
         ratingAvg
         ratingAmt
@@ -4445,6 +4409,10 @@ export const pinnedStoryByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
+          genre {
+            id
+            genre
+          }
           hidden
           approved
           createdAt
@@ -4528,6 +4496,16 @@ export const finishedStoriesByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
+          genre {
+            id
+            genre
+            icon
+            PrimaryColor
+            SecondaryColor
+            imageUri
+            createdAt
+            updatedAt
+          }
           hidden
           approved
           createdAt
@@ -4535,6 +4513,7 @@ export const finishedStoriesByDate = /* GraphQL */ `
           numListens
         }
         createdAt
+        nsfw
         genreID
         genre {
           id
@@ -5405,6 +5384,10 @@ export const ratingsByDate = /* GraphQL */ `
           ratingAvg
           ratingAmt
           genreID
+          genre {
+            id
+            genre
+          }
           hidden
           approved
           createdAt
@@ -5441,6 +5424,7 @@ export const ratingsByDate = /* GraphQL */ `
           updatedAt
         }
         rating
+        nsfw
         genreID
         genre {
           id

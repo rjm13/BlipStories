@@ -208,6 +208,7 @@ export const createUser = /* GraphQL */ `
           storyID
           userID
           rating
+          nsfw
           genreID
           createdAt
           updatedAt
@@ -221,6 +222,7 @@ export const createUser = /* GraphQL */ `
           userID
           storyID
           createdAt
+          nsfw
           genreID
           updatedAt
         }
@@ -446,6 +448,7 @@ export const updateUser = /* GraphQL */ `
           storyID
           userID
           rating
+          nsfw
           genreID
           createdAt
           updatedAt
@@ -459,6 +462,7 @@ export const updateUser = /* GraphQL */ `
           userID
           storyID
           createdAt
+          nsfw
           genreID
           updatedAt
         }
@@ -684,6 +688,7 @@ export const deleteUser = /* GraphQL */ `
           storyID
           userID
           rating
+          nsfw
           genreID
           createdAt
           updatedAt
@@ -697,6 +702,7 @@ export const deleteUser = /* GraphQL */ `
           userID
           storyID
           createdAt
+          nsfw
           genreID
           updatedAt
         }
@@ -1985,6 +1991,7 @@ export const createFinishedStory = /* GraphQL */ `
         }
       }
       createdAt
+      nsfw
       genreID
       genre {
         id
@@ -2210,6 +2217,7 @@ export const updateFinishedStory = /* GraphQL */ `
         }
       }
       createdAt
+      nsfw
       genreID
       genre {
         id
@@ -2435,6 +2443,7 @@ export const deleteFinishedStory = /* GraphQL */ `
         }
       }
       createdAt
+      nsfw
       genreID
       genre {
         id
@@ -2699,6 +2708,7 @@ export const createStory = /* GraphQL */ `
           storyID
           userID
           rating
+          nsfw
           genreID
           createdAt
           updatedAt
@@ -2986,6 +2996,7 @@ export const updateStory = /* GraphQL */ `
           storyID
           userID
           rating
+          nsfw
           genreID
           createdAt
           updatedAt
@@ -3273,6 +3284,7 @@ export const deleteStory = /* GraphQL */ `
           storyID
           userID
           rating
+          nsfw
           genreID
           createdAt
           updatedAt
@@ -6302,6 +6314,7 @@ export const createRating = /* GraphQL */ `
         updatedAt
       }
       rating
+      nsfw
       genreID
       genre {
         id
@@ -6528,6 +6541,7 @@ export const updateRating = /* GraphQL */ `
         updatedAt
       }
       rating
+      nsfw
       genreID
       genre {
         id
@@ -6754,6 +6768,7 @@ export const deleteRating = /* GraphQL */ `
         updatedAt
       }
       rating
+      nsfw
       genreID
       genre {
         id
