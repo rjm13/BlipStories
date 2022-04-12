@@ -267,7 +267,7 @@ useEffect(() => {
                                         
                                     </View>
                                     <Text style={{textAlign: 'center', fontSize: 17, color: '#e0e0e0'}}>
-                                        {Math.round(ratingAvg/10).toFixed(1)}
+                                        {(ratingAvg/10).toFixed(1)}
                                     </Text>
                                 </View>
                             </View>
