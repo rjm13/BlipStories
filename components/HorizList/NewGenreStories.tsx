@@ -213,12 +213,6 @@ const NewGenreStories = ({genreid} : any) => {
                 renderItem={renderItem}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
-                refreshControl={
-                    <RefreshControl
-                     refreshing={isFetching}
-                     onRefresh={onRefresh}
-                    />
-                }
                 ListFooterComponent={
                     <View style={{width: 60}}>
                     </View>
