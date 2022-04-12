@@ -102,7 +102,8 @@ const PendingStories = ({navigation} : any) => {
                 await API.graphql(graphqlOperation(
                     updateTag, {input: {
                         id: storyresponse.data.getStory.tags.items[i].tag.id,
-                        count: storyresponse.data.getStory.tags.items[i].tag.count + 1
+                        count: storyresponse.data.getStory.tags.items[i].tag.count + 1,
+                        updatedAt: new Date()
                     }}
                 ))
             }

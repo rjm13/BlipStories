@@ -49,6 +49,8 @@ const GenreCarousel = ({genreid} : any) => {
 
     useEffect(() => {
 
+        let RandomStories = []
+
         const fetchStorys = async () => {
                 
             if (genreid) {
@@ -77,7 +79,18 @@ const GenreCarousel = ({genreid} : any) => {
                             } 
                         )
                     )
-                    setCarouselStories(response.data.listStories.items.splice(0, 9));
+                    if (response) {
+                        let randomarr = []
+                        for (let i = 0; i < 10; i++) {
+                            let x = Math.floor(Math.random() * response.data.listStories.items.length)
+                            if (randomarr.includes(x) === false) {
+                                randomarr.push(x)
+                                RandomStories.push(response.data.listStories.items[x])
+                            }
+                            
+                        }
+                    }
+                    setCarouselStories(RandomStories);
                 } catch (e) {
                     console.log(e);}
             }

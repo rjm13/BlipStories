@@ -16,7 +16,7 @@ from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {LinearGradient} from 'expo-linear-gradient';
 
-import { listGenres, tagsByUpdated, listTags } from '../src/graphql/queries';
+import { listGenres, tagsByUpdated, listTags, listGenreTags } from '../src/graphql/queries';
 import { updateTag } from '../src/graphql/mutations';
 import {graphqlOperation, API} from 'aws-amplify';
 import { AppContext } from '../AppContext';
@@ -157,6 +157,7 @@ const AudioStoryHome = ({navigation} : any) => {
     />
   );
 
+
 //return the primary function
     return (
         <View >
@@ -167,9 +168,9 @@ const AudioStoryHome = ({navigation} : any) => {
         >
           <ScrollView>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 60, marginBottom: 20, marginHorizontal: 20}}>
-                  <Text style={{ color: 'white', marginHorizontal: 0, fontSize: 22, fontWeight: 'bold'}}>
-                      Discover Stories
-                  </Text>
+              <Text style={{ color: 'white', marginHorizontal: 0, fontSize: 22, fontWeight: 'bold'}}>
+                Discover Stories
+              </Text>
             </View>
         
             <View style={{ marginBottom: 20, marginHorizontal: 20, alignItems: 'center'}}>
