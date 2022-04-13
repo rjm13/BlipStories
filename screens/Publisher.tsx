@@ -6,7 +6,8 @@ import {
     ScrollView, 
     Dimensions, 
     TouchableWithoutFeedback,
-    TouchableOpacity
+    TouchableOpacity,
+    Linking
 } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
@@ -510,7 +511,7 @@ const Publisher = ({navigation} : any) => {
                 </View>
 
                 <View style={{marginVertical: 40}}>
-                    <TouchableWithoutFeedback onPress={ () => navigation.navigate('Terms')}>
+                    <TouchableWithoutFeedback onPress={() => Linking.openURL('http://www.blipstories.com/terms')}>
                         <View style={{ justifyContent: 'center', marginHorizontal: 40, marginVertical: 20}}>
                             <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14}}>
                                 Terms and Conditions

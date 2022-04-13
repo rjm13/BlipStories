@@ -11,6 +11,7 @@ import {
     TouchableWithoutFeedback, 
     ScrollView, 
     Dimensions,
+    Linking
 } from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -658,7 +659,7 @@ const [localImageUri, setLocalImageUri] = useState('');
                         <Text style={{ color: '#ffffffa5', fontSize: 12, marginRight: 4, marginLeft: 20, textAlign: 'left'}}>
                             I agree to the
                         </Text>
-                        <TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback onPress={() => Linking.openURL('http://www.blipstories.com/terms')}>
                             <Text style={{ color: '#ffffffa5', fontSize: 12, textAlign: 'left', textDecorationLine: 'underline'}}>
                                 Publishing Terms and Conditions.
                             </Text>
