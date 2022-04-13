@@ -93,7 +93,7 @@ const Settings = ({navigation} : any) => {
                 <View style={styles.optionsitem}>
                     <View style={styles.subblock}>
                         <Text style={styles.paragraph}>
-                            Lock Erotic Content
+                            Block Erotic Content
                         </Text>
                         <Text style={styles.subparagraph}>
                             Turn on to lock content from the After Dark genre

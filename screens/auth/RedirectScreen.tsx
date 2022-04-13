@@ -24,6 +24,9 @@ const Redirect = ({route, navigation} : any) => {
     const { nsfwOn } = useContext(AppContext);
     const { setNSFWOn } = useContext(AppContext);
 
+    const { ADon } = useContext(AppContext);
+    const { setADon } = useContext(AppContext);
+
     useEffect(() => {
 
         setIsLoading(true);
@@ -47,10 +50,12 @@ const Redirect = ({route, navigation} : any) => {
                     const bd3 = new Date(userInfo.attributes.birthdate).toISOString()
                 
                     if (bd3 > c) {
-                        () => setNSFWOn(true);
+                        setNSFWOn(false);
+                        setADon(false);
                     } 
                     if (bd3 < c) {
-                        () => setNSFWOn(false);
+                        setNSFWOn(true);
+                        setADon(true)
                     } 
 
                     const userData = await API.graphql(graphqlOperation(
