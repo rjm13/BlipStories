@@ -24,8 +24,8 @@ import { Modal, Portal, Provider } from 'react-native-paper';
 import uuid from 'react-native-uuid';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { createTag, updateStory, createStoryTag, updateTag, deleteStoryTag } from '../src/graphql/mutations';
-import { listTags, getStory, listStoryTags, getStoryTag } from '../src/graphql/queries';
+import { createTag, updateStory, createStoryTag, updateTag, deleteStoryTag, createGenreTag } from '../src/graphql/mutations';
+import { listTags, getStory, listStoryTags, getStoryTag, listGenreTags } from '../src/graphql/queries';
 
 
 const EditAudio = ({navigation} : any) => {  
@@ -204,6 +204,25 @@ const [localImageUri, setLocalImageUri] = useState('');
                     let updateATag = await API.graphql(graphqlOperation(
                         updateTag, {id: tagCheck.data.listTags.items[0].id, updatedAt: new Date(), count: tagCheck.data.listTags.items[0].count + 1}
                     ))
+                    const genreTagCheck = await API.graphql(graphqlOperation(
+                        listGenreTags, {
+                            filter: {
+                                tagID: {
+                                    eq: tagCheck.data.listTags.items[0].id
+                                },
+                                genreID: {
+                                    eq: data.genreID
+                                }
+                            }
+                        }
+                    ))
+
+                    if (genreTagCheck.data.listGenreTags.items.length !== 1) {
+                        let makeGenreTag = await API.graphql(graphqlOperation(
+                                createGenreTag, {input: {tagID: tagCheck.data.listTags.items[0].id, genreID: data.genreID}}
+                            )) 
+                        console.log(makeGenreTag)
+                    }
                     console.log(addTag);
                     console.log(updateATag)
         //if the tag does not exist, create the tag and then the StoryTag with the tagID and storyID
@@ -215,7 +234,11 @@ const [localImageUri, setLocalImageUri] = useState('');
                         let makeStoryTag = await API.graphql(graphqlOperation(
                             createStoryTag, {input: {tagID: newTag.data.createTag.id, storyID: storyID}}
                         ))
+                        let makeGenreTag = await API.graphql(graphqlOperation(
+                            createGenreTag, {input: {tagID: newTag.data.createTag.id, genreID: data.genreID}}
+                        ))
                         console.log(makeStoryTag)
+                        console.log(makeGenreTag)
                     }
                 }
 
