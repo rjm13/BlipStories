@@ -116,6 +116,9 @@ const TagSearchScreen = ({navigation} : any) => {
                 }
             ))
 
+            console.log(response.data.getTag.id)
+            console.log(response.data.getTag.tagName)
+
             if (response.data.getTag.stories.items.length > 0) {
                 for(let i = 0; i < response.data.getTag.stories.items.length; i++) {
                     if (response.data.getTag.stories.items[i].story.approved === 'approved' && response.data.getTag.stories.items[i].story.hidden === false) {

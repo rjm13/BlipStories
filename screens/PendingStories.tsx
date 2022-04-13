@@ -26,6 +26,7 @@ import TimeConversion from '../components/functions/TimeConversion';
 
 const PendingStories = ({navigation} : any) => {
 
+
     const [didUpdate, setDidUpdate] = useState(false)
 
     const [stories, setStories] = useState([])
@@ -81,16 +82,18 @@ const PendingStories = ({navigation} : any) => {
 
     const [pending, setPending] = useState(false)
 
-    const ApproveStory = async ({id, authorID, title} : any) => {
+    const ApproveStory = async ({id, authorID, title, NSFW, nsfw} : any) => {
 
         setPending(true)
 
         try {
 
+            
             let response = await API.graphql(graphqlOperation(
                 updateStory, {input: {
                     id: id,
-                    approved: 'approved'
+                    approved: 'approved',
+                    nsfw: NSFW === nsfw ? nsfw : NSFW
                 }}
             ))
 
@@ -237,6 +240,13 @@ const PendingStories = ({navigation} : any) => {
     //expanding list item
         const [isVisible, setIsVisible] = useState(false);
 
+        const [NSFW, setNSFW] = useState(false);
+
+        useEffect(() => {
+            if (nsfw === true) {
+                setNSFW(true);
+            }
+        }, [])
 
     
         return (
@@ -342,7 +352,7 @@ const PendingStories = ({navigation} : any) => {
                             {pending===true ? (
                                 <ActivityIndicator size='small' color='cyan'/>
                             ) : (
-                                <TouchableOpacity onLongPress={() => ApproveStory({id, title, authorID})}>
+                                <TouchableOpacity onLongPress={() => ApproveStory({id, title, authorID, NSFW, nsfw})}>
                                     <Text style={{color: '#000', backgroundColor: 'cyan', borderRadius: 15, paddingHorizontal: 20, paddingVertical: 6}}>
                                         Approve
                                     </Text>
@@ -359,6 +369,17 @@ const PendingStories = ({navigation} : any) => {
                                 </TouchableOpacity>
                             )}
                             
+                            
+                        </View>
+                        <View style={{marginTop:40, width: 90,}}>
+                            <TouchableOpacity onPress={() => setNSFW(!NSFW)}>
+                                <Text style={{paddingVertical: 4, paddingHorizontal: 20, borderWidth: 0.5, textAlign: 'center',
+                                    color: NSFW === true ? 'red' : 'gray', 
+                                    borderColor: NSFW === true ? 'red' : 'gray',
+                                    }}>
+                                        Explicit
+                                </Text>
+                            </TouchableOpacity>
                             
                         </View>
                     </View>

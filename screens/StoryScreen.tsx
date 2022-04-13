@@ -896,19 +896,28 @@ const StoryScreen  = ({navigation} : any) => {
                         
                         <View style={{ height: 220, backgroundColor: 'transparent', alignItems: 'flex-start'}}>
                             {Story?.imageUri ? (
-                                <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: Story?.artistID, status: 'artist'})}>
-                                    <View style={{marginLeft: 10, marginTop: 186, alignItems: 'center', borderRadius: 15, paddingHorizontal: 10, paddingVertical: 4, backgroundColor: '#363636a5', flexDirection: 'row'}}>
-                                        <FontAwesome5 
-                                            name='palette'
-                                            size={14}
-                                            color='#fff'
-                                            style={{marginRight: 10}}
-                                        />
-                                        <Text style={{color: '#fff'}}>
-                                            {Story?.artist.artistPseudo}
-                                        </Text>
-                                    </View> 
-                                </TouchableOpacity>
+                                <View style={{width: Dimensions.get('window').width - 20, marginTop: 186, marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: Story?.artistID, status: 'artist'})}>
+                                        <View style={{alignItems: 'center', borderRadius: 15, paddingHorizontal: 10, paddingVertical: 4, backgroundColor: '#363636a5', flexDirection: 'row'}}>
+                                            <FontAwesome5 
+                                                name='palette'
+                                                size={14}
+                                                color='#fff'
+                                                style={{marginRight: 10}}
+                                            />
+                                            <Text style={{color: '#fff'}}>
+                                                {Story?.artist.artistPseudo}
+                                            </Text>
+                                        </View> 
+                                    </TouchableOpacity>
+                                    <View>
+                                        {Story?.nsfw === true ? (
+                                            <Text style={{color: 'red', borderRadius: 15, paddingHorizontal: 10, paddingVertical: 4, backgroundColor: '#363636', }}>
+                                                Explicit
+                                            </Text>
+                                        ) : null}
+                                    </View>
+                                </View>
                             ) : null}
                         </View>
                         <LinearGradient 
