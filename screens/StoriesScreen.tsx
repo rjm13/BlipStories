@@ -112,13 +112,14 @@ const AudioStoryHome = ({navigation} : any) => {
 //list the most popular tags by the order they were last updated
   useEffect(() => {
 
+    let tagsarr = []
+
     const fetchTags = async () => {
       
       const result = await API.graphql(graphqlOperation(
         tagsByUpdated, {
           type: 'Tag',
           sortDirection: 'DESC',
-          limit: 15,
           filter: {
             nsfw: {
               eq: false
@@ -129,7 +130,13 @@ const AudioStoryHome = ({navigation} : any) => {
           }
       }))
 
-      setTags(result.data.tagsByUpdated.items)
+      for (let i = 0; i < result.data.tagsByUpdated.items.length; i++) {
+        if (tagsarr.length < 15) {
+          tagsarr.push(result.data.tagsByUpdated.items[i])
+        }
+      }
+
+      setTags(tagsarr)
     }
     fetchTags();
   }, [])
@@ -230,7 +237,7 @@ const AudioStoryHome = ({navigation} : any) => {
                                       scrollEnabled={false}
                                       maxToRenderPerBatch={15}
                                       showsVerticalScrollIndicator={false}
-                                      style={{flexDirection: 'row', flexWrap: 'wrap', width: Dimensions.get('window').width - 25, marginBottom: 20}}
+                                      style={{flexDirection: 'row', flexWrap: 'wrap', width: Dimensions.get('window').width - 30, marginBottom: 20}}
                                     />
                                   </View>
                                 </View>
