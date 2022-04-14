@@ -3,7 +3,6 @@ import {
     View, 
     Text, 
     StyleSheet,
-    ScrollView, 
     TouchableWithoutFeedback,  
     Image,
     FlatList,
@@ -566,7 +565,7 @@ const ViewMessage = ({navigation} : any) => {
 
                     </View>
 
-                    <View style={{marginBottom: 120, height: '59%'}}>
+                    <View style={{marginBottom: 140, height: '59%'}}>
                         <FlatList 
                             data={replies}
                             keyExtractor={item => item.id}
@@ -588,7 +587,7 @@ const ViewMessage = ({navigation} : any) => {
 
 {/* Footer */}
                 {message?.status === 'noreply' ? null : (
-                    <View style={{position: 'absolute', bottom: isKeyboardVisible ? 300 : 0, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 30, width: SCREEN_WIDTH, height: 80, backgroundColor: '#303030'}}>
+                    <View style={{position: 'absolute', bottom: isKeyboardVisible ? 300 : 0, flexDirection: 'row', justifyContent: 'space-between', marginBottom: Platform.OS === 'ios' ? 50 : 30, width: SCREEN_WIDTH, height: 80, backgroundColor: '#303030'}}>
                         <TextInput
                             placeholder={'Reply to ' + (
                                 message?.userID === user && message?.subtitle === 'artist' ? 

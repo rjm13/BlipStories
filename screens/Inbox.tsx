@@ -10,13 +10,12 @@ import {
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import {StatusBar} from 'expo-status-bar';
 import { format, parseISO } from "date-fns";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, messagesByUpdatedDate } from '../src/graphql/queries';
+import { API, graphqlOperation, Auth } from "aws-amplify";
+import { messagesByUpdatedDate } from '../src/graphql/queries';
 
 
 const Inbox = ({navigation} : any) => {
@@ -62,18 +61,6 @@ const Inbox = ({navigation} : any) => {
     }, [didUpdate])
 
     const Item = ({index, id, title, content, narrPseudo, publisherPseudo, request, artistPseudo, subtitle, userID, otherUserID, createdAt, isReadbyUser, isReadByOtherUser} : any) => {
-
-        // const [user, setUser] = useState({})
-
-        // useEffect(() => {
-        //     const fetchUser = async () => {
-        //         let response = await API.graphql(graphqlOperation(
-        //             getUser, {id: otherUserID}
-        //         ))
-        //     setUser(response.data.getUser)    
-        //     }
-        //     fetchUser();
-        // }, [])
 
         return (
             <TouchableWithoutFeedback onPress={() => navigation.navigate('ViewMessage', {messageid: id})}>
@@ -203,7 +190,7 @@ const Inbox = ({navigation} : any) => {
                         }
                         ListFooterComponent={() => {
                             return (
-                                <View style={{height: 100}}/>
+                                <View style={{height: 120}}/>
                             )
                         }}
                     />

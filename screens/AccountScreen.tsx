@@ -195,7 +195,7 @@ const handleUpdateName = async () => {
                         }}>
                             Enter a new name
                         </Text>
-                        <View style={{ borderWidth: 0.3, borderColor: '#ffffffa5', width: '100%', alignItems: 'center', borderRadius: 8}}>
+                        <View style={{ borderWidth: 0.3, paddingVertical: 4, borderColor: '#ffffffa5', width: '100%', alignItems: 'center', borderRadius: 8}}>
                             <TextInput
                                 placeholder={user?.name}
                                 placeholderTextColor='gray'
@@ -213,7 +213,7 @@ const handleUpdateName = async () => {
                                     {isUploading ? (
                                         <ActivityIndicator size="small" color="#00ffff"/>
                                     ) : 
-                                        <Text style={{borderRadius: 30, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text> 
+                                        <Text style={{overflow: 'hidden', borderRadius: 13, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text> 
                                     } 
                                 </View>
                             </TouchableOpacity>
@@ -231,7 +231,7 @@ const handleUpdateName = async () => {
                         }}>
                                 Enter a new email
                         </Text>
-                        <View style={{ borderWidth: 0.3, borderColor: '#ffffffa5', width: '100%', alignItems: 'center', borderRadius: 8}}>
+                        <View style={{paddingVertical: 4, borderWidth: 0.3, borderColor: '#ffffffa5', width: '100%', alignItems: 'center', borderRadius: 8}}>
                             <TextInput
                                 placeholder={authUser?.attributes.email}
                                 placeholderTextColor='gray'
@@ -248,7 +248,7 @@ const handleUpdateName = async () => {
                                     {isUploading ? (
                                         <ActivityIndicator size="small" color="#00ffff"/>
                                     ) : 
-                                        <Text style={{borderRadius: 30, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Send Code</Text>
+                                        <Text style={{overflow: 'hidden', borderRadius: 13, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Send Code</Text>
                                     } 
                                 </View>
                             </TouchableOpacity>
@@ -262,7 +262,7 @@ const handleUpdateName = async () => {
                             Enter confirmation code
                         </Text>
 
-                        <View style={{ borderWidth: 0.3, borderColor: '#ffffffa5', width: '100%', alignItems: 'center', borderRadius: 8}}>
+                        <View style={{ paddingVertical: 4, borderWidth: 0.3, borderColor: '#ffffffa5', width: '100%', alignItems: 'center', borderRadius: 8}}>
                             <TextInput
                                 placeholder='- - - - - -'
                                 placeholderTextColor='#00ffffa5'
@@ -278,7 +278,7 @@ const handleUpdateName = async () => {
                                     {isUploading ? (
                                         <ActivityIndicator size="small" color="#00ffff"/>
                                     ) : 
-                                        <Text style={{borderRadius: 30, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
+                                        <Text style={{overflow: 'hidden', borderRadius: 13, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
                                     } 
                                 </View>
                             </TouchableOpacity>
@@ -303,7 +303,7 @@ const handleUpdateName = async () => {
                                     {isUploading ? (
                                         <ActivityIndicator size="small" color="#00ffff"/>
                                     ) : 
-                                        <Text style={{borderRadius: 30, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Log Out</Text> 
+                                        <Text style={{overflow: 'hidden', borderRadius: 13, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Log Out</Text> 
                                     } 
                                 </View>
                             </TouchableOpacity>
@@ -326,11 +326,10 @@ const handleUpdateName = async () => {
                             <TextInput
                                 placeholder=''
                                 placeholderTextColor='#00ffffa5'
-                                style={[styles.nametext, {width: '80%'}]}
+                                style={[styles.nametext, {width: '80%', paddingVertical: 4}]}
                                 maxLength={18}
                                 onChangeText={val => setPassword(val)}
                                 secureTextEntry={passVisible === true ? true : false}
-                                //defaultValue={user?.name}
                             />
                             <FontAwesome5 
                                 name={passVisible === true ? 'eye-slash' : 'eye'}
@@ -352,7 +351,7 @@ const handleUpdateName = async () => {
                             <TextInput
                                 placeholder=''
                                 placeholderTextColor='gray'
-                                style={[styles.nametext, {width: '80%'}]}
+                                style={[styles.nametext, {width: '80%', paddingVertical: 4}]}
                                 maxLength={18}
                                 onChangeText={val => setOldPassword(val)}
                                 secureTextEntry={oldPassVisible === true ? true : false}
@@ -371,7 +370,7 @@ const handleUpdateName = async () => {
                                     {isUploading ? (
                                         <ActivityIndicator size="small" color="#00ffff"/>
                                     ) :
-                                        <Text style={{borderRadius: 30, backgroundColor: 'cyan',color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>                               
+                                        <Text style={{overflow: 'hidden', borderRadius: 13, backgroundColor: 'cyan',color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>                               
                                     } 
                                 </View>
                             </TouchableOpacity>
