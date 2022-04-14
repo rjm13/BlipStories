@@ -1,56 +1,23 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { 
-    View, 
-    SafeAreaView, 
-    StyleSheet, 
+    View,
     Text, 
     FlatList, 
-    Dimensions, 
-    RefreshControl, 
-    TouchableWithoutFeedback, 
-    TouchableOpacity, 
-    ImageBackground, 
-    Animated, 
-    PanResponder 
 } from 'react-native';
-
-import {useNavigation} from '@react-navigation/native'
-
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-
-import { format } from "date-fns";
 
 import { AppContext } from '../../AppContext';
 import HorzStoryTile from '../HorzStoryTile';
 
-import { listPinnedStories } from '../../src/customGraphql/customQueries';
-import { listStories, storiesByDate } from '../../src/graphql/queries';
-import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
-import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
+import { storiesByDate } from '../../src/graphql/queries';
+import {graphqlOperation, API} from 'aws-amplify';
 
 
-const ShortSweet = ({genreid} : any) => {
+const ShortSweet = () => {
 
-    //update list state
-    const [didUpdate, setDidUpdate] = useState(false);
-
-//refresh controls for the flatlists
-    const [isFetching, setIsFetching] = useState(false);
-
-    const onRefresh = () => {
-        setIsFetching(true);
-        setDidUpdate(!didUpdate);
-        setTimeout(() => {
-          setIsFetching(false);
-        }, 2000);
-      }
-
-//fetch the stories for a specific genre for promoted carousel      
+    //data set for the stories flatlist    
     const [stories, setStories] = useState([]);
 
+    //global context to filter out nsfw
     const { nsfwOn } = useContext(AppContext);
 
     useEffect(() => {
@@ -115,18 +82,16 @@ const ShortSweet = ({genreid} : any) => {
 
         fetchStorys();
 
-    },[didUpdate])
+    },[])
 
     const renderItem = ({ item }: any) => {
 
         let icon = ''
         let genreName = ''
-        let primary = ''
 
         if (item.genre) {
             icon = item.genre.icon
             genreName = item.genre.genre
-            primary = item.genre.PrimaryColor
         }
         
         return (
@@ -135,12 +100,6 @@ const ShortSweet = ({genreid} : any) => {
           imageUri={item.imageUri}
           genreName={genreName}
           icon={icon}
-          primary={primary}
-          audioUri={item.audioUri}
-          summary={item.summary}
-          author={item.author}
-          narrator={item.narrator}
-          time={item.time}
           id={item.id}
           ratingAvg={item.ratingAvg}
         />

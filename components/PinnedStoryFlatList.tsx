@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import { 
     View, 
     StyleSheet, 
@@ -8,10 +8,10 @@ import {
     RefreshControl,
     ActivityIndicator 
 } from 'react-native';
+
 import { pinnedStoryByDate } from '../src/graphql/queries';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
-import UnPinStory from './functions/UnPinStory';
 import StoryTile from './StoryTile';
 
 const AudioStoryList = () => {
@@ -50,7 +50,6 @@ const AudioStoryList = () => {
                     }
                 ))
 
-                //console.log(pinnedData)
                 if (pinnedData.data.PinnedStoryByDate.items.length > 0) {
                     for (let i = 0; i < pinnedData.data.PinnedStoryByDate.items.length; i++) {
                         if (pinnedData.data.PinnedStoryByDate.items[i].story.hidden === false && pinnedData.data.PinnedStoryByDate.items[i].story.approved === 'approved') {
@@ -60,8 +59,6 @@ const AudioStoryList = () => {
                 }
                      
                 setPinnedStories(Pinned);
-
-                console.log(pinnedStories)
                 
                 setIsLoading(false);
                
@@ -132,7 +129,7 @@ const AudioStoryList = () => {
                     showsVerticalScrollIndicator={false}    
                     ListFooterComponent={ () => {
                         return (
-                            <View style={{ height:  100, alignItems: 'center'}} />
+                            <View style={{ height:  100}} />
                     );}}
                     ListEmptyComponent={ () => {
                         return (

@@ -20,7 +20,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/blipicon.png",
     "splash": {
-      "image": "./assets/images/blipsplash.png",
+      "image": "./assets/images/blankprofile.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },

@@ -1,14 +1,22 @@
 import React, {useState, useContext} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, TextInput, Linking } from 'react-native';
+import { 
+    View, 
+    Text, 
+    StyleSheet, 
+    TouchableOpacity, 
+    Dimensions, 
+    TextInput, 
+    Linking,
+    ActivityIndicator,
+} from 'react-native';
+
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppContext } from '../../AppContext';
-import { ActivityIndicator } from 'react-native-paper';
 import Feather from 'react-native-vector-icons/Feather';
 import { StatusBar } from 'expo-status-bar';
 
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { getUser } from '../../src/graphql/queries';
-import { createUser } from '../../src/graphql/mutations';
 
 
 

@@ -1,10 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { 
-    View, 
-    StyleSheet, 
+    View,
     Text, 
-    FlatList, 
-    RefreshControl, 
+    FlatList,
     TouchableOpacity, 
 } from 'react-native';
 
@@ -39,40 +37,14 @@ const ForYouGenre = ({genreid} : any) => {
 
     }, [])
 
-    //update list state
-    const [didUpdate, setDidUpdate] = useState(false);
-
-//refresh controls for the flatlists
-    const [isFetching, setIsFetching] = useState(false);
-
-    const onRefresh = () => {
-        setIsFetching(true);
-        setDidUpdate(!didUpdate);
-        setTimeout(() => {
-          setIsFetching(false);
-        }, 2000);
-      }
-
 //fetch the stories for a specific genre for promoted carousel      
     const [tagStories, setTagStories] = useState([]);
 
     useEffect(() => {
 
-        const date = new Date();
-
-        const year = date.getFullYear();
-        const month = date.getMonth();
-        const day = date.getDate();
-        
-        //const c = new Date(year + 1, month, day) // PLUS 1 YEAR
-        const newdate = new Date(year, month - 6, day).toISOString() // PLUS 1 MONTH
-        //const f = new Date(year, month, day  + 1) // PLUS 1 DAY
-
         let genreArr = []
-
-        let genreIds = []
             
-//gets the most recently rated stories in a genre with a rating over 6, sorts by the most recently created
+        //gets the most recently rated stories in a genre with a rating over 6, sorts by the most recently created
         const fetchStorys = async () => {
                 
             if (genreid) {
@@ -98,9 +70,6 @@ const ForYouGenre = ({genreid} : any) => {
                                     nsfw: {
                                         ne: nsfwOn === true ? true : null
                                     }
-                                    // tags: {
-                                    //     contains: tag
-                                    // }
                                 }
                             } 
                         )
@@ -114,7 +83,6 @@ const ForYouGenre = ({genreid} : any) => {
                             genreArr.push(response.data.storiesByUpdated.items[i])
                         }
                     }
-                    //console.log(response.data.storiesByUpdated.items)
                     setTagStories(genreArr);
        
                 } catch (e) {
@@ -124,19 +92,17 @@ const ForYouGenre = ({genreid} : any) => {
 
         fetchStorys();
 
-    },[didUpdate, genreid])
+    },[genreid])
 
 
     const renderItem = ({ item }: any) => {
 
         let icon = ''
         let genreName = ''
-        let primary = ''
 
         if (item.genre) {
             icon = item.genre.icon
             genreName = item.genre.genre
-            primary = item.genre.PrimaryColor
         }
         
         return (
@@ -145,15 +111,8 @@ const ForYouGenre = ({genreid} : any) => {
           imageUri={item.imageUri}
           genreName={null}
           icon={icon}
-          primary={primary}
-          audioUri={item.audioUri}
-          summary={item.summary}
-          author={item.author}
-          narrator={item.narrator}
-          time={item.time}
           id={item.id}
           ratingAvg={item.ratingAvg}
-          ratingAmt={item.ratingAmt}
         />
       );}
 

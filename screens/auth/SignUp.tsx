@@ -70,6 +70,8 @@ const CreateUser = async () => {
 
     let username = email.replace(/ /g, '');
 
+    let Name = name.toLowerCase();
+
     setSigningUp(true);
 
         try {
@@ -78,7 +80,7 @@ const CreateUser = async () => {
                 username,
                 password,
                 attributes: {
-                    name,
+                    Name,
                     birthdate,
                     'custom:membership': membership
                 },

@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { 
-    View, 
-    StyleSheet, 
+    View,
     Text, 
     FlatList, 
 } from 'react-native';
@@ -15,25 +14,19 @@ import {graphqlOperation, API} from 'aws-amplify';
 
 const Trending = () => {
 
+    //global context to turn off nsfw context
     const { nsfwOn } = useContext(AppContext);
 
-    //update list state
-    const [didUpdate, setDidUpdate] = useState(false);
-
-//fetch the stories for a specific genre for promoted carousel      
+    //fetch the stories for a specific genre for promoted carousel      
     const [stories, setStories] = useState([]);
 
     useEffect(() => {
-
-        let trendingStories = []
 
         let trendingids = []
 
         let count = []
 
         let finalTrends = []
-
-        //const map = trendingStories.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
 
         const fetchStorys = async () => {
 
@@ -121,12 +114,6 @@ const Trending = () => {
           imageUri={item.imageUri}
           genreName={genreName}
           icon={icon}
-          primary={primary}
-          audioUri={item.audioUri}
-          summary={item.summary}
-          author={item.author}
-          narrator={item.narrator}
-          time={item.time}
           id={item.id}
           ratingAvg={item.ratingAvg}
         />
@@ -142,14 +129,13 @@ const Trending = () => {
             </View>
             <FlatList
                 data={stories}
-                //extraData={stories}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
                
                 ListFooterComponent={
-                    <View style={{width: 50}}/>
+                    <View style={{width: 60}}/>
                 }
             />
         </View>

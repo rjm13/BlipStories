@@ -8,27 +8,23 @@ import {
     TouchableWithoutFeedback, 
     FlatList, 
     RefreshControl, 
-    TouchableOpacity 
 } from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { Searchbar } from 'react-native-paper';
 
 import {LinearGradient} from 'expo-linear-gradient';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser } from '../src/graphql/queries';
-import { listFollowingConns, listUsers } from '../src/graphql/queries';
-import { createFollowingConn, deleteFollowingConn } from '../src/graphql/mutations';
+import { listFollowingConns, listUsers, getUser } from '../src/graphql/queries';
 
 
 const BrowseAuthor = ({navigation} : any) => {
 
     const [ users, setUsers ] = useState([]);
 
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState()
 
     const [didUpdate, setDidUpdate] = useState(false);
 
@@ -40,7 +36,6 @@ const BrowseAuthor = ({navigation} : any) => {
     //refresh function, does not work yet
     const onRefresh = () => {
         setIsFetching(true);
-        //fetchUsers();
         setDidUpdate(!didUpdate)
         setTimeout(() => {
           setIsFetching(false);
@@ -52,18 +47,11 @@ const BrowseAuthor = ({navigation} : any) => {
 
         const fetchUser = async () => {
 
-            let Following = []
-
             const userInfo = await Auth.currentAuthenticatedUser();
 
-                if (!userInfo) {return;}
+            setUser(userInfo.attributes.sub)
 
             try {
-                const userData = await API.graphql(graphqlOperation(
-                    getUser, {id: userInfo.attributes.sub}
-                ))
-
-                if (userData) {setUser(userData.data.getUser);}
 
                 const followData = await API.graphql(graphqlOperation(
                     listUsers, {
@@ -72,7 +60,7 @@ const BrowseAuthor = ({navigation} : any) => {
                                 eq: true
                             },
                             pseudonym: {
-                                contains: searchQ
+                                contains: searchQ.toLowerCase()
                             }
                         }
                 }))
@@ -106,7 +94,6 @@ const BrowseAuthor = ({navigation} : any) => {
               iconColor='#000000a5'
               onIconPress={() => {setSearchQ(searchQuery); setDidUpdate(!didUpdate);}}
               onSubmitEditing={() => {setSearchQ(searchQuery); setDidUpdate(!didUpdate);}}
-              //onClear={() => {setSearchQ(searchQuery); setDidUpdate(!didUpdate);}}
               style={{
                 height: 35,
                 marginLeft: 40,
@@ -119,9 +106,6 @@ const BrowseAuthor = ({navigation} : any) => {
           </View>
         );
       };
-
-    //legacy function for selected the state toggle between followers and following
-    //const [SelectedId, setSelectedId] = useState(1);
 
     //title item for the flatlist that displays the authors the user following
     const Item = ({ numAuthored, pseudonym, imageUri, id, bio } : any) => {
@@ -149,7 +133,7 @@ const BrowseAuthor = ({navigation} : any) => {
                                 eq: id
                             },
                             followerID: {
-                                eq: user?.id
+                                eq: user
                             }
                         }
                     }
@@ -170,7 +154,7 @@ const BrowseAuthor = ({navigation} : any) => {
                                     width: 50,
                                     height: 50,
                                     borderRadius: 25,
-                                    backgroundColor: 'cyan'
+                                    backgroundColor: 'gray'
                                 }}
                             />
                         
@@ -187,21 +171,9 @@ const BrowseAuthor = ({navigation} : any) => {
                                             style={{ marginRight: 0}}
                                         />
                                     ) : null}
-                                    
                                 </View>
                                 
-                                
-                                
                                 <View style={{ flexDirection: 'row', marginTop: 4, alignItems: 'center'}}>
-                                    {/* <FontAwesome5 
-                                        name='book-open'
-                                        size={12}
-                                        color='#ffffffa5'
-                                        style={{ marginRight: 5}}
-                                    />
-                                    <Text style={styles.userId}>
-                                        0
-                                    </Text>   */}
                                     <FontAwesome5 
                                         name='book-open'
                                         size={12}
@@ -215,16 +187,6 @@ const BrowseAuthor = ({navigation} : any) => {
                             </View>
                         </View>
                     </TouchableWithoutFeedback>    
-    
-                    {/* <TouchableWithoutFeedback onPress={fetchInfo}>
-                        <View style={{ backgroundColor: 'transparent', padding: 30, margin: -30, alignItems: 'flex-end' }}>
-                            <AntDesign
-                                name={'ellipsis1'}
-                                size={20}
-                                color='white'
-                            />
-                        </View>
-                    </TouchableWithoutFeedback> */}
                 </View>    
     
                 <View style={{marginTop: 10, marginHorizontal: 5}}>
@@ -232,23 +194,6 @@ const BrowseAuthor = ({navigation} : any) => {
                         {bio}
                     </Text>
                 </View>
-    
-                {/* {ShowModalThing === true ? (
-                        
-                        <View style={{ backgroundColor: '#484848', borderColor: 'black', borderRadius: 5, borderWidth: 0, position: 'absolute', right: 40, top: 30, alignSelf: 'flex-end'}}>
-                            <TouchableOpacity onPress={isFollowing === true ? unFollowUser : FollowUser} >
-                                <Text style={{color: '#fff', padding: 10}}>
-                                    {isFollowing === true ? 'Unfollow' : 'Follow'}
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => {navigation.navigate('UserScreen', {userID: id})}} >
-                                <Text style={{color: '#fff', padding: 10}}>
-                                    View Profile
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    
-                ) : null} */}
                
             </View>
         );
@@ -256,28 +201,20 @@ const BrowseAuthor = ({navigation} : any) => {
     
     const renderItem = ({ item } : any) => {
 
-       
-        
-
         return (
             <Item 
-                author={item}
                 name={item.name}
                 id={item.id}
                 pseudonym={item.pseudonym}
                 imageUri={item.imageUri}
                 bio={item.bio}
-                following={item.following}
-                isPublisher={item.isPublisher}
                 numAuthored={item.numAuthored}
             />
         )   
     }
     
-        
-      
-
     return (
+
     <View >
         <LinearGradient
         colors={['#363636', 'black', 'black']}
@@ -309,6 +246,7 @@ const BrowseAuthor = ({navigation} : any) => {
                         renderItem={renderItem}
                         keyExtractor={(item) => item.id}
                         initialNumToRender={20}
+                        maxToRenderPerBatch={20}
                         refreshControl={
                             <RefreshControl
                                 refreshing={isFetching}
@@ -326,16 +264,11 @@ const BrowseAuthor = ({navigation} : any) => {
                         }}
                         ListFooterComponent={() => {
                             return (
-                                <View style={{height: 70}} />
+                                <View style={{height: 120}} />
                             )
                         }}
                     />
                 </View>
-            {/* ) : SelectedId === 2 && user?.isPublisher === true ? (
-                <View style={{ alignItems: 'center', marginTop: 20, height: '86%'}}>
-                    <FollowersList />
-                </View>
-            ) : null} */}
 
         </LinearGradient>
         </View>
@@ -358,6 +291,7 @@ const styles = StyleSheet.create({
          fontSize: 16,
          fontWeight: 'bold',
          color: '#fff',
+         textTransform: 'capitalize'
      },
      userId: {
          fontSize: 12,

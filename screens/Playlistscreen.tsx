@@ -19,7 +19,7 @@ const PlaylistScreen = () => {
     return (
         <View >
             <LinearGradient
-                colors={['#3b4b80a5','#3b4b80a5', '#000']}
+                colors={['#3b4b80a5','#000']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0.5 }}
             >
@@ -40,7 +40,6 @@ const PlaylistScreen = () => {
                                 fontSize: SelectedId ===  1 ? 22 : 17,
                                 fontWeight: SelectedId === 1 ? 'bold' : 'normal',
                                 borderBottomColor: '#fff',
-                                //borderBottomWidth: SelectedId ===  1 ? 1 : 0,
                             }}>
                                 Pinned
                             </Text>

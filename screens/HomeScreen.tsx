@@ -1,6 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { StyleSheet, ScrollView, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
-import { Text, View } from '../components/Themed';
+import { 
+    StyleSheet, 
+    ScrollView, 
+    TouchableWithoutFeedback,
+    Text,
+    View
+} from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -18,54 +23,45 @@ import NewList from '../components/HorizList/NewList';
 import { Auth, graphqlOperation, API } from 'aws-amplify';
 import {getUser} from '../src/graphql/queries';
 
-const AudioStoryHome = ({navigation} : any) => {
 
-    useEffect(() => {
+const HomeScreen = ({navigation} : any) => {
 
-        const handler = async (event : any) => {
-            if(!event.uri) return;
-
-            const initialURL = await Linking.getInitialURL();
-        }
-
-        async function getInitialURL(params : any) {
-    
-          if(!params) return;
-    
-          const initialURL = await Linking.getInitialURL();
-          
-          if (initialURL)  {
-            let response = Linking.parse(initialURL)
-            setDeepLink(response)
-            console.log(response)
-          }
-          if (params) {
-            let response = Linking.parse(params)
-                //console.log(response)
-                
-              setDeepLink(response)
-          }
-        }
-    
-      // listen for new url events coming from Expo
-      Linking.addEventListener('url', event => {
-          getInitialURL(event.url);
-      });
-    
-        // //Linking.addEventListener('url', handleDeepLink);
-        // if (!deepLink) {getInitialURL}
-    
-        return (() => {
-          Linking.removeEventListener('url', event => {
-            getInitialURL(event.url);
-            
-        });
-        })
-      }, [])
-
+    //deep link global context for sharing a story
     const { deepLink } = useContext(AppContext);
     const { setDeepLink } = useContext(AppContext);
 
+    //set from the user object, the top genres selected by the user
+    const [TopThree, setTopThree] = useState([])
+
+    //set the listener to open a shared a story on app start up
+    useEffect(() => {
+
+        async function getInitialURL(params : any) {
+    
+            if(!params) return;
+        
+            const initialURL = await Linking.getInitialURL();
+            
+            if (initialURL)  {
+                let response = Linking.parse(initialURL)
+                setDeepLink(response)
+            }
+            if (params) {
+                let response = Linking.parse(params)
+                    
+                setDeepLink(response)
+            }
+        }
+    
+        // listen for new url events coming from Expo
+        Linking.addEventListener('url', event => {getInitialURL(event.url);});
+    
+        return (() => {Linking.removeEventListener('url', event => {getInitialURL(event.url);});})
+
+      }, [])
+
+    
+      //if the app opens from a shared link, direct the user to that story screen
     useEffect(() => {
 
         if (deepLink?.queryParams?.id) {
@@ -77,31 +73,10 @@ const AudioStoryHome = ({navigation} : any) => {
        
     } , [deepLink])
 
-    // function urlRedirect(url) {
-    //     if(!url) return;
-    //     // parse and redirect to new url
-    //     let { path, queryParams } = Linking.parse(url);
-    //     console.log(`Linked to app with path: ${path} and data: ${JSON.stringify(queryParams)}`);
-    //     navigation.replace(path, queryParams);
-    // }
     
-    // // listen for new url events coming from Expo
-    // Linking.addEventListener('url', event => {
-    //     urlRedirect(event.url);
-    // });
 
-// useEffect(() => {
-//     Linking.getInitialURL().then(urlRedirect)
-// }, [])
-
-    const [user, setUser] = useState()
-
-    //const [TopThree, setTopThree] = useState(['74be93da-74d5-4393-8382-b6ec2299dfa5', '7537f8b5-16f5-4a30-bc57-7e488f170d96', '3e93e3d2-1489-4371-a508-2fe4772473f4'])
-    const [TopThree, setTopThree] = useState([])
-
-
+    //fetch the top 3 genres for the user
     useEffect(() => {
-
 
         const fetchGenres = async () => {
 
@@ -119,22 +94,20 @@ const AudioStoryHome = ({navigation} : any) => {
 
     }, [])
 
+
     return (
-        <ScrollView style={{backgroundColor: '#3b4b80a5' }}> 
+        <ScrollView style={{backgroundColor: '#000' }}> 
             <LinearGradient
-                colors={['#3b4b80', 'transparent', 'transparent', 'transparent', 'transparent']}
+                colors={['#3b4b80a5', 'transparent',]}
                 style={styles.container}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 60, marginBottom: 10, marginHorizontal: 20}}>
                     <View style={{ flexDirection: 'row'}}>
-                            <Text style={styles.pageheader}>
-                                For you
-                            </Text>
-                           
-                            
-                        
+                        <Text style={styles.pageheader}>
+                            For you
+                        </Text>
                     </View>
 
                     <TouchableWithoutFeedback onPress={() => navigation.navigate('ProfileScreen')}>
@@ -198,4 +171,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AudioStoryHome;
+export default HomeScreen;

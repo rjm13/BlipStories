@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
+
 import { 
   StyleSheet, 
   Dimensions, 
@@ -9,26 +10,26 @@ import {
   Image,
   FlatList,
   ScrollView,
-  ActivityIndicator
 } 
 from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {LinearGradient} from 'expo-linear-gradient';
 
-import { listGenres, tagsByUpdated, listTags, listGenreTags } from '../src/graphql/queries';
-import { updateTag } from '../src/graphql/mutations';
-import {graphqlOperation, API} from 'aws-amplify';
 import { AppContext } from '../AppContext';
+
+import { listGenres, tagsByUpdated } from '../src/graphql/queries';
+import {graphqlOperation, API} from 'aws-amplify';
+
 
 
 const AudioStoryHome = ({navigation} : any) => {
 
-  //nsfw global app context
+  //nsfw and after dark global app context
   const { nsfwOn } = useContext(AppContext);
   const { ADon } = useContext(AppContext);
 
-//genre array state
+  //genre array state
   const[genres, setGenres] = useState([]);
     
 //fetch the genres
@@ -50,15 +51,18 @@ const AudioStoryHome = ({navigation} : any) => {
 
   }, [])
 
-  const Item = ({genre, icon, id, PrimaryColor, imageUri} : any) => {
 
+  //genre tile item should show genre name, color, and image
+  const Item = ({genre, id, PrimaryColor, imageUri} : any) => {
+
+    //state that locks the after dark tile
     const [locked, setIsLocked] = useState(false);
 
     useEffect(() => {
-      if (ADon === true && id === '1108a619-1c0e-4064-8fce-41f1f6262070') {
+      if (ADon === true && genre === 'after dark') {
         setIsLocked(true)
       }
-      if (nsfwOn === true && id === '1108a619-1c0e-4064-8fce-41f1f6262070') {
+      if (nsfwOn === true && genre === 'after dark') {
         setIsLocked(true)
       }
     }, [nsfwOn, ADon])
@@ -72,7 +76,8 @@ const AudioStoryHome = ({navigation} : any) => {
               style={{width: '40%', height: '100%', borderRadius: 15, position: 'absolute', backgroundColor: 'gray', left: 192}}
             />
               <LinearGradient 
-                colors={[PrimaryColor, PrimaryColor, PrimaryColor, PrimaryColor + '99']}
+                //colors={[PrimaryColor, PrimaryColor, PrimaryColor, PrimaryColor + '80']}
+                colors={[PrimaryColor, PrimaryColor, PrimaryColor, 'transparent']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={[styles.genrebox]}
@@ -101,12 +106,12 @@ const AudioStoryHome = ({navigation} : any) => {
     <Item 
         id={item.id}
         genre={item.genre}
-        icon={item.icon}
         PrimaryColor={item.PrimaryColor}
         imageUri={item.imageUri}
     />
   );
 
+  //popular tags list data set
   const [tags, setTags] = useState([])
 
 //list the most popular tags by the order they were last updated
@@ -253,7 +258,7 @@ const AudioStoryHome = ({navigation} : any) => {
                     }}
                     ListFooterComponent={ () => {
                         return (
-                        <View style={{ height:  70, alignItems: 'center'}}/>
+                        <View style={{ height:  70}}/>
                         );
                     }}
                 />
@@ -296,17 +301,19 @@ box: {
     alignItems: 'center',
   },
   tagbox: {
-    marginRight: 10   
+    marginRight: 10,
+
   },
   tagtext: {
     color: 'cyan',
     fontSize: 14,
-    backgroundColor: '#1A4851a5',
-    borderColor: '#00ffffa5',
+    backgroundColor: '#0D2429',
+    borderColor: '#008080',
     borderWidth: 0.5,
     paddingHorizontal: 16,
     paddingVertical: 6,
-    borderRadius: 20
+    borderRadius: 14,
+    overflow: 'hidden'
 },
   genrebox: {
     height: 60,

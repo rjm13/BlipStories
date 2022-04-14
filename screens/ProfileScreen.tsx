@@ -14,14 +14,11 @@ import {StatusBar} from 'expo-status-bar';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, listFollowingConns, listMessages } from '../src/graphql/queries';
+import { getUser, listMessages } from '../src/graphql/queries';
 
 
 
 const ProfileScreen = ({navigation} : any) => {
-
-    //the number of followers an author has, set by listing the followingconns
-    const [numFollowers, setNumFollowers] = useState();
 
     //the current authenticated user
     const [user, setUser] = useState();
@@ -44,18 +41,6 @@ const ProfileScreen = ({navigation} : any) => {
                 let imageresponse = await Storage.get(userData.data.getUser.imageUri)
                 setImageU(imageresponse)
             }
-
-            const getFollowers = await API.graphql(graphqlOperation(
-                listFollowingConns, {
-                    filter: {
-                        authorID: {
-                            eq: userInfo.attributes.sub
-                        }
-                    }
-                }
-            ))
-
-            setNumFollowers(getFollowers.data.listFollowingConns.items.length)
 
         } catch (e) {
           console.log(e);
@@ -184,7 +169,7 @@ const ProfileScreen = ({navigation} : any) => {
                                     Inbox
                                 </Text>
                                 {newMessages > 0 ? (
-                                    <Text style={{fontWeight: 'bold', textAlign: 'center', paddingHorizontal: 8, backgroundColor: '#00ffff', borderRadius: 15, height: 20, marginLeft: 10}}>
+                                    <Text style={{fontWeight: 'bold', paddingTop: 1, paddingHorizontal: 8, backgroundColor: '#00ffff', borderRadius: 9, marginLeft: 10, overflow: 'hidden'}}>
                                         {newMessages}
                                     </Text>
                                    ) : null}

@@ -130,7 +130,7 @@ const AudioStoryList = () => {
                     showsVerticalScrollIndicator={false}    
                     ListFooterComponent={ () => {
                         return (
-                            <View style={{ height:  70, alignItems: 'center'}}/>
+                            <View style={{ height:  100,}}/>
                     );}}
                     ListEmptyComponent={ () => {
                         return (

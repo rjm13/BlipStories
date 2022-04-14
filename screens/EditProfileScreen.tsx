@@ -202,7 +202,7 @@ const handleUpdatePseudonym = async () => {
 
     if ( Pseudonym.length !== 0 ) {
 
-        const updatedUser = { id: user?.id, pseudonym: Pseudonym }
+        const updatedUser = { id: user?.id, pseudonym: Pseudonym.toLowerCase() }
 
         let result = await API.graphql(graphqlOperation(
             updateUser, { input: updatedUser }
@@ -222,7 +222,7 @@ const handleUpdateNarratorPseudonym = async () => {
 
     if ( NarratorPseudonym.length !== 0 ) {
 
-        const updatedUser = { id: user?.id, artistPseudo: NarratorPseudonym }
+        const updatedUser = { id: user?.id, artistPseudo: NarratorPseudonym.toLowerCase() }
 
         let result = await API.graphql(graphqlOperation(
             updateUser, { input: updatedUser }
@@ -242,7 +242,7 @@ const handleUpdateArtistPseudonym = async () => {
 
     if ( ArtistPseudonym.length !== 0 ) {
 
-        const updatedUser = { id: user?.id, narratorPseudo: ArtistPseudonym }
+        const updatedUser = { id: user?.id, narratorPseudo: ArtistPseudonym.toLowerCase() }
 
         let result = await API.graphql(graphqlOperation(
             updateUser, { input: updatedUser }

@@ -1,23 +1,17 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
 import { 
     View, 
-    StyleSheet, 
     Text, 
     FlatList, 
     Dimensions,
     TouchableWithoutFeedback, 
     TouchableOpacity, 
-    Image,
     ScrollView
 } from 'react-native';
-
-import {useNavigation} from '@react-navigation/native'
 
 import { Searchbar } from 'react-native-paper';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {LinearGradient} from 'expo-linear-gradient';
 
 import StoryTile from '../components/StoryTile';
@@ -246,7 +240,7 @@ const SearchScreen = ({navigation} : any) => {
                 maxToRenderPerBatch={10} 
                 ListFooterComponent={ () => {
                     return (
-                        <View style={{ height:  70, alignItems: 'center'}} />
+                        <View style={{ height:  120, }} />
                 );}}
                 ListHeaderComponent={ () => {
                     return (
@@ -257,7 +251,7 @@ const SearchScreen = ({navigation} : any) => {
                                         Tags
                                     </Text>
                                     <View>
-                                        <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                                        <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20, paddingBottom: 1}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                                             {TagsArray.slice(0, 16).map(({ tagName, id, genreID, nsfw } : any, index) => (
                                                 <View key={id} style={{marginTop: 10, marginRight: 10}}>
                                                     <TouchableOpacity onPress={() => navigation.navigate('TagSearchStack', {mainTag: id, tagName: tagName})}>
@@ -269,7 +263,8 @@ const SearchScreen = ({navigation} : any) => {
                                                               borderWidth: 0.5,
                                                               paddingHorizontal: 16,
                                                               paddingVertical: 6,
-                                                              borderRadius: 20}}>
+                                                              overflow: 'hidden',
+                                                              borderRadius: 14}}>
                                                                 #{tagName}
                                                             </Text>
                                                         </View>
@@ -290,9 +285,7 @@ const SearchScreen = ({navigation} : any) => {
                 );}}
                 ListEmptyComponent={ () => {
                     return (
-                        <View style={{ height:  70, alignItems: 'center'}}>
-                            <Text style={{ color: 'white', margin: 20,}}>
-                            </Text>
+                        <View style={{ height:  70}}>
                         </View>
                 );}}
             />
@@ -302,102 +295,5 @@ const SearchScreen = ({navigation} : any) => {
         </View>
     );
 }
-
-const styles = StyleSheet.create ({
-  container: {
-    width: Dimensions.get('window').width, 
- },
-  header: {
-      color: '#fff',
-      fontSize: 22,
-      fontWeight: 'bold',
-  },
-  title: {
-    color: '#000',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 5,
-  },
-  box: {
-    height: 100,
-    width: 140,
-    borderRadius: 15,
-    marginVertical: 10,
-    padding: 10,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  genrebox: {
-    height: 80,
-    borderRadius: 15,
-    marginVertical: 10,
-    padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  tile: {
-    backgroundColor: '#363636a5',
-    marginHorizontal: 10,
-    marginVertical: 5,
-    padding: 20,
-    borderRadius: 15,
-},
-name: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#fff',
-    flexWrap: 'wrap',
-    width: 225,
-},
-userId: {
-    fontSize: 12,
-    color: '#ffffffa5',
-    marginRight: 15,
-    marginLeft: 5,
-},
-icontext: {
-    fontSize: 10,
-    color: '#ffffffa5',
-    marginTop: 5,
-},
-popupblock: {
-    marginTop: 10,
-},
-paragraph: {
-    color: '#ffffffB3'
-},
-playbutton: {
-    borderWidth: 0.5,
-    paddingHorizontal: 15,
-    paddingVertical: 3,
-    borderRadius: 15,
-    borderColor: '#ffffffa5',
-    color: '#ffffffa5',
-},
-time: {
-    fontSize: 14,
-    fontWeight: 'normal',
-    color: '#ffffffa5',
-    marginHorizontal: 5,
-},
-category: {
-    fontSize: 14,
-    color: 'gray',
-    //fontStyle: 'italic',
-    marginVertical: 3,
-    textTransform: 'capitalize'
-},
-tagtext: {
-    color: 'cyan',
-    fontSize: 14,
-    backgroundColor: '#1A4851a5',
-    borderColor: '#00ffffa5',
-    borderWidth: 0.5,
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 20
-},
-});
 
 export default SearchScreen;

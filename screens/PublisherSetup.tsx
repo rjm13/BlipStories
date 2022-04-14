@@ -65,7 +65,7 @@ const PublishingSetup = ({navigation} : any) => {
   
             const updatedUser = { 
                 id: userInfo.attributes.sub, 
-                pseudonym: data.pseudonym, 
+                pseudonym: data.pseudonym.toLowerCase(), 
                 bio: Bio,
                 isPublisher: true }
   

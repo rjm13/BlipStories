@@ -6,8 +6,7 @@ import {
     StyleSheet, 
     Dimensions, 
     TouchableWithoutFeedback, 
-    ImageBackground, 
-    RefreshControl, 
+    ImageBackground,
     TouchableOpacity 
 } from 'react-native';
 
@@ -28,9 +27,11 @@ import TimeConversion from '../functions/TimeConversion';
 
 const ForYouCarousel = () => {
 
+    //global context for nsfw filter
     const { nsfwOn } = useContext(AppContext);
 
-    const Item = ({primary, title, userID, genreName, icon, summary, imageUri, audioUri, author, narrator, artistID, narratorID, time, id} : any) => {
+    //carousel tile
+    const Item = ({title, genreName, icon, summary, imageUri, author, narrator, time, id} : any) => {
 
         const [imageU, setImageU] = useState('');
         
@@ -159,21 +160,17 @@ const ForYouCarousel = () => {
                                                 size={12}
                                                 color='#ffffffa5'
                                             />
-                                            {/* <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: userID})}> */}
-                                                <Text style={styles.userId}>
-                                                    {author}
-                                                </Text>  
-                                            {/* </TouchableOpacity> */}
+                                            <Text style={styles.userId}>
+                                                {author}
+                                            </Text>  
                                             <FontAwesome5 
                                                 name='book-reader'
                                                 size={12}
                                                 color='#ffffffa5'
                                             />
-                                            {/* <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: narratorID})}> */}
-                                                <Text style={styles.userId}>
-                                                    {narrator}
-                                                </Text> 
-                                            {/* </TouchableOpacity> */}
+                                            <Text style={styles.userId}>
+                                                {narrator}
+                                            </Text> 
                                         </View>
                                     </View>
                                 </View>
@@ -235,8 +232,6 @@ const ForYouCarousel = () => {
             </View>
         );
     }
-    //determines if something needs to rerender
-    const [didUpdate, setDidUpdate] = useState(false);
 
     //data for the flatlist. 
     const [Storys, setStorys] = useState([]);
@@ -297,7 +292,7 @@ const ForYouCarousel = () => {
             }
         }
         fetchStorys();
-    },[didUpdate])
+    },[])
 
     const renderItem = ({ item }: any) => {
 
