@@ -5,7 +5,6 @@ import {
     StyleSheet, 
     Text, 
     Dimensions, 
-    RefreshControl, 
     TouchableWithoutFeedback, 
     TouchableOpacity, 
     ImageBackground, 
@@ -19,10 +18,11 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { AppContext } from '../../AppContext';
+import PinStory from '../functions/PinStory';
+import unPinStory from '../functions/UnPinStory';
+import TimeConversion from '../functions/TimeConversion';
 
-import { listPinnedStories } from '../../src/customGraphql/customQueries';
-import { listStories } from '../../src/graphql/queries';
-import { createPinnedStory, deletePinnedStory } from '../../src/graphql/mutations';
+import { listStories, listPinnedStories } from '../../src/graphql/queries';
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 
 
@@ -33,16 +33,6 @@ const GenreCarousel = ({genreid} : any) => {
     //update list state
     const [didUpdate, setDidUpdate] = useState(false);
 
-//refresh controls for the flatlists
-    const [isFetching, setIsFetching] = useState(false);
-
-    const onRefresh = () => {
-        setIsFetching(true);
-        setDidUpdate(!didUpdate);
-        setTimeout(() => {
-          setIsFetching(false);
-        }, 2000);
-      }
 
 //fetch the stories for a specific genre for promoted carousel      
     const [carouselStories, setCarouselStories] = useState([]);
@@ -101,7 +91,7 @@ const GenreCarousel = ({genreid} : any) => {
     },[didUpdate])
 
 //item for the flatlist carousel
-    const Item = ({primary, title, genreName, icon, summary, imageUri, audioUri, author, narrator, time, id} : any) => {
+    const Item = ({ title, genreName, icon, summary, imageUri, author, narrator, time, id} : any) => {
 
         const [imageU, setImageU] = useState()
         
@@ -115,61 +105,12 @@ const GenreCarousel = ({genreid} : any) => {
 
         const navigation = useNavigation();
 
-        //add a story to the pinned playlist function
-        const PinStory = async () => {
-
-            let userInfo = await Auth.currentAuthenticatedUser();
-        
-            let createPin = await API.graphql(graphqlOperation(
-                createPinnedStory, {input: {userID: userInfo.attributes.sub, storyID: id}}
-            ))
-            console.log(createPin)
-        }
-
-        //unpin a story
-        const unPinStory = async () => {
-
-            let userInfo = await Auth.currentAuthenticatedUser();
-        
-            let getPin = await API.graphql(graphqlOperation(
-                listPinnedStories, {
-                    filter: {
-                        userID: {
-                            eq: userInfo.attributes.sub
-                        },
-                        storyID: {
-                            eq: id
-                        }
-                    }
-                }
-            ))
-            console.log(getPin)
-            
-            let connectionID = getPin.data.listPinnedStories.items[0].id
-            console.log(connectionID)
-
-            let deleteConnection = await API.graphql(graphqlOperation(
-                deletePinnedStory, {input: {"id": connectionID}}
-            ))
-            console.log(deleteConnection)
-
-            setDidUpdate(!didUpdate)
-        }
-
         //set the gloabal context for the storyID
         const { setStoryID } = useContext(AppContext);
 
         const onPlay = () => {
             setStoryID(id);
         }
-
-        //convert time to formatted string
-        function millisToMinutesAndSeconds () {
-            let minutes = Math.floor(time / 60000);
-            let seconds = Math.floor((time % 60000) / 1000);
-            return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
-        }  
-
 
         const [isVisible, setIsVisible] = useState(false);
         
@@ -182,29 +123,17 @@ const GenreCarousel = ({genreid} : any) => {
             }  
         };
 
-    //liking the item
-        const [isLiked, setIsLiked] = useState(false);
-        
-        const onLikePress = () => {
-            if ( isLiked === false ) {
-                setIsLiked(true);
-            }
-            if ( isLiked === true ) {
-                setIsLiked(false);
-            }  
-        };
-
     //queueing the item
         const [isQ, setQd] = useState(false);
         
         const onQPress = () => {
             if ( isQ === false ) {
                 setQd(true);
-                PinStory()
+                PinStory({storyID: id})
             }
             if ( isQ === true ) {
                 setQd(false);
-                unPinStory();
+                unPinStory({storyID: id});
             }  
         };
 
@@ -242,12 +171,6 @@ const GenreCarousel = ({genreid} : any) => {
 
         return (
             <View style={styles.container}>
-                {/* <LinearGradient
-                    colors={['#18c9c9a5','#2f2179', '#000']}
-                    style={{ }}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 1 }}
-                > */}
                 <View style={{ position: 'absolute', alignSelf: 'center', top: 80, backgroundColor: 'transparent'}}>
                     <FontAwesome5 
                         name={icon}
@@ -255,7 +178,6 @@ const GenreCarousel = ({genreid} : any) => {
                         size={50}
                     />
                 </View>
-                {/* </LinearGradient> */}
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('StoryScreen', {storyID: id})}>
                 <ImageBackground
                     source={{uri: imageU}}
@@ -271,8 +193,6 @@ const GenreCarousel = ({genreid} : any) => {
                         borderBottomRightRadius: 15,
                         borderTopRightRadius: isVisible === true ? 15 : 0,
                         borderTopLeftRadius: isVisible === true ? 15 : 0,
-                        //height: isVisible === true ? '100%' : '35%',
-                        //height: '35%',
                         width: '100%',
                         padding: 10, 
                     }}
@@ -300,21 +220,17 @@ const GenreCarousel = ({genreid} : any) => {
                                                 size={12}
                                                 color='#ffffffa5'
                                             />
-                                            <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: '7755e914-9ae4-4dd0-a421-b517980b6808'})}>
                                                 <Text style={styles.userId}>
                                                     {author}
                                                 </Text>  
-                                            </TouchableOpacity>
                                             <FontAwesome5 
                                                 name='book-reader'
                                                 size={12}
                                                 color='#ffffffa5'
                                             />
-                                            <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: '7755e914-9ae4-4dd0-a421-b517980b6808'})}>
                                                 <Text style={styles.userId}>
                                                     {narrator}
                                                 </Text> 
-                                            </TouchableOpacity>
                                         </View>
                                     </View>
                                 </View>
@@ -341,9 +257,6 @@ const GenreCarousel = ({genreid} : any) => {
                                                 paddingHorizontal: 8,
                                                 backgroundColor: '#ffffff4D',
                                                 borderColor: '#ffffffCC',
-                                                
-                                                //borderWidth: 0.5,
-                                                //height: 26 
                                                 }}>
                                                     <FontAwesome5 
                                                         name='play'
@@ -357,7 +270,7 @@ const GenreCarousel = ({genreid} : any) => {
                                                         color: '#ffffffCC',
                                                     
                                                     }}>
-                                                        {millisToMinutesAndSeconds()}
+                                                        {TimeConversion(time)}
                                                     </Text> 
                                             </View>
                                         </TouchableOpacity>
@@ -423,13 +336,6 @@ const GenreCarousel = ({genreid} : any) => {
             <Carousel
               data={carouselStories}
               renderItem={renderItem}
-              //extraData={carouselStories}
-              refreshControl={
-                <RefreshControl
-                 refreshing={isFetching}
-                 onRefresh={onRefresh}
-                />
-              }
               sliderWidth={Dimensions.get('window').width}
               itemWidth={300}
               layout={'default'} 

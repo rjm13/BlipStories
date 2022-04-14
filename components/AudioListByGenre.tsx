@@ -7,30 +7,16 @@ import {
     Dimensions, 
     RefreshControl, 
     TouchableWithoutFeedback, 
-    TouchableOpacity, 
-    Image,
     ActivityIndicator, 
     ScrollView
 } from 'react-native';
 
-import {useNavigation} from '@react-navigation/native'
-
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-
 import { AppContext } from '../AppContext';
 
-import dummyaudio from '../data/dummyaudio';
-import { listRatings } from '../src/customGraphql/customQueries';
-import { listPinnedStories, listStories } from '../src/graphql/queries';
-import { deletePinnedStory } from '../src/graphql/mutations';
-import {graphqlOperation, API, Auth} from 'aws-amplify';
+import { listStories } from '../src/graphql/queries';
+import {graphqlOperation, API} from 'aws-amplify';
 
 import StoryTile from '../components/StoryTile';
-
-import { ItemParamList } from '../types';
 
 
 const AudioStoryList = ({genreID} : any) => {
@@ -181,7 +167,7 @@ const AudioStoryList = ({genreID} : any) => {
                     showsVerticalScrollIndicator={false}  
                     ListFooterComponent={ () => {
                         return (
-                            <View style={{ height:  200, alignItems: 'center'}}>
+                            <View style={{ height:  200}}>
                                 
                             </View>
                     );}}

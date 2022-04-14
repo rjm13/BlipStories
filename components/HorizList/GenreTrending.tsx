@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { 
     View, 
-    StyleSheet, 
     Text, 
     FlatList, 
 } from 'react-native';
@@ -17,15 +16,10 @@ const GenreTrending = ({genreid} : any) => {
 
     const { nsfwOn } = useContext(AppContext);
 
-    //update list state
-    const [didUpdate, setDidUpdate] = useState(false);
-
 //fetch the stories for a specific genre for promoted carousel      
     const [stories, setStories] = useState([]);
 
     useEffect(() => {
-
-        let trendingStories = []
 
         let trendingids = []
 
@@ -107,12 +101,10 @@ const GenreTrending = ({genreid} : any) => {
 
         let icon = ''
         let genreName = ''
-        let primary = ''
 
         if (item.genre) {
             icon = item.genre.icon
             genreName = item.genre.genre
-            primary = item.genre.PrimaryColor
         }
         
         return (
@@ -121,7 +113,6 @@ const GenreTrending = ({genreid} : any) => {
           imageUri={item.imageUri}
           genreName={null}
           icon={icon}
-          primary={primary}
           audioUri={item.audioUri}
           summary={item.summary}
           author={item.author}
@@ -144,7 +135,6 @@ const GenreTrending = ({genreid} : any) => {
                     </View>
                     <FlatList
                         data={stories}
-                        //extraData={stories}
                         keyExtractor={(item) => item.id}
                         renderItem={renderItem}
                         horizontal={true}

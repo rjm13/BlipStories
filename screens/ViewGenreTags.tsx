@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import { 
     View, 
     StyleSheet, 
@@ -7,7 +7,6 @@ import {
     ScrollView,
     FlatList,
     Dimensions,
-    Image
 } from 'react-native';
 
 import {useRoute} from '@react-navigation/native'
@@ -16,8 +15,8 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import { listTags, getGenre, listGenreTags } from '../src/graphql/queries';
-import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
+import { getGenre } from '../src/graphql/queries';
+import {graphqlOperation, API} from 'aws-amplify';
 
 const GenreTags = ({navigation} : any) => {
 
@@ -53,7 +52,7 @@ const GenreTags = ({navigation} : any) => {
         return (
             <TouchableWithoutFeedback onPress={() => navigation.navigate('TagSearchScreen', {mainTag: id, tagName: tagName})}>
                <View style={{margin: 8}}>
-                    <Text style={{paddingVertical: 6, paddingHorizontal: 20, color: '#00ffff', borderColor: '#00ffff', backgroundColor: '#1A4851a5', borderRadius: 15, borderWidth: 0.5}}>
+                    <Text style={{overflow: 'hidden', paddingVertical: 6, paddingHorizontal: 20, color: '#00ffff', borderColor: '#00ffff', backgroundColor: '#1A4851a5', borderRadius: 14, borderWidth: 0.5}}>
                         #{tagName}
                     </Text>
                 </View> 
@@ -120,9 +119,6 @@ const GenreTags = ({navigation} : any) => {
 const styles = StyleSheet.create ({
     container: {
         flex: 1,
-    },
-    gradient: {
-        height: 300
     },
 });
 

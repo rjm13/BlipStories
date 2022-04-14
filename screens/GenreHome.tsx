@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import { 
     View, 
     StyleSheet, 
@@ -16,11 +16,10 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import { listTags, getGenre, listStoryTags } from '../src/graphql/queries';
-import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
+import { getGenre, listStoryTags } from '../src/graphql/queries';
+import {graphqlOperation, API, Storage} from 'aws-amplify';
 
 import GenreCarousel from '../components/HorizList/GenreCarousel';
-import PopTagStories from '../components/HorizList/PopTagStories';
 import GenreTrending from '../components/HorizList/GenreTrending';
 import NewGenreStories from '../components/HorizList/NewGenreStories';
 
@@ -58,7 +57,6 @@ const [trendingTags, setTrendingTags] = useState([]);
                         )
                     )
                     setGenreInfo(response.data.getGenre);
-                    console.log(response.data.getGenre.tags.items)
 
                     if (genreRoute !== '1108a619-1c0e-4064-8fce-41f1f6262070') {
                         for (let i = 0; i < response.data.getGenre.tags.items.length; i++) {
@@ -157,40 +155,6 @@ const [trendingTags, setTrendingTags] = useState([]);
         )
     }
 
-    // useEffect(() => {
-
-    //     let TopTags = []
-
-    //     const fetchTags = async () => {
-            
-    //         try {
-    //             const response = await API.graphql(
-    //                 graphqlOperation(
-    //                     listTags, {filter: {
-    //                         genreID: {
-    //                             eq: genreRoute
-    //                             }
-    //                         },  
-    //                     } 
-    //                 )
-    //             )
-    //             for (let i = 0; i < 3; i++) {
-    //                 TopTags.push(response.data.listTags.items[i])
-    //             }
-    //             if (response) {
-    //                 setTrendingTags(TopTags);
-    //                 console.log('top tags are...')
-    //                 console.log(genreRoute)
-    //                 console.log(TopTags)
-    //             }
-                
-    //         } catch (e) {
-    //             console.log(e);}
-        
-    // }
-    // fetchTags();
-    // },[genreRoute])
-
 
     return (
         <View style={styles.container}>
@@ -262,14 +226,6 @@ const [trendingTags, setTrendingTags] = useState([]);
                             />
                         </View>
                     </View>
-
-                    {/* <View style={{ marginTop: 20}}>
-                        <PopTagStories genreid={genreRoute} tag={trendingTags[0]?.tagName} tagID={trendingTags[0]?.id}/>
-                    </View> */}
-
-                    {/* <View style={{ marginTop: 20}}>
-                        <PopTagStories genreid={genreRoute} tag={trendingTags[1]?.tagName} tagID={trendingTags[1]?.id}/>
-                    </View> */}
 
                     <View style={{ marginTop: 20}}>
                         <GenreTrending genreid={genreRoute}/>

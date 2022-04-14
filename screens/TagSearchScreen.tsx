@@ -1,109 +1,38 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { 
     View, 
     StyleSheet, 
     Text, 
     FlatList, 
     Dimensions, 
-    RefreshControl, 
     TouchableWithoutFeedback, 
-    TouchableOpacity, 
-    Image, 
-    TextInput,
-    Keyboard,
-    ScrollView
 } from 'react-native';
 
-import {useNavigation} from '@react-navigation/native'
-
-import { Searchbar } from 'react-native-paper';
-
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {LinearGradient} from 'expo-linear-gradient';
-
-import SearchStoriesList from '../components/SearchStoriesList';
 
 import { useRoute } from '@react-navigation/native';
 
 import { AppContext } from '../AppContext';
 import StoryTile from '../components/StoryTile';
 
-//import { listStoryTags } from '../src/customGraphql/customQueries';
-import { listPinnedStories, listRatings, listTags, listStories, listStoryTags, getTag } from '../src/graphql/queries';
-import { deletePinnedStory } from '../src/graphql/mutations';
-import {graphqlOperation, API, Auth} from 'aws-amplify';
+
+import { getTag } from '../src/graphql/queries';
+import {graphqlOperation, API} from 'aws-amplify';
 
 const TagSearchScreen = ({navigation} : any) => {
 
 //set the position of the audio player if the screen is full page
-    // const { setIsRootScreen } = useContext(AppContext);
     const { nsfwOn } = useContext(AppContext);
     const { ADon } = useContext(AppContext);
 
-    // useEffect(() => {
-    //     setIsRootScreen(true)
-    // },[])
-
     const route = useRoute();
     const {mainTag, tagName} = route.params
-
-
-    //search function trigger that refreshes the search results
-    const [didUpdate, setDidUpdate] = useState(false);
-
 
     //primary data set of searched stories for the flatlist
     const [searchedStories, setSearchedStories] = useState([])
 
     //on render, get the user and then list the following connections for that user. Using listStoryTags produces
-    //an error where not every story tag loads. Using getTag instead
-    // useEffect(() => {
-
-    //   const fetchStories = async () => {
-
-    //         let stories = []
-
-    //         try {
-
-    //             const searchResults = await API.graphql(graphqlOperation(
-    //                 listStoryTags, {
-    //                     filter: {
-    //                         tagID: {
-    //                             eq: mainTag
-    //                         },
-    //                         // story: {
-    //                         //     approved: {
-    //                         //         eq: true,
-    //                         //     },
-    //                         //     hidden: {
-    //                         //         eq: false
-    //                         //     }
-    //                         // }
-    //                     }
-    //                 }))
-
-    //             if (searchResults.data.listStoryTags.items.length > 0) {
-    //                 for(let i = 0; i < searchResults.data.listStoryTags.items.length; i++) {
-    //                     if (searchResults.data.listStoryTags.items[i].story.approved === 'approved' && searchResults.data.listStoryTags.items[i].story.hidden === false) {
-    //                         stories.push(searchResults.data.listStoryTags.items[i].story)
-    //                     } 
-                        
-    //                 }
-    //             }
-
-    //             setSearchedStories(stories)
-
-
-    //         } catch (e) {
-    //             console.log(e);
-    //         }
-    // }
-    // fetchStories(); 
-    
-    // }, [didUpdate])
-
 
     useEffect(() => {
 
@@ -144,7 +73,7 @@ const TagSearchScreen = ({navigation} : any) => {
 
         }
         fetchTags()
-    }, [didUpdate])
+    }, [])
 
     const renderItem = ({ item } : any) => {
         
@@ -217,12 +146,6 @@ const TagSearchScreen = ({navigation} : any) => {
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
                 extraData={searchedStories}
-                // refreshControl={
-                //     <RefreshControl
-                //     refreshing={isFetching}
-                //     onRefresh={onRefresh}
-                //     />
-                // }
                 showsVerticalScrollIndicator={false}   
                 initialNumToRender={20}
                 maxToRenderPerBatch={20} 
@@ -253,102 +176,5 @@ const TagSearchScreen = ({navigation} : any) => {
         </View>
     );
 }
-
-const styles = StyleSheet.create ({
-  container: {
-    width: Dimensions.get('window').width, 
- },
-  header: {
-      color: '#fff',
-      fontSize: 22,
-      fontWeight: 'bold',
-  },
-  title: {
-    color: '#000',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 5,
-  },
-  box: {
-    height: 100,
-    width: 140,
-    borderRadius: 15,
-    marginVertical: 10,
-    padding: 10,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  genrebox: {
-    height: 80,
-    borderRadius: 15,
-    marginVertical: 10,
-    padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  tile: {
-    backgroundColor: '#363636a5',
-    marginHorizontal: 10,
-    marginVertical: 5,
-    padding: 20,
-    borderRadius: 15,
-},
-name: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#fff',
-    flexWrap: 'wrap',
-    width: 225,
-},
-userId: {
-    fontSize: 12,
-    color: '#ffffffa5',
-    marginRight: 15,
-    marginLeft: 5,
-},
-icontext: {
-    fontSize: 10,
-    color: '#ffffffa5',
-    marginTop: 5,
-},
-popupblock: {
-    marginTop: 10,
-},
-paragraph: {
-    color: '#ffffffB3'
-},
-playbutton: {
-    borderWidth: 0.5,
-    paddingHorizontal: 15,
-    paddingVertical: 3,
-    borderRadius: 15,
-    borderColor: '#ffffffa5',
-    color: '#ffffffa5',
-},
-time: {
-    fontSize: 14,
-    fontWeight: 'normal',
-    color: '#ffffffa5',
-    marginHorizontal: 5,
-},
-category: {
-    fontSize: 14,
-    color: 'gray',
-    //fontStyle: 'italic',
-    marginVertical: 3,
-    textTransform: 'capitalize'
-},
-tagtext: {
-    color: 'cyan',
-    fontSize: 14,
-    backgroundColor: '#1A4851a5',
-    borderColor: '#00ffffa5',
-    borderWidth: 0.5,
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 20
-},
-});
 
 export default TagSearchScreen;
