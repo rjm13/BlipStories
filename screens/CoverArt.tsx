@@ -146,7 +146,7 @@ const CoverArt = ({navigation} : any) => {
                         
                         
                         <Text style={styles.header}>
-                            Stories With My Art
+                            My Illustrated Stories
                         </Text>
                     </View>
 
@@ -165,7 +165,7 @@ const CoverArt = ({navigation} : any) => {
                             showsVerticalScrollIndicator={false}    
                             ListFooterComponent={ () => {
                                 return (
-                                    <View style={{ height:  70, alignItems: 'center'}}/>
+                                    <View style={{ height:  120}}/>
                             );}}
                             ListEmptyComponent={ () => {
                                 return (

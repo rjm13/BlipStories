@@ -7,18 +7,15 @@ import {
     Image, 
     TouchableWithoutFeedback, 
     FlatList, RefreshControl, 
-    TouchableOpacity 
 } from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {LinearGradient} from 'expo-linear-gradient';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { getUser } from '../src/graphql/queries';
 import { listFollowingConns } from '../src/graphql/queries';
-import { createFollowingConn, deleteFollowingConn } from '../src/graphql/mutations';
 
 
 const FollowingScreen = ({navigation} : any) => {
@@ -98,74 +95,11 @@ const FollowingScreen = ({navigation} : any) => {
             fetchImage();
         }, [])
 
-        //on item render, determine if the user is following them or not
-        // const [isFollowing, setIsFollowing] = useState(true)
-
-        // //show the options menu modal on the author tile
-        // const [ShowModalThing, setShowModalThing] = useState(false);
-        
-        //list the following connections that contain the current user and the selected author to determine if there is a following connection
-        // const fetchInfo = async () => {
-        //     const getConnection = await API.graphql(graphqlOperation(
-        //         listFollowingConns, {
-        //             filter: {
-        //                 authorID: {
-        //                     eq: id
-        //                 },
-        //                 followerID: {
-        //                     eq: user.id
-        //                 }
-        //             }
-        //         }
-        //     ))
-           
-        //     if (getConnection.data.listFollowingConns.items.length !== 1) {setIsFollowing(false)};
-
-        //     setShowModalThing(!ShowModalThing)
-        // }
-        
-        
-//follow a user function
-        // const FollowUser = async () => {
-    
-        //     let createConnection = await API.graphql(graphqlOperation(
-        //         createFollowingConn, {input: {followerID: user.id, authorID: id}}
-        //     ))
-        //     console.log(createConnection)
-        // }
-    
-// //unfollow a user
-//         const unFollowUser = async () => {
-    
-//             let getConnection = await API.graphql(graphqlOperation(
-//                 listFollowingConns, {
-//                     filter: {
-//                         authorID: {
-//                             eq: id
-//                         },
-//                         followerID: {
-//                             eq: user.id
-//                         }
-//                     }
-//                 }
-//             ))
-//             console.log(getConnection)
-            
-//             let connectionID = getConnection.data.listFollowingConns.items[0].id
-//             console.log(connectionID)
-    
-//             let deleteConnection = await API.graphql(graphqlOperation(
-//                 deleteFollowingConn, {input: {"id": connectionID}}
-//             ))
-//             console.log(deleteConnection)
-
-//             setDidUpdate(!didUpdate)
-//         }
     
         return (
             <View style={styles.tile}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <TouchableWithoutFeedback onPress={() => navigation.navigate('UserScreen', {userID: id})}>
+                    <TouchableWithoutFeedback onPress={() => navigation.navigate('UserScreen', {userID: id, status: 'publisher'})}>
                         <View style={{ flexDirection: 'row'}}>
                             <Image 
                                 source={ imageUri ? { uri: imageU} : require('../assets/images/blankprofile.png')}
@@ -197,16 +131,6 @@ const FollowingScreen = ({navigation} : any) => {
                             </View>
                         </View>
                     </TouchableWithoutFeedback>    
-    
-                    {/* <TouchableWithoutFeedback onPress={fetchInfo}>
-                        <View style={{ backgroundColor: 'transparent', padding: 30, margin: -30, alignItems: 'flex-end' }}>
-                            <AntDesign
-                                name={'ellipsis1'}
-                                size={20}
-                                color='white'
-                            />
-                        </View>
-                    </TouchableWithoutFeedback> */}
                 </View>    
     
                 <View style={{marginTop: 10, marginHorizontal: 5}}>
@@ -214,23 +138,6 @@ const FollowingScreen = ({navigation} : any) => {
                         {bio}
                     </Text>
                 </View>
-    
-                {/* {ShowModalThing === true ? (
-                        
-                        <View style={{ backgroundColor: '#484848', borderColor: 'black', borderRadius: 5, borderWidth: 0, position: 'absolute', right: 40, top: 30, alignSelf: 'flex-end'}}>
-                            <TouchableOpacity onPress={isFollowing === true ? unFollowUser : FollowUser} >
-                                <Text style={{color: '#fff', padding: 10}}>
-                                    {isFollowing === true ? 'Unfollow' : 'Follow'}
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => {navigation.navigate('UserScreen', {userID: id})}} >
-                                <Text style={{color: '#fff', padding: 10}}>
-                                    View Profile
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    
-                ) : null} */}
                
             </View>
         );
@@ -315,6 +222,11 @@ const FollowingScreen = ({navigation} : any) => {
                                 onRefresh={onRefresh}
                             />
                         }
+                        ListFooterComponent={() => {
+                            return (
+                                <View style={{height: 120}}/>
+                            )
+                        }}
                         ListEmptyComponent={() => {
                             return (
                                 <View style={{margin: 40, alignItems: 'center', justifyContent: 'center'}}>

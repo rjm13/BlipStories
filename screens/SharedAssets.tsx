@@ -12,7 +12,8 @@ import {
     FlatList,
     TextInput,
     Platform,
-    ScrollView
+    ScrollView,
+    Keyboard
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import {StatusBar} from 'expo-status-bar';
@@ -27,12 +28,9 @@ import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, listAudioAssets, listUsers, messagesByUpdatedDate } from '../src/graphql/queries';
+import { getUser, listAudioAssets, messagesByUpdatedDate } from '../src/graphql/queries';
 import { updateAudioAsset, createAudioAsset, deleteAudioAsset, createMessage, updateMessage } from '../src/graphql/mutations';
 
-import { useNavigation } from '@react-navigation/native';
-
-import { AppContext } from '../AppContext';
 
 
 
@@ -735,6 +733,7 @@ const SharedAssets = ({navigation} : any) => {
             <Portal>
                 
                 <Modal visible={visible2} onDismiss={() => {hideUploadModal();}} contentContainerStyle={containerStyle}>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={{marginHorizontal: 20, height: '90%'}}>
                         <Text style={{textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: 16}}>
                             Create an Audio Asset
@@ -780,25 +779,6 @@ const SharedAssets = ({navigation} : any) => {
                                         </Text>
                                     ) : null}
                                 </View>
-
-                                {/* <View style={{marginTop: 20}}>
-                                    <Text style={{color: '#fff', fontWeight: 'bold'}}>
-                                        Share With
-                                    </Text>
-                                    <TouchableWithoutFeedback onPress={() => {showModal(); setData({...data, sharedUserID: null})}}>
-                                        <View style={[styles.textinput, {justifyContent: 'center'}]}>
-                                            <Text style={{color: '#fff'}}>
-                                                Select a Publisher
-                                            </Text>
-                                        </View>
-                                    </TouchableWithoutFeedback>
-                                    <View>
-                                        <Text style={{marginTop: 10, color: '#00ffffa5', textAlign: 'center'}}>
-                                            {data.sharedUserName}
-                                        </Text>
-                                    </View>
-
-                                </View> */}
                             </View>
                             {isPublishing === true ?  (
                                 <View style={{marginBottom: 20}}>
@@ -810,7 +790,7 @@ const SharedAssets = ({navigation} : any) => {
                             ) : (
                                 <TouchableOpacity onPress={UploadAsset}>
                                     <View style={{alignSelf: 'center', margin: 20}}>
-                                        <Text style={{backgroundColor: 'cyan', color: '#000', paddingHorizontal: 20, paddingVertical: 6, borderRadius: 15}}>
+                                        <Text style={{overflow: 'hidden', backgroundColor: 'cyan', color: '#000', paddingHorizontal: 20, paddingVertical: 6, borderRadius: 13}}>
                                             Upload
                                         </Text>
                                     </View>
@@ -821,9 +801,11 @@ const SharedAssets = ({navigation} : any) => {
                         </View>
                         
                     </View>
+                    </TouchableWithoutFeedback>
                 </Modal>
 
                 <Modal visible={visible4} onDismiss={() => {hideUploadSampleModal();}} contentContainerStyle={containerStyle}>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={{marginHorizontal: 20, height: '90%'}}>
                         <Text style={{textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: 16}}>
                             Upload Sample Audio to Profile
@@ -882,7 +864,7 @@ const SharedAssets = ({navigation} : any) => {
                             ) : (
                                 <TouchableOpacity onPress={UploadAsset}>
                                     <View style={{alignSelf: 'center', margin: 20}}>
-                                        <Text style={{backgroundColor: 'cyan', color: '#000', paddingHorizontal: 20, paddingVertical: 6, borderRadius: 15}}>
+                                        <Text style={{overflow: 'hidden', backgroundColor: 'cyan', color: '#000', paddingHorizontal: 20, paddingVertical: 6, borderRadius: 13}}>
                                             Upload
                                         </Text>
                                     </View>
@@ -893,6 +875,7 @@ const SharedAssets = ({navigation} : any) => {
                         </View>
                         
                     </View>
+                    </TouchableWithoutFeedback>
                 </Modal>
 
 {/* local audio list modal */}
@@ -1064,7 +1047,7 @@ const SharedAssets = ({navigation} : any) => {
                                 
                                 ListFooterComponent={ () => {
                                     return (
-                                        <View style={{ height:  70, alignItems: 'center'}}>
+                                        <View style={{ height:  120}}>
                                             
                                         </View>
                                 );}}
@@ -1100,7 +1083,7 @@ const SharedAssets = ({navigation} : any) => {
                                     return (
                                         <TouchableOpacity onPress={showUploadSampledModal}>
                                             <View style={{alignItems: 'flex-start', marginHorizontal: 20, marginVertical: 20}}>
-                                                <Text style={{ borderRadius: 15, color: '#fff', backgroundColor: 'gray', paddingHorizontal: 20, paddingVertical: 6, textAlign: 'center'}}>
+                                                <Text style={{ overflow: 'hidden', borderRadius: 13, color: '#fff', backgroundColor: 'gray', paddingHorizontal: 20, paddingVertical: 6, textAlign: 'center'}}>
                                                     + Add Sample Audio
                                                 </Text>
                                             </View>
@@ -1110,7 +1093,7 @@ const SharedAssets = ({navigation} : any) => {
                                 
                                 ListFooterComponent={ () => {
                                     return (
-                                        <View style={{ height:  70, alignItems: 'center'}} />
+                                        <View style={{ height:  120}} />
                                 );}}
                                 ListEmptyComponent={ () => {
                                     return (

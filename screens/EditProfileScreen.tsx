@@ -9,7 +9,8 @@ import {
     TouchableWithoutFeedback, 
     TextInput, 
     Platform, 
-    ActivityIndicator 
+    ActivityIndicator,
+    Keyboard 
 } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
@@ -456,6 +457,7 @@ const handleUpdateNarratorBio = async () => {
 
 {/* //Update artist pseudonym  */}
             <Modal visible={visible10} onDismiss={hideArtistPseudModal} contentContainerStyle={containerStyle}>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={{ alignItems: 'center'}}>
                     <Text style={{
                         fontSize: 16,
@@ -487,10 +489,12 @@ const handleUpdateNarratorBio = async () => {
                         </TouchableOpacity>
                     </View>
                 </View>
+                </TouchableWithoutFeedback>
             </Modal>
 
 {/* //Update narrator pseudonym  */}
             <Modal visible={visible11} onDismiss={hideNarratorPseudModal} contentContainerStyle={containerStyle}>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={{ alignItems: 'center'}}>
                     <Text style={{
                         fontSize: 16,
@@ -522,10 +526,12 @@ const handleUpdateNarratorBio = async () => {
                         </TouchableOpacity>
                     </View>
                 </View>
+                </TouchableWithoutFeedback>
             </Modal>
 
 {/* //Update pseudonym  */}
             <Modal visible={visible7} onDismiss={hidePseudModal} contentContainerStyle={containerStyle}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={{ alignItems: 'center'}}>
                     <Text style={{
                         fontSize: 16,
@@ -557,10 +563,12 @@ const handleUpdateNarratorBio = async () => {
                         </TouchableOpacity>
                     </View>
                 </View>
+                </TouchableWithoutFeedback>
             </Modal>
 
 {/* //Update about me blurb */}
             <Modal visible={visible5} onDismiss={hideBioModal} contentContainerStyle={containerStyle}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={{ alignItems: 'center'}}>
                     <Text style={{
                         fontSize: 16,
@@ -596,10 +604,12 @@ const handleUpdateNarratorBio = async () => {
                         </TouchableWithoutFeedback>
                     </View>
                 </View>
+                </TouchableWithoutFeedback>
             </Modal>
 
 {/* //Update narrator blurb */}
             <Modal visible={visible6} onDismiss={hideNarratorBioModal} contentContainerStyle={containerStyle}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={{ alignItems: 'center'}}>
                     <Text style={{
                         fontSize: 16,
@@ -635,10 +645,12 @@ const handleUpdateNarratorBio = async () => {
                         </TouchableWithoutFeedback>
                     </View>
                 </View>
+                </TouchableWithoutFeedback>
             </Modal>
 
 {/* //Update artist blurb */}
             <Modal visible={visible4} onDismiss={hideArtistBioModal} contentContainerStyle={containerStyle}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={{ alignItems: 'center'}}>
                     <Text style={{
                         fontSize: 16,
@@ -674,6 +686,7 @@ const handleUpdateNarratorBio = async () => {
                         </TouchableWithoutFeedback>
                     </View>
                 </View>
+                </TouchableWithoutFeedback>
             </Modal>
 
 {/* //Update Image modal */}

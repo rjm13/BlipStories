@@ -1,14 +1,20 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableWithoutFeedback, Linking, TouchableOpacity,  Image } from 'react-native';
+import React from 'react';
+import { 
+    View, 
+    Text, 
+    StyleSheet, 
+    ScrollView, 
+    TouchableWithoutFeedback, 
+    Linking,
+} from 'react-native';
+
 import { LinearGradient } from 'expo-linear-gradient';
 import {StatusBar} from 'expo-status-bar';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import { API, graphqlOperation, Auth } from "aws-amplify";
-import { getUser } from '../src/graphql/queries';
 
-const ProfileScreen = ({navigation} : any) => {
+const AboutScreen = ({navigation} : any) => {
 
     const pkg = require('../package.json');
 
@@ -92,15 +98,6 @@ const ProfileScreen = ({navigation} : any) => {
                         </View>
                     </TouchableWithoutFeedback>
                     
-
-                    {/* <TouchableOpacity onPress={() => navigation.navigate('NotificationSetting')}>
-                        <View style={{ alignItems: 'center', marginHorizontal: 40, marginVertical: 10}}>
-                            <Text style={{ color: '#fff', fontSize: 16, borderRadius: 20, borderColor: '#fff', paddingHorizontal: 20, paddingVertical: 5, borderWidth: .5}}>
-                                Settings
-                            </Text>
-                        </View>
-                    </TouchableOpacity> */}
-                    
                 </ScrollView>  
             </LinearGradient>
             <StatusBar style="light" />
@@ -132,4 +129,4 @@ const styles = StyleSheet.create ({
     },
 });
 
-export default ProfileScreen;
+export default AboutScreen;

@@ -21,8 +21,7 @@ import { format, parseISO } from "date-fns";
 
 import { useRoute } from '@react-navigation/native';
 
-import { API, graphqlOperation, Auth } from "aws-amplify";
-import { getUser } from '../src/graphql/queries';
+import { Auth } from "aws-amplify";
 
 //this contains the modal audio player. Could not get it to work right because of useInterval 
 //causing the flatlist to rerender every second
@@ -95,10 +94,6 @@ const Publisher = ({navigation} : any) => {
                 let result = saved.filter((item) => item.includes("recording" + userInfo.attributes.sub));
                 setSavedAudio(result);
             } 
-
-            console.log('this ran')
-            console.log(SavedAudio)
-            console.log(userID)
         }
         LoadKeys();
     

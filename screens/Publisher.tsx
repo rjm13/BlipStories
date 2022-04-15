@@ -19,13 +19,10 @@ import { Modal, Portal, Provider } from 'react-native-paper';
 import { format, parseISO } from "date-fns";
 
 import { API, graphqlOperation, Auth } from "aws-amplify";
-import { getUser, listFollowingConns, listImageAssets } from '../src/graphql/queries';
+import { getUser, listImageAssets } from '../src/graphql/queries';
 import { updateUser } from '../src/graphql/mutations';
 
 const Publisher = ({navigation} : any) => {
-
-    //the number of follows the author (current user) has
-    const [numFollowers, setNumFollowers] = useState();
 
     const [user, setUser] = useState({})
 
@@ -109,18 +106,6 @@ const Publisher = ({navigation} : any) => {
                 else if(userData.data.getUser.artistActiveAt > newdate7) {setArtActive('10%')}
             
             }
-
-            const getFollowers = await API.graphql(graphqlOperation(
-                listFollowingConns, {
-                    filter: {
-                        authorID: {
-                            eq: userData.data.getUser.id
-                        }
-                    }
-                }
-            ))
-
-            setNumFollowers(getFollowers.data.listFollowingConns.items.length)
 
           } catch (e) {
             console.log(e);
@@ -510,7 +495,7 @@ const Publisher = ({navigation} : any) => {
   
                 </View>
 
-                <View style={{marginVertical: 40}}>
+                <View style={{marginVertical: 40, marginBottom: 120}}>
                     <TouchableWithoutFeedback onPress={() => Linking.openURL('http://www.blipstories.com/terms')}>
                         <View style={{ justifyContent: 'center', marginHorizontal: 40, marginVertical: 20}}>
                             <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14}}>

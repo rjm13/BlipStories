@@ -11,7 +11,8 @@ import {
     Dimensions,
     TextInput,
     ActivityIndicator,
-    Platform
+    Platform,
+    Keyboard
 } from 'react-native';
 
 import { Modal, Portal, Provider } from 'react-native-paper';
@@ -23,7 +24,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { deleteImageAsset, createImageAsset, updateImageAsset, createMessage, updateMessage } from '../src/graphql/mutations';
-import { imageAssetsByDate, listUsers, getUser, messagesByUpdatedDate } from '../src/graphql/queries';
+import { imageAssetsByDate, getUser, messagesByUpdatedDate } from '../src/graphql/queries';
 
 import { format, parseISO } from "date-fns";
 
@@ -351,21 +352,6 @@ const MyArt = ({navigation} : any) => {
 
     const [publishers, setPublishers] = useState([]);
 
-    // useEffect(() => {
-    //     const fetchPublishers = async () => {
-    //         const response = await API.graphql(graphqlOperation(
-    //             listUsers, {
-    //                 filter: {
-    //                     isPublisher: {
-    //                         eq: true
-    //                     }
-    //                 }
-    //             }
-    //         ))
-    //         setPublishers(response.data.listUsers.items)
-    //     }
-    //     fetchPublishers();
-    // }, []);
 
     useEffect(() => {
         const fetchPublishers = async () => {
@@ -490,7 +476,7 @@ const MyArt = ({navigation} : any) => {
                                 </View>
                             ) : (
                                 <TouchableOpacity onPress={() => showUserListModal()}>
-                                    <Text style={{borderRadius: 15, paddingVertical: 4, paddingHorizontal: 16, backgroundColor: '#00ffff'}}>
+                                    <Text style={{overflow: 'hidden', borderRadius: 11, paddingVertical: 4, paddingHorizontal: 16, backgroundColor: '#00ffff'}}>
                                         Share
                                     </Text>
                                 </TouchableOpacity>
@@ -519,7 +505,8 @@ const MyArt = ({navigation} : any) => {
 
 {/* upload modal */}
                 <Modal visible={visible2} onDismiss={hideUploadModal} contentContainerStyle={containerStyle}>
-                    <View>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={{}}>
                         <View>
                             <Text style={{marginLeft: 20, color: '#fff', fontWeight: 'bold'}}>
                                 Title
@@ -542,7 +529,7 @@ const MyArt = ({navigation} : any) => {
                             </TouchableWithoutFeedback>
                             <Image 
                                 source={{uri: data.imageUri}}
-                                style={{marginTop: 20, alignSelf: 'center', width: SCREEN_WIDTH - 40, height: (SCREEN_WIDTH - 40)*0.75}}
+                                style={{marginTop: 20, alignSelf: 'center', width: SCREEN_WIDTH - 120, height: (SCREEN_WIDTH - 120)*0.75}}
                             />
                         </View>
 
@@ -565,13 +552,14 @@ const MyArt = ({navigation} : any) => {
                                 <ActivityIndicator size='small' color='cyan'/>
                             ) : (
                                 <TouchableOpacity onPress={UploadToS3}>
-                                    <Text style={{borderRadius: 20, backgroundColor: 'cyan', paddingHorizontal: 20, paddingVertical: 6}}>
+                                    <Text style={{overflow: 'hidden', borderRadius: 13, backgroundColor: 'cyan', paddingHorizontal: 20, paddingVertical: 6}}>
                                         Upload
                                     </Text>
                                 </TouchableOpacity>
                             )}
                         </View>
                     </View>
+                    </TouchableWithoutFeedback>
                 </Modal>
 
 {/* image modal */}
@@ -587,7 +575,7 @@ const MyArt = ({navigation} : any) => {
                                     <ActivityIndicator size='small' color='cyan'/>
                                 ) : (
                                     <TouchableOpacity onPress={DeleteImage}>
-                                        <Text style={{color: '#fff', borderRadius: 20, backgroundColor: 'red', paddingHorizontal: 20, paddingVertical: 6}}>
+                                        <Text style={{overflow: 'hidden', color: '#fff', borderRadius: 13, backgroundColor: 'red', paddingHorizontal: 20, paddingVertical: 6}}>
                                             Delete
                                         </Text>
                                     </TouchableOpacity>
@@ -600,7 +588,7 @@ const MyArt = ({navigation} : any) => {
                 
 {/* user list modal */}
                 <Modal visible={visible4} onDismiss={hideUserListModal} contentContainerStyle={[containerStyle, {marginHorizontal: 20}]}>
-                    <View style={{height: 500, paddingHorizontal: 20}}>
+                    <View style={{height: 450, paddingHorizontal: 20}}>
                         <Text style={{marginBottom: 20, fontWeight: 'bold', textAlign: 'center', color: '#fff', alignSelf: 'center'}}>
                             Select Publisher
                         </Text>
@@ -631,7 +619,7 @@ const MyArt = ({navigation} : any) => {
                             <ActivityIndicator size='small' color='cyan'/>
                         ) : (
                             <TouchableOpacity onPress={UpdateAsset}>
-                                <Text style={{marginTop: 10, alignSelf: 'center', textAlign: 'center', paddingVertical: 6, paddingHorizontal: 15, borderRadius: 15, backgroundColor: 'cyan'}}>
+                                <Text style={{overflow: 'hidden', marginTop: 10, alignSelf: 'center', textAlign: 'center', paddingVertical: 6, paddingHorizontal: 15, borderRadius: 12, backgroundColor: 'cyan'}}>
                                     Confirm Share
                                 </Text>
                             </TouchableOpacity>

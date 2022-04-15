@@ -5,7 +5,9 @@ import {
     Text, 
     TouchableOpacity, 
     View, 
-    TextInput
+    TextInput,
+    Keyboard,
+    TouchableWithoutFeedback
 } from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -240,6 +242,7 @@ export default function RecordAudio({
 
   return (
     <Provider>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
             <Portal>
                 <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
@@ -305,6 +308,7 @@ export default function RecordAudio({
                 </Modal>
             </Portal>
 
+        
             <View style={{ marginTop: 50, marginHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
             <AntDesign 
                     name='close'
@@ -373,6 +377,7 @@ export default function RecordAudio({
                 </View>
             </View>
         </View>
+        </TouchableWithoutFeedback>
     </Provider>
 );
 }

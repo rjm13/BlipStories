@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import { 
     View, 
     Text, 
@@ -10,29 +10,15 @@ import {
     ActivityIndicator,
     RefreshControl,
     FlatList,
-    TextInput,
-    Platform,
-    ScrollView
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import {StatusBar} from 'expo-status-bar';
-import uuid from 'react-native-uuid';
-import * as DocumentPicker from 'expo-document-picker';
-import { Audio } from 'expo-av';
-import { format, parseISO } from "date-fns";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Modal, Portal, Provider } from 'react-native-paper';
-import * as ImagePicker from 'expo-image-picker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, listAudioAssets, listUsers, listImageAssets } from '../src/graphql/queries';
-import { updateAudioAsset, createAudioAsset, deleteAudioAsset, createMessage } from '../src/graphql/mutations';
+import { listAudioAssets, listImageAssets } from '../src/graphql/queries';
 
-import { useNavigation } from '@react-navigation/native';
-
-import { AppContext } from '../AppContext';
 
 const AllSharedAssets = ({navigation} : any) => {
 
@@ -299,7 +285,7 @@ const AllSharedAssets = ({navigation} : any) => {
                     <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop: 10, marginBottom: 20}}>
                         <TouchableWithoutFeedback onPress={() => setIsSelected('art')}>
                                 <Text style={{fontSize: isSelected === 'art' ? 18 : 16, paddingHorizontal: 20, color: isSelected === 'art' ? '#fff' : 'gray', fontWeight: isSelected === 'art' ? 'bold' : 'normal'}}>
-                                    Cover Art
+                                    Illustrations
                                 </Text>
                         </TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={() => {setIsSelected('narration')}}>
@@ -327,7 +313,7 @@ const AllSharedAssets = ({navigation} : any) => {
                                 
                                 ListFooterComponent={ () => {
                                     return (
-                                        <View style={{ height:  70, alignItems: 'center'}} />
+                                        <View style={{ height:  120}} />
                                 );}}
                                 ListEmptyComponent={ () => {
                                     return (
@@ -361,7 +347,7 @@ const AllSharedAssets = ({navigation} : any) => {
                                 
                                 ListFooterComponent={ () => {
                                     return (
-                                        <View style={{ height:  70, alignItems: 'center'}} />
+                                        <View style={{ height:  120}} />
                                 );}}
                                 ListEmptyComponent={ () => {
                                     return (

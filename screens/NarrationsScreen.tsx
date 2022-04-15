@@ -2,11 +2,8 @@ import React, {useState, useEffect, useContext} from 'react';
 import { 
     View, 
     Text, 
-    StyleSheet, 
-    Dimensions, 
-    TouchableWithoutFeedback, 
-    TouchableOpacity,  
-    Image,
+    StyleSheet,
+    TouchableWithoutFeedback,
     ActivityIndicator,
     RefreshControl,
     FlatList
@@ -16,15 +13,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 import {StatusBar} from 'expo-status-bar';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { Modal, Portal, Provider } from 'react-native-paper';
 
 import { API, graphqlOperation, Auth } from "aws-amplify";
-import { getUser, listStories } from '../src/graphql/queries';
-import { updateStory } from '../src/graphql/mutations';
+import {listStories } from '../src/graphql/queries';
 
-import { useNavigation } from '@react-navigation/native';
-
-import { AppContext } from '../AppContext';
 import StoryTile from '../components/StoryTile'
 
 
@@ -61,8 +53,6 @@ const MyNarrations = ({navigation} : any) => {
                 ratingAmt={item.ratingAmt}
             />
       );}
-
-      const { nsfwOn } = useContext(AppContext)
 
     
     //update trigger for fetching the stories
@@ -147,7 +137,7 @@ const MyNarrations = ({navigation} : any) => {
                         
                         
                         <Text style={styles.header}>
-                            Narrated Stories
+                            My Narrated Stories
                         </Text>
                     </View>
 
@@ -167,7 +157,7 @@ const MyNarrations = ({navigation} : any) => {
                             showsVerticalScrollIndicator={false}    
                             ListFooterComponent={ () => {
                                 return (
-                                    <View style={{ height:  70, alignItems: 'center'}}>
+                                    <View style={{ height:  120}}>
                                         
                                     </View>
                             );}}

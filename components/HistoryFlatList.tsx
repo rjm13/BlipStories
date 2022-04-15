@@ -6,9 +6,6 @@ import {
     FlatList, 
     Dimensions, 
     RefreshControl, 
-    TouchableWithoutFeedback, 
-    TouchableOpacity, 
-    Image,
     ActivityIndicator 
 } from 'react-native';
 
@@ -133,7 +130,7 @@ const HistoryList = () => {
                     showsVerticalScrollIndicator={false}    
                     ListFooterComponent={ () => {
                         return (
-                            <View style={{ height:  70, alignItems: 'center'}}/>
+                            <View style={{ height:  120, alignItems: 'center'}}/>
                     );}}
                     ListHeaderComponent={ () => {
                         return (
