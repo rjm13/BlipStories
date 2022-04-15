@@ -446,7 +446,7 @@ const handleUpdateNarratorBio = async () => {
                                 {isUploading ? (
                                      <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
-                                    <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
+                                    <Text style={{overflow: 'hidden', backgroundColor: 'cyan', borderRadius: 13, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
                                 } 
                             </View>
                         </TouchableOpacity>
@@ -481,7 +481,7 @@ const handleUpdateNarratorBio = async () => {
                                 {isUploading ? (
                                      <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
-                                    <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
+                                    <Text style={{overflow: 'hidden', backgroundColor: 'cyan', borderRadius: 13, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
                                 } 
                             </View>
                         </TouchableOpacity>
@@ -516,7 +516,7 @@ const handleUpdateNarratorBio = async () => {
                                 {isUploading ? (
                                      <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
-                                    <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
+                                    <Text style={{overflow: 'hidden', backgroundColor: 'cyan', borderRadius: 13, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
                                 } 
                             </View>
                         </TouchableOpacity>
@@ -551,7 +551,7 @@ const handleUpdateNarratorBio = async () => {
                                 {isUploading ? (
                                      <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
-                                    <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
+                                    <Text style={{overflow: 'hidden', backgroundColor: 'cyan', borderRadius: 13, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>   
                                 } 
                             </View>
                         </TouchableOpacity>
@@ -590,7 +590,7 @@ const handleUpdateNarratorBio = async () => {
                                 {isUploading ? (
                                     <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
-                                    <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
+                                    <Text style={{overflow: 'hidden', backgroundColor: 'cyan', borderRadius: 13, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
                                 } 
                             </View>
                         </TouchableWithoutFeedback>
@@ -629,7 +629,7 @@ const handleUpdateNarratorBio = async () => {
                                 {isUploading ? (
                                     <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
-                                    <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
+                                    <Text style={{overflow: 'hidden', backgroundColor: 'cyan', borderRadius: 13, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
                                 } 
                             </View>
                         </TouchableWithoutFeedback>
@@ -668,7 +668,7 @@ const handleUpdateNarratorBio = async () => {
                                 {isUploading ? (
                                     <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
-                                    <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
+                                    <Text style={{overflow:'hidden', backgroundColor: 'cyan', borderRadius: 13, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Submit</Text>
                                 } 
                             </View>
                         </TouchableWithoutFeedback>
@@ -698,7 +698,7 @@ const handleUpdateNarratorBio = async () => {
                                     <ActivityIndicator size="small" color="#00ffff"/>
                                 ) : 
                                     <TouchableOpacity onPress={PublishAvatar}>
-                                        <Text style={{backgroundColor: 'cyan', borderRadius: 30, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>
+                                        <Text style={{overflow: 'hidden', backgroundColor: 'cyan', borderRadius: 14, color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>
                                             Submit
                                         </Text>
                                     </TouchableOpacity> 
@@ -822,7 +822,7 @@ const handleUpdateNarratorBio = async () => {
                                 <ActivityIndicator size='small' color='cyan'/>
                             ) : (
                                 <TouchableWithoutFeedback onPress={SubmitStyles}>
-                                    <View style={{marginTop: 10, borderRadius: 20, paddingVertical: 6, paddingHorizontal: 20, alignSelf: 'center', backgroundColor: 'cyan'}}>
+                                    <View style={{overflow: 'hidden', marginTop: 10, borderRadius: 13, paddingVertical: 6, paddingHorizontal: 20, alignSelf: 'center', backgroundColor: 'cyan'}}>
                                         <Text style={{color: '#000'}}>
                                             Done
                                         </Text>
@@ -1079,6 +1079,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#00FFFF',
         textAlign: 'right',
+        paddingVertical: 4
     },
     placeholdertext: {
         fontSize: 16,

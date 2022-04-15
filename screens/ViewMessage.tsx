@@ -126,23 +126,21 @@ const ViewMessage = ({navigation} : any) => {
             setMessageDate(formatRelative(parseISO(messageresponse.data.getMessage.createdAt), new Date()))
 
             if (messageresponse.data.getMessage.userID === userInfo.attributes.sub) {
-               let response = await API.graphql(graphqlOperation(
+               await API.graphql(graphqlOperation(
                     updateMessage, {input: {
                         id: messageid,
                         isReadbyUser: true,
                     }}
                 ))
-                console.log(response); 
             }
 
             if (messageresponse.data.getMessage.otherUserID === userInfo.attributes.sub) {
-                let response = await API.graphql(graphqlOperation(
+                await API.graphql(graphqlOperation(
                      updateMessage, {input: {
                          id: messageid,
                          isReadByOtherUser: true,
                      }}
                  ))
-                 console.log(response); 
              }
             
             
@@ -218,7 +216,7 @@ const ViewMessage = ({navigation} : any) => {
     const SubmitReply = async () => {
 
         if (reply !== '') {
-            let response = await API.graphql(graphqlOperation(
+            await API.graphql(graphqlOperation(
                 createReply, {input: {
                     content: reply,
                     createdAt: new Date(),
@@ -228,7 +226,7 @@ const ViewMessage = ({navigation} : any) => {
                     userID: user
                 }}
             ))
-            let response2 = await API.graphql(graphqlOperation(
+            await API.graphql(graphqlOperation(
                 updateMessage, {input: {
                     id: message?.id,
                     updatedAt: new Date (),
@@ -236,8 +234,6 @@ const ViewMessage = ({navigation} : any) => {
                     isReadByOtherUser: message?.otherUserID === user ? true : false,
                 }}
             ))
-            console.log(response)
-            console.log(response2)
             setDidUpdate(!didUpdate);
             setReply('');
             clear.current.clear()
@@ -348,7 +344,6 @@ const ViewMessage = ({navigation} : any) => {
         copyToCacheDirectory: false,
         });
 
-        console.log(result);
 
         if (result) {
         setDocument(result.uri);
@@ -377,7 +372,7 @@ const ViewMessage = ({navigation} : any) => {
             ))
 
             if (documentasset) {
-                let updatethemessage = await API.graphql(graphqlOperation(
+                await API.graphql(graphqlOperation(
                     updateMessage, {input: {
                         id: message?.id,
                         updatedAt: new Date(),
@@ -385,7 +380,6 @@ const ViewMessage = ({navigation} : any) => {
                         isReadByOtherUser: false,
                     }}
                 ))
-                console.log(updatethemessage)
                 setDidPDFupdate(!didPDFupdate);
             }
         }
@@ -461,7 +455,6 @@ const ViewMessage = ({navigation} : any) => {
         }
         setDidUpdate(!didUpdate)
         setDidMessageUpdate(!didMessageUpdate)
-        console.log(response)
     }
 
     const DeclineRequest = async () => {
@@ -491,7 +484,6 @@ const ViewMessage = ({navigation} : any) => {
         }
         setDidUpdate(!didUpdate)
         setDidMessageUpdate(!didMessageUpdate)
-        console.log(response)
     }
 
 
@@ -542,7 +534,7 @@ const ViewMessage = ({navigation} : any) => {
                                     />
                                 </View>
                             </TouchableWithoutFeedback>
-                            
+
                             {message?.status === 'noreply' ? null : (
                                 <Image 
                                     source={{uri: imageU}}
@@ -554,9 +546,11 @@ const ViewMessage = ({navigation} : any) => {
                                     Blip Stories
                                 </Text>
                             ) :
+                            <TouchableWithoutFeedback onPress={() => navigation.navigate('UserScreen', {userID: message?.user?.id === user && message?.subtitle === 'artist' ? message?.otherUser?.id : message?.user?.id === user && message?.subtitle === 'narrator' ? message?.otherUser?.id : message?.user?.id})}>
                                 <Text style={styles.header}>
                                     {message?.user?.id === user && message?.subtitle === 'artist' ? message?.otherUser?.artistPseudo : message?.user?.id === user && message?.subtitle === 'narrator' ? message?.otherUser?.narratorPseudo : message?.user?.pseudonym}
                                 </Text>
+                            </TouchableWithoutFeedback> 
                             }
                             
                         </View>
@@ -587,7 +581,7 @@ const ViewMessage = ({navigation} : any) => {
 
 {/* Footer */}
                 {message?.status === 'noreply' ? null : (
-                    <View style={{position: 'absolute', bottom: isKeyboardVisible ? 300 : 0, flexDirection: 'row', justifyContent: 'space-between', marginBottom: Platform.OS === 'ios' ? 50 : 30, width: SCREEN_WIDTH, height: 80, backgroundColor: '#303030'}}>
+                    <View style={{position: 'absolute', bottom: isKeyboardVisible ? (Platform.OS === 'android' ? 300 : Platform.OS === 'ios' ? 210 : 300) : 0, flexDirection: 'row', justifyContent: 'space-between', marginBottom: Platform.OS === 'ios' ? 50 : 30, width: SCREEN_WIDTH, height: 80, backgroundColor: '#303030'}}>
                         <TextInput
                             placeholder={'Reply to ' + (
                                 message?.userID === user && message?.subtitle === 'artist' ? 

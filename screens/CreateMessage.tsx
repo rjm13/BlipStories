@@ -3,28 +3,26 @@ import {
     View, 
     Text, 
     StyleSheet,
-    ScrollView, 
     TouchableWithoutFeedback,
     TouchableOpacity,
     Image,
-    FlatList,
     Dimensions,
-    TextInput
+    TextInput,
+    ActivityIndicator,
+    Keyboard
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import {StatusBar} from 'expo-status-bar';
 import * as DocumentPicker from 'expo-document-picker';
 import uuid from 'react-native-uuid';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, messagesByDate } from '../src/graphql/queries';
+import { getUser } from '../src/graphql/queries';
 import { createMessage, createDocumentAsset } from '../src/graphql/mutations';
 
 import { useRoute } from '@react-navigation/native';
-import { ActivityIndicator } from 'react-native-paper';
 
 const CreateMessage = ({navigation} : any) => {
 
@@ -178,6 +176,7 @@ const CreateMessage = ({navigation} : any) => {
     }
 
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View >
             <LinearGradient
                 colors={['#363636a5', '#363636a5', 'black']}
@@ -212,8 +211,7 @@ const CreateMessage = ({navigation} : any) => {
                         </View>
 
                         <View style={{marginBottom: 20, flexDirection: 'row', alignItems: 'center'}}>
-                            <FontAwesome5 name='arrow-left' size={25} color='cyan' />
-                            <FontAwesome5 name='arrow-right' size={25} color='cyan' />
+                            <FontAwesome5 name='arrows-alt-h' size={25} color='cyan' />
                         </View>
                         
                         <View style={{alignItems: 'center', width: '30%'}}>
@@ -229,7 +227,7 @@ const CreateMessage = ({navigation} : any) => {
 
                     <View style={{alignItems: 'center'}}>
                         <TextInput
-                            style={{color: '#fff', width: '90%', backgroundColor: '#303030', borderRadius: 8, paddingHorizontal: 10}}
+                            style={{paddingVertical: 5, color: '#fff', width: '90%', backgroundColor: '#303030', borderRadius: 8, paddingHorizontal: 10}}
                             maxLength={50}
                             multiline={true}
                             numberOfLines={2}
@@ -248,6 +246,7 @@ const CreateMessage = ({navigation} : any) => {
                             onChangeText={val => setData({...data, content: val})}
                             textAlignVertical='top'
                         />
+                    
                         <View style={{width: '90%', flexDirection: 'row', justifyContent: 'space-between', marginTop: 10}}>
                             <TouchableWithoutFeedback onPress={pickDocument}>
                                 <Text style={{color: '#00ffffa5' }}>
@@ -267,7 +266,7 @@ const CreateMessage = ({navigation} : any) => {
                         <ActivityIndicator size='large' color='cyan'/>
                         ) : (
                         <TouchableOpacity onPress={SendMessage}>
-                            <Text style={{backgroundColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20, borderRadius: 15}}>
+                            <Text style={{backgroundColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20, borderRadius: 14, overflow: 'hidden'}}>
                                 Send
                             </Text>
                         </TouchableOpacity>
@@ -276,6 +275,7 @@ const CreateMessage = ({navigation} : any) => {
 
             </LinearGradient>
         </View>
+        </TouchableWithoutFeedback>
     );
 }
 
