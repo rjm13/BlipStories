@@ -1,43 +1,17 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Image, TouchableWithoutFeedback } from 'react-native';
+import React from 'react';
+import {  View, StyleSheet } from 'react-native';
 
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 
 import AudioListByAuthor from '../components/AudioListByAuthor';
 
 import {useRoute} from '@react-navigation/native'
 
-import { API, graphqlOperation, Auth } from "aws-amplify";
-import { getUser } from '../src/graphql/queries';
-import { updateUser } from '../src/graphql/mutations';
-//import { createFollowingID, deleteFollowingID } from '../src/graphql/mutations';
 
-
-const UserScreen = ({navigation} : any) => {
-
-    const [User, setUser] = useState(null);
+const UserScreen = () => {
 
     const route = useRoute();
     const {userID, status} = route.params
-
-    // useEffect(() => {
-    //     const fetchUser = async () => {
-    //         try {
-    //             const userData = await API.graphql(graphqlOperation(
-    //               getUser, {id: userID}))
-    //               if (userData) {
-    //                 setUser(userData.data.getUser);
-    //               }
-    //               console.log(userData.data.getUser);
-    //         } catch (e) {
-    //             console.log(e);
-    //           }  
-    //     }
-    //     fetchUser();   
-    //   }, [])
 
 
     return (

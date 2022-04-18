@@ -31,7 +31,7 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import uuid from 'react-native-uuid';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { createStory, createStoryTag, createTag, updateUser, updateTag, createGenreTag,  } from '../src/graphql/mutations';
+import { createStory, createStoryTag, createTag, updateUser, createGenreTag,  } from '../src/graphql/mutations';
 import { listTags, getUser, listGenres, audioAssetsByDate, imageAssetsByDate, listGenreTags } from '../src/graphql/queries';
 
 
@@ -1390,7 +1390,7 @@ const UploadAudio = ({navigation} : any) => {
                     </ScrollView>
 
                     <View style={{ alignSelf: 'flex-start', flexDirection: 'row', marginBottom: 20, marginTop: 0, }}>
-                        <TouchableOpacity>
+                        <TouchableWithoutFeedback>
                             <View style={{ width: Dimensions.get('window').width - 140, marginHorizontal: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636a5'}}>
                                 <TextInput
                                     placeholder='#'
@@ -1403,7 +1403,7 @@ const UploadAudio = ({navigation} : any) => {
                                     onChangeText={val => setTagText(val)}
                                 />
                             </View>
-                        </TouchableOpacity>
+                        </TouchableWithoutFeedback>
                         <TouchableOpacity onPress={AddToTagArray}>
                             <View style={{ marginHorizontal: 20, padding: 10}}>
                                 <FontAwesome5
@@ -1684,8 +1684,10 @@ tagtext: {
     borderWidth: 0.5,
     paddingHorizontal: 16,
     paddingVertical: 6,
-    borderRadius: 20,
-    textTransform: 'lowercase'
+    borderRadius: 13,
+    textTransform: 'lowercase',
+    overflow: 'hidden',
+    marginBottom: 1
 },
 });
 

@@ -2,26 +2,22 @@ import React, {useState, useEffect, useRef} from 'react';
 import { 
     View, 
     Text, 
-    StyleSheet, 
     Dimensions, 
     ScrollView, 
     TouchableWithoutFeedback, 
-    Linking, 
     TouchableOpacity,  
     Image,
     FlatList
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import {StatusBar} from 'expo-status-bar';
 import { Modal, Portal, Provider } from 'react-native-paper';
 import { Searchbar } from 'react-native-paper';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, listUsers, usersByArtistActiveAt } from '../src/graphql/queries';
+import { API, graphqlOperation, Storage } from "aws-amplify";
+import { usersByArtistActiveAt } from '../src/graphql/queries';
 
 
 const FindArtist = ({navigation} : any) => {
@@ -182,7 +178,7 @@ const FindArtist = ({navigation} : any) => {
         return (
           <View>
             <Searchbar
-              placeholder={'Search artists'}
+              placeholder={'Search illustrators'}
               placeholderTextColor='#000000a5'
               autoComplete={true}
               onChangeText={onChangeSearch}
@@ -222,7 +218,7 @@ const FindArtist = ({navigation} : any) => {
                             or: [
                                 {
                                     artistPseudo: {
-                                        contains: newSearch
+                                        contains: newSearch.toLowerCase()
                                     },
                                     isArtist: {
                                         eq: true
@@ -232,7 +228,7 @@ const FindArtist = ({navigation} : any) => {
                                 
                                 {
                                     artistText: {
-                                        contains: newSearch
+                                        contains: newSearch.toLowerCase()
                                     },
                                     isArtist: {
                                         eq: true
@@ -405,7 +401,7 @@ const FindArtist = ({navigation} : any) => {
                                 <View style={{height: 30}}/>
                             }
                             ListFooterComponent={
-                                <View style={{height: 70}}/>
+                                <View style={{height: 120}}/>
                             }
                         /> 
                     </View>
@@ -415,18 +411,5 @@ const FindArtist = ({navigation} : any) => {
         
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        alignContent: 'center',
-        width: Dimensions.get('window').width,
-    },
-    header: {
-        color: '#fff',
-        fontSize: 22,
-        fontWeight: 'bold',
-        marginLeft: 40,
-    },
-});
 
 export default FindArtist;

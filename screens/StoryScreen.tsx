@@ -10,12 +10,9 @@ import {
     Animated,
     TouchableWithoutFeedback,
     FlatList,
-    RefreshControl,
     Image,
     TextInput,
     ActivityIndicator,
-    Share,
-    Keyboard,
     Platform,
     KeyboardAvoidingView
 } from 'react-native';
@@ -23,7 +20,6 @@ import {
 import { useRoute } from '@react-navigation/native';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import * as Linking from 'expo-linking';
 import { StatusBar } from 'expo-status-bar';
 import { Modal, Portal, Provider } from 'react-native-paper';
 
@@ -36,7 +32,7 @@ import { formatRelative, parseISO } from "date-fns";
 import ShareStory from '../components/functions/ShareStory';
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
-import { getStory, getUser, commentsByDate, listPinnedStories, listRatings, listStoryTags, listFinishedStories } from '../src/graphql/queries';
+import { getStory, getUser, commentsByDate, listPinnedStories, listRatings, listFinishedStories } from '../src/graphql/queries';
 import { createComment, createFlag, createRating, updateRating, updateStory } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
@@ -69,55 +65,6 @@ const StoryScreen  = ({navigation} : any) => {
 
 //use storyID to retrieve Story from AWS
     const [Story, setStory] = useState();
-    //const [AudioUri, setAudioUri] = useState('');
-
-    //share the story
-// const handleShareWithLinking = () => {
-    
-//       //Linking.openURL(deepUri);
-//   };
-
-//   const handleShareWithLinking = async () => {
-
-//     let deepUri = Linking.createURL('storyscreen/', { queryParams: {id: Story?.id } } )
-//     // {
-//     //         queryParams: { id: Story?.id },
-//     // });    
-
-//     try {
-//       const result = await Share.share({
-//         message: Story?.title + ', : ' + deepUri,
-//         url: deepUri,
-//         title: 'Check out this short story on Blip!'
-//       });
-//       if (result.action === Share.sharedAction) {
-//         if (result.activityType) {
-//           // shared with activity type of result.activityType
-//         } else {
-//           // shared
-//         }
-//       } else if (result.action === Share.dismissedAction) {
-//         // dismissed
-//       }
-//     } catch (error) {
-//       //alert(error.message);
-//     }
-// }
-
-//   useEffect(() => {
-    
-//     const handleUrl = ({ storylinkid } : any) => {
-//         if (storylinkid) {
-//             setStoryUri({ storylinkid });
-//             let { path, queryParams } = Linking.parse(url);
-//             alert(`Linked to app with path: ${path} and data: ${JSON.stringify(queryParams)}`);
-//         }
-//     };
-//     //handleUrl(storylinkid);
-
-//   }, [])
-
-  
 
 //set the position of the audio player if the screen is full page
     const { setIsRootScreen } = useContext(AppContext);
@@ -195,51 +142,8 @@ const StoryScreen  = ({navigation} : any) => {
         return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
     } 
 
-//tags flatlist data
-    const [isFetching, setIsFetching] = useState(false);
-
-    const onRefresh = () => {
-        setIsFetching(true);
-        //setDidUpdate(!didUpdate);
-        setTimeout(() => {
-          setIsFetching(false);
-        }, 2000);
-      }
-
       const [Tags, setTags] = useState([])
 
-
-      
-
-    //list story tags
-    //   useEffect(() => {
-
-    //     const fetchTags = async () => {
-
-    //     let storytag = storyID
-
-    //     let tags = []
-    
-    //     const result = await API.graphql(graphqlOperation(
-    //         listStoryTags, {
-    //             filter: {
-    //                 storyID: {
-    //                     eq: storytag
-    //                 }
-    //             },
-    //             //limit: 12
-    //         }
-    //       ))
-    
-    //       if (result) {
-    //           for (let i = 0; i < result.data.listStoryTags.items.length; i++) {
-    //               tags.push(result.data.listStoryTags.items[i].tag)
-    //           }
-    //         setTags(tags)
-    //       }
-    //     }
-    //     fetchTags();
-    //   }, [storyID])
     
       const Tag = ({id, tag}: any) => {
         return (
@@ -262,45 +166,6 @@ const StoryScreen  = ({navigation} : any) => {
             tag={item.tagName}
         />
       );
-
-//add a story to the pinned playlist function
-    // const PinStory = async () => {
-
-    //     let userInfo = await Auth.currentAuthenticatedUser();
-    
-    //     let createPin = await API.graphql(graphqlOperation(
-    //         createPinnedStory, {input: {userID: userInfo.attributes.sub, storyID: storyID}}
-    //     ))
-    //     console.log(createPin)
-    // }
-
-//unpin a story
-    // const unPinStory = async () => {
-
-    //     let userInfo = await Auth.currentAuthenticatedUser();
-    
-    //     let getPin = await API.graphql(graphqlOperation(
-    //         listPinnedStories, {
-    //             filter: {
-    //                 userID: {
-    //                     eq: userInfo.attributes.sub
-    //                 },
-    //                 storyID: {
-    //                     eq: storyID
-    //                 }
-    //             }
-    //         }
-    //     ))
-    //     console.log(getPin)
-        
-    //     let connectionID = getPin.data.listPinnedStories.items[0].id
-    //     console.log(connectionID)
-
-    //     let deleteConnection = await API.graphql(graphqlOperation(
-    //         deletePinnedStory, {id: connectionID}
-    //     ))
-    //     console.log(deleteConnection)
-    // }
 
 //queueing the item state when pressed
     const [isQ, setQd] = useState(false);
@@ -444,8 +309,6 @@ const StoryScreen  = ({navigation} : any) => {
         setIsUpdating(false);
     }
 
-
-
     useEffect(() => {
 
         const fetchRating = async () => {
@@ -540,6 +403,7 @@ const StoryScreen  = ({navigation} : any) => {
 
     }
 
+    //comment item
     const Item = ({content, createdAt, userName, userImageUri}: any) => {
 
         const [imageU, setImageU] = useState('');
@@ -615,10 +479,6 @@ const StoryScreen  = ({navigation} : any) => {
     
         const [commentList, setCommentList ] = useState([]);
     
-        //const [story, setStory] = useState(storyId);
-    
-        const { userID } = useContext(AppContext);
-        const { setUserID } = useContext(AppContext);
     
         const [user, setUser] = useState();
         const [userImage, setUserImage] = useState('')
@@ -641,7 +501,6 @@ const StoryScreen  = ({navigation} : any) => {
                 
                 const UserImage = await Storage.get(userData.data.getUser.imageUri)
                 setUserImage(UserImage)
-                console.log('image' + UserImage)
             }
         fetchUser();
         
@@ -922,11 +781,11 @@ const StoryScreen  = ({navigation} : any) => {
                         </View>
                         <LinearGradient 
                             colors={['#202020', '#282828', '#000', '#000']}
-                            style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20,paddingVertical: 5, paddingHorizontal: 0}}
+                            style={{ overflow: 'hidden', borderRadius: 20, paddingVertical: 5, paddingHorizontal: 0}}
                             start={{ x: 0, y: 0 }}
                             end={{ x: 1, y: 1 }}
                         >
-                            <View style={{  }}>
+                            <View style={{}}>
                                 <View style={{ margin: 20, alignItems: 'center'}}>
                                     <Text style={[styles.name, {textAlign: 'center'}]}>
                                         {Story?.title}
@@ -1032,12 +891,6 @@ const StoryScreen  = ({navigation} : any) => {
                                         showsHorizontalScrollIndicator={false}
                                         maxToRenderPerBatch={8}
                                         showsVerticalScrollIndicator={false}
-                                        refreshControl={
-                                            <RefreshControl
-                                                refreshing={isFetching}
-                                                onRefresh={onRefresh}
-                                            />
-                                        }
                                         ListHeaderComponent={() => {
                                             return (
                                                 <View style={{marginHorizontal: 20, height: '100%', alignItems: 'center', justifyContent: 'center'}}>
@@ -1118,6 +971,8 @@ const StoryScreen  = ({navigation} : any) => {
                                                         fontSize: 14,
                                                         marginLeft: 20,
                                                         marginRight: 30,    
+                                                        width: '75%',
+                                                        alignSelf: 'center'
                                                     }}
                                                     maxLength={250}
                                                     multiline={true}
@@ -1133,7 +988,7 @@ const StoryScreen  = ({navigation} : any) => {
                                                         </View>
                                                         <TouchableOpacity onPress={handlePostComment}>
                                                             <View style={{ marginTop: 20, alignItems: 'center'}}>
-                                                                <Text style={{backgroundColor: 'cyan', width: 80, padding: 5, borderRadius: 20, color: '#000', borderWidth: 0.5, borderColor: '#00ffff', textAlign: 'center'}}>
+                                                                <Text style={{overflow: 'hidden', backgroundColor: 'cyan', width: 80, padding: 5, borderRadius: 13, color: '#000', borderWidth: 0.5, borderColor: '#00ffff', textAlign: 'center'}}>
                                                                     Post
                                                                 </Text>
                                                             </View>
@@ -1154,16 +1009,10 @@ const StoryScreen  = ({navigation} : any) => {
                                             maxToRenderPerBatch={20}
                                             ListFooterComponent={ () => {
                                                 return (
-                                                    <View style={{height:  300}}>
+                                                    <View style={{height:  Platform.OS === 'ios' ? 500 : 300}}>
                                                     </View>
                                                 );
                                             }}
-                                            // ListHeaderComponent={ () => {
-                                            //     return (
-                                            //     <View>
-                                            //     </View>
-                                            //     );
-                                            // }}
                                         />
                                     </View>
                                 </View>
@@ -1228,7 +1077,8 @@ const styles = StyleSheet.create ({
         borderWidth: 0.5,
         paddingHorizontal: 16,
         paddingVertical: 6,
-        borderRadius: 20,
+        borderRadius: 14,
+        overflow: 'hidden'
     },
    
 });

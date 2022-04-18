@@ -1,8 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { 
     View, 
-    Text, 
-    StyleSheet, 
+    Text,
     Dimensions, 
     ScrollView, 
     TouchableWithoutFeedback,
@@ -12,15 +11,14 @@ import {
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import {StatusBar} from 'expo-status-bar';
 import { Modal, Portal, Provider } from 'react-native-paper';
 import { Searchbar } from 'react-native-paper';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, listUsers, usersByNarratorActiveAt } from '../src/graphql/queries';
+import { API, graphqlOperation, Storage } from "aws-amplify";
+import { usersByNarratorActiveAt } from '../src/graphql/queries';
 
 
 const FindNarrator = ({navigation} : any) => {
@@ -65,7 +63,7 @@ const FindNarrator = ({navigation} : any) => {
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Image 
                         source={{uri: imageU}}
-                        style={{width: 50, height: 50, borderRadius: 25}}
+                        style={{width: 50, height: 50, borderRadius: 25, backgroundColor: 'gray'}}
                     />
                     <View>
                         <Text style={{marginLeft: 10, color: '#fff', fontWeight: 'bold', }}>
@@ -108,13 +106,6 @@ const FindNarrator = ({navigation} : any) => {
                         </Text>
                         </View>
                         ) : null}
-                        
-                        {/* <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>
-                            Avg delivery:
-                        </Text>
-                        <Text style={{ color: '#ffffffa5', fontSize: 12, marginLeft: 6}}>
-                            7 days 
-                        </Text> */}
                     </View>
                     
                     <TouchableWithoutFeedback onPress={() => navigation.navigate('UserScreen', {userID: id, status: 'narrator'})}>
@@ -157,7 +148,9 @@ const FindNarrator = ({navigation} : any) => {
         backgroundColor: '#363636', 
         borderRadius: 15,
         paddingVertical: 0,
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        width: Dimensions.get('window').width - 80,
+        alignSelf: 'center'
     };
 
       //search function states
@@ -223,7 +216,7 @@ const FindNarrator = ({navigation} : any) => {
                             or: [
                                 {
                                     narratorPseudo: {
-                                        contains: newSearch
+                                        contains: newSearch.toLowerCase()
                                     },
                                     isNarrator: {
                                         eq: true
@@ -238,7 +231,7 @@ const FindNarrator = ({navigation} : any) => {
                                 
                                 {
                                     narratorText: {
-                                        contains: newSearch
+                                        contains: newSearch.toLowerCase()
                                     },
                                     isNarrator: {
                                         eq: true
@@ -261,27 +254,12 @@ const FindNarrator = ({navigation} : any) => {
         fetchNarrators();
     }, [didUpdate])
 
-    //accent list
-        const accents = [
-            {id: 0, accent: 'Other'},
-            {id: 1, accent: 'British'},
-            {id: 2, accent: 'Southern Twang'},
-            {id: 3, accent: 'Minnesota'},
-            {id: 4, accent: 'Boston'},
-            {id: 5, accent: 'New York'},
-            {id: 6, accent: 'Irish'},
-            {id: 7, accent: 'Scottish'},
-            {id: 8, accent: 'African'},
-            {id: 9, accent: 'Russian'},
-            {id: 10, accent: 'British'},
-        ];
-
 
     return (
         <Provider>
             <Portal>
                 <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-                    <View>
+                    <View >
                         <ScrollView style={{height: '75%'}}>
                             <Text style={{color: '#fff', textAlign: 'center', fontWeight: 'bold', fontSize: 18,}}>
                                 Filter Narrator
@@ -376,7 +354,7 @@ const FindNarrator = ({navigation} : any) => {
                             </View>
                         </ScrollView>
                         <TouchableOpacity onPress={() => {setDidUpdate(!didUpdate); hideModal();}}>
-                            <Text style={{alignSelf: 'center', marginTop: 20, textAlign: 'center', paddingVertical: 6, paddingHorizontal: 20, borderRadius: 15, backgroundColor: 'cyan'}}>
+                            <Text style={{overflow: 'hidden', alignSelf: 'center', marginTop: 20, textAlign: 'center', paddingVertical: 6, paddingHorizontal: 20, borderRadius: 13, backgroundColor: 'cyan'}}>
                                 Apply Filter
                             </Text>
                         </TouchableOpacity>
@@ -429,7 +407,7 @@ const FindNarrator = ({navigation} : any) => {
                                 <View style={{height: 30}}/>
                             }
                             ListFooterComponent={
-                                <View style={{height: 70}}/>
+                                <View style={{height: 120}}/>
                             }
                         /> 
                     </View>
@@ -439,18 +417,5 @@ const FindNarrator = ({navigation} : any) => {
         
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        alignContent: 'center',
-        width: Dimensions.get('window').width,
-    },
-    header: {
-        color: '#fff',
-        fontSize: 22,
-        fontWeight: 'bold',
-        marginLeft: 40,
-    },
-});
 
 export default FindNarrator;

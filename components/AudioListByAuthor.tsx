@@ -1,42 +1,32 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
-import { View, Modal, StyleSheet, Text, FlatList, Dimensions, RefreshControl, TouchableWithoutFeedback, TouchableOpacity, Image, Animated, PanResponder } from 'react-native';
+import { 
+    View, 
+    StyleSheet, 
+    Text, 
+    Dimensions,
+    TouchableWithoutFeedback, 
+    TouchableOpacity, 
+    Image, 
+    Animated 
+} from 'react-native';
+
 import {useNavigation} from '@react-navigation/native'
-import {LinearGradient} from 'expo-linear-gradient';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Fontisto from 'react-native-vector-icons/Fontisto';
 
 
 import {useRoute} from '@react-navigation/native'
 
 import { AppContext } from '../AppContext';
 
-import {
-    Menu,
-    MenuOptions,
-    MenuOption,
-    MenuTrigger,
-    MenuProvider
-  } from 'react-native-popup-menu';
 
-// import dummyaudio from '../data/dummyaudio';
-//import { listStorys } from '../src/graphql/queries';
-import { deleteStory } from '../src/graphql/mutations';
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
-import { listRatings } from '../src/customGraphql/customQueries';
-import { getUser, getFollowingConn, listFollowingConns, listStories, listPinnedStories, listImageAssets, listAudioAssets } from '../src/graphql/queries';
-import { updateUser } from '../src/graphql/mutations';
+import { getUser, listFollowingConns, listStories, listImageAssets, listAudioAssets } from '../src/graphql/queries';
 import { createFollowingConn, deleteFollowingConn } from '../src/graphql/mutations';
-import PinStory from './functions/PinStory';
-import unPinStory from './functions/UnPinStory';
-
-import { ItemParamList } from '../types';
 
 import StoryTile from '../components/StoryTile';
-import { Item } from 'react-native-paper/lib/typescript/components/List/List';
-import { forceTouchGestureHandlerProps } from 'react-native-gesture-handler/lib/typescript/handlers/ForceTouchGestureHandler';
 
 
 
@@ -46,16 +36,6 @@ const AudioListByAuthor = ({user, status} : any) => {
     const { ADon } = useContext(AppContext);
 
     const navigation = useNavigation();
-
-    const [isFetching, setIsFetching] = useState(false);
-
-    const onRefresh = () => {
-        setIsFetching(true);
-        //fetchStorys();
-        setTimeout(() => {
-          setIsFetching(false);
-        }, 2000);
-      }
 
     const [publisher, setPublisher] = useState(false);
     const [narrator, setNarrator] = useState(false);
@@ -263,7 +243,7 @@ const AudioListByAuthor = ({user, status} : any) => {
         );
     }
 
-    const AudioSampleItem = ({title, id, time, audioUri} : any) => {
+    const AudioSampleItem = ({title, id, time} : any) => {
 
         //convert the time to show in the modal
         function millisToMinutesAndSeconds () {
@@ -341,20 +321,9 @@ const AudioListByAuthor = ({user, status} : any) => {
         />
       );}
 
-      //const animation = useRef(new Animated.ValueXY({ x: 0, y: 300-20 })).current;
-
     
 
       const animation = useRef(new Animated.Value(0)).current;
-
-      const [isScrollEnabled, setIsScrollEnabled] = useState(true);
-
-      const [scrollOffset, setScrollOffset] = useState(0);
-
-
-    // const animatedHeight = {
-    //     transform: animation.getTranslateTransform(),
-    // };
 
     const animatedOpacity = animation.interpolate({
         inputRange: [0, 50],
@@ -386,42 +355,11 @@ const AudioListByAuthor = ({user, status} : any) => {
         extrapolate: 'clamp',
         });
 
-    // const BackgroundColors = {
-    //     backgroundColor: 
-    //         genre === 'crime' ? '#cac715' : 
-    //         genre === 'fantasy' ? '#15ca54' :
-    //         genre === 'suspense' ? '#1579ca' :
-    //         genre === 'comedy' ? '#ff9ce6' :
-    //         genre === 'science fiction' ? '#c97f8b' :
-    //         genre === 'life & adventure' ? '#15b8ca' :
-    //         genre === 'fan fiction' ? '#a05ebf' :
-    //         genre === 'after dark' ? '#5b6ade' : 
-    //         'cyan'
-    // }
-
     const [User, setUser] = useState(null);
 
     const route = useRoute();
     const {userID} = route.params
 
-    // useEffect(() => {
-        
-    //     const fetchUser = async () => {
-    //         try {
-    //             const userData = await API.graphql(graphqlOperation(
-    //               getUser, {id: userID}))
-    //               if (userData) {
-    //                 setUser(userData.data.getUser);
-    //               }
-    //               console.log(userData.data.getUser);
-    //         } catch (e) {
-    //             console.log(e);
-    //           }  
-    //     }
-    //     fetchUser();   
-    //   }, [])
-
-      
 
       const [currentUser, setCurrentUser] = useState(null)
 
@@ -443,21 +381,12 @@ const AudioListByAuthor = ({user, status} : any) => {
                     let response = await Storage.get(authorData.data.getUser.imageUri)
                     setImageU(response);
                     }
-                    //console.log(authorData.data.getUser);
-            // } catch (e) {
-            //     console.log(e);
-            //     }  
-
-            // try {                
+            
                 const userData = await API.graphql(graphqlOperation(
                   getUser, {id: userInfo.attributes.sub}))
                   if (userData) {
                     setCurrentUser(userData.data.getUser);
-                  } 
-            // } catch (e) {
-            //     console.log(e);
-            //   }  
-            //   try {                
+                  }              
                 const followData = await API.graphql(graphqlOperation(
                     listFollowingConns, {
                         filter: {
@@ -480,69 +409,14 @@ const AudioListByAuthor = ({user, status} : any) => {
         
       }, [])
 
-    //   useEffect(() => {
-    //     if (currentUser?.following) {
-    //       if (currentUser?.following.includes(User.id)) {
-    //             setFollowing(true);
-    //           }
-    //     } else {null}   
-    //   }, [])
-
-
-    const [SelectedId, setSelectedId] = useState(1);
-
-
-    // useEffect(() => {
-    //     if (currentUser?.following?.includes(User?.id)) {
-    //         setFollowing(true);
-    //         console.log('this user is being followed')
-    //     }
-    // }, [])
-
     const FollowUser = async () => {
 
-        // console.log(currentUser)
-
-        // const updatedUser = {
-        //     id: currentUser.id,
-        //     //following: currentUser?.following?.includes(User?.id) ? currentUser?.following?.filter(item => item !== User?.id) :
-        //     following: currentUser?.following !== null || [] ? [...currentUser?.following, User?.id] : [User?.id]
-        // }
-
-        // let followingInfo = await API.graphql(graphqlOperation(updateUser, { input: updatedUser }))
-        // console.log(followingInfo)
-
-        // console.log('this is the')
-        // console.log(User)
-
-        // const updatedUser = {
-        //     id: currentUser.id,
-        //     followers: [User]
-        // }
-
-        let createConnection = await API.graphql(graphqlOperation(
+        await API.graphql(graphqlOperation(
             createFollowingConn, {input: {followerID: currentUser.id, authorID: User.id}}
         ))
-        //let followersInfo = await API.graphql(graphqlOperation(updateUser, {input: updatedUser}))
-        //console.log(followersInfo)
-        //console.log(createConnection)
     }
 
     const unFollowUser = async () => {
-
-        // console.log(currentUser)
-
-        // const updatedUser = {
-        //     id: currentUser.id,
-        //     following:  currentUser?.following?.filter(item => item !== User?.id) 
-        //     //currentUser?.following !== null || [] ? [...currentUser?.following, User?.id] : [User?.id]
-        // }
-
-        // if (currentUser?.following?.includes(User?.id)) {
-        //     let followingInfo = await API.graphql(graphqlOperation(updateUser, { input: updatedUser }))
-        //     console.log(followingInfo)
-        // }
-
         
         
         let getConnection = await API.graphql(graphqlOperation(
@@ -559,16 +433,11 @@ const AudioListByAuthor = ({user, status} : any) => {
         ))
         
         let connectionID = getConnection.data.listFollowingConns.items[0].id
-        //console.log(connectionID)
 
 
-        let deleteConnection = await API.graphql(graphqlOperation(
+        await API.graphql(graphqlOperation(
             deleteFollowingConn, {input: {"id": connectionID}}
         ))
-        //console.log(deleteConnection)
-        //console.log(currentUser);
-        
-
     }
 
     
@@ -605,16 +474,10 @@ const AudioListByAuthor = ({user, status} : any) => {
                         { useNativeDriver: false }
                     )}
                     scrollEventThrottle={1}
-                    refreshControl={
-                        <RefreshControl
-                        refreshing={isFetching}
-                        onRefresh={onRefresh}
-                        />
-                    }
                     showsVerticalScrollIndicator={false}    
                     ListFooterComponent={ () => {
                         return (
-                        <View style={{ height:  100}}/>
+                        <View style={{ height:  120}}/>
                         );}
                     }
                     ListHeaderComponent={ () => {
@@ -669,16 +532,10 @@ const AudioListByAuthor = ({user, status} : any) => {
                         { useNativeDriver: false }
                     )}
                     scrollEventThrottle={1}
-                    refreshControl={
-                        <RefreshControl
-                        refreshing={isFetching}
-                        onRefresh={onRefresh}
-                        />
-                    }
                     showsVerticalScrollIndicator={false}    
                     ListFooterComponent={ () => {
                         return (
-                        <View style={{ height:  100}}/>
+                        <View style={{ height:  120}}/>
                         );}
                     }
                     ListHeaderComponent={ () => {
@@ -733,16 +590,10 @@ const AudioListByAuthor = ({user, status} : any) => {
                         { useNativeDriver: false }
                     )}
                     scrollEventThrottle={1}
-                    refreshControl={
-                        <RefreshControl
-                        refreshing={isFetching}
-                        onRefresh={onRefresh}
-                        />
-                    }
                     showsVerticalScrollIndicator={false}    
                     ListFooterComponent={ () => {
                         return (
-                        <View style={{ height:  100}}/>
+                        <View style={{ height:  120}}/>
                         );}
                     }
                     ListHeaderComponent={ () => {
@@ -797,16 +648,10 @@ const AudioListByAuthor = ({user, status} : any) => {
                         { useNativeDriver: false }
                     )}
                     scrollEventThrottle={1}
-                    refreshControl={
-                        <RefreshControl
-                        refreshing={isFetching}
-                        onRefresh={onRefresh}
-                        />
-                    }
                     showsVerticalScrollIndicator={false}    
                     ListFooterComponent={ () => {
                         return (
-                        <View style={{ height:  100}}/>
+                        <View style={{ height:  120}}/>
                         );}
                     }
                     ListHeaderComponent={ () => {
@@ -861,16 +706,10 @@ const AudioListByAuthor = ({user, status} : any) => {
                         { useNativeDriver: false }
                     )}
                     scrollEventThrottle={1}
-                    refreshControl={
-                        <RefreshControl
-                        refreshing={isFetching}
-                        onRefresh={onRefresh}
-                        />
-                    }
                     showsVerticalScrollIndicator={false}    
                     ListFooterComponent={ () => {
                         return (
-                        <View style={{ height:  100}}/>
+                        <View style={{ height:  120}}/>
                         );}
                     }
                     ListHeaderComponent={ () => {
@@ -930,7 +769,7 @@ const AudioListByAuthor = ({user, status} : any) => {
                 {narrator === true && currentUser?.isPublisher === true ? (
                 <View>
                     <TouchableOpacity onPress={() => navigation.navigate('CreateMessage', {otherUserID: userID, type: 'narrator'})}>  
-                            <Text style={{color: 'cyan', backgroundColor: 'transparent', borderRadius: 20, paddingHorizontal: 20, paddingVertical: 5, borderWidth: 0.5, borderColor: 'cyan',}}>
+                            <Text style={{color: 'cyan', backgroundColor: 'transparent', borderRadius: 13, paddingHorizontal: 20, paddingVertical: 5, borderWidth: 0.5, borderColor: 'cyan',}}>
                                 Request Narration
                             </Text>
                     </TouchableOpacity>        
@@ -939,7 +778,7 @@ const AudioListByAuthor = ({user, status} : any) => {
                 ) : artist === true && currentUser?.isPublisher === true ? (
                     <TouchableOpacity onPress={() => navigation.navigate('CreateMessage', {otherUserID: userID, type: 'artist'})}>
                         <View>
-                            <Text style={{color: 'cyan', borderRadius: 20, paddingHorizontal: 20, paddingVertical: 5, borderWidth: 0.5, borderColor: 'cyan',}}>
+                            <Text style={{color: 'cyan', borderRadius: 13, paddingHorizontal: 20, paddingVertical: 5, borderWidth: 0.5, borderColor: 'cyan',}}>
                                 Request Cover Art
                             </Text>
                         </View>
@@ -950,7 +789,7 @@ const AudioListByAuthor = ({user, status} : any) => {
                             <Text style={{
                                 color: Following === true ? '#000' : 'cyan',
                                 backgroundColor: Following === true ? 'cyan' : 'transparent',
-                                borderRadius: 20,
+                                borderRadius: 13,
                                 paddingHorizontal: 20,
                                 paddingVertical: 5,
                                 borderWidth: Following === true ? 0 : 0.5,
@@ -992,7 +831,7 @@ const AudioListByAuthor = ({user, status} : any) => {
                 <View style={{justifyContent: 'center', flexDirection: 'row', alignItems: 'center',}}>
                     {User?.isPublisher === true ? (
                         <TouchableWithoutFeedback onPress={() => {setPublisher(true); setNarrator(false); setArtist(false)}}>
-                            <View style={{ alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
+                            <View style={{ paddingVertical: 10, marginVertical: -10, alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
                                 <FontAwesome5 
                                     name='book-open'
                                     size={publisher ? 14 : 12}
@@ -1009,7 +848,7 @@ const AudioListByAuthor = ({user, status} : any) => {
                                         
                     {User?.isNarrator === true ? (
                         <TouchableWithoutFeedback onPress={() => {setPublisher(false); setNarrator(true); setArtist(false)}}>
-                            <View style={{ alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
+                            <View style={{ paddingVertical: 10, marginVertical: -10, alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
                                 <FontAwesome5 
                                     name='book-reader'
                                     size={narrator ? 14 : 12}
@@ -1025,7 +864,7 @@ const AudioListByAuthor = ({user, status} : any) => {
 
                     {User?.isArtist === true ? (
                         <TouchableWithoutFeedback onPress={() => {setPublisher(false); setNarrator(false); setArtist(true)}}>
-                            <View style={{ alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
+                            <View style={{ paddingVertical: 10, marginVertical: -10, alignContent: 'center', flexDirection: 'row', marginBottom: 10, alignSelf: 'center'}}>                                             
                                 <FontAwesome5 
                                     name='palette'
                                     size={artist ? 14 : 12}

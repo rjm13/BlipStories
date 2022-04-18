@@ -24,9 +24,9 @@ import { useRoute } from '@react-navigation/native';
 import { Modal, Portal, Provider } from 'react-native-paper';
 import uuid from 'react-native-uuid';
 
-import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
+import { API, graphqlOperation, } from "aws-amplify";
 import { createTag, updateStory, createStoryTag, updateTag, deleteStoryTag, createGenreTag } from '../src/graphql/mutations';
-import { listTags, getStory, listStoryTags, getStoryTag, listGenreTags } from '../src/graphql/queries';
+import { listTags, getStory, listStoryTags, listGenreTags } from '../src/graphql/queries';
 
 
 const EditAudio = ({navigation} : any) => {  
@@ -605,7 +605,7 @@ const [localImageUri, setLocalImageUri] = useState('');
                     </ScrollView>
 
                     <View style={{ alignSelf: 'flex-start', flexDirection: 'row', marginBottom: 20, marginTop: 0, }}>
-                        <TouchableOpacity>
+                        <TouchableWithoutFeedback>
                             <View style={{ width: Dimensions.get('window').width - 140, marginHorizontal: 20, padding: 10, borderRadius: 8, backgroundColor: '#363636'}}>
                                 <TextInput
                                     placeholder='#'
@@ -618,7 +618,7 @@ const [localImageUri, setLocalImageUri] = useState('');
                                     onChangeText={val => setTagText(val)}
                                 />
                             </View>
-                        </TouchableOpacity>
+                        </TouchableWithoutFeedback>
                         <TouchableOpacity onPress={AddToTagArray}>
                             <View style={{ marginHorizontal: 20, padding: 10}}>
                                 <FontAwesome5
@@ -767,7 +767,9 @@ tagbox: {
     borderWidth: 0.5,
     paddingHorizontal: 16,
     paddingVertical: 6,
-    borderRadius: 20
+    borderRadius: 13,
+    overflow: 'hidden',
+    marginBottom: 1
 },
 currenttagtext: {
     color: 'gray',
@@ -777,7 +779,9 @@ currenttagtext: {
     borderWidth: 0.5,
     paddingHorizontal: 16,
     paddingVertical: 6,
-    borderRadius: 20
+    borderRadius: 13,
+    overflow: 'hidden',
+    marginBottom: 1
 },
 });
 
