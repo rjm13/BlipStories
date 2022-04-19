@@ -1,13 +1,20 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Dimensions, TextInput, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {
+    View, 
+    Text, 
+    StyleSheet, 
+    Dimensions, 
+    TextInput, 
+    TouchableOpacity, 
+    Keyboard, 
+    TouchableWithoutFeedback
+} from 'react-native';
+
 import { LinearGradient } from 'expo-linear-gradient';
 
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { Auth, graphqlOperation, API } from 'aws-amplify';
-import { getUser } from '../../src/graphql/queries';
 import { createUser } from '../../src/graphql/mutations';
-import { useRoute } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native-paper';
 
 const ConfirmEmail = ({navigation, route} : {navigation: any, route : any}) => {
@@ -135,6 +142,7 @@ const ConfirmEmail = ({navigation, route} : {navigation: any, route : any}) => {
 
 
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
             <LinearGradient
                 colors={['#00ffffa5','#000', '#000']}
@@ -188,6 +196,7 @@ const ConfirmEmail = ({navigation, route} : {navigation: any, route : any}) => {
 
             </LinearGradient>
         </View>
+        </TouchableWithoutFeedback>
     );
 }
 
@@ -223,10 +232,10 @@ const styles = StyleSheet.create({
     },
     buttontext: {
         backgroundColor: 'cyan',
-        borderRadius: 20,
+        borderRadius: 17,
         paddingVertical: 10,
         paddingHorizontal: 20,
-
+        overflow: 'hidden'
     },
 });
 

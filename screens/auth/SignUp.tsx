@@ -1,11 +1,22 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Platform, TouchableWithoutFeedback, Dimensions, TextInput, ActivityIndicator } from 'react-native';
+import React, {useState} from 'react';
+import { 
+    View, 
+    Text, 
+    StyleSheet, 
+    TouchableOpacity, 
+    Platform, 
+    TouchableWithoutFeedback, 
+    Dimensions, 
+    TextInput, 
+    ActivityIndicator, 
+    Keyboard
+} from 'react-native';
+
 import { LinearGradient } from 'expo-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
+import {Modal, Provider, Portal} from 'react-native-paper';
 
-import {Auth, graphqlOperation, API} from 'aws-amplify';
-import { getUser } from '../../src/graphql/queries';
-import { createUser } from '../../src/graphql/mutations';
+import {Auth} from 'aws-amplify';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from "date-fns";
@@ -13,11 +24,11 @@ import { format } from "date-fns";
 const SignUp = ({navigation} : any) => {
 
 //date time picker
-        const [date, setDate] = useState(new Date(1598051730000));
+        const [date, setDate] = useState(new Date());
         const [mode, setMode] = useState('date');
         const [show, setShow] = useState(false);
 
-        const todaysdate = new Date(1598051730000);
+        const todaysdate = new Date();
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
@@ -32,6 +43,9 @@ const SignUp = ({navigation} : any) => {
 
     const showDatepicker = () => {
         showMode('date');
+        if (Platform.OS === 'ios') {
+            showModal()
+        }
     };
 
     const showTimepicker = () => {
@@ -55,7 +69,7 @@ const SignUp = ({navigation} : any) => {
     const [data, setData] = useState({
         email: '',
         password: '',
-        name: '',
+        Name: '',
         birthdate: format(date, "MM/dd/yyyy"),
         confirm_password: '',
         check_textInputChange: false,
@@ -66,11 +80,11 @@ const SignUp = ({navigation} : any) => {
 
 const CreateUser = async () => {
 
-    const { password, confirm_password, name, email, birthdate, membership } = data;
+    const { password, confirm_password, Name, email, birthdate, membership } = data;
 
     let username = email.replace(/ /g, '');
 
-    let Name = name.toLowerCase();
+    let name = Name.toLowerCase();
 
     setSigningUp(true);
 
@@ -80,9 +94,9 @@ const CreateUser = async () => {
                 username,
                 password,
                 attributes: {
-                    Name,
+                    name,
                     birthdate,
-                    'custom:membership': membership
+                    //'custom:membership': membership
                 },
             });
             //console.log(user);
@@ -107,7 +121,7 @@ const CreateUser = async () => {
         } else {
             setData({
                 ... data,
-                name: val,
+                Name: val,
                 check_textInputChange: false
             });
         }
@@ -130,22 +144,9 @@ const CreateUser = async () => {
     const handleNameChange = (val : any) => {
         setData({
             ... data,
-            name: val
+            Name: val
         });
     }
-
-    // const updateSecureTextEntry = () => {
-    //     setData({
-    //         ... data,
-    //         secureTextEntry: !data.secureTextEntry
-    //     })
-    // }
-    // const updateConfirmSecureTextEntry = () => {
-    //     setData({
-    //         ... data,
-    //         confirm_secureTextEntry: !data.confirm_secureTextEntry
-    //     })
-    // }
 
     const handleSignUp = () => {
 
@@ -165,7 +166,7 @@ const CreateUser = async () => {
             setNoMatch(true);
             setUserExist(false);
             return;
-        } if (data.name.length < 3) {
+        } if (data.Name.length < 3) {
             setShortPass(false);
             setIsErr(true);
             setNoMatch(false);
@@ -183,7 +184,46 @@ const CreateUser = async () => {
         }
     }
 
+        //upload modal
+        const [visible, setVisible] = useState(false);
+        const showModal = () => {
+            setVisible(true);
+        }
+        const hideModal = () => setVisible(false);
+
+        const containerStyle = {
+            backgroundColor: '#ececec', 
+            borderRadius: 15,
+            paddingVertical: 40
+        };
+
     return (
+        <Provider>
+            <Portal>
+                <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                    <View>
+                        {show && (
+                            <View>
+                                <DateTimePicker
+                                    testID="dateTimePicker"
+                                    value={date}
+                                    mode='date'
+                                    is24Hour={true}
+                                    display={Platform.OS === "ios" ? "spinner" : "default"}
+                                    onChange={onChange}
+                                />
+                                <TouchableWithoutFeedback onPress={hideModal}>
+                                    <Text style={{color: '#fff', alignSelf: 'center', marginTop: 20, paddingHorizontal: 20, paddingVertical: 6, overflow: 'hidden', borderRadius: 13, backgroundColor: '#008080'}}>
+                                        Select
+                                    </Text>
+                                </TouchableWithoutFeedback>
+                                
+                            </View>
+                        )}
+                    </View>
+                </Modal>
+            </Portal>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ flex: 1 }}>
             <LinearGradient
                 colors={['#00ffffa5','#000', '#000']}
@@ -258,20 +298,21 @@ const CreateUser = async () => {
                         <TouchableWithoutFeedback onPress={showDatepicker}>
                             <View style={styles.inputfield}>
                                 <Text style={styles.textInputTitle}>
-                                    {format(date, "MMMM do, yyyy") === format(todaysdate, "MMMM do, yyyy") ? '...' : format(date, "MMMM do, yyyy")}
+                                    {date === todaysdate ? '...' : format(date, "MMMM do, yyyy")}
                                 </Text>
                             </View>
                         </TouchableWithoutFeedback>
-                        {show && (
-                            <DateTimePicker
-                                testID="dateTimePicker"
-                                value={date}
-                                mode='date'
-                                is24Hour={true}
-                                display="default"
-                                onChange={onChange}
-                            />
+                        {Platform.OS === 'android' && show && (
+                                <DateTimePicker
+                                    testID="dateTimePicker"
+                                    value={date}
+                                    mode='date'
+                                    is24Hour={true}
+                                    display="default"
+                                    onChange={onChange}
+                                />
                         )}
+                       
                     </View>
 
                     <View style={{ borderBottomWidth: 1, borderColor: '#ffffffa5', marginBottom: 10, marginTop: 20, marginHorizontal: 20}}>
@@ -347,6 +388,8 @@ const CreateUser = async () => {
                 </TouchableOpacity>
             </LinearGradient>
         </View>
+        </TouchableWithoutFeedback>
+        </Provider>
     );
 }
 
@@ -383,10 +426,10 @@ const styles = StyleSheet.create ({
     },
     buttontext: {
         backgroundColor: 'cyan',
-        borderRadius: 20,
+        borderRadius: 17,
         paddingVertical: 10,
         paddingHorizontal: 20,
-
+        overflow: 'hidden'
     },
 });
 

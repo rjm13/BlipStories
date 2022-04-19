@@ -5,15 +5,12 @@ import {
     StyleSheet,
     TouchableOpacity, 
     TouchableWithoutFeedback,
-    Dimensions,
-    FlatList,
     ScrollView
 } from 'react-native';
 
 import {Auth, API, graphqlOperation} from 'aws-amplify';
 import {listGenres} from '../../src/graphql/queries';
 import {updateUser} from '../../src/graphql/mutations';
-import { navigationRef } from '../../navigation/RootNavigation';
 
 const SplashCarousel = ({navigation} : any) => {
 
@@ -60,7 +57,7 @@ const SplashCarousel = ({navigation} : any) => {
 
 
     return (
-        <View>
+        <ScrollView>
 
             <View style={{margin: 40, alignSelf: 'center'}}>
                 <Text style={styles.header}>
@@ -114,7 +111,7 @@ const SplashCarousel = ({navigation} : any) => {
                 </View>
             </TouchableWithoutFeedback>
             
-        </View>
+        </ScrollView>
     );
 }
 

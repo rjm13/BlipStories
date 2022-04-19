@@ -1,11 +1,18 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Dimensions, TextInput, TouchableOpacity} from 'react-native';
+import {
+    View, 
+    Text, 
+    StyleSheet, 
+    Dimensions, 
+    TextInput, 
+    TouchableOpacity, 
+    Keyboard, 
+    TouchableWithoutFeedback
+} from 'react-native';
+
 import { LinearGradient } from 'expo-linear-gradient';
 import {Auth} from '@aws-amplify/auth'
 import Feather from 'react-native-vector-icons/Feather';
-
-//import {useNavigation} from '@react-navigation/native'
-//import {Auth} from '@aws-amplify/auth'
 
 const ForgotPassword = ({navigation, route} : {navigation : any, route : any}) => {
 
@@ -48,6 +55,7 @@ const ForgotPassword = ({navigation, route} : {navigation : any, route : any}) =
     }
 
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
             <LinearGradient
                 colors={['#00ffffa5','#000', '#000']}
@@ -145,6 +153,7 @@ const ForgotPassword = ({navigation, route} : {navigation : any, route : any}) =
 
             </LinearGradient>
         </View>
+        </TouchableWithoutFeedback>
     );
 }
 
@@ -180,10 +189,10 @@ const styles = StyleSheet.create({
     },
     buttontext: {
         backgroundColor: 'cyan',
-        borderRadius: 20,
+        borderRadius: 17,
         paddingVertical: 10,
         paddingHorizontal: 20,
-
+        overflow: 'hidden'
     },
 });
 

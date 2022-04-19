@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Dimensions, TextInput, TouchableOpacity} from 'react-native';
+import React, { useEffect} from 'react';
+import {View, Text, Dimensions, TouchableOpacity} from 'react-native';
 
-import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
+import { API, graphqlOperation, Auth } from "aws-amplify";
 import { createMessage } from '../../src/graphql/mutations';
 
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const Welcome = ({navigation} : any) => {
 
@@ -74,7 +73,7 @@ const Welcome = ({navigation} : any) => {
 {/* FOOTER */}
             <View style={{height: '10%'}}>
                 <TouchableOpacity onPress={() => navigation.navigate('SplashCarousel')}>
-                    <Text style={{alignSelf: 'center', backgroundColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20, borderRadius: 15, textAlign: 'center'}}>
+                    <Text style={{overflow: 'hidden', alignSelf: 'center', backgroundColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20, borderRadius: 13, textAlign: 'center'}}>
                         Next
                     </Text>
                 </TouchableOpacity>

@@ -270,6 +270,7 @@ const styles = StyleSheet.create ({
         fontWeight: 'bold',
         marginHorizontal: 40,
         marginVertical: 20,
+        textTransform: 'capitalize'
     },
     tile: {
         flexDirection: 'row', 

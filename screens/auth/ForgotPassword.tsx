@@ -1,7 +1,17 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Dimensions, TextInput, TouchableOpacity} from 'react-native';
+import {
+    View, 
+    Text, 
+    StyleSheet, 
+    Dimensions, 
+    TextInput, 
+    TouchableOpacity, 
+    Keyboard, 
+    TouchableWithoutFeedback
+} from 'react-native';
+
 import { LinearGradient } from 'expo-linear-gradient';
-import { Auth, API, graphqlOperation } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 
 const ForgotPassword = ({navigation} : any) => {
 
@@ -20,6 +30,7 @@ const ForgotPassword = ({navigation} : any) => {
       }
 
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
             <LinearGradient
                 colors={['#00ffffa5','#000', '#000']}
@@ -60,6 +71,7 @@ const ForgotPassword = ({navigation} : any) => {
 
             </LinearGradient>
         </View>
+        </TouchableWithoutFeedback>
     );
 }
 
@@ -95,10 +107,10 @@ const styles = StyleSheet.create({
     },
     buttontext: {
         backgroundColor: 'cyan',
-        borderRadius: 20,
+        borderRadius: 17,
         paddingVertical: 10,
         paddingHorizontal: 20,
-
+        overflow: 'hidden'
     },
 });
 

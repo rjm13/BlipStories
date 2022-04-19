@@ -8,6 +8,8 @@ import {
     TextInput, 
     Linking,
     ActivityIndicator,
+    Keyboard,
+    TouchableWithoutFeedback
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
@@ -99,6 +101,7 @@ const SignIn = ({navigation} : any) => {
     }
 
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
             <LinearGradient
                 colors={['#00ffffa5','#000', '#000', '#000']}
@@ -199,6 +202,7 @@ const SignIn = ({navigation} : any) => {
             </LinearGradient>
             <StatusBar style="light" backgroundColor ='transparent' />
         </View>
+        </TouchableWithoutFeedback>
     );
 }
 
@@ -234,10 +238,10 @@ const styles = StyleSheet.create ({
     },
     buttontext: {
         backgroundColor: 'cyan',
-        borderRadius: 20,
+        borderRadius: 17,
         paddingVertical: 10,
         paddingHorizontal: 20,
-
+        overflow: 'hidden'
     },
 });
 
