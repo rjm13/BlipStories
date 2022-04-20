@@ -9,9 +9,10 @@ import {
     TouchableOpacity, 
     TextInput, 
     ScrollView,
-    FlatList,
+    Linking,
     Image,
-    Platform
+    Platform,
+    Keyboard
 } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
@@ -21,7 +22,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { updateUser, createImageAsset } from '../src/graphql/mutations';
-import { getUser } from '../src/graphql/queries';
 
 import { Modal, Portal, Provider } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
@@ -245,12 +245,13 @@ const ArtistSetup = ({navigation} : any) => {
 
     return(
         <Provider>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
             <Portal>
                 <Modal visible={visible} onDismiss={hideArtistModal} contentContainerStyle={containerStyle}>
                     <View style={{height: 500}}>
                         <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>
-                            Select Art Styles
+                            Select Styles
                         </Text>
                         <ScrollView style={{marginTop: 40}} showsVerticalScrollIndicator={false}>
                             {artStyles.map(item => {
@@ -341,7 +342,7 @@ const ArtistSetup = ({navigation} : any) => {
                             </View>
                         </TouchableWithoutFeedback>
                         <Text style={styles.header}>
-                            Artist Setup
+                            Illustrator Setup
                         </Text>
                     </View>
                 </View>  
@@ -365,7 +366,7 @@ const ArtistSetup = ({navigation} : any) => {
 
                 <View style={{marginTop: 40}}>
                     <Text style={styles.inputheader}>
-                        Art Styles
+                        Styles
                     </Text>
                     <TouchableWithoutFeedback onPress={showArtistModal}>
                         <View style={styles.inputfield}>
@@ -388,7 +389,7 @@ const ArtistSetup = ({navigation} : any) => {
 
                 <View style={{marginTop: 40}}>
                     <Text style={styles.inputheader}>
-                        Artist Blurb
+                        Blurb
                     </Text>
                     <TouchableWithoutFeedback onPress={FocusInput}>
                         <View style={[styles.inputfield, {height: 120}]}>
@@ -457,27 +458,25 @@ const ArtistSetup = ({navigation} : any) => {
 
                 <View style={{marginVertical: 40}}>
                     
-                    <PublishingTerms />
+                    {/* <PublishingTerms /> */}
 
                     <TouchableWithoutFeedback onPress={() => setAgree(!agree)}>
-                        <View style={{flexDirection: 'row', margin: 40, alignSelf: 'center'}}>
+                        <View style={{flexDirection: 'row', marginTop: 40, alignSelf: 'center', alignItems: 'center'}}>
                             <FontAwesome 
                                 name={ agree ? 'check-circle' : 'check-circle-o'}
-                                size={22} 
+                                size={20} 
                                 color={ agree ? 'cyan' : '#ffffffa5'} 
                             />
-                            <View style={{flexDirection: 'row'}}>
-                                <Text style={{color: '#fff', marginLeft: 20, fontSize: 14}}>
-                                    I agree to the
+                            <View style={{alignItems: 'center', flexDirection: 'row'}}>
+                                <Text style={{color: '#fff', marginLeft: 10, fontSize: 12,}}>
+                                    I agree to the 
                                 </Text>
-                                <TouchableWithoutFeedback onPress={() => navigation.navigate('Terms')}>
-                                    <Text style={{textDecorationLine: 'underline', color: '#fff',fontSize: 14, marginLeft: 5}}>
-                                        Publishing Terms
+                                <TouchableOpacity onPress={() => Linking.openURL('http://www.blipstories.com/terms')}>
+                                    <Text style={{color: '#fff', marginLeft: 4, fontSize: 12,}}>
+                                        Publishing Terms and Conditions
                                     </Text>
-                                </TouchableWithoutFeedback>
-                                
+                                </TouchableOpacity>
                             </View>
-                            
                     </View>
                     </TouchableWithoutFeedback>
 
@@ -487,7 +486,7 @@ const ArtistSetup = ({navigation} : any) => {
                                 <ActivityIndicator size="small" color="cyan"/>
                             ) : (
                                 <Text style={styles.buttontext}>
-                                    Create Artist Profile
+                                    Create Illustrator Profile
                                 </Text>
                             )}
                         </View>
@@ -497,6 +496,7 @@ const ArtistSetup = ({navigation} : any) => {
                 </ScrollView>
 
         </View>
+        </TouchableWithoutFeedback>
         </Provider>
     )
 };
@@ -534,13 +534,14 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        //margin: 40,
+        margin: 40,
      },
      buttontext: {
          backgroundColor: 'cyan',
-         borderRadius: 20,
+         borderRadius: 17,
          paddingVertical: 10,
          paddingHorizontal: 20,
+         overflow: 'hidden'
  
      },
 });

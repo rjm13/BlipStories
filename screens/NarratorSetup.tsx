@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import {
     View, 
     Text, 
@@ -9,7 +9,8 @@ import {
     TouchableOpacity, 
     TextInput, 
     ScrollView,
-    FlatList
+    Linking,
+    Keyboard
 } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
@@ -151,6 +152,7 @@ const NarratorSetup = ({navigation} : any) => {
 
     return(
         <Provider>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
             <Portal>
                 <Modal visible={visible} onDismiss={hideAccentModal} contentContainerStyle={containerStyle}>
@@ -303,7 +305,7 @@ const NarratorSetup = ({navigation} : any) => {
 
                 <View style={{marginTop: 40}}>
                     <Text style={styles.inputheader}>
-                        Narrator Blurb
+                        Blurb
                     </Text>
                     <TouchableWithoutFeedback onPress={FocusInput}>
                         <View style={[styles.inputfield, {height: 120}]}>
@@ -327,27 +329,25 @@ const NarratorSetup = ({navigation} : any) => {
 
                 <View style={{marginVertical: 40}}>
                     
-                    <PublishingTerms />
+                    {/* <PublishingTerms /> */}
 
                     <TouchableWithoutFeedback onPress={() => setAgree(!agree)}>
-                        <View style={{flexDirection: 'row', margin: 40, alignSelf: 'center'}}>
+                        <View style={{flexDirection: 'row', marginTop: 40, alignSelf: 'center', alignItems: 'center'}}>
                             <FontAwesome 
                                 name={ agree ? 'check-circle' : 'check-circle-o'}
-                                size={22} 
+                                size={20} 
                                 color={ agree ? 'cyan' : '#ffffffa5'} 
                             />
-                            <View style={{flexDirection: 'row'}}>
-                                <Text style={{color: '#fff', marginLeft: 20, fontSize: 14}}>
-                                    I agree to the
+                            <View style={{alignItems: 'center', flexDirection: 'row'}}>
+                                <Text style={{color: '#fff', marginLeft: 10, fontSize: 12,}}>
+                                    I agree to the 
                                 </Text>
-                                <TouchableWithoutFeedback onPress={() => navigation.navigate('Terms')}>
-                                    <Text style={{textDecorationLine: 'underline', color: '#fff',fontSize: 14, marginLeft: 5}}>
-                                        Publishing Terms
+                                <TouchableOpacity onPress={() => Linking.openURL('http://www.blipstories.com/terms')}>
+                                    <Text style={{color: '#fff', marginLeft: 4, fontSize: 12,}}>
+                                        Publishing Terms and Conditions
                                     </Text>
-                                </TouchableWithoutFeedback>
-                                
+                                </TouchableOpacity>
                             </View>
-                            
                     </View>
                     </TouchableWithoutFeedback>
 
@@ -367,6 +367,7 @@ const NarratorSetup = ({navigation} : any) => {
                 </ScrollView>
 
         </View>
+        </TouchableWithoutFeedback>
         </Provider>
     )
 };
@@ -404,14 +405,14 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        //margin: 40,
+        margin: 40,
      },
      buttontext: {
          backgroundColor: 'cyan',
-         borderRadius: 20,
+         borderRadius: 17,
          paddingVertical: 10,
          paddingHorizontal: 20,
- 
+        overflow: 'hidden'
      },
 });
 

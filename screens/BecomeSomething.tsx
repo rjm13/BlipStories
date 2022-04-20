@@ -19,7 +19,7 @@ const BecomeSomthing = ({navigation} : any) => {
 
     return (
         <View style={{backgroundColor: 'black'}}>
-            <View style={{ position: 'absolute', left: 40, top: 60}}>
+            <View style={{ marginTop: 60, marginLeft: 40}}>
                 <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
                     <View style={{padding: 30, margin: -30}}>
                         <FontAwesome5 
@@ -30,7 +30,7 @@ const BecomeSomthing = ({navigation} : any) => {
                     </View>
                 </TouchableWithoutFeedback>
             </View>
-            <View style={{alignItems: 'center', alignContent: 'center', justifyContent: 'center', height: Dimensions.get('window').height}}>
+            <View style={{alignItems: 'center', alignContent: 'center', justifyContent: 'center', height: Dimensions.get('window').height - 250}}>
                 <TouchableOpacity onPress={() => navigation.navigate('Publishing', {user: User})}>
                     <View style={{marginTop: 30, alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={{margin: 10, color: 'gray', fontSize: 14}}>
@@ -59,7 +59,7 @@ const BecomeSomthing = ({navigation} : any) => {
                             Are you artistic?
                         </Text>
                         <Text style={{color: '#27d995', fontSize: 20}}>
-                            Become a Cover Artist 
+                            Become an Illustrator 
                         </Text>
                     </View>
                 </TouchableOpacity>

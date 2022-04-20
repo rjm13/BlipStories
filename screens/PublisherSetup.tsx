@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
     View, 
     Text, 
@@ -9,7 +9,9 @@ import {
     TouchableOpacity, 
     TextInput, 
     ScrollView,
-    Platform
+    Platform,
+    Keyboard,
+    Linking
 } from 'react-native';
 
 import PublishingTerms from '../components/PublishingTerms';
@@ -19,9 +21,8 @@ import { useRoute } from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
+import { API, graphqlOperation, Auth } from "aws-amplify";
 import { updateUser } from '../src/graphql/mutations';
-import { getUser } from '../src/graphql/queries';
 
 const PublishingSetup = ({navigation} : any) => {
 
@@ -100,6 +101,7 @@ const PublishingSetup = ({navigation} : any) => {
 
 
     return(
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
             <View style={{marginHorizontal: 20, marginTop: 50}}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -161,18 +163,25 @@ const PublishingSetup = ({navigation} : any) => {
 
                 <View style={{marginTop: 40}}>
                     
-                    <PublishingTerms />
+                    {/* <PublishingTerms /> */}
                 
                     <TouchableWithoutFeedback onPress={() => setAgree(!agree)}>
-                        <View style={{flexDirection: 'row', marginTop: 20, alignSelf: 'center'}}>
+                        <View style={{flexDirection: 'row', marginTop: 40, alignSelf: 'center', alignItems: 'center'}}>
                             <FontAwesome 
                                 name={ agree ? 'check-circle' : 'check-circle-o'}
                                 size={20} 
                                 color={ agree ? 'cyan' : '#ffffffa5'} 
                             />
-                            <Text style={{color: '#fff', marginLeft: 10, fontSize: 12}}>
-                                I agree to the Publishing Terms and Conditions
-                            </Text>
+                            <View style={{alignItems: 'center', flexDirection: 'row'}}>
+                                <Text style={{color: '#fff', marginLeft: 10, fontSize: 12,}}>
+                                    I agree to the 
+                                </Text>
+                                <TouchableOpacity onPress={() => Linking.openURL('http://www.blipstories.com/terms')}>
+                                    <Text style={{color: '#fff', marginLeft: 4, fontSize: 12,}}>
+                                        Publishing Terms and Conditions
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
                     </View>
                     </TouchableWithoutFeedback>
 
@@ -182,7 +191,7 @@ const PublishingSetup = ({navigation} : any) => {
                                 <ActivityIndicator size="small" color="cyan"/>
                             ) : (
                                 <Text style={styles.buttontext}>
-                                    Create Author Profile
+                                    Create Publisher Profile
                                 </Text>
                             )}
                         </View>
@@ -191,6 +200,7 @@ const PublishingSetup = ({navigation} : any) => {
                 </View>
 
         </ScrollView>
+        </TouchableWithoutFeedback>
     
     )
 };
@@ -232,9 +242,10 @@ const styles = StyleSheet.create({
      },
      buttontext: {
          backgroundColor: 'cyan',
-         borderRadius: 20,
+         borderRadius: 17,
          paddingVertical: 10,
          paddingHorizontal: 20,
+         overflow: 'hidden'
      },
      textInput: {
         //flex: 1,
