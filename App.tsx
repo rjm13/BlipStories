@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState, useRef} from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
+import TrackPlayer from 'react-native-track-player';
+import 'expo-dev-client'; 
 //import AppLoading from 'expo-app-loading';
 
 import useCachedResources from './hooks/useCachedResources';
@@ -26,7 +28,32 @@ Notifications.setNotificationHandler({
   }),
 });
 
+
+// async function setup() {
+//   await TrackPlayer.setupPlayer({});
+//   await TrackPlayer.updateOptions({
+//     stopWithApp: false,
+//     capabilities: [
+//       TrackPlayer.CAPABILITY_PLAY,
+//       TrackPlayer.CAPABILITY_PAUSE,
+//       TrackPlayer.CAPABILITY_STOP,
+//       TrackPlayer.CAPABILITY_SEEK_TO,
+//     ],
+//     compactCapabilities: [
+//       TrackPlayer.CAPABILITY_PLAY,
+//       TrackPlayer.CAPABILITY_PAUSE,
+//     ],
+//   });
+// }
+
 export default function App() {
+
+  // useEffect(() => {
+  //   setup();
+
+  //   return () => TrackPlayer.destroy();
+  // }, []);
+
   const isLoadingComplete = useCachedResources();
 
   const [storyID, setStoryID] = useState<string|null>(null);
