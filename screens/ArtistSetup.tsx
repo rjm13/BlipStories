@@ -145,7 +145,7 @@ const ArtistSetup = ({navigation} : any) => {
   
             const updatedUser = { 
                 id: userInfo.attributes.sub, 
-                artistPseudo: data.artistPseudo, 
+                artistPseudo: data.artistPseudo.toLowerCase(), 
                 isArtist: true,
                 artistText: data.artistText,
                 artStyles: data.styles,

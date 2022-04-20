@@ -94,7 +94,7 @@ const NarratorSetup = ({navigation} : any) => {
   
             const updatedUser = { 
                 id: userInfo.attributes.sub, 
-                narratorPseudo: data.narratorPseudo, 
+                narratorPseudo: data.narratorPseudo.toLowerCase(), 
                 isNarrator: true,
                 narratorText: data.narratorText,
                 accents: data.accents,
