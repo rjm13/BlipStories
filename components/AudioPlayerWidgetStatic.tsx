@@ -8,28 +8,23 @@ import {
     Animated, 
     TouchableOpacity, 
     TouchableWithoutFeedback,
-    PanResponder, 
-    Image, 
-    ScrollView 
+    Platform
 } from 'react-native';
 
 import { Audio } from 'expo-av';
 import Slider from '@react-native-community/slider';
 import { LinearGradient } from 'expo-linear-gradient';
-import { StatusBar } from 'expo-status-bar';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import * as Animatable from 'react-native-animatable';
 import {graphqlOperation, API, Storage, Auth} from 'aws-amplify';
 import { getStory, listPinnedStories, listRatings, listFinishedStories } from '../src/graphql/queries';
 import { createPinnedStory, deletePinnedStory, createFinishedStory, updateStory } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
 import * as RootNavigation from '../navigation/RootNavigation';
-import { useCardAnimation } from '@react-navigation/stack';
 import ShareStory from '../components/functions/ShareStory';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -144,12 +139,12 @@ const AudioPlayer  = () => {
 
     const animatedBoxHeight = animation.y.interpolate({
         inputRange: [0, SCREEN_HEIGHT - 90],
-        outputRange: [SCREEN_HEIGHT - 240, 60],
+        outputRange: [SCREEN_HEIGHT - (Platform.OS === 'ios' ? 240 : 240), 60],
         extrapolate: 'clamp',
       });
 
     const animatedBottom = animation.y.interpolate({
-        inputRange: [0, SCREEN_HEIGHT - (isRootScreen === true ? 60 : 90)],
+        inputRange: [0, SCREEN_HEIGHT - (isRootScreen === true ? (Platform.OS === 'ios' ? 34 : 60 ) : (Platform.OS === 'ios' ? 60 : 90 ))],
         outputRange: [-610, 690],
         extrapolate: 'clamp',
       });
@@ -452,10 +447,26 @@ const AddToHistory = async () => {
 
         console.log('Loading Sound');
         console.log(Story)
+        await Audio.setAudioModeAsync({
+            staysActiveInBackground: true,
+            interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+            shouldDuckAndroid: false,
+            playThroughEarpieceAndroid: false,
+            allowsRecordingIOS: false,
+            interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+            playsInSilentModeIOS: true,
+          });
         const { sound } = await Audio.Sound.createAsync(
             {uri: AudioUri},
             //require('../assets/zelda.mp3'),
-            {shouldPlay: true}
+            {
+                shouldPlay: true,
+                rate: 1.0,
+                shouldCorrectPitch: false,
+                volume: 1.0,
+                isMuted: false,
+                isLooping: false,
+            },
         );
         setSound(sound);
 
@@ -474,11 +485,6 @@ const AddToHistory = async () => {
             setIsPlaying (false);     
         }    
     }
-
-    // useEffect(() => {
-    //     if (Story) {
-    //     PlayPause(); }
-    // }, [Story]);
 
     useInterval(() => {
         if (isPlaying === true && position < slideLength) {
@@ -510,13 +516,13 @@ const AddToHistory = async () => {
     return (
 
         <View>
-            <Animated.View style={{height: animatedImageHeight, width: animatedImageWidth, position: 'absolute', bottom: 460,}}>
+            <Animated.View style={{height: animatedImageHeight, width: animatedImageWidth, position: 'absolute', bottom: Platform.OS === 'ios' ? 360 : 460,}}>
                 <ImageBackground
                     style={{
                         flex: 1,
                         width: null,
                         height: null,
-                        backgroundColor: '#363636'
+                        backgroundColor: '#363636',
                     }}
                     source={{uri: imageU}}
                 >
@@ -595,6 +601,7 @@ const AddToHistory = async () => {
                         height: animatedBoxHeight,
                         borderTopRightRadius: 15,
                         borderTopLeftRadius: 15,
+                        overflow: 'hidden'
                     },
                 ]}>
                     <LinearGradient 
@@ -643,7 +650,7 @@ const AddToHistory = async () => {
                         opacity: animatedSongDetailsOpacity,
                     }}>
                     { isExpanded === false ? (
-                        <View style={{ justifyContent: 'space-between', height: '60%'}}>
+                        <View style={{ justifyContent: 'space-between', height: '50%'}}>
                             <View>
                                 <TouchableWithoutFeedback 
                                     onPress={
@@ -684,7 +691,7 @@ const AddToHistory = async () => {
                                 </TouchableWithoutFeedback>
 
                                 <View style={{ alignItems: 'center', marginHorizontal: 20}}>
-                                    <View style={{marginTop: 0,}}>
+                                    <View style={{marginTop: -10,}}>
                                         <View style={[{flexDirection: 'row', justifyContent: 'space-between', width: Dimensions.get('window').width - 80}]}>
                                             <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                                 <FontAwesome5 
@@ -708,19 +715,22 @@ const AddToHistory = async () => {
                                                 />
                                                 <Text style={{textAlign: 'center', color: '#e0e0e0', fontSize: 17}}>
                                                     {(Story?.ratingAvg/10).toFixed(1)}
-                                            </Text>
-                                        </View>
+                                                </Text>
+                                            </View>
                                         </View>
                                     </View>
-                                    <View style={{ height: 120, marginTop: 20, marginHorizontal: -20 }}>
+                                    {Platform.OS === 'android' ? (
+                                        <View style={{ height: 110, marginTop: 20, marginHorizontal: -20 }}>
                                         <Text style={[styles.highlight, {textAlign: 'center'}]}>
                                             {Story?.summary}
                                         </Text>
                                     </View>
+                                    ) : null}
+                                    
                                 </View>
                             </View>
                             
-                            <View>
+                            <View style={{}}>
                                 <TouchableOpacity onPress={PlayPause}>
                                     <View style={{alignSelf: 'center' }}>
                                         <FontAwesome5 
@@ -741,7 +751,7 @@ const AddToHistory = async () => {
                                     </Text>
                                 </View>
 
-                                <View style={{ alignItems: 'center'}}>
+                                <View style={{ alignItems: 'center', marginTop: Platform.OS === 'ios' ? 20 : 0}}>
                                     <Slider
                                         style={{width: 320, height: 10}}
                                         minimumTrackTintColor="cyan"
