@@ -66,7 +66,7 @@ const PendingStories = ({navigation} : any) => {
         const getStories = async () => {
             let response = await API.graphql(graphqlOperation(
                 storiesByDate, {
-                    sortDirection: 'ASC',
+                    sortDirection: 'DESC',
                     type: 'Story',
                     filter: {
                         approved: {

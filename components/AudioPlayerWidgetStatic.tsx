@@ -446,7 +446,6 @@ const AddToHistory = async () => {
     async function PlayPause() {
 
         console.log('Loading Sound');
-        console.log(Story)
         await Audio.setAudioModeAsync({
             staysActiveInBackground: true,
             interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
@@ -456,7 +455,9 @@ const AddToHistory = async () => {
             interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
             playsInSilentModeIOS: true,
           });
+          console.log(AudioUri)
         const { sound } = await Audio.Sound.createAsync(
+            
             {uri: AudioUri},
             //require('../assets/zelda.mp3'),
             {

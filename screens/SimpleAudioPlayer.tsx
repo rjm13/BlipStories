@@ -180,10 +180,26 @@ const convertToTime = () => {
     const PlayPause = async () => {
 
         console.log('Loading Sound');
+        await Audio.setAudioModeAsync({
+            staysActiveInBackground: true,
+            interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+            shouldDuckAndroid: false,
+            playThroughEarpieceAndroid: false,
+            allowsRecordingIOS: false,
+            interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+            playsInSilentModeIOS: true,
+          });
         const { sound } = await Audio.Sound.createAsync(
             //{require(playItem.audioUri)},
             {uri: playItem.audioUri},
-            {shouldPlay: true}
+            {
+                shouldPlay: true,
+                rate: 1.0,
+                shouldCorrectPitch: false,
+                volume: 1.0,
+                isMuted: false,
+                isLooping: false,
+            },
         );
         
         setSound(sound);
