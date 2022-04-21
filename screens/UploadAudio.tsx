@@ -128,7 +128,7 @@ const UploadAudio = ({navigation} : any) => {
                             Math.round((uploadProgress.loaded / uploadProgress.total) * 100)
                         );
                     },
-                    contentType: extension
+                    contentType: 'audio/mp3'
                 })
             let result = await API.graphql(
                 graphqlOperation(createStory, { input: 
@@ -350,7 +350,7 @@ const UploadAudio = ({navigation} : any) => {
                             Math.round((uploadProgress.loaded / uploadProgress.total) * 100)
                         );
                     },
-                    contentType: extension
+                    contentType: 'audio/mp3'
                 })
 
                 

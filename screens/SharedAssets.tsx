@@ -539,7 +539,7 @@ const SharedAssets = ({navigation} : any) => {
                         Math.round((uploadProgress.loaded / uploadProgress.total) * 100)
                     );
                 },
-                contentType: extension
+                contentType: 'audio/mp3'
             })
 
             const asset = await API.graphql(graphqlOperation(
