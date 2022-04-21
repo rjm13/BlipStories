@@ -522,8 +522,6 @@ const SharedAssets = ({navigation} : any) => {
 
     const [isSample, setIsSample] = useState(false);
 
-    const [messUpdate, setMessUpdate] = useState()
-
     const UploadAsset = async () => {
 
         setIsPublishing(true);
@@ -534,12 +532,14 @@ const SharedAssets = ({navigation} : any) => {
             const responseAudio = await fetch(localAudioUri);
             const blob = await responseAudio.blob();
             const filename = uuid.v4().toString();
+            let extension = "audio/" + localAudioUri.split('.').pop()
             const s3ResponseAudio = await Storage.put(filename, blob, {
                 progressCallback(uploadProgress) {
                     setProgressText(
                         Math.round((uploadProgress.loaded / uploadProgress.total) * 100)
                     );
-                }
+                },
+                contentType: extension
             })
 
             const asset = await API.graphql(graphqlOperation(
@@ -760,7 +760,7 @@ const SharedAssets = ({navigation} : any) => {
                                     <TouchableWithoutFeedback onPress={pickAudio}>
                                         <View style={[styles.textinput, {justifyContent: 'center'}]}>
                                             <Text style={{color: '#fff'}}>
-                                                Select Audio File
+                                                Select Local Audio
                                             </Text>
                                         </View>
                                     </TouchableWithoutFeedback>
@@ -1012,7 +1012,7 @@ const SharedAssets = ({navigation} : any) => {
                     <TouchableOpacity onPress={showUploadModal}>
                         <View style={{alignSelf: 'center', backgroundColor: 'cyan', borderRadius: 15, justifyContent: 'center', marginBottom: 20, marginTop: 10, width: '90%', height: 70, alignItems: 'center'}}>
                             <Text style={{fontWeight: 'bold', fontSize: 16}}>
-                                Upload Audio Asset
+                                Upload Audio
                             </Text>
                         </View>
                     </TouchableOpacity>

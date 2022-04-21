@@ -1,20 +1,16 @@
 import React, {useState, useEffect, useRef, useContext} from 'react';
-import {View, Text, StyleSheet, ScrollView, Dimensions, TouchableWithoutFeedback, FlatList, RefreshControl} from 'react-native';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import { Audio } from 'expo-av';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Modal, Portal, Provider } from 'react-native-paper';
 import Slider from '@react-native-community/slider';
-
-import { format, parseISO } from "date-fns";
 
 import { useRoute } from '@react-navigation/native';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, getAudioAsset, getStory } from '../src/graphql/queries';
+import { getAudioAsset, getStory } from '../src/graphql/queries';
 
 import { AppContext } from '../AppContext';
 
@@ -67,18 +63,6 @@ const SimpleAudioPlayer = ({navigation} : any) => {
           audioUri: ''
       });
 
-    //   useEffect(() => {
-    //     const LoadKeys = async () => {
-    //         let saved = await AsyncStorage.getAllKeys();
-    
-    //         if (saved != null) {
-    //             let result = saved.filter((item) => item.includes("recording"));
-    //             setSavedAudio(result);
-    //         } 
-    //     }
-    //     LoadKeys();
-    
-    // }, [isSaved])
 
     useEffect(() => {
         if (item !== null) {

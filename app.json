@@ -32,7 +32,12 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.martianmedia.blip"
+      "bundleIdentifier": "com.martianmedia.blip",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio"
+        ]
+      }
     },
     "android": {
       "package": "com.martianmedia.blip",

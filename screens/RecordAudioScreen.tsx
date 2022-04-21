@@ -168,6 +168,7 @@ export default function RecordAudio({
             await Audio.setAudioModeAsync({
               allowsRecordingIOS: true,
               playsInSilentModeIOS: true,
+              staysActiveInBackground: true,
             }); 
             console.log('Starting recording..');
             const recording = new Audio.Recording();
@@ -184,8 +185,8 @@ export default function RecordAudio({
                   bitRate: 128000,
                 },
                 ios: {
-                  extension: '.mp3',
-                  outputFormat: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEGLAYER3,
+                  extension: '.m4a',
+                  outputFormat: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEG4AAC,
                   audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_HIGH,
                   sampleRate: 44100,
                   numberOfChannels: 2,

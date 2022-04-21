@@ -96,7 +96,7 @@ const HomeScreen = ({navigation} : any) => {
 
 
     return (
-        <ScrollView style={{backgroundColor: '#000' }}> 
+        <ScrollView style={{backgroundColor: '#000' }} showsVerticalScrollIndicator={false}> 
             <LinearGradient
                 colors={['#3b4b80a5', 'transparent',]}
                 style={styles.container}
