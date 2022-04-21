@@ -78,7 +78,13 @@ export const getUser = /* GraphQL */ `
           time
           isSample
           userID
+          user {
+            narratorPseudo
+          }
           sharedUserID
+          sharedUser {
+            pseudonym
+          }
           createdAt
           updatedAt
         }
@@ -107,7 +113,13 @@ export const getUser = /* GraphQL */ `
           time
           isSample
           userID
+          user {
+            narratorPseudo
+          }
           sharedUserID
+          sharedUser {
+            pseudonym
+          }
           createdAt
           updatedAt
         }
@@ -121,7 +133,13 @@ export const getUser = /* GraphQL */ `
           imageUri
           isSample
           userID
+          user {
+            artistPseudo
+          }
           sharedUserID
+          sharedUser {
+            pseudonym
+          }
           createdAt
           updatedAt
         }
@@ -193,6 +211,23 @@ export const getUser = /* GraphQL */ `
           type
           userID
           storyID
+          story {
+            id
+            title
+            imageUri
+            genre {
+              id
+              genre
+            }
+            hidden
+            approved
+            summary
+            author
+            narrator
+            time
+            ratingAvg
+            ratingAmt
+          }
           createdAt
           updatedAt
         }
@@ -218,6 +253,23 @@ export const getUser = /* GraphQL */ `
           type
           userID
           storyID
+          story {
+            id
+            title
+            imageUri
+            genre {
+              id
+              genre
+            }
+            hidden
+            approved
+            summary
+            author
+            narrator
+            time
+            ratingAvg
+            ratingAmt
+          }
           createdAt
           nsfw
           genreID

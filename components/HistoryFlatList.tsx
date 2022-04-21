@@ -11,7 +11,7 @@ import {
 
 import StoryTile from '../components/StoryTile';
 
-import { finishedStoriesByDate } from '../src/graphql/queries';
+import { finishedStoriesByDate, getUser } from '../src/graphql/queries';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 
@@ -24,7 +24,6 @@ const HistoryList = () => {
 //update trigger for fetching the pinned stories
     const [didUpdate, setDidUpdate] = useState(false);
 
-//on render, get the user and then list the following connections for that user
     useEffect(() => {
 
         const fetchStories = async () => {
@@ -40,21 +39,12 @@ const HistoryList = () => {
             try {
 
                 const historyData = await API.graphql(graphqlOperation(
-                    finishedStoriesByDate, {
-                        type: 'FinishedStory',
-                        sortDirection: 'DESC',
-                        filter: {
-                            userID: {
-                                eq: userInfo.attributes.sub
-                            },
-                           
-                        }
-                }))
+                    getUser, {id: userInfo.attributes.sub}))
 
-                if (historyData.data.finishedStoriesByDate.items.length > 0) {
-                    for (let i = 0; i < historyData.data.finishedStoriesByDate.items.length; i++) {
-                        if (historyData.data.finishedStoriesByDate.items[i].story.hidden === false && historyData.data.finishedStoriesByDate.items[i].story.approved === 'approved') {
-                            History.push(historyData.data.finishedStoriesByDate.items[i].story)
+                if (historyData.data.getUser.Finished.items.length > 0) {
+                    for (let i = 0; i < historyData.data.getUser.Finished.items.length; i++) {
+                        if (historyData.data.getUser.Finished.items[i].story.hidden === false && historyData.data.getUser.Finished.items[i].story.approved === 'approved') {
+                            History.push(historyData.data.getUser.Finished.items[i].story)
                         }
                     } 
                 }
@@ -68,6 +58,51 @@ const HistoryList = () => {
         }
            fetchStories(); 
       }, [didUpdate])
+
+//on render, get the user and then list the following connections for that user
+    // useEffect(() => {
+
+    //     const fetchStories = async () => {
+
+    //         setIsLoading(true);
+
+    //         const History = []
+
+    //         const userInfo = await Auth.currentAuthenticatedUser();
+
+    //         if (!userInfo) {return;}
+
+    //         try {
+
+    //             const historyData = await API.graphql(graphqlOperation(
+    //                 finishedStoriesByDate, {
+    //                     type: 'FinishedStory',
+    //                     sortDirection: 'DESC',
+    //                     filter: {
+    //                         userID: {
+    //                             eq: userInfo.attributes.sub
+    //                         },
+                           
+    //                     }
+    //             }))
+
+    //             if (historyData.data.finishedStoriesByDate.items.length > 0) {
+    //                 for (let i = 0; i < historyData.data.finishedStoriesByDate.items.length; i++) {
+    //                     if (historyData.data.finishedStoriesByDate.items[i].story.hidden === false && historyData.data.finishedStoriesByDate.items[i].story.approved === 'approved') {
+    //                         History.push(historyData.data.finishedStoriesByDate.items[i].story)
+    //                     }
+    //                 } 
+    //             }
+                   
+    //             setFinishedStories(History);
+    //             setIsLoading(false);
+              
+    //         } catch (e) {
+    //         console.log(e);
+    //       }
+    //     }
+    //        fetchStories(); 
+    //   }, [didUpdate])
 
 
     const [isFetching, setIsFetching] = useState(false);

@@ -77,6 +77,8 @@ const UploadAudio = ({navigation} : any) => {
                     setData({...data, author: userData.data.getUser.pseudonym});
                     setNumAuthored(userData.data.getUser.numAuthored);
                     setUser(userData.data.getUser)
+                    setSharedAudio(userData.data.getUser.sharedWithAssets.items);
+                    setSharedArt(userData.data.getUser.sharedWithImageAssets.items);
             }
 
             } catch (e) {
@@ -843,30 +845,47 @@ const UploadAudio = ({navigation} : any) => {
     //function for selecting a shared audio file
     const [sharedAudio, setSharedAudio] = useState([]);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const fetchAudioAssets = async () => {
+    //     const fetchAudioAssets = async () => {
 
-        let userInfo = await Auth.currentAuthenticatedUser();  
+    //     let userInfo = await Auth.currentAuthenticatedUser();  
 
-        const response = await API.graphql(graphqlOperation(
-            audioAssetsByDate, {
-                type: 'AudioAsset',
-                sortDirection: 'DESC',
-                filter: {
-                    sharedUserID: {
-                        eq: userInfo.attributes.sub
-                    }
-                }
-            }
-        ))
+    //     const response = await API.graphql(graphqlOperation(
+    //         getUser, {id: userInfo.attributes.sub}
+    //     ))
 
-        setSharedAudio(response.data.audioAssetsByDate.items);
+    //     setSharedAudio(response.data.getUser.sharedWithAssets.items);
 
-        }
-        fetchAudioAssets();
+    //     }
+    //     fetchAudioAssets();
 
-    }, [])
+    // }, [])
+
+    // useEffect(() => {
+
+    //     const fetchAudioAssets = async () => {
+
+    //     let userInfo = await Auth.currentAuthenticatedUser();  
+
+    //     const response = await API.graphql(graphqlOperation(
+    //         audioAssetsByDate, {
+    //             type: 'AudioAsset',
+    //             sortDirection: 'DESC',
+    //             filter: {
+    //                 sharedUserID: {
+    //                     eq: userInfo.attributes.sub
+    //                 }
+    //             }
+    //         }
+    //     ))
+
+    //     setSharedAudio(response.data.audioAssetsByDate.items);
+
+    //     }
+    //     fetchAudioAssets();
+
+    // }, [])
 
 
     const SharedItem = ({id, title, audioUri, userName, sharedUserName, isSample, time, userID, sharedUserID, createdAt} : any) => {
@@ -935,28 +954,28 @@ const UploadAudio = ({navigation} : any) => {
     //function for selecting a dhared art file
     const [sharedArt, setSharedArt] = useState([]);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const fetchArt = async () => {
+    //     const fetchArt = async () => {
 
-            const userInfo = await Auth.currentAuthenticatedUser();
+    //         const userInfo = await Auth.currentAuthenticatedUser();
 
-            let response = await API.graphql(graphqlOperation(
-                imageAssetsByDate, {
-                    type: "ImageAsset",
-                    sortDirection: 'DESC',
-                    filter: {
-                        sharedUserID: {
-                            eq: userInfo.attributes.sub
-                        }
-                    }
-                }
-            ))
-            setSharedArt(response.data.imageAssetsByDate.items)
-        }
-        fetchArt();
+    //         let response = await API.graphql(graphqlOperation(
+    //             imageAssetsByDate, {
+    //                 type: "ImageAsset",
+    //                 sortDirection: 'DESC',
+    //                 filter: {
+    //                     sharedUserID: {
+    //                         eq: userInfo.attributes.sub
+    //                     }
+    //                 }
+    //             }
+    //         ))
+    //         setSharedArt(response.data.imageAssetsByDate.items)
+    //     }
+    //     fetchArt();
 
-    }, [])
+    // }, [])
 
     const SharedArtItem = ({id, title, imageUri, isSample, userID, userName, sharedUserID, sharedUserName} : any) => {
         

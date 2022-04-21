@@ -9,7 +9,7 @@ import {
     ActivityIndicator 
 } from 'react-native';
 
-import { pinnedStoryByDate } from '../src/graphql/queries';
+import { pinnedStoryByDate, getUser } from '../src/graphql/queries';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 
 import StoryTile from './StoryTile';
@@ -22,7 +22,6 @@ const AudioStoryList = () => {
     //update trigger for fetching the pinned stories
     const [didUpdate, setDidUpdate] = useState(false);
 
-    //on render, get the user and then list the following connections for that user
     useEffect(() => {
 
         const fetchStories = async () => {
@@ -39,21 +38,13 @@ const AudioStoryList = () => {
 
                 const pinnedData = await API.graphql(graphqlOperation(
 
-                    pinnedStoryByDate, {
-                        type: 'PinnedStory',
-                        sortDirection: 'DESC',
-                        filter: {
-                            userID: {
-                                eq: userInfo.attributes.sub
-                            },
-                        }
-                    }
+                    getUser, {id: userInfo.attributes.sub}
                 ))
 
-                if (pinnedData.data.PinnedStoryByDate.items.length > 0) {
-                    for (let i = 0; i < pinnedData.data.PinnedStoryByDate.items.length; i++) {
-                        if (pinnedData.data.PinnedStoryByDate.items[i].story.hidden === false && pinnedData.data.PinnedStoryByDate.items[i].story.approved === 'approved') {
-                            Pinned.push(pinnedData.data.PinnedStoryByDate.items[i].story)
+                if (pinnedData.data.getUser.Pinned.items.length > 0) {
+                    for (let i = 0; i < pinnedData.data.getUser.Pinned.items.length; i++) {
+                        if (pinnedData.data.getUser.Pinned.items[i].story.hidden === false && pinnedData.data.getUser.Pinned.items[i].story.approved === 'approved') {
+                            Pinned.push(pinnedData.data.getUser.Pinned.items[i].story)
                         } else {return;}
                     }
                 }
@@ -68,6 +59,53 @@ const AudioStoryList = () => {
         }
         fetchStories(); 
       }, [didUpdate])
+
+    //on render, get the user and then list the following connections for that user
+    // useEffect(() => {
+
+    //     const fetchStories = async () => {
+
+    //         setIsLoading(true);
+
+    //         const Pinned = []
+
+    //         const userInfo = await Auth.currentAuthenticatedUser();
+
+    //         if (!userInfo) {return;}
+
+    //         try {
+
+    //             const pinnedData = await API.graphql(graphqlOperation(
+
+    //                 pinnedStoryByDate, {
+    //                     type: 'PinnedStory',
+    //                     sortDirection: 'DESC',
+    //                     filter: {
+    //                         userID: {
+    //                             eq: userInfo.attributes.sub
+    //                         },
+    //                     }
+    //                 }
+    //             ))
+
+    //             if (pinnedData.data.PinnedStoryByDate.items.length > 0) {
+    //                 for (let i = 0; i < pinnedData.data.PinnedStoryByDate.items.length; i++) {
+    //                     if (pinnedData.data.PinnedStoryByDate.items[i].story.hidden === false && pinnedData.data.PinnedStoryByDate.items[i].story.approved === 'approved') {
+    //                         Pinned.push(pinnedData.data.PinnedStoryByDate.items[i].story)
+    //                     } else {return;}
+    //                 }
+    //             }
+                     
+    //             setPinnedStories(Pinned);
+                
+    //             setIsLoading(false);
+               
+    //         } catch (e) {
+    //         console.log(e);
+    //       }
+    //     }
+    //     fetchStories(); 
+    //   }, [didUpdate])
 
     //refresh state of the flatlist
     const [isFetching, setIsFetching] = useState(false);
