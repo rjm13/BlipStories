@@ -28,7 +28,7 @@ import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, listAudioAssets, messagesByUpdatedDate } from '../src/graphql/queries';
+import { getUser, messagesByUpdatedDate } from '../src/graphql/queries';
 import { updateAudioAsset, createAudioAsset, deleteAudioAsset, createMessage, updateMessage } from '../src/graphql/mutations';
 
 
@@ -229,6 +229,8 @@ const SharedAssets = ({navigation} : any) => {
 
         const fetchAssets = async () => {
 
+            let samplearr = []
+
             setIsLoading(true);
 
             const userInfo = await Auth.currentAuthenticatedUser();
@@ -238,20 +240,16 @@ const SharedAssets = ({navigation} : any) => {
             try {
 
                 const userAssets = await API.graphql(graphqlOperation(
-                    listAudioAssets, {
-                        type: 'AudioAsset',
-                        sortDirection: 'DESC',
-                        filter: {
-                            userID: {
-                                eq: userInfo.attributes.sub
-                            },
-                            isSample: {
-                                eq: true
-                            }
-                        }
+                    getUser, {id: userInfo.attributes.sub
                 }))
 
-                setAudioSamples(userAssets.data.listAudioAssets.items);
+                for (let i = 0; i < userAssets.data.getUser.sharedAssets.items.length; i++) {
+                    if (userAssets.data.getUser.sharedAssets.items[i].isSample === true) {
+                        samplearr.push(userAssets.data.getUser.sharedAssets.items[i])
+                    }
+                    
+                }
+                setAudioSamples(samplearr);
                 
                 setIsLoading(false);
 
@@ -267,6 +265,10 @@ const SharedAssets = ({navigation} : any) => {
 
         const fetchAssets = async () => {
 
+            let arr = []
+
+            let samplearr = []
+
             setIsLoading(true);
 
             const userInfo = await Auth.currentAuthenticatedUser();
@@ -276,20 +278,21 @@ const SharedAssets = ({navigation} : any) => {
             try {
 
                 const userAssets = await API.graphql(graphqlOperation(
-                    listAudioAssets, {
-                        type: 'AudioAsset',
-                        sortDirection: 'DESC',
-                        filter: {
-                            userID: {
-                                eq: userInfo.attributes.sub
-                            },
-                            isSample: {
-                                eq: false
-                            }
-                        }
+                    getUser, {id: userInfo.attributes.sub
                 }))
 
-                setAudioAssets(userAssets.data.listAudioAssets.items);
+                for (let i = 0; i < userAssets.data.getUser.sharedAssets.items.length; i++) {
+                    if (userAssets.data.getUser.sharedAssets.items[i].isSample === false) {
+                        arr.push(userAssets.data.getUser.sharedAssets.items[i])
+                    }
+                    if (userAssets.data.getUser.sharedAssets.items[i].isSample === true) {
+                        samplearr.push(userAssets.data.getUser.sharedAssets.items[i])
+                    }
+                }
+
+                setAudioSamples(samplearr);
+
+                setAudioAssets(arr);
                 
                 setIsLoading(false);
 

@@ -24,7 +24,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { deleteImageAsset, createImageAsset, updateImageAsset, createMessage, updateMessage } from '../src/graphql/mutations';
-import { imageAssetsByDate, getUser, messagesByUpdatedDate } from '../src/graphql/queries';
+import { getUser, messagesByUpdatedDate } from '../src/graphql/queries';
 
 import { format, parseISO } from "date-fns";
 
@@ -202,19 +202,23 @@ const MyArt = ({navigation} : any) => {
             const userInfo = await Auth.currentAuthenticatedUser();
 
             let result = await API.graphql(graphqlOperation(
-                imageAssetsByDate, { 
-                    type: "ImageAsset",
-                    sortDirection: 'DESC',
-                    filter: {
-                        userID: {
-                            eq: userInfo.attributes.sub
-                        }
-                    }
-                }
+                getUser, {id: userInfo.attributes.sub}
             ))
+
+            // let result = await API.graphql(graphqlOperation(
+            //     imageAssetsByDate, { 
+            //         type: "ImageAsset",
+            //         sortDirection: 'DESC',
+            //         filter: {
+            //             userID: {
+            //                 eq: userInfo.attributes.sub
+            //             }
+            //         }
+            //     }
+            // ))
             //setImageData(result.data.listImageAssets.items)
 
-            let newArr = result.data.imageAssetsByDate.items.filter((item : any) => item.isSample === false);
+            let newArr = result.data.getUser.sharedImageAssets.items.filter((item : any) => item.isSample === false);
 
             for (let i = 0; i < newArr.length; i++) {
             
@@ -225,7 +229,7 @@ const MyArt = ({navigation} : any) => {
             //console.log(newArr)
             setImageData(newArr)
 
-            let sampleArr = result.data.imageAssetsByDate.items.filter((item : any) => item.isSample === true);
+            let sampleArr = result.data.getUser.sharedImageAssets.items.filter((item : any) => item.isSample === true);
 
             for (let i = 0; i < sampleArr.length; i++) {
             

@@ -19,7 +19,7 @@ import { Modal, Portal, Provider } from 'react-native-paper';
 import { format, parseISO } from "date-fns";
 
 import { API, graphqlOperation, Auth } from "aws-amplify";
-import { getUser, listImageAssets } from '../src/graphql/queries';
+import { getUser } from '../src/graphql/queries';
 import { updateUser } from '../src/graphql/mutations';
 
 const Publisher = ({navigation} : any) => {
@@ -185,28 +185,6 @@ const Publisher = ({navigation} : any) => {
         }
     }
 
-        //get the image data
-
-        const [ImageData, setImageData] = useState();
-
-        useEffect(() => {
-            const fetchData = async () => {
-    
-                const userInfo = await Auth.currentAuthenticatedUser();
-    
-                let result = await API.graphql(graphqlOperation(
-                    listImageAssets, { 
-                        filter: {
-                            userID: {
-                                eq: userInfo.attributes.sub
-                            }
-                        }
-                    }
-                ))
-                setImageData(result.data.listImageAssets.items.length)
-            }
-            fetchData();
-        }, [])
 
     //reset active status modal
        const [visible, setVisible] = useState(false);
@@ -427,7 +405,7 @@ const Publisher = ({navigation} : any) => {
                                     My Artwork
                                 </Text>
                                 <Text style={styles.textcounter}>
-                                    {ImageData}
+                                    {user?.sharedImageAssets?.items.length}
                                 </Text>
                             </View>
                         </TouchableWithoutFeedback>

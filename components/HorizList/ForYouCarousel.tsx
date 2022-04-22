@@ -16,7 +16,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { listPinnedStories, listStories } from '../../src/graphql/queries';
+import { listStories, getUser } from '../../src/graphql/queries';
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 
 import { AppContext } from '../../AppContext';
@@ -85,20 +85,14 @@ const ForYouCarousel = () => {
 
                 try {
                     let getPin = await API.graphql(graphqlOperation(
-                        listPinnedStories, {
-                            filter: {
-                                userID: {
-                                    eq: userInfo.attributes.sub
-                                },
-                                storyID: {
-                                    eq: id
-                                },
-                            }
+                        getUser, {id: userInfo.attributes.sub
                         }
                     ))
 
-                    if (getPin.data.listPinnedStories.items.length === 1) {
-                        setQd(true);
+                    for (let i = 0; i < getPin.data.getUser.Pinned.items.length; i++) {
+                        if (getPin.data.getUser.Pinned.items[i].storyID === id) {
+                            setQd(true);
+                        }
                     }
                 } catch (error) {
                     console.log(error)

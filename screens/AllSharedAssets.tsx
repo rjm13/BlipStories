@@ -17,7 +17,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Modal, Portal, Provider } from 'react-native-paper';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { listAudioAssets, listImageAssets } from '../src/graphql/queries';
+import { getUser } from '../src/graphql/queries';
 
 
 const AllSharedAssets = ({navigation} : any) => {
@@ -67,56 +67,20 @@ const AllSharedAssets = ({navigation} : any) => {
     const [audioAssets, setAudioAssets] = useState();
     const [imageAssets, setImageAssets] = useState();
 
-    useEffect(() => {
 
-        const fetchAssets = async () => {
+
+    useEffect(() => {
+        const fetchData = async () => {
 
             setIsLoading(true);
 
             const userInfo = await Auth.currentAuthenticatedUser();
 
-            if (!userInfo) {return;}
-
-            try {
-
-                const userAssets = await API.graphql(graphqlOperation(
-                    listAudioAssets, {
-                        type: 'AudioAsset',
-                        sortDirection: 'DESC',
-                        filter: {
-                            sharedUserID: {
-                                eq: userInfo.attributes.sub
-                            },
-                        }
-                }))
-
-                setAudioAssets(userAssets.data.listAudioAssets.items);
-                
-                setIsLoading(false);
-
-            } catch (e) {
-            console.log(e);
-            }
-        }
-            fetchAssets(); 
-        }, [didUpdate]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-
-            const userInfo = await Auth.currentAuthenticatedUser();
-
             let result = await API.graphql(graphqlOperation(
-                listImageAssets, { 
-                    filter: {
-                        sharedUserID: {
-                            eq: userInfo.attributes.sub
-                        }
-                    }
-                }
+                getUser, {id: userInfo.attributes.sub}
             ))
 
-            let newArr = result.data.listImageAssets.items.filter((item : any) => item.isSample === false);
+            let newArr = result.data.getUser.sharedWithImageAssets.items.filter((item : any) => item.isSample === false);
 
             for (let i = 0; i < newArr.length; i++) {
             
@@ -124,8 +88,9 @@ const AllSharedAssets = ({navigation} : any) => {
 
                 newArr[i].imageUri = getUri
             }
-            console.log(newArr)
             setImageAssets(newArr)
+            setAudioAssets(result.data.getUser.sharedWithAssets.items);
+            setIsLoading(false);
         }
 
         fetchData();
