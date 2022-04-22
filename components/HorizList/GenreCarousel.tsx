@@ -22,7 +22,7 @@ import PinStory from '../functions/PinStory';
 import unPinStory from '../functions/UnPinStory';
 import TimeConversion from '../functions/TimeConversion';
 
-import { listStories, listPinnedStories } from '../../src/graphql/queries';
+import { listStories, getUser } from '../../src/graphql/queries';
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 
 
@@ -146,20 +146,14 @@ const GenreCarousel = ({genreid} : any) => {
                 try {
 
                     let getPin = await API.graphql(graphqlOperation(
-                        listPinnedStories, {
-                            filter: {
-                                userID: {
-                                    eq: userInfo.attributes.sub
-                                },
-                                storyID: {
-                                    eq: id
-                                }
-                            }
+                        getUser, {id: userInfo.attributes.sub
                         }
                     ))
 
-                    if (getPin.data.listPinnedStories.items.length === 1) {
-                        setQd(true);
+                    for (let i = 0; i < getPin.data.getUser.Pinned.items.length; i++) {
+                        if (getPin.data.getUser.Pinned.items[i].storyID === id) {
+                            setQd(true);
+                        }
                     }
 
                 } catch (error) {

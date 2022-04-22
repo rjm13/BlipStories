@@ -3,10 +3,8 @@ import {
     View, 
     Text, 
     StyleSheet, 
-    Dimensions, 
     TouchableWithoutFeedback, 
     TouchableOpacity,  
-    Image,
     ActivityIndicator,
     RefreshControl,
     FlatList
@@ -18,16 +16,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Modal, Portal, Provider } from 'react-native-paper';
 
 import { API, graphqlOperation, Auth } from "aws-amplify";
-import { getUser, listStories } from '../src/graphql/queries';
+import { getUser } from '../src/graphql/queries';
 import { updateStory } from '../src/graphql/mutations';
-
-import { useNavigation } from '@react-navigation/native';
-
-import { AppContext } from '../AppContext';
-
-import StoryTile from '../components/StoryTile';
-
-
 
 
 const MyStories = ({navigation} : any) => {
@@ -51,22 +41,6 @@ const MyStories = ({navigation} : any) => {
         setDidUpdate(!didUpdate);
         hideModal();
         setDeleteID(null);
-
-        //will not actually be deleting stories, just marking them as hidden
-        // if(confirm !== true) {
-        //     return;
-        // } else {
-        //     try {
-        //         const storyData = await API.graphql(graphqlOperation(
-        //             deleteStory, {input: {id: deleteID}}))
-        //         console.log(storyData)
-        //     } catch (e) {
-        //         console.log(e);
-        //     }
-        //     setDidUpdate(!didUpdate);
-        //     hideModal();
-        //     setDeleteID(null)
-        // }
     }
 
 
@@ -195,6 +169,8 @@ const MyStories = ({navigation} : any) => {
 
         const fetchStories = async () => {
 
+            let storiesarr = []
+
             setIsLoading(true);
 
             const userInfo = await Auth.currentAuthenticatedUser();
@@ -204,21 +180,16 @@ const MyStories = ({navigation} : any) => {
             try {
 
                 const userStories = await API.graphql(graphqlOperation(
-                    listStories, {
-                        filter: {
-                            userID: {
-                                eq: userInfo.attributes.sub
-                            },
-                            hidden: {
-                                eq: false
-                            },
-                            approved: {
-                                eq: 'approved'
-                            }
-                        }
+                    getUser, {id: userInfo.attributes.sub
                 }))
 
-                setStories(userStories.data.listStories.items);
+                for (let i = 0; i < userStories.data.getUser.authored.items.length; i++) {
+                    if (userStories.data.getUser.authored.items[i].hidden === false && userStories.data.getUser.authored.items[i].approved === 'approved') {
+                        storiesarr.push(userStories.data.getUser.authored.items[i])
+                    }
+                }
+
+                setStories(storiesarr);
                 
                 setIsLoading(false);
 

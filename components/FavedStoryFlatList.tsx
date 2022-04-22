@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import { 
     View, 
     StyleSheet, 
@@ -9,7 +9,7 @@ import {
     ActivityIndicator
 } from 'react-native';
 
-import { ratingsByDate } from '../src/graphql/queries';
+import { getUser } from '../src/graphql/queries';
 import {graphqlOperation, API, Auth} from 'aws-amplify';
 import StoryTile from './StoryTile';
 
@@ -38,23 +38,13 @@ const AudioStoryList = () => {
             try {
 
                 const favedData = await API.graphql(graphqlOperation(
-                    ratingsByDate, {
-                        type: 'Rating',
-                        sortDirection: 'DESC',
-                        filter: {
-                            userID: {
-                                eq: userInfo.attributes.sub
-                            },
-                            rating: {
-                                gt: 7
-                            },
-                        }
+                    getUser, {id: userInfo.attributes.sub
                 }))
 
-                if (favedData.data.ratingsByDate.items.length > 0) {
-                    for (let i = 0; i < favedData.data.ratingsByDate.items.length; i++) {
-                        if (favedData.data.ratingsByDate.items[i].story.hidden === false && favedData.data.ratingsByDate.items[i].story.approved === 'approved') {
-                            Faved.push(favedData.data.ratingsByDate.items[i].story) 
+                if (favedData.data.getUser.Rated.items.length > 0) {
+                    for (let i = 0; i < favedData.data.getUser.Rated.items.length; i++) {
+                        if (favedData.data.getUser.Rated.items[i].rating > 7 && favedData.data.getUser.Rated.items[i].story.hidden === false && favedData.data.getUser.Rated.items[i].story.approved === 'approved') {
+                            Faved.push(favedData.data.getUser.Rated.items[i].story) 
                         } else {return;}
                     } 
                 }

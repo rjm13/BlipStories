@@ -238,6 +238,23 @@ export const getUser = /* GraphQL */ `
           id
           type
           storyID
+          story {
+            id
+            title
+            imageUri
+            genre {
+              id
+              genre
+            }
+            hidden
+            approved
+            summary
+            author
+            narrator
+            time
+            ratingAvg
+            ratingAmt
+          }
           userID
           rating
           nsfw

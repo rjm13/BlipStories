@@ -3,10 +3,7 @@ import {
     View, 
     Text, 
     StyleSheet, 
-    Dimensions, 
     TouchableWithoutFeedback, 
-    TouchableOpacity,  
-    Image,
     ActivityIndicator,
     RefreshControl,
     FlatList
@@ -16,15 +13,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import {StatusBar} from 'expo-status-bar';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { Modal, Portal, Provider } from 'react-native-paper';
 
 import { API, graphqlOperation, Auth } from "aws-amplify";
-import { getUser, listStories } from '../src/graphql/queries';
-import { updateStory } from '../src/graphql/mutations';
-
-import { useNavigation } from '@react-navigation/native';
-
-import { AppContext } from '../AppContext';
+import { getUser } from '../src/graphql/queries';
 import StoryTile from '../components/StoryTile'
 
 
@@ -73,6 +64,8 @@ const CoverArt = ({navigation} : any) => {
 
         const fetchStories = async () => {
 
+            let storiesarr = [];
+
             setIsLoading(true);
 
             const userInfo = await Auth.currentAuthenticatedUser();
@@ -82,22 +75,16 @@ const CoverArt = ({navigation} : any) => {
             try {
 
                 const userStories = await API.graphql(graphqlOperation(
-                    listStories, {
-                        filter: {
-                            artistID: {
-                                eq: userInfo.attributes.sub
-                            },
-                            hidden: {
-                                eq: false
-                            },
-                            approved: {
-                                eq: 'approved'
-                            }
-                            
-                        }
+                    getUser, {id: userInfo.attributes.sub
                 }))
 
-                setStories(userStories.data.listStories.items);
+                for (let i = 0; i < userStories.data.getUser.art.items.length; i++) {
+                    if (userStories.data.getUser.art.items[i].hidden === false && userStories.data.getUser.art.items[i].approved === 'approved') {
+                        storiesarr.push(userStories.data.getUser.art.items[i])
+                    }
+                }
+
+                setStories(storiesarr);
                 
                 setIsLoading(false);
 

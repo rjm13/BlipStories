@@ -15,7 +15,7 @@ import {StatusBar} from 'expo-status-bar';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { API, graphqlOperation, Auth } from "aws-amplify";
-import {listStories } from '../src/graphql/queries';
+import {listStories, getUser } from '../src/graphql/queries';
 
 import StoryTile from '../components/StoryTile'
 
@@ -65,6 +65,8 @@ const MyNarrations = ({navigation} : any) => {
 
         const fetchStories = async () => {
 
+            let storiesarr = [];
+
             setIsLoading(true);
 
             const userInfo = await Auth.currentAuthenticatedUser();
@@ -74,21 +76,16 @@ const MyNarrations = ({navigation} : any) => {
             try {
 
                 const userStories = await API.graphql(graphqlOperation(
-                    listStories, {
-                        filter: {
-                            narratorID: {
-                                eq: userInfo.attributes.sub
-                            },
-                            hidden: {
-                                eq: false
-                            },
-                            approved: {
-                                eq: 'approved'
-                            },
-                        }
+                    getUser, {id: userInfo.attributes.sub
                 }))
 
-                setStories(userStories.data.listStories.items);
+                for (let i = 0; i < userStories.data.getUser.narrated.items.length; i++) {
+                    if (userStories.data.getUser.narrated.items[i].hidden === false && userStories.data.getUser.narrated.items[i].approved === 'approved') {
+                        storiesarr.push(userStories.data.getUser.narrated.items[i])
+                    }
+                }
+
+                setStories(storiesarr);
                 
                 setIsLoading(false);
 

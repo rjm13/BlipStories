@@ -23,7 +23,7 @@ import { AppContext } from '../AppContext';
 
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
-import { getUser, listFollowingConns, listStories, listImageAssets, listAudioAssets } from '../src/graphql/queries';
+import { getUser, listFollowingConns, listImageAssets, listAudioAssets } from '../src/graphql/queries';
 import { createFollowingConn, deleteFollowingConn } from '../src/graphql/mutations';
 
 import StoryTile from '../components/StoryTile';
@@ -102,91 +102,76 @@ const AudioListByAuthor = ({user, status} : any) => {
     }
 
         const fetchStorys = async () => {
+
+                let stories = []
+
                 try {
+
                     const response = await API.graphql(
                         graphqlOperation(
-                            listStories, {
-                                filter: {
-                                    userID: {
-                                        eq: user
-                                    },
-                                    hidden: {
-                                        eq: false
-                                    },
-                                    approved: {
-                                        eq: 'approved'
-                                    },
-                                    genreID: {
-                                        ne: ADon === true ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
-                                    },
-                                    nsfw: {
-                                        ne: nsfwOn === true ? true : null
-                                    },
-                                }
-                            } 
+                            getUser, {id: user }
                         )
                     )
-                    setStorys(response.data.listStories.items);
+                    for (let i = 0; i < response.data.getUser.authored.items.length; i++) {
+                        if (response.data.getUser.authored.items[i].hidden === false && 
+                            response.data.getUser.authored.items[i].approved === 'approved' &&
+                            response.data.getUser.authored.items[i].genreID !== (ADon === true ? '1108a619-1c0e-4064-8fce-41f1f6262070' : null) &&
+                            response.data.getUser.authored.items[i].genreID !== (nsfwOn === true ? true : null)
+                            ) {
+                            stories.push(response.data.getUser.authored.items[i])
+                        }
+                    }
+                    setStorys(stories);
+
                 } catch (e) {
                     console.log(e);}
         }
 
         const fetchNarrations = async () => {
+
+            let narrstories = [];
+
             try {
                 const response = await API.graphql(
                     graphqlOperation(
-                        listStories, {
-                            filter: {
-                                narratorID: {
-                                    eq: user
-                                },
-                                hidden: {
-                                    eq: false
-                                },
-                                approved: {
-                                    eq: 'approved'
-                                },
-                                genreID: {
-                                    ne: ADon === true ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
-                                },
-                                nsfw: {
-                                    ne: nsfwOn === true ? true : null
-                                },
-                            }
-                        } 
+                        getUser, {id: user }
                     )
                 )
-                setNarrations(response.data.listStories.items);
+
+                for (let i = 0; i < response.data.getUser.narrated.items.length; i++) {
+                        if (response.data.getUser.narrated.items[i].hidden === false && 
+                            response.data.getUser.narrated.items[i].approved === 'approved' &&
+                            response.data.getUser.narrated.items[i].genreID !== (ADon === true ? '1108a619-1c0e-4064-8fce-41f1f6262070' : null) &&
+                            response.data.getUser.narrated.items[i].genreID !== (nsfwOn === true ? true : null)
+                            ) {
+                            narrstories.push(response.data.getUser.narrated.items[i])
+                        }
+                    }
+                    setNarrations(narrstories);
             } catch (e) {
                 console.log(e);}
         }
 
         const fetchArt = async () => {
+
+            let artstories = []
+
             try {
                 const response = await API.graphql(
                     graphqlOperation(
-                        listStories, {
-                            filter: {
-                                artistID: {
-                                    eq: user
-                                },
-                                hidden: {
-                                    eq: false
-                                },
-                                approved: {
-                                    eq: 'approved'
-                                },
-                                genreID: {
-                                    ne: ADon === true ? '1108a619-1c0e-4064-8fce-41f1f6262070' : ''
-                                },
-                                nsfw: {
-                                    ne: nsfwOn === true ? true : null
-                                },
-                            }
-                        } 
+                        getUser, {id: user }
                     )
                 )
-                setArts(response.data.listStories.items);
+                for (let i = 0; i < response.data.getUser.art.items.length; i++) {
+                    if (response.data.getUser.art.items[i].hidden === false && 
+                        response.data.getUser.art.items[i].approved === 'approved' &&
+                        response.data.getUser.art.items[i].genreID !== (ADon === true ? '1108a619-1c0e-4064-8fce-41f1f6262070' : null) &&
+                        response.data.getUser.art.items[i].genreID !== (nsfwOn === true ? true : null)
+                        ) {
+                        artstories.push(response.data.getUser.art.items[i])
+                    }
+                }
+                setArts(artstories);
             } catch (e) {
                 console.log(e);}
         }
