@@ -23,7 +23,7 @@ import { AppContext } from '../AppContext';
 
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
-import { getUser, listFollowingConns, listImageAssets, listAudioAssets } from '../src/graphql/queries';
+import { getUser, listFollowingConns } from '../src/graphql/queries';
 import { createFollowingConn, deleteFollowingConn } from '../src/graphql/mutations';
 
 import StoryTile from '../components/StoryTile';
@@ -59,51 +59,13 @@ const AudioListByAuthor = ({user, status} : any) => {
 
     useEffect( () => {
 
-        const fetchArtSamples = async () => {
-            try {
-                const response = await API.graphql(
-                    graphqlOperation(
-                        listImageAssets, {
-                            filter: {
-                                userID: {
-                                    eq: user
-                                },
-                                isSample: {
-                                    eq: true
-                                }
-                            }
-                        } 
-                    )
-                )
-                setArtSamples(response.data.listImageAssets.items);
-            } catch (e) {
-                console.log(e);}
-        }
-
-        const fetchAudioSamples = async () => {
-            try {
-                const response = await API.graphql(
-                    graphqlOperation(
-                        listAudioAssets, {
-                            filter: {
-                                userID: {
-                                    eq: user
-                                },
-                                isSample: {
-                                    eq: true
-                                }
-                            }
-                        } 
-                    )
-                )
-                setAudioSamples(response.data.listAudioAssets.items);
-            } catch (e) {
-                console.log(e);}
-    }
-
         const fetchStorys = async () => {
 
                 let stories = []
+
+                let samples = []
+
+                let audiosam = []
 
                 try {
 
@@ -112,6 +74,11 @@ const AudioListByAuthor = ({user, status} : any) => {
                             getUser, {id: user }
                         )
                     )
+
+                    setUser(response.data.getUser);
+                    let responseBuk = await Storage.get(response.data.getUser.imageUri)
+                    setImageU(responseBuk);
+
                     for (let i = 0; i < response.data.getUser.authored.items.length; i++) {
                         if (response.data.getUser.authored.items[i].hidden === false && 
                             response.data.getUser.authored.items[i].approved === 'approved' &&
@@ -122,6 +89,20 @@ const AudioListByAuthor = ({user, status} : any) => {
                         }
                     }
                     setStorys(stories);
+
+                    for (let i = 0; i < response.data.getUser.sharedImageAssets.items.length; i++) {
+                        if (response.data.getUser.sharedImageAssets.items[i].isSample === true) {
+                            samples.push(response.data.getUser.sharedImageAssets.items[i])
+                        }
+                    } 
+                    setArtSamples(samples);
+
+                    for (let i = 0; i < response.data.getUser.sharedAssets.items.length; i++) {
+                        if (response.data.getUser.sharedAssets.items[i].isSample === true) {
+                            audiosam.push(response.data.getUser.sharedAssets.items[i])
+                        }
+                    } 
+                    setAudioSamples(audiosam);
 
                 } catch (e) {
                     console.log(e);}
@@ -179,8 +160,8 @@ const AudioListByAuthor = ({user, status} : any) => {
         if (publisher) {fetchStorys();}
         if (narrator) {fetchNarrations();}
         if (artist) {fetchArt();}
-        if (sampleState === false) {fetchArtSamples();}
-        if (sampleState === true) {fetchAudioSamples();}
+        //if (sampleState === false) {fetchArtSamples();}
+        //if (sampleState === true) {fetchAudioSamples();}
 
         
     },[publisher, narrator, artist, sampleState])
@@ -359,19 +340,21 @@ const AudioListByAuthor = ({user, status} : any) => {
             const userInfo = await Auth.currentAuthenticatedUser(); 
 
             try {
-                const authorData = await API.graphql(graphqlOperation(
-                    getUser, {id: userID}))
-                    if (authorData) {
-                    setUser(authorData.data.getUser);
-                    let response = await Storage.get(authorData.data.getUser.imageUri)
-                    setImageU(response);
-                    }
+                // const authorData = await API.graphql(graphqlOperation(
+                //     getUser, {id: userID}))
+                //     if (authorData) {
+                //     //setUser(authorData.data.getUser);
+                //     // let response = await Storage.get(authorData.data.getUser.imageUri)
+                //     // setImageU(response);
+                //     }
             
                 const userData = await API.graphql(graphqlOperation(
                   getUser, {id: userInfo.attributes.sub}))
+
                   if (userData) {
                     setCurrentUser(userData.data.getUser);
-                  }              
+                }
+                       
                 const followData = await API.graphql(graphqlOperation(
                     listFollowingConns, {
                         filter: {
@@ -379,7 +362,7 @@ const AudioListByAuthor = ({user, status} : any) => {
                                 eq: authorData.data.getUser.id
                             },
                             followerID: {
-                                eq: userData.data.getUser.id
+                                eq: userInfo.attributes.sub
                             }
                         }
                     }))
