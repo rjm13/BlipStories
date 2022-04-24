@@ -56,17 +56,8 @@ const FollowingScreen = ({navigation} : any) => {
 
                 if (userData) {setUser(userData.data.getUser);}
 
-                const followData = await API.graphql(graphqlOperation(
-                    listFollowingConns, {
-                        filter: {
-                            followerID: {
-                                eq: userData.data.getUser.id
-                            }
-                        }
-                }))
-
-                for (let i = 0; i < followData.data.listFollowingConns.items.length; i++) {
-                    Following.push(followData.data.listFollowingConns.items[i].author) 
+                for (let i = 0; i < userData.data.getUser.following.items.length; i++) {
+                    Following.push(userData.data.getUser.following.items[i].author) 
 
                 setUsers(Following);
               } 

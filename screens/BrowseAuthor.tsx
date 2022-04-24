@@ -17,7 +17,7 @@ import { Searchbar } from 'react-native-paper';
 import {LinearGradient} from 'expo-linear-gradient';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { listFollowingConns, listUsers, getUser } from '../src/graphql/queries';
+import { listUsers, getUser } from '../src/graphql/queries';
 
 
 const BrowseAuthor = ({navigation} : any) => {
@@ -32,6 +32,7 @@ const BrowseAuthor = ({navigation} : any) => {
 
     const [searchQ, setSearchQ] = useState('');
 
+    const [following, setFollowing] = useState([]);
 
     //refresh function, does not work yet
     const onRefresh = () => {
@@ -45,11 +46,23 @@ const BrowseAuthor = ({navigation} : any) => {
 //on render, get the user and then list the following connections for that user
     useEffect(() => {
 
+        let follarr = []
+
         const fetchUser = async () => {
 
             const userInfo = await Auth.currentAuthenticatedUser();
 
             setUser(userInfo.attributes.sub)
+
+            const userconns = await API.graphql(graphqlOperation(
+                getUser, {id: userInfo.attributes.sub}
+            ))
+
+            for (let i = 0; i < userconns.data.getUser.following.items.length; i++) {
+                follarr.push(userconns.data.getUser.following.items[i].authorID)
+            }
+            
+            setFollowing(follarr)
 
             try {
 
@@ -126,19 +139,10 @@ const BrowseAuthor = ({navigation} : any) => {
         //list the following connections that contain the current user and the selected author to determine if there is a following connection
         useEffect(() => {
             const fetchInfo = async () => {
-                const getConnection = await API.graphql(graphqlOperation(
-                    listFollowingConns, {
-                        filter: {
-                            authorID: {
-                                eq: id
-                            },
-                            followerID: {
-                                eq: user
-                            }
-                        }
-                    }
-                ))
-            if (getConnection.data.listFollowingConns.items.length === 1) {setIsFollowing(true)};    
+
+            if (following.includes(id)) {
+                setIsFollowing(true)
+            };    
             }
             fetchInfo();
         }, [])

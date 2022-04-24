@@ -32,7 +32,7 @@ import { formatRelative, parseISO } from "date-fns";
 import ShareStory from '../components/functions/ShareStory';
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
-import { getStory, getUser, commentsByDate, listPinnedStories, listRatings, listFinishedStories } from '../src/graphql/queries';
+import { getStory, getUser, listRatings } from '../src/graphql/queries';
 import { createComment, createFlag, createRating, updateRating, updateStory } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
@@ -62,6 +62,7 @@ const StoryScreen  = ({navigation} : any) => {
         
       }
 
+      const [commentUpdated, setCommentUpdated] = useState(false);
 
 //use storyID to retrieve Story from AWS
     const [Story, setStory] = useState();
@@ -99,11 +100,14 @@ const StoryScreen  = ({navigation} : any) => {
                     let response = await Storage.get(storyData.data.getStory.imageUri);
                     setImageU(response);
                 }
+
+                setCommentList(storyData.data.getStory.comments.items)
+
             } catch (e) {
                 console.log(e);
             }}
         fetchStory();
-    }, [storyID])
+    }, [storyID, commentUpdated])
 
     const [imageU, setImageU] = useState()
         
@@ -181,35 +185,6 @@ const StoryScreen  = ({navigation} : any) => {
         }  
     };
 
-//on render, determine if the story in alraedy pinned or not
-    useEffect(() => {
-        const fetchPin = async () => {
-
-            const userInfo = await Auth.currentAuthenticatedUser();
-
-            try {
-                let getPin = await API.graphql(graphqlOperation(
-                    listPinnedStories, {
-                        filter: {
-                            userID: {
-                                eq: userInfo.attributes.sub
-                            },
-                            storyID: {
-                                eq: storyID
-                            }
-                        }
-                    }
-                ))
-
-                if (getPin.data.listPinnedStories.items.length === 1) {
-                    setQd(true);
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        fetchPin();
-    }, [])
 
 //Ratings Modal
     const [visible, setVisible] = useState(false);
@@ -309,54 +284,6 @@ const StoryScreen  = ({navigation} : any) => {
         setIsUpdating(false);
     }
 
-    useEffect(() => {
-
-        const fetchRating = async () => {
-
-            let userInfo = await Auth.currentAuthenticatedUser();
-
-            let Rating = await API.graphql(graphqlOperation(
-                listRatings, {filter: {
-                    userID: {
-                        eq: userInfo.attributes.sub
-                    },
-                    storyID: {
-                        eq: storyID
-                    }
-                }}
-            ))
-            if (Rating.data.listRatings.items.length === 1) {
-                setRatingNum(Rating.data.listRatings.items[0].rating);
-                setIsRated(true);
-                setRatingID(Rating.data.listRatings.items[0].id);
-            } else {
-                setRatingNum(0);
-                setIsRated(false);
-            }
-
-            let storyCheck = await API.graphql(graphqlOperation(
-                listFinishedStories, {filter: {
-                    userID: {
-                        eq: userInfo.attributes.sub
-                        },
-                    storyID: {
-                        eq: storyID
-                    }
-                    }
-                }
-            ));
-
-            if (storyCheck.data.listFinishedStories.items.length === 1) {
-                setIsFinished(true);
-            }
-
-            if (Rating.data.listRatings.items.length === 0 && storyCheck.data.listFinishedStories.items.length === 1 ) {
-                showRatingModal();
-            }
-        }
-        fetchRating();
-    }, [storyID])
-
 //if item is finished state
     const [isFinished, setIsFinished] = useState(false);
 
@@ -448,35 +375,6 @@ const StoryScreen  = ({navigation} : any) => {
         );
     }
     
-        const [commentUpdated, setCommentUpdated] = useState(false);
-    
-        //get the comments for that story using the storyID
-        useEffect(() => {
-    
-            const fetchComments = async () => {
-               
-                    try {
-                        const response = await API.graphql(
-                            graphqlOperation(
-                                commentsByDate, {
-                                    type: 'Comment',
-                                    sortDirection: 'DESC',
-                                    filter: {
-                                        storyID: {
-                                            eq: storyID
-                                        },
-                                    }
-                                } 
-                            )
-                        )
-                        setCommentList(response.data.commentsByDate.items);
-                        console.log(response.data.commentsByDate.items)
-                    } catch (e) {
-                        console.log(e);}  
-            }
-            fetchComments();
-        },[storyID, commentUpdated])
-    
         const [commentList, setCommentList ] = useState([]);
     
     
@@ -492,12 +390,34 @@ const StoryScreen  = ({navigation} : any) => {
     
                 const userData = await API.graphql(
                     graphqlOperation(
-                    getUser, 
-                    { id: userInfo.attributes.sub,
-                    }
-                    )
-                )
+                    getUser, { id: userInfo.attributes.sub}
+                ))
+
                 setUser(userData.data.getUser);
+
+                for (let i = 0; i < userData.data.getUser.Pinned.items.length; i++) {
+                    if (userData.data.getUser.Pinned.items[i].storyID === storyID) {
+                        setQd(true);
+                    }
+                }
+
+                for (let i = 0; i < userData.data.getUser.Finished.items.length; i++) {
+                    if (userData.data.getUser.Finished.items[i].storyID === storyID) {
+                        setIsFinished(true);
+                    }
+                }
+
+                for (let i = 0; i < userData.data.getUser.Rated.items.length; i++) {
+                    if (userData.data.getUser.Rated.items[i].storyID === storyID) {
+                        setIsRated(true);
+                        setRatingID(userData.data.getUser.Rated.items[i].id);
+                        setRatingNum(userData.data.getUser.Rated.items[i].rating);
+                    }
+                }
+
+                if (isRated === false && isFinished === true ) {
+                    showRatingModal();
+                }
                 
                 const UserImage = await Storage.get(userData.data.getUser.imageUri)
                 setUserImage(UserImage)

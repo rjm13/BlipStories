@@ -20,8 +20,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {graphqlOperation, API, Storage, Auth} from 'aws-amplify';
-import { getStory, listPinnedStories, listRatings, listFinishedStories } from '../src/graphql/queries';
-import { createPinnedStory, deletePinnedStory, createFinishedStory, updateStory } from '../src/graphql/mutations';
+import { getStory, getUser } from '../src/graphql/queries';
+import { deletePinnedStory, createFinishedStory, updateStory } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
 import * as RootNavigation from '../navigation/RootNavigation';
@@ -165,6 +165,7 @@ const AudioPlayer  = () => {
     const [Story, setStory] = useState(null);
     const [AudioUri, setAudioUri] = useState('');
     const [imageU, setImageU] = useState('')
+    const [user, setUser] = useState({})
 
 //fetch the story attributes and audioUri from the s3 bucket
     useEffect(() => {
@@ -189,7 +190,31 @@ const AudioPlayer  = () => {
             }
         }
 
+        const fetchUser = async () => {
+
+            let userInfo = await Auth.currentAuthenticatedUser();
+
+            let UserData = await API.graphql(graphqlOperation(
+                getUser, {id: userInfo.attributes.sub}
+            ))
+            setUser(UserData.data.getUser)
+
+            for (let i = 0; i < UserData.data.getUser.Rated.items.length; i++) {
+                if (UserData.data.getUser.Rated.items[i].storyID === storyID) {
+                    setIsRated(true);
+                }
+            }
+
+            for (let i = 0; i < UserData.data.getUser.Finished.items.length; i++) {
+                if (UserData.data.getUser.Finished.items[i].storyID === storyID) {
+                    setIsFinished(true);
+                }
+            }
+
+        }
+
         fetchStory();
+        fetchUser();
 
     }, [storyID])
 
@@ -209,89 +234,19 @@ const AudioPlayer  = () => {
         setStory(null);
     }
 
-//add a story to the pinned playlist function
-    const PinStory = async () => {
-
-        let userInfo = await Auth.currentAuthenticatedUser();
-    
-        let createPin = await API.graphql(graphqlOperation(
-            createPinnedStory, {input: {userID: userInfo.attributes.sub, storyID: storyID}}
-        ))
-        console.log(createPin)
-    }
-
-//on render, determine if the story in alraedy pinned or not
-    useEffect(() => {
-        const fetchPin = async () => {
-
-            const userInfo = await Auth.currentAuthenticatedUser();
-
-            try {
-                let getPin = await API.graphql(graphqlOperation(
-                    listPinnedStories, {
-                        filter: {
-                            userID: {
-                                eq: userInfo.attributes.sub
-                            },
-                            storyID: {
-                                eq: storyID
-                            }
-                        }
-                    }
-                ))
-
-                if (getPin.data.listPinnedStories.items.length === 1) {
-                    setQd(true);
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        fetchPin();
-    }, [storyID])
-
 //unpin a story
     const unPinStory = async () => {
 
-        let userInfo = await Auth.currentAuthenticatedUser();
+        for (let i = 0; i < user.Pinned.items.length; i++) {
+            if (user.Pinned.items[i] === storyID) {
+                await API.graphql(graphqlOperation(
+                    deletePinnedStory, {id: user.Pinned.items[i].id}
+                ))
 
-        let getPin = await API.graphql(graphqlOperation(
-            listPinnedStories, {
-                filter: {
-                    userID: {
-                        eq: userInfo.attributes.sub
-                    },
-                    storyID: {
-                        eq: storyID
-                    }
-                }
             }
-        ))
-        console.log(getPin)
-        
-        let connectionID = getPin.data.listPinnedStories.items[0].id
-        console.log(connectionID)
-
-        let deleteConnection = await API.graphql(graphqlOperation(
-            deletePinnedStory, {id: connectionID}
-        ))
-        console.log(deleteConnection)
-    }
-
-
-//queueing the item state when pressed
-    const [isQ, setQd] = useState(false);
-        
-    const onQPress = () => {
-        if ( isQ === false ) {
-            setQd(true);
-            PinStory()
         }
-        if ( isQ === true ) {
-            setQd(false);
-            unPinStory();
-        }  
-    };
+    }
+  
 
 //rating state (if rated or not)
     const [isLiked, setIsLiked] = useState(false);
@@ -305,87 +260,22 @@ const AudioPlayer  = () => {
         }  
     };
 
-//calculate the average user rating for a story
-    const [AverageUserRating, setAverageUserRating] = useState(0);
-
-//the rating average
-    const [ratingNum, setRatingNum] = useState(0);
-
-
-
 //check if the story is rated or not
     const [isRated, setIsRated] = useState(false);
 
     //if item is finished state
     const [isFinished, setIsFinished] = useState(false);
 
-    useEffect(() => {
-
-        const fetchRating = async () => {
-
-            let userInfo = await Auth.currentAuthenticatedUser();
-
-            let Rating = await API.graphql(graphqlOperation(
-                listRatings, {filter: {
-                    userID: {
-                        eq: userInfo.attributes.sub
-                    },
-                    storyID: {
-                        eq: storyID
-                    }
-                }}
-            ))
-            if (Rating.data.listRatings.items.length === 1) {
-                setRatingNum(Rating.data.listRatings.items[0].rating);
-                setIsRated(true);
-                //setRatingID(Rating.data.listRatings.items[0].id);
-            } else {
-                setRatingNum(0);
-                setIsRated(false);
-            }
-
-            let storyCheck = await API.graphql(graphqlOperation(
-                listFinishedStories, {filter: {
-                    userID: {
-                        eq: userInfo.attributes.sub
-                        },
-                    storyID: {
-                        eq: storyID
-                    }
-                    }
-                }
-            ));
-
-            if (storyCheck.data.listFinishedStories.items.length === 1) {
-                setIsFinished(true);
-            }
-
-           
-        }
-        fetchRating();
-    }, [storyID])
 
 //add the story to the history list when finished by creating a new history item
 const AddToHistory = async () => {
     //check if the story is already in the history
     let userInfo = await Auth.currentAuthenticatedUser();
 
-    let storyCheck = await API.graphql(graphqlOperation(
-        listFinishedStories, {filter: {
-            userID: {
-                eq: userInfo.attributes.sub
-                },
-            storyID: {
-                eq: storyID
-            }
-            }
-        }
-    ));
-
     //if item is not in history then...
-    if (storyCheck.data.listFinishedStories.items.length === 0) {
+    if (isFinished === false) {
         //create the history object
-        let FinishedStory = await API.graphql(graphqlOperation(
+        await API.graphql(graphqlOperation(
                 createFinishedStory, {input: {
                     userID: userInfo.attributes.sub, 
                     storyID: storyID, 
@@ -395,11 +285,10 @@ const AddToHistory = async () => {
                     nsfw: Story?.nsfw
                 }}
             ))
-        console.log(FinishedStory)
-        let updateAStory = await API.graphql(graphqlOperation(
-            updateStory, {input: {id: storyID, numListens: FinishedStory.data.createFinishedStory.story.numListens + 1}}
+
+        await API.graphql(graphqlOperation(
+            updateStory, {input: {id: storyID, numListens: Story?.numListens + 1}}
         ))
-        console.log(updateAStory)
 
         //unpin the story, if pinned
         unPinStory();
@@ -408,10 +297,9 @@ const AddToHistory = async () => {
             RootNavigation.navigate('StoryScreen', { storyID: storyID });
             onClose();
     } else {
-        let updateAStory = await API.graphql(graphqlOperation(
-            updateStory, {input: {id: storyID, numListens: storyCheck.data.listFinishedStories.items[0].story.numListens + 1}}
+        await API.graphql(graphqlOperation(
+            updateStory, {input: {id: storyID, numListens: Story?.numListens + 1}}
         ))
-        console.log(updateAStory)
         RootNavigation.navigate('StoryScreen', { storyID: storyID });
         onClose();
     }

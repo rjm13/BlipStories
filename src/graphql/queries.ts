@@ -189,6 +189,13 @@ export const getUser = /* GraphQL */ `
           type
           followerID
           authorID
+          author {
+            id
+            pseudonym
+            bio
+            imageUri
+            numAuthored
+          }
           createdAt
           updatedAt
         }
@@ -1405,6 +1412,11 @@ export const getStory = /* GraphQL */ `
           storyID
           content
           userID
+          user {
+            id
+            imageUri
+            name
+          }
           createdAt
           approved
           updatedAt
