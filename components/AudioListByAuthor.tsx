@@ -23,7 +23,7 @@ import { AppContext } from '../AppContext';
 
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
-import { getUser, listFollowingConns } from '../src/graphql/queries';
+import { getUser } from '../src/graphql/queries';
 import { createFollowingConn, deleteFollowingConn } from '../src/graphql/mutations';
 
 import StoryTile from '../components/StoryTile';
@@ -40,6 +40,8 @@ const AudioListByAuthor = ({user, status} : any) => {
     const [publisher, setPublisher] = useState(false);
     const [narrator, setNarrator] = useState(false);
     const [artist, setArtist] = useState(false);
+
+    const [followingConnID, setFollowingConnID] = useState()
 
     const [Storys, setStorys] = useState([]);
     const [Narrations, setNarrations] = useState([]);
@@ -67,7 +69,13 @@ const AudioListByAuthor = ({user, status} : any) => {
 
                 let audiosam = []
 
+                let narrstories = [];
+
+                let artstories = []
+
                 try {
+
+                    let userInfo = await Auth.currentAuthenticatedUser();
 
                     const response = await API.graphql(
                         graphqlOperation(
@@ -75,6 +83,13 @@ const AudioListByAuthor = ({user, status} : any) => {
                         )
                     )
 
+                    const currentuser = await API.graphql(
+                        graphqlOperation(
+                            getUser, {id: userInfo.attributes.sub }
+                        )
+                    )
+
+                    setCurrentUser(currentuser.data.getUser);
                     setUser(response.data.getUser);
                     let responseBuk = await Storage.get(response.data.getUser.imageUri)
                     setImageU(responseBuk);
@@ -104,22 +119,14 @@ const AudioListByAuthor = ({user, status} : any) => {
                     } 
                     setAudioSamples(audiosam);
 
-                } catch (e) {
-                    console.log(e);}
-        }
+                    for (let i = 0; i < currentuser.data.getUser.following.items.length; i++) {
+                        if (currentuser.data.getUser.following.items[i].authorID === response.data.getUser.id ) {
+                            setFollowing(true);
+                            setFollowingConnID(currentuser.data.getUser.following.items[i].id)
+                        }
+                    }
 
-        const fetchNarrations = async () => {
-
-            let narrstories = [];
-
-            try {
-                const response = await API.graphql(
-                    graphqlOperation(
-                        getUser, {id: user }
-                    )
-                )
-
-                for (let i = 0; i < response.data.getUser.narrated.items.length; i++) {
+                    for (let i = 0; i < response.data.getUser.narrated.items.length; i++) {
                         if (response.data.getUser.narrated.items[i].hidden === false && 
                             response.data.getUser.narrated.items[i].approved === 'approved' &&
                             response.data.getUser.narrated.items[i].genreID !== (ADon === true ? '1108a619-1c0e-4064-8fce-41f1f6262070' : null) &&
@@ -129,42 +136,24 @@ const AudioListByAuthor = ({user, status} : any) => {
                         }
                     }
                     setNarrations(narrstories);
-            } catch (e) {
-                console.log(e);}
-        }
 
-        const fetchArt = async () => {
-
-            let artstories = []
-
-            try {
-                const response = await API.graphql(
-                    graphqlOperation(
-                        getUser, {id: user }
-                    )
-                )
-                for (let i = 0; i < response.data.getUser.art.items.length; i++) {
-                    if (response.data.getUser.art.items[i].hidden === false && 
-                        response.data.getUser.art.items[i].approved === 'approved' &&
-                        response.data.getUser.art.items[i].genreID !== (ADon === true ? '1108a619-1c0e-4064-8fce-41f1f6262070' : null) &&
-                        response.data.getUser.art.items[i].genreID !== (nsfwOn === true ? true : null)
-                        ) {
-                        artstories.push(response.data.getUser.art.items[i])
+                    for (let i = 0; i < response.data.getUser.art.items.length; i++) {
+                        if (response.data.getUser.art.items[i].hidden === false && 
+                            response.data.getUser.art.items[i].approved === 'approved' &&
+                            response.data.getUser.art.items[i].genreID !== (ADon === true ? '1108a619-1c0e-4064-8fce-41f1f6262070' : null) &&
+                            response.data.getUser.art.items[i].genreID !== (nsfwOn === true ? true : null)
+                            ) {
+                            artstories.push(response.data.getUser.art.items[i])
+                        }
                     }
-                }
-                setArts(artstories);
-            } catch (e) {
-                console.log(e);}
+                    setArts(artstories);
+
+                } catch (e) {
+                    console.log(e);}
         }
-
-        if (publisher) {fetchStorys();}
-        if (narrator) {fetchNarrations();}
-        if (artist) {fetchArt();}
-        //if (sampleState === false) {fetchArtSamples();}
-        //if (sampleState === true) {fetchAudioSamples();}
-
+        fetchStorys();
         
-    },[publisher, narrator, artist, sampleState])
+    },[])
 
     const ArtItem = ({id, title, imageUri} : any) => {
 
@@ -333,78 +322,18 @@ const AudioListByAuthor = ({user, status} : any) => {
 
       const [imageU, setImageU] = useState()
 
-      useEffect(() => {
-
-        const fetchUser = async () => {
-
-            const userInfo = await Auth.currentAuthenticatedUser(); 
-
-            try {
-                // const authorData = await API.graphql(graphqlOperation(
-                //     getUser, {id: userID}))
-                //     if (authorData) {
-                //     //setUser(authorData.data.getUser);
-                //     // let response = await Storage.get(authorData.data.getUser.imageUri)
-                //     // setImageU(response);
-                //     }
-            
-                const userData = await API.graphql(graphqlOperation(
-                  getUser, {id: userInfo.attributes.sub}))
-
-                  if (userData) {
-                    setCurrentUser(userData.data.getUser);
-                }
-                       
-                const followData = await API.graphql(graphqlOperation(
-                    listFollowingConns, {
-                        filter: {
-                            authorID: {
-                                eq: authorData.data.getUser.id
-                            },
-                            followerID: {
-                                eq: userInfo.attributes.sub
-                            }
-                        }
-                    }))
-                  if (followData.data.listFollowingConns.items.length === 1) {
-                    setFollowing(true);
-                  } 
-            } catch (e) {
-                console.log(e);
-              }  
-        }
-        fetchUser();   
-        
-      }, [])
 
     const FollowUser = async () => {
 
-        await API.graphql(graphqlOperation(
+        let response = await API.graphql(graphqlOperation(
             createFollowingConn, {input: {followerID: currentUser.id, authorID: User.id}}
         ))
+        setFollowingConnID(response.data.createFollowingConn.id)
     }
 
     const unFollowUser = async () => {
-        
-        
-        let getConnection = await API.graphql(graphqlOperation(
-            listFollowingConns, {
-                filter: {
-                    authorID: {
-                        eq: User.id
-                    },
-                    followerID: {
-                        eq: currentUser.id
-                    }
-                }
-            }
-        ))
-        
-        let connectionID = getConnection.data.listFollowingConns.items[0].id
-
-
         await API.graphql(graphqlOperation(
-            deleteFollowingConn, {input: {"id": connectionID}}
+            deleteFollowingConn, {input: {"id": followingConnID}}
         ))
     }
 
