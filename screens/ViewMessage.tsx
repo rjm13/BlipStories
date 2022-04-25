@@ -29,7 +29,7 @@ import uuid from 'react-native-uuid';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getMessage, repliesByDate } from '../src/graphql/queries';
+import { getMessage } from '../src/graphql/queries';
 import { updateMessage, createReply, createDocumentAsset } from '../src/graphql/mutations';
 import * as Notifications from 'expo-notifications';
 import {
@@ -153,18 +153,10 @@ const ViewMessage = ({navigation} : any) => {
     useEffect(() => {
         const fetchReplies = async () => {
             let response = await API.graphql(graphqlOperation(
-                repliesByDate, {
-                    type: 'Reply',
-                    sortDirection: 'DESC',
-                    filter: {
-                        messageID: {
-                            eq: messageid
-                        }
-                    }
-                }
+                getMessage, {id: messageid}
             ))
-            setReplies(response.data.repliesByDate.items)
-            if (response.data.repliesByDate.items.length > 0) {
+            setReplies(response.data.getMessage.replies.items.reverse())
+            if (response.data.getMessage.replies.items.length > 0) {
                 setIsExpanded(false);
             }
         }

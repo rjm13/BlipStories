@@ -3469,6 +3469,10 @@ export const getMessage = /* GraphQL */ `
           isRead
           messageID
           userID
+          user {
+            id
+            pseudonym
+          }
           updatedAt
         }
         nextToken

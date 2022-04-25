@@ -41,8 +41,8 @@ type User @model @auth(rules: [{ allow: private, operations: [create, delete, up
   narratorActiveAt: String
   artistActiveAt: String
   plan: String
-  messagesSent: [Message] @hasMany(indexName: "byUser", fields: "id")
-  messagesRec: [Message] @hasMany(indexName: "byOtherUser", fields: "id")
+  messageSent: [Message] @hasMany(indexName: "byUser", fields: "id")
+  messageRec: [Message] @hasMany(indexName: "byOtherUser", fields: "id")
 }
 
 type FollowingConn @model @auth(rules: [{ allow: private, operations: [create, delete, update, read]}])
