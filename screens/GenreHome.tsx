@@ -89,48 +89,48 @@ const [trendingTags, setTrendingTags] = useState([]);
 
     const GenreTag = ({id, tagName} : any) => {
 
-        const [imageU, setImageU] = useState('')
-        const [imageU2, setImageU2] = useState('')
+        // const [imageU, setImageU] = useState('')
+        // const [imageU2, setImageU2] = useState('')
 
-        useEffect(() => {
-            const fetchImages = async () => {
-                let response = await API.graphql(graphqlOperation(
-                    listStoryTags, {
-                        filter: {
-                            tagID: {
-                                eq: id
-                            }
-                        }
-                    }
-                )) 
-                for (let i = 0; i < response.data.listStoryTags.items.length; i++) {
-                    if (imageU === '') {
-                        if (response.data.listStoryTags.items[i]?.story.approved === 'approved') {
-                            let im = await Storage.get(response.data.listStoryTags.items[i]?.story.imageUri)
-                            setImageU(im)
-                        }
-                    }
-                    else if (imageU2 === '') {
-                        if (response.data.listStoryTags.items[i]?.story.approved === 'approved') {
-                            let im2 = await Storage.get(response.data.listStoryTags.items[i]?.story.imageUri)
-                            setImageU2(im2)
-                        }
-                    }
-                }
+        // useEffect(() => {
+        //     const fetchImages = async () => {
+        //         let response = await API.graphql(graphqlOperation(
+        //             listStoryTags, {
+        //                 filter: {
+        //                     tagID: {
+        //                         eq: id
+        //                     }
+        //                 }
+        //             }
+        //         )) 
+        //         for (let i = 0; i < response.data.listStoryTags.items.length; i++) {
+        //             if (imageU === '') {
+        //                 if (response.data.listStoryTags.items[i]?.story.approved === 'approved') {
+        //                     let im = await Storage.get(response.data.listStoryTags.items[i]?.story.imageUri)
+        //                     setImageU(im)
+        //                 }
+        //             }
+        //             else if (imageU2 === '') {
+        //                 if (response.data.listStoryTags.items[i]?.story.approved === 'approved') {
+        //                     let im2 = await Storage.get(response.data.listStoryTags.items[i]?.story.imageUri)
+        //                     setImageU2(im2)
+        //                 }
+        //             }
+        //         }
                 
                 
                 
-            }
-            fetchImages()
-        }, [])
+        //     }
+        //     fetchImages()
+        // }, [])
 
         return (
             <TouchableWithoutFeedback onPress={() => navigation.navigate('TagSearchScreen', {mainTag: id, tagName: tagName})}>
-                <View style={{width: '48%', backgroundColor: '#1A4851a5', borderRadius: 15, paddingHorizontal: 10, paddingVertical: 10, marginVertical: 10, marginRight: 10}}>
+                <View style={{backgroundColor: '#1A4851a5', borderWidth: 0.5, borderColor: 'cyan', borderRadius: 15, paddingHorizontal: 20, paddingVertical: 6, marginVertical: 10, marginRight: 10}}>
                     <Text style={{color: '#00ffff'}}>
                         #{tagName}
                     </Text>
-                    <View style={{marginTop: 6, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                    {/* <View style={{marginTop: 6, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                         <Image 
                             source={{uri: imageU}}
                             style={{width: 60, height: 45, borderRadius: 8}}
@@ -140,7 +140,7 @@ const [trendingTags, setTrendingTags] = useState([]);
                             style={{width: 60, height: 45, borderRadius: 8}}
                         />
 
-                    </View>
+                    </View> */}
                 </View>
             </TouchableWithoutFeedback>
         )

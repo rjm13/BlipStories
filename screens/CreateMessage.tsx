@@ -88,7 +88,7 @@ const CreateMessage = ({navigation} : any) => {
 
             setData({...data, otherUserID: otherresponse.data.getUser.id, userID: response.data.getUser.id})
             setUser(response.data.getUser);
-            setOtherUser(response.data.getUser);
+            setOtherUser(otherresponse.data.getUser);
         }
         fetchUser();
     }, [otherUserID])
