@@ -14,7 +14,7 @@ import {StatusBar} from 'expo-status-bar';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, listMessages } from '../src/graphql/queries';
+import { getUser } from '../src/graphql/queries';
 
 
 
@@ -24,9 +24,14 @@ const ProfileScreen = ({navigation} : any) => {
     const [user, setUser] = useState();
     const [imageU, setImageU] = useState();
 
+    const [newMessages, setNewMessages] = useState(0);
+
     //on render, set the current user and get the list of followers an author has
     useEffect(() => {
       const fetchUser = async () => {
+
+        let count = 0
+
         const userInfo = await Auth.currentAuthenticatedUser();
           if (!userInfo) {
             return;
@@ -42,6 +47,19 @@ const ProfileScreen = ({navigation} : any) => {
                 setImageU(imageresponse)
             }
 
+            for (let i = 0; i < userData.data.getUser.messageRec.items.length; i++) {
+                if (userData.data.getUser.messageRec.items[i].isReadByOtherUser === false ) {
+                    count++
+                }
+            }
+            for (let i = 0; i < userData.data.getUser.messageSent.items.length; i++) {
+                if (userData.data.getUser.messageSent.items[i].isReadbyUser === false ) {
+                    count++
+                }
+            }
+
+            setNewMessages(count)
+
         } catch (e) {
           console.log(e);
         }
@@ -49,42 +67,42 @@ const ProfileScreen = ({navigation} : any) => {
       fetchUser();
     }, [])
 
-    const [newMessages, setNewMessages] = useState(0);
+    
 
-    useEffect(() => {
-        const GetMessages = async () => {
+    // useEffect(() => {
+    //     const GetMessages = async () => {
 
-            let userInfo = await Auth.currentAuthenticatedUser();
+    //         let userInfo = await Auth.currentAuthenticatedUser();
 
-            let response = await API.graphql(graphqlOperation(
-                listMessages, {
-                    filter: {
-                        or: [
-                           {
-                                userID: {
-                                    eq: userInfo.attributes.sub
-                                }, 
-                                isReadbyUser: {
-                                    eq: false,
-                                }
-                            },
-                            {
-                                otherUserID: {
-                                    eq: userInfo.attributes.sub
-                                },
-                                isReadByOtherUser: {
-                                    eq: false
-                                }
-                            },
-                        ]
+    //         let response = await API.graphql(graphqlOperation(
+    //             listMessages, {
+    //                 filter: {
+    //                     or: [
+    //                        {
+    //                             userID: {
+    //                                 eq: userInfo.attributes.sub
+    //                             }, 
+    //                             isReadbyUser: {
+    //                                 eq: false,
+    //                             }
+    //                         },
+    //                         {
+    //                             otherUserID: {
+    //                                 eq: userInfo.attributes.sub
+    //                             },
+    //                             isReadByOtherUser: {
+    //                                 eq: false
+    //                             }
+    //                         },
+    //                     ]
                         
-                    }
-                }
-            ))
-            setNewMessages(response.data.listMessages.items.length);
-        }
-        GetMessages();
-    }, [])
+    //                 }
+    //             }
+    //         ))
+    //         setNewMessages(response.data.listMessages.items.length);
+    //     }
+    //     GetMessages();
+    // }, [])
 
     return (
         <View>

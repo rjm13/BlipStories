@@ -24,7 +24,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { deleteImageAsset, createImageAsset, updateImageAsset, createMessage, updateMessage } from '../src/graphql/mutations';
-import { getUser, messagesByUpdatedDate } from '../src/graphql/queries';
+import { getUser } from '../src/graphql/queries';
 
 import { format, parseISO } from "date-fns";
 
@@ -199,6 +199,8 @@ const MyArt = ({navigation} : any) => {
     useEffect(() => {
         const fetchData = async () => {
 
+            let requests = []
+
             const userInfo = await Auth.currentAuthenticatedUser();
 
             let result = await API.graphql(graphqlOperation(
@@ -239,6 +241,13 @@ const MyArt = ({navigation} : any) => {
             }
 
             setSampleImages(sampleArr)
+
+            for (let i = 0; i < result.data.getUser.messageRec.items.length; i++) {
+                if (result.data.getUser.messageRec.items[i].status === 'accepted' && result.data.getUser.messageRec.items[i].subtitle === 'artist') {
+                    requests.push(result.data.getUser.messageRec.items[i])
+                }    
+            }
+            setPublishers(requests)
         }
 
         fetchData();
@@ -357,38 +366,43 @@ const MyArt = ({navigation} : any) => {
     const [publishers, setPublishers] = useState([]);
 
 
-    useEffect(() => {
-        const fetchPublishers = async () => {
+    // useEffect(() => {
+    //     const fetchPublishers = async () => {
 
-            let requests = []
+    //         let requests = []
 
-            const userInfo = await Auth.currentAuthenticatedUser();
+    //         const userInfo = await Auth.currentAuthenticatedUser();
 
-            const response = await API.graphql(graphqlOperation(
-                messagesByUpdatedDate, {
-                    type: "Message",
-                    sortDirection: 'DESC',
-                    filter: {
-                        otherUserID: {
-                            eq: userInfo.attributes.sub
-                        },
-                        status: {
-                            eq: 'accepted'
-                        },
-                        subtitle: {
-                            eq: 'artist'
-                        }
-                    }
-                }
-            ))
+    //         const response = await API.graphql(graphqlOperation(
+    //             getUser, {id: userInfo.attributes.sub}
+    //         ))
 
-            for (let i = 0; i < response.data.messagesByUpdatedDate.items.length; i++) {
-                requests.push(response.data.messagesByUpdatedDate.items[i])
-            }
-            setPublishers(requests)
-        }
-        fetchPublishers();
-    }, []);
+    //         // const response = await API.graphql(graphqlOperation(
+    //         //     messagesByUpdatedDate, {
+    //         //         type: "Message",
+    //         //         sortDirection: 'DESC',
+    //         //         filter: {
+    //         //             otherUserID: {
+    //         //                 eq: userInfo.attributes.sub
+    //         //             },
+    //         //             status: {
+    //         //                 eq: 'accepted'
+    //         //             },
+    //         //             subtitle: {
+    //         //                 eq: 'artist'
+    //         //             }
+    //         //         }
+    //         //     }
+    //         // ))
+
+    //         for (let i = 0; i < response.data.getUser.messageRec.items.length; i++) {
+    //             if (response.data.getUser.messageRec.items[i].status === 'accepted' && response.data.getUser.messageRec.items[i].subtitle === 'artist')
+    //             requests.push(response.data.getUser.messgeRec.items[i])
+    //         }
+    //         setPublishers(requests)
+    //     }
+    //     fetchPublishers();
+    // }, []);
 
     const PublishItem = ({id, pseudonym, imageUri, createdAt, messageid} : any) => {
 

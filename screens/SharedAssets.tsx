@@ -225,40 +225,41 @@ const SharedAssets = ({navigation} : any) => {
     const [audioSamples, setAudioSamples] = useState([]);
 
     //on render, list the sample audios for that user
-    useEffect(() => {
+    // useEffect(() => {
 
-        const fetchAssets = async () => {
+    //     const fetchAssets = async () => {
 
-            let samplearr = []
+    //         let samplearr = []
 
-            setIsLoading(true);
+    //         setIsLoading(true);
 
-            const userInfo = await Auth.currentAuthenticatedUser();
+    //         const userInfo = await Auth.currentAuthenticatedUser();
 
-            if (!userInfo) {return;}
+    //         if (!userInfo) {return;}
 
-            try {
+    //         try {
 
-                const userAssets = await API.graphql(graphqlOperation(
-                    getUser, {id: userInfo.attributes.sub
-                }))
+    //             const userAssets = await API.graphql(graphqlOperation(
+    //                 getUser, {id: userInfo.attributes.sub
+    //             }))
 
-                for (let i = 0; i < userAssets.data.getUser.sharedAssets.items.length; i++) {
-                    if (userAssets.data.getUser.sharedAssets.items[i].isSample === true) {
-                        samplearr.push(userAssets.data.getUser.sharedAssets.items[i])
-                    }
-                    
-                }
-                setAudioSamples(samplearr);
+    //             for (let i = 0; i < userAssets.data.getUser.sharedAssets.items.length; i++) {
+    //                 if (userAssets.data.getUser.sharedAssets.items[i].isSample === true) {
+    //                     samplearr.push(userAssets.data.getUser.sharedAssets.items[i])
+    //                 }
+    //             }
+    //             setAudioSamples(samplearr);
+
+
                 
-                setIsLoading(false);
+    //             setIsLoading(false);
 
-            } catch (e) {
-            console.log(e);
-            }
-        }
-            fetchAssets(); 
-        }, [didUpdate]);
+    //         } catch (e) {
+    //         console.log(e);
+    //         }
+    //     }
+    //         fetchAssets(); 
+    //     }, [didUpdate]);
 
     //on render, list the stories for that user
     useEffect(() => {
@@ -268,6 +269,8 @@ const SharedAssets = ({navigation} : any) => {
             let arr = []
 
             let samplearr = []
+
+            let requests = []
 
             setIsLoading(true);
 
@@ -293,6 +296,14 @@ const SharedAssets = ({navigation} : any) => {
                 setAudioSamples(samplearr);
 
                 setAudioAssets(arr);
+
+                for (let i = 0; i < userAssets.data.getUser.messageRec.items.length; i++) {
+                    if (userAssets.data.getUser.messageRec.items[i].status === 'accepted' && userAssets.data.getUser.messageRec.items[i].subtitle === 'narrator') {
+                        requests.push(userAssets.data.getUser.messageRec.items[i])
+                    }
+                }
+
+                setPublishers(requests);
                 
                 setIsLoading(false);
 
@@ -420,38 +431,38 @@ const SharedAssets = ({navigation} : any) => {
 
     const [publishers, setPublishers] = useState([]);
 
-    useEffect(() => {
-        const fetchPublishers = async () => {
+    // useEffect(() => {
+    //     const fetchPublishers = async () => {
 
-            let requests = []
+    //         let requests = []
 
-            const userInfo = await Auth.currentAuthenticatedUser();
+    //         const userInfo = await Auth.currentAuthenticatedUser();
 
-            const response = await API.graphql(graphqlOperation(
-                messagesByUpdatedDate, {
-                    type: 'Message',
-                    sortDirection: 'DESC',
-                    filter: {
-                        otherUserID: {
-                            eq: userInfo.attributes.sub
-                        },
-                        status: {
-                            eq: 'accepted'
-                        },
-                        subtitle: {
-                            eq: 'narrator'
-                        }
-                    }
-                }
-            ))
+    //         const response = await API.graphql(graphqlOperation(
+    //             messagesByUpdatedDate, {
+    //                 type: 'Message',
+    //                 sortDirection: 'DESC',
+    //                 filter: {
+    //                     otherUserID: {
+    //                         eq: userInfo.attributes.sub
+    //                     },
+    //                     status: {
+    //                         eq: 'accepted'
+    //                     },
+    //                     subtitle: {
+    //                         eq: 'narrator'
+    //                     }
+    //                 }
+    //             }
+    //         ))
 
-            for (let i = 0; i < response.data.messagesByUpdatedDate.items.length; i++) {
-                requests.push(response.data.messagesByUpdatedDate.items[i])
-            }
-            setPublishers(requests)
-        }
-        fetchPublishers();
-    }, []);
+    //         for (let i = 0; i < response.data.messagesByUpdatedDate.items.length; i++) {
+    //             requests.push(response.data.messagesByUpdatedDate.items[i])
+    //         }
+    //         setPublishers(requests)
+    //     }
+    //     fetchPublishers();
+    // }, []);
 
     const PublishItem = ({id, pseudonym, imageUri, createdAt, messageid} : any) => {
 

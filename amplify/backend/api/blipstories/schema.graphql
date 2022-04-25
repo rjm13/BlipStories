@@ -241,7 +241,7 @@ type Message @model @auth(rules: [{ allow: private, operations: [create, delete,
     content: String
     user: User @hasOne (fields: ["userID"])
     userID: ID @index(name: "byUser", sortKeyFields: ["id"])
-    otherUserID: ID
+    otherUserID: ID @index(name: "byOtherUser", sortKeyFields: ["id"])
     otherUser: User @hasOne (fields: ["otherUserID"])
     createdAt: String
     isReadbyUser: Boolean

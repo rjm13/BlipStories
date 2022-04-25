@@ -234,6 +234,44 @@ export const onCreateUser = /* GraphQL */ `
       narratorActiveAt
       artistActiveAt
       plan
+      messageSent {
+        items {
+          id
+          type
+          title
+          subtitle
+          content
+          userID
+          otherUserID
+          createdAt
+          isReadbyUser
+          isReadByOtherUser
+          request
+          docID
+          updatedAt
+          status
+        }
+        nextToken
+      }
+      messageRec {
+        items {
+          id
+          type
+          title
+          subtitle
+          content
+          userID
+          otherUserID
+          createdAt
+          isReadbyUser
+          isReadByOtherUser
+          request
+          docID
+          updatedAt
+          status
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -471,6 +509,44 @@ export const onUpdateUser = /* GraphQL */ `
       narratorActiveAt
       artistActiveAt
       plan
+      messageSent {
+        items {
+          id
+          type
+          title
+          subtitle
+          content
+          userID
+          otherUserID
+          createdAt
+          isReadbyUser
+          isReadByOtherUser
+          request
+          docID
+          updatedAt
+          status
+        }
+        nextToken
+      }
+      messageRec {
+        items {
+          id
+          type
+          title
+          subtitle
+          content
+          userID
+          otherUserID
+          createdAt
+          isReadbyUser
+          isReadByOtherUser
+          request
+          docID
+          updatedAt
+          status
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -708,6 +784,44 @@ export const onDeleteUser = /* GraphQL */ `
       narratorActiveAt
       artistActiveAt
       plan
+      messageSent {
+        items {
+          id
+          type
+          title
+          subtitle
+          content
+          userID
+          otherUserID
+          createdAt
+          isReadbyUser
+          isReadByOtherUser
+          request
+          docID
+          updatedAt
+          status
+        }
+        nextToken
+      }
+      messageRec {
+        items {
+          id
+          type
+          title
+          subtitle
+          content
+          userID
+          otherUserID
+          createdAt
+          isReadbyUser
+          isReadByOtherUser
+          request
+          docID
+          updatedAt
+          status
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -781,6 +895,12 @@ export const onCreateFollowingConn = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -845,6 +965,12 @@ export const onCreateFollowingConn = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -921,6 +1047,12 @@ export const onUpdateFollowingConn = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -985,6 +1117,12 @@ export const onUpdateFollowingConn = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1061,6 +1199,12 @@ export const onDeleteFollowingConn = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1125,6 +1269,12 @@ export const onDeleteFollowingConn = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1200,6 +1350,12 @@ export const onCreatePinnedStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1408,6 +1564,12 @@ export const onUpdatePinnedStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1616,6 +1778,12 @@ export const onDeletePinnedStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1824,6 +1992,12 @@ export const onCreateFinishedStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2047,6 +2221,12 @@ export const onUpdateFinishedStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2270,6 +2450,12 @@ export const onDeleteFinishedStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2495,6 +2681,12 @@ export const onCreateStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2563,6 +2755,12 @@ export const onCreateStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2629,6 +2827,12 @@ export const onCreateStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2780,6 +2984,12 @@ export const onUpdateStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2848,6 +3058,12 @@ export const onUpdateStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2914,6 +3130,12 @@ export const onUpdateStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3065,6 +3287,12 @@ export const onDeleteStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3133,6 +3361,12 @@ export const onDeleteStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3199,6 +3433,12 @@ export const onDeleteStory = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3422,6 +3662,12 @@ export const onCreateImageAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3487,6 +3733,12 @@ export const onCreateImageAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3565,6 +3817,12 @@ export const onUpdateImageAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3630,6 +3888,12 @@ export const onUpdateImageAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3708,6 +3972,12 @@ export const onDeleteImageAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3773,6 +4043,12 @@ export const onDeleteImageAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3850,6 +4126,12 @@ export const onCreateDocumentAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3916,6 +4198,12 @@ export const onCreateDocumentAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3992,6 +4280,12 @@ export const onUpdateDocumentAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -4058,6 +4352,12 @@ export const onUpdateDocumentAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -4134,6 +4434,12 @@ export const onDeleteDocumentAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -4200,6 +4506,12 @@ export const onDeleteDocumentAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -4278,6 +4590,12 @@ export const onCreateAudioAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -4344,6 +4662,12 @@ export const onCreateAudioAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -4422,6 +4746,12 @@ export const onUpdateAudioAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -4488,6 +4818,12 @@ export const onUpdateAudioAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -4566,6 +4902,12 @@ export const onDeleteAudioAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -4632,6 +4974,12 @@ export const onDeleteAudioAsset = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -4840,6 +5188,12 @@ export const onCreateFlag = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -5050,6 +5404,12 @@ export const onUpdateFlag = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -5260,6 +5620,12 @@ export const onDeleteFlag = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -5470,6 +5836,12 @@ export const onCreateComment = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -5680,6 +6052,12 @@ export const onUpdateComment = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -5890,6 +6268,12 @@ export const onDeleteComment = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -6199,6 +6583,12 @@ export const onCreateRating = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -6423,6 +6813,12 @@ export const onUpdateRating = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -6647,6 +7043,12 @@ export const onDeleteRating = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -6740,6 +7142,12 @@ export const onCreateMessage = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -6806,6 +7214,12 @@ export const onCreateMessage = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -6967,6 +7381,12 @@ export const onUpdateMessage = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -7033,6 +7453,12 @@ export const onUpdateMessage = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -7194,6 +7620,12 @@ export const onDeleteMessage = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -7260,6 +7692,12 @@ export const onDeleteMessage = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -7507,6 +7945,12 @@ export const onCreateReply = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -7670,6 +8114,12 @@ export const onUpdateReply = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -7833,6 +8283,12 @@ export const onDeleteReply = /* GraphQL */ `
         narratorActiveAt
         artistActiveAt
         plan
+        messageSent {
+          nextToken
+        }
+        messageRec {
+          nextToken
+        }
         createdAt
         updatedAt
       }
