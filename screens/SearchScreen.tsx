@@ -157,9 +157,6 @@ const SearchScreen = ({navigation} : any) => {
                         ]
                       }
               }))
-
-              console.log(searchResults.data.listStories.nextToken)
-
               
               setNextToken(searchResults.data.listStories.nextToken)
               
