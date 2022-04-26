@@ -297,6 +297,7 @@ const SearchStoriesList = ({search} : any) => {
     //on render, get the user and then list the following connections for that user
     useEffect(() => {
 
+
         const fetchStories = async () => {
 
             //const SearchResults = []
@@ -322,6 +323,8 @@ const SearchStoriesList = ({search} : any) => {
                             }
                         }
                 }))
+
+                console.log(searchResults.data.listStories.nextToken)
 
                 setSearchedStories(searchResults.data.listStories.items);
 

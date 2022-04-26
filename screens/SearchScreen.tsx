@@ -53,8 +53,8 @@ const SearchScreen = ({navigation} : any) => {
               placeholderTextColor='#000000a5'
               autoComplete={true}
               onChangeText={onChangeSearch}
-              onIconPress={() => {setNewSearch(searchQuery); setDidUpdate(!didUpdate); }}
-              onSubmitEditing={() => {setNewSearch(searchQuery); setDidUpdate(!didUpdate);}}
+              onIconPress={() => {setNewSearch(searchQuery); setSearchedStories([]); setNextToken(null); setDidUpdate(!didUpdate); }}
+              onSubmitEditing={() => {setNewSearch(searchQuery); setSearchedStories([]); setNextToken(null); setDidUpdate(!didUpdate);}}
               value={searchQuery}
               ref={focus}
               maxLength={20}
@@ -106,6 +106,8 @@ const SearchScreen = ({navigation} : any) => {
         }
     },[didUpdate])
 
+    const [nextToken, setNextToken] = useState(null)
+
     //on render, get the user and then list the following connections for that user
     useEffect(() => {
 
@@ -117,6 +119,7 @@ const SearchScreen = ({navigation} : any) => {
 
               const searchResults = await API.graphql(graphqlOperation(
                   listStories, {
+                      nextToken,
                       filter: {
                         or: [
                           {title: {
@@ -155,7 +158,12 @@ const SearchScreen = ({navigation} : any) => {
                       }
               }))
 
-              setSearchedStories(searchResults.data.listStories.items);
+              console.log(searchResults.data.listStories.nextToken)
+
+              
+              setNextToken(searchResults.data.listStories.nextToken)
+              
+              setSearchedStories(searchedStories.concat(searchResults.data.listStories.items));
 
           } catch (e) {
           console.log(e);
@@ -164,7 +172,7 @@ const SearchScreen = ({navigation} : any) => {
         return;
       }
     }
-         fetchStories(); 
+        fetchStories(); 
     
     }, [didUpdate])
 
@@ -240,7 +248,13 @@ const SearchScreen = ({navigation} : any) => {
                 maxToRenderPerBatch={10} 
                 ListFooterComponent={ () => {
                     return (
-                        <View style={{ height:  120, }} />
+                        <View style={{ height:  150, alignItems: 'center', marginTop: 40}}>
+                            <TouchableOpacity onPress={() => setDidUpdate(!didUpdate)}>
+                              <Text style={{color: '#fff'}}>
+                                {nextToken ? 'Load More' : null}
+                              </Text>
+                            </TouchableOpacity>
+                        </View>
                 );}}
                 ListHeaderComponent={ () => {
                     return (
