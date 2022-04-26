@@ -41,12 +41,9 @@ const TagSearchScreen = ({navigation} : any) => {
         const fetchTags = async () => {
             let response = await API.graphql(graphqlOperation(
                 getTag, {
-                    id: mainTag
+                    id: mainTag,
                 }
             ))
-
-            console.log(response.data.getTag.id)
-            console.log(response.data.getTag.tagName)
 
             if (response.data.getTag.stories.items.length > 0) {
                 for(let i = 0; i < response.data.getTag.stories.items.length; i++) {
@@ -62,10 +59,8 @@ const TagSearchScreen = ({navigation} : any) => {
                         }
                         if (nsfwOn === true && response.data.getTag.stories.items[i].story.nsfw === false) {
                             stories.push(response.data.getTag.stories.items[i].story)
-                        }
-                            
-                    } 
-                    
+                        }  
+                    }   
                 }
             }
 

@@ -8,6 +8,7 @@ import {
     TouchableWithoutFeedback, 
     FlatList, 
     RefreshControl, 
+    TouchableOpacity
 } from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -34,9 +35,13 @@ const BrowseAuthor = ({navigation} : any) => {
 
     const [following, setFollowing] = useState([]);
 
+    const [nextToken, setNextToken] = useState(null)
+
     //refresh function, does not work yet
     const onRefresh = () => {
         setIsFetching(true);
+        setUsers([]);
+        setNextToken(null)
         setDidUpdate(!didUpdate)
         setTimeout(() => {
           setIsFetching(false);
@@ -68,6 +73,7 @@ const BrowseAuthor = ({navigation} : any) => {
 
                 const followData = await API.graphql(graphqlOperation(
                     listUsers, {
+                        nextToken,
                         filter: {
                             isPublisher: {
                                 eq: true
@@ -78,8 +84,8 @@ const BrowseAuthor = ({navigation} : any) => {
                         }
                 }))
 
-                
-                setUsers(followData.data.listUsers.items);
+                setNextToken(followData.data.listUsers.nextToken)
+                setUsers(users.concat(followData.data.listUsers.items));
                 
             } catch (e) {
             console.log(e);
@@ -105,8 +111,8 @@ const BrowseAuthor = ({navigation} : any) => {
               onChangeText={onChangeSearch}
               value={searchQuery}
               iconColor='#000000a5'
-              onIconPress={() => {setSearchQ(searchQuery); setDidUpdate(!didUpdate);}}
-              onSubmitEditing={() => {setSearchQ(searchQuery); setDidUpdate(!didUpdate);}}
+              onIconPress={() => {setSearchQ(searchQuery); setNextToken(null); setUsers([]); setDidUpdate(!didUpdate);}}
+              onSubmitEditing={() => {setSearchQ(searchQuery); setNextToken(null); setUsers([]); setDidUpdate(!didUpdate);}}
               style={{
                 height: 35,
                 marginLeft: 40,
@@ -268,7 +274,13 @@ const BrowseAuthor = ({navigation} : any) => {
                         }}
                         ListFooterComponent={() => {
                             return (
-                                <View style={{height: 120}} />
+                                <View style={{ height:  150, alignItems: 'center', marginTop: 40}}>
+                                    <TouchableOpacity onPress={() => setDidUpdate(!didUpdate)}>
+                                        <Text style={{color: '#fff'}}>
+                                            {nextToken ? 'Load More' : null}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
                             )
                         }}
                     />

@@ -32,6 +32,9 @@ const SearchScreen = ({navigation} : any) => {
     //search function trigger that refreshes the search results
     const [didUpdate, setDidUpdate] = useState(false);
 
+    const [tagUpdate, setTagUpdate] = useState(null);
+    
+
     //focus the keyboard only on initial render
     const focus = useRef(null)
 
@@ -83,6 +86,7 @@ const SearchScreen = ({navigation} : any) => {
 
     //array of tags that show from search results
     const [TagsArray, setTagsArray] = useState([]);
+    const [tagToken, setTagToken] = useState(null);
 
     useEffect(() => {
 
@@ -90,6 +94,7 @@ const SearchScreen = ({navigation} : any) => {
             const fetchTags = async () => {
                 const tagResults = await API.graphql(graphqlOperation(
                     listTags, {
+                        tagToken,
                         filter: {
                             tagName: {
                                 contains: newSearch.toLowerCase()
@@ -100,6 +105,7 @@ const SearchScreen = ({navigation} : any) => {
                         }
                     }
                 ))
+                //setTagToken(tagResults.data.listTags.nextToken)
                 setTagsArray(tagResults.data.listTags.items)
             }
             fetchTags();
@@ -263,7 +269,7 @@ const SearchScreen = ({navigation} : any) => {
                                     </Text>
                                     <View>
                                         <ScrollView style={{width: Dimensions.get('window').width - 40, marginHorizontal: 20, marginBottom: 20, paddingBottom: 1}} contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                                            {TagsArray.slice(0, 16).map(({ tagName, id, genreID, nsfw } : any, index) => (
+                                            {TagsArray.map(({ tagName, id, genreID, nsfw } : any, index) => (
                                                 <View key={id} style={{marginTop: 10, marginRight: 10}}>
                                                     <TouchableOpacity onPress={() => navigation.navigate('TagSearchStack', {mainTag: id, tagName: tagName})}>
                                                         <View style={{}}>
@@ -283,6 +289,15 @@ const SearchScreen = ({navigation} : any) => {
                                                 </View>
                                             ))}
                                         </ScrollView>
+
+                                          <TouchableOpacity onPress={() => setTagUpdate(!tagUpdate)}>
+                                            <View style={{alignItems: 'center', marginTop: 10}}>
+                                              <Text style={{color: '#fff'}}>
+                                                 {tagToken === null ? '' : 'Load More'}
+                                              </Text>
+                                            </View>
+                                          </TouchableOpacity>
+                                        
                                     </View>
                                 </View>
                             ) : null}

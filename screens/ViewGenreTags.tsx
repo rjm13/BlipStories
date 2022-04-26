@@ -15,7 +15,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import { getGenre } from '../src/graphql/queries';
+import { getGenre, listTags } from '../src/graphql/queries';
 import {graphqlOperation, API} from 'aws-amplify';
 
 const GenreTags = ({navigation} : any) => {
@@ -48,7 +48,11 @@ const GenreTags = ({navigation} : any) => {
         fetchTags();
     }, [])
 
-    const Item = ({id, tagName} : any) => {
+  
+
+    
+
+    const Item = ({id, tagName, index} : any) => {
         return (
             <TouchableWithoutFeedback onPress={() => navigation.navigate('TagSearchScreen', {mainTag: id, tagName: tagName})}>
                <View style={{margin: 8}}>
@@ -61,11 +65,12 @@ const GenreTags = ({navigation} : any) => {
         )
     }
 
-    const renderItem = ({item} : any) => {
+    const renderItem = ({item, index} : any) => {
         return (
             <Item 
                 id={item.id}
                 tagName={item.tagName}
+                index={index}
             />
         )
     }
