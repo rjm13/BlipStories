@@ -104,10 +104,55 @@ const UploadAudio = ({navigation} : any) => {
 //determine where the audio is coming from, locally or otherwise
     const [isLocalAudio, setIsLocalAudio] = useState(false);
 
+    const [existingTag, setExistingTag] = useState(null);
+
+    //const [nextToken, setNextToken] = useState(null); 
+
+    //const [tagCheck, setTagCheck] = useState('')
+
+  
+
+        const ListAllTags =  (tagCheck : any) => {
+
+            //let nextToken = null
+
+            const Search = async (nextToken : any) => {
+                        
+                const response = await API.graphql(graphqlOperation(
+                    listTags,{
+                    nextToken,
+                    filter: {
+                        tagName: {eq: tagCheck}}
+                    }
+                ))
+
+                //console.log(response.data.listTags.items)
+
+                if (response.data.listTags.items.length === 1) {
+                    setExistingTag(response.data.listTags.items[0])
+                    console.log('1 tag is')
+                    console.log(response.data.listTags.items[0].id)
+                    return (response.data.listTags.items[0].id)
+                }
+
+                if (response.data.listTags.nextToken) {
+                    let nextToken = response.data.listTags.nextToken
+                    Search(nextToken)
+                } 
+            }
+
+            
+            return(Search (null));
+            
+            
+        }
+
 
 //PRIMARY FUNCTION for uploading all of the story data to the s3 bucket and app sync API
 //There are 4 different functions depending on if a file must be uploaded to the s3 bucket or not
     const PublishStory = async () => {
+
+
 
         setIsPublishing(true);
 
@@ -161,22 +206,32 @@ const UploadAudio = ({navigation} : any) => {
                 if (TagsArray.length > 0) {
                     //then for each tag, check to see if it already exists
                     for (let i = 0; i < TagsArray.length; i++) {
-                        let tagCheck = await API.graphql(graphqlOperation(
-                            listTags, {filter: {tagName: {eq: TagsArray[i].name.toLowerCase().replace(/ /g, '')}}}
-                        ))
-                        //console.log(tagCheck)
-                        //if the tag exists, create a StoryTag with the tagID and storyID
-                        if (tagCheck.data.listTags.items.length === 1) {
-                            let addTag = await API.graphql(graphqlOperation(
-                                createStoryTag, {input: {tagID: tagCheck.data.listTags.items[0].id, storyID: result.data.createStory.id, }}
-                            ))
+                        // let tagCheck = await API.graphql(graphqlOperation(
+                        //     listTags, {filter: {tagName: {eq: TagsArray[i].name.toLowerCase().replace(/ /g, '')}}}
+                        // ))
+                        let tagCheck = TagsArray[i].name.toLowerCase().replace(/ /g, '')
 
-                            console.log(addTag)
+                        let extag = await ListAllTags(tagCheck);
+
+                        console.log('...existing tag is')
+                        console.log(extag)
+
+                        //if the tag exists, create a StoryTag with the tagID and storyID
+                        if (extag !== undefined) {
+                        //if (tagCheck.data.listTags.items.length === 1) {
+                            // let addTag = await API.graphql(graphqlOperation(
+                            //     createStoryTag, {input: {tagID: tagCheck.data.listTags.items[0].id, storyID: result.data.createStory.id, }}
+                            // ))
+                            await API.graphql(graphqlOperation(
+                                createStoryTag, {input: {tagID: extag, storyID: result.data.createStory.id, }}
+                            ))
+                            console.log('it worked!')
+
                             const genreTagCheck = await API.graphql(graphqlOperation(
                                 listGenreTags, {
                                     filter: {
                                         tagID: {
-                                            eq: tagCheck.data.listTags.items[0].id
+                                            eq: extag
                                         },
                                         genreID: {
                                             eq: data.genreID
@@ -187,13 +242,14 @@ const UploadAudio = ({navigation} : any) => {
 
                             if (genreTagCheck.data.listGenreTags.items.length !== 1) {
                                 let makeGenreTag = await API.graphql(graphqlOperation(
-                                        createGenreTag, {input: {tagID: tagCheck.data.listTags.items[0].id, genreID: data.genreID}}
+                                        createGenreTag, {input: {tagID: extag, genreID: data.genreID}}
                                     )) 
-                                console.log(makeGenreTag)
+                                //console.log(makeGenreTag)
                             }
                             
                         //if the tag does not exist, create the tag and then the StoryTag with the tagID and storyID
-                        } else if (tagCheck.data.listTags.items.length === 0) {
+                        //} else if (tagCheck.data.listTags.items.length === 0) {
+                        } else if (extag === undefined) {
                             let newTag = await API.graphql(graphqlOperation(
                                 createTag, {input: {createdAt: new Date(), type: 'Tag', tagName: TagsArray[i].name.toLowerCase().replace(/ /g, ''), count: 0, nsfw: data.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false}}
                             ))
@@ -206,12 +262,14 @@ const UploadAudio = ({navigation} : any) => {
                                     createGenreTag, {input: {tagID: newTag.data.createTag.id, genreID: data.genreID}}
                                 ))
                                 
-                                console.log('story tags are...')
-                                console.log(makeStoryTag)
-                                console.log(makeGenreTag)
+                                // console.log('story tags are...')
+                                // console.log(makeStoryTag)
+                                // console.log(makeGenreTag)
                             }
                         }
-
+                        setExistingTag(null);
+                        //setTagCheck('');
+                        //setNextToken(null)
                     }
                 }
 
@@ -221,12 +279,12 @@ const UploadAudio = ({navigation} : any) => {
                     numAuthored: numAuthored + 1
                 }
             }));
-            console.log(updateUserInfo);
+            //console.log(updateUserInfo);
 
             setIsPublishing(false);
             navigation.goBack();
 
-            console.log(result);
+            //console.log(result);
                 } catch (e) {
                     alert('Connection error. Please try again.')
                     setIsPublishing(false);
