@@ -32,7 +32,7 @@ import { formatRelative, parseISO } from "date-fns";
 import ShareStory from '../components/functions/ShareStory';
 
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
-import { getStory, getUser, listRatings } from '../src/graphql/queries';
+import { getStory, getUser } from '../src/graphql/queries';
 import { createComment, createFlag, createRating, updateRating, updateStory } from '../src/graphql/mutations';
 
 import { AppContext } from '../AppContext';
@@ -93,7 +93,6 @@ const StoryScreen  = ({navigation} : any) => {
                     tagarr.push({id: storyData.data.getStory.tags.items[i].tag.id, tagName: storyData.data.getStory.tags.items[i].tag.tagName})
                 }
                 setTags(tagarr)
-                console.log(tagarr)
 
                 if (storyData) {
                     setStory(storyData.data.getStory);
@@ -230,16 +229,14 @@ const StoryScreen  = ({navigation} : any) => {
         let userInfo = await Auth.currentAuthenticatedUser();
 
         if (isRated === true) {
-            let Rate = await API.graphql(graphqlOperation(
+            await API.graphql(graphqlOperation(
                 updateRating, {input: {
                     id: ratingID,
                     rating: ratingNum,
-                    updatedAt: new Date()
                 }}
             ))
-            console.log(Rate)
         } else {
-            let Rate = await API.graphql(graphqlOperation(
+            await API.graphql(graphqlOperation(
                 createRating, {input: {
                     userID: userInfo.attributes.sub, 
                     storyID: storyID,
@@ -249,7 +246,6 @@ const StoryScreen  = ({navigation} : any) => {
                     createdAt: new Date(),
                 }}
             ))
-        console.log(Rate)
         }
 
         //determine the new average and update the story
@@ -257,26 +253,21 @@ const StoryScreen  = ({navigation} : any) => {
         let Average = []
 
         let RatingAvg = await API.graphql(graphqlOperation(
-            listRatings, {filter: {
-                storyID: {
-                    eq: storyID
-                }
-            }}
+            getStory, {id: storyID}
         ))
 
-        if (RatingAvg.data.listRatings.items.length > 0) {
-            for (let i = 0; i < RatingAvg.data.listRatings.items.length; i++) {
-                Average.push(RatingAvg.data.listRatings.items[i].rating) 
+        if (RatingAvg.data.getStory.rated.items.length > 0) {
+            for (let i = 0; i < RatingAvg.data.getStory.rated.items.length; i++) {
+                Average.push(RatingAvg.data.getStory.rated.items[i].rating) 
             }
             
-            let newRating =  Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.listRatings.items.length))*10)
-            let newLength = RatingAvg.data.listRatings.items.length
+            let newRating =  Math.floor(((Average.reduce((a, b) => {return a + b}))/(RatingAvg?.data.getStory.rated.items.length))*10)
+            let newLength = RatingAvg.data.getStory.rated.items.length
 
-            let newResult = await API.graphql(graphqlOperation(
+        await API.graphql(graphqlOperation(
                 updateStory, {input: {
                     id: storyID, ratingAvg: newRating, ratingAmt: newLength}}
             ))
-            console.log(newResult)
         }
 
 
@@ -313,7 +304,7 @@ const StoryScreen  = ({navigation} : any) => {
 
             let userInfo = await Auth.currentAuthenticatedUser();
 
-            const report = await API.graphql(graphqlOperation(
+            await API.graphql(graphqlOperation(
                 createFlag, {input: {
                     storyID: storyID,
                     userID: userInfo.attributes.sub,
@@ -321,7 +312,6 @@ const StoryScreen  = ({navigation} : any) => {
                     Status: 'active',
                 }}
           ))
-          console.log(report)
         } catch (e) {
             console.log(e)
         }
@@ -445,7 +435,7 @@ const StoryScreen  = ({navigation} : any) => {
     
             if (comment.length > 0) {
                 try {
-                    let result = await API.graphql(
+                    await API.graphql(
                             graphqlOperation(createComment, { input: 
                                 {
                                     type: 'Comment',
@@ -456,7 +446,6 @@ const StoryScreen  = ({navigation} : any) => {
                                     approved: false
                                 }
                             }))
-                                console.log(result);
                         } catch (e) {
                                 console.error(e);
                 }
