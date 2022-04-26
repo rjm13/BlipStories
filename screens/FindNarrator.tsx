@@ -158,6 +158,8 @@ const FindNarrator = ({navigation} : any) => {
 
       //search function trigger that refreshes the search results
       const [didUpdate, setDidUpdate] = useState(false);
+
+      const [nextToken, setNextToken] = useState(null)
   
       //focus the keyboard only on initial render
       const focus = useRef(null)
@@ -180,8 +182,8 @@ const FindNarrator = ({navigation} : any) => {
               placeholderTextColor='#000000a5'
               autoComplete={true}
               onChangeText={onChangeSearch}
-              onIconPress={() => {setNewSearch(searchQuery); setDidUpdate(!didUpdate); }}
-              onSubmitEditing={() => {setNewSearch(searchQuery); setDidUpdate(!didUpdate);}}
+              onIconPress={() => {setNewSearch(searchQuery); setNarrators([]); setNextToken(null); setDidUpdate(!didUpdate); }}
+              onSubmitEditing={() => {setNewSearch(searchQuery); setNarrators([]); setNextToken(null); setDidUpdate(!didUpdate);}}
               value={searchQuery}
               ref={focus}
               maxLength={20}
@@ -247,7 +249,10 @@ const FindNarrator = ({navigation} : any) => {
                         }
                     }
                 ))
-            setNarrators(response.data.usersByNarratorActiveAt.items)
+
+                setNextToken(response.data.usersByNarratorActiveAt.nextToken)
+
+                setNarrators(narrators.concat(response.data.usersByNarratorActiveAt.items))
             
             
         }

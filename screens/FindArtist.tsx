@@ -160,6 +160,8 @@ const FindArtist = ({navigation} : any) => {
 
       //search function trigger that refreshes the search results
       const [didUpdate, setDidUpdate] = useState(false);
+
+      const [nextToken, setNextToken] = useState(null)
   
       //focus the keyboard only on initial render
       const focus = useRef(null)
@@ -182,8 +184,8 @@ const FindArtist = ({navigation} : any) => {
               placeholderTextColor='#000000a5'
               autoComplete={true}
               onChangeText={onChangeSearch}
-              onIconPress={() => {setNewSearch(searchQuery); setDidUpdate(!didUpdate); }}
-              onSubmitEditing={() => {setNewSearch(searchQuery); setDidUpdate(!didUpdate);}}
+              onIconPress={() => {setNewSearch(searchQuery); setArtists([]); setNextToken(null); setDidUpdate(!didUpdate); }}
+              onSubmitEditing={() => {setNewSearch(searchQuery); setNextToken(null); setDidUpdate(!didUpdate);}}
               value={searchQuery}
               ref={focus}
               maxLength={20}
@@ -206,6 +208,8 @@ const FindArtist = ({navigation} : any) => {
           </View>
         );
       };
+
+
 
       useEffect(() => {
 
@@ -239,7 +243,10 @@ const FindArtist = ({navigation} : any) => {
                         }
                     }
                 ))
-            setArtists(response.data.usersByArtistActiveAt.items)
+
+                setNextToken(response.data.usersByArtistActiveAt.nextToken)
+
+                setArtists(artists.concat(response.data.usersByArtistActiveAt.items))
             
             
         }
@@ -401,7 +408,13 @@ const FindArtist = ({navigation} : any) => {
                                 <View style={{height: 30}}/>
                             }
                             ListFooterComponent={
-                                <View style={{height: 120}}/>
+                                <View style={{ height:  150, alignItems: 'center', marginTop: 40}}>
+                                    <TouchableOpacity onPress={() => setDidUpdate(!didUpdate)}>
+                                        <Text style={{color: '#fff'}}>
+                                            {nextToken ? 'Load More' : null}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
                             }
                         /> 
                     </View>
