@@ -295,6 +295,10 @@ const GenreCarousel = ({genreid} : any) => {
 
     const renderItem = ({ item }: any) => {
 
+        if (item === undefined) {
+            return
+        }
+
         let icon = ''
         let genreName = ''
         let primary = ''

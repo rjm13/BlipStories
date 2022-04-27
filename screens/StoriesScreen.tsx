@@ -102,14 +102,17 @@ const AudioStoryHome = ({navigation} : any) => {
     );
   }
     
-  const renderItem = ({ item } : any) => (
-    <Item 
-        id={item.id}
-        genre={item.genre}
-        PrimaryColor={item.PrimaryColor}
-        imageUri={item.imageUri}
-    />
-  );
+  const renderItem = ({ item } : any) => {
+
+    return (
+      <Item 
+          id={item.id}
+          genre={item.genre}
+          PrimaryColor={item.PrimaryColor}
+          imageUri={item.imageUri}
+      />
+    );
+  }
 
   //popular tags list data set
   const [tags, setTags] = useState([])
@@ -258,7 +261,7 @@ const AudioStoryHome = ({navigation} : any) => {
                     }}
                     ListFooterComponent={ () => {
                         return (
-                        <View style={{ height:  70}}/>
+                        <View style={{ height:  120}}/>
                         );
                     }}
                 />

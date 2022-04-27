@@ -29,6 +29,8 @@ const GenreHome = ({navigation} : any) => {
     const route = useRoute();
     const {genreRoute} = route.params
 
+    console.log(genreRoute)
+
 //get the genre information
     const [GenreInfo, setGenreInfo] = useState({
         id: 1,

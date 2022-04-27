@@ -15,7 +15,6 @@ import {
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import {StatusBar} from 'expo-status-bar';
 import { StorageAccessFramework } from 'expo-file-system';
 import * as FileSystem from 'expo-file-system';
 import * as DocumentPicker from 'expo-document-picker';
@@ -417,6 +416,13 @@ const ViewMessage = ({navigation} : any) => {
                     throw new Error(e);
                 }    
             }
+            if (Platform.OS === 'ios') {
+
+                FileSystem.downloadAsync(response, targetUri)
+                .then(({ uri }) => {
+                    Sharing.shareAsync(uri)
+                })
+            }
         }
     }
 
@@ -499,7 +505,7 @@ const ViewMessage = ({navigation} : any) => {
                                     {isDownloading ? (
                                         <ActivityIndicator size="small" color="cyan"/>
                                     ) : 
-                                        <Text style={{borderRadius: 30, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Share PDF</Text> 
+                                        <Text style={{overflow: 'hidden', borderRadius: 13, backgroundColor: 'cyan', color: '#000', paddingVertical: 5, paddingHorizontal: 20}}>Share PDF</Text> 
                                     } 
                                 </View>
                             </TouchableOpacity>
@@ -676,7 +682,7 @@ const ViewMessage = ({navigation} : any) => {
                                 <View style={{alignSelf: 'center',  width: Dimensions.get('window').width - 40, marginTop: 20}}>
                                             <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around'}}>
                                                 <TouchableOpacity onPress={AcceptRequest}>
-                                                    <Text style={{backgroundColor: '#00ffff', color: '#000', borderRadius: 15, borderWidth: 0.5, borderColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
+                                                    <Text style={{overflow: 'hidden', backgroundColor: '#00ffff', color: '#000', borderRadius: 15, borderWidth: 0.5, borderColor: 'cyan', paddingVertical: 6, paddingHorizontal: 20}}>
                                                         Accept
                                                     </Text>
                                                 </TouchableOpacity>
@@ -710,6 +716,7 @@ const styles = StyleSheet.create ({
         fontWeight: 'bold',
         marginHorizontal: 10,
         marginVertical: 20,
+        textTransform: 'capitalize'
     },
     tile: {
         flexDirection: 'row', 
