@@ -394,6 +394,7 @@ const styles = StyleSheet.create({
         color: '#ffffffa5',
         marginRight: 15,
         marginLeft: 5,
+        textTransform: 'capitalize'
     },
     icontext: {
         fontSize: 10,

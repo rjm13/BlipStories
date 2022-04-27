@@ -99,9 +99,12 @@ const SharedAssets = ({navigation} : any) => {
                 <View style={{flexDirection: 'row', width: '100%', marginTop: 4}}>
                     {sharedUserID ? (
                         <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: sharedUserID})}>
-                            <View style={{marginTop: 10}}>
+                            <View style={{marginTop: 10, flexDirection: 'row', alignItems: 'center'}}>
                                 <Text style={{color: 'gray', }}>
-                                    Shared with {pseudonym}
+                                    Shared with
+                                </Text>
+                                <Text style={{marginLeft: 4, color: 'gray', textTransform: 'capitalize'}}>
+                                    {pseudonym}
                                 </Text>
                             </View>
                         </TouchableOpacity>
@@ -492,7 +495,7 @@ const SharedAssets = ({navigation} : any) => {
                                     color='#ffffffa5'
                                     style={{alignSelf: 'center'}}
                                 />
-                                <Text style={{fontWeight: 'bold', color: '#fff', marginLeft: 10}}>
+                                <Text style={{fontWeight: 'bold', color: '#fff', marginLeft: 10, textTransform: 'capitalize'}}>
                                     {pseudonym}
                                 </Text>
                             </View>
@@ -615,7 +618,7 @@ const SharedAssets = ({navigation} : any) => {
                     userID: data.sharedUserID,
                     otherUserID: user.data.getUser.id,
                     content: 'You have a new shared narration for your short story. \n\nThis audio is to be used for this purpose only and any other use will be considered copywrite infringement in which you may be held liable. \n\nTo view this narration, open the Shared Assets list from your Publisher account.\n\nTo add this narration to your story, select from Shared Audio on the Publish a Story Screen',
-                    title: user.data.getUser.narratorPseudo + ' shared a narration with you!',
+                    title: user.data.getUser.narratorPseudo.toUpperCase() + ' shared a narration with you!',
                     subtitle: 'narrator',
                     isReadbyUser: false,
                     isReadByOtherUser: true,

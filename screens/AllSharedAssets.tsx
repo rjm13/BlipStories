@@ -113,7 +113,7 @@ const AllSharedAssets = ({navigation} : any) => {
         )
     }
 
-    const AudioItem = ({title, time, id} : any) => {
+    const AudioItem = ({title, time, id, sharedUserName, sharedUserID} : any) => {
 
         //convert the time to show in the modal
         function millisToMinutesAndSeconds () {
@@ -151,6 +151,17 @@ const AllSharedAssets = ({navigation} : any) => {
                     
                     
                 </View>
+                <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 16, marginBottom: 20}}>
+                    <Text style={{color: '#00ffffa5'}}>
+                        Shared by
+                    </Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: sharedUserID, status: 'narrator' })}>
+                        <Text style={{color: '#00ffffa5', marginLeft: 4, textTransform: 'capitalize'}}>
+                            {sharedUserName}
+                        </Text>
+                    </TouchableOpacity>
+                    
+                </View>
             </View>
         )
     }
@@ -163,8 +174,8 @@ const AllSharedAssets = ({navigation} : any) => {
                 imageUri={item.imageUri}
                 id={item.id}
                 index={index}
-                sharedUserID={item.sharedUserID}
-                sharedUserName={item.sharedUser?.pseudonym}
+                sharedUserID={item.userID}
+                sharedUserName={item.user?.artistPseudo}
             />
         )
         
@@ -186,9 +197,10 @@ const AllSharedAssets = ({navigation} : any) => {
                 time={item.time}
                 isSample={item.isSample}
                 userID={item.userID}
-                sharedUserID={item.sharedUserID}
+                sharedUserID={item.userID}
                 createdAt={item.createdAt}
                 pseudonym={pseudonym}
+                sharedUserName={item.user?.narratorPseudo}
             />
         )
 
@@ -209,10 +221,16 @@ const AllSharedAssets = ({navigation} : any) => {
 
                         <View style={{marginTop: 20, marginHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between'}}>
                             
-                                <View>
+                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                     <Text style={{color: '#00ffffa5'}}>
-                                        Shared with {data.sharedUserName}
+                                        Shared by
                                     </Text>
+                                    <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: data.sharedUserID, status: 'artist'})}>
+                                        <Text style={{color: '#00ffffa5', textTransform: 'capitalize', marginLeft: 4}}>
+                                            {data.sharedUserName}
+                                        </Text>
+                                    </TouchableOpacity>
+                                    
                                 </View>
                         </View>
                         

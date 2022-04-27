@@ -470,7 +470,7 @@ const handleUpdateNarratorBio = async () => {
                         <TextInput
                             placeholder={user?.artistPseudo}
                             placeholderTextColor='gray'
-                            style={styles.nametext}
+                            style={[styles.nametext, {textTransform: 'capitalize'}]}
                             maxLength={20}
                             multiline={false}
                             onChangeText={val => setArtistPseudonym(val)}
@@ -887,7 +887,7 @@ const handleUpdateNarratorBio = async () => {
                                     Author
                                 </Text>
                             </View>
-                            <Text style={{color: '#ffffffa5', fontSize: 16, fontWeight: 'normal'}}>
+                            <Text style={{color: '#ffffffa5', fontSize: 16, fontWeight: 'normal', textTransform: 'capitalize'}}>
                                 {user?.pseudonym}
                             </Text>
                         </View>
@@ -905,7 +905,7 @@ const handleUpdateNarratorBio = async () => {
                                     Narrator
                                 </Text>
                             </View>
-                            <Text style={{color: '#ffffffa5', fontSize: 16, fontWeight: 'normal'}}>
+                            <Text style={{color: '#ffffffa5', fontSize: 16, fontWeight: 'normal', textTransform: 'capitalize'}}>
                                 {user?.narratorPseudo}
                             </Text>
                         </View>
@@ -923,7 +923,7 @@ const handleUpdateNarratorBio = async () => {
                                     Artist
                                 </Text>
                             </View>
-                            <Text style={{color: '#ffffffa5', fontSize: 16, fontWeight: 'normal'}}>
+                            <Text style={{color: '#ffffffa5', fontSize: 16, fontWeight: 'normal', textTransform: 'capitalize'}}>
                                 {user?.artistPseudo}
                             </Text>
                         </View>

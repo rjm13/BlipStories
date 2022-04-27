@@ -199,7 +199,7 @@ const handleUpdateName = async () => {
                             <TextInput
                                 placeholder={user?.name}
                                 placeholderTextColor='gray'
-                                style={styles.nametext}
+                                style={[styles.nametext, {textTransform: 'capitalize'}]}
                                 maxLength={30}
                                 multiline={false}
                                 onChangeText={val => setName(val)}
@@ -421,7 +421,7 @@ const handleUpdateName = async () => {
                         <TouchableWithoutFeedback onPress={showNameModal}>
                             <View style={styles.emailcontainer }> 
                                 <Text style={ styles.words }>Name</Text>
-                                <Text style={ styles.placeholdertext }>{user?.name}</Text>
+                                <Text style={ [styles.placeholdertext, {textTransform: 'capitalize'}] }>{user?.name}</Text>
                             </View>
                         </TouchableWithoutFeedback>
 

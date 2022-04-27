@@ -382,6 +382,7 @@ const styles = StyleSheet.create({
         color: '#ffffffE6',
         marginRight: 15,
         marginLeft: 5,
+        textTransform: 'capitalize'
     },
     category: {
         fontSize: 14,

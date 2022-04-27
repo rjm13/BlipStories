@@ -102,7 +102,7 @@ const ModSection = ({navigation} : any) => {
                 <View style={{backgroundColor: '#132F35', margin: 20, padding: 10, borderRadius: 15}}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <TouchableOpacity onPress={() => navigation.navigate('UserScreen', {userID: userID})}>
-                            <Text style={{fontWeight: 'bold', color: '#fff', marginVertical: 4}}>
+                            <Text style={{fontWeight: 'bold', color: '#fff', marginVertical: 4, textTransform: 'capitalize'}}>
                                 {username}
                             </Text>
                         </TouchableOpacity>

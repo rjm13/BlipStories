@@ -347,7 +347,7 @@ const StoryScreen  = ({navigation} : any) => {
                         /> 
                     </View>
                     <View style={{marginHorizontal: 20, alignSelf: 'center'}}>
-                        <Text style={{fontSize: 16, color: '#fff', fontWeight: 'bold'}}>
+                        <Text style={{fontSize: 16, color: '#fff', fontWeight: 'bold', textTransform: 'capitalize'}}>
                             {userName}
                         </Text>
                         <Text style={{color: '#ffffffa5', fontSize: 12, textTransform: 'capitalize'}}>
@@ -673,7 +673,7 @@ const StoryScreen  = ({navigation} : any) => {
                                                 color='#fff'
                                                 style={{marginRight: 10}}
                                             />
-                                            <Text style={{color: '#fff'}}>
+                                            <Text style={{color: '#fff', textTransform: 'capitalize'}}>
                                                 {Story?.artist.artistPseudo}
                                             </Text>
                                         </View> 

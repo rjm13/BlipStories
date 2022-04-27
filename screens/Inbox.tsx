@@ -74,7 +74,7 @@ const Inbox = ({navigation} : any) => {
                     
                     <View style={{marginRight: 20, marginVertical: 10, paddingHorizontal: 20, width: isReadbyUser === true && currentUserID === userID ? Dimensions.get('window').width : isReadbyUser === false && currentUserID === userID ? Dimensions.get('window').width - 40 : isReadByOtherUser === true && currentUserID !== userID ? Dimensions.get('window').width : isReadByOtherUser === false && currentUserID !== userID ? Dimensions.get('window').width - 40 : Dimensions.get('window').width}}>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                            <Text style={{color: '#fff', fontWeight: 'bold'}}>
+                            <Text style={{color: '#fff', fontWeight: 'bold', textTransform: 'capitalize'}}>
                                 {subtitle === 'artist' && currentUserID === userID ? artistPseudo : subtitle === 'narrator' && currentUserID === userID ? narrPseudo : publisherPseudo}
                             </Text>
                             <Text style={{color: '#fff', fontSize: 12}}>

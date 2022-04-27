@@ -432,7 +432,7 @@ const MyArt = ({navigation} : any) => {
                                     color='#ffffffa5'
                                     style={{alignSelf: 'center'}}
                                 />
-                                <Text style={{fontWeight: 'bold', color: '#fff', marginLeft: 10}}>
+                                <Text style={{fontWeight: 'bold', color: '#fff', marginLeft: 10, textTransform: 'capitalize'}}>
                                     {pseudonym}
                                 </Text>
                             </View>
@@ -487,9 +487,12 @@ const MyArt = ({navigation} : any) => {
 
                         <View style={{marginTop: 20, marginHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between'}}>
                             {data.sharedUserID !== null ? (
-                                <View>
+                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                     <Text style={{color: '#00ffffa5'}}>
-                                        Shared with {data.sharedUserName}
+                                        Shared with
+                                    </Text>
+                                    <Text style={{marginLeft: 4, color: '#00ffffa5', textTransform: 'capitalize'}}>
+                                        {data.sharedUserName}
                                     </Text>
                                 </View>
                             ) : (

@@ -66,7 +66,7 @@ const FindNarrator = ({navigation} : any) => {
                         style={{width: 50, height: 50, borderRadius: 25, backgroundColor: 'gray'}}
                     />
                     <View>
-                        <Text style={{marginLeft: 10, color: '#fff', fontWeight: 'bold', }}>
+                        <Text style={{marginLeft: 10, color: '#fff', fontWeight: 'bold', textTransform: 'capitalize' }}>
                             {narratorPseudo}
                         </Text>
                         <Text style={{textTransform: 'capitalize',marginLeft: 10, color: '#ffffffa5', fontSize: 12 }}>
