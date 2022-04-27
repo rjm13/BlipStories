@@ -25,7 +25,7 @@ import { Modal, Portal, Provider } from 'react-native-paper';
 import uuid from 'react-native-uuid';
 
 import { API, graphqlOperation, } from "aws-amplify";
-import { createTag, updateStory, createStoryTag, updateTag, deleteStoryTag, createGenreTag } from '../src/graphql/mutations';
+import { createTag, updateStory, createStoryTag, deleteStoryTag, createGenreTag } from '../src/graphql/mutations';
 import { listTags, getStory, listStoryTags, listGenreTags } from '../src/graphql/queries';
 
 
@@ -75,41 +75,113 @@ const [localImageUri, setLocalImageUri] = useState('');
 
     const [tagText, setTagText] = useState('')
 
-    const [initialLength, setInitialLength] = useState(0)
-
     const [currentStoryTags, setCurrentStoryTags] = useState([])
 
     const [toRemove, setToRemove] = useState([])
+
+    const [nextToken, setNextToken] = useState()
 
 //get the current tags for the story
     useEffect(() => {
 
         const fetchTags = async () => {
-
-            let storytag = storyID
-    
-            let tags = []
         
               const result = await API.graphql(graphqlOperation(
                 listStoryTags, {
+                    nextToken,
                     filter: {
                         storyID: {
-                            eq: storytag
+                            eq: storyID
                         }
                     }}
               ))
+
+              setCurrentStoryTags(currentStoryTags.concat(result.data.listStoryTags.items))
+              setCurrentTags(result.data.listStoryTags.items[i].tag)
+
+              if (result.data.listStoryTags.nextToken) {
+                setNextToken(result.data.listStoryTags.nextToken)
+              }
         
-              if (result) {
-                  for (let i = 0; i < result.data.listStoryTags.items.length; i++) {
-                      tags.push(result.data.listStoryTags.items[i].tag)
-                  }
-                setCurrentTags(tags)
-                setCurrentStoryTags(result.data.listStoryTags.items)
-                setInitialLength(tags.length)
+              if (result.data.listStoryTags.nextToken === null) {
+                  setNextToken(undefined)
+                  return;
               }
             }
             fetchTags();
-    }, [storyID])
+            
+    }, [nextToken])
+
+
+//this function will run through all of the genretags to see if one matches the tag and genre ID,
+//when or if it finds one it will return 'exists'
+    const ListAllGenreTags = async (extag: any) => {
+
+        const Search = async (nextToken : any) => {
+
+            const response = await API.graphql(graphqlOperation(
+                listGenreTags, {
+                    nextToken,
+                    filter: {
+                        tagID: {
+                            eq: extag
+                        },
+                        genreID: {
+                            eq: data.genreID
+                        }
+                    }
+                }
+            ))
+
+            if (response.data.listGenreTags.items.length === 1) {
+                return ('exists');
+            } 
+            
+            if (response.data.listGenreTags.nextToken) {
+                let nextToken = response.data.listGenreTags.nextToken
+                Search(nextToken)
+            }
+            
+        }
+
+        let s = await Search(null);
+
+        if (s === 'exists') {
+            return
+        }
+        else {
+            await API.graphql(graphqlOperation(
+                createGenreTag, {input: {tagID: extag, genreID: data.genreID}}
+            )) 
+        }
+    }
+
+//this function will run through all of the tags, checking against the variable tagCheck,
+//it will then return the first match that it finds
+    const ListAllTags =  (tagCheck : any) => {
+
+        const Search = async (nextToken : any) => {
+                    
+            const response = await API.graphql(graphqlOperation(
+                listTags,{
+                nextToken,
+                filter: {
+                    tagName: {eq: tagCheck}}
+                }
+            ))
+
+            if (response.data.listTags.items.length === 1) {
+                return (response.data.listTags.items[0].id)
+            }
+
+            if (response.data.listTags.nextToken) {
+                let nextToken = response.data.listTags.nextToken
+                Search(nextToken)
+            } 
+        }
+
+        return (Search (null));
+    }
 
 
 
@@ -177,8 +249,7 @@ const [localImageUri, setLocalImageUri] = useState('');
         //     }
         // }
 
-        //for each tag, check and see if the tag alreadyt exists
-        //if (TagsArray.length > 0) {
+        //if any storytags have been removed, loop though and delete them
             try {
                 for (let i = 0; i < toRemove.length; i++) {
                     await API.graphql(graphqlOperation(
@@ -191,55 +262,33 @@ const [localImageUri, setLocalImageUri] = useState('');
             } catch {
                 
             }
-            
+
 
             for (let i = 0; i < TagsArray.length; i++) {
-                let tagCheck = await API.graphql(graphqlOperation(
-                    listTags, {filter: {tagName: {eq: TagsArray[i].name.toLowerCase().replace(/ /g, '')}}}
-                ))
-        //if the tag exists, create a StoryTag with the tagID and storyID
-                if (tagCheck.data.listTags.items.length === 1) {
-                    let addTag = await API.graphql(graphqlOperation(
-                        createStoryTag, {input: {tagID: tagCheck.data.listTags.items[0].id, storyID: storyID, }}
-                    ))
-                    let updateATag = await API.graphql(graphqlOperation(
-                        updateTag, {id: tagCheck.data.listTags.items[0].id, updatedAt: new Date(), count: tagCheck.data.listTags.items[0].count + 1}
-                    ))
-                    const genreTagCheck = await API.graphql(graphqlOperation(
-                        listGenreTags, {
-                            filter: {
-                                tagID: {
-                                    eq: tagCheck.data.listTags.items[0].id
-                                },
-                                genreID: {
-                                    eq: data.genreID
-                                }
-                            }
-                        }
+                let tagCheck = TagsArray[i].name.toLowerCase().replace(/ /g, '')
+
+                let extag = await ListAllTags(tagCheck);
+
+                //if the tag exists, create a StoryTag with the tagID and storyID
+                if (extag !== undefined) {
+                    await API.graphql(graphqlOperation(
+                        createStoryTag, {input: {tagID: extag, storyID: result.data.createStory.id, }}
                     ))
 
-                    if (genreTagCheck.data.listGenreTags.items.length !== 1) {
-                        let makeGenreTag = await API.graphql(graphqlOperation(
-                                createGenreTag, {input: {tagID: tagCheck.data.listTags.items[0].id, genreID: data.genreID}}
-                            )) 
-                        console.log(makeGenreTag)
-                    }
-                    console.log(addTag);
-                    console.log(updateATag)
+                    ListAllGenreTags(extag);
+
         //if the tag does not exist, create the tag and then the StoryTag with the tagID and storyID
-                } else if (tagCheck.data.listTags.items.length === 0) {
+                } else if (extag === undefined) {
                     let newTag = await API.graphql(graphqlOperation(
                         createTag, {input: {type: 'Tag', createdAt: new Date(), count: 1, updatedAt: new Date(), tagName: TagsArray[i].name.toLowerCase().replace(/ /g, ''), genreID: Story?.genreID, nsfw: Story?.genreID === '1108a619-1c0e-4064-8fce-41f1f6262070' ? true : false}}
                     ))
                     if (newTag) {
-                        let makeStoryTag = await API.graphql(graphqlOperation(
+                        await API.graphql(graphqlOperation(
                             createStoryTag, {input: {tagID: newTag.data.createTag.id, storyID: storyID}}
                         ))
-                        let makeGenreTag = await API.graphql(graphqlOperation(
+                        await API.graphql(graphqlOperation(
                             createGenreTag, {input: {tagID: newTag.data.createTag.id, genreID: data.genreID}}
                         ))
-                        console.log(makeStoryTag)
-                        console.log(makeGenreTag)
                     }
                 }
 

@@ -127,7 +127,7 @@ const UploadAudio = ({navigation} : any) => {
             } 
             
             if (response.data.listGenreTags.nextToken) {
-                let nextToken = response.data.listTags.nextToken
+                let nextToken = response.data.listGenreTags.nextToken
                 Search(nextToken)
             }
             
