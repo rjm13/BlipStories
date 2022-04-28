@@ -1,8 +1,5 @@
 {
   "expo": {
-    "plugins": [
-      "react-native-compressor"
-    ],
     "name": "BlipStories",
     "scheme": "blip",
     "slug": "BlipStories",

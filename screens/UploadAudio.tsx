@@ -561,7 +561,7 @@ const UploadAudio = ({navigation} : any) => {
 
         console.log(result);
 
-        if (result) {
+        if (result.size < 80000000) {
 
         setLocalAudioUri(result.uri);
         setAudioName(result.name);
@@ -573,6 +573,8 @@ const UploadAudio = ({navigation} : any) => {
         setData({...data, time: duration.durationMillis, narratorID: user.id, narrator: user.narratorPseudo});
         setIsLocalAudio(true);
         //console.log(duration);
+        } else {
+            alert ('This file exeeds our size limit for upload. Please select an audio file that is less than 80MB.')
         }
     };
 

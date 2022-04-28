@@ -335,7 +335,7 @@ const SharedAssets = ({navigation} : any) => {
         copyToCacheDirectory: false,
         });
 
-        console.log(result);
+        console.log(result.size < 80000000);
 
         if (result) {
         setLocalAudioUri(result.uri);
@@ -347,6 +347,8 @@ const SharedAssets = ({navigation} : any) => {
         let duration = await sound.getStatusAsync();
         setData({...data, time: duration.durationMillis});
         console.log(duration);
+        } else {
+            alert ('This file exeeds our size limit for upload. Please select an audio file that is less than 80MB.')
         }
     };
 
