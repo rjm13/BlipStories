@@ -25,8 +25,11 @@ const AudioStoryList = ({genreID} : any) => {
 
     const flatListRef = useRef();
 
+    
+
     const ScrollToThisThing = ({letter, id}: any) => {
         flatListRef.current?.scrollTo({x: id * id, animated: true});
+        setSelectedLetter(letter);
       }
 
 
@@ -41,10 +44,17 @@ const AudioStoryList = ({genreID} : any) => {
     //the selected letter for the filter to the stories in the genre. Begins with...
     const [selectedLetter, setSelectedLetter] = useState('a')
 
+    //const [nextToken, setNextToken] = useState(null)
+
+    
+
     //on render, get the user and then list the following connections for that user
     useEffect(() => {
 
-        const fetchStories = async () => {
+        let genresarr = []
+        setGenreStories([])
+
+        const fetchStories = async (nextToken: any) => {
 
             setIsLoading(true);
 
@@ -52,6 +62,7 @@ const AudioStoryList = ({genreID} : any) => {
 
                 const genreData = await API.graphql(graphqlOperation(
                     listStories, {
+                        nextToken,
                         filter: {
                             genreID: {
                                 eq: genreID
@@ -70,14 +81,27 @@ const AudioStoryList = ({genreID} : any) => {
                             },
                         }
                 }))
-                setGenreStories(genreData.data.listStories.items)
+                
+                for(let i = 0; i < genreData.data.listStories.items.length; i++ ){
+                    genresarr.push(genreData.data.listStories.items[i])
+                }
+                
+                if(genreData.data.listStories.nextToken !== null) {
+                    fetchStories(genreData.data.listStories.nextToken)
+                    return
+                }
 
-              setIsLoading(false)
+                if (genreData.data.listStories.nextToken === null) {
+                    setIsLoading(false);
+                    return
+                }
+
             } catch (e) {
             console.log(e);
           }
         }
-           fetchStories(); 
+        fetchStories(null)
+        setGenreStories(genresarr);
            
       }, [selectedLetter, didUpdate])
 
@@ -130,7 +154,7 @@ const AudioStoryList = ({genreID} : any) => {
                     <ScrollView style={{paddingHorizontal: 20}} horizontal={true} ref={flatListRef} showsHorizontalScrollIndicator={false}>        
                         {alphabet.map(({ id, letter } : any) => (
                                 <View key={id} style={{}}>
-                                    <TouchableWithoutFeedback onPress={() => {ScrollToThisThing({letter, id}); setSelectedLetter(letter);}}>
+                                    <TouchableWithoutFeedback onPress={() => {ScrollToThisThing({letter, id})}}>
                                         <View style={{ paddingHorizontal: 10, marginBottom: 20}}>
                                             <Text style={{
                                                 color: selectedLetter === letter ? 'cyan' : '#fff',
@@ -154,10 +178,7 @@ const AudioStoryList = ({genreID} : any) => {
                 <FlatList 
                     data={genreStories}
                     renderItem={renderItem}
-                    keyExtractor={item => item}
-                    extraData={genreStories}
-                    maxToRenderPerBatch={10}
-                    initialNumToRender={15}
+                    keyExtractor={item => item.id}
                     refreshControl={
                         <RefreshControl
                         refreshing={isFetching}
@@ -195,6 +216,7 @@ const AudioStoryList = ({genreID} : any) => {
 const styles = StyleSheet.create({
     container: {
        width: Dimensions.get('window').width, 
+       height: '93%'
     },
     tile: {
         backgroundColor: '#363636a5',
