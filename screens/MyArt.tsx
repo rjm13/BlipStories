@@ -18,6 +18,7 @@ import {
 import { Modal, Portal, Provider } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
+import { format, parseISO } from "date-fns";
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -26,7 +27,7 @@ import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { deleteImageAsset, createImageAsset, updateImageAsset, createMessage, updateMessage } from '../src/graphql/mutations';
 import { getUser } from '../src/graphql/queries';
 
-import { format, parseISO } from "date-fns";
+import ImageCompress from '../components/functions/CompressImage'
 
 const MyArt = ({navigation} : any) => {
 
@@ -300,8 +301,14 @@ const MyArt = ({navigation} : any) => {
                 aspect: [4, 3],
                 quality: 1,
             });
+
+            let height = result.height
+            let width = result.width
+            let image = result.uri
+
             if (!result.cancelled) {
-                    setData({...data, imageUri: result.uri});
+                    let im = await ImageCompress(image, {width, height})
+                    setData({...data, imageUri: im});
                     }
             //console.log(result); 
       };

@@ -26,6 +26,8 @@ import { Audio } from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { format, parseISO } from "date-fns";
 
+import ImageCompress from '../components/functions/CompressImage'
+
 import { Modal, Portal, Provider } from 'react-native-paper';
 import ModalDropdown from 'react-native-modal-dropdown';
 import uuid from 'react-native-uuid';
@@ -580,13 +582,18 @@ const UploadAudio = ({navigation} : any) => {
         quality: 1,
         });
 
-        console.log(result);
+        //console.log(result);
+
+        let height = result.height
+        let width = result.width
+        let image = result.uri
+
 
         if (!result.cancelled) {
-        setLocalImageUri(result.uri);
+        let im = await ImageCompress(image, {width, height})
+        setLocalImageUri(im);
         setData({...data, artistID: user.id, artistName: user.artistPseudo})
         setIsLocalImage(true);
-        console.log(result)
         }
     };
   

@@ -22,6 +22,8 @@ import { getUser } from '../src/graphql/queries';
 import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
 
+import ImageCompress from '../components/functions/CompressImage'
+
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { Modal, Portal, Provider } from 'react-native-paper';
@@ -52,10 +54,13 @@ const EditProfile = ({navigation} : any) => {
             quality: 1,
         });
     
-        console.log(result);
+        let height = result.height
+        let width = result.width
+        let image = result.uri
     
         if (!result.cancelled) {
-          setImage(result.uri);
+            let im = await ImageCompress(image, {width, height})
+            setImage(im);
         }
       };
 
