@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import { 
     View, 
     Text, 
@@ -28,7 +28,7 @@ import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { getUser, messagesByUpdatedDate } from '../src/graphql/queries';
+import { getUser } from '../src/graphql/queries';
 import { updateAudioAsset, createAudioAsset, deleteAudioAsset, createMessage, updateMessage } from '../src/graphql/mutations';
 
 
@@ -549,7 +549,7 @@ const SharedAssets = ({navigation} : any) => {
             const responseAudio = await fetch(localAudioUri);
             const blob = await responseAudio.blob();
             const filename = uuid.v4().toString();
-            let extension = "audio/" + localAudioUri.split('.').pop()
+            //let extension = "audio/" + localAudioUri.split('.').pop()
             const s3ResponseAudio = await Storage.put(filename, blob, {
                 progressCallback(uploadProgress) {
                     setProgressText(

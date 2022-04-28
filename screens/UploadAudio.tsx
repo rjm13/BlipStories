@@ -25,6 +25,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import { Audio } from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { format, parseISO } from "date-fns";
+import { Audio as AudioComp } from 'react-native-compressor';
 
 import ImageCompress from '../components/functions/CompressImage'
 
@@ -34,7 +35,7 @@ import uuid from 'react-native-uuid';
 
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
 import { createStory, createStoryTag, createTag, updateUser, createGenreTag,  } from '../src/graphql/mutations';
-import { listTags, getUser, listGenres, audioAssetsByDate, imageAssetsByDate, listGenreTags } from '../src/graphql/queries';
+import { listTags, getUser, listGenres, listGenreTags } from '../src/graphql/queries';
 
 
 const UploadAudio = ({navigation} : any) => {   
@@ -187,11 +188,12 @@ const UploadAudio = ({navigation} : any) => {
                 const blobImage = await responseImage.blob();
                 const filenameImage = uuid.v4().toString();
                 const s3ResponseImage = await Storage.put(filenameImage, blobImage);
-            
+
+               
                 const responseAudio = await fetch(localAudioUri);
                 const blob = await responseAudio.blob();
                 const filename = uuid.v4().toString();
-                let extension = "audio/" + localAudioUri.split('.').pop()
+                //let extension = "audio/" + localAudioUri.split('.').pop()
                 const s3ResponseAudio = await Storage.put(filename, blob, {
                     progressCallback(uploadProgress) {
                         setProgressText(
@@ -366,7 +368,7 @@ const UploadAudio = ({navigation} : any) => {
                 const responseAudio = await fetch(localAudioUri);
                 const blob = await responseAudio.blob();
                 const filename = uuid.v4().toString();
-                let extension = "audio/" + localAudioUri.split('.').pop()
+                //let extension = "audio/" + localAudioUri.split('.').pop()
                 const s3ResponseAudio = await Storage.put(filename, blob, {
                     progressCallback(uploadProgress) {
                         setProgressText(
@@ -560,6 +562,7 @@ const UploadAudio = ({navigation} : any) => {
         console.log(result);
 
         if (result) {
+
         setLocalAudioUri(result.uri);
         setAudioName(result.name);
         let { sound } = await Audio.Sound.createAsync(
@@ -569,7 +572,7 @@ const UploadAudio = ({navigation} : any) => {
         let duration = await sound.getStatusAsync();
         setData({...data, time: duration.durationMillis, narratorID: user.id, narrator: user.narratorPseudo});
         setIsLocalAudio(true);
-        console.log(duration);
+        //console.log(duration);
         }
     };
 
