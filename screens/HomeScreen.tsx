@@ -4,7 +4,8 @@ import {
     ScrollView, 
     TouchableWithoutFeedback,
     Text,
-    View
+    View,
+    Dimensions
 } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -96,13 +97,14 @@ const HomeScreen = ({navigation} : any) => {
 
 
     return (
-        <ScrollView style={{backgroundColor: '#000' }} showsVerticalScrollIndicator={false}> 
-            <LinearGradient
-                colors={['#3b4b80a5', 'transparent',]}
+        <LinearGradient
+                colors={['#3b4b80a5', '#000',]}
                 style={styles.container}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
+            <ScrollView style={{ }} showsVerticalScrollIndicator={false}> 
+            
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 60, marginBottom: 10, marginHorizontal: 20}}>
                     <View style={{ flexDirection: 'row'}}>
                         <Text style={styles.pageheader}>
@@ -146,15 +148,14 @@ const HomeScreen = ({navigation} : any) => {
                 ) : null}
                 
                 <View style={{height: 100}} />
-
-            </LinearGradient>
-        </ScrollView>
+            </ScrollView>
+        </LinearGradient>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-       
+       height: Dimensions.get('window').height
     },
     header: {
         color: '#fff',
