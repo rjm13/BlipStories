@@ -16,7 +16,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { listStories, getUser } from '../../src/graphql/queries';
+import { storiesByUpdated, getUser } from '../../src/graphql/queries';
 import {graphqlOperation, API, Auth, Storage} from 'aws-amplify';
 
 import { AppContext } from '../../AppContext';
@@ -240,7 +240,7 @@ const ForYouCarousel = () => {
                 const response = await API.graphql(
                     graphqlOperation(
                         
-                        listStories, {
+                        storiesByUpdated, {
                             filter: {
                                 approved: {
                                     eq: 'approved'
