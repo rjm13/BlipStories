@@ -5,9 +5,9 @@
     "slug": "BlipStories",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/blipicon.png",
+    "icon": "./assets/images/adaptive-icon.png",
     "splash": {
-      "image": "./assets/images/blankprofile.png",
+      "image": "./assets/images/adaptive-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
@@ -31,12 +31,12 @@
       "googleServicesFile": "./google-services.json",
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/blipicon.png",
+        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#000000"
       }
     },
     "web": {
-      "favicon": "./assets/images/blipicon.png"
+      "favicon": "./assets/images/blankprofile.png"
     }
   }
 }
