@@ -270,10 +270,10 @@ const ForYouCarousel = () => {
                 if (response) {
                     let randomarr = []
                     for (let i = 0; i < 10; i++) {
-                        let x = Math.floor(Math.random() * response.data.listStories.items.length)
+                        let x = Math.floor(Math.random() * response.data.storiesByUpdated.items.length)
                         if (randomarr.includes(x) === false) {
                             randomarr.push(x)
-                            RandomStories.push(response.data.listStories.items[x])
+                            RandomStories.push(response.data.storiesByUpdated.items[x])
                         }
                         
                     }
