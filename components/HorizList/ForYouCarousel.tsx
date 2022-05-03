@@ -241,6 +241,8 @@ const ForYouCarousel = () => {
                     graphqlOperation(
                         
                         storiesByUpdated, {
+                            type: 'Story',
+                            sortDirection: 'DESC',
                             filter: {
                                 approved: {
                                     eq: 'approved'
