@@ -74,56 +74,7 @@ const ConfirmEmail = ({navigation, route} : {navigation: any, route : any}) => {
         setLoggingIn(false);
     }
 
-            
-
-            // if (userInfo) {
-            //       const userData = await API.graphql(
-            //         graphqlOperation(
-            //           getUser, 
-            //           { id: userInfo.attributes.sub,
-            //           }
-            //         )
-            //       )
-          
-          
-                // if (userData.data.getUser) {
-                // console.log("User is already registered in database");
-                // navigation.navigate('Redirect', {trigger: Math.random()}) 
-                // return;
-                // };
-        
-    //             const newUser = {
-    //                 id: userInfo.attributes.sub,
-    //                 type: 'User',
-    //                 //createdAt: new Date(),
-    //                 name: userInfo.attributes.name,
-    //                 birthdate: userInfo.attributes.birthdate,
-    //             }
-          
-    //             //if there is no user in DB with the id, then create one
-    //             const createdUser = await API.graphql(
-    //                 graphqlOperation(
-    //                 createUser,
-    //                 { input: newUser }
-    //                 )
-    //             )
-    //             if (createdUser) {
-    //                 navigation.navigate('SplashCarousel')
-    //                 //navigation.navigate('Redirect', {trigger: Math.random()}) 
-    //             }
-    //         } 
-    //     }
-    // }
-            // On failure, display error in console      
-        // catch (error) {
-        //     console.log('error confirming sign up', error);
-        //     alert('Error confirming account. Please try again.')
-        // }
-        // setLoggingIn(false);
-    //}
-
     async function resendConfirmationCode() {
-        //const {username} = username;
         try {
             await Auth.resendSignUp(username);
             alert('Confirmation code resent. Please check your email.');

@@ -94,7 +94,6 @@ const SignIn = ({navigation} : any) => {
         } 
         catch (error) {
             console.log('error signing in', error)
-            //alert('Error signing in. Check your connection and try again.')
             setIsErr(true)
         }
         setSigningIn(false);

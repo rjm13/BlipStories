@@ -99,7 +99,6 @@ const CreateUser = async () => {
                     //'custom:membership': membership
                 },
             });
-            //console.log(user);
 
             if (user) {
                 navigation.navigate('ConfirmEmail', {username, password})

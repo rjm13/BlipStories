@@ -1,12 +1,8 @@
 import React, {useState} from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import { StyleSheet, Text, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Ionicon from 'react-native-vector-icons/Ionicons';
 import {LinearGradient} from 'expo-linear-gradient';
 
 import FollowingList from '../components/FollowingList';
