@@ -129,19 +129,27 @@ const NarratorSetup = ({navigation} : any) => {
 
     //accent list
     const accents = [
-        {id: 0, accent: 'American'},
-        {id: 1, accent: 'British'},
-        {id: 2, accent: 'Southern'},
-        {id: 3, accent: 'Minnesota'},
-        {id: 4, accent: 'Boston'},
-        {id: 5, accent: 'New York'},
-        {id: 6, accent: 'Irish'},
-        {id: 7, accent: 'Scottish'},
-        {id: 8, accent: 'African'},
-        {id: 9, accent: 'Russian'},
-        {id: 10, accent: 'Latin'},
+        {id: 0, accent: 'Aristocratic'},
+        {id: 1, accent: 'Scottish'},
+        {id: 2, accent: 'Cockney'},
+        {id: 3, accent: 'Irish'},
+        {id: 4, accent: 'American'},
+        {id: 5, accent: 'Southern'},
+        {id: 6, accent: 'New York'},
+        {id: 7, accent: 'Australian'},
+        {id: 8, accent: 'Canadian'},
+        {id: 9, accent: 'Minnesota'},
+        {id: 10, accent: 'Boston'},
         {id: 11, accent: 'Arabic'},
-        
+        {id: 12, accent: 'Latin'},
+        {id: 13, accent: 'Asian'},
+        {id: 14, accent: 'African'},
+        {id: 15, accent: 'Russian'},
+        {id: 16, accent: 'German'},
+        {id: 17, accent: 'Spanish'},
+        {id: 18, accent: 'Indian'},
+        {id: 19, accent: 'Italian'},
+        {id: 20, accent: 'Other'},
     ];
 
     const textRef = useRef();

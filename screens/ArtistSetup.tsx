@@ -201,13 +201,27 @@ const ArtistSetup = ({navigation} : any) => {
 
     //styles list
     const artStyles = [
-        {id: 0, style: 'Watercolor'},
-        {id: 1, style: 'Charcoal'},
-        {id: 2, style: 'Pencil'},
-        {id: 3, style: 'Paint'},
-        {id: 4, style: 'Pastels'},
-        {id: 5, style: 'Animation'},
-        {id: 6, style: 'Graphic Design'},
+        {id: 0, style: 'Tempera'},
+        {id: 1, style: 'Oil Paint'},
+        {id: 2, style: 'Acrylic Paint'},
+        {id: 3, style: 'Watercolors'},
+        {id: 4, style: 'Charcoal'},
+        {id: 5, style: 'Pastels'},
+        {id: 6, style: 'Chalk'},
+        {id: 7, style: 'Graphite Pencils'},
+        {id: 8, style: 'Color Pencils'},
+        {id: 9, style: 'Ink and Pen'},
+        {id: 10, style: 'Collage'},
+        {id: 11, style: '2D Digital Graphics'},
+        {id: 12, style: '3D Digital Graphics'},
+        {id: 13, style: 'Pixel Art'},
+        {id: 14, style: 'Photgraphy'},
+        {id: 15, style: 'Anime'},
+        {id: 16, style: 'Caricature'},
+        {id: 17, style: 'Cartoon'},
+        {id: 18, style: 'Comic'},
+        {id: 19, style: 'Line'},
+        {id: 20, style: 'Realism'},
     ];
 
     const textRef = useRef();
